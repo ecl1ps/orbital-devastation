@@ -3,42 +3,52 @@ using System.Windows;
 using Orbit.Scene.Controls;
 using System.Collections.Generic;
 
-namespace Orbit.Scene.Entities {
+namespace Orbit.Scene.Entities
+{
+    public abstract class SceneObject : ISceneObject
+    {
+        private IList<IControl> controls;
+        private long id;
+        private Vector position;
 
-	public abstract class SceneObject : ISceneObject  {
+        public void Update(float tpf)
+        {
+            throw new Exception("Not implemented");
+        }
 
-		private IList<IControl> controls;
-		private long id;
-		private Vector position;
+        private void UpdateControls(float tpf)
+        {
+            throw new Exception("Not implemented");
+        }
 
-		public void Update(float tpf) {
-			throw new Exception("Not implemented");
-		}
+        public void AddControl(IControl control)
+        {
+            throw new Exception("Not implemented");
+        }
 
-		private void UpdateControls(float tpf) {
-			throw new Exception("Not implemented");
-		}
-
-		public void AddControl(IControl control) {
-			throw new Exception("Not implemented");
-		}
-
-		public void RemoveControl(Type type) {
-			throw new Exception("Not implemented");
-		}
+        public void RemoveControl(Type type)
+        {
+            throw new Exception("Not implemented");
+        }
 
         public IControl GetControlOfType(Type type)
         {
             throw new NotImplementedException();
         }
 
-		public Vector GetPosition() {
-			return position;
-		}
+        public Vector GetPosition()
+        {
+            return position;
+        }
 
-		public abstract bool IsOnScreen();
+        public void SetPosition(Vector pos)
+        {
+            position = pos;
+        }
 
-		public abstract void Render();
+        public abstract bool IsOnScreen();
+
+        public abstract void Render();
     }
 
 }

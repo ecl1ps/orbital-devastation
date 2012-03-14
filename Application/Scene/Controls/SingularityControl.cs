@@ -1,23 +1,26 @@
 using System;
 using Orbit.Scene.Entities;
 
-namespace Orbit.Scene.Controls {
+namespace Orbit.Scene.Controls
+{
+    public class SingularityControl : Control
+    {
+        private float Strength { get; set; }
+        private float Speed { get; set; }
 
-	public class SingularityControl : Control  {
+        private void Grow()
+        {
+            throw new Exception("Not implemented");
+        }
 
-		private float strength;
-		private float speed;
+        public override void InitControl(ISceneObject me)
+        {
+            throw new Exception("Not implemented");
+        }
 
-		private void Grow() {
-			throw new Exception("Not implemented");
-		}
-
-		public override void InitControl(ISceneObject me) {
-			throw new Exception("Not implemented");
-		}
-
-		public override void UpdateControl(float tpf) {
-			throw new Exception("Not implemented");
-		}
-	}
+        public override void UpdateControl(float tpf)
+        {
+            throw new Exception("Not implemented");
+        }
+    }
 }

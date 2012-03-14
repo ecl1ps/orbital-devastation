@@ -2,22 +2,24 @@ using System;
 using System.Windows;
 using Orbit.Scene.Controls;
 
-namespace Orbit.Scene.Entities {
+namespace Orbit.Scene.Entities
+{
+    public interface ISceneObject
+    {
+        void Update(float tpf);
 
-	public interface ISceneObject {
+        void Render();
 
-		void Update(float tpf);
+        Vector GetPosition();
 
-		void Render();
+        void SetPosition(Vector position);
 
-		Vector GetPosition();
+        void AddControl(IControl control);
 
-		void AddControl(IControl control);
-
-		void RemoveControl(Type type);
+        void RemoveControl(Type type);
 
         IControl GetControlOfType(Type type);
 
-		bool IsOnScreen();
-	}
+        bool IsOnScreen();
+    }
 }

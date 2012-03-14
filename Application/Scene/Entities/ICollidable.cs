@@ -1,12 +1,12 @@
 using System;
 
-namespace Orbit.Scene.Entities {
+namespace Orbit.Scene.Entities
+{
+    public interface ICollidable
+    {
+        bool CollideWith(ICollidable other);
 
-	public interface ICollidable {
+        void DoCollideWith(ICollidable other);
 
-		bool CollideWith(ICollidable other);
-
-		void DoCollideWith(ICollidable other);
-
-	}
+    }
 }

@@ -1,11 +1,12 @@
 using System;
 using System.Windows;
 
-namespace Orbit.Scene.Entities {
+namespace Orbit.Scene.Entities
+{
+    public interface IMovable
+    {
+        Vector GetDirection();
 
-	public interface IMovable {
-
-		Vector GetDirection();
-
-	}
+        void SetDirection(Vector direction);
+    }
 }
