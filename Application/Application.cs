@@ -9,6 +9,9 @@ namespace Orbit.Program
 
         static void Main(string[] args)
         {
+            Application app = new Application();
+            //app.InitGui();
+            app.StartHostedGame();
 
         }
 
@@ -19,12 +22,13 @@ namespace Orbit.Program
 
         public void InitScene()
         {
-            throw new Exception("Not implemented");
+            sceneMgr = new SceneMgr(true);
+            sceneMgr.Init();
         }
 
         public void StartHostedGame()
         {
-            throw new Exception("Not implemented");
+            InitScene();
         }
 
         public void ConnectToGame()

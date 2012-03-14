@@ -11,29 +11,51 @@ namespace Orbit.Scene.Entities
         private long id;
         private Vector position;
 
+        public SceneObject()
+        {
+            controls = new List<IControl>();
+            //id
+        }
+
         public void Update(float tpf)
         {
-            throw new Exception("Not implemented");
+            UpdateControls(tpf);
         }
 
         private void UpdateControls(float tpf)
         {
-            throw new Exception("Not implemented");
+            foreach (IControl control in controls)
+            {
+                control.UpdateControl(tpf);
+            }
         }
 
         public void AddControl(IControl control)
         {
-            throw new Exception("Not implemented");
+            if (controls.Contains(control))
+                return;
+
+            controls.Add(control);
+            control.InitControl(this);
         }
 
         public void RemoveControl(Type type)
         {
-            throw new Exception("Not implemented");
+            foreach (IControl control in controls)
+            {
+                if (control.GetType().Equals(type))
+                    controls.Remove(control);
+            }
         }
 
         public IControl GetControlOfType(Type type)
         {
-            throw new NotImplementedException();
+            foreach (IControl control in controls)
+            {
+                if (control.GetType().Equals(type))
+                    return control;
+            }
+            return null;
         }
 
         public Vector GetPosition()

@@ -19,22 +19,40 @@ namespace Orbit.Scene
 
         public SceneMgr(bool isServer)
         {
-            throw new Exception("Not implemented");
+            this.isServer = isServer;
+            objects = new List<ISceneObject>();
+            Random r = new Random();
+            me = r.Next(2) == 0 ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
+            playerData = new Dictionary<PlayerPosition, IPlayerData>(2);
+            //playerData.Add(me, );
         }
 
         public void Init()
         {
-            throw new Exception("Not implemented");
+            objects.Add(new Base());
+            objects.Add(new Base());
+
+            for (int i = 0; i < 10; ++i)
+            {
+                objects.Add(new Sphere());
+            }
         }
 
-        public void Update()
+        public void Update(float tpf)
         {
-            throw new Exception("Not implemented");
+            UpdateSceneObjects(tpf);
+            CheckCollisions();
+            RenderScene();
         }
 
         public void UpdateSceneObjects(float tpf)
         {
-            throw new Exception("Not implemented");
+            foreach (ISceneObject obj in objects)
+            {
+                obj.Update(tpf);
+                if (!obj.IsOnScreen())
+                    objects.Remove(obj);
+            }
         }
 
         public void CheckCollisions()
@@ -44,12 +62,17 @@ namespace Orbit.Scene
 
         public void RenderScene()
         {
-            throw new Exception("Not implemented");
+            foreach (ISceneObject obj in objects)
+            {
+                obj.Render();
+            }
         }
 
         public IPlayerData GetPlayerData(PlayerPosition pos)
         {
-            throw new Exception("Not implemented");
+            IPlayerData data;
+            playerData.TryGetValue(pos, out data);
+            return data;
         }
 
         public void ProcessUserInput()
