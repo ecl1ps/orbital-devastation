@@ -19,7 +19,6 @@ namespace Orbit.Scene
         private PlayerPosition me;
         private Rectangle actionArea;
         private Random randomGenerator;
-        private long maxId;
         //private int isStarted;
         //http://msdn.microsoft.com/en-us/library/system.threading.interlocked.aspx
 
@@ -32,7 +31,6 @@ namespace Orbit.Scene
             playerData = new Dictionary<PlayerPosition, IPlayerData>(2);
             actionArea = new Rectangle(0, 0, 800, 600);
             randomGenerator = new Random();
-            maxId = 0;
         }
 
         public void Init()
@@ -44,7 +42,7 @@ namespace Orbit.Scene
             for (int i = 0; i < 10; ++i)
             {
                 s = new Sphere();
-                s.Setid(maxId++);
+                s.Setid(IdMgr.GetInstance().GetNewId());
                 s.SetDirection(new Vector(1, 0));
                 s.Radius = (uint)randomGenerator.Next(SharedDef.MAX_SPHERE_RADIUS, SharedDef.MAX_SPHERE_RADIUS);
                 s.SetPosition(new Vector(randomGenerator.Next(actionArea.X + (int)s.Radius, actionArea.Width - (int)s.Radius),
@@ -62,7 +60,7 @@ namespace Orbit.Scene
         private void InitPlayerData()
         {
             Base myBase = new Base();
-            myBase.Setid(maxId++);
+            myBase.Setid(IdMgr.GetInstance().GetNewId());
             myBase.BasePosition = me;
             myBase.Color = randomGenerator.Next(2) == 0 ? Color.Red : Color.Blue;
             objects.Add(myBase);
@@ -72,7 +70,7 @@ namespace Orbit.Scene
             playerData.Add(pd.GetPosition(), pd);
 
             Base opponentsBase = new Base();
-            opponentsBase.Setid(maxId++);
+            opponentsBase.Setid(IdMgr.GetInstance().GetNewId());
             opponentsBase.BasePosition = myBase.BasePosition == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
             opponentsBase.Color = myBase.Color == Color.Blue ? Color.Red : Color.Blue;
             objects.Add(opponentsBase);

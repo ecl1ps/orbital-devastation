@@ -79,6 +79,7 @@
     <Compile Include="Scene\Entities\Sphere.cs" />
     <Compile Include="Player\IPlayerData.cs" />
     <Compile Include="Player\PlayerPosition.cs" />
+    <Compile Include="IdMgr.cs" />
     <Compile Include="Scene\SceneMgr.cs" />
     <Compile Include="SharedDef.cs" />
   </ItemGroup>
