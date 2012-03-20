@@ -101,7 +101,20 @@ namespace Orbit.Scene
 
         public void CheckCollisions()
         {
-            throw new Exception("Not implemented");
+            foreach (ISceneObject obj1 in objects)
+            {
+                if (!(obj1 is ICollidable))
+                    continue;
+
+                foreach (ISceneObject obj2 in objects)
+                {
+                    if (!(obj2 is ICollidable))
+                        continue;
+
+                    if (((ICollidable)obj1).CollideWith((ICollidable)obj2))
+                        ((ICollidable)obj1).DoCollideWith((ICollidable)obj2);
+                }
+            }
         }
 
         public void RenderScene()
