@@ -1,5 +1,5 @@
 ﻿using System;
-using Orbit.Scene.Entities;
+using Orbit.Core.Scene.Entities;
 
 namespace Orbit.Core.Player
 {

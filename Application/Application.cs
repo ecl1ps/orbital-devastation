@@ -1,5 +1,5 @@
 using System;
-using Orbit.Scene;
+using Orbit.Core.Scene;
 
 namespace Orbit
 {

@@ -1,8 +1,8 @@
 using System;
 using Orbit;
-using Orbit.Player;
-using Orbit.Scene.Controls;
-using Orbit.Scene.Entities;
+using Orbit.Core.Player;
+using Orbit.Core.Scene.Controls;
+using Orbit.Core.Scene.Entities;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows;
