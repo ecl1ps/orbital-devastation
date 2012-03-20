@@ -6,14 +6,9 @@ namespace Orbit.Scene.Entities
 {
     public class Base : SceneObject, ICollidable
     {
-        private PlayerPosition BasePosition { get; set; }
-        private Color Color { get; set; }
-        private int Integrity { get; set; }
-
-        public bool CollideWith(ICollidable other)
-        {
-            throw new Exception("Not implemented");
-        }
+        public PlayerPosition BasePosition { get; set; }
+        public Color Color { get; set; }
+        public int Integrity { get; set; }
 
         public override void Render()
         {
@@ -21,6 +16,11 @@ namespace Orbit.Scene.Entities
         }
 
         public override bool IsOnScreen()
+        {
+            return Integrity > 0;
+        }
+
+        public bool CollideWith(ICollidable other)
         {
             throw new Exception("Not implemented");
         }

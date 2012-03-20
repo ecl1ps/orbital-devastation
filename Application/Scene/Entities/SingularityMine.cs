@@ -5,7 +5,7 @@ namespace Orbit.Scene.Entities
 
     public class SingularityMine : SceneObject, ICollidable
     {
-        private int Radius { get; set; }
+        public int Radius { get; set; }
 
         public override bool IsOnScreen()
         {

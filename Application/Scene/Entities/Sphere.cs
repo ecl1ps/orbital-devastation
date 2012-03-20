@@ -7,9 +7,9 @@ namespace Orbit.Scene.Entities
 
     public class Sphere : SceneObject, IMovable, ICollidable
     {
-        private Color Color { get; set; }
+        public Color Color { get; set; }
         private Vector direction;
-        private uint Radius { get; set; }
+        public uint Radius { get; set; }
 
         public Vector GetDirection()
         {

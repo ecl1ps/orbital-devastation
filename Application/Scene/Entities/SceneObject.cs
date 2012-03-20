@@ -14,7 +14,6 @@ namespace Orbit.Scene.Entities
         public SceneObject()
         {
             controls = new List<IControl>();
-            //id
         }
 
         public void Update(float tpf)
@@ -71,6 +70,17 @@ namespace Orbit.Scene.Entities
         public abstract bool IsOnScreen();
 
         public abstract void Render();
+
+
+        public long GetId()
+        {
+            return id;
+        }
+
+        public void Setid(long id)
+        {
+            this.id = id;
+        }
     }
 
 }

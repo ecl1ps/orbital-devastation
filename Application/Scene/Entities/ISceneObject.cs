@@ -10,6 +10,10 @@ namespace Orbit.Scene.Entities
 
         void Render();
 
+        long GetId();
+
+        void Setid(long id);
+
         Vector GetPosition();
 
         void SetPosition(Vector position);

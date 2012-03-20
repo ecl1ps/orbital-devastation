@@ -7,6 +7,5 @@ namespace Orbit.Scene.Entities
         bool CollideWith(ICollidable other);
 
         void DoCollideWith(ICollidable other);
-
     }
 }
