@@ -3,7 +3,7 @@ using System.Windows;
 using Orbit.Scene.Controls;
 using System.Collections.Generic;
 
-namespace Orbit.Scene.Entities
+namespace Orbit.Core.Scene.Entities
 {
     public abstract class SceneObject : ISceneObject
     {

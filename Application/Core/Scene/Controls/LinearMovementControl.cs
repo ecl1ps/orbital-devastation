@@ -2,7 +2,7 @@ using System;
 using System.Windows;
 using Orbit.Scene.Entities;
 
-namespace Orbit.Scene.Controls
+namespace Orbit.Core.Scene.Controls
 {
     public class LinearMovementControl : Control
     {

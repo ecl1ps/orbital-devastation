@@ -2,7 +2,7 @@ using System;
 using System.Windows;
 using Orbit.Scene.Controls;
 
-namespace Orbit.Scene.Entities
+namespace Orbit.Core.Scene.Entities
 {
     public interface ISceneObject
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Orbit
+namespace Orbit.Core
 {
     class IdMgr
     {

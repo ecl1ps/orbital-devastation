@@ -1,6 +1,6 @@
 using System;
 
-namespace Orbit.Scene.Entities
+namespace Orbit.Core.Scene.Entities
 {
     public interface ICollidable
     {

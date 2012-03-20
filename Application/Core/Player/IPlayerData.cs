@@ -1,6 +1,6 @@
 using System;
 
-namespace Orbit.Player {
+namespace Orbit.Core.Player {
 
 	public interface IPlayerData {
 

@@ -1,7 +1,7 @@
 using System;
 using Orbit.Scene;
 
-namespace Orbit.Program
+namespace Orbit
 {
     class Application
     {

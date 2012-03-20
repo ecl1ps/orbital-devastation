@@ -2,7 +2,7 @@ using System;
 using Orbit.Player;
 using System.Drawing;
 
-namespace Orbit.Scene.Entities
+namespace Orbit.Core.Scene.Entities
 {
     public class Base : SceneObject, ICollidable
     {

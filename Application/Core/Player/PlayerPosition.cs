@@ -1,6 +1,7 @@
 using System;
 
-namespace Orbit.Player {
+namespace Orbit.Core.Player
+{
 
 	public enum PlayerPosition {
 		LEFT,

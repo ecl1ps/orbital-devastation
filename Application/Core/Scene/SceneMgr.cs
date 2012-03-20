@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows;
 
-namespace Orbit.Scene
+namespace Orbit.Core.Scene
 {
     public class SceneMgr
     {

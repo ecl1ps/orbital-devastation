@@ -1,6 +1,6 @@
 using System;
 
-namespace Orbit.Scene.Entities
+namespace Orbit.Core.Scene.Entities
 {
 
     public class SingularityMine : SceneObject, ICollidable

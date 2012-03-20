@@ -2,7 +2,7 @@ using System;
 using System.Drawing;
 using System.Windows;
 
-namespace Orbit.Scene.Entities
+namespace Orbit.Core.Scene.Entities
 {
 
     public class Sphere : SceneObject, IMovable, ICollidable

@@ -1,7 +1,7 @@
 ﻿using System;
 using Orbit.Scene.Entities;
 
-namespace Orbit.Player
+namespace Orbit.Core.Player
 {
     class PlayerData : IPlayerData
     {
