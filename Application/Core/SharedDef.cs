@@ -8,5 +8,7 @@ namespace Orbit.Core
 
         public const int MIN_SPHERE_SPEED           = 1;
         public const int MAX_SPHERE_SPEED           = 3;
+
+        public const int SPHERE_COUNT               = 20;
     }
 }

@@ -12,6 +12,7 @@ namespace Orbit.Core.Scene.Entities
         public Color Color { get; set; }
         private Vector direction;
         public uint Radius { get; set; }
+        public bool IsHeadingRight { get; set; }
 
         public Vector GetDirection()
         {
@@ -45,7 +46,7 @@ namespace Orbit.Core.Scene.Entities
 
         public override bool IsOnScreen(Size screenSize)
         {
-            if (position.X <= Radius || position.Y <= Radius)
+            if (position.X <= -Radius || position.Y <= -Radius)
                 return false;
 
             if (position.X >= screenSize.Width + Radius || position.Y >= screenSize.Height + Radius)

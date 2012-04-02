@@ -22,6 +22,7 @@ namespace Orbit.Core.Scene
         //private NetServer server;
         //private NetClient client;
         private IList<ISceneObject> objects;
+        private IList<Sphere> removedSpheres;
         private Dictionary<PlayerPosition, IPlayerData> playerData;
         private PlayerPosition me;
         private Rect actionArea;
@@ -35,10 +36,10 @@ namespace Orbit.Core.Scene
             shouldQuit = false;
             this.isServer = isServer;
             objects = new List<ISceneObject>();
+            removedSpheres = new List<Sphere>();
             Random r = new Random();
             me = r.Next(2) == 0 ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
             playerData = new Dictionary<PlayerPosition, IPlayerData>(2);
-            actionArea = new Rect(0, 0, 800, 600);
             randomGenerator = new Random();
         }
 
@@ -47,34 +48,61 @@ namespace Orbit.Core.Scene
             InitPlayerData();
 
             Sphere s;
-            LinearMovementControl lc;
-            EllipseGeometry geom;
-            Path path;
-            for (int i = 0; i < 100; ++i)
+            for (int i = 0; i < SharedDef.SPHERE_COUNT; ++i)
             {
-                s = new Sphere();
-                s.Setid(IdMgr.GetNewId());
-                s.SetDirection(new Vector(1, 0));
-                s.Radius = (uint)randomGenerator.Next(SharedDef.MIN_SPHERE_RADIUS, SharedDef.MAX_SPHERE_RADIUS);
-                s.SetPosition(new Vector(randomGenerator.Next((int)(actionArea.X + s.Radius), (int)(actionArea.Width - s.Radius)),
-                    randomGenerator.Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius))));
-                s.Color = Color.FromRgb((byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255));
+                s = CreateNewRandomSphere(i % 2 == 0);
+                AttachToScene(s);
+            }
+        }
 
-                
-                lc = new LinearMovementControl();
-                lc.Speed = randomGenerator.Next(SharedDef.MIN_SPHERE_SPEED, SharedDef.MAX_SPHERE_SPEED);
-                s.AddControl(lc);
+        public void AttachToScene(ISceneObject obj)
+        {
+            objects.Add(obj);
+            canvas.Dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() =>
+            {
+                canvas.Children.Add(obj.GetGeometry());
+            }));
+        }
 
-                geom = new EllipseGeometry(s.GetPosition().ToPoint(), s.Radius, s.Radius);
-                path = new Path();
+        private Sphere CreateNewRandomSphere(bool headingRight)
+        {
+            Sphere s = new Sphere();
+            s.Setid(IdMgr.GetNewId());
+            s.IsHeadingRight = headingRight;
+            s.SetDirection(headingRight ? new Vector(1, 0) : new Vector(-1, 0));
+
+            s.Radius = (uint)randomGenerator.Next(SharedDef.MIN_SPHERE_RADIUS, SharedDef.MAX_SPHERE_RADIUS);
+            s.SetPosition(new Vector(randomGenerator.Next((int)(actionArea.X + s.Radius), (int)(actionArea.Width - s.Radius)),
+                randomGenerator.Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius))));
+            s.Color = Color.FromRgb((byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255));
+
+
+            LinearMovementControl lc = new LinearMovementControl();
+            lc.Speed = randomGenerator.Next(SharedDef.MIN_SPHERE_SPEED * 10, SharedDef.MAX_SPHERE_SPEED * 10) / 10.0f;
+            s.AddControl(lc);
+
+            canvas.Dispatcher.Invoke(DispatcherPriority.Send, new Action(() =>
+            {
+                EllipseGeometry geom = new EllipseGeometry(s.GetPosition().ToPoint(), s.Radius, s.Radius);
+                Path path = new Path();
                 path.Data = geom;
-                path.Fill = new RadialGradientBrush(s.Color, Color.FromArgb(128, s.Color.R, s.Color.G, s.Color.B));
+                path.Fill = new RadialGradientBrush(s.Color, Color.FromArgb(0x80, s.Color.R, s.Color.G, s.Color.B));
                 path.Stroke = Brushes.Black;
                 s.SetGeometry(path);
+            }));
 
-                objects.Add(s);
-                canvas.Children.Add(path);
-            }
+            return s;
+        }
+
+
+        private Sphere CreateNewSphereOnEdge(Sphere oldSphere)
+        {
+            Sphere s = CreateNewRandomSphere(oldSphere.IsHeadingRight);
+
+            s.SetPosition(new Vector(s.IsHeadingRight ? (int)(-s.Radius) : (int)(actionArea.Width + s.Radius),
+                randomGenerator.Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius))));
+
+            return s;
         }
 
         private void InitPlayerData()
@@ -145,7 +173,7 @@ namespace Orbit.Core.Scene
 
         public void UpdateSceneObjects(float tpf)
         {
-
+            removedSpheres.Clear();
             for (int i = 0; i < objects.Count; i++)
             {             
                 objects[i].Update(tpf);
@@ -156,6 +184,8 @@ namespace Orbit.Core.Scene
                 }
             }
 
+            foreach (Sphere s in removedSpheres)
+                AttachToScene(CreateNewSphereOnEdge(s));
         }
 
         private void RemoveObject(ISceneObject obj)
@@ -164,7 +194,10 @@ namespace Orbit.Core.Scene
             canvas.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, (Action)(delegate
             {
                 canvas.Children.Remove(obj.GetGeometry());
-            }));            
+            }));
+
+            if (obj.GetType() == typeof(Sphere))
+                removedSpheres.Add(obj as Sphere);
         }
 
         public void CheckCollisions()
@@ -213,12 +246,15 @@ namespace Orbit.Core.Scene
         {
             this.canvas = canvas;
             ViewPortSize = new Size(canvas.Width, canvas.Height);
+            actionArea = new Rect(0, 0, canvas.Width, canvas.Height / 3);
         }
 
         internal void OnViewPortChange(Size size)
         {
             ViewPortSize = size;
+            actionArea = new Rect(0, 0, size.Width, size.Height / 3);
         }
+
 
     }
 
