@@ -10,5 +10,7 @@ namespace Orbit.Core
         public const int MAX_SPHERE_SPEED           = 3;
 
         public const int SPHERE_COUNT               = 20;
+
+        public const int BASE_MAX_INGERITY          = 100;
     }
 }

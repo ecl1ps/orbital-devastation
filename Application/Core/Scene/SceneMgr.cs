@@ -107,25 +107,42 @@ namespace Orbit.Core.Scene
 
         private void InitPlayerData()
         {
-            Base myBase = new Base();
-            myBase.Setid(IdMgr.GetNewId());
-            myBase.BasePosition = me;
-            myBase.Color = randomGenerator.Next(2) == 0 ? Colors.Red : Colors.Blue;
-            objects.Add(myBase);
+            Base myBase = CreateBase(me, randomGenerator.Next(2) == 0 ? Colors.Red : Colors.Blue);
+            AttachToScene(myBase);
 
             PlayerData pd = new PlayerData();
             pd.SetBase(myBase);
             playerData.Add(pd.GetPosition(), pd);
 
-            Base opponentsBase = new Base();
-            opponentsBase.Setid(IdMgr.GetNewId());
-            opponentsBase.BasePosition = myBase.BasePosition == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
-            opponentsBase.Color = myBase.Color == Colors.Blue ? Colors.Red : Colors.Blue;
-            objects.Add(opponentsBase);
+            Base opponentsBase = CreateBase(myBase.BasePosition == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT,
+                                            myBase.Color == Colors.Blue ? Colors.Red : Colors.Blue);
+            AttachToScene(opponentsBase);
 
             pd = new PlayerData();
             pd.SetBase(opponentsBase);
             playerData.Add(pd.GetPosition(), pd);
+        }
+
+        private Base CreateBase(PlayerPosition pos, Color col)
+        {
+            Base baze = new Base();
+            baze.Setid(IdMgr.GetNewId());
+            baze.BasePosition = pos;
+            baze.Color = col;
+            baze.Integrity = SharedDef.BASE_MAX_INGERITY;
+            Rect rec = new Rect(ViewPortSize.Width * ((pos == PlayerPosition.LEFT) ? 0.1 : 0.6), ViewPortSize.Height * 0.85, ViewPortSize.Width * 0.3, ViewPortSize.Height * 0.15);
+
+            canvas.Dispatcher.Invoke(DispatcherPriority.Send, new Action(() =>
+            {
+                RectangleGeometry geom = new RectangleGeometry(rec);
+                Path path = new Path();
+                path.Data = geom;
+                path.Fill = new LinearGradientBrush(baze.Color, Colors.Black, 90.0);
+                path.Stroke = Brushes.Black;
+                baze.SetGeometry(path);
+            }));
+
+            return baze;
         }
 
         public void Run()
@@ -140,7 +157,7 @@ namespace Orbit.Core.Scene
                 sw.Restart();
                 Update(tpf);
 
-                Console.Out.WriteLine(sw.ElapsedMilliseconds);
+                //Console.Out.WriteLine(sw.ElapsedMilliseconds);
 
 		        if (sw.ElapsedMilliseconds < MINIMUM_UPDATE_TIME) 
                 {
@@ -155,6 +172,7 @@ namespace Orbit.Core.Scene
         {
             shouldQuit = true;
         }
+
         public void Update(float tpf)
         {
             UpdateSceneObjects(tpf);
@@ -230,16 +248,6 @@ namespace Orbit.Core.Scene
                 Console.Error.WriteLine("GetPlayerData() - position cannot be null");
             }
             return data;
-        }
-
-        public void ProcessUserInput()
-        {
-            throw new Exception("Not implemented");
-        }
-
-        public void ProcessMessages()
-        {
-            throw new Exception("Not implemented");
         }
 
         internal void SetCanvas(Canvas canvas)
