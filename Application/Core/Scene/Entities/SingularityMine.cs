@@ -1,4 +1,5 @@
 using System;
+using System.Windows;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -7,7 +8,7 @@ namespace Orbit.Core.Scene.Entities
     {
         public int Radius { get; set; }
 
-        public override bool IsOnScreen()
+        public override bool IsOnScreen(Size screenSize)
         {
             throw new Exception("Not implemented");
         }

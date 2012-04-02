@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Orbit.Core.Scene
 {
@@ -25,6 +26,7 @@ namespace Orbit.Core.Scene
         private PlayerPosition me;
         private Rect actionArea;
         private Random randomGenerator;
+        public Size ViewPortSize { get; set; }
         private const long MINIMUM_UPDATE_TIME = 30;
         //private int isStarted;
 
@@ -48,7 +50,7 @@ namespace Orbit.Core.Scene
             LinearMovementControl lc;
             EllipseGeometry geom;
             Path path;
-            for (int i = 0; i < 10; ++i)
+            for (int i = 0; i < 100; ++i)
             {
                 s = new Sphere();
                 s.Setid(IdMgr.GetNewId());
@@ -106,10 +108,12 @@ namespace Orbit.Core.Scene
 
             while (!shouldQuit)
             {
-                tpf = sw.ElapsedMilliseconds / 1000;
+                tpf = sw.ElapsedMilliseconds / 1000.0f;
                 sw.Restart();
                 Update(tpf);
-		
+
+                Console.Out.WriteLine(sw.ElapsedMilliseconds);
+
 		        if (sw.ElapsedMilliseconds < MINIMUM_UPDATE_TIME) 
                 {
 				    Thread.Sleep((int)(MINIMUM_UPDATE_TIME - sw.ElapsedMilliseconds));
@@ -127,8 +131,8 @@ namespace Orbit.Core.Scene
         {
             UpdateSceneObjects(tpf);
             //CheckCollisions();
-            //UpdateGeomtricState();
-            canvas.Refresh();
+            UpdateGeomtricState();
+            //canvas.Refresh();
         }
 
         private void UpdateGeomtricState()
@@ -141,12 +145,26 @@ namespace Orbit.Core.Scene
 
         public void UpdateSceneObjects(float tpf)
         {
-            foreach (ISceneObject obj in objects)
-            {
-                obj.Update(tpf);
-                /*if (!obj.IsOnScreen())
-                    objects.Remove(obj);*/
+
+            for (int i = 0; i < objects.Count; i++)
+            {             
+                objects[i].Update(tpf);
+                if (!objects[i].IsOnScreen(ViewPortSize))
+                {
+                    RemoveObject(objects[i]);
+                    i--;
+                }
             }
+
+        }
+
+        private void RemoveObject(ISceneObject obj)
+        {
+            objects.Remove(obj);
+            canvas.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, (Action)(delegate
+            {
+                canvas.Children.Remove(obj.GetGeometry());
+            }));            
         }
 
         public void CheckCollisions()
@@ -194,7 +212,14 @@ namespace Orbit.Core.Scene
         internal void SetCanvas(Canvas canvas)
         {
             this.canvas = canvas;
+            ViewPortSize = new Size(canvas.Width, canvas.Height);
         }
+
+        internal void OnViewPortChange(Size size)
+        {
+            ViewPortSize = size;
+        }
+
     }
 
 }

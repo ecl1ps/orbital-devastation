@@ -10,7 +10,7 @@ namespace Orbit.Core.Scene.Entities
     {
         private IList<IControl> controls;
         private long id;
-        private Vector position;
+        protected Vector position;
         protected Path path;
 
         public SceneObject()
@@ -69,7 +69,7 @@ namespace Orbit.Core.Scene.Entities
             position = pos;
         }
 
-        public abstract bool IsOnScreen();
+        public abstract bool IsOnScreen(Size screenSize);
 
         public abstract void UpdateGeometric();
 

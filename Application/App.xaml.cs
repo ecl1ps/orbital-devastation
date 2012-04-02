@@ -61,5 +61,10 @@ namespace Orbit
             Thread gameThread = new Thread(new ThreadStart(sceneMgr.Run));
             gameThread.Start();
         }
+
+        public SceneMgr GetSceneMgr()
+        {
+            return sceneMgr;
+        }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using Orbit.Core.Player;
 using System.Windows.Media;
+using System.Windows;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -10,7 +11,7 @@ namespace Orbit.Core.Scene.Entities
         public Color Color { get; set; }
         public int Integrity { get; set; }
 
-        public override bool IsOnScreen()
+        public override bool IsOnScreen(Size screenSize)
         {
             return Integrity > 0;
         }

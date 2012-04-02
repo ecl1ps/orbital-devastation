@@ -1,6 +1,8 @@
 using System;
 using System.Windows.Media;
 using System.Windows;
+using System.Windows.Threading;
+using System.Windows.Controls;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -33,14 +35,23 @@ namespace Orbit.Core.Scene.Entities
 
         public override void UpdateGeometric()
         {
-            (path.Data as EllipseGeometry).Center = GetPosition().ToPoint();
-            (path.Data as EllipseGeometry).RadiusX = Radius;
-            (path.Data as EllipseGeometry).RadiusY = Radius;
+            path.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, (Action)(delegate 
+            {
+                (path.Data as EllipseGeometry).Center = position.ToPoint();
+                (path.Data as EllipseGeometry).RadiusX = Radius;
+                (path.Data as EllipseGeometry).RadiusY = Radius;
+            }));
         }
 
-        public override bool IsOnScreen()
+        public override bool IsOnScreen(Size screenSize)
         {
-            return true;//throw new Exception("Not implemented");
+            if (position.X <= Radius || position.Y <= Radius)
+                return false;
+
+            if (position.X >= screenSize.Width + Radius || position.Y >= screenSize.Height + Radius)
+                return false;
+
+            return true;
         }
     }
 

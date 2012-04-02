@@ -27,7 +27,7 @@ namespace Orbit.Core.Scene.Entities
 
         IControl GetControlOfType(Type type);
 
-        bool IsOnScreen();
+        bool IsOnScreen(Size screenSize);
 
         void UpdateGeometric();
     }
