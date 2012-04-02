@@ -12,11 +12,6 @@ namespace Orbit.Core.Scene.Entities
             throw new Exception("Not implemented");
         }
 
-        public override void Render()
-        {
-            throw new Exception("Not implemented");
-        }
-
         public bool CollideWith(ICollidable other)
         {
             throw new Exception("Not implemented");
@@ -25,6 +20,11 @@ namespace Orbit.Core.Scene.Entities
         public void DoCollideWith(ICollidable other)
         {
             throw new Exception("Not implemented");
+        }
+
+        public override void UpdateGeometric()
+        {
+            throw new Exception("The method or operation is not implemented.");
         }
     }
 

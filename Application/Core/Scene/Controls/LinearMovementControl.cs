@@ -6,27 +6,27 @@ namespace Orbit.Core.Scene.Controls
 {
     public class LinearMovementControl : Control
     {
-        private IMovable me;
+        private IMovable meMovable;
 
         public float Speed { get; set; }
 
         public override void InitControl(ISceneObject obj)
         {
-            if (!(me is IMovable))
+            if (!(obj is IMovable))
             {
                 Console.Error.WriteLine("LinearMovementControl cannot be attached to non-movable object!");
                 return;
             }
 
-            me = (IMovable)obj;
+            meMovable = obj as IMovable;
         }
 
         public override void UpdateControl(float tpf)
         {
-            if (me == null)
+            if (meMovable == null)
                 return;
 
-            ((ISceneObject)me).SetPosition(((ISceneObject)me).GetPosition() + (me.GetDirection() * Speed));
+            me.SetPosition(me.GetPosition() + (meMovable.GetDirection() * Speed));
         }
     }
 }

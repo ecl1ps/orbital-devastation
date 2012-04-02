@@ -1,6 +1,6 @@
 using System;
 using Orbit.Core.Player;
-using System.Drawing;
+using System.Windows.Media;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -9,11 +9,6 @@ namespace Orbit.Core.Scene.Entities
         public PlayerPosition BasePosition { get; set; }
         public Color Color { get; set; }
         public int Integrity { get; set; }
-
-        public override void Render()
-        {
-            throw new Exception("Not implemented");
-        }
 
         public override bool IsOnScreen()
         {
@@ -28,6 +23,11 @@ namespace Orbit.Core.Scene.Entities
         public void DoCollideWith(ICollidable other)
         {
             throw new Exception("Not implemented");
+        }
+
+        public override void UpdateGeometric()
+        {
+            
         }
     }
 

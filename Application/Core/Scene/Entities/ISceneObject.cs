@@ -1,6 +1,7 @@
 using System;
 using System.Windows;
 using Orbit.Core.Scene.Controls;
+using System.Windows.Shapes;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -8,22 +9,26 @@ namespace Orbit.Core.Scene.Entities
     {
         void Update(float tpf);
 
-        void Render();
-
         long GetId();
 
         void Setid(long id);
+
+        void SetGeometry(Path path);
+
+        Path GetGeometry();
 
         Vector GetPosition();
 
         void SetPosition(Vector position);
 
-        void AddControl(IControl control);
+        void AddControl(Control control);
 
         void RemoveControl(Type type);
 
         IControl GetControlOfType(Type type);
 
         bool IsOnScreen();
+
+        void UpdateGeometric();
     }
 }

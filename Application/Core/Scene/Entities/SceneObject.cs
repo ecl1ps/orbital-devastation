@@ -2,6 +2,7 @@ using System;
 using System.Windows;
 using Orbit.Core.Scene.Controls;
 using System.Collections.Generic;
+using System.Windows.Shapes;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -10,6 +11,7 @@ namespace Orbit.Core.Scene.Entities
         private IList<IControl> controls;
         private long id;
         private Vector position;
+        protected Path path;
 
         public SceneObject()
         {
@@ -23,19 +25,19 @@ namespace Orbit.Core.Scene.Entities
 
         private void UpdateControls(float tpf)
         {
-            foreach (IControl control in controls)
+            foreach (Control control in controls)
             {
-                control.UpdateControl(tpf);
+                control.Update(tpf);
             }
         }
 
-        public void AddControl(IControl control)
+        public void AddControl(Control control)
         {
             if (controls.Contains(control))
                 return;
 
             controls.Add(control);
-            control.InitControl(this);
+            control.Init(this);
         }
 
         public void RemoveControl(Type type)
@@ -69,8 +71,7 @@ namespace Orbit.Core.Scene.Entities
 
         public abstract bool IsOnScreen();
 
-        public abstract void Render();
-
+        public abstract void UpdateGeometric();
 
         public long GetId()
         {
@@ -80,6 +81,16 @@ namespace Orbit.Core.Scene.Entities
         public void Setid(long id)
         {
             this.id = id;
+        }
+
+        public void SetGeometry(Path path)
+        {
+            this.path = path;
+        }
+
+        public Path GetGeometry()
+        {
+            return path;
         }
     }
 

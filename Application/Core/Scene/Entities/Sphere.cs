@@ -1,5 +1,5 @@
 using System;
-using System.Drawing;
+using System.Windows.Media;
 using System.Windows;
 
 namespace Orbit.Core.Scene.Entities
@@ -31,14 +31,16 @@ namespace Orbit.Core.Scene.Entities
             throw new Exception("Not implemented");
         }
 
-        public override void Render()
+        public override void UpdateGeometric()
         {
-            throw new Exception("Not implemented");
+            (path.Data as EllipseGeometry).Center = GetPosition().ToPoint();
+            (path.Data as EllipseGeometry).RadiusX = Radius;
+            (path.Data as EllipseGeometry).RadiusY = Radius;
         }
 
         public override bool IsOnScreen()
         {
-            throw new Exception("Not implemented");
+            return true;//throw new Exception("Not implemented");
         }
     }
 

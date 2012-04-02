@@ -4,32 +4,39 @@ using Orbit.Core.Player;
 using Orbit.Core.Scene.Controls;
 using Orbit.Core.Scene.Entities;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows;
+using System.Windows.Controls;
+using System.Diagnostics;
+using System.Threading;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace Orbit.Core.Scene
 {
     public class SceneMgr
     {
+        private Canvas canvas;
         private bool isServer;
+        private volatile bool shouldQuit;
         //private NetServer server;
         //private NetClient client;
         private IList<ISceneObject> objects;
         private Dictionary<PlayerPosition, IPlayerData> playerData;
         private PlayerPosition me;
-        private Rectangle actionArea;
+        private Rect actionArea;
         private Random randomGenerator;
+        private const long MINIMUM_UPDATE_TIME = 30;
         //private int isStarted;
-        //http://msdn.microsoft.com/en-us/library/system.threading.interlocked.aspx
 
         public SceneMgr(bool isServer)
         {
+            shouldQuit = false;
             this.isServer = isServer;
             objects = new List<ISceneObject>();
             Random r = new Random();
             me = r.Next(2) == 0 ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
             playerData = new Dictionary<PlayerPosition, IPlayerData>(2);
-            actionArea = new Rectangle(0, 0, 800, 600);
+            actionArea = new Rect(0, 0, 800, 600);
             randomGenerator = new Random();
         }
 
@@ -39,30 +46,41 @@ namespace Orbit.Core.Scene
 
             Sphere s;
             LinearMovementControl lc;
+            EllipseGeometry geom;
+            Path path;
             for (int i = 0; i < 10; ++i)
             {
                 s = new Sphere();
-                s.Setid(IdMgr.GetInstance().GetNewId());
+                s.Setid(IdMgr.GetNewId());
                 s.SetDirection(new Vector(1, 0));
-                s.Radius = (uint)randomGenerator.Next(SharedDef.MAX_SPHERE_RADIUS, SharedDef.MAX_SPHERE_RADIUS);
-                s.SetPosition(new Vector(randomGenerator.Next(actionArea.X + (int)s.Radius, actionArea.Width - (int)s.Radius),
-                    randomGenerator.Next(actionArea.Y + (int)s.Radius, actionArea.Height - (int)s.Radius)));
-                s.Color = Color.FromArgb(randomGenerator.Next(40, 255), randomGenerator.Next(40, 255), randomGenerator.Next(40, 255));
+                s.Radius = (uint)randomGenerator.Next(SharedDef.MIN_SPHERE_RADIUS, SharedDef.MAX_SPHERE_RADIUS);
+                s.SetPosition(new Vector(randomGenerator.Next((int)(actionArea.X + s.Radius), (int)(actionArea.Width - s.Radius)),
+                    randomGenerator.Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius))));
+                s.Color = Color.FromRgb((byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255));
 
+                
                 lc = new LinearMovementControl();
                 lc.Speed = randomGenerator.Next(SharedDef.MIN_SPHERE_SPEED, SharedDef.MAX_SPHERE_SPEED);
                 s.AddControl(lc);
 
+                geom = new EllipseGeometry(s.GetPosition().ToPoint(), s.Radius, s.Radius);
+                path = new Path();
+                path.Data = geom;
+                path.Fill = new RadialGradientBrush(s.Color, Color.FromArgb(128, s.Color.R, s.Color.G, s.Color.B));
+                path.Stroke = Brushes.Black;
+                s.SetGeometry(path);
+
                 objects.Add(s);
+                canvas.Children.Add(path);
             }
         }
 
         private void InitPlayerData()
         {
             Base myBase = new Base();
-            myBase.Setid(IdMgr.GetInstance().GetNewId());
+            myBase.Setid(IdMgr.GetNewId());
             myBase.BasePosition = me;
-            myBase.Color = randomGenerator.Next(2) == 0 ? Color.Red : Color.Blue;
+            myBase.Color = randomGenerator.Next(2) == 0 ? Colors.Red : Colors.Blue;
             objects.Add(myBase);
 
             PlayerData pd = new PlayerData();
@@ -70,9 +88,9 @@ namespace Orbit.Core.Scene
             playerData.Add(pd.GetPosition(), pd);
 
             Base opponentsBase = new Base();
-            opponentsBase.Setid(IdMgr.GetInstance().GetNewId());
+            opponentsBase.Setid(IdMgr.GetNewId());
             opponentsBase.BasePosition = myBase.BasePosition == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
-            opponentsBase.Color = myBase.Color == Color.Blue ? Color.Red : Color.Blue;
+            opponentsBase.Color = myBase.Color == Colors.Blue ? Colors.Red : Colors.Blue;
             objects.Add(opponentsBase);
 
             pd = new PlayerData();
@@ -80,11 +98,45 @@ namespace Orbit.Core.Scene
             playerData.Add(pd.GetPosition(), pd);
         }
 
+        public void Run()
+        {
+            Stopwatch sw = new Stopwatch();
+            float tpf = 0;
+            sw.Start();
+
+            while (!shouldQuit)
+            {
+                tpf = sw.ElapsedMilliseconds / 1000;
+                sw.Restart();
+                Update(tpf);
+		
+		        if (sw.ElapsedMilliseconds < MINIMUM_UPDATE_TIME) 
+                {
+				    Thread.Sleep((int)(MINIMUM_UPDATE_TIME - sw.ElapsedMilliseconds));
+		        }
+            }
+
+            sw.Stop();                
+        }
+
+        public void RequestStop()
+        {
+            shouldQuit = true;
+        }
         public void Update(float tpf)
         {
             UpdateSceneObjects(tpf);
-            CheckCollisions();
-            RenderScene();
+            //CheckCollisions();
+            //UpdateGeomtricState();
+            canvas.Refresh();
+        }
+
+        private void UpdateGeomtricState()
+        {
+            foreach (ISceneObject obj in objects)
+            {
+                obj.UpdateGeometric();
+            }
         }
 
         public void UpdateSceneObjects(float tpf)
@@ -92,8 +144,8 @@ namespace Orbit.Core.Scene
             foreach (ISceneObject obj in objects)
             {
                 obj.Update(tpf);
-                if (!obj.IsOnScreen())
-                    objects.Remove(obj);
+                /*if (!obj.IsOnScreen())
+                    objects.Remove(obj);*/
             }
         }
 
@@ -112,14 +164,6 @@ namespace Orbit.Core.Scene
                     if (((ICollidable)obj1).CollideWith((ICollidable)obj2))
                         ((ICollidable)obj1).DoCollideWith((ICollidable)obj2);
                 }
-            }
-        }
-
-        public void RenderScene()
-        {
-            foreach (ISceneObject obj in objects)
-            {
-                obj.Render();
             }
         }
 
@@ -147,6 +191,10 @@ namespace Orbit.Core.Scene
             throw new Exception("Not implemented");
         }
 
+        internal void SetCanvas(Canvas canvas)
+        {
+            this.canvas = canvas;
+        }
     }
 
 }

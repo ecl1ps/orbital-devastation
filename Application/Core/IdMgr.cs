@@ -19,9 +19,14 @@ namespace Orbit.Core
             return idMgr;
         }
 
-        public long GetNewId()
+        private long GetIdNew()
         {
             return ++maxId;
+        }
+
+        public static long GetNewId()
+        {
+            return GetInstance().GetIdNew();
         }
     }
 }
