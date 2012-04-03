@@ -33,7 +33,7 @@ namespace Orbit.Core.Scene
             lc.Speed = randomGenerator.Next(SharedDef.MIN_SPHERE_SPEED * 10, SharedDef.MAX_SPHERE_SPEED * 10) / 10.0f;
             s.AddControl(lc);
 
-            SceneMgr.GetInstance().GetCanvasDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
+            SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
             {
                 EllipseGeometry geom = new EllipseGeometry(s.GetPosition().ToPoint(), s.Radius, s.Radius);
                 Path path = new Path();
@@ -61,7 +61,7 @@ namespace Orbit.Core.Scene
 
             Rect rec = new Rect(baze.Position.X, baze.Position.Y, baze.Size.Width, baze.Size.Height);
 
-            SceneMgr.GetInstance().GetCanvasDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
+            SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
             {
                 RectangleGeometry geom = new RectangleGeometry(rec);
                 Path path = new Path();

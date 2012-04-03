@@ -225,7 +225,7 @@ namespace Orbit.Core.Scene
             actionArea = new Rect(0, 0, canvas.Width, canvas.Height / 3);
         }
 
-        public Dispatcher GetCanvasDispatcher()
+        public Dispatcher GetUIDispatcher()
         {
             return canvas.Dispatcher;
         }
@@ -233,7 +233,10 @@ namespace Orbit.Core.Scene
         public void OnViewPortChange(Size size)
         {
             ViewPortSize = size;
-            canvas.RenderTransform = new ScaleTransform(size.Width / ViewPortSizeOriginal.Width, size.Height / ViewPortSizeOriginal.Height);
+            canvas.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+            {
+                canvas.RenderTransform = new ScaleTransform(size.Width / ViewPortSizeOriginal.Width, size.Height / ViewPortSizeOriginal.Height);
+            }));
         }
 
         public void SetAsServer(bool isServer)
