@@ -11,7 +11,7 @@ namespace Orbit.Core.Scene.Entities
     {
         public Color Color { get; set; }
         private Vector direction;
-        public uint Radius { get; set; }
+        public int Radius { get; set; }
         public bool IsHeadingRight { get; set; }
 
         public Vector GetDirection()
@@ -26,12 +26,21 @@ namespace Orbit.Core.Scene.Entities
 
         public bool CollideWith(ICollidable other)
         {
-            throw new Exception("Not implemented");
+            if (other.GetType() == typeof(Sphere))
+                return CollisionHelper.intersectsCircleAndCircle(GetPosition(), Radius, (other as Sphere).GetPosition(), (other as Sphere).Radius);
+
+            if (other.GetType() == typeof(Base))
+                return CollisionHelper.intersectsCircleAndSquare(GetPosition(), Radius, (other as Base).Position, (other as Base).Size);
+
+            return false;
         }
 
         public void DoCollideWith(ICollidable other)
         {
-            throw new Exception("Not implemented");
+            if (other.GetType() == typeof(Sphere))
+                ;
+            else
+                DoRemoveMe();
         }
 
         public override void UpdateGeometric()
@@ -53,6 +62,11 @@ namespace Orbit.Core.Scene.Entities
                 return false;
 
             return true;
+        }
+
+        public override void OnRemove()
+        {
+            SceneMgr.GetInstance().AttachToScene(SceneObjectFactory.CreateNewSphereOnEdge(this));
         }
     }
 

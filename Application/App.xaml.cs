@@ -41,7 +41,7 @@ namespace Orbit
         public void InitScene()
         {
             GameWindow wnd = MainWindow as GameWindow;
-            sceneMgr = new SceneMgr(true);
+            sceneMgr = SceneMgr.GetInstance();
             sceneMgr.SetCanvas(wnd.mainCanvas);
             sceneMgr.Init();
         }
@@ -49,6 +49,7 @@ namespace Orbit
         public void StartHostedGame()
         {
             InitScene();
+            sceneMgr.SetAsServer(true);
         }
 
         public void ConnectToGame()

@@ -30,5 +30,11 @@ namespace Orbit.Core.Scene.Entities
         bool IsOnScreen(Size screenSize);
 
         void UpdateGeometric();
+
+        void SetDead(bool dead);
+
+        bool IsDead();
+
+        void OnRemove();
     }
 }

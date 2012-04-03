@@ -69,8 +69,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Core\CollisionHelper.cs" />
     <Compile Include="Core\ExtensionMethods.cs" />
     <Compile Include="Core\Player\PlayerData.cs" />
+    <Compile Include="Core\Scene\SceneObjectFactory.cs" />
     <Compile Include="Gui\GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>

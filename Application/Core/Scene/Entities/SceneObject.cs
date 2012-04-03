@@ -8,14 +8,16 @@ namespace Orbit.Core.Scene.Entities
 {
     public abstract class SceneObject : ISceneObject
     {
-        private IList<IControl> controls;
-        private long id;
+        protected IList<IControl> controls;
+        protected long id;
         protected Vector position;
         protected Path path;
+        protected bool isDead;
 
         public SceneObject()
         {
             controls = new List<IControl>();
+            isDead = false;
         }
 
         public void Update(float tpf)
@@ -91,6 +93,31 @@ namespace Orbit.Core.Scene.Entities
         public Path GetGeometry()
         {
             return path;
+        }
+
+        public void DoRemoveMe()
+        {
+            DoRemove(this);
+        }
+
+        public void DoRemove(ISceneObject obj)
+        {
+            SceneMgr.GetInstance().RemoveFromSceneDelayed(obj);
+        }
+
+        public void SetDead(bool dead)
+        {
+            this.isDead = dead;
+        }
+
+        public bool IsDead()
+        {
+            return isDead;
+        }
+
+        public virtual void OnRemove()
+        {
+
         }
     }
 

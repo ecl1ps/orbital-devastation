@@ -10,6 +10,8 @@ namespace Orbit.Core.Scene.Entities
         public PlayerPosition BasePosition { get; set; }
         public Color Color { get; set; }
         public int Integrity { get; set; }
+        public Vector Position { get; set; }
+        public Size Size { get; set; }
 
         public override bool IsOnScreen(Size screenSize)
         {
@@ -18,12 +20,15 @@ namespace Orbit.Core.Scene.Entities
 
         public bool CollideWith(ICollidable other)
         {
-            throw new Exception("Not implemented");
+            if (other.GetType() == typeof(Sphere))
+                return CollisionHelper.intersectsCircleAndSquare((other as Sphere).GetPosition(), (other as Sphere).Radius, Position, Size);
+
+            return false;
         }
 
         public void DoCollideWith(ICollidable other)
         {
-            throw new Exception("Not implemented");
+            Integrity -= 10;
         }
 
         public override void UpdateGeometric()

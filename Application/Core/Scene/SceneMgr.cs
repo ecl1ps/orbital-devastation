@@ -22,7 +22,7 @@ namespace Orbit.Core.Scene
         //private NetServer server;
         //private NetClient client;
         private IList<ISceneObject> objects;
-        private IList<Sphere> removedSpheres;
+        private IList<ISceneObject> objectsToRemove;
         private Dictionary<PlayerPosition, IPlayerData> playerData;
         private PlayerPosition me;
         private Rect actionArea;
@@ -32,12 +32,24 @@ namespace Orbit.Core.Scene
         private const long MINIMUM_UPDATE_TIME = 30;
         //private int isStarted;
 
-        public SceneMgr(bool isServer)
+        private static SceneMgr sceneMgr;
+        private static Object lck = new Object();
+
+        public static SceneMgr GetInstance()
+        {
+            lock (lck)
+            {
+                if (sceneMgr == null)
+                    sceneMgr = new SceneMgr();
+                return sceneMgr;
+            }
+        }
+
+        private SceneMgr()
         {
             shouldQuit = false;
-            this.isServer = isServer;
             objects = new List<ISceneObject>();
-            removedSpheres = new List<Sphere>();
+            objectsToRemove = new List<ISceneObject>();
             Random r = new Random();
             me = r.Next(2) == 0 ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
             playerData = new Dictionary<PlayerPosition, IPlayerData>(2);
@@ -51,7 +63,7 @@ namespace Orbit.Core.Scene
             Sphere s;
             for (int i = 0; i < SharedDef.SPHERE_COUNT; ++i)
             {
-                s = CreateNewRandomSphere(i % 2 == 0);
+                s = SceneObjectFactory.CreateNewRandomSphere(i % 2 == 0);
                 AttachToScene(s);
             }
         }
@@ -65,57 +77,42 @@ namespace Orbit.Core.Scene
             }));
         }
 
-        private Sphere CreateNewRandomSphere(bool headingRight)
+        public void RemoveFromSceneDelayed(ISceneObject obj)
         {
-            Sphere s = new Sphere();
-            s.Setid(IdMgr.GetNewId());
-            s.IsHeadingRight = headingRight;
-            s.SetDirection(headingRight ? new Vector(1, 0) : new Vector(-1, 0));
-
-            s.Radius = (uint)randomGenerator.Next(SharedDef.MIN_SPHERE_RADIUS, SharedDef.MAX_SPHERE_RADIUS);
-            s.SetPosition(new Vector(randomGenerator.Next((int)(actionArea.X + s.Radius), (int)(actionArea.Width - s.Radius)),
-                randomGenerator.Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius))));
-            s.Color = Color.FromRgb((byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255));
-
-
-            LinearMovementControl lc = new LinearMovementControl();
-            lc.Speed = randomGenerator.Next(SharedDef.MIN_SPHERE_SPEED * 10, SharedDef.MAX_SPHERE_SPEED * 10) / 10.0f;
-            s.AddControl(lc);
-
-            canvas.Dispatcher.Invoke(DispatcherPriority.Send, new Action(() =>
-            {
-                EllipseGeometry geom = new EllipseGeometry(s.GetPosition().ToPoint(), s.Radius, s.Radius);
-                Path path = new Path();
-                path.Data = geom;
-                path.Fill = new RadialGradientBrush(s.Color, Color.FromArgb(0x80, s.Color.R, s.Color.G, s.Color.B));
-                path.Stroke = Brushes.Black;
-                s.SetGeometry(path);
-            }));
-
-            return s;
+            obj.SetDead(true);
+            objectsToRemove.Add(obj);
         }
 
-
-        private Sphere CreateNewSphereOnEdge(Sphere oldSphere)
+        private void DirectRemoveFromScene(ISceneObject obj)
         {
-            Sphere s = CreateNewRandomSphere(oldSphere.IsHeadingRight);
+            objects.Remove(obj);
+            canvas.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, (Action)(delegate
+            {
+                canvas.Children.Remove(obj.GetGeometry());
+            }));
+        }
 
-            s.SetPosition(new Vector(s.IsHeadingRight ? (int)(-s.Radius) : (int)(actionArea.Width + s.Radius),
-                randomGenerator.Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius))));
+        private void RemoveObjectsMarkedForRemoval()
+        {
+            foreach (ISceneObject obj in objectsToRemove)
+            {
+                obj.OnRemove();
+                DirectRemoveFromScene(obj);
+            }
 
-            return s;
+            objectsToRemove.Clear();
         }
 
         private void InitPlayerData()
         {
-            Base myBase = CreateBase(me, randomGenerator.Next(2) == 0 ? Colors.Red : Colors.Blue);
+            Base myBase = SceneObjectFactory.CreateBase(me, randomGenerator.Next(2) == 0 ? Colors.Red : Colors.Blue);
             AttachToScene(myBase);
 
             PlayerData pd = new PlayerData();
             pd.SetBase(myBase);
             playerData.Add(pd.GetPosition(), pd);
 
-            Base opponentsBase = CreateBase(myBase.BasePosition == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT,
+            Base opponentsBase = SceneObjectFactory.CreateBase(myBase.BasePosition == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT,
                                             myBase.Color == Colors.Blue ? Colors.Red : Colors.Blue);
             AttachToScene(opponentsBase);
 
@@ -124,28 +121,6 @@ namespace Orbit.Core.Scene
             playerData.Add(pd.GetPosition(), pd);
         }
 
-        private Base CreateBase(PlayerPosition pos, Color col)
-        {
-            Base baze = new Base();
-            baze.Setid(IdMgr.GetNewId());
-            baze.BasePosition = pos;
-            baze.Color = col;
-            baze.Integrity = SharedDef.BASE_MAX_INGERITY;
-            Rect rec = new Rect(ViewPortSizeOriginal.Width * ((pos == PlayerPosition.LEFT) ? 0.1 : 0.6), ViewPortSizeOriginal.Height * 0.85, 
-                ViewPortSizeOriginal.Width * 0.3, ViewPortSizeOriginal.Height * 0.15);
-
-            canvas.Dispatcher.Invoke(DispatcherPriority.Send, new Action(() =>
-            {
-                RectangleGeometry geom = new RectangleGeometry(rec);
-                Path path = new Path();
-                path.Data = geom;
-                path.Fill = new LinearGradientBrush(baze.Color, Colors.Black, 90.0);
-                path.Stroke = Brushes.Black;
-                baze.SetGeometry(path);
-            }));
-
-            return baze;
-        }
 
         public void Run()
         {
@@ -178,9 +153,12 @@ namespace Orbit.Core.Scene
         public void Update(float tpf)
         {
             UpdateSceneObjects(tpf);
-            //CheckCollisions();
+            RemoveObjectsMarkedForRemoval();
+
+            CheckCollisions();
+            RemoveObjectsMarkedForRemoval();
+
             UpdateGeomtricState();
-            //canvas.Refresh();
         }
 
         private void UpdateGeomtricState()
@@ -193,32 +171,14 @@ namespace Orbit.Core.Scene
 
         public void UpdateSceneObjects(float tpf)
         {
-            removedSpheres.Clear();
-            for (int i = 0; i < objects.Count; i++)
+            foreach (ISceneObject obj in objects)
             {             
-                objects[i].Update(tpf);
-                if (!objects[i].IsOnScreen(ViewPortSizeOriginal))
-                {
-                    RemoveObject(objects[i]);
-                    i--;
-                }
+                obj.Update(tpf);
+                if (!obj.IsOnScreen(ViewPortSizeOriginal))
+                    RemoveFromSceneDelayed(obj);
             }
-
-            foreach (Sphere s in removedSpheres)
-                AttachToScene(CreateNewSphereOnEdge(s));
         }
 
-        private void RemoveObject(ISceneObject obj)
-        {
-            objects.Remove(obj);
-            canvas.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, (Action)(delegate
-            {
-                canvas.Children.Remove(obj.GetGeometry());
-            }));
-
-            if (obj.GetType() == typeof(Sphere))
-                removedSpheres.Add(obj as Sphere);
-        }
 
         public void CheckCollisions()
         {
@@ -229,6 +189,12 @@ namespace Orbit.Core.Scene
 
                 foreach (ISceneObject obj2 in objects)
                 {
+                    if (obj1.GetId() == obj2.GetId())
+                        continue;
+
+                    /*if (obj2.IsDead())
+                        continue;*/
+
                     if (!(obj2 is ICollidable))
                         continue;
 
@@ -252,20 +218,38 @@ namespace Orbit.Core.Scene
             return data;
         }
 
-        internal void SetCanvas(Canvas canvas)
+        public void SetCanvas(Canvas canvas)
         {
             this.canvas = canvas;
             ViewPortSizeOriginal = new Size(canvas.Width, canvas.Height);
             actionArea = new Rect(0, 0, canvas.Width, canvas.Height / 3);
         }
 
-        internal void OnViewPortChange(Size size)
+        public Dispatcher GetCanvasDispatcher()
+        {
+            return canvas.Dispatcher;
+        }
+
+        public void OnViewPortChange(Size size)
         {
             ViewPortSize = size;
             canvas.RenderTransform = new ScaleTransform(size.Width / ViewPortSizeOriginal.Width, size.Height / ViewPortSizeOriginal.Height);
         }
 
+        public void SetAsServer(bool isServer)
+        {
+            this.isServer = isServer;
+        }
 
+        public Rect GetActionArea()
+        {
+            return actionArea;
+        }
+
+        public Random GetRandomGenerator()
+        {
+            return randomGenerator;
+        }
     }
 
 }
