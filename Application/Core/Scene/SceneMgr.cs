@@ -27,6 +27,7 @@ namespace Orbit.Core.Scene
         private PlayerPosition me;
         private Rect actionArea;
         private Random randomGenerator;
+        public Size ViewPortSizeOriginal { get; set; }
         public Size ViewPortSize { get; set; }
         private const long MINIMUM_UPDATE_TIME = 30;
         //private int isStarted;
@@ -130,7 +131,8 @@ namespace Orbit.Core.Scene
             baze.BasePosition = pos;
             baze.Color = col;
             baze.Integrity = SharedDef.BASE_MAX_INGERITY;
-            Rect rec = new Rect(ViewPortSize.Width * ((pos == PlayerPosition.LEFT) ? 0.1 : 0.6), ViewPortSize.Height * 0.85, ViewPortSize.Width * 0.3, ViewPortSize.Height * 0.15);
+            Rect rec = new Rect(ViewPortSizeOriginal.Width * ((pos == PlayerPosition.LEFT) ? 0.1 : 0.6), ViewPortSizeOriginal.Height * 0.85, 
+                ViewPortSizeOriginal.Width * 0.3, ViewPortSizeOriginal.Height * 0.15);
 
             canvas.Dispatcher.Invoke(DispatcherPriority.Send, new Action(() =>
             {
@@ -195,7 +197,7 @@ namespace Orbit.Core.Scene
             for (int i = 0; i < objects.Count; i++)
             {             
                 objects[i].Update(tpf);
-                if (!objects[i].IsOnScreen(ViewPortSize))
+                if (!objects[i].IsOnScreen(ViewPortSizeOriginal))
                 {
                     RemoveObject(objects[i]);
                     i--;
@@ -253,14 +255,14 @@ namespace Orbit.Core.Scene
         internal void SetCanvas(Canvas canvas)
         {
             this.canvas = canvas;
-            ViewPortSize = new Size(canvas.Width, canvas.Height);
+            ViewPortSizeOriginal = new Size(canvas.Width, canvas.Height);
             actionArea = new Rect(0, 0, canvas.Width, canvas.Height / 3);
         }
 
         internal void OnViewPortChange(Size size)
         {
             ViewPortSize = size;
-            actionArea = new Rect(0, 0, size.Width, size.Height / 3);
+            canvas.RenderTransform = new ScaleTransform(size.Width / ViewPortSizeOriginal.Width, size.Height / ViewPortSizeOriginal.Height);
         }
 
 

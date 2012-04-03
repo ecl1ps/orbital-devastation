@@ -39,10 +39,11 @@ namespace Orbit.Gui
             }
         }
 
-        private void mainCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void WindowSizeChanged(object sender, SizeChangedEventArgs e)
         {
             // resizing is disabled for now
             (Application.Current as App).GetSceneMgr().OnViewPortChange(e.NewSize);
         }
+
     }
 }
