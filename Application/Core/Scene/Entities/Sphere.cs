@@ -26,18 +26,18 @@ namespace Orbit.Core.Scene.Entities
 
         public bool CollideWith(ICollidable other)
         {
-            if (other.GetType() == typeof(Sphere))
+            if (other is Sphere)
                 return CollisionHelper.intersectsCircleAndCircle(GetPosition(), Radius, (other as Sphere).GetPosition(), (other as Sphere).Radius);
 
-            if (other.GetType() == typeof(Base))
-                return CollisionHelper.intersectsCircleAndSquare(GetPosition(), Radius, (other as Base).Position, (other as Base).Size);
+            if (other is Base)
+                return CollisionHelper.intersectsCircleAndSquare(GetPosition(), Radius, (other as Base).GetPosition(), (other as Base).Size);
 
             return false;
         }
 
         public void DoCollideWith(ICollidable other)
         {
-            if (other.GetType() == typeof(Sphere))
+            if (other is Sphere)
                 ;
             else
                 DoRemoveMe();

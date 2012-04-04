@@ -21,7 +21,7 @@ namespace Orbit.Core.Scene
             Sphere s = new Sphere();
             s.Setid(IdMgr.GetNewId());
             s.IsHeadingRight = headingRight;
-            s.SetDirection(headingRight ? new Vector(1, 1) : new Vector(-1, 0));
+            s.SetDirection(headingRight ? new Vector(1, 0) : new Vector(-1, 0));
 
             s.Radius = randomGenerator.Next(SharedDef.MIN_SPHERE_RADIUS, SharedDef.MAX_SPHERE_RADIUS);
             s.SetPosition(new Vector(randomGenerator.Next((int)(actionArea.X + s.Radius), (int)(actionArea.Width - s.Radius)),
@@ -54,12 +54,12 @@ namespace Orbit.Core.Scene
             baze.Color = col;
             baze.Integrity = SharedDef.BASE_MAX_INGERITY;
 
-            baze.Position = new Vector(SceneMgr.GetInstance().ViewPortSizeOriginal.Width * ((pos == PlayerPosition.LEFT) ? 0.1 : 0.6),
-                                       SceneMgr.GetInstance().ViewPortSizeOriginal.Height * 0.85);
+            baze.SetPosition(new Vector(SceneMgr.GetInstance().ViewPortSizeOriginal.Width * ((pos == PlayerPosition.LEFT) ? 0.1 : 0.6),
+                                       SceneMgr.GetInstance().ViewPortSizeOriginal.Height * 0.85));
             baze.Size = new Size(SceneMgr.GetInstance().ViewPortSizeOriginal.Width * 0.3, 
                                  SceneMgr.GetInstance().ViewPortSizeOriginal.Height * 0.15);
 
-            Rect rec = new Rect(baze.Position.X, baze.Position.Y, baze.Size.Width, baze.Size.Height);
+            Rect rec = new Rect(baze.GetPosition().X, baze.GetPosition().Y, baze.Size.Width, baze.Size.Height);
 
             SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
             {
@@ -84,6 +84,35 @@ namespace Orbit.Core.Scene
                 SceneMgr.GetInstance().GetRandomGenerator().Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius))));
 
             return s;
+        }
+
+        public static SingularityMine CreateSingularityMine(Point point, IPlayerData plrdata)
+        {
+            Random randomGenerator = SceneMgr.GetInstance().GetRandomGenerator();
+            SingularityMine mine = new SingularityMine();
+            mine.Setid(IdMgr.GetNewId());
+            mine.SetPosition(point.ToVector());
+
+            mine.Radius = randomGenerator.Next(SharedDef.MIN_SPHERE_RADIUS, SharedDef.MAX_SPHERE_RADIUS);
+
+            //mine.Color = Color.FromRgb((byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255));
+
+            SingularityControl sc = new SingularityControl();
+            sc.Speed = plrdata.GetMineGrowthSpeed();
+            sc.Strength = plrdata.GetMineStrength();
+            mine.AddControl(sc);
+
+            SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
+            {
+                EllipseGeometry geom = new EllipseGeometry(point, mine.Radius, mine.Radius);
+                Path path = new Path();
+                path.Data = geom;
+                //path.Fill = new RadialGradientBrush(s.Color, Color.FromArgb(0x80, s.Color.R, s.Color.G, s.Color.B));
+                //path.Stroke = Brushes.Black;
+                mine.SetGeometry(path);
+            }));
+
+            return mine;
         }
     }
 }

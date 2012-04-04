@@ -11,6 +11,7 @@ using System.Threading;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Collections.Concurrent;
 
 namespace Orbit.Core.Scene
 {
@@ -24,13 +25,15 @@ namespace Orbit.Core.Scene
         private IList<ISceneObject> objects;
         private IList<ISceneObject> objectsToRemove;
         private Dictionary<PlayerPosition, IPlayerData> playerData;
-        private PlayerPosition me;
+        private PlayerPosition firstPlayer;
+        private PlayerPosition secondPlayer;
         private Rect actionArea;
         private Random randomGenerator;
         public Size ViewPortSizeOriginal { get; set; }
         public Size ViewPortSize { get; set; }
         private const long MINIMUM_UPDATE_TIME = 30;
         //private int isStarted;
+        private ConcurrentQueue<Action> synchronizedQueue;
 
         private static SceneMgr sceneMgr;
         private static Object lck = new Object();
@@ -50,10 +53,11 @@ namespace Orbit.Core.Scene
             shouldQuit = false;
             objects = new List<ISceneObject>();
             objectsToRemove = new List<ISceneObject>();
-            Random r = new Random();
-            me = r.Next(2) == 0 ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
+            randomGenerator = new Random(Environment.TickCount);
+            firstPlayer = randomGenerator.Next(2) == 0 ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
+            secondPlayer = firstPlayer == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
             playerData = new Dictionary<PlayerPosition, IPlayerData>(2);
-            randomGenerator = new Random();
+            synchronizedQueue = new ConcurrentQueue<Action>();
         }
 
         public void Init()
@@ -105,15 +109,14 @@ namespace Orbit.Core.Scene
 
         private void InitPlayerData()
         {
-            Base myBase = SceneObjectFactory.CreateBase(me, randomGenerator.Next(2) == 0 ? Colors.Red : Colors.Blue);
+            Base myBase = SceneObjectFactory.CreateBase(firstPlayer, randomGenerator.Next(2) == 0 ? Colors.Red : Colors.Blue);
             AttachToScene(myBase);
 
             PlayerData pd = new PlayerData();
             pd.SetBase(myBase);
             playerData.Add(pd.GetPosition(), pd);
 
-            Base opponentsBase = SceneObjectFactory.CreateBase(myBase.BasePosition == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT,
-                                            myBase.Color == Colors.Blue ? Colors.Red : Colors.Blue);
+            Base opponentsBase = SceneObjectFactory.CreateBase(secondPlayer, myBase.Color == Colors.Blue ? Colors.Red : Colors.Blue);
             AttachToScene(opponentsBase);
 
             pd = new PlayerData();
@@ -150,8 +153,17 @@ namespace Orbit.Core.Scene
             shouldQuit = true;
         }
 
+        public void Enqueue(Action act)
+        {
+            synchronizedQueue.Enqueue(act);
+        }
+
         public void Update(float tpf)
         {
+            CheckPlayerStates();
+
+            ProcessActionQueue();
+
             UpdateSceneObjects(tpf);
             RemoveObjectsMarkedForRemoval();
 
@@ -159,6 +171,13 @@ namespace Orbit.Core.Scene
             RemoveObjectsMarkedForRemoval();
 
             UpdateGeomtricState();
+        }
+
+        private void ProcessActionQueue()
+        {
+            Action act = null;
+            while (synchronizedQueue.TryDequeue(out act))
+                act.Invoke();
         }
 
         private void UpdateGeomtricState()
@@ -218,11 +237,16 @@ namespace Orbit.Core.Scene
             return data;
         }
 
-        public void SetCanvas(Canvas canvas)
+        public void SetCanvas(Canvas canvas, Rectangle actionRect)
         {
             this.canvas = canvas;
             ViewPortSizeOriginal = new Size(canvas.Width, canvas.Height);
-            actionArea = new Rect(0, 0, canvas.Width, canvas.Height / 3);
+            actionArea = new Rect(0, 0, actionRect.Width, actionRect.Height);
+        }
+
+        public Canvas GetCanvas()
+        {
+            return canvas;
         }
 
         public Dispatcher GetUIDispatcher()
@@ -253,6 +277,36 @@ namespace Orbit.Core.Scene
         {
             return randomGenerator;
         }
+
+        public void OnActionAreaClick(Point point)
+        {
+            AttachToScene(SceneObjectFactory.CreateSingularityMine(point, GetPlayerData(firstPlayer)));
+        }
+
+        private void CheckPlayerStates()
+        {
+            if (GetPlayerData(firstPlayer).GetBaseIntegrity() <= 0)
+                EndGame(GetPlayerData(secondPlayer));
+            else if (GetPlayerData(secondPlayer).GetBaseIntegrity() <= 0)
+                EndGame(GetPlayerData(firstPlayer));
+        }
+
+        private void EndGame(IPlayerData winner)
+        {
+            PlayerWon(winner);
+            RequestStop();
+        }
+
+        private void PlayerWon(IPlayerData winner)
+        {
+            GetUIDispatcher().BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(GetCanvas(), "lblEndGame");
+                if (lbl != null)
+                    lbl.Content = winner.GetPlayerColor() == Colors.Red ? "Red" : "Blue" + " player won!";
+            }));
+        }
+
     }
 
 }

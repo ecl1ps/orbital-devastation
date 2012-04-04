@@ -1,4 +1,5 @@
 using System;
+using System.Windows.Media;
 
 namespace Orbit.Core.Player {
 
@@ -14,5 +15,10 @@ namespace Orbit.Core.Player {
 
 		PlayerPosition GetPosition();
 
+        float GetMineGrowthSpeed();
+
+        float GetMineStrength();
+
+        Color GetPlayerColor();
 	}
 }

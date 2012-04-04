@@ -22,5 +22,10 @@ namespace Orbit.Core
         {
             return new Point(vec.X, vec.Y);
         }
+
+        public static Vector ToVector(this Point p)
+        {
+            return new Vector(p.X, p.Y);
+        }
     }
 }

@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Orbit.Core.Scene;
 
 namespace Orbit.Gui
 {
@@ -41,8 +42,20 @@ namespace Orbit.Gui
 
         private void WindowSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            // resizing is disabled for now
-            (Application.Current as App).GetSceneMgr().OnViewPortChange(e.NewSize);
+            SceneMgr.GetInstance().Enqueue(new Action(() =>
+            {
+                SceneMgr.GetInstance().OnViewPortChange(e.NewSize);
+            }));
+        }
+
+        private void OnCanvasMouseClick(object sender, MouseButtonEventArgs e)
+        {
+            Point p = e.GetPosition(mainCanvas);
+            if (p.Y <= actionArea.Height)
+                SceneMgr.GetInstance().Enqueue(new Action(() =>
+                {
+                    SceneMgr.GetInstance().OnActionAreaClick(p);
+                }));
         }
 
     }

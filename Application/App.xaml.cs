@@ -42,7 +42,7 @@ namespace Orbit
         {
             GameWindow wnd = MainWindow as GameWindow;
             sceneMgr = SceneMgr.GetInstance();
-            sceneMgr.SetCanvas(wnd.mainCanvas);
+            sceneMgr.SetCanvas(wnd.mainCanvas, wnd.actionArea);
             sceneMgr.Init();
         }
 

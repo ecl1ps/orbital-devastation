@@ -46,7 +46,7 @@ namespace Orbit.Core.Scene.Entities
         {
             foreach (IControl control in controls)
             {
-                if (control.GetType().Equals(type))
+                if (type.IsAssignableFrom(control.GetType()))
                     controls.Remove(control);
             }
         }
@@ -55,7 +55,7 @@ namespace Orbit.Core.Scene.Entities
         {
             foreach (IControl control in controls)
             {
-                if (control.GetType().Equals(type))
+                if (type.IsAssignableFrom(control.GetType()))
                     return control;
             }
             return null;

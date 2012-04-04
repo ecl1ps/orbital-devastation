@@ -1,5 +1,8 @@
 using System;
 using System.Windows;
+using Orbit.Core.Scene.Controls;
+using System.Windows.Threading;
+using System.Windows.Media;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -7,25 +10,50 @@ namespace Orbit.Core.Scene.Entities
     public class SingularityMine : SceneObject, ICollidable
     {
         public int Radius { get; set; }
+        public bool IsVisible { get; set; }
+
+        public SingularityMine() : base()
+        {
+            IsVisible = false;
+        }
 
         public override bool IsOnScreen(Size screenSize)
         {
-            throw new Exception("Not implemented");
+            return true;
         }
 
         public bool CollideWith(ICollidable other)
         {
-            throw new Exception("Not implemented");
+            if (!IsVisible)
+                return false;
+
+            if (other is Sphere)
+                return CollisionHelper.intersectsCircleAndCircle(GetPosition(), Radius, (other as Sphere).GetPosition(), (other as Sphere).Radius);
+
+            return false;
         }
 
         public void DoCollideWith(ICollidable other)
         {
-            throw new Exception("Not implemented");
+            if (other is IMovable)
+            {
+                SingularityControl c = GetControlOfType(typeof(SingularityControl)) as SingularityControl;
+                if (c != null)
+                    c.CollidedWith(other as IMovable);
+            }
         }
 
         public override void UpdateGeometric()
         {
-            throw new Exception("The method or operation is not implemented.");
+            if (!IsVisible)
+                return;
+
+            path.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, new Action(() =>
+            {
+                (path.Data as EllipseGeometry).RadiusX = Radius;
+                (path.Data as EllipseGeometry).RadiusY = Radius;
+                path.Stroke = Brushes.Black;
+            }));
         }
     }
 

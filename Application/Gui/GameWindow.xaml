@@ -6,8 +6,12 @@
              mc:Ignorable="d" SizeToContent="WidthAndHeight" Closing="OnClose" KeyDown="OnKeyDown" Topmost="True"  
              WindowStyle="ThreeDBorderWindow" Title="Orbital Devastation">
     <Grid SizeChanged="WindowSizeChanged" MinWidth="400" MinHeight="300">
-        <Canvas x:Name="mainCanvas" Height="600" Width="800" HorizontalAlignment="Left" VerticalAlignment="Top" Background="White" />
+        <Canvas x:Name="mainCanvas" Height="600" Width="800" HorizontalAlignment="Left" VerticalAlignment="Top" Background="White" MouseDown="OnCanvasMouseClick">
+            <Rectangle Canvas.Left="0" Canvas.Top="0" Height="200" Name="actionArea" Width="800" />
+            <Label Canvas.Left="170" Canvas.Top="520" Height="40" Name="lblIntegrityLeft" Width="60" Panel.ZIndex="100" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">100%</Label>
+            <Label Canvas.Left="570" Canvas.Top="520" Height="40" Name="lblIntegrityRight" Width="60" Panel.ZIndex="100" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">100%</Label>
+            <Label Canvas.Left="250" Canvas.Top="270" Height="60" Name="lblEndGame" Width="300" Panel.ZIndex="100" FontSize="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Purple" FontFamily="Tempus Sans ITC"></Label>
+        </Canvas>
     </Grid>
-    
     
 </Window>

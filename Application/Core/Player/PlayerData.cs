@@ -1,5 +1,6 @@
 ﻿using System;
 using Orbit.Core.Scene.Entities;
+using System.Windows.Media;
 
 namespace Orbit.Core.Player
 {
@@ -7,10 +8,14 @@ namespace Orbit.Core.Player
     {
         private Base myBase;
         private int score;
+        private float mineGrowthSpeed;
+        private float mineStrength;
 
         public PlayerData()
         {
             score = 0;
+            mineGrowthSpeed = SharedDef.MINE_GROWTH_SPEED;
+            mineStrength = SharedDef.MINE_STRENGTH;
         }
 
         public int GetScore()
@@ -41,6 +46,21 @@ namespace Orbit.Core.Player
         public void SetBase(Base newBase) 
         {
             myBase = newBase;
+        }
+
+        public float GetMineGrowthSpeed()
+        {
+            return mineGrowthSpeed;
+        }
+
+        public float GetMineStrength()
+        {
+            return mineStrength;
+        }
+
+        public Color GetPlayerColor()
+        {
+            return myBase.Color;
         }
     }
 }
