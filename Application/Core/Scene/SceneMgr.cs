@@ -303,7 +303,7 @@ namespace Orbit.Core.Scene
             {
                 Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(GetCanvas(), "lblEndGame");
                 if (lbl != null)
-                    lbl.Content = winner.GetPlayerColor() == Colors.Red ? "Red" : "Blue" + " player won!";
+                    lbl.Content = (winner.GetPlayerColor() == Colors.Red ? "Red" : "Blue") + " player won!";
             }));
         }
 

@@ -92,10 +92,7 @@ namespace Orbit.Core.Scene
             SingularityMine mine = new SingularityMine();
             mine.Setid(IdMgr.GetNewId());
             mine.SetPosition(point.ToVector());
-
-            mine.Radius = randomGenerator.Next(SharedDef.MIN_SPHERE_RADIUS, SharedDef.MAX_SPHERE_RADIUS);
-
-            //mine.Color = Color.FromRgb((byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255));
+            mine.Radius = randomGenerator.Next(1, SharedDef.MAX_SPHERE_RADIUS);
 
             SingularityControl sc = new SingularityControl();
             sc.Speed = plrdata.GetMineGrowthSpeed();
@@ -107,8 +104,6 @@ namespace Orbit.Core.Scene
                 EllipseGeometry geom = new EllipseGeometry(point, mine.Radius, mine.Radius);
                 Path path = new Path();
                 path.Data = geom;
-                //path.Fill = new RadialGradientBrush(s.Color, Color.FromArgb(0x80, s.Color.R, s.Color.G, s.Color.B));
-                //path.Stroke = Brushes.Black;
                 mine.SetGeometry(path);
             }));
 
