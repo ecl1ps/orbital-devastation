@@ -9,6 +9,8 @@ using System.Windows;
 using System.Windows.Threading;
 using System.Windows.Shapes;
 using Orbit.Core.Scene.Controls;
+using System.Windows.Media.Imaging;
+using System.Windows.Controls;
 
 namespace Orbit.Core.Scene
 {
@@ -33,15 +35,7 @@ namespace Orbit.Core.Scene
             lc.Speed = randomGenerator.Next(SharedDef.MIN_SPHERE_SPEED * 10, SharedDef.MAX_SPHERE_SPEED * 10) / 10.0f;
             s.AddControl(lc);
 
-            SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
-            {
-                EllipseGeometry geom = new EllipseGeometry(s.GetPosition().ToPoint(), s.Radius, s.Radius);
-                Path path = new Path();
-                path.Data = geom;
-                path.Fill = new RadialGradientBrush(s.Color, Color.FromArgb(0x80, s.Color.R, s.Color.G, s.Color.B));
-                path.Stroke = Brushes.Black;
-                s.SetGeometry(path);
-            }));
+            s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s));
 
             return s;
         }
@@ -59,17 +53,7 @@ namespace Orbit.Core.Scene
             baze.Size = new Size(SceneMgr.GetInstance().ViewPortSizeOriginal.Width * 0.3, 
                                  SceneMgr.GetInstance().ViewPortSizeOriginal.Height * 0.15);
 
-            Rect rec = new Rect(baze.GetPosition().X, baze.GetPosition().Y, baze.Size.Width, baze.Size.Height);
-
-            SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
-            {
-                RectangleGeometry geom = new RectangleGeometry(rec);
-                Path path = new Path();
-                path.Data = geom;
-                path.Fill = new LinearGradientBrush(baze.Color, Colors.Black, 90.0);
-                path.Stroke = Brushes.Black;
-                baze.SetGeometry(path);
-            }));
+            baze.SetGeometry(SceneGeometryFactory.CreateLinearGradientRectangleGeometry(baze));
 
             return baze;
         }
@@ -83,6 +67,12 @@ namespace Orbit.Core.Scene
             s.SetPosition(new Vector(s.IsHeadingRight ? (int)(-s.Radius) : (int)(actionArea.Width + s.Radius),
                 SceneMgr.GetInstance().GetRandomGenerator().Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius))));
 
+            SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
+            {
+                Canvas.SetLeft(s.GetGeometry(), s.GetPosition().X - s.Radius);
+                Canvas.SetTop(s.GetGeometry(), s.GetPosition().Y - s.Radius);
+            }));
+
             return s;
         }
 
@@ -92,20 +82,14 @@ namespace Orbit.Core.Scene
             SingularityMine mine = new SingularityMine();
             mine.Setid(IdMgr.GetNewId());
             mine.SetPosition(point.ToVector());
-            mine.Radius = randomGenerator.Next(1, SharedDef.MAX_SPHERE_RADIUS);
+            //mine.Radius = randomGenerator.Next(1, SharedDef.MAX_SPHERE_RADIUS);
 
             SingularityControl sc = new SingularityControl();
             sc.Speed = plrdata.GetMineGrowthSpeed();
             sc.Strength = plrdata.GetMineStrength();
             mine.AddControl(sc);
 
-            SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
-            {
-                EllipseGeometry geom = new EllipseGeometry(point, mine.Radius, mine.Radius);
-                Path path = new Path();
-                path.Data = geom;
-                mine.SetGeometry(path);
-            }));
+            mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
 
             return mine;
         }

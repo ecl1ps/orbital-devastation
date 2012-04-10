@@ -72,6 +72,7 @@
     <Compile Include="Core\CollisionHelper.cs" />
     <Compile Include="Core\ExtensionMethods.cs" />
     <Compile Include="Core\Player\PlayerData.cs" />
+    <Compile Include="Core\Scene\SceneGeometryFactory.cs" />
     <Compile Include="Core\Scene\SceneObjectFactory.cs" />
     <Compile Include="Gui\GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
@@ -116,7 +117,10 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="resources\images\asteroid.jpg" />
+    <Resource Include="resources\images\asteroid.png" />
+  </ItemGroup>
   <ItemGroup>
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
