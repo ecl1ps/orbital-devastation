@@ -3,6 +3,7 @@ using System.Windows;
 using Orbit.Core.Scene.Controls;
 using System.Windows.Threading;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -48,11 +49,11 @@ namespace Orbit.Core.Scene.Entities
             if (!IsVisible)
                 return;
 
-            path.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, new Action(() =>
+            geometryElement.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, new Action(() =>
             {
-                (path.Data as EllipseGeometry).RadiusX = Radius;
-                (path.Data as EllipseGeometry).RadiusY = Radius;
-                path.Stroke = Brushes.Black;
+                ((geometryElement as Path).Data as EllipseGeometry).RadiusX = Radius;
+                ((geometryElement as Path).Data as EllipseGeometry).RadiusY = Radius;
+                (geometryElement as Path).Stroke = Brushes.Black;
             }));
         }
     }

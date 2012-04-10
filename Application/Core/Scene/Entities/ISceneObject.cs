@@ -13,9 +13,9 @@ namespace Orbit.Core.Scene.Entities
 
         void Setid(long id);
 
-        void SetGeometry(Path path);
+        void SetGeometry(UIElement geometryElement);
 
-        Path GetGeometry();
+        UIElement GetGeometry();
 
         Vector GetPosition();
 

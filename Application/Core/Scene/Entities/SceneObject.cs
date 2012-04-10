@@ -11,7 +11,7 @@ namespace Orbit.Core.Scene.Entities
         protected IList<IControl> controls;
         protected long id;
         protected Vector position;
-        protected Path path;
+        protected UIElement geometryElement;
         protected bool isDead;
 
         public SceneObject()
@@ -85,14 +85,14 @@ namespace Orbit.Core.Scene.Entities
             this.id = id;
         }
 
-        public void SetGeometry(Path path)
+        public void SetGeometry(UIElement geometryElement)
         {
-            this.path = path;
+            this.geometryElement = geometryElement;
         }
 
-        public Path GetGeometry()
+        public UIElement GetGeometry()
         {
-            return path;
+            return geometryElement;
         }
 
         public void DoRemoveMe()

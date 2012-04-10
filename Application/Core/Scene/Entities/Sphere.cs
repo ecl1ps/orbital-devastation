@@ -3,6 +3,7 @@ using System.Windows.Media;
 using System.Windows;
 using System.Windows.Threading;
 using System.Windows.Controls;
+using System.Windows.Shapes;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -37,20 +38,19 @@ namespace Orbit.Core.Scene.Entities
 
         public void DoCollideWith(ICollidable other)
         {
-            if (other is Sphere)
-                ;
-            else
+            if (!(other is Sphere))
                 DoRemoveMe();
         }
 
         public override void UpdateGeometric()
         {
-            path.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, (Action)(delegate 
+            geometryElement.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, (Action)(delegate 
             {
-                (path.Data as EllipseGeometry).Center = position.ToPoint();
-                (path.Data as EllipseGeometry).RadiusX = Radius;
-                (path.Data as EllipseGeometry).RadiusY = Radius;
+                Canvas.SetLeft(geometryElement, position.X - Radius);
+                Canvas.SetTop(geometryElement, position.Y - Radius);
+                (geometryElement as Image).Width = Radius * 2;
             }));
+
         }
 
         public override bool IsOnScreen(Size screenSize)
