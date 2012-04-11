@@ -29,11 +29,15 @@ namespace Orbit.Core.Scene
             s.SetPosition(new Vector(randomGenerator.Next((int)(actionArea.X + s.Radius), (int)(actionArea.Width - s.Radius)),
                 randomGenerator.Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius))));
             s.Color = Color.FromRgb((byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255));
+            s.SetRotation(SceneMgr.GetInstance().GetRandomGenerator().Next(360));
 
+            LinearMovementControl lmc = new LinearMovementControl();
+            lmc.Speed = randomGenerator.Next(SharedDef.MIN_SPHERE_SPEED * 10, SharedDef.MAX_SPHERE_SPEED * 10) / 10.0f;
+            s.AddControl(lmc);
 
-            LinearMovementControl lc = new LinearMovementControl();
-            lc.Speed = randomGenerator.Next(SharedDef.MIN_SPHERE_SPEED * 10, SharedDef.MAX_SPHERE_SPEED * 10) / 10.0f;
-            s.AddControl(lc);
+            LinearRotationControl lrc = new LinearRotationControl();
+            lrc.RotationSpeed = randomGenerator.Next(SharedDef.MIN_SPHERE_ROTATION_SPEED, SharedDef.MAX_SPHERE_ROTATION_SPEED) / 10.0f;
+            s.AddControl(lrc);
 
             s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s));
 

@@ -8,10 +8,11 @@ using System.Windows.Shapes;
 namespace Orbit.Core.Scene.Entities
 {
 
-    public class Sphere : SceneObject, IMovable, ICollidable
+    public class Sphere : SceneObject, IMovable, ICollidable, IRotable
     {
         public Color Color { get; set; }
         private Vector direction;
+        private int rotation;
         public int Radius { get; set; }
         public bool IsHeadingRight { get; set; }
 
@@ -49,6 +50,7 @@ namespace Orbit.Core.Scene.Entities
                 Canvas.SetLeft(geometryElement, position.X - Radius);
                 Canvas.SetTop(geometryElement, position.Y - Radius);
                 (geometryElement as Image).Width = Radius * 2;
+                (geometryElement as Image).RenderTransform = new RotateTransform(GetRotation());
             }));
 
         }
@@ -67,6 +69,16 @@ namespace Orbit.Core.Scene.Entities
         public override void OnRemove()
         {
             SceneMgr.GetInstance().AttachToScene(SceneObjectFactory.CreateNewSphereOnEdge(this));
+        }
+
+        public int GetRotation()
+        {
+            return rotation;
+        }
+
+        public void SetRotation(int angle)
+        {
+            this.rotation = angle;
         }
     }
 

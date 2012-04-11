@@ -72,6 +72,8 @@
     <Compile Include="Core\CollisionHelper.cs" />
     <Compile Include="Core\ExtensionMethods.cs" />
     <Compile Include="Core\Player\PlayerData.cs" />
+    <Compile Include="Core\Scene\Controls\LinearRotationControl.cs" />
+    <Compile Include="Core\Scene\Entities\IRotable.cs" />
     <Compile Include="Core\Scene\SceneGeometryFactory.cs" />
     <Compile Include="Core\Scene\SceneObjectFactory.cs" />
     <Compile Include="Gui\GameWindow.xaml.cs">
@@ -118,7 +120,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\images\asteroid.jpg" />
     <Resource Include="resources\images\asteroid.png" />
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +131,32 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\images\rock\Rock1_SR.png" />
+    <Resource Include="resources\images\rock\Rock2_SR.png" />
+    <Resource Include="resources\images\rock\Rock3_SR.png" />
+    <Resource Include="resources\images\rock\Rock4_SR.png" />
+    <Resource Include="resources\images\rock\Rock5_SR.png" />
+    <Resource Include="resources\images\rock\Rock6_SR.png" />
+    <Resource Include="resources\images\rock\Rock7_SR.png" />
+    <Resource Include="resources\images\rock\Rock8_SR.png" />
+    <Resource Include="resources\images\rock\Rock9_SR.png" />
+    <Resource Include="resources\images\rock\Rock10_SR.png" />
+    <Resource Include="resources\images\rock\Rock11_SR.png" />
+    <Resource Include="resources\images\rock\Rock12_SR.png" />
+    <Resource Include="resources\images\rock\Rock13_SR.png" />
+    <Resource Include="resources\images\rock\Rock14_SR.png" />
+    <Resource Include="resources\images\rock\Rock15_SR.png" />
+    <Resource Include="resources\images\rock\Rock16_SR.png" />
+    <Resource Include="resources\images\rock\Rock17_SR.png" />
+    <Resource Include="resources\images\rock\Stone01_SR.png" />
+    <Resource Include="resources\images\rock\Stone02_SR.png" />
+    <Resource Include="resources\images\rock\Stone03_SR.png" />
+    <Resource Include="resources\images\rock\Stone04_SR.png" />
+    <Resource Include="resources\images\rock\Stone06_SR.png" />
+    <Resource Include="resources\images\rock\Stone07_SR.png" />
+    <Resource Include="resources\images\rock\Stone05_SR.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

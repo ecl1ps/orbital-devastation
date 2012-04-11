@@ -36,11 +36,24 @@ namespace Orbit.Core.Scene
             Image img = null;
             SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
             {
-                BitmapImage bi = new BitmapImage(new Uri("pack://application:,,,/resources/images/asteroid.png"));
+                /*BitmapImage bi = new BitmapImage();
+                bi.BeginInit();
+                bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/Stone0" +
+                    SceneMgr.GetInstance().GetRandomGenerator().Next(1, 8) + "_SR.png");
+                bi.DecodePixelWidth = s.Radius * 4;
+                bi.EndInit();*/
+
+                BitmapImage bi = new BitmapImage();
+                bi.BeginInit();
+                bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/Rock" + 
+                    SceneMgr.GetInstance().GetRandomGenerator().Next(1, 18) + "_SR.png");
+                bi.DecodePixelWidth = s.Radius * 4;
+                bi.EndInit();
+
                 img = new Image();
                 img.Source = bi;
                 img.Width = s.Radius * 2;
-                img.RenderTransform = new RotateTransform(SceneMgr.GetInstance().GetRandomGenerator().Next(360));
+                img.RenderTransform = new RotateTransform(s.GetRotation());
                 img.RenderTransformOrigin = new Point(0.5, 0.5);
                 Canvas.SetLeft(img, s.GetPosition().X - s.Radius);
                 Canvas.SetTop(img, s.GetPosition().Y - s.Radius);
