@@ -26,7 +26,7 @@ namespace Orbit.Core.Scene.Controls
             if (meMovable == null)
                 return;
 
-            me.SetPosition(me.GetPosition() + (meMovable.GetDirection() * Speed));
+            me.SetPosition(me.GetPosition() + (meMovable.GetDirection() * Speed * tpf));
         }
     }
 }
