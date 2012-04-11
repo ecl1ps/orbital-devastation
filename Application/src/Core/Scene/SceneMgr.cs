@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Collections.Concurrent;
+using Lidgren.Network;
 
 namespace Orbit.Core.Scene
 {
@@ -20,8 +21,7 @@ namespace Orbit.Core.Scene
         private Canvas canvas;
         private bool isServer;
         private volatile bool shouldQuit;
-        //private NetServer server;
-        //private NetClient client;
+        private NetPeer peer;
         private IList<ISceneObject> objects;
         private IList<ISceneObject> objectsToRemove;
         private Dictionary<PlayerPosition, PlayerData> playerData;
@@ -31,7 +31,6 @@ namespace Orbit.Core.Scene
         private Random randomGenerator;
         public Size ViewPortSizeOriginal { get; set; }
         public Size ViewPortSize { get; set; }
-        //private int isStarted;
         private ConcurrentQueue<Action> synchronizedQueue;
 
         private static SceneMgr sceneMgr;
@@ -79,11 +78,47 @@ namespace Orbit.Core.Scene
 
             InitPlayerData();
 
+            InitNetwork();
+
             Sphere s;
             for (int i = 0; i < SharedDef.SPHERE_COUNT; ++i)
             {
                 s = SceneObjectFactory.CreateNewRandomSphere(i % 2 == 0);
                 AttachToScene(s);
+            }
+        }
+
+        private void InitNetwork()
+        {
+            NetPeerConfiguration conf = new NetPeerConfiguration("Orbit");
+            conf.Port = 61111;
+            peer = new NetPeer(conf);
+            peer.Start();
+
+            if (!isServer)
+            {
+                peer.Connect("localhost", conf.Port);
+            }
+        }
+
+        private void ProcessMessages()
+        {
+            NetIncomingMessage msg;
+            while ((msg = peer.ReadMessage()) != null)
+            {
+                switch (msg.MessageType)
+                {
+                    case NetIncomingMessageType.VerboseDebugMessage:
+                    case NetIncomingMessageType.DebugMessage:
+                    case NetIncomingMessageType.WarningMessage:
+                    case NetIncomingMessageType.ErrorMessage:
+                        Console.WriteLine(msg.ReadString());
+                        break;
+                    default:
+                        Console.WriteLine("Unhandled message type: " + msg.MessageType);
+                        break;
+                }
+                peer.Recycle(msg);
             }
         }
 
@@ -201,6 +236,8 @@ namespace Orbit.Core.Scene
 
         public void Update(float tpf)
         {
+            ProcessMessages();
+
             ProcessActionQueue();
 
             UpdateSceneObjects(tpf);
