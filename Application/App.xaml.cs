@@ -42,14 +42,14 @@ namespace Orbit
         {
             GameWindow wnd = MainWindow as GameWindow;
             sceneMgr = SceneMgr.GetInstance();
-            sceneMgr.SetCanvas(wnd.mainCanvas, wnd.actionArea);
+            sceneMgr.SetCanvas(wnd.mainCanvas);
             sceneMgr.Init();
         }
 
         public void StartHostedGame()
         {
             InitScene();
-            sceneMgr.SetAsServer(true);
+            sceneMgr.SetIsServer(true);
         }
 
         public void ConnectToGame()
@@ -66,6 +66,12 @@ namespace Orbit
         public SceneMgr GetSceneMgr()
         {
             return sceneMgr;
+        }
+
+        public void GameEnded()
+        {
+            sceneMgr.Init();
+            StartGameThread();
         }
     }
 }

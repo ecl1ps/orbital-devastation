@@ -51,11 +51,11 @@ namespace Orbit.Gui
         private void OnCanvasMouseClick(object sender, MouseButtonEventArgs e)
         {
             Point p = e.GetPosition(mainCanvas);
-            if (p.Y <= actionArea.Height)
-                SceneMgr.GetInstance().Enqueue(new Action(() =>
-                {
-                    SceneMgr.GetInstance().OnActionAreaClick(p);
-                }));
+
+            SceneMgr.GetInstance().Enqueue(new Action(() =>
+            {
+                SceneMgr.GetInstance().OnCanvasClick(p);
+            }));
         }
 
     }

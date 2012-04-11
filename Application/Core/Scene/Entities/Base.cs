@@ -41,7 +41,7 @@ namespace Orbit.Core.Scene.Entities
                 Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(SceneMgr.GetInstance().GetCanvas(),
                     BasePosition == PlayerPosition.LEFT ? "lblIntegrityLeft" : "lblIntegrityRight");
                 if (lbl != null)
-                    lbl.Content = Integrity + "%";
+                    lbl.Content = (float)Integrity / (float)SharedDef.BASE_MAX_INGERITY * 100.0f + "%";
             }));
         }
 

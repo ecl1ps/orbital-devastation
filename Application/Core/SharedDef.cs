@@ -3,6 +3,8 @@ namespace Orbit.Core
 {
     class SharedDef
     {
+        public const long MINIMUM_UPDATE_TIME       = 30;
+
         public const int MIN_SPHERE_RADIUS          = 10;
         public const int MAX_SPHERE_RADIUS          = 30;
 

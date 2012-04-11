@@ -31,7 +31,6 @@ namespace Orbit.Core.Scene
         private Random randomGenerator;
         public Size ViewPortSizeOriginal { get; set; }
         public Size ViewPortSize { get; set; }
-        private const long MINIMUM_UPDATE_TIME = 30;
         //private int isStarted;
         private ConcurrentQueue<Action> synchronizedQueue;
 
@@ -50,6 +49,10 @@ namespace Orbit.Core.Scene
 
         private SceneMgr()
         {
+        }
+
+        public void Init()
+        {
             shouldQuit = false;
             objects = new List<ISceneObject>();
             objectsToRemove = new List<ISceneObject>();
@@ -58,10 +61,22 @@ namespace Orbit.Core.Scene
             secondPlayer = firstPlayer == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
             playerData = new Dictionary<PlayerPosition, IPlayerData>(2);
             synchronizedQueue = new ConcurrentQueue<Action>();
-        }
 
-        public void Init()
-        {
+            GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
+            {
+                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(GetCanvas(), "lblEndGame");
+                if (lbl != null)
+                    lbl.Content = "";
+
+                Label lbl1 = (Label)LogicalTreeHelper.FindLogicalNode(GetCanvas(), "lblIntegrityLeft");
+                if (lbl1 != null)
+                    lbl1.Content = 100 + "%";
+
+                Label lbl2 = (Label)LogicalTreeHelper.FindLogicalNode(GetCanvas(), "lblIntegrityRight");
+                if (lbl2 != null)
+                    lbl2.Content = 100 + "%";
+            }));
+
             InitPlayerData();
 
             Sphere s;
@@ -72,10 +87,31 @@ namespace Orbit.Core.Scene
             }
         }
 
+        private void EndGame(IPlayerData winner)
+        {
+            PlayerWon(winner);
+            RequestStop();
+
+            Thread.Sleep(3000);
+
+            CleanUp();
+        }
+
+        private void CleanUp()
+        {
+            objectsToRemove.Clear();
+
+            GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
+            {
+                foreach (ISceneObject obj in objects)
+                    canvas.Children.Remove(obj.GetGeometry());
+            }));
+        }
+
         public void AttachToScene(ISceneObject obj)
         {
             objects.Add(obj);
-            canvas.Dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() =>
+            GetUIDispatcher().BeginInvoke(DispatcherPriority.Send, new Action(() =>
             {
                 canvas.Children.Add(obj.GetGeometry());
             }));
@@ -141,13 +177,15 @@ namespace Orbit.Core.Scene
 
                 //Console.Out.WriteLine(tpf + ": " +sw.ElapsedMilliseconds);
 
-		        if (sw.ElapsedMilliseconds < MINIMUM_UPDATE_TIME) 
+		        if (sw.ElapsedMilliseconds < SharedDef.MINIMUM_UPDATE_TIME) 
                 {
-				    Thread.Sleep((int)(MINIMUM_UPDATE_TIME - sw.ElapsedMilliseconds));
+                    Thread.Sleep((int)(SharedDef.MINIMUM_UPDATE_TIME - sw.ElapsedMilliseconds));
 		        }
             }
 
-            sw.Stop();                
+            sw.Stop();
+            if (Application.Current != null)
+                (Application.Current as App).GameEnded();    
         }
 
         public void RequestStop()
@@ -157,13 +195,12 @@ namespace Orbit.Core.Scene
 
         public void Enqueue(Action act)
         {
-            synchronizedQueue.Enqueue(act);
+            if (!shouldQuit)
+                synchronizedQueue.Enqueue(act);
         }
 
         public void Update(float tpf)
         {
-            CheckPlayerStates();
-
             ProcessActionQueue();
 
             UpdateSceneObjects(tpf);
@@ -173,6 +210,8 @@ namespace Orbit.Core.Scene
             RemoveObjectsMarkedForRemoval();
 
             UpdateGeomtricState();
+
+            CheckPlayerStates();
         }
 
         private void ProcessActionQueue()
@@ -239,11 +278,11 @@ namespace Orbit.Core.Scene
             return data;
         }
 
-        public void SetCanvas(Canvas canvas, Rectangle actionRect)
+        public void SetCanvas(Canvas canvas)
         {
             this.canvas = canvas;
             ViewPortSizeOriginal = new Size(canvas.Width, canvas.Height);
-            actionArea = new Rect(0, 0, actionRect.Width, actionRect.Height);
+            actionArea = new Rect(0, 0, canvas.Width, canvas.Height / 3);
         }
 
         public Canvas GetCanvas()
@@ -259,13 +298,13 @@ namespace Orbit.Core.Scene
         public void OnViewPortChange(Size size)
         {
             ViewPortSize = size;
-            canvas.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+            GetUIDispatcher().BeginInvoke(DispatcherPriority.Normal, new Action(() =>
             {
                 canvas.RenderTransform = new ScaleTransform(size.Width / ViewPortSizeOriginal.Width, size.Height / ViewPortSizeOriginal.Height);
             }));
         }
 
-        public void SetAsServer(bool isServer)
+        public void SetIsServer(bool isServer)
         {
             this.isServer = isServer;
         }
@@ -280,7 +319,7 @@ namespace Orbit.Core.Scene
             return randomGenerator;
         }
 
-        public void OnActionAreaClick(Point point)
+        public void OnCanvasClick(Point point)
         {
             AttachToScene(SceneObjectFactory.CreateSingularityMine(point, GetPlayerData(firstPlayer)));
         }
@@ -293,15 +332,9 @@ namespace Orbit.Core.Scene
                 EndGame(GetPlayerData(firstPlayer));
         }
 
-        private void EndGame(IPlayerData winner)
-        {
-            PlayerWon(winner);
-            RequestStop();
-        }
-
         private void PlayerWon(IPlayerData winner)
         {
-            GetUIDispatcher().BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            GetUIDispatcher().Invoke(DispatcherPriority.Render, new Action(() =>
             {
                 Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(GetCanvas(), "lblEndGame");
                 if (lbl != null)
