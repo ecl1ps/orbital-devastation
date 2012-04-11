@@ -134,10 +134,12 @@ namespace Orbit.Core.Scene
             while (!shouldQuit)
             {
                 tpf = sw.ElapsedMilliseconds / 1000.0f;
+                
                 sw.Restart();
-                Update(tpf);
+                if (tpf > 0.001)
+                    Update(tpf);
 
-                //Console.Out.WriteLine(sw.ElapsedMilliseconds);
+                //Console.Out.WriteLine(tpf + ": " +sw.ElapsedMilliseconds);
 
 		        if (sw.ElapsedMilliseconds < MINIMUM_UPDATE_TIME) 
                 {
@@ -230,7 +232,7 @@ namespace Orbit.Core.Scene
             {
                 playerData.TryGetValue(pos, out data);
             }
-            catch (ArgumentNullException e)
+            catch (ArgumentNullException /*e*/)
             {
                 Console.Error.WriteLine("GetPlayerData() - position cannot be null");
             }

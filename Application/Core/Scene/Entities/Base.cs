@@ -31,7 +31,7 @@ namespace Orbit.Core.Scene.Entities
         {
             if (other is Sphere)
             {
-                Integrity -= (other as Sphere).Radius / 3;
+                Integrity -= (other as Sphere).Radius / 2;
                 if (Integrity < 0)
                     Integrity = 0;
             }
