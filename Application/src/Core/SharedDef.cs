@@ -16,14 +16,14 @@ namespace Orbit.Core
 
         public const int SPHERE_COUNT               = 25;
 
-        public const int BASE_MAX_INGERITY          = 100;
+        public const int BASE_MAX_INGERITY          = 1;
 
         public const float MINE_INVISIBILITY_TIME   = 0.5f;
         public const float MINE_LIFE_TIME           = 0.5f;
 
         public const float MINE_GROWTH_SPEED        = 1f;
         public const float MINE_STRENGTH            = 1f;
-        public const int MINE_COOLDOWN              = 1000;
+        public const int MINE_COOLDOWN              = 200;
 
     }
 }

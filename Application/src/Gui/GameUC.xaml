@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="Orbit.Gui.GameUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             KeyDown="OnKeyDown">
+    
+    <Grid SizeChanged="WindowSizeChanged" MinWidth="400" MinHeight="300">
+        <Canvas x:Name="mainCanvas" Height="600" Width="800" HorizontalAlignment="Left" VerticalAlignment="Top" Background="White" MouseDown="OnCanvasMouseClick">
+            <Label Canvas.Left="170" Canvas.Top="520" Height="40" Name="lblIntegrityLeft" Width="60" Panel.ZIndex="100" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">100%</Label>
+            <Label Canvas.Left="570" Canvas.Top="520" Height="40" Name="lblIntegrityRight" Width="60" Panel.ZIndex="100" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">100%</Label>
+            <Label Canvas.Left="250" Canvas.Top="270" Height="60" Name="lblEndGame" Width="300" Panel.ZIndex="100" FontSize="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Purple" FontFamily="Tempus Sans ITC"></Label>
+        </Canvas>
+    </Grid>
+    
+</UserControl>

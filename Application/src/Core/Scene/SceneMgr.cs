@@ -20,6 +20,7 @@ namespace Orbit.Core.Scene
     {
         private Canvas canvas;
         private bool isServer;
+        private bool isInitialized;
         private volatile bool shouldQuit;
         private NetPeer peer;
         private IList<ISceneObject> objects;
@@ -48,10 +49,12 @@ namespace Orbit.Core.Scene
 
         private SceneMgr()
         {
+            isInitialized = false;
         }
 
         public void Init()
         {
+            isInitialized = false;
             shouldQuit = false;
             objects = new List<ISceneObject>();
             objectsToRemove = new List<ISceneObject>();
@@ -86,6 +89,8 @@ namespace Orbit.Core.Scene
                 s = SceneObjectFactory.CreateNewRandomSphere(i % 2 == 0);
                 AttachToScene(s);
             }
+
+            isInitialized = true;
         }
 
         private void InitNetwork()
@@ -134,6 +139,12 @@ namespace Orbit.Core.Scene
 
         private void CleanUp()
         {
+            if (peer != null && peer.Status != NetPeerStatus.NotRunning)
+            {
+                peer.Shutdown("Peer closed connection");
+                Thread.Sleep(10); // networking threadu chvili trva ukonceni
+            }
+
             objectsToRemove.Clear();
 
             GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
@@ -230,7 +241,7 @@ namespace Orbit.Core.Scene
 
         public void Enqueue(Action act)
         {
-            if (!shouldQuit)
+            if (!shouldQuit && isInitialized)
                 synchronizedQueue.Enqueue(act);
         }
 

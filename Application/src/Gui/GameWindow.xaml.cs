@@ -11,12 +11,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Orbit.Core.Scene;
 
 namespace Orbit.Gui
 {
     /// <summary>
-    /// Interaction logic for GameWindow.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class GameWindow : Window
     {
@@ -28,34 +27,6 @@ namespace Orbit.Gui
         private void OnClose(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Application.Current.Shutdown();
-        }
-
-        private void OnKeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.Key)
-            {
-                case Key.Escape:
-                    Application.Current.Shutdown();
-                    break;
-            }
-        }
-
-        private void WindowSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            SceneMgr.GetInstance().Enqueue(new Action(() =>
-            {
-                SceneMgr.GetInstance().OnViewPortChange(e.NewSize);
-            }));
-        }
-
-        private void OnCanvasMouseClick(object sender, MouseButtonEventArgs e)
-        {
-            Point p = e.GetPosition(mainCanvas);
-
-            SceneMgr.GetInstance().Enqueue(new Action(() =>
-            {
-                SceneMgr.GetInstance().OnCanvasClick(p);
-            }));
         }
 
     }

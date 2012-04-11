@@ -9,6 +9,7 @@ using Orbit.Core.Scene;
 using Orbit.Gui;
 using System.Threading;
 using System.ComponentModel;
+using System.Windows.Controls;
 
 namespace Orbit
 {
@@ -29,21 +30,24 @@ namespace Orbit
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            //MainWindow.Content = new GameUC();
             StartHostedGame();
-            StartGameThread();
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
-            sceneMgr.RequestStop();
+            if (sceneMgr != null)
+                sceneMgr.RequestStop();
         }
 
-        public void InitScene()
+        private void InitScene()
         {
-            GameWindow wnd = MainWindow as GameWindow;
+            MainWindow.Content = new GameUC();
             sceneMgr = SceneMgr.GetInstance();
-            sceneMgr.SetCanvas(wnd.mainCanvas);
+            sceneMgr.SetCanvas((Canvas)LogicalTreeHelper.FindLogicalNode(MainWindow, "mainCanvas"));
             sceneMgr.Init();
+
+            StartGameThread();
         }
 
         public void StartHostedGame()
@@ -57,7 +61,7 @@ namespace Orbit
             throw new Exception("Not implemented");
         }
 
-        public void StartGameThread()
+        private void StartGameThread()
         {
             Thread gameThread = new Thread(new ThreadStart(sceneMgr.Run));
             gameThread.Start();
