@@ -120,9 +120,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\images\asteroid.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
