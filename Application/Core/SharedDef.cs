@@ -23,5 +23,7 @@ namespace Orbit.Core
 
         public const float MINE_GROWTH_SPEED        = 1f;
         public const float MINE_STRENGTH            = 1f;
+        public const int MINE_COOLDOWN              = 1000;
+
     }
 }

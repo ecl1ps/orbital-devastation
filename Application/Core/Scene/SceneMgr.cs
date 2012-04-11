@@ -24,7 +24,7 @@ namespace Orbit.Core.Scene
         //private NetClient client;
         private IList<ISceneObject> objects;
         private IList<ISceneObject> objectsToRemove;
-        private Dictionary<PlayerPosition, IPlayerData> playerData;
+        private Dictionary<PlayerPosition, PlayerData> playerData;
         private PlayerPosition firstPlayer;
         private PlayerPosition secondPlayer;
         private Rect actionArea;
@@ -59,7 +59,7 @@ namespace Orbit.Core.Scene
             randomGenerator = new Random(Environment.TickCount);
             firstPlayer = randomGenerator.Next(2) == 0 ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
             secondPlayer = firstPlayer == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
-            playerData = new Dictionary<PlayerPosition, IPlayerData>(2);
+            playerData = new Dictionary<PlayerPosition, PlayerData>(2);
             synchronizedQueue = new ConcurrentQueue<Action>();
 
             GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
@@ -87,7 +87,7 @@ namespace Orbit.Core.Scene
             }
         }
 
-        private void EndGame(IPlayerData winner)
+        private void EndGame(PlayerData winner)
         {
             PlayerWon(winner);
             RequestStop();
@@ -264,9 +264,9 @@ namespace Orbit.Core.Scene
             }
         }
 
-        public IPlayerData GetPlayerData(PlayerPosition pos)
+        public PlayerData GetPlayerData(PlayerPosition pos)
         {
-            IPlayerData data = null;
+            PlayerData data = null;
             try
             {
                 playerData.TryGetValue(pos, out data);
@@ -321,7 +321,11 @@ namespace Orbit.Core.Scene
 
         public void OnCanvasClick(Point point)
         {
-            AttachToScene(SceneObjectFactory.CreateSingularityMine(point, GetPlayerData(firstPlayer)));
+            if (GetPlayerData(firstPlayer).IsMineReady())
+            {
+                GetPlayerData(firstPlayer).UseMine();
+                AttachToScene(SceneObjectFactory.CreateSingularityMine(point, GetPlayerData(firstPlayer)));
+            }
         }
 
         private void CheckPlayerStates()
@@ -332,7 +336,7 @@ namespace Orbit.Core.Scene
                 EndGame(GetPlayerData(firstPlayer));
         }
 
-        private void PlayerWon(IPlayerData winner)
+        private void PlayerWon(PlayerData winner)
         {
             GetUIDispatcher().Invoke(DispatcherPriority.Render, new Action(() =>
             {

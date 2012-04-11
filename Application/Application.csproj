@@ -91,7 +91,6 @@
     <Compile Include="Core\Scene\Entities\SceneObject.cs" />
     <Compile Include="Core\Scene\Entities\SingularityMine.cs" />
     <Compile Include="Core\Scene\Entities\Sphere.cs" />
-    <Compile Include="Core\Player\IPlayerData.cs" />
     <Compile Include="Core\Player\PlayerPosition.cs" />
     <Compile Include="Core\IdMgr.cs" />
     <Compile Include="Core\Scene\SceneMgr.cs" />

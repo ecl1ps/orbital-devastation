@@ -80,7 +80,7 @@ namespace Orbit.Core.Scene
             return s;
         }
 
-        public static SingularityMine CreateSingularityMine(Point point, IPlayerData plrdata)
+        public static SingularityMine CreateSingularityMine(Point point, PlayerData plrdata)
         {
             Random randomGenerator = SceneMgr.GetInstance().GetRandomGenerator();
             SingularityMine mine = new SingularityMine();
