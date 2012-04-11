@@ -231,7 +231,10 @@ namespace Orbit.Core.Scene
 
             sw.Stop();
             if (Application.Current != null)
-                (Application.Current as App).GameEnded();    
+                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    (Application.Current as App).GameEnded();
+                }));
         }
 
         public void RequestStop()

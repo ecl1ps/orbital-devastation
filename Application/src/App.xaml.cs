@@ -30,8 +30,7 @@ namespace Orbit
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            //MainWindow.Content = new GameUC();
-            StartHostedGame();
+            MainWindow.Content = new OptionsUC();
         }
 
         protected override void OnExit(ExitEventArgs e)
@@ -40,7 +39,7 @@ namespace Orbit
                 sceneMgr.RequestStop();
         }
 
-        private void InitScene()
+        public void StartGame()
         {
             MainWindow.Content = new GameUC();
             sceneMgr = SceneMgr.GetInstance();
@@ -52,7 +51,7 @@ namespace Orbit
 
         public void StartHostedGame()
         {
-            InitScene();
+            StartGame();
             sceneMgr.SetIsServer(true);
         }
 
@@ -74,8 +73,7 @@ namespace Orbit
 
         public void GameEnded()
         {
-            sceneMgr.Init();
-            StartGameThread();
+            MainWindow.Content = new OptionsUC();
         }
     }
 }
