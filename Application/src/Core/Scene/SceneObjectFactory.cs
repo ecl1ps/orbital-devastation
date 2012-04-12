@@ -18,7 +18,7 @@ namespace Orbit.Core.Scene
     {
         public static Sphere CreateNewRandomSphere(bool headingRight)
         {
-            Rect actionArea = SceneMgr.GetInstance().GetActionArea();
+            Rect actionArea = SceneMgr.GetInstance().GetOrbitArea();
             Random randomGenerator = SceneMgr.GetInstance().GetRandomGenerator();
             Sphere s = new Sphere();
             s.Setid(IdMgr.GetNewId());
@@ -31,9 +31,13 @@ namespace Orbit.Core.Scene
             s.Color = Color.FromRgb((byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255));
             s.SetRotation(SceneMgr.GetInstance().GetRandomGenerator().Next(360));
 
-            LinearMovementControl lmc = new LinearMovementControl();
+            /*LinearMovementControl lmc = new LinearMovementControl();
             lmc.Speed = randomGenerator.Next(SharedDef.MIN_SPHERE_SPEED * 10, SharedDef.MAX_SPHERE_SPEED * 10) / 10.0f;
-            s.AddControl(lmc);
+            s.AddControl(lmc);*/
+
+            NewtonianMovementControl nmc = new NewtonianMovementControl();
+            nmc.Speed = randomGenerator.Next(SharedDef.MIN_SPHERE_SPEED * 10, SharedDef.MAX_SPHERE_SPEED * 10) / 10.0f;
+            s.AddControl(nmc);
 
             LinearRotationControl lrc = new LinearRotationControl();
             lrc.RotationSpeed = randomGenerator.Next(SharedDef.MIN_SPHERE_ROTATION_SPEED, SharedDef.MAX_SPHERE_ROTATION_SPEED) / 10.0f;
@@ -66,7 +70,7 @@ namespace Orbit.Core.Scene
         {
             Sphere s = CreateNewRandomSphere(oldSphere.IsHeadingRight);
 
-            Rect actionArea = SceneMgr.GetInstance().GetActionArea();
+            Rect actionArea = SceneMgr.GetInstance().GetOrbitArea();
 
             s.SetPosition(new Vector(s.IsHeadingRight ? (int)(-s.Radius) : (int)(actionArea.Width + s.Radius),
                 SceneMgr.GetInstance().GetRandomGenerator().Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius))));
