@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Orbit.Core;
 
 namespace Orbit.Gui
 {
@@ -26,12 +27,12 @@ namespace Orbit.Gui
 
         private void btnSinglePlayer_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).StartGame();
+            (Application.Current as App).StartGame(Gametype.SKIRMISH);
         }
 
         private void btnHostNewGame_Click(object sender, RoutedEventArgs e)
         {
-
+            (Application.Current as App).StartGame(Gametype.HOSTED_GAME);
         }
 
         private void btnFindHostedGame_Click(object sender, RoutedEventArgs e)

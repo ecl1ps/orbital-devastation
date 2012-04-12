@@ -16,23 +16,13 @@ using Orbit.Core.Scene;
 namespace Orbit.Gui
 {
     /// <summary>
-    /// Interaction logic for GameWindow.xaml
+    /// Interaction logic for GameUC.xaml
     /// </summary>
     public partial class GameUC : UserControl
     {
         public GameUC()
         {
             InitializeComponent();
-        }
-
-        private void OnKeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.Key)
-            {
-                case Key.Escape:
-                    Application.Current.Shutdown();
-                    break;
-            }
         }
 
         private void WindowSizeChanged(object sender, SizeChangedEventArgs e)

@@ -2,14 +2,14 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             KeyDown="OnKeyDown">
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" >
     
     <Grid SizeChanged="WindowSizeChanged" MinWidth="400" MinHeight="300">
         <Canvas x:Name="mainCanvas" Height="600" Width="800" HorizontalAlignment="Left" VerticalAlignment="Top" Background="White" MouseDown="OnCanvasMouseClick">
             <Label Canvas.Left="170" Canvas.Top="520" Height="40" Name="lblIntegrityLeft" Width="60" Panel.ZIndex="100" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">100%</Label>
             <Label Canvas.Left="570" Canvas.Top="520" Height="40" Name="lblIntegrityRight" Width="60" Panel.ZIndex="100" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">100%</Label>
             <Label Canvas.Left="220" Canvas.Top="270" Height="80" Name="lblEndGame" Width="360" Panel.ZIndex="100" FontSize="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Bauhaus 93" Foreground="#FF64008B">Red Player Won</Label>
+            <Label Canvas.Left="200" Canvas.Top="204" Content="Waiting for the other player to connect" Height="59" Name="lblWaiting" Width="400" Panel.ZIndex="100" FontSize="22" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Bauhaus 93" />
         </Canvas>
     </Grid>
     

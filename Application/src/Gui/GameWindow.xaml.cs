@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 namespace Orbit.Gui
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for GameWindow.xaml
     /// </summary>
     public partial class GameWindow : Window
     {
@@ -27,6 +27,20 @@ namespace Orbit.Gui
         private void OnClose(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Escape:
+                    UserControl menu = LogicalTreeHelper.FindLogicalNode(mainGrid, "escMenu") as UserControl;
+                    if (menu != null)
+                        mainGrid.Children.Remove(menu);
+                    else
+                        mainGrid.Children.Add(new EscMenu());
+                    break;
+            }
         }
 
     }

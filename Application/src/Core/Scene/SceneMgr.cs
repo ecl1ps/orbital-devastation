@@ -21,6 +21,7 @@ namespace Orbit.Core.Scene
         private Canvas canvas;
         private bool isServer;
         private bool isInitialized;
+        private bool waiting;
         private volatile bool shouldQuit;
         private NetPeer peer;
         private IList<ISceneObject> objects;
@@ -28,7 +29,7 @@ namespace Orbit.Core.Scene
         private Dictionary<PlayerPosition, PlayerData> playerData;
         private PlayerPosition firstPlayer;
         private PlayerPosition secondPlayer;
-        private Rect actionArea;
+        private Rect orbitArea;
         private Random randomGenerator;
         public Size ViewPortSizeOriginal { get; set; }
         public Size ViewPortSize { get; set; }
@@ -36,6 +37,7 @@ namespace Orbit.Core.Scene
 
         private static SceneMgr sceneMgr;
         private static Object lck = new Object();
+
 
         public static SceneMgr GetInstance()
         {
@@ -52,7 +54,7 @@ namespace Orbit.Core.Scene
             isInitialized = false;
         }
 
-        public void Init()
+        public void Init(Gametype gameType)
         {
             isInitialized = false;
             shouldQuit = false;
@@ -77,7 +79,20 @@ namespace Orbit.Core.Scene
                 Label lbl2 = (Label)LogicalTreeHelper.FindLogicalNode(GetCanvas(), "lblIntegrityRight");
                 if (lbl2 != null)
                     lbl2.Content = 100 + "%";
+
+                Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(GetCanvas(), "lblWaiting");
+                if (lblw != null)
+                    if (gameType == Gametype.HOSTED_GAME)
+                        lblw.Content = "Waiting for the other player to connect";
+                    else
+                        lblw.Content = "";
+                
             }));
+
+            if (gameType == Gametype.HOSTED_GAME)
+                waiting = true;
+            else
+                waiting = false;
 
             InitPlayerData();
 
@@ -133,8 +148,11 @@ namespace Orbit.Core.Scene
             RequestStop();
 
             Thread.Sleep(3000);
+        }
 
-            CleanUp();
+        public void CloseGame()
+        {
+            RequestStop();
         }
 
         private void CleanUp()
@@ -230,6 +248,9 @@ namespace Orbit.Core.Scene
             }
 
             sw.Stop();
+
+            CleanUp();
+
             if (Application.Current != null)
                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {
@@ -237,7 +258,7 @@ namespace Orbit.Core.Scene
                 }));
         }
 
-        public void RequestStop()
+        private void RequestStop()
         {
             shouldQuit = true;
         }
@@ -260,7 +281,15 @@ namespace Orbit.Core.Scene
             CheckCollisions();
             RemoveObjectsMarkedForRemoval();
 
-            UpdateGeomtricState();
+            try
+            {
+                UpdateGeomtricState();
+            }
+            catch (NullReferenceException e)
+            {
+                // UI is closed before game finished its Update loop
+                System.Console.Error.WriteLine(e);
+            }
 
             CheckPlayerStates();
         }
@@ -333,7 +362,7 @@ namespace Orbit.Core.Scene
         {
             this.canvas = canvas;
             ViewPortSizeOriginal = new Size(canvas.Width, canvas.Height);
-            actionArea = new Rect(0, 0, canvas.Width, canvas.Height / 3);
+            orbitArea = new Rect(0, 0, canvas.Width, canvas.Height / 3);
         }
 
         public Canvas GetCanvas()
@@ -360,9 +389,9 @@ namespace Orbit.Core.Scene
             this.isServer = isServer;
         }
 
-        public Rect GetActionArea()
+        public Rect GetOrbitArea()
         {
-            return actionArea;
+            return orbitArea;
         }
 
         public Random GetRandomGenerator()
@@ -372,6 +401,9 @@ namespace Orbit.Core.Scene
 
         public void OnCanvasClick(Point point)
         {
+            if (waiting)
+                return;
+
             if (GetPlayerData(firstPlayer).IsMineReady())
             {
                 GetPlayerData(firstPlayer).UseMine();

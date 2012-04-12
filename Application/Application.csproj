@@ -75,10 +75,14 @@
     <Compile Include="src\Core\CollisionHelper.cs" />
     <Compile Include="src\Core\ExtensionMethods.cs" />
     <Compile Include="src\Core\Player\PlayerData.cs" />
+    <Compile Include="src\Core\Scene\Controls\NewtonianMovementControl.cs" />
     <Compile Include="src\Core\Scene\Controls\LinearRotationControl.cs" />
     <Compile Include="src\Core\Scene\Entities\IRotable.cs" />
     <Compile Include="src\Core\Scene\SceneGeometryFactory.cs" />
     <Compile Include="src\Core\Scene\SceneObjectFactory.cs" />
+    <Compile Include="src\Gui\EscMenu.xaml.cs">
+      <DependentUpon>EscMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="src\Gui\GameUC.xaml.cs">
       <DependentUpon>GameUC.xaml</DependentUpon>
     </Compile>
@@ -131,6 +135,10 @@
     <Page Include="src\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="src\Gui\EscMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="src\Gui\GameUC.xaml">
       <SubType>Designer</SubType>

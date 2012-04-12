@@ -10,6 +10,7 @@ using Orbit.Gui;
 using System.Threading;
 using System.ComponentModel;
 using System.Windows.Controls;
+using Orbit.Core;
 
 namespace Orbit
 {
@@ -19,39 +20,41 @@ namespace Orbit
     public partial class App : Application
     {
         private SceneMgr sceneMgr;
+        private static GameWindow mainWindow;
 
         [STAThread]
         public static void Main(string[] args)
         {
             App app = new App();
             app.InitializeComponent();
-            app.Run(new GameWindow());
+            mainWindow = new GameWindow();
+            app.Run(mainWindow);
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            MainWindow.Content = new OptionsUC();
+
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
-            if (sceneMgr != null)
-                sceneMgr.RequestStop();
+            ExitGame();
         }
 
-        public void StartGame()
+        public void StartGame(Gametype type)
         {
-            MainWindow.Content = new GameUC();
+            mainWindow.mainGrid.Children.Clear();
+            mainWindow.mainGrid.Children.Add(new GameUC());
             sceneMgr = SceneMgr.GetInstance();
             sceneMgr.SetCanvas((Canvas)LogicalTreeHelper.FindLogicalNode(MainWindow, "mainCanvas"));
-            sceneMgr.Init();
+            sceneMgr.Init(type);
 
             StartGameThread();
         }
 
         public void StartHostedGame()
         {
-            StartGame();
+            StartGame(Gametype.HOSTED_GAME);
             sceneMgr.SetIsServer(true);
         }
 
@@ -73,7 +76,20 @@ namespace Orbit
 
         public void GameEnded()
         {
-            MainWindow.Content = new OptionsUC();
+            ShowStartScreen();
+        }
+
+        public void ShowStartScreen()
+        {
+            ExitGame();
+            mainWindow.mainGrid.Children.Clear();
+            mainWindow.mainGrid.Children.Add(new OptionsUC());
+        }
+
+        public void ExitGame()
+        {
+            if (sceneMgr != null)
+                sceneMgr.CloseGame();
         }
     }
 }
