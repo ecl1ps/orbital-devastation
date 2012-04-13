@@ -3,8 +3,12 @@ namespace Orbit.Core
 {
     class SharedDef
     {
+        // Application
         public const long MINIMUM_UPDATE_TIME       = 30;
 
+        public const int PORT_NUMBER                = 61111;
+
+        // Scene
         public const int MIN_SPHERE_RADIUS          = 10;
         public const int MAX_SPHERE_RADIUS          = 30;
 
@@ -29,8 +33,23 @@ namespace Orbit.Core
 
     public enum Gametype
     {
-        SKIRMISH,
-        HOSTED_GAME,
-        JOINED_GAME
+        SOLO_GAME,
+        SERVER_GAME,
+        CLIENT_GAME
     }
+
+    public enum GameEnd
+    {
+        WIN_GAME,
+        LEFT_GAME
+    }
+
+    public enum PacketType
+    {
+        PLAYER_CONNECT,
+        SYNC_ALL_PLAYER_DATA,
+        SYNC_ALL_ASTEROIDS,
+        SYNC_ALL_BASES,
+        NEW_MINE,
+    }    
 }

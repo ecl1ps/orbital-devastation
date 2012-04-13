@@ -27,17 +27,17 @@ namespace Orbit.Gui
 
         private void btnSinglePlayer_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).StartGame(Gametype.SKIRMISH);
+            (Application.Current as App).StartGame(Gametype.SOLO_GAME);
         }
 
         private void btnHostNewGame_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).StartGame(Gametype.HOSTED_GAME);
+            (Application.Current as App).StartHostedGame();
         }
 
         private void btnFindHostedGame_Click(object sender, RoutedEventArgs e)
         {
-
+            (Application.Current as App).LookForGame();
         }
 
         private void btnExit_Click(object sender, RoutedEventArgs e)

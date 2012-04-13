@@ -21,12 +21,14 @@ namespace Orbit.Core.Scene
         private Canvas canvas;
         private bool isServer;
         private bool isInitialized;
-        private bool waiting;
+        private bool userActionsDisabled;
         private volatile bool shouldQuit;
         private NetPeer peer;
-        private IList<ISceneObject> objects;
-        private IList<ISceneObject> objectsToRemove;
-        private Dictionary<PlayerPosition, PlayerData> playerData;
+        private string serverAddress;
+        private List<ISceneObject> objects;
+        private List<ISceneObject> objectsToRemove;
+        private List<PlayerData> playerData;
+        private PlayerPosition mePlayer;
         private PlayerPosition firstPlayer;
         private PlayerPosition secondPlayer;
         private Rect orbitArea;
@@ -37,6 +39,7 @@ namespace Orbit.Core.Scene
 
         private static SceneMgr sceneMgr;
         private static Object lck = new Object();
+
 
 
         public static SceneMgr GetInstance()
@@ -61,9 +64,7 @@ namespace Orbit.Core.Scene
             objects = new List<ISceneObject>();
             objectsToRemove = new List<ISceneObject>();
             randomGenerator = new Random(Environment.TickCount);
-            firstPlayer = randomGenerator.Next(2) == 0 ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
-            secondPlayer = firstPlayer == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
-            playerData = new Dictionary<PlayerPosition, PlayerData>(2);
+            playerData = new List<PlayerData>(2);
             synchronizedQueue = new ConcurrentQueue<Action>();
 
             GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
@@ -82,47 +83,71 @@ namespace Orbit.Core.Scene
 
                 Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(GetCanvas(), "lblWaiting");
                 if (lblw != null)
-                    if (gameType == Gametype.HOSTED_GAME)
+                    if (gameType == Gametype.SERVER_GAME)
                         lblw.Content = "Waiting for the other player to connect";
                     else
                         lblw.Content = "";
                 
             }));
 
-            if (gameType == Gametype.HOSTED_GAME)
-                waiting = true;
-            else
-                waiting = false;
-
-            InitPlayerData();
-
-            InitNetwork();
-
-            Sphere s;
-            for (int i = 0; i < SharedDef.SPHERE_COUNT; ++i)
+            if (gameType == Gametype.SERVER_GAME)
             {
-                s = SceneObjectFactory.CreateNewRandomSphere(i % 2 == 0);
-                AttachToScene(s);
+                userActionsDisabled = true;
+                CreateNewPlayerData();
+                mePlayer = firstPlayer;
+                InitNetwork();
+                CreateAsteroidField();
+                isInitialized = true;
+            }
+            else if (gameType == Gametype.CLIENT_GAME)
+            {
+                userActionsDisabled = true;
+                InitNetwork();
+                //mePlayer = secondPlayer;
+            }
+            else /*Gametype.SOLO_GAME*/
+            {
+                userActionsDisabled = false;
+                CreateNewPlayerData();
+                mePlayer = firstPlayer;
+                CreateAsteroidField();
+                isInitialized = true;
             }
 
-            isInitialized = true;
+        }
+
+        private void CreateAsteroidField()
+        {
+            for (int i = 0; i < SharedDef.SPHERE_COUNT; ++i)
+                AttachToScene(SceneObjectFactory.CreateNewRandomSphere(i % 2 == 0));
         }
 
         private void InitNetwork()
         {
             NetPeerConfiguration conf = new NetPeerConfiguration("Orbit");
-            conf.Port = 61111;
+            if (isServer)
+            {
+                conf.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
+                conf.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
+                conf.Port = SharedDef.PORT_NUMBER;
+            }
+
             peer = new NetPeer(conf);
             peer.Start();
 
             if (!isServer)
             {
-                peer.Connect("localhost", conf.Port);
+                NetOutgoingMessage msg = peer.CreateMessage();
+                msg.Write((byte)PacketType.PLAYER_CONNECT);
+                peer.Connect(serverAddress, SharedDef.PORT_NUMBER, msg);
             }
         }
 
         private void ProcessMessages()
         {
+            if (peer == null || peer.Status != NetPeerStatus.Running)
+                return;
+
             NetIncomingMessage msg;
             while ((msg = peer.ReadMessage()) != null)
             {
@@ -134,6 +159,74 @@ namespace Orbit.Core.Scene
                     case NetIncomingMessageType.ErrorMessage:
                         Console.WriteLine(msg.ReadString());
                         break;
+                    case NetIncomingMessageType.DiscoveryRequest:
+                        if (!isServer || !userActionsDisabled)
+                            break;
+
+                        NetOutgoingMessage response = peer.CreateMessage();
+                        //response.Write("My server name");
+                        peer.SendDiscoveryResponse(response, msg.SenderEndpoint);
+                        break;
+                    // If incoming message is Request for connection approval
+                    // This is the very first packet/message that is sent from client
+                    // Here you can do new player initialisation stuff
+                    case NetIncomingMessageType.ConnectionApproval:
+
+                        // Read the first byte of the packet
+                        // ( Enums can be casted to bytes, so it be used to make bytes human readable )
+                        if (msg.ReadByte() == (byte)PacketType.PLAYER_CONNECT)
+                        {
+                            Console.WriteLine("Incoming LOGIN");
+
+                            // Approve clients connection ( Its sort of agreenment. "You can be my client and i will host you" )
+                            msg.SenderConnection.Approve();
+
+                            // Create message, that can be written and sent
+                            NetOutgoingMessage outmsg = peer.CreateMessage();
+
+                            // first we write byte
+                            outmsg.Write((byte)PacketType.SYNC_ALL_PLAYER_DATA);
+
+                            // iterate trought every character ingame
+                            foreach (PlayerData data in playerData)
+                            {
+                                // This is handy method
+                                // It writes all the properties of object to the packet
+                                outmsg.WriteAllProperties(data);
+                            }
+
+                            // Send message/packet to all connections, in reliably order, channel 0
+                            // Reliably means, that each packet arrives in same order they were sent. Its slower than unreliable, but easyest to understand
+                            peer.SendMessage(outmsg, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
+
+                            // Debug
+                            Console.WriteLine("Approved new connection and updated the world status");
+                        }
+
+                        break;
+                    case NetIncomingMessageType.Data:
+
+                        // Read first byte
+                        if (msg.ReadByte() == (byte)PacketType.SYNC_ALL_PLAYER_DATA)
+                            Console.WriteLine("Client received init player data");
+
+                        break;
+                    case NetIncomingMessageType.StatusChanged:
+                        // In case status changed
+                        // It can be one of these
+                        // NetConnectionStatus.Connected;
+                        // NetConnectionStatus.Connecting;
+                        // NetConnectionStatus.Disconnected;
+                        // NetConnectionStatus.Disconnecting;
+                        // NetConnectionStatus.None;
+
+                        // NOTE: Disconnecting and Disconnected are not instant unless client is shutdown with disconnect()
+                        Console.WriteLine(msg.SenderConnection.ToString() + " status changed to: " + msg.SenderConnection.Status);
+                        if (msg.SenderConnection.Status == NetConnectionStatus.Disconnected || msg.SenderConnection.Status == NetConnectionStatus.Disconnecting)
+                        {
+                            EndGame(GetPlayerData(mePlayer == firstPlayer ? secondPlayer : firstPlayer), GameEnd.LEFT_GAME);
+                        }
+                        break;
                     default:
                         Console.WriteLine("Unhandled message type: " + msg.MessageType);
                         break;
@@ -142,9 +235,13 @@ namespace Orbit.Core.Scene
             }
         }
 
-        private void EndGame(PlayerData winner)
+        private void EndGame(PlayerData plr, GameEnd endType)
         {
-            PlayerWon(winner);
+            if (endType == GameEnd.WIN_GAME)
+                PlayerWon(plr);
+            else if (endType == GameEnd.LEFT_GAME)
+                PlayerLeft(plr);
+
             RequestStop();
 
             Thread.Sleep(3000);
@@ -207,21 +304,24 @@ namespace Orbit.Core.Scene
             objectsToRemove.Clear();
         }
 
-        private void InitPlayerData()
+        private void CreateNewPlayerData()
         {
+            firstPlayer = randomGenerator.Next(2) == 0 ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
+            secondPlayer = firstPlayer == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
+
             Base myBase = SceneObjectFactory.CreateBase(firstPlayer, randomGenerator.Next(2) == 0 ? Colors.Red : Colors.Blue);
             AttachToScene(myBase);
 
             PlayerData pd = new PlayerData();
             pd.SetBase(myBase);
-            playerData.Add(pd.GetPosition(), pd);
+            playerData.Add(pd);
 
             Base opponentsBase = SceneObjectFactory.CreateBase(secondPlayer, myBase.Color == Colors.Blue ? Colors.Red : Colors.Blue);
             AttachToScene(opponentsBase);
 
             pd = new PlayerData();
             pd.SetBase(opponentsBase);
-            playerData.Add(pd.GetPosition(), pd);
+            playerData.Add(pd);
         }
 
 
@@ -236,7 +336,7 @@ namespace Orbit.Core.Scene
                 tpf = sw.ElapsedMilliseconds / 1000.0f;
                 
                 sw.Restart();
-                if (tpf > 0.001)
+                if (tpf > 0.001 && isInitialized)
                     Update(tpf);
 
                 //Console.Out.WriteLine(tpf + ": " +sw.ElapsedMilliseconds);
@@ -346,16 +446,12 @@ namespace Orbit.Core.Scene
 
         public PlayerData GetPlayerData(PlayerPosition pos)
         {
-            PlayerData data = null;
-            try
+            foreach (PlayerData data in playerData)
             {
-                playerData.TryGetValue(pos, out data);
+                if (data.GetPosition() == pos)
+                    return data;
             }
-            catch (ArgumentNullException /*e*/)
-            {
-                Console.Error.WriteLine("GetPlayerData() - position cannot be null");
-            }
-            return data;
+            return null;
         }
 
         public void SetCanvas(Canvas canvas)
@@ -401,22 +497,22 @@ namespace Orbit.Core.Scene
 
         public void OnCanvasClick(Point point)
         {
-            if (waiting)
+            if (userActionsDisabled)
                 return;
 
-            if (GetPlayerData(firstPlayer).IsMineReady())
+            if (GetPlayerData(mePlayer).IsMineReady())
             {
-                GetPlayerData(firstPlayer).UseMine();
-                AttachToScene(SceneObjectFactory.CreateSingularityMine(point, GetPlayerData(firstPlayer)));
+                GetPlayerData(mePlayer).UseMine();
+                AttachToScene(SceneObjectFactory.CreateSingularityMine(point, GetPlayerData(mePlayer)));
             }
         }
 
         private void CheckPlayerStates()
         {
             if (GetPlayerData(firstPlayer).GetBaseIntegrity() <= 0)
-                EndGame(GetPlayerData(secondPlayer));
+                EndGame(GetPlayerData(secondPlayer), GameEnd.WIN_GAME);
             else if (GetPlayerData(secondPlayer).GetBaseIntegrity() <= 0)
-                EndGame(GetPlayerData(firstPlayer));
+                EndGame(GetPlayerData(firstPlayer), GameEnd.WIN_GAME);
         }
 
         private void PlayerWon(PlayerData winner)
@@ -429,6 +525,21 @@ namespace Orbit.Core.Scene
             }));
         }
 
+
+        private void PlayerLeft(PlayerData leaver)
+        {
+            GetUIDispatcher().Invoke(DispatcherPriority.Render, new Action(() =>
+            {
+                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(GetCanvas(), "lblEndGame");
+                if (lbl != null)
+                    lbl.Content = (leaver.GetPlayerColor() == Colors.Red ? "Red" : "Blue") + " player left the game!";
+            }));
+        }
+
+        public void SetRemoteServerAddress(string serverAddress)
+        {
+            this.serverAddress = serverAddress;
+        }
     }
 
 }

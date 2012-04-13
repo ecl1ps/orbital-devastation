@@ -33,7 +33,7 @@ namespace Orbit
 
         protected override void OnStartup(StartupEventArgs e)
         {
-
+            sceneMgr = SceneMgr.GetInstance();
         }
 
         protected override void OnExit(ExitEventArgs e)
@@ -45,7 +45,6 @@ namespace Orbit
         {
             mainWindow.mainGrid.Children.Clear();
             mainWindow.mainGrid.Children.Add(new GameUC());
-            sceneMgr = SceneMgr.GetInstance();
             sceneMgr.SetCanvas((Canvas)LogicalTreeHelper.FindLogicalNode(MainWindow, "mainCanvas"));
             sceneMgr.Init(type);
 
@@ -54,13 +53,14 @@ namespace Orbit
 
         public void StartHostedGame()
         {
-            StartGame(Gametype.HOSTED_GAME);
             sceneMgr.SetIsServer(true);
+            StartGame(Gametype.SERVER_GAME);
         }
 
-        public void ConnectToGame()
+        public void ConnectToGame(string serverAddress)
         {
-            throw new Exception("Not implemented");
+            sceneMgr.SetRemoteServerAddress(serverAddress);
+            StartGame(Gametype.CLIENT_GAME);
         }
 
         private void StartGameThread()
@@ -90,6 +90,12 @@ namespace Orbit
         {
             if (sceneMgr != null)
                 sceneMgr.CloseGame();
+        }
+
+        public void LookForGame()
+        {
+            mainWindow.mainGrid.Children.Clear();
+            mainWindow.mainGrid.Children.Add(new FindServerUC());
         }
     }
 }
