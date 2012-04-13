@@ -5,8 +5,6 @@ namespace Orbit.Core.Scene.Entities
 {
     public interface IRotable
     {
-        int GetRotation();
-
-        void SetRotation(int angle);
+        int Rotation { get; set; }
     }
 }

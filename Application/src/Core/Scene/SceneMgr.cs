@@ -265,7 +265,7 @@ namespace Orbit.Core.Scene
             GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
             {
                 foreach (ISceneObject obj in objects)
-                    canvas.Children.Remove(obj.GetGeometry());
+                    canvas.Children.Remove(obj.GeometryElement);
             }));
         }
 
@@ -274,13 +274,13 @@ namespace Orbit.Core.Scene
             objects.Add(obj);
             GetUIDispatcher().BeginInvoke(DispatcherPriority.Send, new Action(() =>
             {
-                canvas.Children.Add(obj.GetGeometry());
+                canvas.Children.Add(obj.GeometryElement);
             }));
         }
 
         public void RemoveFromSceneDelayed(ISceneObject obj)
         {
-            obj.SetDead(true);
+            obj.Dead = true;
             objectsToRemove.Add(obj);
         }
 
@@ -289,7 +289,7 @@ namespace Orbit.Core.Scene
             objects.Remove(obj);
             canvas.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, (Action)(delegate
             {
-                canvas.Children.Remove(obj.GetGeometry());
+                canvas.Children.Remove(obj.GeometryElement);
             }));
         }
 
@@ -429,7 +429,7 @@ namespace Orbit.Core.Scene
 
                 foreach (ISceneObject obj2 in objects)
                 {
-                    if (obj1.GetId() == obj2.GetId())
+                    if (obj1.Id == obj2.Id)
                         continue;
 
                     /*if (obj2.IsDead())

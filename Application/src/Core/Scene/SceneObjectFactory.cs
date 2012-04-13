@@ -21,15 +21,15 @@ namespace Orbit.Core.Scene
             Rect actionArea = SceneMgr.GetInstance().GetOrbitArea();
             Random randomGenerator = SceneMgr.GetInstance().GetRandomGenerator();
             Sphere s = new Sphere();
-            s.Setid(IdMgr.GetNewId());
+            s.Id = IdMgr.GetNewId();
             s.IsHeadingRight = headingRight;
-            s.SetDirection(headingRight ? new Vector(1, 0) : new Vector(-1, 0));
+            s.Direction = headingRight ? new Vector(1, 0) : new Vector(-1, 0);
 
             s.Radius = randomGenerator.Next(SharedDef.MIN_SPHERE_RADIUS, SharedDef.MAX_SPHERE_RADIUS);
-            s.SetPosition(new Vector(randomGenerator.Next((int)(actionArea.X + s.Radius), (int)(actionArea.Width - s.Radius)),
-                randomGenerator.Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius))));
+            s.Position = new Vector(randomGenerator.Next((int)(actionArea.X + s.Radius), (int)(actionArea.Width - s.Radius)),
+                randomGenerator.Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius)));
             s.Color = Color.FromRgb((byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255));
-            s.SetRotation(SceneMgr.GetInstance().GetRandomGenerator().Next(360));
+            s.Rotation = SceneMgr.GetInstance().GetRandomGenerator().Next(360);
 
             /*LinearMovementControl lmc = new LinearMovementControl();
             lmc.Speed = randomGenerator.Next(SharedDef.MIN_SPHERE_SPEED * 10, SharedDef.MAX_SPHERE_SPEED * 10) / 10.0f;
@@ -43,7 +43,7 @@ namespace Orbit.Core.Scene
             lrc.RotationSpeed = randomGenerator.Next(SharedDef.MIN_SPHERE_ROTATION_SPEED, SharedDef.MAX_SPHERE_ROTATION_SPEED) / 10.0f;
             s.AddControl(lrc);
 
-            s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s));
+            s.GeometryElement = SceneGeometryFactory.CreateAsteroidImage(s);
 
             return s;
         }
@@ -51,17 +51,16 @@ namespace Orbit.Core.Scene
         public static Base CreateBase(PlayerPosition pos, Color col)
         {
             Base baze = new Base();
-            baze.Setid(IdMgr.GetNewId());
+            baze.Id = IdMgr.GetNewId();
             baze.BasePosition = pos;
             baze.Color = col;
             baze.Integrity = SharedDef.BASE_MAX_INGERITY;
-
-            baze.SetPosition(new Vector(SceneMgr.GetInstance().ViewPortSizeOriginal.Width * ((pos == PlayerPosition.LEFT) ? 0.1 : 0.6),
-                                       SceneMgr.GetInstance().ViewPortSizeOriginal.Height * 0.85));
+            baze.Position = new Vector(SceneMgr.GetInstance().ViewPortSizeOriginal.Width * ((pos == PlayerPosition.LEFT) ? 0.1 : 0.6),
+                                       SceneMgr.GetInstance().ViewPortSizeOriginal.Height * 0.85);
             baze.Size = new Size(SceneMgr.GetInstance().ViewPortSizeOriginal.Width * 0.3, 
                                  SceneMgr.GetInstance().ViewPortSizeOriginal.Height * 0.15);
 
-            baze.SetGeometry(SceneGeometryFactory.CreateLinearGradientRectangleGeometry(baze));
+            baze.GeometryElement = SceneGeometryFactory.CreateLinearGradientRectangleGeometry(baze);
 
             return baze;
         }
@@ -72,13 +71,13 @@ namespace Orbit.Core.Scene
 
             Rect actionArea = SceneMgr.GetInstance().GetOrbitArea();
 
-            s.SetPosition(new Vector(s.IsHeadingRight ? (int)(-s.Radius) : (int)(actionArea.Width + s.Radius),
-                SceneMgr.GetInstance().GetRandomGenerator().Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius))));
+            s.Position = new Vector(s.IsHeadingRight ? (int)(-s.Radius) : (int)(actionArea.Width + s.Radius),
+                SceneMgr.GetInstance().GetRandomGenerator().Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius)));
 
             SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
             {
-                Canvas.SetLeft(s.GetGeometry(), s.GetPosition().X - s.Radius);
-                Canvas.SetTop(s.GetGeometry(), s.GetPosition().Y - s.Radius);
+                Canvas.SetLeft(s.GeometryElement, s.Position.X - s.Radius);
+                Canvas.SetTop(s.GeometryElement, s.Position.Y - s.Radius);
             }));
 
             return s;
@@ -88,8 +87,8 @@ namespace Orbit.Core.Scene
         {
             Random randomGenerator = SceneMgr.GetInstance().GetRandomGenerator();
             SingularityMine mine = new SingularityMine();
-            mine.Setid(IdMgr.GetNewId());
-            mine.SetPosition(point.ToVector());
+            mine.Id = IdMgr.GetNewId();
+            mine.Position = point.ToVector();
             //mine.Radius = randomGenerator.Next(1, SharedDef.MAX_SPHERE_RADIUS);
 
             SingularityControl sc = new SingularityControl();
@@ -97,7 +96,7 @@ namespace Orbit.Core.Scene
             sc.Strength = plrdata.GetMineStrength();
             mine.AddControl(sc);
 
-            mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
+            mine.GeometryElement = SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine);
 
             return mine;
         }

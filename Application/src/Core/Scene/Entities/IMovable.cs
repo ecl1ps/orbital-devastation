@@ -5,8 +5,6 @@ namespace Orbit.Core.Scene.Entities
 {
     public interface IMovable
     {
-        Vector GetDirection();
-
-        void SetDirection(Vector direction);
+        Vector Direction { get; set; }
     }
 }

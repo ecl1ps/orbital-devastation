@@ -28,23 +28,23 @@ namespace Orbit.Core.Scene.Controls
                 return;
 
             // jsme na orbite - gravitace se zanedbava
-            if (me.GetPosition().Y < SceneMgr.GetInstance().GetOrbitArea().Height)
+            if (me.Position.Y < SceneMgr.GetInstance().GetOrbitArea().Height)
             {
-                me.SetPosition(me.GetPosition() + (meMovable.GetDirection() * Speed * tpf));
+                me.Position = me.Position + (meMovable.Direction * Speed * tpf);
                 return;
             }
 
-            Vector dirToSurf = new Vector(me.GetPosition().X, earthSurface) - me.GetPosition();
+            Vector dirToSurf = new Vector(me.Position.X, earthSurface) - me.Position;
             float distToSurf = (float)dirToSurf.Length;
             dirToSurf.Normalize();
 
             // pokud jsme uz pod povrchem zeme, pokracujme dal (ne zpet nahoru k nemu)
-            if (me.GetPosition().Y > earthSurface)
+            if (me.Position.Y > earthSurface)
                 dirToSurf.Negate();
 
             // soucasne pozici se pricte vektor dopredneho smeru a pote gravitacni vektor smerujici k povrchu zeme
             // rychlost roste s klesajici vzdalenosti k povrchu
-            me.SetPosition(me.GetPosition() + (meMovable.GetDirection() * Speed * tpf) + dirToSurf * (earthSurface / distToSurf) * tpf * 30);
+            me.Position = me.Position + (meMovable.Direction * Speed * tpf) + dirToSurf * (earthSurface / distToSurf) * tpf * 30;
         }
     }
 }

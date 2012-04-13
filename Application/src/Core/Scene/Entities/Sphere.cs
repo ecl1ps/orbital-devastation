@@ -11,28 +11,18 @@ namespace Orbit.Core.Scene.Entities
     public class Sphere : SceneObject, IMovable, ICollidable, IRotable
     {
         public Color Color { get; set; }
-        private Vector direction;
-        private int rotation;
+        public Vector Direction { get; set; }
         public int Radius { get; set; }
         public bool IsHeadingRight { get; set; }
-
-        public Vector GetDirection()
-        {
-            return direction;
-        }
-
-        public void SetDirection(Vector dir)
-        {
-            direction = dir;
-        }
+        public int Rotation { get; set; }
 
         public bool CollideWith(ICollidable other)
         {
             if (other is Sphere)
-                return CollisionHelper.intersectsCircleAndCircle(GetPosition(), Radius, (other as Sphere).GetPosition(), (other as Sphere).Radius);
+                return CollisionHelper.intersectsCircleAndCircle(Position, Radius, (other as Sphere).Position, (other as Sphere).Radius);
 
             if (other is Base)
-                return CollisionHelper.intersectsCircleAndSquare(GetPosition(), Radius, (other as Base).GetPosition(), (other as Base).Size);
+                return CollisionHelper.intersectsCircleAndSquare(Position, Radius, (other as Base).Position, (other as Base).Size);
 
             return false;
         }
@@ -45,22 +35,22 @@ namespace Orbit.Core.Scene.Entities
 
         public override void UpdateGeometric()
         {
-            geometryElement.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, (Action)(delegate 
+            GeometryElement.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, (Action)(delegate 
             {
-                Canvas.SetLeft(geometryElement, position.X - Radius);
-                Canvas.SetTop(geometryElement, position.Y - Radius);
-                (geometryElement as Image).Width = Radius * 2;
-                (geometryElement as Image).RenderTransform = new RotateTransform(GetRotation());
+                Canvas.SetLeft(GeometryElement, Position.X - Radius);
+                Canvas.SetTop(GeometryElement, Position.Y - Radius);
+                (GeometryElement as Image).Width = Radius * 2;
+                (GeometryElement as Image).RenderTransform = new RotateTransform(Rotation);
             }));
 
         }
 
         public override bool IsOnScreen(Size screenSize)
         {
-            if (position.X <= -Radius || position.Y <= -Radius)
+            if (Position.X <= -Radius || Position.Y <= -Radius)
                 return false;
 
-            if (position.X >= screenSize.Width + Radius || position.Y >= screenSize.Height + Radius)
+            if (Position.X >= screenSize.Width + Radius || Position.Y >= screenSize.Height + Radius)
                 return false;
 
             return true;
@@ -69,16 +59,6 @@ namespace Orbit.Core.Scene.Entities
         public override void OnRemove()
         {
             SceneMgr.GetInstance().AttachToScene(SceneObjectFactory.CreateNewSphereOnEdge(this));
-        }
-
-        public int GetRotation()
-        {
-            return rotation;
-        }
-
-        public void SetRotation(int angle)
-        {
-            this.rotation = angle;
         }
     }
 

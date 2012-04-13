@@ -26,7 +26,7 @@ namespace Orbit.Core.Scene.Controls
             if (meRotable == null)
                 return;
 
-            meRotable.SetRotation((int)((meRotable.GetRotation() + RotationSpeed * tpf * 100) % 360));
+            meRotable.Rotation = (int)((meRotable.Rotation + RotationSpeed * tpf * 100) % 360);
         }
     }
 }

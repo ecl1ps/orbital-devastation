@@ -52,16 +52,16 @@ namespace Orbit.Core.Scene.Controls
 
         public void CollidedWith(IMovable movable)
         {
-            if (hitObjects.Contains((movable as ISceneObject).GetId()))
+            if (hitObjects.Contains((movable as ISceneObject).Id))
                 return;
 
-            hitObjects.Add((movable as ISceneObject).GetId());
+            hitObjects.Add((movable as ISceneObject).Id);
 
-            Vector newDir = (movable as ISceneObject).GetPosition() - me.GetPosition();
+            Vector newDir = (movable as ISceneObject).Position - me.Position;
             newDir.Normalize();
             newDir *= Strength;
-            newDir += movable.GetDirection();
-            movable.SetDirection(newDir);
+            newDir += movable.Direction;
+            movable.Direction = newDir;
         }
 
     }

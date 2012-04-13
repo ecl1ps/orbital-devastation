@@ -29,7 +29,7 @@ namespace Orbit.Core.Scene.Entities
                 return false;
 
             if (other is Sphere)
-                return CollisionHelper.intersectsCircleAndCircle(GetPosition(), Radius, (other as Sphere).GetPosition(), (other as Sphere).Radius);
+                return CollisionHelper.intersectsCircleAndCircle(Position, Radius, (other as Sphere).Position, (other as Sphere).Radius);
 
             return false;
         }
@@ -49,11 +49,11 @@ namespace Orbit.Core.Scene.Entities
             if (!IsVisible)
                 return;
 
-            geometryElement.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, new Action(() =>
+            GeometryElement.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, new Action(() =>
             {
-                ((geometryElement as Path).Data as EllipseGeometry).RadiusX = Radius;
-                ((geometryElement as Path).Data as EllipseGeometry).RadiusY = Radius;
-                (geometryElement as Path).Stroke = Brushes.Black;
+                ((GeometryElement as Path).Data as EllipseGeometry).RadiusX = Radius;
+                ((GeometryElement as Path).Data as EllipseGeometry).RadiusY = Radius;
+                (GeometryElement as Path).Stroke = Brushes.Black;
             }));
         }
     }

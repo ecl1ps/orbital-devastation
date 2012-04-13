@@ -8,16 +8,16 @@ namespace Orbit.Core.Scene.Entities
 {
     public abstract class SceneObject : ISceneObject
     {
-        protected IList<IControl> controls;
-        protected long id;
-        protected Vector position;
-        protected UIElement geometryElement;
-        protected bool isDead;
+        private IList<IControl> controls;
+        public long Id { get; set; }
+        public UIElement GeometryElement { get; set; }
+        public Vector Position { get; set; }
+        public bool Dead { get; set; }
 
         public SceneObject()
         {
             controls = new List<IControl>();
-            isDead = false;
+            Dead = false;
         }
 
         public void Update(float tpf)
@@ -61,39 +61,9 @@ namespace Orbit.Core.Scene.Entities
             return null;
         }
 
-        public Vector GetPosition()
-        {
-            return position;
-        }
-
-        public void SetPosition(Vector pos)
-        {
-            position = pos;
-        }
-
         public abstract bool IsOnScreen(Size screenSize);
 
         public abstract void UpdateGeometric();
-
-        public long GetId()
-        {
-            return id;
-        }
-
-        public void Setid(long id)
-        {
-            this.id = id;
-        }
-
-        public void SetGeometry(UIElement geometryElement)
-        {
-            this.geometryElement = geometryElement;
-        }
-
-        public UIElement GetGeometry()
-        {
-            return geometryElement;
-        }
 
         public void DoRemoveMe()
         {
@@ -105,20 +75,7 @@ namespace Orbit.Core.Scene.Entities
             SceneMgr.GetInstance().RemoveFromSceneDelayed(obj);
         }
 
-        public void SetDead(bool dead)
-        {
-            this.isDead = dead;
-        }
-
-        public bool IsDead()
-        {
-            return isDead;
-        }
-
-        public virtual void OnRemove()
-        {
-
-        }
+        public virtual void OnRemove() { }
     }
 
 }

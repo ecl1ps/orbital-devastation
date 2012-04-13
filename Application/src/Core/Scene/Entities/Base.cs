@@ -22,7 +22,7 @@ namespace Orbit.Core.Scene.Entities
         public bool CollideWith(ICollidable other)
         {
             if (other is Sphere)
-                return CollisionHelper.intersectsCircleAndSquare((other as Sphere).GetPosition(), (other as Sphere).Radius, GetPosition(), Size);
+                return CollisionHelper.intersectsCircleAndSquare((other as Sphere).Position, (other as Sphere).Radius, Position, Size);
 
             return false;
         }

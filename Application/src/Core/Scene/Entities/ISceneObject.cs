@@ -7,19 +7,16 @@ namespace Orbit.Core.Scene.Entities
 {
     public interface ISceneObject
     {
+        long Id { get; set; }
+
+        UIElement GeometryElement { get; set; }
+
+        Vector Position { get; set; }
+
+        bool Dead { get; set; }
+
+
         void Update(float tpf);
-
-        long GetId();
-
-        void Setid(long id);
-
-        void SetGeometry(UIElement geometryElement);
-
-        UIElement GetGeometry();
-
-        Vector GetPosition();
-
-        void SetPosition(Vector position);
 
         void AddControl(Control control);
 
@@ -30,10 +27,6 @@ namespace Orbit.Core.Scene.Entities
         bool IsOnScreen(Size screenSize);
 
         void UpdateGeometric();
-
-        void SetDead(bool dead);
-
-        bool IsDead();
 
         void OnRemove();
     }

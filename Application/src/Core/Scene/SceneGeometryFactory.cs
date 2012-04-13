@@ -24,8 +24,8 @@ namespace Orbit.Core.Scene
                 path.Data = geom;
                 path.Fill = new RadialGradientBrush(s.Color, Color.FromArgb(0x80, s.Color.R, s.Color.G, s.Color.B));
                 path.Stroke = Brushes.Black;
-                Canvas.SetLeft(path, s.GetPosition().X);
-                Canvas.SetTop(path, s.GetPosition().Y);
+                Canvas.SetLeft(path, s.Position.X);
+                Canvas.SetTop(path, s.Position.Y);
             }));
 
             return path;
@@ -53,10 +53,10 @@ namespace Orbit.Core.Scene
                 img = new Image();
                 img.Source = bi;
                 img.Width = s.Radius * 2;
-                img.RenderTransform = new RotateTransform(s.GetRotation());
+                img.RenderTransform = new RotateTransform(s.Rotation);
                 img.RenderTransformOrigin = new Point(0.5, 0.5);
-                Canvas.SetLeft(img, s.GetPosition().X - s.Radius);
-                Canvas.SetTop(img, s.GetPosition().Y - s.Radius);
+                Canvas.SetLeft(img, s.Position.X - s.Radius);
+                Canvas.SetTop(img, s.Position.Y - s.Radius);
             }));
 
             return img;
@@ -72,8 +72,8 @@ namespace Orbit.Core.Scene
                 path.Data = geom;
                 path.Fill = new RadialGradientBrush(Colors.Black, Color.FromRgb(0x66, 0x00, 0x80));
                 path.Stroke = Brushes.Black;
-                Canvas.SetLeft(path, mine.GetPosition().X);
-                Canvas.SetTop(path, mine.GetPosition().Y);
+                Canvas.SetLeft(path, mine.Position.X);
+                Canvas.SetTop(path, mine.Position.Y);
             }));
 
             return path;
@@ -89,9 +89,9 @@ namespace Orbit.Core.Scene
                 path.Data = geom;
                 path.Fill = new LinearGradientBrush(baze.Color, Colors.Black, 90.0);
                 path.Stroke = Brushes.Black;
-                Canvas.SetLeft(path, baze.GetPosition().X);
-                Canvas.SetTop(path, baze.GetPosition().Y);
-                baze.SetGeometry(path);
+                Canvas.SetLeft(path, baze.Position.X);
+                Canvas.SetTop(path, baze.Position.Y);
+                baze.GeometryElement = path;
             }));
 
             return path;
