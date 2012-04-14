@@ -46,7 +46,7 @@ namespace Orbit.Core.Scene
                 BitmapImage bi = new BitmapImage();
                 bi.BeginInit();
                 bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/Rock" + 
-                    SceneMgr.GetInstance().GetRandomGenerator().Next(1, 18) + "_SR.png");
+                    s.TextureId + "_SR.png");
                 bi.DecodePixelWidth = s.Radius * 4;
                 bi.EndInit();
 
@@ -91,7 +91,7 @@ namespace Orbit.Core.Scene
                 path.Stroke = Brushes.Black;
                 Canvas.SetLeft(path, baze.Position.X);
                 Canvas.SetTop(path, baze.Position.Y);
-                baze.GeometryElement = path;
+                baze.SetGeometry(path);
             }));
 
             return path;

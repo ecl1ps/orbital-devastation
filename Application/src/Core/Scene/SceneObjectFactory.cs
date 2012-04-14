@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Orbit.Core.Scene.Entities;
-using Orbit.Core.Player;
+using Orbit.Core.Players;
 using System.Windows.Media;
 using System.Windows;
 using System.Windows.Threading;
@@ -29,38 +29,46 @@ namespace Orbit.Core.Scene
             s.Position = new Vector(randomGenerator.Next((int)(actionArea.X + s.Radius), (int)(actionArea.Width - s.Radius)),
                 randomGenerator.Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius)));
             s.Color = Color.FromRgb((byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255));
+            s.TextureId = SceneMgr.GetInstance().GetRandomGenerator().Next(1, 18);
             s.Rotation = SceneMgr.GetInstance().GetRandomGenerator().Next(360);
 
-            /*LinearMovementControl lmc = new LinearMovementControl();
-            lmc.Speed = randomGenerator.Next(SharedDef.MIN_SPHERE_SPEED * 10, SharedDef.MAX_SPHERE_SPEED * 10) / 10.0f;
-            s.AddControl(lmc);*/
+            CreateSphereControls(s);
 
-            NewtonianMovementControl nmc = new NewtonianMovementControl();
-            nmc.Speed = randomGenerator.Next(SharedDef.MIN_SPHERE_SPEED * 10, SharedDef.MAX_SPHERE_SPEED * 10) / 10.0f;
-            s.AddControl(nmc);
-
-            LinearRotationControl lrc = new LinearRotationControl();
-            lrc.RotationSpeed = randomGenerator.Next(SharedDef.MIN_SPHERE_ROTATION_SPEED, SharedDef.MAX_SPHERE_ROTATION_SPEED) / 10.0f;
-            s.AddControl(lrc);
-
-            s.GeometryElement = SceneGeometryFactory.CreateAsteroidImage(s);
+            s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s));
 
             return s;
         }
 
-        public static Base CreateBase(PlayerPosition pos, Color col)
+        private static Sphere CreateSphereControls(Sphere s)
+        {
+            /*LinearMovementControl lmc = new LinearMovementControl();
+            lmc.Speed = randomGenerator.Next(SharedDef.MIN_SPHERE_SPEED * 10, SharedDef.MAX_SPHERE_SPEED * 10) / 10.0f;
+            s.AddControl(lmc);*/
+
+            LinearMovementControl nmc = new LinearMovementControl();
+            nmc.Speed = SceneMgr.GetInstance().GetRandomGenerator().Next(SharedDef.MIN_SPHERE_SPEED * 10, SharedDef.MAX_SPHERE_SPEED * 10) / 10.0f;
+            s.AddControl(nmc);
+
+            LinearRotationControl lrc = new LinearRotationControl();
+            lrc.RotationSpeed = SceneMgr.GetInstance().GetRandomGenerator().Next(SharedDef.MIN_SPHERE_ROTATION_SPEED, SharedDef.MAX_SPHERE_ROTATION_SPEED) / 10.0f;
+            s.AddControl(lrc);
+
+            return s;
+        }
+
+        public static Base CreateBase(PlayerData data)
         {
             Base baze = new Base();
             baze.Id = IdMgr.GetNewId();
-            baze.BasePosition = pos;
-            baze.Color = col;
+            baze.BasePosition = data.PlayerPosition;
+            baze.Color = data.PlayerColor;
             baze.Integrity = SharedDef.BASE_MAX_INGERITY;
-            baze.Position = new Vector(SceneMgr.GetInstance().ViewPortSizeOriginal.Width * ((pos == PlayerPosition.LEFT) ? 0.1 : 0.6),
+            baze.Position = new Vector(SceneMgr.GetInstance().ViewPortSizeOriginal.Width * ((data.PlayerPosition == PlayerPosition.LEFT) ? 0.1 : 0.6),
                                        SceneMgr.GetInstance().ViewPortSizeOriginal.Height * 0.85);
             baze.Size = new Size(SceneMgr.GetInstance().ViewPortSizeOriginal.Width * 0.3, 
                                  SceneMgr.GetInstance().ViewPortSizeOriginal.Height * 0.15);
 
-            baze.GeometryElement = SceneGeometryFactory.CreateLinearGradientRectangleGeometry(baze);
+            baze.SetGeometry(SceneGeometryFactory.CreateLinearGradientRectangleGeometry(baze));
 
             return baze;
         }
@@ -76,8 +84,8 @@ namespace Orbit.Core.Scene
 
             SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
             {
-                Canvas.SetLeft(s.GeometryElement, s.Position.X - s.Radius);
-                Canvas.SetTop(s.GeometryElement, s.Position.Y - s.Radius);
+                Canvas.SetLeft(s.GetGeometry(), s.Position.X - s.Radius);
+                Canvas.SetTop(s.GetGeometry(), s.Position.Y - s.Radius);
             }));
 
             return s;
@@ -92,11 +100,11 @@ namespace Orbit.Core.Scene
             //mine.Radius = randomGenerator.Next(1, SharedDef.MAX_SPHERE_RADIUS);
 
             SingularityControl sc = new SingularityControl();
-            sc.Speed = plrdata.GetMineGrowthSpeed();
-            sc.Strength = plrdata.GetMineStrength();
+            sc.Speed = plrdata.MineGrowthSpeed;
+            sc.Strength = plrdata.MineStrength;
             mine.AddControl(sc);
 
-            mine.GeometryElement = SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine);
+            mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
 
             return mine;
         }

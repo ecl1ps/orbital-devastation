@@ -26,7 +26,10 @@ namespace Orbit.Core.Scene.Controls
             if (meRotable == null)
                 return;
 
-            meRotable.Rotation = (int)((meRotable.Rotation + RotationSpeed * tpf * 100) % 360);
+            meRotable.Rotation += RotationSpeed * tpf * 100;
+            /*SceneMgr.GetInstance().ShowStatusText(2, "ROT: " + meRotable.Rotation);
+            SceneMgr.GetInstance().ShowStatusText(3, "ROT SP: " + RotationSpeed);
+            SceneMgr.GetInstance().ShowStatusText(4, "ROT INC: " + (RotationSpeed * tpf * 100));*/
         }
     }
 }

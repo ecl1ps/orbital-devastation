@@ -9,8 +9,6 @@ namespace Orbit.Core.Scene.Entities
     {
         long Id { get; set; }
 
-        UIElement GeometryElement { get; set; }
-
         Vector Position { get; set; }
 
         bool Dead { get; set; }
@@ -27,6 +25,10 @@ namespace Orbit.Core.Scene.Entities
         bool IsOnScreen(Size screenSize);
 
         void UpdateGeometric();
+
+        UIElement GetGeometry();
+
+        void SetGeometry(UIElement geometryElement);
 
         void OnRemove();
     }

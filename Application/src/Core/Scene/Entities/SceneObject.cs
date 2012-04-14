@@ -10,7 +10,7 @@ namespace Orbit.Core.Scene.Entities
     {
         private IList<IControl> controls;
         public long Id { get; set; }
-        public UIElement GeometryElement { get; set; }
+        protected UIElement geometryElement;
         public Vector Position { get; set; }
         public bool Dead { get; set; }
 
@@ -64,6 +64,16 @@ namespace Orbit.Core.Scene.Entities
         public abstract bool IsOnScreen(Size screenSize);
 
         public abstract void UpdateGeometric();
+
+        public UIElement GetGeometry()
+        {
+            return geometryElement;
+        }
+
+        public void SetGeometry(UIElement geometryElement)
+        {
+            this.geometryElement = geometryElement;
+        }
 
         public void DoRemoveMe()
         {

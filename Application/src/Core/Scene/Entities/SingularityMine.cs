@@ -49,11 +49,11 @@ namespace Orbit.Core.Scene.Entities
             if (!IsVisible)
                 return;
 
-            GeometryElement.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, new Action(() =>
+            geometryElement.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, new Action(() =>
             {
-                ((GeometryElement as Path).Data as EllipseGeometry).RadiusX = Radius;
-                ((GeometryElement as Path).Data as EllipseGeometry).RadiusY = Radius;
-                (GeometryElement as Path).Stroke = Brushes.Black;
+                ((geometryElement as Path).Data as EllipseGeometry).RadiusX = Radius;
+                ((geometryElement as Path).Data as EllipseGeometry).RadiusY = Radius;
+                (geometryElement as Path).Stroke = Brushes.Black;
             }));
         }
     }

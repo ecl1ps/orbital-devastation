@@ -4,6 +4,8 @@ using System.Windows;
 using System.Windows.Threading;
 using System.Windows.Controls;
 using System.Windows.Shapes;
+using Lidgren.Network;
+using Orbit.Core.Scene.Controls;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -14,7 +16,8 @@ namespace Orbit.Core.Scene.Entities
         public Vector Direction { get; set; }
         public int Radius { get; set; }
         public bool IsHeadingRight { get; set; }
-        public int Rotation { get; set; }
+        public float Rotation { get; set; }
+        public int TextureId { get; set; }
 
         public bool CollideWith(ICollidable other)
         {
@@ -35,12 +38,12 @@ namespace Orbit.Core.Scene.Entities
 
         public override void UpdateGeometric()
         {
-            GeometryElement.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, (Action)(delegate 
+            geometryElement.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, (Action)(delegate 
             {
-                Canvas.SetLeft(GeometryElement, Position.X - Radius);
-                Canvas.SetTop(GeometryElement, Position.Y - Radius);
-                (GeometryElement as Image).Width = Radius * 2;
-                (GeometryElement as Image).RenderTransform = new RotateTransform(Rotation);
+                Canvas.SetLeft(geometryElement, Position.X - Radius);
+                Canvas.SetTop(geometryElement, Position.Y - Radius);
+                (geometryElement as Image).Width = Radius * 2;
+                (geometryElement as Image).RenderTransform = new RotateTransform(Rotation);
             }));
 
         }
@@ -58,7 +61,25 @@ namespace Orbit.Core.Scene.Entities
 
         public override void OnRemove()
         {
-            SceneMgr.GetInstance().AttachToScene(SceneObjectFactory.CreateNewSphereOnEdge(this));
+            if (SceneMgr.GetInstance().GameType == Gametype.SOLO_GAME)
+            {
+                SceneMgr.GetInstance().AttachToScene(SceneObjectFactory.CreateNewSphereOnEdge(this));
+                return;
+            }
+
+            if (SceneMgr.GetInstance().IsServer())
+            {
+                Sphere s = SceneObjectFactory.CreateNewSphereOnEdge(this);
+                SceneMgr.GetInstance().AttachToScene(s);
+                NetOutgoingMessage msg = SceneMgr.CreatNetMessage();
+                msg.Write((int)PacketType.NEW_ASTEROID);
+                msg.WriteObjectSphere(s);
+
+                msg.Write((s.GetControlOfType(typeof(LinearMovementControl)) as LinearMovementControl).Speed);
+                msg.Write((s.GetControlOfType(typeof(LinearRotationControl)) as LinearRotationControl).RotationSpeed);
+
+                SceneMgr.SendMessage(msg);
+            }
         }
     }
 

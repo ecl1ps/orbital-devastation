@@ -6,7 +6,7 @@ namespace Orbit.Core
         // Application
         public const long MINIMUM_UPDATE_TIME       = 30;
 
-        public const int PORT_NUMBER                = 61111;
+        public const int PORT_NUMBER                = 194;
 
         // Scene
         public const int MIN_SPHERE_RADIUS          = 10;
@@ -18,7 +18,7 @@ namespace Orbit.Core
         public const int MIN_SPHERE_ROTATION_SPEED  = -10;
         public const int MAX_SPHERE_ROTATION_SPEED  =  10;
 
-        public const int SPHERE_COUNT               = 25;
+        public const int SPHERE_COUNT               = 20;
 
         public const int BASE_MAX_INGERITY          = 100;
 
@@ -49,7 +49,8 @@ namespace Orbit.Core
         PLAYER_CONNECT,
         SYNC_ALL_PLAYER_DATA,
         SYNC_ALL_ASTEROIDS,
-        SYNC_ALL_BASES,
-        NEW_MINE,
+        NEW_ASTEROID,
+        NEW_SINGULARITY_MINE,
+        PLAYER_WON,
     }    
 }

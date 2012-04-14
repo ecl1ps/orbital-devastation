@@ -1,5 +1,5 @@
 using System;
-using Orbit.Core.Player;
+using Orbit.Core.Players;
 using System.Windows.Media;
 using System.Windows;
 using System.Windows.Threading;
