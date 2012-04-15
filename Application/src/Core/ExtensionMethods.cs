@@ -28,6 +28,11 @@ namespace Orbit.Core
             return (float)new Vector(vec.X, 0).Length;
         }
 
+        public static Vector Clone(this Vector vec)
+        {
+            return new Vector(vec.X, vec.Y);
+        }
+
         public static Vector ToVector(this Point p)
         {
             return new Vector(p.X, p.Y);

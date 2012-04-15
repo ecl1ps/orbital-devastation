@@ -427,9 +427,7 @@ namespace Orbit.Core.Scene
                 if (GameType != Gametype.SOLO_GAME)
                 {
                     NetOutgoingMessage msg = CreatNetMessage();
-                    msg.Write((int)PacketType.NEW_SINGULARITY_MINE);
-                    msg.WriteObjectSingularityMine(mine);
-                    msg.WriteObjectSingularityControl(mine.GetControlOfType(typeof(SingularityControl)) as SingularityControl);
+                    (mine as ISendable).WriteObject(msg);
                     SendMessage(msg);
                 }
 

@@ -8,7 +8,7 @@ namespace Orbit.Core.Scene.Entities
 {
     public abstract class SceneObject : ISceneObject
     {
-        private IList<IControl> controls;
+        private List<IControl> controls;
         public long Id { get; set; }
         protected UIElement geometryElement;
         public Vector Position { get; set; }
@@ -59,6 +59,13 @@ namespace Orbit.Core.Scene.Entities
                     return control;
             }
             return null;
+        }
+
+        public IList<IControl> GetControlsCopy()
+        {
+            IControl[] copyOfControls = new IControl[controls.Count];
+            controls.CopyTo(copyOfControls);
+            return copyOfControls;
         }
 
         public abstract bool IsOnScreen(Size screenSize);

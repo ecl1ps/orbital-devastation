@@ -81,6 +81,7 @@
     <Compile Include="src\Core\Player\PlayerData.cs" />
     <Compile Include="src\Core\Scene\Controls\NewtonianMovementControl.cs" />
     <Compile Include="src\Core\Scene\Controls\LinearRotationControl.cs" />
+    <Compile Include="src\Core\Scene\Entities\ISendable.cs" />
     <Compile Include="src\Core\Scene\SceneMgr.Net.cs" />
     <Compile Include="src\Core\Scene\Entities\IRotable.cs" />
     <Compile Include="src\Core\Scene\SceneGeometryFactory.cs" />

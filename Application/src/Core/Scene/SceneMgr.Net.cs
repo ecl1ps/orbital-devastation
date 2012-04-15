@@ -140,17 +140,13 @@ namespace Orbit.Core.Scene
                                 for (int i = 0; i < count; ++i)
                                 {
                                     Sphere s = new Sphere();
-                                    msg.ReadObjectSphere(s);
-                                    s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s));
-
-                                    NewtonianMovementControl nmc = new NewtonianMovementControl();
-                                    nmc.InitialSpeed = msg.ReadFloat();
-                                    s.AddControl(nmc);
-
-                                    LinearRotationControl lrc = new LinearRotationControl();
-                                    lrc.RotationSpeed = msg.ReadFloat();
-                                    s.AddControl(lrc);
-
+                                    if (msg.ReadInt32() != (int)PacketType.NEW_ASTEROID)
+                                    {
+                                        Console.Error.WriteLine("Corrupted object PacketType.SYNC_ALL_ASTEROIDS");
+                                        return;
+                                    }
+                                    (s as ISendable).ReadObject(msg);
+                                    s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s));;
                                     AttachToScene(s);
                                     SyncReceivedObject(s, msg);
                                 }
@@ -162,18 +158,8 @@ namespace Orbit.Core.Scene
                             case PacketType.NEW_ASTEROID:
                                 {
                                     Sphere s = new Sphere();
-                                    msg.ReadObjectSphere(s);
+                                    (s as ISendable).ReadObject(msg);
                                     s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s));
-
-                                    NewtonianMovementControl nmc = new NewtonianMovementControl();
-                                    nmc.InitialSpeed = msg.ReadFloat();
-                                    s.AddControl(nmc);
-
-                                    LinearRotationControl lrc = new LinearRotationControl();
-                                    lrc.RotationSpeed = msg.ReadFloat();
-
-                                    s.AddControl(lrc);
-
                                     AttachToScene(s);
                                     SyncReceivedObject(s, msg);
                                 }
@@ -181,13 +167,8 @@ namespace Orbit.Core.Scene
                             case PacketType.NEW_SINGULARITY_MINE:
                                 {
                                     SingularityMine s = new SingularityMine();
-                                    msg.ReadObjectSingularityMine(s);
+                                    (s as ISendable).ReadObject(msg);
                                     s.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(s));
-
-                                    SingularityControl sc = new SingularityControl();
-                                    msg.ReadObjectSingularityControl(sc);
-                                    s.AddControl(sc);
-
                                     AttachToScene(s);
                                     SyncReceivedObject(s, msg);
                                 }
@@ -238,12 +219,8 @@ namespace Orbit.Core.Scene
                                 outmsg.Write(count);
 
                                 foreach (ISceneObject obj in objects)
-                                    if (obj is Sphere)
-                                    {
-                                        outmsg.WriteObjectSphere(obj as Sphere);
-                                        outmsg.Write((obj.GetControlOfType(typeof(NewtonianMovementControl)) as NewtonianMovementControl).InitialSpeed);
-                                        outmsg.Write((obj.GetControlOfType(typeof(LinearRotationControl)) as LinearRotationControl).RotationSpeed);
-                                    }
+                                    if (obj is Sphere && obj is ISendable)
+                                        (obj as ISendable).WriteObject(outmsg);
 
                                 peer.SendMessage(outmsg, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
 

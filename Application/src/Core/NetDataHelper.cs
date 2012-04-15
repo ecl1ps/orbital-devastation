@@ -33,7 +33,9 @@ namespace Orbit.Core
         {
             msg.WriteObjectSceneObject(s);
 
-            msg.Write(s.Direction);
+            Vector dir = s.Direction.Clone();
+            dir.Normalize();
+            msg.Write(dir);
             msg.Write(s.IsHeadingRight);
             msg.Write(s.Radius);
             msg.Write(s.Rotation);
@@ -59,6 +61,36 @@ namespace Orbit.Core
         public static void ReadObjectSingularityMine(this NetIncomingMessage msg, SingularityMine s)
         {
             msg.ReadObjectSceneObject(s);
+        }
+
+        public static void WriteObjectLinearMovementControl(this NetOutgoingMessage msg, LinearMovementControl c)
+        {
+            msg.Write(c.InitialSpeed);
+        }
+
+        public static void ReadObjectLinearMovementControl(this NetIncomingMessage msg, LinearMovementControl c)
+        {
+            c.InitialSpeed = msg.ReadFloat();
+        }
+
+        public static void WriteObjectNewtonianMovementControl(this NetOutgoingMessage msg, NewtonianMovementControl c)
+        {
+            msg.Write(c.InitialSpeed);
+        }
+
+        public static void ReadObjectNewtonianMovementControl(this NetIncomingMessage msg, NewtonianMovementControl c)
+        {
+            c.InitialSpeed = msg.ReadFloat();
+        }
+
+        public static void WriteObjectLinearRotationControl(this NetOutgoingMessage msg, LinearRotationControl c)
+        {
+            msg.Write(c.RotationSpeed);
+        }
+
+        public static void ReadObjectLinearRotationControl(this NetIncomingMessage msg, LinearRotationControl c)
+        {
+            c.RotationSpeed = msg.ReadFloat();
         }
 
         public static void WriteObjectSingularityControl(this NetOutgoingMessage msg, SingularityControl c)

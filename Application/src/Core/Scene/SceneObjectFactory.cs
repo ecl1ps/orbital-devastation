@@ -42,7 +42,7 @@ namespace Orbit.Core.Scene
         private static Sphere CreateSphereControls(Sphere s)
         {
             /*LinearMovementControl lmc = new LinearMovementControl();
-            lmc.Speed = randomGenerator.Next(SharedDef.MIN_SPHERE_SPEED * 10, SharedDef.MAX_SPHERE_SPEED * 10) / 10.0f;
+            lmc.InitialSpeed = SceneMgr.GetInstance().GetRandomGenerator().Next(SharedDef.MIN_SPHERE_SPEED * 10, SharedDef.MAX_SPHERE_SPEED * 10) / 10.0f;
             s.AddControl(lmc);*/
 
             NewtonianMovementControl nmc = new NewtonianMovementControl();

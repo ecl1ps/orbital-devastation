@@ -2,6 +2,7 @@ using System;
 using System.Windows;
 using Orbit.Core.Scene.Controls;
 using System.Windows.Shapes;
+using System.Collections.Generic;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -21,6 +22,8 @@ namespace Orbit.Core.Scene.Entities
         void RemoveControl(Type type);
 
         IControl GetControlOfType(Type type);
+
+        IList<IControl> GetControlsCopy();
 
         bool IsOnScreen(Size screenSize);
 

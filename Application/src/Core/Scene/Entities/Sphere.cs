@@ -6,11 +6,12 @@ using System.Windows.Controls;
 using System.Windows.Shapes;
 using Lidgren.Network;
 using Orbit.Core.Scene.Controls;
+using System.Collections.Generic;
 
 namespace Orbit.Core.Scene.Entities
 {
 
-    public class Sphere : SceneObject, IMovable, ICollidable, IRotable
+    public class Sphere : SceneObject, IMovable, ICollidable, IRotable, ISendable
     {
         public Color Color { get; set; }
         public Vector Direction { get; set; }
@@ -72,13 +73,68 @@ namespace Orbit.Core.Scene.Entities
                 Sphere s = SceneObjectFactory.CreateNewSphereOnEdge(this);
                 SceneMgr.GetInstance().AttachToScene(s);
                 NetOutgoingMessage msg = SceneMgr.CreatNetMessage();
-                msg.Write((int)PacketType.NEW_ASTEROID);
-                msg.WriteObjectSphere(s);
-
-                msg.Write((s.GetControlOfType(typeof(NewtonianMovementControl)) as NewtonianMovementControl).InitialSpeed);
-                msg.Write((s.GetControlOfType(typeof(LinearRotationControl)) as LinearRotationControl).RotationSpeed);
-
+                s.WriteObject(msg);
                 SceneMgr.SendMessage(msg);
+            }
+        }
+
+        public void WriteObject(NetOutgoingMessage msg)
+        {
+            msg.Write((int)PacketType.NEW_ASTEROID);
+            msg.WriteObjectSphere(this);
+
+            IList<IControl> controls = GetControlsCopy();
+            msg.Write(controls.Count);
+            foreach (IControl c in controls)
+            {
+                if (c is NewtonianMovementControl)
+                {
+                    msg.Write(typeof(NewtonianMovementControl).GUID.GetHashCode());
+                    msg.WriteObjectNewtonianMovementControl(c as NewtonianMovementControl);
+                }
+                else if (c is LinearMovementControl)
+                {
+                    msg.Write(typeof(LinearMovementControl).GUID.GetHashCode());
+                    msg.WriteObjectLinearMovementControl(c as LinearMovementControl);
+                }
+                else if (c is LinearRotationControl)
+                {
+                    msg.Write(typeof(LinearRotationControl).GUID.GetHashCode());
+                    msg.WriteObjectLinearRotationControl(c as LinearRotationControl);
+                }
+                else
+                    Console.Error.WriteLine("Sending Sphere with unspported control!");
+            }
+        }
+
+        public void ReadObject(NetIncomingMessage msg)
+        {
+            msg.ReadObjectSphere(this);
+
+            int controls = msg.ReadInt32();
+            for (int i = 0; i < controls; ++i)
+            {
+                int hash = msg.ReadInt32();
+                if (hash == typeof(NewtonianMovementControl).GUID.GetHashCode())
+                {
+                    NewtonianMovementControl c = new NewtonianMovementControl();
+                    msg.ReadObjectNewtonianMovementControl(c);
+                    AddControl(c);
+                }
+                else if (hash == typeof(LinearMovementControl).GUID.GetHashCode())
+                {
+                    LinearMovementControl c = new LinearMovementControl();
+                    msg.ReadObjectLinearMovementControl(c);
+                    AddControl(c);
+                }
+                else if (hash == typeof(LinearRotationControl).GUID.GetHashCode())
+                {
+                    LinearRotationControl c = new LinearRotationControl();
+                    msg.ReadObjectLinearRotationControl(c);
+                    AddControl(c);
+                }
+                else
+                    Console.Error.WriteLine("Reading Sphere with unspported control guid!");
             }
         }
     }
