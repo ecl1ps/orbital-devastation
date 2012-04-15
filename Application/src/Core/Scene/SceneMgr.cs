@@ -31,7 +31,6 @@ namespace Orbit.Core.Scene
         private Rect orbitArea;
         private Random randomGenerator;
         public Size ViewPortSizeOriginal { get; set; }
-        public Size ViewPortSize { get; set; }
         private ConcurrentQueue<Action> synchronizedQueue;
         public Gametype GameType { get; set; }
         private bool gameEnded;
@@ -397,11 +396,7 @@ namespace Orbit.Core.Scene
 
         public void OnViewPortChange(Size size)
         {
-            ViewPortSize = size;
-            GetUIDispatcher().BeginInvoke(DispatcherPriority.Normal, new Action(() =>
-            {
-                canvas.RenderTransform = new ScaleTransform(size.Width / ViewPortSizeOriginal.Width, size.Height / ViewPortSizeOriginal.Height);
-            }));
+            
         }
 
         public Rect GetOrbitArea()

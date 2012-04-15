@@ -20,17 +20,12 @@ namespace Orbit.Gui
     /// </summary>
     public partial class GameUC : UserControl
     {
+        private Size SizeOriginal { get; set; }
+
         public GameUC()
         {
             InitializeComponent();
-        }
-
-        private void WindowSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            SceneMgr.GetInstance().Enqueue(new Action(() =>
-            {
-                SceneMgr.GetInstance().OnViewPortChange(e.NewSize);
-            }));
+            SizeOriginal = new Size(mainCanvas.Width, mainCanvas.Height);
         }
 
         private void OnCanvasMouseClick(object sender, MouseButtonEventArgs e)
@@ -43,5 +38,13 @@ namespace Orbit.Gui
             }));
         }
 
+        private void WindowSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            mainCanvas.RenderTransform = new ScaleTransform(e.NewSize.Width / SizeOriginal.Width, e.NewSize.Height / SizeOriginal.Height);
+            SceneMgr.GetInstance().Enqueue(new Action(() =>
+            {
+                SceneMgr.GetInstance().OnViewPortChange(e.NewSize);
+            }));
+        }
     }
 }
