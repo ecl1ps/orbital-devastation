@@ -53,7 +53,8 @@ namespace Orbit.Core.Scene.Controls
 
         public void CollidedWith(IMovable movable)
         {
-            if (meMine.SceneMgr.GameType != Gametype.SOLO_GAME && meMine.Owner == meMine.SceneMgr.GetOtherPlayer().GetPosition())
+            if (meMine.SceneMgr.GameType != Gametype.SOLO_GAME && 
+                meMine.Owner.GetPosition() == meMine.SceneMgr.GetOtherPlayer().GetPosition())
                 return;
 
             if (hitObjects.Contains((movable as ISceneObject).Id))

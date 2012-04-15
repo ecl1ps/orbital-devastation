@@ -167,7 +167,7 @@ namespace Orbit.Core.Scene
                                 {
                                     SingularityMine s = new SingularityMine();
                                     (s as ISendable).ReadObject(msg);
-                                    s.Owner = GetOtherPlayer().GetPosition();
+                                    s.Owner = GetOtherPlayer();
                                     s.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(s));
                                     AttachToScene(s);
                                     SyncReceivedObject(s, msg);
@@ -189,7 +189,6 @@ namespace Orbit.Core.Scene
                                     (obj as IMovable).Direction += dir;
                                     break;
                                 }
-                                ShowStatusText(4, "received mine hit " + id);
                                 break;
                         }
 

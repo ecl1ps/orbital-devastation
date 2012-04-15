@@ -15,7 +15,7 @@ namespace Orbit.Core.Scene.Entities
     {
         public int Radius { get; set; }
         public bool IsVisible { get; set; }
-        public PlayerPosition Owner { get; set; }
+        public Player Owner { get; set; }
 
         public SingularityMine() : base()
         {
