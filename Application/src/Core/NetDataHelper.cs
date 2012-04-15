@@ -56,11 +56,17 @@ namespace Orbit.Core
         public static void WriteObjectSingularityMine(this NetOutgoingMessage msg, SingularityMine s)
         {
             msg.WriteObjectSceneObject(s);
+            msg.Write(s.Radius);
+            Vector dir = s.Direction.Clone();
+            dir.Normalize();
+            msg.Write(dir);
         }
 
         public static void ReadObjectSingularityMine(this NetIncomingMessage msg, SingularityMine s)
         {
             msg.ReadObjectSceneObject(s);
+            s.Radius = msg.ReadInt32();
+            s.Direction = msg.ReadVector();
         }
 
         public static void WriteObjectLinearMovementControl(this NetOutgoingMessage msg, LinearMovementControl c)
@@ -100,6 +106,18 @@ namespace Orbit.Core
         }
 
         public static void ReadObjectSingularityControl(this NetIncomingMessage msg, SingularityControl c)
+        {
+            c.Speed = msg.ReadFloat();
+            c.Strength = msg.ReadFloat();
+        }
+
+        public static void WriteObjectDroppingSingularityControl(this NetOutgoingMessage msg, DroppingSingularityControl c)
+        {
+            msg.Write(c.Speed);
+            msg.Write(c.Strength);
+        }
+
+        public static void ReadObjectDroppingSingularityControl(this NetIncomingMessage msg, DroppingSingularityControl c)
         {
             c.Speed = msg.ReadFloat();
             c.Strength = msg.ReadFloat();

@@ -7,15 +7,17 @@ using System.Windows.Shapes;
 using Lidgren.Network;
 using System.Collections.Generic;
 using Orbit.Core.Players;
+using System.Windows.Controls;
 
 namespace Orbit.Core.Scene.Entities
 {
 
-    public class SingularityMine : SceneObject, ICollidable, ISendable
+    public class SingularityMine : SceneObject, ICollidable, ISendable, IMovable
     {
         public int Radius { get; set; }
         public bool IsVisible { get; set; }
         public Player Owner { get; set; }
+        public Vector Direction { get; set; }
 
         public SingularityMine() : base()
         {
@@ -42,7 +44,8 @@ namespace Orbit.Core.Scene.Entities
         {
             if (other is IMovable)
             {
-                SingularityControl c = GetControlOfType(typeof(SingularityControl)) as SingularityControl;
+                //SingularityControl c = GetControlOfType(typeof(SingularityControl)) as SingularityControl;
+                DroppingSingularityControl c = GetControlOfType(typeof(DroppingSingularityControl)) as DroppingSingularityControl;
                 if (c != null)
                     c.CollidedWith(other as IMovable);
             }
@@ -55,6 +58,8 @@ namespace Orbit.Core.Scene.Entities
 
             geometryElement.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, new Action(() =>
             {
+                Canvas.SetLeft(geometryElement, Position.X);
+                Canvas.SetTop(geometryElement, Position.Y);
                 ((geometryElement as Path).Data as EllipseGeometry).RadiusX = Radius;
                 ((geometryElement as Path).Data as EllipseGeometry).RadiusY = Radius;
                 (geometryElement as Path).Stroke = Brushes.Black;
@@ -75,6 +80,16 @@ namespace Orbit.Core.Scene.Entities
                     msg.Write(typeof(SingularityControl).GUID.GetHashCode());
                     msg.WriteObjectSingularityControl(c as SingularityControl);
                 }
+                else if (c is DroppingSingularityControl)
+                {
+                    msg.Write(typeof(DroppingSingularityControl).GUID.GetHashCode());
+                    msg.WriteObjectDroppingSingularityControl(c as DroppingSingularityControl);
+                }
+                else if (c is LinearMovementControl)
+                {
+                    msg.Write(typeof(LinearMovementControl).GUID.GetHashCode());
+                    msg.WriteObjectLinearMovementControl(c as LinearMovementControl);
+                }
                 else
                     Console.Error.WriteLine("Sending Singularity Mine with unspported control!");
             }
@@ -92,6 +107,18 @@ namespace Orbit.Core.Scene.Entities
                 {
                     SingularityControl c = new SingularityControl();
                     msg.ReadObjectSingularityControl(c);
+                    AddControl(c);
+                }
+                else if (hash == typeof(DroppingSingularityControl).GUID.GetHashCode())
+                {
+                    DroppingSingularityControl c = new DroppingSingularityControl();
+                    msg.ReadObjectDroppingSingularityControl(c);
+                    AddControl(c);
+                }
+                else if (hash == typeof(LinearMovementControl).GUID.GetHashCode())
+                {
+                    LinearMovementControl c = new LinearMovementControl();
+                    msg.ReadObjectLinearMovementControl(c);
                     AddControl(c);
                 }
                 else

@@ -93,17 +93,39 @@ namespace Orbit.Core.Scene
 
         public static SingularityMine CreateSingularityMine(Point point, Player plr)
         {
-            Random randomGenerator = SceneMgr.GetInstance().GetRandomGenerator();
             SingularityMine mine = new SingularityMine();
             mine.Id = IdMgr.GetNewId();
             mine.Position = point.ToVector();
             mine.Owner = plr;
-            //mine.Radius = randomGenerator.Next(1, SharedDef.MAX_SPHERE_RADIUS);
 
             SingularityControl sc = new SingularityControl();
             sc.Speed = plr.Data.MineGrowthSpeed;
             sc.Strength = plr.Data.MineStrength;
             mine.AddControl(sc);
+
+            mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
+
+            return mine;
+        }
+
+        public static SingularityMine CreateDroppingSingularityMine(Point point, Player plr)
+        {
+
+            SingularityMine mine = new SingularityMine();
+            mine.Id = IdMgr.GetNewId();
+            mine.Position = new Vector(point.X, 0);
+            mine.Owner = plr;
+            mine.Radius = 2;
+            mine.Direction = new Vector(0, 1);
+
+            DroppingSingularityControl sc = new DroppingSingularityControl();
+            sc.Speed = plr.Data.MineGrowthSpeed;
+            sc.Strength = plr.Data.MineStrength;
+            mine.AddControl(sc);
+
+            LinearMovementControl lmc = new LinearMovementControl();
+            lmc.InitialSpeed = plr.Data.MineFallingSpeed;
+            mine.AddControl(lmc);
 
             mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
 

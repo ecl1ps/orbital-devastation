@@ -80,6 +80,7 @@
     <Compile Include="src\Core\NetSearcher.cs" />
     <Compile Include="src\Core\Player\Player.cs" />
     <Compile Include="src\Core\Player\PlayerData.cs" />
+    <Compile Include="src\Core\Scene\Controls\DroppingSingularityControl.cs" />
     <Compile Include="src\Core\Scene\Controls\NewtonianMovementControl.cs" />
     <Compile Include="src\Core\Scene\Controls\LinearRotationControl.cs" />
     <Compile Include="src\Core\Scene\Entities\ISendable.cs" />

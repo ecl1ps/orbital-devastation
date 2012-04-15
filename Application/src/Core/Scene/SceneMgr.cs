@@ -433,7 +433,7 @@ namespace Orbit.Core.Scene
             if (GetPlayer(mePlayer).IsMineReady())
             {
                 GetPlayer(mePlayer).UseMine();
-                SingularityMine mine = SceneObjectFactory.CreateSingularityMine(point, GetPlayer(mePlayer));
+                SingularityMine mine = SceneObjectFactory.CreateDroppingSingularityMine(point, GetPlayer(mePlayer));
 
                 if (GameType != Gametype.SOLO_GAME)
                 {

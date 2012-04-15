@@ -29,6 +29,7 @@ namespace Orbit.Core
         public const float MINE_GROWTH_SPEED        = 1f;
         public const float MINE_STRENGTH            = 100f;
         public const int MINE_COOLDOWN              = 400;
+        public const int MINE_FALLING_SPEED         = 50;
 
         // polovina gravitacniho zrychleni
         public const float GRAVITY                  = 5f;
