@@ -60,8 +60,7 @@ namespace Orbit.Core.Scene.Controls
             Vector newDir = (movable as ISceneObject).Position - me.Position;
             newDir.Normalize();
             newDir *= Strength;
-            newDir += movable.Direction;
-            movable.Direction = newDir;
+            movable.Direction += newDir;
         }
 
     }

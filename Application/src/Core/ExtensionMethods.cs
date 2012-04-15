@@ -23,6 +23,11 @@ namespace Orbit.Core
             return new Point(vec.X, vec.Y);
         }
 
+        public static float GetHorizontalLenght(this Vector vec)
+        {
+            return (float)new Vector(vec.X, 0).Length;
+        }
+
         public static Vector ToVector(this Point p)
         {
             return new Vector(p.X, p.Y);

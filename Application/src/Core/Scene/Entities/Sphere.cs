@@ -75,7 +75,7 @@ namespace Orbit.Core.Scene.Entities
                 msg.Write((int)PacketType.NEW_ASTEROID);
                 msg.WriteObjectSphere(s);
 
-                msg.Write((s.GetControlOfType(typeof(LinearMovementControl)) as LinearMovementControl).Speed);
+                msg.Write((s.GetControlOfType(typeof(NewtonianMovementControl)) as NewtonianMovementControl).InitialSpeed);
                 msg.Write((s.GetControlOfType(typeof(LinearRotationControl)) as LinearRotationControl).RotationSpeed);
 
                 SceneMgr.SendMessage(msg);

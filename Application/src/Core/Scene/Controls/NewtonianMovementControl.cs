@@ -8,7 +8,21 @@ namespace Orbit.Core.Scene.Controls
     {
         private IMovable meMovable;
         private float earthSurface;
-        public float Speed { get; set; }
+        public float InitialSpeed { get; set; }
+        public float Speed {
+            get
+            {
+                return (float)meMovable.Direction.Length;
+            }
+        }
+        public float HorizontalSpeed
+        {
+            get
+            {
+                return (float)meMovable.Direction.GetHorizontalLenght();
+            }
+        }
+        public float TimeAlive { get; set; }
 
         public override void InitControl(ISceneObject obj)
         {
@@ -18,8 +32,11 @@ namespace Orbit.Core.Scene.Controls
                 return;
             }
 
-            earthSurface = (float)SceneMgr.GetInstance().ViewPortSizeOriginal.Height;
+            TimeAlive = 0;
+            // povrch je az pod povrchem - aby se sfery nezastavily na rozhrani
+            earthSurface = (float)SceneMgr.GetInstance().ViewPortSizeOriginal.Height * 2; 
             meMovable = obj as IMovable;
+            meMovable.Direction *= InitialSpeed;
         }
 
         public override void UpdateControl(float tpf)
@@ -27,24 +44,30 @@ namespace Orbit.Core.Scene.Controls
             if (meMovable == null)
                 return;
 
-            // jsme na orbite - gravitace se zanedbava
-            if (me.Position.Y < SceneMgr.GetInstance().GetOrbitArea().Height)
-            {
-                me.Position = me.Position + (meMovable.Direction * Speed * tpf);
-                return;
-            }
+            Vector dirToSurf = new Vector(0, -1);
 
-            Vector dirToSurf = new Vector(me.Position.X, earthSurface) - me.Position;
-            float distToSurf = (float)dirToSurf.Length;
-            dirToSurf.Normalize();
+            me.Position += (meMovable.Direction * tpf) +
+                (dirToSurf * 
+                    (
+                        (SharedDef.GRAVITY - SharedDef.GRAVITY * 
+                            (1 + Math.Pow((HorizontalSpeed - SharedDef.FIRST_COSMICAL_SPEED) / SharedDef.FIRST_COSMICAL_SPEED, 2)) 
+                            * 1 / (GetRealativeAltitude() / SharedDef.STABLE_ORBIT_RELATIVE)
+                        )
+                    )
+                * 2 * TimeAlive * tpf);
 
-            // pokud jsme uz pod povrchem zeme, pokracujme dal (ne zpet nahoru k nemu)
-            if (me.Position.Y > earthSurface)
-                dirToSurf.Negate();
+            TimeAlive += tpf;
 
-            // soucasne pozici se pricte vektor dopredneho smeru a pote gravitacni vektor smerujici k povrchu zeme
-            // rychlost roste s klesajici vzdalenosti k povrchu
-            me.Position = me.Position + (meMovable.Direction * Speed * tpf) + dirToSurf * (earthSurface / distToSurf) * tpf * 30;
+            /*SceneMgr.GetInstance().ShowStatusText(1, "ORBITA: " + SharedDef.STABLE_ORBIT_HEIGHT);
+            SceneMgr.GetInstance().ShowStatusText(2, "S: " + Speed + "H: " + HorizontalSpeed);
+            SceneMgr.GetInstance().ShowStatusText(3, "ALT: " + GetRealativeAltitude());
+            SceneMgr.GetInstance().ShowStatusText(4, "" + (SharedDef.GRAVITY * (1 + Math.Pow((HorizontalSpeed - SharedDef.FIRST_COSMICAL_SPEED) / SharedDef.FIRST_COSMICAL_SPEED, 2)) * (GetRealativeAltitude() / SharedDef.STABLE_ORBIT_RELATIVE)));
+            SceneMgr.GetInstance().ShowStatusText(5, "GRAV: " + SharedDef.GRAVITY);*/
+        }
+
+        private float GetRealativeAltitude()
+        {
+            return 1.0f - (float)me.Position.Y / earthSurface;
         }
     }
 }

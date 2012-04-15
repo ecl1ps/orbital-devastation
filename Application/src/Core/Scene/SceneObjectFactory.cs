@@ -45,8 +45,8 @@ namespace Orbit.Core.Scene
             lmc.Speed = randomGenerator.Next(SharedDef.MIN_SPHERE_SPEED * 10, SharedDef.MAX_SPHERE_SPEED * 10) / 10.0f;
             s.AddControl(lmc);*/
 
-            LinearMovementControl nmc = new LinearMovementControl();
-            nmc.Speed = SceneMgr.GetInstance().GetRandomGenerator().Next(SharedDef.MIN_SPHERE_SPEED * 10, SharedDef.MAX_SPHERE_SPEED * 10) / 10.0f;
+            NewtonianMovementControl nmc = new NewtonianMovementControl();
+            nmc.InitialSpeed = SceneMgr.GetInstance().GetRandomGenerator().Next(SharedDef.MIN_SPHERE_SPEED * 10, SharedDef.MAX_SPHERE_SPEED * 10) / 10.0f;
             s.AddControl(nmc);
 
             LinearRotationControl lrc = new LinearRotationControl();
