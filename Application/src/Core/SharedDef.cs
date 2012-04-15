@@ -19,7 +19,7 @@ namespace Orbit.Core
         public const int MIN_SPHERE_ROTATION_SPEED  = -10;
         public const int MAX_SPHERE_ROTATION_SPEED  =  10;
 
-        public const int SPHERE_COUNT               = 1;
+        public const int SPHERE_COUNT               = 20;
 
         public const int BASE_MAX_INGERITY          = 100;
 
@@ -28,7 +28,7 @@ namespace Orbit.Core
 
         public const float MINE_GROWTH_SPEED        = 1f;
         public const float MINE_STRENGTH            = 100f;
-        public const int MINE_COOLDOWN              = 200;
+        public const int MINE_COOLDOWN              = 400;
 
         // polovina gravitacniho zrychleni
         public const float GRAVITY                  = 5f;

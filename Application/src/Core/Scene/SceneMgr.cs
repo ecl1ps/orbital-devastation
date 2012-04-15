@@ -34,6 +34,7 @@ namespace Orbit.Core.Scene
         private ConcurrentQueue<Action> synchronizedQueue;
         public Gametype GameType { get; set; }
         private bool gameEnded;
+        private float statisticsTimer;
 
         private static SceneMgr sceneMgr;
         private static Object lck = new Object();
@@ -65,6 +66,7 @@ namespace Orbit.Core.Scene
             randomGenerator = new Random(Environment.TickCount);
             players = new List<Player>(2);
             synchronizedQueue = new ConcurrentQueue<Action>();
+            statisticsTimer = 0;
 
             GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
             {
@@ -95,7 +97,7 @@ namespace Orbit.Core.Scene
                 SetMainInfoText("Waiting for the other player to connect");
                 CreatePlayers();
                 mePlayer = firstPlayer;
-                ShowStatusText(2, "You are " + (players[0].GetPlayerColor() == Colors.Red ? "Red" : "Blue"));
+                ShowStatusText(3, "You are " + (players[0].GetPlayerColor() == Colors.Red ? "Red" : "Blue"));
                 InitNetwork();
                 CreateAsteroidField();
                 isInitialized = false;
@@ -263,8 +265,6 @@ namespace Orbit.Core.Scene
                 if (tpf > 0.001 && isInitialized)
                     Update(tpf);
 
-                //ShowStatusText(1, "TPF: " + tpf);
-
                 //Console.Out.WriteLine(tpf + ": " +sw.ElapsedMilliseconds);
 
 		        if (sw.ElapsedMilliseconds < SharedDef.MINIMUM_UPDATE_TIME) 
@@ -297,6 +297,8 @@ namespace Orbit.Core.Scene
 
         public void Update(float tpf)
         {
+            ShowStatistics(tpf);
+
             ProcessActionQueue();
 
             UpdateSceneObjects(tpf);
@@ -316,6 +318,19 @@ namespace Orbit.Core.Scene
             }
 
             CheckPlayerStates();
+        }
+
+        private void ShowStatistics(float tpf)
+        {
+            statisticsTimer += tpf;
+            if (statisticsTimer < 0.5)
+                return;
+
+            statisticsTimer = 0;
+
+            ShowStatusText(1, "TPF: " + tpf);
+            if (GameType != Gametype.SOLO_GAME)
+                ShowStatusText(2, "LATENCY: " + GetOtherPlayer().Connection.AverageRoundtripTime);
         }
 
         private void ProcessActionQueue()
@@ -453,7 +468,7 @@ namespace Orbit.Core.Scene
             {
                 Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(GetCanvas(), "lblEndGame");
                 if (lbl != null)
-                    lbl.Content = (winner.Data.PlayerColor == Colors.Red ? "Red" : "Blue") + " player won!";
+                    lbl.Content = (winner.Data.PlayerColor == Colors.Red ? "Red" : "Blue") + " player win!";
             }));
         }
 

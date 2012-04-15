@@ -126,7 +126,7 @@ namespace Orbit.Core.Scene
                                 secondPlayer = players[1].GetPosition();
                                 mePlayer = secondPlayer;
                                 players[0].Connection = msg.SenderConnection;
-                                ShowStatusText(2, "You are " + (players[1].GetPlayerColor() == Colors.Red ? "Red" : "Blue"));
+                                ShowStatusText(3, "You are " + (players[1].GetPlayerColor() == Colors.Red ? "Red" : "Blue"));
                                 break;
                             case PacketType.SYNC_ALL_ASTEROIDS:
                                 if (objects.Count > 2)
@@ -167,6 +167,7 @@ namespace Orbit.Core.Scene
                                 {
                                     SingularityMine s = new SingularityMine();
                                     (s as ISendable).ReadObject(msg);
+                                    s.Owner = GetOtherPlayer().GetPosition();
                                     s.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(s));
                                     AttachToScene(s);
                                     SyncReceivedObject(s, msg);
@@ -188,6 +189,7 @@ namespace Orbit.Core.Scene
                                     (obj as IMovable).Direction += dir;
                                     break;
                                 }
+                                ShowStatusText(4, "received mine hit " + id);
                                 break;
                         }
 
@@ -256,7 +258,6 @@ namespace Orbit.Core.Scene
 
         private void SyncReceivedObject(ISceneObject o, NetIncomingMessage msg)
         {
-            ShowStatusText(3, "Syncing by: " + msg.SenderConnection.AverageRoundtripTime);
             o.Update(msg.SenderConnection.AverageRoundtripTime);
         }
 

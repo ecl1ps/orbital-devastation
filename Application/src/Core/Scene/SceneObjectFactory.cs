@@ -97,6 +97,7 @@ namespace Orbit.Core.Scene
             SingularityMine mine = new SingularityMine();
             mine.Id = IdMgr.GetNewId();
             mine.Position = point.ToVector();
+            mine.Owner = plrdata.PlayerPosition;
             //mine.Radius = randomGenerator.Next(1, SharedDef.MAX_SPHERE_RADIUS);
 
             SingularityControl sc = new SingularityControl();
