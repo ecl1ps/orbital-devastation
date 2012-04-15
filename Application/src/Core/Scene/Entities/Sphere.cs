@@ -62,17 +62,17 @@ namespace Orbit.Core.Scene.Entities
 
         public override void OnRemove()
         {
-            if (SceneMgr.GetInstance().GameType == Gametype.SOLO_GAME)
+            if (SceneMgr.GameType == Gametype.SOLO_GAME)
             {
-                SceneMgr.GetInstance().AttachToScene(SceneObjectFactory.CreateNewSphereOnEdge(this));
+                SceneMgr.AttachToScene(SceneObjectFactory.CreateNewSphereOnEdge(this));
                 return;
             }
 
-            if (SceneMgr.GetInstance().IsServer())
+            if (SceneMgr.IsServer())
             {
                 Sphere s = SceneObjectFactory.CreateNewSphereOnEdge(this);
-                SceneMgr.GetInstance().AttachToScene(s);
-                NetOutgoingMessage msg = SceneMgr.CreatNetMessage();
+                SceneMgr.AttachToScene(s);
+                NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
                 s.WriteObject(msg);
                 SceneMgr.SendMessage(msg);
             }

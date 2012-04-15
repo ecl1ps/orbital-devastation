@@ -3,6 +3,7 @@ using Orbit.Core.Scene.Entities;
 using System.Diagnostics;
 using System.Windows;
 using System.Collections.Generic;
+using Lidgren.Network;
 
 namespace Orbit.Core.Scene.Controls
 {
@@ -52,6 +53,9 @@ namespace Orbit.Core.Scene.Controls
 
         public void CollidedWith(IMovable movable)
         {
+            if (meMine.SceneMgr.GameType != Gametype.SOLO_GAME && meMine.Owner == meMine.SceneMgr.GetOtherPlayer().GetPosition())
+                return;
+
             if (hitObjects.Contains((movable as ISceneObject).Id))
                 return;
 
@@ -61,6 +65,16 @@ namespace Orbit.Core.Scene.Controls
             newDir.Normalize();
             newDir *= Strength;
             movable.Direction += newDir;
+
+            if (meMine.SceneMgr.GameType != Gametype.SOLO_GAME)
+            {
+                NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+                msg.Write((int)PacketType.SINGULARITY_MINE_HIT);
+                msg.Write((movable as ISceneObject).Id);
+                msg.Write((movable as ISceneObject).Position);
+                msg.Write(newDir);
+                SceneMgr.SendMessage(msg);
+            }
         }
 
     }

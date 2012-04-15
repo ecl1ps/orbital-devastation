@@ -13,11 +13,13 @@ namespace Orbit.Core.Scene.Entities
         protected UIElement geometryElement;
         public Vector Position { get; set; }
         public bool Dead { get; set; }
+        public SceneMgr SceneMgr { get; set; }
 
         public SceneObject()
         {
             controls = new List<IControl>();
             Dead = false;
+            SceneMgr = SceneMgr.GetInstance();
         }
 
         public void Update(float tpf)
@@ -89,7 +91,7 @@ namespace Orbit.Core.Scene.Entities
 
         public void DoRemove(ISceneObject obj)
         {
-            SceneMgr.GetInstance().RemoveFromSceneDelayed(obj);
+            SceneMgr.RemoveFromSceneDelayed(obj);
         }
 
         public virtual void OnRemove() { }

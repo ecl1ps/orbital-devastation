@@ -31,14 +31,17 @@ namespace Orbit.Core.Scene
                 conf.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
                 conf.Port = SharedDef.PORT_NUMBER;
             }
-            conf.EnableMessageType(NetIncomingMessageType.Data);
-            conf.EnableMessageType(NetIncomingMessageType.DebugMessage);
+
+            /*conf.SimulatedMinimumLatency = 0.1f;
+            conf.SimulatedRandomLatency = 0.05f;*/
+
+            /*conf.EnableMessageType(NetIncomingMessageType.DebugMessage);
             conf.EnableMessageType(NetIncomingMessageType.Error);
             conf.EnableMessageType(NetIncomingMessageType.ErrorMessage);
             conf.EnableMessageType(NetIncomingMessageType.Receipt);
             conf.EnableMessageType(NetIncomingMessageType.UnconnectedData);
             conf.EnableMessageType(NetIncomingMessageType.VerboseDebugMessage);
-            conf.EnableMessageType(NetIncomingMessageType.WarningMessage);
+            conf.EnableMessageType(NetIncomingMessageType.WarningMessage);*/
 
             peer = new NetPeer(conf);
             peer.Start();
@@ -77,11 +80,7 @@ namespace Orbit.Core.Scene
                         break;
                     // If incoming message is Request for connection approval
                     // This is the very first packet/message that is sent from client
-                    // Here you can do new player initialisation stuff
                     case NetIncomingMessageType.ConnectionApproval:
-
-                        // Read the first byte of the packet
-                        // (Enums can be casted to bytes, so it be used to make bytes human readable )
                         if (msg.ReadInt32() == (int)PacketType.PLAYER_CONNECT)
                         {
                             Console.WriteLine("Incoming LOGIN");
@@ -89,7 +88,6 @@ namespace Orbit.Core.Scene
                             // Approve clients connection ( Its sort of agreenment. "You can be my client and i will host you" )
                             msg.SenderConnection.Approve();
                         }
-
                         break;
                     case NetIncomingMessageType.Data:
                         Console.WriteLine("Received data msg");
@@ -128,6 +126,7 @@ namespace Orbit.Core.Scene
                                 secondPlayer = players[1].GetPosition();
                                 mePlayer = secondPlayer;
                                 players[0].Connection = msg.SenderConnection;
+                                ShowStatusText(2, "You are " + (players[1].GetPlayerColor() == Colors.Red ? "Red" : "Blue"));
                                 break;
                             case PacketType.SYNC_ALL_ASTEROIDS:
                                 if (objects.Count > 2)
@@ -175,6 +174,20 @@ namespace Orbit.Core.Scene
                                 break;
                             case PacketType.PLAYER_WON:
                                 EndGame(GetPlayer((PlayerPosition)msg.ReadByte()), GameEnd.WIN_GAME);
+                                break;
+                            case PacketType.SINGULARITY_MINE_HIT:
+                                long id = msg.ReadInt64();
+                                Vector pos = msg.ReadVector();
+                                Vector dir = msg.ReadVector();
+                                foreach (ISceneObject obj in objects)
+                                {
+                                    if (obj.Id != id)
+                                        continue;
+
+                                    obj.Position = pos;
+                                    (obj as IMovable).Direction += dir;
+                                    break;
+                                }
                                 break;
                         }
 
@@ -243,7 +256,7 @@ namespace Orbit.Core.Scene
 
         private void SyncReceivedObject(ISceneObject o, NetIncomingMessage msg)
         {
-            ShowStatusText(2, "syncing by: " + msg.SenderConnection.AverageRoundtripTime);
+            ShowStatusText(3, "Syncing by: " + msg.SenderConnection.AverageRoundtripTime);
             o.Update(msg.SenderConnection.AverageRoundtripTime);
         }
 
@@ -262,7 +275,7 @@ namespace Orbit.Core.Scene
             return isServer;
         }
 
-        public static NetOutgoingMessage CreatNetMessage()
+        public static NetOutgoingMessage CreateNetMessage()
         {
             return GetInstance().peer.CreateMessage();
         }

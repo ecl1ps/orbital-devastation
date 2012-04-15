@@ -6,6 +6,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using Lidgren.Network;
 using System.Collections.Generic;
+using Orbit.Core.Players;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -14,6 +15,7 @@ namespace Orbit.Core.Scene.Entities
     {
         public int Radius { get; set; }
         public bool IsVisible { get; set; }
+        public PlayerPosition Owner { get; set; }
 
         public SingularityMine() : base()
         {

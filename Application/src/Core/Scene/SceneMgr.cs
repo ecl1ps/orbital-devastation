@@ -95,6 +95,7 @@ namespace Orbit.Core.Scene
                 SetMainInfoText("Waiting for the other player to connect");
                 CreatePlayers();
                 mePlayer = firstPlayer;
+                ShowStatusText(2, "You are " + (players[0].GetPlayerColor() == Colors.Red ? "Red" : "Blue"));
                 InitNetwork();
                 CreateAsteroidField();
                 isInitialized = false;
@@ -421,7 +422,7 @@ namespace Orbit.Core.Scene
 
                 if (GameType != Gametype.SOLO_GAME)
                 {
-                    NetOutgoingMessage msg = CreatNetMessage();
+                    NetOutgoingMessage msg = CreateNetMessage();
                     (mine as ISendable).WriteObject(msg);
                     SendMessage(msg);
                 }
@@ -442,7 +443,7 @@ namespace Orbit.Core.Scene
         {
             if (GameType != Gametype.SOLO_GAME)
             {
-                NetOutgoingMessage msg = CreatNetMessage();
+                NetOutgoingMessage msg = CreateNetMessage();
                 msg.Write((int)PacketType.PLAYER_WON);
                 msg.Write((byte)winner.GetPosition());
                 SendMessage(msg);
@@ -470,9 +471,14 @@ namespace Orbit.Core.Scene
             }));
         }
 
-        private Player GetOtherPlayer()
+        public Player GetOtherPlayer()
         {
             return IsServer() ? players[1] : players[0];
+        }
+
+        public Player GetMePlayer()
+        {
+            return IsServer() ? players[0] : players[1];
         }
     }
 

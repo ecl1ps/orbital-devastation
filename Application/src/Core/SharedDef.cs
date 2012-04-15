@@ -55,10 +55,11 @@ namespace Orbit.Core
     public enum PacketType
     {
         PLAYER_CONNECT,
+        PLAYER_WON,
         SYNC_ALL_PLAYER_DATA,
         SYNC_ALL_ASTEROIDS,
         NEW_ASTEROID,
         NEW_SINGULARITY_MINE,
-        PLAYER_WON,
+        SINGULARITY_MINE_HIT,
     }    
 }
