@@ -4,7 +4,7 @@ namespace Orbit.Core
     class SharedDef
     {
         // Application
-        public const long MINIMUM_UPDATE_TIME       = 30;
+        public const long MINIMUM_UPDATE_TIME       = 17;
 
         public const int PORT_NUMBER                = 40;
 
@@ -23,8 +23,10 @@ namespace Orbit.Core
 
         public const int BASE_MAX_INGERITY          = 100;
 
+        // pouzito pouze v SingularityControl
         public const float MINE_INVISIBILITY_TIME   = 0.5f;
-        public const float MINE_LIFE_TIME           = 0.5f;
+
+        public const float MINE_LIFE_TIME           = 0.3f;
 
         public const float MINE_GROWTH_SPEED        = 1f;
         public const float MINE_STRENGTH            = 100f;

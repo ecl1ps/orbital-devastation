@@ -262,7 +262,7 @@ namespace Orbit.Core.Scene
 
                 ProcessMessages();
 
-                if (tpf > 0.001 && isInitialized)
+                if (tpf >= 0.001 && isInitialized)
                     Update(tpf);
 
                 //Console.Out.WriteLine(tpf + ": " +sw.ElapsedMilliseconds);
@@ -328,7 +328,7 @@ namespace Orbit.Core.Scene
 
             statisticsTimer = 0;
 
-            ShowStatusText(1, "TPF: " + tpf);
+            ShowStatusText(1, "TPF: " + tpf + " FPS: " + 1.0f / tpf);
             if (GameType != Gametype.SOLO_GAME)
                 ShowStatusText(2, "LATENCY: " + GetOtherPlayer().Connection.AverageRoundtripTime);
         }

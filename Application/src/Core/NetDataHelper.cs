@@ -65,7 +65,7 @@ namespace Orbit.Core
         public static void ReadObjectSingularityMine(this NetIncomingMessage msg, SingularityMine s)
         {
             msg.ReadObjectSceneObject(s);
-            s.Radius = msg.ReadInt32();
+            s.Radius = msg.ReadFloat();
             s.Direction = msg.ReadVector();
         }
 

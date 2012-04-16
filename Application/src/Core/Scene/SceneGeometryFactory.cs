@@ -70,8 +70,8 @@ namespace Orbit.Core.Scene
                 EllipseGeometry geom = new EllipseGeometry(new Point(), 0, 0);
                 path = new Path();
                 path.Data = geom;
-                path.Fill = new RadialGradientBrush(Colors.Black, Color.FromRgb(0x66, 0x00, 0x80));
-                path.Stroke = Brushes.Black;
+                path.Fill = mine.FillBrush;
+                path.Stroke = mine.BorderBrush;
                 Canvas.SetLeft(path, mine.Position.X);
                 Canvas.SetTop(path, mine.Position.Y);
             }));

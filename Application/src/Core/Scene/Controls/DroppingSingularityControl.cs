@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Windows;
 using System.Collections.Generic;
 using Lidgren.Network;
+using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace Orbit.Core.Scene.Controls
 {
@@ -18,7 +20,7 @@ namespace Orbit.Core.Scene.Controls
 
         private void Grow(float tpf)
         {
-            meMine.Radius += (int)Math.Floor(Speed * tpf * 100);
+            meMine.Radius += Speed * tpf * 100;
         }
 
         public override void InitControl(ISceneObject me)
@@ -35,11 +37,11 @@ namespace Orbit.Core.Scene.Controls
 
         public override void UpdateControl(float tpf)
         {
-            if (meMine.Position.Y > meMine.SceneMgr.ViewPortSizeOriginal.Height * 0.4)
-            {
-                meMine.DoRemoveMe();
-                return;
-            }
+            AdjustColorsDueToDistance();
+
+            // vybuch, kdyz se mina dostane moc daleko
+            if (!hitSomething && GetDistToExplosionPct() <= 0)
+                StartDetonation();
 
             if (!hitSomething)
                 return;
@@ -57,7 +59,7 @@ namespace Orbit.Core.Scene.Controls
 
         public void CollidedWith(IMovable movable)
         {
-            hitSomething = true;
+            StartDetonation();
 
             if (meMine.SceneMgr.GameType != Gametype.SOLO_GAME && 
                 meMine.Owner.GetPosition() == meMine.SceneMgr.GetOtherPlayer().GetPosition())
@@ -84,5 +86,39 @@ namespace Orbit.Core.Scene.Controls
             }
         }
 
+        private void StartDetonation()
+        {
+            // nevybuchne vickrat
+            if (hitSomething)
+                return;
+
+            hitSomething = true;
+
+            meMine.GetGeometry().Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
+            {
+                meMine.FillBrush = new RadialGradientBrush(Colors.Black, Color.FromRgb(0x66, 0x00, 0x80));
+            }));
+        }
+
+        private void AdjustColorsDueToDistance()
+        {
+            byte red = (byte)(255 * GetDistFromStartPct());
+
+            meMine.GetGeometry().Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
+            {
+                meMine.BorderBrush = new SolidColorBrush(Color.FromRgb(red, 0x00, red));
+                //meMine.FillBrush = new RadialGradientBrush(Colors.Black, Color.Add(Color.FromRgb(red, (byte)0, (byte)0), Color.FromRgb(0x66, 0x00, 0x80)));
+            }));
+        }
+
+        private float GetDistFromStartPct()
+        {
+            return (float)(meMine.Position.Y / (meMine.SceneMgr.ViewPortSizeOriginal.Height * 0.5));
+        }
+
+        private float GetDistToExplosionPct()
+        {
+            return -1 * (GetDistFromStartPct() - 1);
+        }
     }
 }

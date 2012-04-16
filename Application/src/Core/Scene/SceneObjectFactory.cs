@@ -97,6 +97,7 @@ namespace Orbit.Core.Scene
             mine.Id = IdMgr.GetNewId();
             mine.Position = point.ToVector();
             mine.Owner = plr;
+            mine.FillBrush = new RadialGradientBrush(Colors.Black, Color.FromRgb(0x66, 0x00, 0x80));
 
             SingularityControl sc = new SingularityControl();
             sc.Speed = plr.Data.MineGrowthSpeed;

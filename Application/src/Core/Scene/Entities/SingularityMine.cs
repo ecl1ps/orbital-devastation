@@ -14,14 +14,18 @@ namespace Orbit.Core.Scene.Entities
 
     public class SingularityMine : SceneObject, ICollidable, ISendable, IMovable
     {
-        public int Radius { get; set; }
+        public float Radius { get; set; }
         public bool IsVisible { get; set; }
         public Player Owner { get; set; }
         public Vector Direction { get; set; }
+        public Brush BorderBrush { get; set; } // neposilan
+        public Brush FillBrush { get; set; } // neposilan
 
         public SingularityMine() : base()
         {
             IsVisible = false;
+            BorderBrush = Brushes.Black;
+            FillBrush = Brushes.Black;
         }
 
         public override bool IsOnScreen(Size screenSize)
@@ -35,7 +39,7 @@ namespace Orbit.Core.Scene.Entities
                 return false;
 
             if (other is Sphere)
-                return CollisionHelper.intersectsCircleAndCircle(Position, Radius, (other as Sphere).Position, (other as Sphere).Radius);
+                return CollisionHelper.intersectsCircleAndCircle(Position, (int)Radius, (other as Sphere).Position, (other as Sphere).Radius);
 
             return false;
         }
@@ -56,13 +60,14 @@ namespace Orbit.Core.Scene.Entities
             if (!IsVisible)
                 return;
 
-            geometryElement.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, new Action(() =>
+            geometryElement.Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
             {
                 Canvas.SetLeft(geometryElement, Position.X);
                 Canvas.SetTop(geometryElement, Position.Y);
                 ((geometryElement as Path).Data as EllipseGeometry).RadiusX = Radius;
                 ((geometryElement as Path).Data as EllipseGeometry).RadiusY = Radius;
-                (geometryElement as Path).Stroke = Brushes.Black;
+                (geometryElement as Path).Stroke = BorderBrush;
+                (geometryElement as Path).Fill = FillBrush;
             }));
         }
 

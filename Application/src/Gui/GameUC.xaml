@@ -11,11 +11,12 @@
             <Label Canvas.Left="50" Canvas.Top="270" Height="80" Name="lblEndGame" Width="700" Panel.ZIndex="100" FontSize="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Bauhaus 93" Foreground="#FF64008B">Red Player Won</Label>
             <Label Canvas.Left="50" Canvas.Top="204" Content="Waiting for the other player to connect" Height="59" Name="lblWaiting" Width="700" Panel.ZIndex="100" FontSize="22" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Bauhaus 93" />
             <StatusBar Canvas.Left="0" Canvas.Bottom="0" Height="20" Name="statusBar1" Width="800" Panel.ZIndex="10" />
-            <Label Canvas.Left="0" Canvas.Top="576" Content="TPF: 0" Height="23" Name="statusText1" Width="100" Panel.ZIndex="11" />
-            <Label Canvas.Left="100" Canvas.Top="576" Content="" Height="23" Name="statusText2" Width="100" Panel.ZIndex="11" />
-            <Label Canvas.Left="200" Canvas.Top="576" Content="" Height="23" Name="statusText3" Width="100" Panel.ZIndex="11" />
-            <Label Canvas.Left="300" Canvas.Top="576" Content="" Height="23" Name="statusText4" Width="100" Panel.ZIndex="11" />
-            <Label Canvas.Left="400" Canvas.Top="576" Content="" Height="23" Name="statusText5" Width="100" Panel.ZIndex="11" />
+            <Label Canvas.Left="0" Canvas.Top="576" Content="TPF: 0" Height="23" Name="statusText1" Width="120" Panel.ZIndex="11" />
+            <Label Canvas.Left="120" Canvas.Top="576" Content="" Height="23" Name="statusText2" Width="120" Panel.ZIndex="11" />
+            <Label Canvas.Left="240" Canvas.Top="576" Content="" Height="23" Name="statusText3" Width="120" Panel.ZIndex="11" />
+            <Label Canvas.Left="360" Canvas.Top="576" Content="" Height="23" Name="statusText4" Width="120" Panel.ZIndex="11" />
+            <Label Canvas.Left="480" Canvas.Top="576" Content="" Height="23" Name="statusText5" Width="120" Panel.ZIndex="11" />
+            <Label Canvas.Left="600" Canvas.Top="576" Content="" Height="23" Name="statusText6" Width="120" Panel.ZIndex="11" />
         </Canvas>
     </Grid>
     
