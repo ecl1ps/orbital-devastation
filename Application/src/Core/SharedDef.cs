@@ -44,6 +44,7 @@ namespace Orbit.Core
 
     public enum Gametype
     {
+        NONE,
         SOLO_GAME,
         SERVER_GAME,
         CLIENT_GAME

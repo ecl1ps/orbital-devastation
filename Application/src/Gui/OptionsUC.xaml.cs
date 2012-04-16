@@ -44,5 +44,10 @@ namespace Orbit.Gui
         {
             Application.Current.Shutdown();
         }
+
+        private void btnRepeatGame_Click(object sender, RoutedEventArgs e)
+        {
+            (Application.Current as App).RepeatGame();
+        }
     }
 }

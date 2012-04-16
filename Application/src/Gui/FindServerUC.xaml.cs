@@ -62,7 +62,7 @@ namespace Orbit.Gui
             {
                 string ip = lbxFoundServers.Items[lbxFoundServers.SelectedIndex].ToString();
                 System.Console.WriteLine(ip);
-
+                 
                 searcher.Shutdown();
                 Thread.Sleep(10); // vypnuti muze chvili trvat
                 (Application.Current as App).ConnectToGame(ip);
@@ -70,6 +70,11 @@ namespace Orbit.Gui
         }
 
         private void btnDirectConnect_Click(object sender, RoutedEventArgs e)
+        {
+            TryToConnect();
+        }
+
+        private void TryToConnect()
         {
             if (tbServerAddress.Text.Equals(""))
             {
@@ -79,8 +84,8 @@ namespace Orbit.Gui
             }
 
             Regex ipAddressRegexp = new Regex(@"^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$");
-            //Regex hostNameRegexp = new Regex(@"^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$");
-            Regex hostNameRegexp = new Regex(@"^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])(\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]))*$");
+            Regex hostNameRegexp = new Regex(@"^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$");
+            //Regex hostNameRegexp = new Regex(@"^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])(\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]))*$");
             if (!ipAddressRegexp.IsMatch(tbServerAddress.Text) && !hostNameRegexp.IsMatch(tbServerAddress.Text))
             {
                 lblAddressStatus.Content = "Address is not valid";
@@ -89,7 +94,7 @@ namespace Orbit.Gui
             }
 
             lblAddressStatus.Content = "Checking";
-            lblAddressStatus.Foreground = Brushes.Yellow;
+            lblAddressStatus.Foreground = Brushes.Orange;
 
             try
             {
@@ -115,14 +120,20 @@ namespace Orbit.Gui
                     {
                         (Application.Current as App).ConnectToGame(tbServerAddress.Text);
                     }));
-                    
+
                 });
             }
-            catch (System.Exception ex)
+            catch (System.Exception /*e*/)
             {
                 lblAddressStatus.Content = "Address not found";
                 lblAddressStatus.Foreground = Brushes.Red;
             }
+        }
+
+        private void tbServerAddress_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                TryToConnect();
         }
     }
 }
