@@ -23,6 +23,13 @@ namespace Orbit.Gui
     {
         private Thread searchingThread;
         private NetSearcher searcher;
+        public string LastAddress
+        {
+            set
+            {
+                tbServerAddress.Text = value;
+            }
+        }
 
         public FindServerUC()
         {
@@ -63,11 +70,13 @@ namespace Orbit.Gui
         {
             if (tbServerAddress.Text.Equals("")) //TODO check adresy
                 return;
+
             if (searcher != null)
             {
                 searcher.Shutdown();
                 Thread.Sleep(10); // vypnuti muze chvili trvat
             }
+
             (Application.Current as App).ConnectToGame(tbServerAddress.Text);
         }
     }

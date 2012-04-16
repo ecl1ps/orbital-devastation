@@ -21,12 +21,14 @@ namespace Orbit
     {
         private SceneMgr sceneMgr;
         private static GameWindow mainWindow;
+        private string lastServerAddress;
 
         [STAThread]
         public static void Main(string[] args)
         {
             App app = new App();
             app.InitializeComponent();
+            app.lastServerAddress = "127.0.0.1";
             mainWindow = new GameWindow();
             app.Run(mainWindow);
         }
@@ -59,6 +61,7 @@ namespace Orbit
 
         public void ConnectToGame(string serverAddress)
         {
+            lastServerAddress = serverAddress;
             sceneMgr.SetRemoteServerAddress(serverAddress);
             StartGame(Gametype.CLIENT_GAME);
         }
@@ -95,7 +98,9 @@ namespace Orbit
         public void LookForGame()
         {
             mainWindow.mainGrid.Children.Clear();
-            mainWindow.mainGrid.Children.Add(new FindServerUC());
+            FindServerUC f = new FindServerUC();
+            f.LastAddress = lastServerAddress;
+            mainWindow.mainGrid.Children.Add(f);
         }
     }
 }
