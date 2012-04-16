@@ -257,7 +257,7 @@ namespace Orbit.Core.Scene
 
         private void SyncReceivedObject(ISceneObject o, NetIncomingMessage msg)
         {
-            o.Update(msg.SenderConnection.AverageRoundtripTime);
+            o.Update(msg.SenderConnection.AverageRoundtripTime / 2);
         }
 
         public void SetIsServer(bool isServer)
