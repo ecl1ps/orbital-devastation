@@ -29,7 +29,7 @@ namespace Orbit.Core
             s.Position = msg.ReadVector();
         }
 
-        public static void WriteObjectSphere(this NetOutgoingMessage msg, Sphere s)
+        public static void WriteObjectSphere(this NetOutgoingMessage msg, Meteor s)
         {
             msg.WriteObjectSceneObject(s);
 
@@ -42,7 +42,7 @@ namespace Orbit.Core
             msg.Write(s.TextureId);
         }
 
-        public static void ReadObjectSphere(this NetIncomingMessage msg, Sphere s)
+        public static void ReadObjectSphere(this NetIncomingMessage msg, Meteor s)
         {
             msg.ReadObjectSceneObject(s);
 

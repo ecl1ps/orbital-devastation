@@ -14,7 +14,7 @@ namespace Orbit.Core.Scene
 {
     class SceneGeometryFactory
     {
-        public static Path CreateRadialGradientEllipseGeometry(Sphere s)
+        public static Path CreateRadialGradientEllipseGeometry(Meteor s)
         {
             Path path = null;
             SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
@@ -31,7 +31,7 @@ namespace Orbit.Core.Scene
             return path;
         }
 
-        public static Image CreateAsteroidImage(Sphere s)
+        public static Image CreateAsteroidImage(Meteor s)
         {
             Image img = null;
             SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>

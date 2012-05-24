@@ -38,8 +38,8 @@ namespace Orbit.Core.Scene.Entities
             if (!IsVisible)
                 return false;
 
-            if (other is Sphere)
-                return CollisionHelper.intersectsCircleAndCircle(Position, (int)Radius, (other as Sphere).Position, (other as Sphere).Radius);
+            if (other is Meteor)
+                return CollisionHelper.intersectsCircleAndCircle(Position, (int)Radius, (other as Meteor).Position, (other as Meteor).Radius);
 
             return false;
         }

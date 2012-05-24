@@ -12,11 +12,15 @@ namespace Orbit.Core.Players
         public NetConnection Connection { get; set; }
         public Base Baze  { get; set; }
         private Stopwatch mineTimer;
+        private Stopwatch canoonTimer;
 
         public Player()
         {
             mineTimer = new Stopwatch();
             mineTimer.Start();
+
+            canoonTimer = new Stopwatch();
+            canoonTimer.Start();
         }
 
         public int GetBaseIntegrity()

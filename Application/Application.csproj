@@ -58,9 +58,8 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Lidgren.Network, Version=2012.1.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\Lidgren.Network.dll</HintPath>
+    <Reference Include="Lidgren.Network">
+      <HintPath>lib\Lidgren.Network.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -79,16 +78,19 @@
     <Compile Include="src\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\Core\CollisionHelper.cs" />
+    <Compile Include="src\Core\Scene\CollisionHelper.cs" />
     <Compile Include="src\Core\ExtensionMethods.cs" />
     <Compile Include="src\Core\FastMath.cs" />
     <Compile Include="src\Core\NetDataHelper.cs" />
     <Compile Include="src\Core\NetSearcher.cs" />
     <Compile Include="src\Core\Player\Player.cs" />
     <Compile Include="src\Core\Player\PlayerData.cs" />
+    <Compile Include="src\Core\Scene\Controls\BulletControl.cs" />
     <Compile Include="src\Core\Scene\Controls\DroppingSingularityControl.cs" />
     <Compile Include="src\Core\Scene\Controls\NewtonianMovementControl.cs" />
     <Compile Include="src\Core\Scene\Controls\LinearRotationControl.cs" />
+    <Compile Include="src\Core\Scene\Entities\Sphere.cs" />
+    <Compile Include="src\Core\Scene\Entities\SingularityBullet.cs" />
     <Compile Include="src\Core\Scene\Entities\ISendable.cs" />
     <Compile Include="src\Core\Scene\SceneMgr.Net.cs" />
     <Compile Include="src\Core\Scene\Entities\IRotable.cs" />
@@ -114,7 +116,7 @@
     <Compile Include="src\Core\Scene\Entities\ISceneObject.cs" />
     <Compile Include="src\Core\Scene\Entities\SceneObject.cs" />
     <Compile Include="src\Core\Scene\Entities\SingularityMine.cs" />
-    <Compile Include="src\Core\Scene\Entities\Sphere.cs" />
+    <Compile Include="src\Core\Scene\Entities\Meteor.cs" />
     <Compile Include="src\Core\Player\PlayerPosition.cs" />
     <Compile Include="src\Core\IdMgr.cs" />
     <Compile Include="src\Core\Scene\SceneMgr.cs" />

@@ -21,17 +21,17 @@ namespace Orbit.Core.Scene.Entities
 
         public bool CollideWith(ICollidable other)
         {
-            if (other is Sphere)
-                return CollisionHelper.intersectsCircleAndSquare((other as Sphere).Position, (other as Sphere).Radius, Position, Size);
+            if (other is Meteor)
+                return CollisionHelper.intersectsCircleAndSquare((other as Meteor).Position, (other as Meteor).Radius, Position, Size);
 
             return false;
         }
 
         public void DoCollideWith(ICollidable other)
         {
-            if (other is Sphere)
+            if (other is Meteor)
             {
-                Integrity -= (other as Sphere).Radius / 2;
+                Integrity -= (other as Meteor).Radius / 2;
                 if (Integrity < 0)
                     Integrity = 0;
             }

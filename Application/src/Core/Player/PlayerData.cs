@@ -14,6 +14,8 @@ namespace Orbit.Core.Players
         public float MineStrength { get; set; }
         public int MineCooldown { get; set; }
         public int MineFallingSpeed { get; set; }
+        private int BulletSpeed { get; set; }
+        private int BulletCooldown { get; set; }
         
         public PlayerData()
         {

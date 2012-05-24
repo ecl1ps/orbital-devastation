@@ -16,11 +16,11 @@ namespace Orbit.Core.Scene
 {
     static class SceneObjectFactory
     {
-        public static Sphere CreateNewRandomSphere(bool headingRight)
+        public static Meteor CreateNewRandomSphere(bool headingRight)
         {
             Rect actionArea = SceneMgr.GetInstance().GetOrbitArea();
             Random randomGenerator = SceneMgr.GetInstance().GetRandomGenerator();
-            Sphere s = new Sphere();
+            Meteor s = new Meteor();
             s.Id = IdMgr.GetNewId();
             s.IsHeadingRight = headingRight;
             s.Direction = headingRight ? new Vector(1, 0) : new Vector(-1, 0);
@@ -39,7 +39,7 @@ namespace Orbit.Core.Scene
             return s;
         }
 
-        private static Sphere CreateSphereControls(Sphere s)
+        private static Meteor CreateSphereControls(Meteor s)
         {
             /*LinearMovementControl lmc = new LinearMovementControl();
             lmc.InitialSpeed = SceneMgr.GetInstance().GetRandomGenerator().Next(SharedDef.MIN_SPHERE_SPEED * 10, SharedDef.MAX_SPHERE_SPEED * 10) / 10.0f;
@@ -73,9 +73,9 @@ namespace Orbit.Core.Scene
             return baze;
         }
 
-        public static Sphere CreateNewSphereOnEdge(Sphere oldSphere)
+        public static Meteor CreateNewSphereOnEdge(Meteor oldSphere)
         {
-            Sphere s = CreateNewRandomSphere(oldSphere.IsHeadingRight);
+            Meteor s = CreateNewRandomSphere(oldSphere.IsHeadingRight);
 
             Rect actionArea = SceneMgr.GetInstance().GetOrbitArea();
 

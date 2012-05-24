@@ -40,6 +40,9 @@ namespace Orbit.Core
         public const int MAX_GRAVITY_HEIGHT         = 100;
         public const float STABLE_ORBIT_RELATIVE    = 0.9f;
 
+        public const int BULLET_SPEED = 10;
+        public const int BULLET_COOLDOWN = MINE_COOLDOWN / 2;
+
     }
 
     public enum Gametype
