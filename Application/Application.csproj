@@ -89,6 +89,7 @@
     <Compile Include="src\Core\Scene\Controls\DroppingSingularityControl.cs" />
     <Compile Include="src\Core\Scene\Controls\NewtonianMovementControl.cs" />
     <Compile Include="src\Core\Scene\Controls\LinearRotationControl.cs" />
+    <Compile Include="src\Core\Scene\Entities\Square.cs" />
     <Compile Include="src\Core\Scene\Entities\Sphere.cs" />
     <Compile Include="src\Core\Scene\Entities\SingularityBullet.cs" />
     <Compile Include="src\Core\Scene\Entities\ISendable.cs" />

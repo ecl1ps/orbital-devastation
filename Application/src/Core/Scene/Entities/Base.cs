@@ -7,27 +7,18 @@ using System.Windows.Controls;
 
 namespace Orbit.Core.Scene.Entities
 {
-    public class Base : SceneObject, ICollidable
+    public class Base : Square
     {
         public PlayerPosition BasePosition { get; set; }
         public Color Color { get; set; }
         public int Integrity { get; set; }
-        public Size Size { get; set; }
 
         public override bool IsOnScreen(Size screenSize)
         {
             return Integrity > 0;
         }
 
-        public bool CollideWith(ICollidable other)
-        {
-            if (other is Meteor)
-                return CollisionHelper.intersectsCircleAndSquare((other as Meteor).Position, (other as Meteor).Radius, Position, Size);
-
-            return false;
-        }
-
-        public void DoCollideWith(ICollidable other)
+        public override void DoCollideWith(ICollidable other)
         {
             if (other is Meteor)
             {
