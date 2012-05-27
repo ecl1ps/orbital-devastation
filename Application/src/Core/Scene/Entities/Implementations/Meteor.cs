@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace Orbit.Core.Scene.Entities
 {
 
-    public class Meteor : Sphere, IMovable, ICollidable, IRotable, ISendable
+    public class Meteor : Sphere, IRotable, ISendable
     {
         public bool IsHeadingRight { get; set; }
         public float Rotation { get; set; }
@@ -28,8 +28,6 @@ namespace Orbit.Core.Scene.Entities
 
         public override void DoCollideWith(ICollidable other)
         {
-            if (!(other is Meteor))
-                DoRemoveMe();
         }
 
         public override void OnRemove()

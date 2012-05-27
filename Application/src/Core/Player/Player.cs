@@ -12,15 +12,15 @@ namespace Orbit.Core.Players
         public NetConnection Connection { get; set; }
         public Base Baze  { get; set; }
         private Stopwatch mineTimer;
-        private Stopwatch canoonTimer;
+        private Stopwatch gunTimer;
 
         public Player()
         {
             mineTimer = new Stopwatch();
             mineTimer.Start();
 
-            canoonTimer = new Stopwatch();
-            canoonTimer.Start();
+            gunTimer = new Stopwatch();
+            gunTimer.Start();
         }
 
         public int GetBaseIntegrity()
@@ -53,11 +53,27 @@ namespace Orbit.Core.Players
             mineTimer.Start();
         }
 
+        public void UseGun()
+        {
+            gunTimer.Start();
+        }
+
         public bool IsMineReady()
         {
             if (mineTimer.ElapsedMilliseconds > Data.MineCooldown)
             {
                 mineTimer.Reset();
+                return true;
+            }
+
+            return false;
+        }
+
+        public Boolean IsGunReady()
+        {
+            if (gunTimer.ElapsedMilliseconds > Data.BulletCooldown)
+            {
+                gunTimer.Reset();
                 return true;
             }
 

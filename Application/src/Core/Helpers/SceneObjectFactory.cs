@@ -11,6 +11,7 @@ using System.Windows.Shapes;
 using Orbit.Core.Scene.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
+using Orbit.src.Core.Scene.Entities;
 
 namespace Orbit.Core.Scene
 {
@@ -63,8 +64,7 @@ namespace Orbit.Core.Scene
             baze.BasePosition = data.PlayerPosition;
             baze.Color = data.PlayerColor;
             baze.Integrity = SharedDef.BASE_MAX_INGERITY;
-            baze.Position = new Vector(SceneMgr.GetInstance().ViewPortSizeOriginal.Width * ((data.PlayerPosition == PlayerPosition.LEFT) ? 0.1 : 0.6),
-                                       SceneMgr.GetInstance().ViewPortSizeOriginal.Height * 0.85);
+            baze.Position = PlayerPositionProvider.getVectorPosition(data.PlayerPosition);
             baze.Size = new Size(SceneMgr.GetInstance().ViewPortSizeOriginal.Width * 0.3, 
                                  SceneMgr.GetInstance().ViewPortSizeOriginal.Height * 0.15);
 
@@ -131,6 +131,32 @@ namespace Orbit.Core.Scene
             mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
 
             return mine;
+        }
+
+        public static SingularityBullet CreateBullet(Point point, Player plr)
+        {
+            Vector position = PlayerPositionProvider.getVectorPosition(plr.Baze.BasePosition);
+            position.X += (plr.Baze.Size.Width / 2);
+            Vector direction = point.ToVector() - position;
+            direction.Normalize();
+
+
+            SingularityBullet bullet = new SingularityBullet();
+            bullet.Id = IdMgr.GetNewId();
+            bullet.Position = position;
+            bullet.Player = plr;
+            bullet.Radius = 2;
+            bullet.Direction = direction;
+            bullet.Direction.Normalize();
+            bullet.Color = plr.Data.PlayerColor;
+
+            LinearMovementControl lmc = new LinearMovementControl();
+            lmc.InitialSpeed = plr.Data.BulletSpeed;
+            bullet.AddControl(lmc);
+
+            bullet.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(bullet));
+
+            return bullet;
         }
     }
 }

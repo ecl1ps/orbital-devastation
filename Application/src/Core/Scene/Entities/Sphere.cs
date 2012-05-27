@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
 using System.Windows.Controls;
+using Orbit.src.Core.Scene.Entities;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -32,7 +33,8 @@ namespace Orbit.Core.Scene.Entities
             {
                 Canvas.SetLeft(geometryElement, Position.X - Radius);
                 Canvas.SetTop(geometryElement, Position.Y - Radius);
-                (geometryElement as Image).Width = Radius * 2;
+                if(geometryElement is Image)
+                    (geometryElement as Image).Width = Radius * 2;
                 UpdateGeometricState();
             }));
         }
@@ -41,8 +43,11 @@ namespace Orbit.Core.Scene.Entities
 
         public bool CollideWith(ICollidable other)
         {
+            if (other is SpherePoint)
+                return CollisionHelper.intersectsCircleAndPoint(((SpherePoint)other).Position, Position, Radius);
+
             if (other is Sphere)
-                return CollisionHelper.intersectsCircleAndCircle(Position, Radius, (other as Meteor).Position, (other as Meteor).Radius);
+                return CollisionHelper.intersectsCircleAndCircle(Position, Radius, (other as Sphere).Position, (other as Sphere).Radius);
 
             if (other is Base)
                 return CollisionHelper.intersectsCircleAndSquare(Position, Radius, (other as Base).Position, (other as Base).Size);

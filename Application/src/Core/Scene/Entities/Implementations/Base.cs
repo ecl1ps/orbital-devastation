@@ -25,6 +25,9 @@ namespace Orbit.Core.Scene.Entities
                 Integrity -= (other as Meteor).Radius / 2;
                 if (Integrity < 0)
                     Integrity = 0;
+
+                (other as Meteor).DoRemoveMe();
+
             }
 
             SceneMgr.GetInstance().GetUIDispatcher().BeginInvoke(DispatcherPriority.Render, new Action(() =>

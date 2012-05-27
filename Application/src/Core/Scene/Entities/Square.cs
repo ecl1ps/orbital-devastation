@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
 using System.Windows.Controls;
+using Orbit.src.Core.Scene.Entities;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -15,8 +16,11 @@ namespace Orbit.Core.Scene.Entities
 
         public bool CollideWith(ICollidable other)
         {
+            if (other is SpherePoint)
+                return CollisionHelper.intersectSquareAndPoint(((SpherePoint)other).Position, Position, Size);
+
             if (other is Sphere)
-                return CollisionHelper.intersectsCircleAndSquare((other as Meteor).Position, (other as Meteor).Radius, Position, Size);
+                return CollisionHelper.intersectsCircleAndSquare((other as Sphere).Position, (other as Sphere).Radius, Position, Size);
 
             if (other is Square)
                 return CollisionHelper.intersectSquareAndSquare(this.Position, this.Size, (other as Square).Position, (other as Square).Size);

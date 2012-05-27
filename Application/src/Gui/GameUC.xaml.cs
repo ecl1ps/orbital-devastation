@@ -34,7 +34,7 @@ namespace Orbit.Gui
 
             SceneMgr.GetInstance().Enqueue(new Action(() =>
             {
-                SceneMgr.GetInstance().OnCanvasClick(p);
+                SceneMgr.GetInstance().OnCanvasClick(p, e);
             }));
         }
 

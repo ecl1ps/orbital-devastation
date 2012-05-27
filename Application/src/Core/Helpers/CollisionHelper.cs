@@ -11,6 +11,11 @@ namespace Orbit.Core
     {
         private static Vector tempVector = new Vector();
 
+        public static bool intersectsCircleAndPoint(Vector point, Vector center, int radius)
+        {
+            return (point - center).Length <= radius;
+        }
+
         public static bool intersectsCircleAndCircle(Vector center1, int radius1, Vector center2, int radius2)
         {
             return (center1 - center2).Length <= radius1 + radius2;

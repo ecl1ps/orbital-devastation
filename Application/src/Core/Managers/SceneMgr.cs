@@ -13,6 +13,8 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Collections.Concurrent;
 using Lidgren.Network;
+using System.Windows.Input;
+using Orbit.src.Core.Scene.Entities;
 
 namespace Orbit.Core.Scene
 {
@@ -425,11 +427,40 @@ namespace Orbit.Core.Scene
             return randomGenerator;
         }
 
-        public void OnCanvasClick(Point point)
+
+        public void OnCanvasClick(Point point, MouseButtonEventArgs e)
         {
             if (userActionsDisabled)
                 return;
 
+            switch (e.ChangedButton)
+            {
+                case MouseButton.Left:
+                    spawnMine(point);
+                    break;
+                case MouseButton.Right:
+                    spawnBullet(point);
+                    break;
+            }
+            
+        }
+
+        private void spawnBullet(Point point)
+        {
+            if (GetPlayer(mePlayer).IsGunReady())
+            {
+                GetPlayer(mePlayer).UseGun();
+                SingularityBullet bullet = SceneObjectFactory.CreateBullet(point, GetPlayer(mePlayer));
+
+                //TODO send
+
+                AttachToScene(bullet);
+            }
+
+        }
+
+        private void spawnMine(Point point)
+        {
             if (GetPlayer(mePlayer).IsMineReady())
             {
                 GetPlayer(mePlayer).UseMine();
@@ -444,7 +475,9 @@ namespace Orbit.Core.Scene
 
                 AttachToScene(mine);
             }
+
         }
+
 
         private void CheckPlayerStates()
         {
@@ -496,5 +529,4 @@ namespace Orbit.Core.Scene
             return IsServer() ? players[0] : players[1];
         }
     }
-
 }

@@ -78,7 +78,7 @@
     <Compile Include="src\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\Core\Scene\CollisionHelper.cs" />
+    <Compile Include="src\Core\Helpers\CollisionHelper.cs" />
     <Compile Include="src\Core\ExtensionMethods.cs" />
     <Compile Include="src\Core\FastMath.cs" />
     <Compile Include="src\Core\NetDataHelper.cs" />
@@ -89,14 +89,15 @@
     <Compile Include="src\Core\Scene\Controls\DroppingSingularityControl.cs" />
     <Compile Include="src\Core\Scene\Controls\NewtonianMovementControl.cs" />
     <Compile Include="src\Core\Scene\Controls\LinearRotationControl.cs" />
+    <Compile Include="src\Core\Scene\Entities\SpherePoint.cs" />
     <Compile Include="src\Core\Scene\Entities\Square.cs" />
     <Compile Include="src\Core\Scene\Entities\Sphere.cs" />
-    <Compile Include="src\Core\Scene\Entities\SingularityBullet.cs" />
+    <Compile Include="src\Core\Scene\Entities\Implementations\SingularityBullet.cs" />
     <Compile Include="src\Core\Scene\Entities\ISendable.cs" />
-    <Compile Include="src\Core\Scene\SceneMgr.Net.cs" />
+    <Compile Include="src\Core\Managers\SceneMgr.Net.cs" />
     <Compile Include="src\Core\Scene\Entities\IRotable.cs" />
-    <Compile Include="src\Core\Scene\SceneGeometryFactory.cs" />
-    <Compile Include="src\Core\Scene\SceneObjectFactory.cs" />
+    <Compile Include="src\Core\Helpers\SceneGeometryFactory.cs" />
+    <Compile Include="src\Core\Helpers\SceneObjectFactory.cs" />
     <Compile Include="src\Gui\EscMenu.xaml.cs">
       <DependentUpon>EscMenu.xaml</DependentUpon>
     </Compile>
@@ -111,16 +112,16 @@
     <Compile Include="src\Core\Scene\Controls\IControl.cs" />
     <Compile Include="src\Core\Scene\Controls\LinearMovementControl.cs" />
     <Compile Include="src\Core\Scene\Controls\SingularityControl.cs" />
-    <Compile Include="src\Core\Scene\Entities\Base.cs" />
+    <Compile Include="src\Core\Scene\Entities\Implementations\Base.cs" />
     <Compile Include="src\Core\Scene\Entities\ICollidable.cs" />
     <Compile Include="src\Core\Scene\Entities\IMovable.cs" />
     <Compile Include="src\Core\Scene\Entities\ISceneObject.cs" />
     <Compile Include="src\Core\Scene\Entities\SceneObject.cs" />
-    <Compile Include="src\Core\Scene\Entities\SingularityMine.cs" />
-    <Compile Include="src\Core\Scene\Entities\Meteor.cs" />
+    <Compile Include="src\Core\Scene\Entities\Implementations\SingularityMine.cs" />
+    <Compile Include="src\Core\Scene\Entities\Implementations\Meteor.cs" />
     <Compile Include="src\Core\Player\PlayerPosition.cs" />
     <Compile Include="src\Core\IdMgr.cs" />
-    <Compile Include="src\Core\Scene\SceneMgr.cs" />
+    <Compile Include="src\Core\Managers\SceneMgr.cs" />
     <Compile Include="src\Core\SharedDef.cs" />
     <Compile Include="src\Gui\GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>

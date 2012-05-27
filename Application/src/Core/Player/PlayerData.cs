@@ -14,8 +14,9 @@ namespace Orbit.Core.Players
         public float MineStrength { get; set; }
         public int MineCooldown { get; set; }
         public int MineFallingSpeed { get; set; }
-        private int BulletSpeed { get; set; }
-        private int BulletCooldown { get; set; }
+        public int BulletSpeed { get; set; }
+        public int BulletCooldown { get; set; }
+        public int BulletDamage { get; set; }
         
         public PlayerData()
         {
@@ -25,6 +26,9 @@ namespace Orbit.Core.Players
             MineStrength = SharedDef.MINE_STRENGTH;
             MineCooldown = SharedDef.MINE_COOLDOWN;
             MineFallingSpeed = SharedDef.MINE_FALLING_SPEED;
+            BulletSpeed = SharedDef.BULLET_SPEED;
+            BulletCooldown = SharedDef.BULLET_COOLDOWN;
+            BulletDamage = SharedDef.BULLET_DMG;
         }
 
     }
