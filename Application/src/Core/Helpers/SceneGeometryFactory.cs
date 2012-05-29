@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using ShaderEffectLibrary;
 
 namespace Orbit.Core.Scene
 {
@@ -72,6 +73,9 @@ namespace Orbit.Core.Scene
                 img.Width = s.Radius * 2;
                 img.RenderTransform = new RotateTransform(s.Rotation);
                 img.RenderTransformOrigin = new Point(0.5, 0.5);
+                SharpenEffect eff = new SharpenEffect();
+                eff.Amount = 50;
+                img.Effect = eff;
                 Canvas.SetLeft(img, s.Position.X - s.Radius);
                 Canvas.SetTop(img, s.Position.Y - s.Radius);
             }));
@@ -89,6 +93,10 @@ namespace Orbit.Core.Scene
                 path.Data = geom;
                 path.Fill = mine.FillBrush;
                 path.Stroke = mine.BorderBrush;
+                RippleEffect eff = new RippleEffect();
+                eff.Amplitude = 0.2;
+                eff.Frequency = 60;
+                path.Effect = eff;
                 Canvas.SetLeft(path, mine.Position.X);
                 Canvas.SetTop(path, mine.Position.Y);
             }));
@@ -108,6 +116,11 @@ namespace Orbit.Core.Scene
                 path.Stroke = Brushes.Black;
                 Canvas.SetLeft(path, baze.Position.X);
                 Canvas.SetTop(path, baze.Position.Y);
+                GrowablePoissonDiskEffect eff = new GrowablePoissonDiskEffect();
+                eff.Radius = 0.8;
+                eff.Height = 30;
+                eff.Width = 10;
+                path.Effect = eff;
                 baze.SetGeometry(path);
             }));
 
