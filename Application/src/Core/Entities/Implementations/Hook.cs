@@ -48,7 +48,7 @@ namespace Orbit.src.Core.Scene.Entities.Implementations
        private Hook hook;
        private bool returning;
 
-       public void InitControl(ISceneObject me)
+       public override void InitControl(ISceneObject me)
        {
            returning = false;
 
@@ -56,7 +56,7 @@ namespace Orbit.src.Core.Scene.Entities.Implementations
                hook = me as Hook;
        }
 
-       public void UpdateControl(float tpf)
+       public override void UpdateControl(float tpf)
        {
            if (hook.isFull() || returning)
                moveBackwards(tpf);

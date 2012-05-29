@@ -11,6 +11,7 @@ namespace Orbit.Core.Scene.Controls
 
         public void Init(ISceneObject me)
         {
+            Enabled = true;
             this.me = me;
             InitControl(me);
         }
