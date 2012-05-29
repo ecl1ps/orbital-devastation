@@ -7,6 +7,8 @@ namespace Orbit.Core.Scene.Controls
     {
         protected ISceneObject me;
 
+        public bool Enabled { get; set; }
+
         public void Init(ISceneObject me)
         {
             this.me = me;
@@ -15,7 +17,8 @@ namespace Orbit.Core.Scene.Controls
 
         public void Update(float tpf)
         {
-            UpdateControl(tpf);
+            if (Enabled)
+                UpdateControl(tpf);
         }
 
         public abstract void InitControl(ISceneObject me);

@@ -10,6 +10,7 @@ namespace Orbit.Core.Players
         public PlayerPosition PlayerPosition { get; set; }
         public Color PlayerColor { get; set; }
         public int Score { get; set; }
+        public int Gold { get; set; }
         public float MineGrowthSpeed { get; set; }
         public float MineStrength { get; set; }
         public int MineCooldown { get; set; }
@@ -21,6 +22,7 @@ namespace Orbit.Core.Players
         public PlayerData()
         {
             Score = 0;
+            Gold = 0;
             PlayerColor = Colors.Black;
             MineGrowthSpeed = SharedDef.MINE_GROWTH_SPEED;
             MineStrength = SharedDef.MINE_STRENGTH;

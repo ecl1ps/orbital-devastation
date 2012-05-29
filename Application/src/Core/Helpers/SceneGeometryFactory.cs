@@ -14,6 +14,23 @@ namespace Orbit.Core.Scene
 {
     class SceneGeometryFactory
     {
+        public static Path CreateConstantColorEclipseGeometry(Sphere s)
+        {
+            Path path = null;
+            SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
+            {
+                EllipseGeometry geom = new EllipseGeometry(new Point(), s.Radius, s.Radius);
+                path = new Path();
+                path.Data = geom;
+                path.Fill = new SolidColorBrush(s.Color);
+                path.Stroke = Brushes.Black;
+                Canvas.SetLeft(path, s.Position.X);
+                Canvas.SetTop(path, s.Position.Y);
+            }));
+
+            return path;
+        }
+
         public static Path CreateRadialGradientEllipseGeometry(Sphere s)
         {
             Path path = null;

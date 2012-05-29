@@ -11,6 +11,7 @@ namespace Orbit.src.Core.Scene.Entities
     {
 
         public Player Player { get; set; }
+        public int Damage { get; set; }
 
         protected override void UpdateGeometricState()
         {
@@ -20,9 +21,16 @@ namespace Orbit.src.Core.Scene.Entities
         {
             if (other is Meteor)
             {
-                (other as Meteor).DoRemoveMe();
+                HitMeteor(other as Meteor);
                 DoRemoveMe();
             }
+        }
+
+        private void HitMeteor(Meteor meteor)
+        {
+            meteor.Radius -= Damage;
+            if (Radius < 0)
+                meteor.DoRemoveMe();
         }
     }
 }

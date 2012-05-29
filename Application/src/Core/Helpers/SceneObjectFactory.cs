@@ -146,6 +146,7 @@ namespace Orbit.Core.Scene
             bullet.Position = position;
             bullet.Player = plr;
             bullet.Radius = 2;
+            bullet.Damage = plr.Data.BulletDamage;
             bullet.Direction = direction;
             bullet.Direction.Normalize();
             bullet.Color = plr.Data.PlayerColor;
@@ -154,7 +155,7 @@ namespace Orbit.Core.Scene
             lmc.InitialSpeed = plr.Data.BulletSpeed;
             bullet.AddControl(lmc);
 
-            bullet.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(bullet));
+            bullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEclipseGeometry(bullet));
 
             return bullet;
         }

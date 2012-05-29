@@ -33,6 +33,10 @@ namespace Orbit.Core.Scene.Entities
 
         void SetGeometry(UIElement geometryElement);
 
+        void DoRemove(ISceneObject obj);
+
+        void DoRemoveMe();
+
         void OnRemove();
     }
 }

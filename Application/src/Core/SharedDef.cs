@@ -42,7 +42,7 @@ namespace Orbit.Core
 
         public const int BULLET_SPEED = 300;
         public const int BULLET_COOLDOWN = MINE_COOLDOWN / 2;
-        public const int BULLET_DMG = 1;
+        public const int BULLET_DMG = 5;
 
     }
 
