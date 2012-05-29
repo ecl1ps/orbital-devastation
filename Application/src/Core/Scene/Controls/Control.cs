@@ -24,6 +24,5 @@ namespace Orbit.Core.Scene.Controls
         public abstract void InitControl(ISceneObject me);
 
         public abstract void UpdateControl(float tpf);
-
     }
 }
