@@ -48,12 +48,12 @@ namespace Orbit.Core
         public static bool intersectSquareAndSquare(Vector center1, Size rectSize1, Vector center2, Size rectSize2)
         {
             double lenght = (center1 - center2).Length;
-            if(intersectSquareAndPoint(center1, center2, rectSize2))
+            if (intersectSquareAndPoint(center1, center2, rectSize2))
                 return true;
 
-            if(lenght < ((rectSize1.Height / 2) + (rectSize2.Height / 2)))
+            if (lenght < ((rectSize1.Height / 2) + (rectSize2.Height / 2)))
                 return true;
-            if(lenght < ((rectSize1.Width / 2) + (rectSize2.Width / 2)))
+            if (lenght < ((rectSize1.Width / 2) + (rectSize2.Width / 2)))
                 return true;
 
             return false;
@@ -71,7 +71,7 @@ namespace Orbit.Core
 
         public static bool intersectPointAndPoint(Vector point1, Vector point2)  
         {
-            return point1.Equals(point2);
+            return ((int)point1.X) == ((int)point2.X) && ((int)point1.Y) == ((int)point2.Y);
         }
     }
 }
