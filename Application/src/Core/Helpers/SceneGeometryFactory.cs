@@ -15,7 +15,7 @@ namespace Orbit.Core.Scene
 {
     class SceneGeometryFactory
     {
-        public static Path CreateConstantColorEclipseGeometry(Sphere s)
+        public static Path CreateConstantColorEllipseGeometry(Sphere s)
         {
             Path path = null;
             SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>

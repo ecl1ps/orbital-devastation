@@ -20,7 +20,7 @@ namespace Orbit.Core.Scene.Controls
 
         private void Grow(float tpf)
         {
-            meMine.Radius += Speed * tpf * 100;
+            meMine.Radius += (int)(Speed * tpf * 100);
         }
 
         public override void InitControl(ISceneObject me)
@@ -30,7 +30,6 @@ namespace Orbit.Core.Scene.Controls
 
             hitObjects = new List<long>();
             meMine = me as SingularityMine;
-            meMine.IsVisible = true;
             lifeTime = 0;
             hitSomething = false;
         }

@@ -12,7 +12,7 @@ namespace Orbit.Core.Scene.Entities
 {
     public abstract class Square : SceneObject, ICollidable
     {
-        public Size Size{ get; set; }
+        public Size Size { get; set; }
 
         public bool CollideWith(ICollidable other)
         {

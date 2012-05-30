@@ -68,6 +68,7 @@ namespace Orbit.Core
         SYNC_ALL_ASTEROIDS,
         NEW_ASTEROID,
         NEW_SINGULARITY_MINE,
+        NEW_SINGULARITY_BULLET,
         SINGULARITY_MINE_HIT,
     }    
 }

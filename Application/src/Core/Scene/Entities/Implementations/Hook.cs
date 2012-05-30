@@ -6,8 +6,9 @@ using Orbit.Core.Scene.Entities;
 using Orbit.Core.Players;
 using Orbit.Core.Scene.Controls;
 using System.Windows;
+using Orbit.src.Core.Scene.Entities;
 
-namespace Orbit.src.Core.Scene.Entities.Implementations
+namespace Orbit.Core.Scene.Entities
 {
    public class Hook : SpherePoint
     {

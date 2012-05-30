@@ -452,7 +452,12 @@ namespace Orbit.Core.Scene
                 GetPlayer(mePlayer).UseGun();
                 SingularityBullet bullet = SceneObjectFactory.CreateBullet(point, GetPlayer(mePlayer));
 
-                //TODO send
+                if (GameType != Gametype.SOLO_GAME)
+                {
+                    NetOutgoingMessage msg = CreateNetMessage();
+                    (bullet as ISendable).WriteObject(msg);
+                    SendMessage(msg);
+                }
 
                 AttachToScene(bullet);
             }

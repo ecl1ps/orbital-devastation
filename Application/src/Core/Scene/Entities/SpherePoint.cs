@@ -7,7 +7,7 @@ using System.Windows;
 using Orbit.Core;
 using System.Windows.Media;
 
-namespace Orbit.src.Core.Scene.Entities
+namespace Orbit.Core.Scene.Entities
 {
     public abstract class SpherePoint : Sphere
     {

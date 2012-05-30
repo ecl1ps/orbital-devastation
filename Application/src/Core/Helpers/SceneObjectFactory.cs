@@ -155,7 +155,7 @@ namespace Orbit.Core.Scene
             lmc.InitialSpeed = plr.Data.BulletSpeed;
             bullet.AddControl(lmc);
 
-            bullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEclipseGeometry(bullet));
+            bullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(bullet));
 
             return bullet;
         }

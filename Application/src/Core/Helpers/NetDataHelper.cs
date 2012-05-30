@@ -29,44 +29,142 @@ namespace Orbit.Core
             s.Position = msg.ReadVector();
         }
 
-        public static void WriteObjectSphere(this NetOutgoingMessage msg, Meteor s)
+        public static void WriteObjectSphere(this NetOutgoingMessage msg, Sphere s)
         {
             msg.WriteObjectSceneObject(s);
 
             Vector dir = s.Direction.Clone();
             dir.Normalize();
             msg.Write(dir);
-            msg.Write(s.IsHeadingRight);
             msg.Write(s.Radius);
-            msg.Write(s.Rotation);
-            msg.Write(s.TextureId);
+            msg.Write(s.Color);
         }
 
-        public static void ReadObjectSphere(this NetIncomingMessage msg, Meteor s)
+        public static void ReadObjectSphere(this NetIncomingMessage msg, Sphere s)
         {
             msg.ReadObjectSceneObject(s);
 
             s.Direction = msg.ReadVector();
-            s.IsHeadingRight = msg.ReadBoolean();
             s.Radius = msg.ReadInt32();
+            s.Color = msg.ReadColor();
+        }
+
+        public static void WriteObjectMeteor(this NetOutgoingMessage msg, Meteor s)
+        {
+            msg.WriteObjectSphere(s);
+
+            msg.Write(s.IsHeadingRight);
+            msg.Write(s.Rotation);
+            msg.Write(s.TextureId);
+        }
+
+        public static void ReadObjectMeteor(this NetIncomingMessage msg, Meteor s)
+        {
+            msg.ReadObjectSphere(s);
+
+            s.IsHeadingRight = msg.ReadBoolean();
             s.Rotation = msg.ReadFloat();
             s.TextureId = msg.ReadInt32();
         }
 
         public static void WriteObjectSingularityMine(this NetOutgoingMessage msg, SingularityMine s)
         {
-            msg.WriteObjectSceneObject(s);
-            msg.Write(s.Radius);
-            Vector dir = s.Direction.Clone();
-            dir.Normalize();
-            msg.Write(dir);
+            msg.WriteObjectSphere(s);
         }
 
         public static void ReadObjectSingularityMine(this NetIncomingMessage msg, SingularityMine s)
         {
+            msg.ReadObjectSphere(s);
+        }
+
+        public static void WriteObjectSingularityBullet(this NetOutgoingMessage msg, SingularityBullet s)
+        {
+            msg.WriteObjectSphere(s);
+            msg.Write(s.Damage);
+        }
+
+        public static void ReadObjectSingularityBullet(this NetIncomingMessage msg, SingularityBullet s)
+        {
             msg.ReadObjectSceneObject(s);
-            s.Radius = msg.ReadFloat();
-            s.Direction = msg.ReadVector();
+            s.Damage = msg.ReadInt32();
+        }
+
+        public static void WriteControls(this NetOutgoingMessage msg, IList<IControl> controls)
+        {
+            msg.Write(controls.Count);
+            foreach (IControl c in controls)
+            {
+                if (c is SingularityControl)
+                {
+                    msg.Write(typeof(SingularityControl).GUID.GetHashCode());
+                    msg.WriteObjectSingularityControl(c as SingularityControl);
+                }
+                else if (c is DroppingSingularityControl)
+                {
+                    msg.Write(typeof(DroppingSingularityControl).GUID.GetHashCode());
+                    msg.WriteObjectDroppingSingularityControl(c as DroppingSingularityControl);
+                }
+                if (c is NewtonianMovementControl)
+                {
+                    msg.Write(typeof(NewtonianMovementControl).GUID.GetHashCode());
+                    msg.WriteObjectNewtonianMovementControl(c as NewtonianMovementControl);
+                }
+                else if (c is LinearMovementControl)
+                {
+                    msg.Write(typeof(LinearMovementControl).GUID.GetHashCode());
+                    msg.WriteObjectLinearMovementControl(c as LinearMovementControl);
+                }
+                else if (c is LinearRotationControl)
+                {
+                    msg.Write(typeof(LinearRotationControl).GUID.GetHashCode());
+                    msg.WriteObjectLinearRotationControl(c as LinearRotationControl);
+                }
+                else
+                    Console.Error.WriteLine("Sending unspported control (" + typeof(LinearMovementControl).Name + ")!");
+            }
+        }
+
+        public static IList<IControl> ReadControls(this NetIncomingMessage msg)
+        {
+            IList<IControl> controls = new List<IControl>();
+            int controlCount = msg.ReadInt32();
+            for (int i = 0; i < controlCount; ++i)
+            {
+                int hash = msg.ReadInt32();
+                if (hash == typeof(SingularityControl).GUID.GetHashCode())
+                {
+                    SingularityControl c = new SingularityControl();
+                    msg.ReadObjectSingularityControl(c);
+                    controls.Add(c);
+                }
+                else if (hash == typeof(DroppingSingularityControl).GUID.GetHashCode())
+                {
+                    DroppingSingularityControl c = new DroppingSingularityControl();
+                    msg.ReadObjectDroppingSingularityControl(c);
+                    controls.Add(c);
+                }
+                if (hash == typeof(NewtonianMovementControl).GUID.GetHashCode())
+                {
+                    NewtonianMovementControl c = new NewtonianMovementControl();
+                    msg.ReadObjectNewtonianMovementControl(c);
+                    controls.Add(c);
+                }
+                else if (hash == typeof(LinearMovementControl).GUID.GetHashCode())
+                {
+                    LinearMovementControl c = new LinearMovementControl();
+                    msg.ReadObjectLinearMovementControl(c);
+                    controls.Add(c);
+                }
+                else if (hash == typeof(LinearRotationControl).GUID.GetHashCode())
+                {
+                    LinearRotationControl c = new LinearRotationControl();
+                    msg.ReadObjectLinearRotationControl(c);
+                    controls.Add(c);
+                }
+                else
+                    Console.Error.WriteLine("Received unspported control (" + hash + ")!");
+            }
+            return controls;
         }
 
         public static void WriteObjectLinearMovementControl(this NetOutgoingMessage msg, LinearMovementControl c)

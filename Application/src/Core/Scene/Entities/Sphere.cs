@@ -33,7 +33,7 @@ namespace Orbit.Core.Scene.Entities
             {
                 Canvas.SetLeft(geometryElement, Position.X - Radius);
                 Canvas.SetTop(geometryElement, Position.Y - Radius);
-                if(geometryElement is Image)
+                if (geometryElement is Image)
                     (geometryElement as Image).Width = Radius * 2;
                 UpdateGeometricState();
             }));
