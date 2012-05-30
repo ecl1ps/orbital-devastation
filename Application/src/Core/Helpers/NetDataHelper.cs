@@ -119,6 +119,11 @@ namespace Orbit.Core
                     msg.Write(typeof(LinearRotationControl).GUID.GetHashCode());
                     msg.WriteObjectLinearRotationControl(c as LinearRotationControl);
                 }
+                else if (c is HookControl)
+                {
+                    msg.Write(typeof(HookControl).GUID.GetHashCode());
+                    msg.WriteObjectHookControl(c as HookControl);
+                }
                 else
                     Console.Error.WriteLine("Sending unspported control (" + typeof(LinearMovementControl).Name + ")!");
             }
@@ -159,6 +164,12 @@ namespace Orbit.Core
                 {
                     LinearRotationControl c = new LinearRotationControl();
                     msg.ReadObjectLinearRotationControl(c);
+                    controls.Add(c);
+                }
+                else if (hash == typeof(HookControl).GUID.GetHashCode())
+                {
+                    HookControl c = new HookControl();
+                    msg.ReadObjectHookControl(c);
                     controls.Add(c);
                 }
                 else
@@ -219,6 +230,20 @@ namespace Orbit.Core
         {
             c.Speed = msg.ReadFloat();
             c.Strength = msg.ReadFloat();
+        }
+
+        public static void WriteObjectHookControl(this NetOutgoingMessage msg, HookControl c)
+        {
+            msg.Write(c.Lenght);
+            msg.Write(c.Origin);
+            msg.Write(c.Speed);
+        }
+
+        public static void ReadObjectHookControl(this NetIncomingMessage msg, HookControl c)
+        {
+            c.Lenght = msg.ReadInt32();
+            c.Origin = msg.ReadVector();
+            c.Speed = msg.ReadInt32();
         }
 
         public static void WriteObjectBase(this NetOutgoingMessage msg, Base b)

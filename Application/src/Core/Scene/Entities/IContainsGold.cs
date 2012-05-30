@@ -6,7 +6,7 @@ using Orbit.Core.Scene.Entities;
 
 namespace Orbit.src.Core.Scene.Entities
 {
-    interface IContainsGold : ISceneObject
+    public interface IContainsGold : ISceneObject
     {
         int Gold { get; set; }
     }

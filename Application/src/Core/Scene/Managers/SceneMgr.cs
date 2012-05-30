@@ -441,8 +441,28 @@ namespace Orbit.Core.Scene
                 case MouseButton.Right:
                     spawnBullet(point);
                     break;
+                case MouseButton.Middle:
+                    spawnHook(point);
+                    break;
             }
             
+        }
+
+        private void spawnHook(Point point)
+        {
+            if (GetPlayer(mePlayer).hook == null || GetPlayer(mePlayer).hook.Dead)
+            {
+                Hook hook = SceneObjectFactory.CrateHook(point, GetPlayer(mePlayer));
+
+                if (GameType != Gametype.SOLO_GAME)
+                {
+                    NetOutgoingMessage msg = CreateNetMessage();
+                    (hook as ISendable).WriteObject(msg);
+                    SendMessage(msg);
+                }
+
+                AttachToScene(hook);
+            }
         }
 
         private void spawnBullet(Point point)

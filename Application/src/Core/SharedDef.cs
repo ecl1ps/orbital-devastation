@@ -47,6 +47,8 @@ namespace Orbit.Core
         public const int BULLET_COOLDOWN                    = MINE_COOLDOWN / 2;
         public const int BULLET_DMG                         = 5;
 
+        public const int HOOK_LENGHT                        = 400;
+        public const int HOOK_SPEED                         = 150;
     }
 
     public enum Gametype
@@ -72,6 +74,7 @@ namespace Orbit.Core
         NEW_ASTEROID,
         NEW_SINGULARITY_MINE,
         NEW_SINGULARITY_BULLET,
+        NEW_HOOK,
         SINGULARITY_MINE_HIT,
     }    
 }

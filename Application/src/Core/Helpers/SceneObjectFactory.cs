@@ -155,5 +155,32 @@ namespace Orbit.Core.Scene
 
             return bullet;
         }
+
+        public static Hook CrateHook(Point point, Player player)
+        {
+            Vector position = PlayerPositionProvider.getVectorPosition(player.Baze.BasePosition);
+            position.X += (player.Baze.Size.Width / 2);
+            position.Y -= 5;
+            Vector direction = point.ToVector() - position;
+            direction.Normalize();
+
+            Hook hook = new Hook();
+            hook.Player = player;
+            hook.Position = position;
+            hook.Radius = 5;
+            hook.Direction = direction;
+            hook.Color = player.GetPlayerColor();
+
+            hook.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(hook));
+
+            HookControl hookControl = new HookControl();
+            hookControl.Origin = position;
+            hookControl.Speed = player.Data.HookSpeed;
+            hookControl.Lenght = player.Data.HookLenght;
+
+            hook.AddControl(hookControl);
+            
+            return hook;
+        }
     }
 }

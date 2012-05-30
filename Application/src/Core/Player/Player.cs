@@ -11,6 +11,9 @@ namespace Orbit.Core.Players
         public PlayerData Data { get; set; }
         public NetConnection Connection { get; set; }
         public Base Baze  { get; set; }
+
+        public SceneObject hook { get; set; }
+
         private Stopwatch mineTimer;
         private Stopwatch gunTimer;
 

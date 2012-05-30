@@ -18,6 +18,8 @@ namespace Orbit.Core.Players
         public int BulletSpeed { get; set; }
         public int BulletCooldown { get; set; }
         public int BulletDamage { get; set; }
+        public int HookLenght { get; set; }
+        public int HookSpeed { get; set; }
         
         public PlayerData()
         {
@@ -31,6 +33,8 @@ namespace Orbit.Core.Players
             BulletSpeed = SharedDef.BULLET_SPEED;
             BulletCooldown = SharedDef.BULLET_COOLDOWN;
             BulletDamage = SharedDef.BULLET_DMG;
+            HookLenght = SharedDef.HOOK_LENGHT;
+            HookSpeed = SharedDef.HOOK_SPEED;
         }
 
     }
