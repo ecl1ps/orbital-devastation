@@ -1,4 +1,5 @@
 ﻿using System;
+using Orbit.Core.Scene;
 
 namespace Orbit.Core
 {
@@ -12,7 +13,7 @@ namespace Orbit.Core
             maxId = 0;
         }
 
-        public static IdMgr GetInstance()
+        private static IdMgr GetInstance()
         {
             if (idMgr == null)
                 idMgr = new IdMgr();
@@ -26,6 +27,9 @@ namespace Orbit.Core
 
         public static long GetNewId()
         {
+            if (SceneMgr.GetInstance().GameType == Gametype.CLIENT_GAME)
+                return GetInstance().GetIdNew() | (1L << 32);
+
             return GetInstance().GetIdNew();
         }
     }

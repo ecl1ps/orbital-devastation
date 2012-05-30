@@ -78,6 +78,7 @@ namespace Orbit.Core.Scene.Controls
             {
                 NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
                 msg.Write((int)PacketType.SINGULARITY_MINE_HIT);
+                msg.Write(me.Id);
                 msg.Write((movable as ISceneObject).Id);
                 msg.Write((movable as ISceneObject).Position);
                 msg.Write(newDir);
@@ -85,7 +86,7 @@ namespace Orbit.Core.Scene.Controls
             }
         }
 
-        private void StartDetonation()
+        public void StartDetonation()
         {
             // nevybuchne vickrat
             if (hitSomething)

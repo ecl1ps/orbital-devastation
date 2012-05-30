@@ -90,7 +90,6 @@ namespace Orbit.Core.Scene
                         }
                         break;
                     case NetIncomingMessageType.Data:
-                        Console.WriteLine("Received data msg");
                         PacketType type = (PacketType)msg.ReadInt32();
                         switch (type)
                         {
@@ -177,17 +176,27 @@ namespace Orbit.Core.Scene
                                 EndGame(GetPlayer((PlayerPosition)msg.ReadByte()), GameEnd.WIN_GAME);
                                 break;
                             case PacketType.SINGULARITY_MINE_HIT:
+                                long mineId = msg.ReadInt64();
                                 long id = msg.ReadInt64();
                                 Vector pos = msg.ReadVector();
                                 Vector dir = msg.ReadVector();
                                 foreach (ISceneObject obj in objects)
                                 {
+                                    if (obj.Id == mineId)
+                                    {
+                                        DroppingSingularityControl c = obj.GetControlOfType(typeof(DroppingSingularityControl)) as DroppingSingularityControl;
+                                        if (c == null)
+                                            Console.Error.WriteLine("Object id " + mineId + " (" + obj.GetType().Name + ") is supposed to be a SingularityMine and have DroppingSingularityControl, but control is null");
+                                        else
+                                            c.StartDetonation();
+                                        continue;
+                                    }
+
                                     if (obj.Id != id)
                                         continue;
 
                                     obj.Position = pos;
                                     (obj as IMovable).Direction += dir;
-                                    break;
                                 }
                                 break;
                         }
@@ -225,7 +234,6 @@ namespace Orbit.Core.Scene
 
                                 // poslani vsech asteroidu
                                 outmsg = peer.CreateMessage();
-
                                 outmsg.Write((int)PacketType.SYNC_ALL_ASTEROIDS);
 
                                 Int32 count = 0;
