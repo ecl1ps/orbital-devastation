@@ -85,7 +85,7 @@ namespace Orbit.Core
 
         public static void ReadObjectSingularityBullet(this NetIncomingMessage msg, SingularityBullet s)
         {
-            msg.ReadObjectSceneObject(s);
+            msg.ReadObjectSphere(s);
             s.Damage = msg.ReadInt32();
         }
 

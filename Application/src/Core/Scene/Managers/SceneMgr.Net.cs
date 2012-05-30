@@ -172,6 +172,16 @@ namespace Orbit.Core.Scene
                                     SyncReceivedObject(s, msg);
                                 }
                                 break;
+                            case PacketType.NEW_SINGULARITY_BULLET:
+                                {
+                                    SingularityBullet s = new SingularityBullet();
+                                    (s as ISendable).ReadObject(msg);
+                                    s.Player = GetOtherPlayer();
+                                    s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
+                                    AttachToScene(s);
+                                    SyncReceivedObject(s, msg);
+                                }
+                                break;
                             case PacketType.PLAYER_WON:
                                 EndGame(GetPlayer((PlayerPosition)msg.ReadByte()), GameEnd.WIN_GAME);
                                 break;
