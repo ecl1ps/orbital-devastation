@@ -14,6 +14,7 @@ namespace Orbit.Core
 
         public const int MIN_SPHERE_SPEED           = 70;
         public const int MAX_SPHERE_SPEED           = 150;
+        public const int ASTEROID_THRESHOLD_RADIUS  = 10;
         public const int FIRST_COSMICAL_SPEED       = 120;
 
         public const int MIN_SPHERE_ROTATION_SPEED  = -10;

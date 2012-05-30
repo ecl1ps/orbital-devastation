@@ -32,8 +32,11 @@ namespace Orbit.Core.Scene.Entities
         private void HitMeteor(Meteor meteor)
         {
             meteor.Radius -= Damage;
-            if (Radius < 0)
+            if (meteor.Radius < SharedDef.ASTEROID_THRESHOLD_RADIUS)
+            {
+                meteor.Radius = 0;
                 meteor.DoRemoveMe();
+            }
         }
 
         public void WriteObject(NetOutgoingMessage msg)
