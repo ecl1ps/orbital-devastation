@@ -41,7 +41,7 @@ namespace Orbit.Core.Scene.Entities
 
         protected abstract void UpdateGeometricState();
 
-        public bool CollideWith(ICollidable other)
+        public virtual bool CollideWith(ICollidable other)
         {
             if (other is SpherePoint)
                 return CollisionHelper.intersectsCircleAndPoint(((SpherePoint)other).Position, Position, Radius);

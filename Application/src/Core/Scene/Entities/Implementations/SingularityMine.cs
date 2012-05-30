@@ -11,7 +11,7 @@ using Orbit.Core.Players;
 namespace Orbit.Core.Scene.Entities
 {
 
-    public class SingularityMine : Sphere, ICollidable, ISendable, IMovable
+    public class SingularityMine : Sphere, ISendable
     {
         public bool IsVisible { get; set; } // neposilan - pouzivano pouze controlem SingularityControl
         public Player Owner { get; set; } // neposilan
@@ -24,16 +24,10 @@ namespace Orbit.Core.Scene.Entities
             FillBrush = Brushes.Black;
         }
 
-        public override bool IsOnScreen(Size screenSize)
-        {
-            return true;
-        }
-
         public override void DoCollideWith(ICollidable other)
         {
             if (other is IMovable)
             {
-                //SingularityControl c = GetControlOfType(typeof(SingularityControl)) as SingularityControl;
                 DroppingSingularityControl c = GetControlOfType(typeof(DroppingSingularityControl)) as DroppingSingularityControl;
                 if (c != null)
                     c.CollidedWith(other as IMovable);

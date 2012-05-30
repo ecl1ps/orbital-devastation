@@ -11,7 +11,7 @@ namespace Orbit.Core.Scene.Entities
 {
     public abstract class SpherePoint : Sphere
     {
-        public new bool CollideWith(ICollidable other) 
+        public override bool CollideWith(ICollidable other) 
         {
             if (other is SpherePoint)
                 return CollisionHelper.intersectPointAndPoint(Position, ((SpherePoint) other).Position);
