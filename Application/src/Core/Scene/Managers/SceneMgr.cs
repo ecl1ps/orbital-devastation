@@ -14,7 +14,6 @@ using System.Windows.Threading;
 using System.Collections.Concurrent;
 using Lidgren.Network;
 using System.Windows.Input;
-using Orbit.src.Core.Scene.Entities;
 
 namespace Orbit.Core.Scene
 {
@@ -452,7 +451,7 @@ namespace Orbit.Core.Scene
         {
             if (GetPlayer(mePlayer).hook == null || GetPlayer(mePlayer).hook.Dead)
             {
-                Hook hook = SceneObjectFactory.CrateHook(point, GetPlayer(mePlayer));
+                Hook hook = SceneObjectFactory.CreateHook(point, GetPlayer(mePlayer));
 
                 if (GameType != Gametype.SOLO_GAME)
                 {

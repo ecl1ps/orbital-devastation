@@ -11,7 +11,6 @@ using System.Windows.Shapes;
 using Orbit.Core.Scene.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
-using Orbit.src.Core.Scene.Entities;
 
 namespace Orbit.Core.Scene
 {
@@ -157,7 +156,7 @@ namespace Orbit.Core.Scene
             return bullet;
         }
 
-        public static Hook CrateHook(Point point, Player player)
+        public static Hook CreateHook(Point point, Player player)
         {
             Vector position = PlayerPositionProvider.getVectorPosition(player.Baze.BasePosition);
             position.X += (player.Baze.Size.Width / 2);
