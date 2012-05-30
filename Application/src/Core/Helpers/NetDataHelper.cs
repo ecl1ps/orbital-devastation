@@ -56,6 +56,7 @@ namespace Orbit.Core
             msg.Write(a.IsHeadingRight);
             msg.Write(a.Rotation);
             msg.Write(a.TextureId);
+            msg.Write(a.Gold);
         }
 
         public static void ReadObjectAsteroid(this NetIncomingMessage msg, Asteroid a)
@@ -65,6 +66,7 @@ namespace Orbit.Core
             a.IsHeadingRight = msg.ReadBoolean();
             a.Rotation = msg.ReadFloat();
             a.TextureId = msg.ReadInt32();
+            a.Gold = msg.ReadInt32();
         }
 
         public static void WriteObjectSingularityMine(this NetOutgoingMessage msg, SingularityMine s)

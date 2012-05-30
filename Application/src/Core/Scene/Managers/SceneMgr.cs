@@ -462,6 +462,7 @@ namespace Orbit.Core.Scene
                 }
 
                 AttachToScene(hook);
+                GetPlayer(mePlayer).hook = hook;
             }
         }
 

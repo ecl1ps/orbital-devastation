@@ -96,7 +96,6 @@
     <Compile Include="src\Core\Scene\Controls\LinearRotationControl.cs" />
     <Compile Include="src\Core\Scene\Entities\Implementations\Hook.cs" />
     <Compile Include="src\Core\Scene\Entities\IContainsGold.cs" />
-    <Compile Include="src\Core\Scene\Entities\IGoldObject.cs" />
     <Compile Include="src\Core\Scene\Entities\SpherePoint.cs" />
     <Compile Include="src\Core\Scene\Entities\Square.cs" />
     <Compile Include="src\Core\Scene\Entities\Sphere.cs" />

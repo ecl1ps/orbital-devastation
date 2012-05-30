@@ -6,17 +6,17 @@ using System.Windows.Shapes;
 using Lidgren.Network;
 using Orbit.Core.Scene.Controls;
 using System.Collections.Generic;
-using Orbit.src.Core.Scene.Entities.Implementations;
+using Orbit.src.Core.Scene.Entities;
 
 namespace Orbit.Core.Scene.Entities
 {
 
-    public class Asteroid : Sphere, IRotable, ISendable, IGoldObject
+    public class Asteroid : Sphere, IRotable, ISendable, IContainsGold
     {
         public bool IsHeadingRight { get; set; }
         public float Rotation { get; set; }
         public int TextureId { get; set; }
-        public double Gold { get; set; }
+        public int Gold { get; set; }
 
         protected override void UpdateGeometricState()
         {

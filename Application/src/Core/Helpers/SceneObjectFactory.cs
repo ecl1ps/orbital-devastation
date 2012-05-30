@@ -32,6 +32,7 @@ namespace Orbit.Core.Scene
             s.Color = Color.FromRgb((byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255));
             s.TextureId = SceneMgr.GetInstance().GetRandomGenerator().Next(1, 18);
             s.Rotation = SceneMgr.GetInstance().GetRandomGenerator().Next(360);
+            s.Gold = s.Radius / 2;
 
             CreateAsteroidControls(s);
 

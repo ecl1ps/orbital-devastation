@@ -23,13 +23,11 @@ namespace Orbit.Core.Scene.Entities
 
         public override void DoCollideWith(ICollidable other)
         {
-            if ((other is Asteroid && !(GetControlOfType(typeof(HookControl)) as HookControl).Returning))
-                catchGold(other as Asteroid);
-            else if ((other is Base && (GetControlOfType(typeof(HookControl)) as HookControl).Returning))
-                addGoldToPlayer();
+            if ((other is IContainsGold && !(GetControlOfType(typeof(HookControl)) as HookControl).Returning))
+                catchGold(other as IContainsGold);
         }
 
-        private void catchGold(Asteroid gold)
+        private void catchGold(IContainsGold gold)
         {
             if(gold is IContainsGold)
                 GoldObject = gold as IContainsGold;
@@ -41,11 +39,13 @@ namespace Orbit.Core.Scene.Entities
             (GetControlOfType(typeof(HookControl)) as HookControl).Returning = true;
         }
 
-        private void addGoldToPlayer()
+        public void addGoldToPlayer()
         {
-            if(GoldObject != null)
+            if (GoldObject != null)
+            {
                 Player.Data.Gold += GoldObject.Gold;
-
+                GoldObject.DoRemoveMe();
+            }
             DoRemoveMe();
         }
 
@@ -94,6 +94,9 @@ namespace Orbit.Core.Scene.Entities
                moveBackwards(tpf);
                if(hook.isFull())
                     moveWithObject(hook.GoldObject);
+
+               if (isStart())
+                   hook.addGoldToPlayer();
            }
            else
            {
@@ -122,6 +125,11 @@ namespace Orbit.Core.Scene.Entities
        private bool isEnd()
        {
            return getDistanceFromOrigin() > Lenght;
+       }
+
+       private bool isStart()
+       {
+           return getDistanceFromOrigin() < 50;
        }
 
        private double getDistanceFromOrigin()
