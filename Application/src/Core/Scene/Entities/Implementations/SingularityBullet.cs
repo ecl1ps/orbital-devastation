@@ -22,20 +22,20 @@ namespace Orbit.Core.Scene.Entities
 
         public override void DoCollideWith(ICollidable other)
         {
-            if (other is Meteor)
+            if (other is Asteroid)
             {
-                HitMeteor(other as Meteor);
+                HitAsteroid(other as Asteroid);
                 DoRemoveMe();
             }
         }
 
-        private void HitMeteor(Meteor meteor)
+        private void HitAsteroid(Asteroid asteroid)
         {
-            meteor.Radius -= Damage;
-            if (meteor.Radius < SharedDef.ASTEROID_THRESHOLD_RADIUS)
+            asteroid.Radius -= Damage;
+            if (asteroid.Radius < SharedDef.ASTEROID_THRESHOLD_RADIUS)
             {
-                meteor.Radius = 0;
-                meteor.DoRemoveMe();
+                asteroid.Radius = 0;
+                asteroid.DoRemoveMe();
             }
         }
 

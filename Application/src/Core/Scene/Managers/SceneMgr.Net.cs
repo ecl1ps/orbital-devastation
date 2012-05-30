@@ -137,7 +137,7 @@ namespace Orbit.Core.Scene
                                 int count = msg.ReadInt32();
                                 for (int i = 0; i < count; ++i)
                                 {
-                                    Meteor s = new Meteor();
+                                    Asteroid s = new Asteroid();
                                     if (msg.ReadInt32() != (int)PacketType.NEW_ASTEROID)
                                     {
                                         Console.Error.WriteLine("Corrupted object PacketType.SYNC_ALL_ASTEROIDS");
@@ -155,7 +155,7 @@ namespace Orbit.Core.Scene
                                 break;
                             case PacketType.NEW_ASTEROID:
                                 {
-                                    Meteor s = new Meteor();
+                                    Asteroid s = new Asteroid();
                                     (s as ISendable).ReadObject(msg);
                                     s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s));
                                     AttachToScene(s);
@@ -247,11 +247,11 @@ namespace Orbit.Core.Scene
                                 outmsg.Write((int)PacketType.SYNC_ALL_ASTEROIDS);
 
                                 Int32 count = 0;
-                                objects.ForEach(new Action<ISceneObject>(x => { if (x is Meteor) count++; }));
+                                objects.ForEach(new Action<ISceneObject>(x => { if (x is Asteroid) count++; }));
                                 outmsg.Write(count);
 
                                 foreach (ISceneObject obj in objects)
-                                    if (obj is Meteor && obj is ISendable)
+                                    if (obj is Asteroid && obj is ISendable)
                                         (obj as ISendable).WriteObject(outmsg);
 
                                 peer.SendMessage(outmsg, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);

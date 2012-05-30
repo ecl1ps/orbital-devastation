@@ -49,22 +49,22 @@ namespace Orbit.Core
             s.Color = msg.ReadColor();
         }
 
-        public static void WriteObjectMeteor(this NetOutgoingMessage msg, Meteor s)
+        public static void WriteObjectAsteroid(this NetOutgoingMessage msg, Asteroid a)
         {
-            msg.WriteObjectSphere(s);
+            msg.WriteObjectSphere(a);
 
-            msg.Write(s.IsHeadingRight);
-            msg.Write(s.Rotation);
-            msg.Write(s.TextureId);
+            msg.Write(a.IsHeadingRight);
+            msg.Write(a.Rotation);
+            msg.Write(a.TextureId);
         }
 
-        public static void ReadObjectMeteor(this NetIncomingMessage msg, Meteor s)
+        public static void ReadObjectAsteroid(this NetIncomingMessage msg, Asteroid a)
         {
-            msg.ReadObjectSphere(s);
+            msg.ReadObjectSphere(a);
 
-            s.IsHeadingRight = msg.ReadBoolean();
-            s.Rotation = msg.ReadFloat();
-            s.TextureId = msg.ReadInt32();
+            a.IsHeadingRight = msg.ReadBoolean();
+            a.Rotation = msg.ReadFloat();
+            a.TextureId = msg.ReadInt32();
         }
 
         public static void WriteObjectSingularityMine(this NetOutgoingMessage msg, SingularityMine s)

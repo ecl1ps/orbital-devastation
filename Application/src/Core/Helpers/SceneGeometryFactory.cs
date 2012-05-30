@@ -49,7 +49,7 @@ namespace Orbit.Core.Scene
             return path;
         }
 
-        public static Image CreateAsteroidImage(Meteor s)
+        public static Image CreateAsteroidImage(Asteroid s)
         {
             Image img = null;
             SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>

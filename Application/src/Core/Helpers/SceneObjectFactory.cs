@@ -17,16 +17,16 @@ namespace Orbit.Core.Scene
 {
     static class SceneObjectFactory
     {
-        public static Meteor CreateNewRandomSphere(bool headingRight)
+        public static Asteroid CreateNewRandomSphere(bool headingRight)
         {
             Rect actionArea = SceneMgr.GetInstance().GetOrbitArea();
             Random randomGenerator = SceneMgr.GetInstance().GetRandomGenerator();
-            Meteor s = new Meteor();
+            Asteroid s = new Asteroid();
             s.Id = IdMgr.GetNewId();
             s.IsHeadingRight = headingRight;
             s.Direction = headingRight ? new Vector(1, 0) : new Vector(-1, 0);
 
-            s.Radius = randomGenerator.Next(SharedDef.MIN_SPHERE_RADIUS, SharedDef.MAX_SPHERE_RADIUS);
+            s.Radius = randomGenerator.Next(SharedDef.MIN_ASTEROID_RADIUS, SharedDef.MAX_ASTEROID_RADIUS);
             s.Position = new Vector(randomGenerator.Next((int)(actionArea.X + s.Radius), (int)(actionArea.Width - s.Radius)),
                 randomGenerator.Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius)));
             s.Color = Color.FromRgb((byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255));
@@ -40,18 +40,14 @@ namespace Orbit.Core.Scene
             return s;
         }
 
-        private static Meteor CreateSphereControls(Meteor s)
+        private static Asteroid CreateSphereControls(Asteroid s)
         {
-            /*LinearMovementControl lmc = new LinearMovementControl();
-            lmc.InitialSpeed = SceneMgr.GetInstance().GetRandomGenerator().Next(SharedDef.MIN_SPHERE_SPEED * 10, SharedDef.MAX_SPHERE_SPEED * 10) / 10.0f;
-            s.AddControl(lmc);*/
-
             NewtonianMovementControl nmc = new NewtonianMovementControl();
-            nmc.InitialSpeed = SceneMgr.GetInstance().GetRandomGenerator().Next(SharedDef.MIN_SPHERE_SPEED * 10, SharedDef.MAX_SPHERE_SPEED * 10) / 10.0f;
+            nmc.InitialSpeed = SceneMgr.GetInstance().GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_SPEED * 10, SharedDef.MAX_ASTEROID_SPEED * 10) / 10.0f;
             s.AddControl(nmc);
 
             LinearRotationControl lrc = new LinearRotationControl();
-            lrc.RotationSpeed = SceneMgr.GetInstance().GetRandomGenerator().Next(SharedDef.MIN_SPHERE_ROTATION_SPEED, SharedDef.MAX_SPHERE_ROTATION_SPEED) / 10.0f;
+            lrc.RotationSpeed = SceneMgr.GetInstance().GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_ROTATION_SPEED, SharedDef.MAX_ASTEROID_ROTATION_SPEED) / 10.0f;
             s.AddControl(lrc);
 
             return s;
@@ -73,9 +69,9 @@ namespace Orbit.Core.Scene
             return baze;
         }
 
-        public static Meteor CreateNewSphereOnEdge(Meteor oldSphere)
+        public static Asteroid CreateNewSphereOnEdge(Asteroid oldSphere)
         {
-            Meteor s = CreateNewRandomSphere(oldSphere.IsHeadingRight);
+            Asteroid s = CreateNewRandomSphere(oldSphere.IsHeadingRight);
 
             Rect actionArea = SceneMgr.GetInstance().GetOrbitArea();
 

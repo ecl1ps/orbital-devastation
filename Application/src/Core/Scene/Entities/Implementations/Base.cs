@@ -20,13 +20,13 @@ namespace Orbit.Core.Scene.Entities
 
         public override void DoCollideWith(ICollidable other)
         {
-            if (other is Meteor)
+            if (other is Asteroid)
             {
-                Integrity -= (other as Meteor).Radius / 2;
+                Integrity -= (other as Asteroid).Radius / 2;
                 if (Integrity < 0)
                     Integrity = 0;
 
-                (other as Meteor).DoRemoveMe();
+                (other as Asteroid).DoRemoveMe();
 
             }
 

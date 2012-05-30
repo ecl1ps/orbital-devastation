@@ -10,15 +10,11 @@ using System.Collections.Generic;
 namespace Orbit.Core.Scene.Entities
 {
 
-    public class Meteor : Sphere, IRotable, ISendable
+    public class Asteroid : Sphere, IRotable, ISendable
     {
         public bool IsHeadingRight { get; set; }
         public float Rotation { get; set; }
         public int TextureId { get; set; }
-
-        public Meteor()
-        {
-        }
 
         protected override void UpdateGeometricState()
         {
@@ -39,10 +35,10 @@ namespace Orbit.Core.Scene.Entities
 
             if (SceneMgr.IsServer())
             {
-                Meteor s = SceneObjectFactory.CreateNewSphereOnEdge(this);
-                SceneMgr.AttachToScene(s);
+                Asteroid a = SceneObjectFactory.CreateNewSphereOnEdge(this);
+                SceneMgr.AttachToScene(a);
                 NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-                s.WriteObject(msg);
+                a.WriteObject(msg);
                 SceneMgr.SendMessage(msg);
             }
         }
@@ -50,13 +46,13 @@ namespace Orbit.Core.Scene.Entities
         public void WriteObject(NetOutgoingMessage msg)
         {
             msg.Write((int)PacketType.NEW_ASTEROID);
-            msg.WriteObjectMeteor(this);
+            msg.WriteObjectAsteroid(this);
             msg.WriteControls(GetControlsCopy());
         }
 
         public void ReadObject(NetIncomingMessage msg)
         {
-            msg.ReadObjectMeteor(this);
+            msg.ReadObjectAsteroid(this);
             IList<IControl> controls = msg.ReadControls();
             foreach (Control c in controls)
                 AddControl(c);

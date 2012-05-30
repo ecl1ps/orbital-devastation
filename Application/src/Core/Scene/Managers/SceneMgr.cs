@@ -133,7 +133,7 @@ namespace Orbit.Core.Scene
 
         private void CreateAsteroidField()
         {
-            for (int i = 0; i < SharedDef.SPHERE_COUNT; ++i)
+            for (int i = 0; i < SharedDef.ASTEROID_COUNT; ++i)
                 AttachToScene(SceneObjectFactory.CreateNewRandomSphere(i % 2 == 0));
         }
 

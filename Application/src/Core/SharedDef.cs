@@ -9,41 +9,43 @@ namespace Orbit.Core
         public const int PORT_NUMBER                = 40;
 
         // Scene
-        public const int MIN_SPHERE_RADIUS          = 10;
-        public const int MAX_SPHERE_RADIUS          = 30;
+        public const int MIN_ASTEROID_RADIUS                = 10;
+        public const int MAX_ASTEROID_RADIUS                = 30;
 
-        public const int MIN_SPHERE_SPEED           = 70;
-        public const int MAX_SPHERE_SPEED           = 150;
-        public const int ASTEROID_THRESHOLD_RADIUS  = 10;
-        public const int FIRST_COSMICAL_SPEED       = 120;
+        public const int MIN_ASTEROID_SPEED                 = 70;
+        public const int MAX_ASTEROID_SPEED                 = 150;
 
-        public const int MIN_SPHERE_ROTATION_SPEED  = -10;
-        public const int MAX_SPHERE_ROTATION_SPEED  =  10;
+        public const int ASTEROID_THRESHOLD_RADIUS          = 10;
 
-        public const int SPHERE_COUNT               = 20;
+        public const int FIRST_COSMICAL_SPEED               = 120;
 
-        public const int BASE_MAX_INGERITY          = 100;
+        public const int MIN_ASTEROID_ROTATION_SPEED        = -10;
+        public const int MAX_ASTEROID_ROTATION_SPEED        =  10;
+
+        public const int ASTEROID_COUNT                     = 20;
+
+        public const int BASE_MAX_INGERITY                  = 100;
 
         // pouzito pouze v SingularityControl
-        public const float MINE_INVISIBILITY_TIME   = 0.5f;
+        public const float MINE_INVISIBILITY_TIME           = 0.5f;
 
-        public const float MINE_LIFE_TIME           = 0.3f;
+        public const float MINE_LIFE_TIME                   = 0.3f;
 
-        public const float MINE_GROWTH_SPEED        = 1f;
-        public const float MINE_STRENGTH            = 100f;
-        public const int MINE_COOLDOWN              = 1000;
-        public const int MINE_FALLING_SPEED         = 50;
+        public const float MINE_GROWTH_SPEED                = 1f;
+        public const float MINE_STRENGTH                    = 100f;
+        public const int MINE_COOLDOWN                      = 1000;
+        public const int MINE_FALLING_SPEED                 = 50;
 
         // polovina gravitacniho zrychleni
-        public const float GRAVITY                  = 5f;
+        public const float GRAVITY                          = 5f;
 
-        public const int MIN_GRAVITY_HEIGHT         = 0;
-        public const int MAX_GRAVITY_HEIGHT         = 100;
-        public const float STABLE_ORBIT_RELATIVE    = 0.9f;
+        public const int MIN_GRAVITY_HEIGHT                 = 0;
+        public const int MAX_GRAVITY_HEIGHT                 = 100;
+        public const float STABLE_ORBIT_RELATIVE            = 0.9f;
 
-        public const int BULLET_SPEED = 300;
-        public const int BULLET_COOLDOWN = MINE_COOLDOWN / 2;
-        public const int BULLET_DMG = 5;
+        public const int BULLET_SPEED                       = 300;
+        public const int BULLET_COOLDOWN                    = MINE_COOLDOWN / 2;
+        public const int BULLET_DMG                         = 5;
 
     }
 
