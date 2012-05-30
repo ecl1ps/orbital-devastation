@@ -134,7 +134,7 @@ namespace Orbit.Core.Scene
         private void CreateAsteroidField()
         {
             for (int i = 0; i < SharedDef.ASTEROID_COUNT; ++i)
-                AttachToScene(SceneObjectFactory.CreateNewRandomSphere(i % 2 == 0));
+                AttachToScene(SceneObjectFactory.CreateNewRandomAsteroid(i % 2 == 0));
         }
 
 
@@ -450,7 +450,7 @@ namespace Orbit.Core.Scene
             if (GetPlayer(mePlayer).IsGunReady())
             {
                 GetPlayer(mePlayer).UseGun();
-                SingularityBullet bullet = SceneObjectFactory.CreateBullet(point, GetPlayer(mePlayer));
+                SingularityBullet bullet = SceneObjectFactory.CreateSingularityBullet(point, GetPlayer(mePlayer));
 
                 if (GameType != Gametype.SOLO_GAME)
                 {

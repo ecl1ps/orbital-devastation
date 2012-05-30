@@ -17,7 +17,7 @@ namespace Orbit.Core.Scene
 {
     static class SceneObjectFactory
     {
-        public static Asteroid CreateNewRandomSphere(bool headingRight)
+        public static Asteroid CreateNewRandomAsteroid(bool headingRight)
         {
             Rect actionArea = SceneMgr.GetInstance().GetOrbitArea();
             Random randomGenerator = SceneMgr.GetInstance().GetRandomGenerator();
@@ -33,14 +33,14 @@ namespace Orbit.Core.Scene
             s.TextureId = SceneMgr.GetInstance().GetRandomGenerator().Next(1, 18);
             s.Rotation = SceneMgr.GetInstance().GetRandomGenerator().Next(360);
 
-            CreateSphereControls(s);
+            CreateAsteroidControls(s);
 
             s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s));
 
             return s;
         }
 
-        private static Asteroid CreateSphereControls(Asteroid s)
+        private static Asteroid CreateAsteroidControls(Asteroid s)
         {
             NewtonianMovementControl nmc = new NewtonianMovementControl();
             nmc.InitialSpeed = SceneMgr.GetInstance().GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_SPEED * 10, SharedDef.MAX_ASTEROID_SPEED * 10) / 10.0f;
@@ -69,9 +69,9 @@ namespace Orbit.Core.Scene
             return baze;
         }
 
-        public static Asteroid CreateNewSphereOnEdge(Asteroid oldSphere)
+        public static Asteroid CreateNewAsteroidOnEdge(Asteroid oldSphere)
         {
-            Asteroid s = CreateNewRandomSphere(oldSphere.IsHeadingRight);
+            Asteroid s = CreateNewRandomAsteroid(oldSphere.IsHeadingRight);
 
             Rect actionArea = SceneMgr.GetInstance().GetOrbitArea();
 
@@ -129,7 +129,7 @@ namespace Orbit.Core.Scene
             return mine;
         }
 
-        public static SingularityBullet CreateBullet(Point point, Player plr)
+        public static SingularityBullet CreateSingularityBullet(Point point, Player plr)
         {
             Vector position = PlayerPositionProvider.getVectorPosition(plr.Baze.BasePosition);
             position.X += (plr.Baze.Size.Width / 2);

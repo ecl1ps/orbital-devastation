@@ -125,7 +125,7 @@
     <Compile Include="src\Core\Scene\Entities\ISceneObject.cs" />
     <Compile Include="src\Core\Scene\Entities\SceneObject.cs" />
     <Compile Include="src\Core\Scene\Entities\Implementations\SingularityMine.cs" />
-    <Compile Include="src\Core\Scene\Entities\Implementations\Meteor.cs" />
+    <Compile Include="src\Core\Scene\Entities\Implementations\Asteroid.cs" />
     <Compile Include="src\Core\Player\PlayerPosition.cs" />
     <Compile Include="src\Core\IdMgr.cs" />
     <Compile Include="src\Core\Scene\Managers\SceneMgr.cs" />

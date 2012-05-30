@@ -29,13 +29,13 @@ namespace Orbit.Core.Scene.Entities
         {
             if (SceneMgr.GameType == Gametype.SOLO_GAME)
             {
-                SceneMgr.AttachToScene(SceneObjectFactory.CreateNewSphereOnEdge(this));
+                SceneMgr.AttachToScene(SceneObjectFactory.CreateNewAsteroidOnEdge(this));
                 return;
             }
 
             if (SceneMgr.IsServer())
             {
-                Asteroid a = SceneObjectFactory.CreateNewSphereOnEdge(this);
+                Asteroid a = SceneObjectFactory.CreateNewAsteroidOnEdge(this);
                 SceneMgr.AttachToScene(a);
                 NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
                 a.WriteObject(msg);
