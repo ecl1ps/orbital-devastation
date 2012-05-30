@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Orbit.src.Core.Scene.Entities.Implementations
+namespace Orbit.Core.Scene.Entities
 {
-    interface IGoldObject
+    public interface IGoldObject
     {
         double Gold { get; set; }
     }

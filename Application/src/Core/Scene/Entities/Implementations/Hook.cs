@@ -6,7 +6,6 @@ using Orbit.Core.Scene.Entities;
 using Orbit.Core.Players;
 using Orbit.Core.Scene.Controls;
 using System.Windows;
-using Orbit.src.Core.Scene.Entities;
 using Lidgren.Network;
 
 namespace Orbit.Core.Scene.Entities
