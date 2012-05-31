@@ -172,6 +172,10 @@ namespace Orbit.Core.Scene
             hook.Color = player.GetPlayerColor();
 
             hook.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(hook));
+            SceneMgr.GetInstance().GetUIDispatcher().BeginInvoke(DispatcherPriority.Send, new Action(() =>
+            {
+                Canvas.SetZIndex(hook.GetGeometry(), 99);
+            }));
 
             HookControl hookControl = new HookControl();
             hookControl.Origin = position;

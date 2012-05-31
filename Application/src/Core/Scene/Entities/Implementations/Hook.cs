@@ -67,6 +67,11 @@ namespace Orbit.Core.Scene.Entities
             foreach (Control c in controls)
                 AddControl(c);
         }
+
+        public override bool IsOnScreen(Size screenSize)
+        {
+            return true;
+        }
     }
 
    public class HookControl : Control 
