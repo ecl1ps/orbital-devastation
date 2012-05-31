@@ -105,6 +105,7 @@
     <Compile Include="src\Core\Scene\Entities\IRotable.cs" />
     <Compile Include="src\Core\Helpers\SceneGeometryFactory.cs" />
     <Compile Include="src\Core\Helpers\SceneObjectFactory.cs" />
+    <Compile Include="src\Core\weapons\IWeapon.cs" />
     <Compile Include="src\Gui\EscMenu.xaml.cs">
       <DependentUpon>EscMenu.xaml</DependentUpon>
     </Compile>
@@ -135,6 +136,9 @@
     </Compile>
     <Compile Include="src\Gui\OptionsUC.xaml.cs">
       <DependentUpon>OptionsUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\Gui\UserControl1.xaml.cs">
+      <DependentUpon>UserControl1.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +185,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="src\Gui\OptionsUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\Gui\UserControl1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

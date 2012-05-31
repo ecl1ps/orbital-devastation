@@ -7,6 +7,9 @@ using Orbit.Core.Players;
 using Orbit.Core.Scene.Controls;
 using System.Windows;
 using Lidgren.Network;
+using System.Windows.Shapes;
+using System.Windows.Threading;
+using System.Windows.Media;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -15,9 +18,31 @@ namespace Orbit.Core.Scene.Entities
         public Player Player { get; set; }
         public IContainsGold GoldObject { get; set;}
 
+        private Line line;
+
+        public void prepareLine(Point origin)
+        {
+            SceneMgr.GetInstance().GetUIDispatcher().BeginInvoke(DispatcherPriority.Send, new Action(() =>
+            {
+                line = new Line();
+                line.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
+                line.X1 = origin.X;
+                line.Y1 = origin.Y;
+                line.X2 = origin.X;
+                line.Y2 = origin.Y;
+                line.HorizontalAlignment = HorizontalAlignment.Left;
+                line.VerticalAlignment = VerticalAlignment.Center;
+                line.StrokeThickness = 2;
+                line.Fill = new SolidColorBrush(Colors.Black);
+            
+                SceneMgr.GetInstance().GetCanvas().Children.Add(line);
+            }));
+        }
+
         protected override void UpdateGeometricState()
         {
-
+            line.X2 = Position.X - (Radius / 2) - 1;
+            line.Y2 = Position.Y - (Radius / 2) - 1;
         }
 
         public override void DoCollideWith(ICollidable other)
@@ -46,6 +71,10 @@ namespace Orbit.Core.Scene.Entities
                 GoldObject.DoRemoveMe();
             }
             DoRemoveMe();
+            SceneMgr.GetInstance().GetUIDispatcher().BeginInvoke(DispatcherPriority.DataBind, (Action)(delegate
+            {
+                SceneMgr.GetInstance().GetCanvas().Children.Remove(line);
+            }));
         }
 
         public Boolean isFull()

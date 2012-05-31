@@ -170,6 +170,7 @@ namespace Orbit.Core.Scene
             hook.Radius = 5;
             hook.Direction = direction;
             hook.Color = player.GetPlayerColor();
+            hook.prepareLine(position.ToPoint());
 
             hook.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(hook));
 
