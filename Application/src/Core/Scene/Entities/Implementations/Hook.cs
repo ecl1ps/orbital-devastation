@@ -13,10 +13,10 @@ using System.Windows.Media;
 
 namespace Orbit.Core.Scene.Entities
 {
-   public class Hook : SpherePoint, ISendable
+    public class Hook : SpherePoint, ISendable
     {
         public Player Player { get; set; }
-        public IContainsGold GoldObject { get; set;}
+        public IContainsGold GoldObject { get; set; }
 
         private Line line;
 
@@ -47,23 +47,24 @@ namespace Orbit.Core.Scene.Entities
 
         public override void DoCollideWith(ICollidable other)
         {
+            if (HasCaughtObject())
+                return;
+
             if ((other is IContainsGold && !(GetControlOfType(typeof(HookControl)) as HookControl).Returning))
-                catchGold(other as IContainsGold);
+                CatchObjectWithGold(other as IContainsGold);
         }
 
-        private void catchGold(IContainsGold gold)
+        private void CatchObjectWithGold(IContainsGold gold)
         {
-            if(gold is IContainsGold)
-                GoldObject = gold as IContainsGold;
-            foreach (IControl control in gold.GetControlsCopy())
-            {
-                control.Enabled = false;
-            }
+            GoldObject = gold;
 
-            (GetControlOfType(typeof(HookControl)) as HookControl).Returning = true;
+            foreach (IControl control in gold.GetControlsCopy())
+                control.Enabled = false;
+
+            (GetControlOfType(typeof(HookControl)) as HookControl).CaughtObject();
         }
 
-        public void addGoldToPlayer()
+        public void AddGoldToPlayer()
         {
             if (GoldObject != null)
             {
@@ -72,12 +73,13 @@ namespace Orbit.Core.Scene.Entities
             }
             DoRemoveMe();
             SceneMgr.GetInstance().GetUIDispatcher().BeginInvoke(DispatcherPriority.DataBind, (Action)(delegate
+            SceneMgr.GetInstance().ShowStatusText(3, "Gold: " + Player.Data.Gold);
             {
                 SceneMgr.GetInstance().GetCanvas().Children.Remove(line);
             }));
         }
 
-        public Boolean isFull()
+        public Boolean HasCaughtObject()
         {
             return GoldObject != null;
         }
@@ -96,73 +98,86 @@ namespace Orbit.Core.Scene.Entities
             foreach (Control c in controls)
                 AddControl(c);
         }
+
+        public override bool IsOnScreen(Size screenSize)
+        {
+            return true;
+        }
     }
+}
 
-   public class HookControl : Control 
-   {
-       public int Speed { get; set; }
-       public int Lenght { get; set; }
-       public Vector Origin { get; set; }
-       public bool Returning { get; set; }
+namespace Orbit.Core.Scene.Controls
+{
+    public class HookControl : Control
+    {
+        public int Speed { get; set; }
+        public int Lenght { get; set; }
+        public Vector Origin { get; set; }
+        public Vector HitVector { get; set; } //neposilano
+        public bool Returning { get; set; } // neposilano
 
-       private Hook hook;
+        private Hook hook;
 
-       public override void InitControl(ISceneObject me)
-       {
-           Returning = false;
+        public override void InitControl(ISceneObject me)
+        {
+            Returning = false;
 
-           if (me is Hook)
-               hook = me as Hook;
-       }
+            if (me is Hook)
+                hook = me as Hook;
+        }
 
-       public override void UpdateControl(float tpf)
-       {
-           if (hook.isFull() || Returning)
-           {
-               moveBackwards(tpf);
-               if(hook.isFull())
-                    moveWithObject(hook.GoldObject);
+        public override void UpdateControl(float tpf)
+        {
+            if (hook.HasCaughtObject() || Returning)
+            {
+                MoveBackwards(tpf);
+                if (hook.HasCaughtObject())
+                    MoveWithObject(hook.GoldObject);
 
-               if (isStart())
-                   hook.addGoldToPlayer();
-           }
-           else
-           {
-               moveForward(tpf);
-               if (isEnd())
-                   Returning = true;
-           }
+                if (IsAtStart())
+                    hook.AddGoldToPlayer();
+            }
+            else
+            {
+                MoveForward(tpf);
+                if (IsAtEnd())
+                    Returning = true;
+            }
+        }
 
-       }
+        private void MoveWithObject(IContainsGold obj)
+        {
+            obj.Position = hook.Position + HitVector;
+        }
 
-       private void moveWithObject(IContainsGold obj)
-       {
-           obj.Position = hook.Position;
-       }
+        private void MoveForward(float tpf)
+        {
+            hook.Position += (hook.Direction * Speed * tpf);
+        }
 
-       private void moveForward(float tpf)
-       {
-           hook.Position += (hook.Direction * Speed * tpf);
-       }
+        private void MoveBackwards(float tpf)
+        {
+            hook.Position -= (hook.Direction * Speed * tpf);
+        }
 
-       private void moveBackwards(float tpf)
-       {
-           hook.Position -= (hook.Direction * Speed * tpf);
-       }
+        private bool IsAtEnd()
+        {
+            return GetDistanceFromOrigin() > Lenght;
+        }
 
-       private bool isEnd()
-       {
-           return getDistanceFromOrigin() > Lenght;
-       }
+        private bool IsAtStart()
+        {
+            return GetDistanceFromOrigin() < 50;
+        }
 
-       private bool isStart()
-       {
-           return getDistanceFromOrigin() < 50;
-       }
+        private double GetDistanceFromOrigin()
+        {
+            return (Origin - hook.Position).Length;
+        }
 
-       private double getDistanceFromOrigin()
-       {
-           return (Origin - hook.Position).Length;
-       }
-   }
+        public void CaughtObject()
+        {
+            HitVector = hook.GoldObject.Position - hook.Position;
+        }
+    }
 }

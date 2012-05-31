@@ -28,7 +28,7 @@ namespace Orbit.Core.Scene.Entities
 
         public override void UpdateGeometric()
         {
-            geometryElement.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, (Action)(delegate
+            geometryElement.Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
             {
                 Canvas.SetLeft(geometryElement, Position.X - Radius);
                 Canvas.SetTop(geometryElement, Position.Y - Radius);

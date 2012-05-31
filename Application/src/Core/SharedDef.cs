@@ -4,9 +4,9 @@ namespace Orbit.Core
     class SharedDef
     {
         // Application
-        public const long MINIMUM_UPDATE_TIME       = 17;
+        public const long MINIMUM_UPDATE_TIME               = 17;
 
-        public const int PORT_NUMBER                = 40;
+        public const int PORT_NUMBER                        = 40;
 
         // Scene
         public const int MIN_ASTEROID_RADIUS                = 10;
@@ -23,6 +23,7 @@ namespace Orbit.Core
         public const int MAX_ASTEROID_ROTATION_SPEED        =  10;
 
         public const int ASTEROID_COUNT                     = 20;
+        public const int ASTEROID_GOLD_CHANCE               = 10; // (0 - 100)
 
         public const int BASE_MAX_INGERITY                  = 100;
 
