@@ -73,10 +73,10 @@ namespace Orbit.Core.Scene.Entities
             }
             DoRemoveMe();
             SceneMgr.GetInstance().GetUIDispatcher().BeginInvoke(DispatcherPriority.DataBind, (Action)(delegate
-            SceneMgr.GetInstance().ShowStatusText(3, "Gold: " + Player.Data.Gold);
             {
                 SceneMgr.GetInstance().GetCanvas().Children.Remove(line);
             }));
+            SceneMgr.GetInstance().ShowStatusText(3, "Gold: " + Player.Data.Gold);
         }
 
         public Boolean HasCaughtObject()
