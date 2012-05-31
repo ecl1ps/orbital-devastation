@@ -20,16 +20,17 @@ namespace Orbit.Core.Scene.Entities
 
         private Line line;
 
-        public void prepareLine(Point origin)
+        public void prepareLine()
         {
             SceneMgr.GetInstance().GetUIDispatcher().BeginInvoke(DispatcherPriority.Send, new Action(() =>
             {
+                HookControl control = GetControlOfType(typeof(HookControl)) as HookControl;
                 line = new Line();
                 line.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
-                line.X1 = origin.X;
-                line.Y1 = origin.Y;
-                line.X2 = origin.X;
-                line.Y2 = origin.Y;
+                line.X1 = control.Origin.X;
+                line.Y1 = control.Origin.Y;
+                line.X2 = control.Origin.X;
+                line.Y2 = control.Origin.Y;
                 line.HorizontalAlignment = HorizontalAlignment.Left;
                 line.VerticalAlignment = VerticalAlignment.Center;
                 line.StrokeThickness = 2;

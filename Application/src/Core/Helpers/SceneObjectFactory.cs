@@ -174,7 +174,6 @@ namespace Orbit.Core.Scene
             hook.Radius = 5;
             hook.Direction = direction;
             hook.Color = player.GetPlayerColor();
-            hook.prepareLine(position.ToPoint());
 
             hook.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(hook));
             SceneMgr.GetInstance().GetUIDispatcher().BeginInvoke(DispatcherPriority.Send, new Action(() =>
@@ -188,6 +187,8 @@ namespace Orbit.Core.Scene
             hookControl.Lenght = player.Data.HookLenght;
 
             hook.AddControl(hookControl);
+
+            hook.prepareLine();
             
             return hook;
         }

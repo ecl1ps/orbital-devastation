@@ -9,6 +9,12 @@ using System.Collections.Generic;
 
 namespace Orbit.Core.Scene.Entities
 {
+    public enum AsteroidType
+    {
+        NORMAL,
+        GOLDEN,
+        BROKEN,
+    }
 
     public class Asteroid : Sphere, IRotable, ISendable, IContainsGold
     {
@@ -16,6 +22,7 @@ namespace Orbit.Core.Scene.Entities
         public float Rotation { get; set; }
         public int TextureId { get; set; }
         public int Gold { get; set; }
+        public AsteroidType AsteroidType { get; set; }
 
         protected override void UpdateGeometricState()
         {
