@@ -137,9 +137,6 @@
     <Compile Include="src\Gui\OptionsUC.xaml.cs">
       <DependentUpon>OptionsUC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\Gui\UserControl1.xaml.cs">
-      <DependentUpon>UserControl1.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
@@ -185,10 +182,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="src\Gui\OptionsUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="src\Gui\UserControl1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
