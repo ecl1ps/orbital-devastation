@@ -10,10 +10,10 @@ using Lidgren.Network;
 
 namespace Orbit.Core.Scene.Entities
 {
-   public class Hook : SpherePoint, ISendable
+    public class Hook : SpherePoint, ISendable
     {
         public Player Player { get; set; }
-        public IContainsGold GoldObject { get; set;}
+        public IContainsGold GoldObject { get; set; }
 
         protected override void UpdateGeometricState()
         {
@@ -23,12 +23,12 @@ namespace Orbit.Core.Scene.Entities
         public override void DoCollideWith(ICollidable other)
         {
             if ((other is IContainsGold && !(GetControlOfType(typeof(HookControl)) as HookControl).Returning))
-                catchGold(other as IContainsGold);
+                CatchGold(other as IContainsGold);
         }
 
-        private void catchGold(IContainsGold gold)
+        private void CatchGold(IContainsGold gold)
         {
-            if(gold is IContainsGold)
+            if (gold is IContainsGold)
                 GoldObject = gold as IContainsGold;
             foreach (IControl control in gold.GetControlsCopy())
             {
@@ -38,7 +38,7 @@ namespace Orbit.Core.Scene.Entities
             (GetControlOfType(typeof(HookControl)) as HookControl).Returning = true;
         }
 
-        public void addGoldToPlayer()
+        public void AddGoldToPlayer()
         {
             if (GoldObject != null)
             {
@@ -48,7 +48,7 @@ namespace Orbit.Core.Scene.Entities
             DoRemoveMe();
         }
 
-        public Boolean isFull()
+        public Boolean IsFull()
         {
             return GoldObject != null;
         }
@@ -73,72 +73,75 @@ namespace Orbit.Core.Scene.Entities
             return true;
         }
     }
+}
 
-   public class HookControl : Control 
-   {
-       public int Speed { get; set; }
-       public int Lenght { get; set; }
-       public Vector Origin { get; set; }
-       public bool Returning { get; set; }
+namespace Orbit.Core.Scene.Controls
+{
+    public class HookControl : Control
+    {
+        public int Speed { get; set; }
+        public int Lenght { get; set; }
+        public Vector Origin { get; set; }
+        public bool Returning { get; set; }
 
-       private Hook hook;
+        private Hook hook;
 
-       public override void InitControl(ISceneObject me)
-       {
-           Returning = false;
+        public override void InitControl(ISceneObject me)
+        {
+            Returning = false;
 
-           if (me is Hook)
-               hook = me as Hook;
-       }
+            if (me is Hook)
+                hook = me as Hook;
+        }
 
-       public override void UpdateControl(float tpf)
-       {
-           if (hook.isFull() || Returning)
-           {
-               moveBackwards(tpf);
-               if(hook.isFull())
-                    moveWithObject(hook.GoldObject);
+        public override void UpdateControl(float tpf)
+        {
+            if (hook.IsFull() || Returning)
+            {
+                MoveBackwards(tpf);
+                if (hook.IsFull())
+                    MoveWithObject(hook.GoldObject);
 
-               if (isStart())
-                   hook.addGoldToPlayer();
-           }
-           else
-           {
-               moveForward(tpf);
-               if (isEnd())
-                   Returning = true;
-           }
+                if (IsStart())
+                    hook.AddGoldToPlayer();
+            }
+            else
+            {
+                MoveForward(tpf);
+                if (IsEnd())
+                    Returning = true;
+            }
 
-       }
+        }
 
-       private void moveWithObject(IContainsGold obj)
-       {
-           obj.Position = hook.Position;
-       }
+        private void MoveWithObject(IContainsGold obj)
+        {
+            obj.Position = hook.Position;
+        }
 
-       private void moveForward(float tpf)
-       {
-           hook.Position += (hook.Direction * Speed * tpf);
-       }
+        private void MoveForward(float tpf)
+        {
+            hook.Position += (hook.Direction * Speed * tpf);
+        }
 
-       private void moveBackwards(float tpf)
-       {
-           hook.Position -= (hook.Direction * Speed * tpf);
-       }
+        private void MoveBackwards(float tpf)
+        {
+            hook.Position -= (hook.Direction * Speed * tpf);
+        }
 
-       private bool isEnd()
-       {
-           return getDistanceFromOrigin() > Lenght;
-       }
+        private bool IsEnd()
+        {
+            return GetDistanceFromOrigin() > Lenght;
+        }
 
-       private bool isStart()
-       {
-           return getDistanceFromOrigin() < 50;
-       }
+        private bool IsStart()
+        {
+            return GetDistanceFromOrigin() < 50;
+        }
 
-       private double getDistanceFromOrigin()
-       {
-           return (Origin - hook.Position).Length;
-       }
-   }
+        private double GetDistanceFromOrigin()
+        {
+            return (Origin - hook.Position).Length;
+        }
+    }
 }

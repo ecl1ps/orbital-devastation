@@ -435,19 +435,18 @@ namespace Orbit.Core.Scene
             switch (e.ChangedButton)
             {
                 case MouseButton.Left:
-                    spawnMine(point);
+                    SpawnMine(point);
                     break;
                 case MouseButton.Right:
-                    spawnBullet(point);
+                    SpawnBullet(point);
                     break;
                 case MouseButton.Middle:
-                    spawnHook(point);
+                    SpawnHook(point);
                     break;
-            }
-            
+            }          
         }
 
-        private void spawnHook(Point point)
+        private void SpawnHook(Point point)
         {
             if (GetPlayer(mePlayer).hook == null || GetPlayer(mePlayer).hook.Dead)
             {
@@ -465,7 +464,7 @@ namespace Orbit.Core.Scene
             }
         }
 
-        private void spawnBullet(Point point)
+        private void SpawnBullet(Point point)
         {
             if (GetPlayer(mePlayer).IsGunReady())
             {
@@ -484,7 +483,7 @@ namespace Orbit.Core.Scene
 
         }
 
-        private void spawnMine(Point point)
+        private void SpawnMine(Point point)
         {
             if (GetPlayer(mePlayer).IsMineReady())
             {
