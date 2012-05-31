@@ -26,16 +26,16 @@ namespace Orbit.Core.Scene
             s.Direction = headingRight ? new Vector(1, 0) : new Vector(-1, 0);
 
             s.Radius = randomGenerator.Next(SharedDef.MIN_ASTEROID_RADIUS, SharedDef.MAX_ASTEROID_RADIUS);
-            s.Position = new Vector(randomGenerator.Next((int)(actionArea.X + s.Radius), (int)(actionArea.Width - s.Radius)),
-                randomGenerator.Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius)));
-            s.Color = Color.FromRgb((byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255));
-            s.TextureId = SceneMgr.GetInstance().GetRandomGenerator().Next(1, 18);
-            s.Rotation = SceneMgr.GetInstance().GetRandomGenerator().Next(360);
-
             if (SceneMgr.GetInstance().GetRandomGenerator().Next(100) <= SharedDef.ASTEROID_GOLD_CHANCE)
                 s.Gold = s.Radius / 2;
             else
                 s.Gold = 0;
+
+            s.Position = new Vector(randomGenerator.Next((int)(actionArea.X + s.Radius), (int)(actionArea.Width - s.Radius)),
+                randomGenerator.Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius)));
+            s.Color = Color.FromRgb((byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255));
+            s.TextureId = SceneMgr.GetInstance().GetRandomGenerator().Next(1, s.Gold > 0 ? 6 : 18);
+            s.Rotation = SceneMgr.GetInstance().GetRandomGenerator().Next(360);
 
             CreateAsteroidControls(s);
 

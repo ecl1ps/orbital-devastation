@@ -63,8 +63,12 @@ namespace Orbit.Core.Scene
 
                 BitmapImage bi = new BitmapImage();
                 bi.BeginInit();
-                bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/Rock" + 
-                    s.TextureId + "_SR.png");
+                if (s.Gold > 0)
+                    bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/rock_gold_" +
+                        s.TextureId + ".png");
+                else
+                    bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/rock_normal_" + 
+                        s.TextureId + ".png");
                 bi.DecodePixelWidth = s.Radius * 4;
                 bi.EndInit();
 
@@ -74,7 +78,7 @@ namespace Orbit.Core.Scene
                 img.RenderTransform = new RotateTransform(s.Rotation);
                 img.RenderTransformOrigin = new Point(0.5, 0.5);
 
-                if (s.Gold > 0)
+                /*if (s.Gold > 0)
                 {
                     ColorToneEffect eff = new ColorToneEffect();
                     eff.Desaturation = 2;
@@ -82,7 +86,7 @@ namespace Orbit.Core.Scene
                     eff.LightColor = Colors.Goldenrod;
                     img.Effect = eff;
                     Canvas.SetZIndex(img, -1); // tone shader spatne pracuje s pruhlednymi castmi obrazku - musi byt uplne dole
-                }
+                }*/
 
                 Canvas.SetLeft(img, s.Position.X - s.Radius);
                 Canvas.SetTop(img, s.Position.Y - s.Radius);
