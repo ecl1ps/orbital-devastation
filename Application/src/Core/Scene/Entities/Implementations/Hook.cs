@@ -41,8 +41,8 @@ namespace Orbit.Core.Scene.Entities
 
         protected override void UpdateGeometricState()
         {
-            line.X2 = Position.X - (Radius / 2) - 1;
-            line.Y2 = Position.Y - (Radius / 2) - 1;
+            line.X2 = Position.X - Radius;
+            line.Y2 = Position.Y - Radius;
         }
 
         public override void DoCollideWith(ICollidable other)
