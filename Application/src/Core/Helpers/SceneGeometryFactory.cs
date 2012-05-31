@@ -73,9 +73,17 @@ namespace Orbit.Core.Scene
                 img.Width = s.Radius * 2;
                 img.RenderTransform = new RotateTransform(s.Rotation);
                 img.RenderTransformOrigin = new Point(0.5, 0.5);
-                SharpenEffect eff = new SharpenEffect();
-                eff.Amount = 50;
-                img.Effect = eff;
+
+                if (s.Gold > 0)
+                {
+                    ColorToneEffect eff = new ColorToneEffect();
+                    eff.Desaturation = 2;
+                    eff.Toned = 1;
+                    eff.LightColor = Colors.Goldenrod;
+                    img.Effect = eff;
+                    Canvas.SetZIndex(img, -1); // tone shader spatne pracuje s pruhlednymi castmi obrazku - musi byt uplne dole
+                }
+
                 Canvas.SetLeft(img, s.Position.X - s.Radius);
                 Canvas.SetTop(img, s.Position.Y - s.Radius);
             }));
