@@ -182,6 +182,20 @@ namespace Orbit.Core.Scene
                                     SyncReceivedObject(s, msg);
                                 }
                                 break;
+                            case PacketType.NEW_HOOK:
+                                {
+                                    Hook h = new Hook();
+                                    (h as ISendable).ReadObject(msg);
+                                    h.Player = GetOtherPlayer();
+                                    h.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(h));
+                                    GetUIDispatcher().BeginInvoke(DispatcherPriority.Send, new Action(() =>
+                                    {
+                                        Canvas.SetZIndex(h.GetGeometry(), 99);
+                                    }));
+                                    AttachToScene(h);
+                                    SyncReceivedObject(h, msg);
+                                }
+                                break;
                             case PacketType.PLAYER_WON:
                                 EndGame(GetPlayer((PlayerPosition)msg.ReadByte()), GameEnd.WIN_GAME);
                                 break;
