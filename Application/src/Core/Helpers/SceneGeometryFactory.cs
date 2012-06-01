@@ -25,8 +25,8 @@ namespace Orbit.Core.Scene
                 path.Data = geom;
                 path.Fill = new SolidColorBrush(s.Color);
                 path.Stroke = Brushes.Black;
-                Canvas.SetLeft(path, s.Position.X - s.Radius);
-                Canvas.SetTop(path, s.Position.Y - s.Radius);
+                Canvas.SetLeft(path, s.Position.X);
+                Canvas.SetTop(path, s.Position.Y);
             }));
 
             return path;
@@ -42,8 +42,8 @@ namespace Orbit.Core.Scene
                 path.Data = geom;
                 path.Fill = new RadialGradientBrush(s.Color, Color.FromArgb(0x80, s.Color.R, s.Color.G, s.Color.B));
                 path.Stroke = Brushes.Black;
-                Canvas.SetLeft(path, s.Position.X - s.Radius);
-                Canvas.SetTop(path, s.Position.Y - s.Radius);
+                Canvas.SetLeft(path, s.Position.X);
+                Canvas.SetTop(path, s.Position.Y);
             }));
 
             return path;
@@ -89,8 +89,8 @@ namespace Orbit.Core.Scene
                     Canvas.SetZIndex(img, -1); // tone shader spatne pracuje s pruhlednymi castmi obrazku - musi byt uplne dole
                 }*/
 
-                Canvas.SetLeft(img, s.Position.X - s.Radius);
-                Canvas.SetTop(img, s.Position.Y - s.Radius);
+                Canvas.SetLeft(img, s.Position.X);
+                Canvas.SetTop(img, s.Position.Y);
             }));
 
             return img;

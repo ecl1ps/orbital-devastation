@@ -117,7 +117,6 @@ namespace Orbit.Core.Scene
                 CreateAsteroidField();
                 isInitialized = true;
             }
-
         }
 
         private void SetMainInfoText(String t)

@@ -13,7 +13,7 @@ using System.Windows.Media;
 
 namespace Orbit.Core.Scene.Entities
 {
-    public class Hook : SpherePoint, ISendable
+    public class Hook : Sphere, ISendable
     {
         public Player Player { get; set; }
         public IContainsGold GoldObject { get; set; }
@@ -42,8 +42,8 @@ namespace Orbit.Core.Scene.Entities
 
         protected override void UpdateGeometricState()
         {
-            line.X2 = Position.X - Radius;
-            line.Y2 = Position.Y - Radius;
+            line.X2 = Position.X;
+            line.Y2 = Position.Y;
         }
 
         public override void DoCollideWith(ICollidable other)

@@ -12,15 +12,26 @@ namespace Orbit.Core.Scene.Entities
     public abstract class Sphere : SceneObject, IMovable, ICollidable
     {
         public Color Color { get; set; }
-        public Vector Direction { get; set; } 
+        public Vector Direction { get; set; }
         public int Radius { get; set; }
+        public Vector Center
+        {
+            get
+            {
+                if (GetGeometry() is Image) // image ma Position v levem hornim rohu
+                    return new Vector(Position.X + Radius, Position.Y + Radius);
+                else
+                    return Position; // EllipseGeometry ma Position ve stredu
+            }
+        }
 
         public override bool IsOnScreen(System.Windows.Size screenSize)
         {
-            if (Position.X <= -Radius || Position.Y <= -Radius)
+            // 5 je tolerance, ktera zabranuje nepresnostem na rozhrani
+            if (Center.X <= -(Radius + 5) || Center.Y <= -(Radius + 5))
                 return false;
 
-            if (Position.X >= screenSize.Width + Radius || Position.Y >= screenSize.Height + Radius)
+            if (Center.X >= screenSize.Width + Radius + 5 || Center.Y >= screenSize.Height + Radius + 5)
                 return false;
 
             return true;
@@ -30,8 +41,8 @@ namespace Orbit.Core.Scene.Entities
         {
             geometryElement.Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
             {
-                Canvas.SetLeft(geometryElement, Position.X - Radius);
-                Canvas.SetTop(geometryElement, Position.Y - Radius);
+                Canvas.SetLeft(geometryElement, Position.X);
+                Canvas.SetTop(geometryElement, Position.Y);
                 if (geometryElement is Image)
                     (geometryElement as Image).Width = Radius * 2;
                 UpdateGeometricState();
@@ -43,13 +54,13 @@ namespace Orbit.Core.Scene.Entities
         public virtual bool CollideWith(ICollidable other)
         {
             if (other is SpherePoint)
-                return CollisionHelper.intersectsCircleAndPoint(((SpherePoint)other).Position, Position, Radius);
+                return CollisionHelper.intersectsCircleAndPoint(((SpherePoint)other).Position, Center, Radius);
 
             if (other is Sphere)
-                return CollisionHelper.intersectsCircleAndCircle(Position, Radius, (other as Sphere).Position, (other as Sphere).Radius);
+                return CollisionHelper.intersectsCircleAndCircle(Center, Radius, (other as Sphere).Center, (other as Sphere).Radius);
 
             if (other is Base)
-                return CollisionHelper.intersectsCircleAndSquare(Position, Radius, (other as Base).Position, (other as Base).Size);
+                return CollisionHelper.intersectsCircleAndSquare(Center, Radius, (other as Base).Position, (other as Base).Size);
 
             return false;
         }
