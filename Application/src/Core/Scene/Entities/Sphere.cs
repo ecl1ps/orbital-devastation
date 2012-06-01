@@ -54,7 +54,7 @@ namespace Orbit.Core.Scene.Entities
         public virtual bool CollideWith(ICollidable other)
         {
             if (other is SpherePoint)
-                return CollisionHelper.intersectsCircleAndPoint(((SpherePoint)other).Position, Center, Radius);
+                return CollisionHelper.intersectsCircleAndPoint(((SpherePoint)other).Center, Center, Radius);
 
             if (other is Sphere)
                 return CollisionHelper.intersectsCircleAndCircle(Center, Radius, (other as Sphere).Center, (other as Sphere).Radius);
