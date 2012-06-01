@@ -9,18 +9,19 @@ using System.Windows.Media;
 
 namespace Orbit.Core.Scene.Entities
 {
+    // Unused
     public abstract class SpherePoint : Sphere
     {
         public override bool CollideWith(ICollidable other) 
         {
             if (other is SpherePoint)
-                return CollisionHelper.intersectPointAndPoint(Position, ((SpherePoint) other).Position);
+                return CollisionHelper.intersectPointAndPoint(Center, ((SpherePoint)other).Center);
 
             if (other is Square)
-                return CollisionHelper.intersectSquareAndPoint(Position, ((Square) other).Position, ((Square) other).Size);
+                return CollisionHelper.intersectSquareAndPoint(Center, ((Square)other).Position, ((Square)other).Size);
 
             if (other is Sphere)
-                return CollisionHelper.intersectsCircleAndPoint(Position, ((Sphere)other).Position, ((Sphere)other).Radius);
+                return CollisionHelper.intersectsCircleAndPoint(Center, ((Sphere)other).Center, ((Sphere)other).Radius);
 
             return false;
         }

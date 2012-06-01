@@ -81,13 +81,13 @@ namespace Orbit.Core.Scene
 
             Rect actionArea = SceneMgr.GetInstance().GetOrbitArea();
 
-            s.Position = new Vector(s.IsHeadingRight ? (int)(-s.Radius) : (int)(actionArea.Width + s.Radius),
-                SceneMgr.GetInstance().GetRandomGenerator().Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius)));
+            s.Position = new Vector(s.IsHeadingRight ? (int)(- 2 * s.Radius) : (int)(actionArea.Width),
+                SceneMgr.GetInstance().GetRandomGenerator().Next((int)(actionArea.Y), (int)(actionArea.Height - 2 * s.Radius)));
 
             SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
             {
-                Canvas.SetLeft(s.GetGeometry(), s.Position.X - s.Radius);
-                Canvas.SetTop(s.GetGeometry(), s.Position.Y - s.Radius);
+                Canvas.SetLeft(s.GetGeometry(), s.Position.X);
+                Canvas.SetTop(s.GetGeometry(), s.Position.Y);
             }));
 
             return s;
@@ -173,24 +173,25 @@ namespace Orbit.Core.Scene
             Hook hook = new Hook();
             hook.Player = player;
             hook.Position = position;
-            hook.Radius = 5;
+            hook.Radius = 8;
+            hook.Rotation = (float)Vector.AngleBetween(new Vector(0, -1), direction);
             hook.Direction = direction;
             hook.Color = player.GetPlayerColor();
 
-            hook.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(hook));
+            hook.SetGeometry(SceneGeometryFactory.CreateHookHead(hook));
             SceneMgr.GetInstance().GetUIDispatcher().BeginInvoke(DispatcherPriority.Send, new Action(() =>
             {
                 Canvas.SetZIndex(hook.GetGeometry(), 99);
             }));
 
             HookControl hookControl = new HookControl();
-            hookControl.Origin = position;
+            hookControl.Origin = new Vector(hook.Center.X, hook.Center.Y - hook.Radius);
             hookControl.Speed = player.Data.HookSpeed;
             hookControl.Lenght = player.Data.HookLenght;
 
             hook.AddControl(hookControl);
 
-            hook.prepareLine();
+            hook.PrepareLine();
             
             return hook;
         }

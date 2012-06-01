@@ -25,8 +25,8 @@ namespace Orbit.Core.Scene
                 path.Data = geom;
                 path.Fill = new SolidColorBrush(s.Color);
                 path.Stroke = Brushes.Black;
-                Canvas.SetLeft(path, s.Position.X - s.Radius);
-                Canvas.SetTop(path, s.Position.Y - s.Radius);
+                Canvas.SetLeft(path, s.Position.X);
+                Canvas.SetTop(path, s.Position.Y);
             }));
 
             return path;
@@ -42,8 +42,8 @@ namespace Orbit.Core.Scene
                 path.Data = geom;
                 path.Fill = new RadialGradientBrush(s.Color, Color.FromArgb(0x80, s.Color.R, s.Color.G, s.Color.B));
                 path.Stroke = Brushes.Black;
-                Canvas.SetLeft(path, s.Position.X - s.Radius);
-                Canvas.SetTop(path, s.Position.Y - s.Radius);
+                Canvas.SetLeft(path, s.Position.X);
+                Canvas.SetTop(path, s.Position.Y);
             }));
 
             return path;
@@ -89,8 +89,8 @@ namespace Orbit.Core.Scene
                     Canvas.SetZIndex(img, -1); // tone shader spatne pracuje s pruhlednymi castmi obrazku - musi byt uplne dole
                 }*/
 
-                Canvas.SetLeft(img, s.Position.X - s.Radius);
-                Canvas.SetTop(img, s.Position.Y - s.Radius);
+                Canvas.SetLeft(img, s.Position.X);
+                Canvas.SetTop(img, s.Position.Y);
             }));
 
             return img;
@@ -138,6 +138,30 @@ namespace Orbit.Core.Scene
             }));
 
             return path;
-        } 
+        }
+
+        public static UIElement CreateHookHead(Hook hook)
+        {
+            Image img = null;
+            SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
+            {
+                BitmapImage bi = new BitmapImage();
+                bi.BeginInit();
+                bi.UriSource = new Uri("pack://application:,,,/resources/images/hook/hook_head.png");
+                bi.DecodePixelWidth = hook.Radius * 4;
+                bi.EndInit();
+
+                img = new Image();
+                img.Source = bi;
+                img.Width = hook.Radius * 2;
+                img.RenderTransform = new RotateTransform(hook.Rotation);
+                img.RenderTransformOrigin = new Point(0.5, 0.5);
+
+                Canvas.SetLeft(img, hook.Position.X);
+                Canvas.SetTop(img, hook.Position.Y);
+            }));
+
+            return img;
+        }
     }
 }

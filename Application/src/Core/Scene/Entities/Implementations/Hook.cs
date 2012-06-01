@@ -13,14 +13,22 @@ using System.Windows.Media;
 
 namespace Orbit.Core.Scene.Entities
 {
-    public class Hook : SpherePoint, ISendable
+    public class Hook : SpherePoint, ISendable, IRotable
     {
-        public Player Player { get; set; }
-        public IContainsGold GoldObject { get; set; }
+        public Player Player { get; set; } // neposilano
+        public float Rotation { get; set; } // neposilano
+        public IContainsGold GoldObject { get; set; } // neposilano
+        public Vector RopeContactPoint
+        {
+            get
+            {
+                return new Vector(Center.X - Direction.X * Radius, Center.Y - Direction.Y * Radius);
+            }
+        }
 
-        private Line line;
+        private Line line; // neposilano
 
-        public void prepareLine()
+        public void PrepareLine()
         {
             SceneMgr.GetInstance().GetUIDispatcher().BeginInvoke(DispatcherPriority.Send, new Action(() =>
             {
@@ -42,8 +50,8 @@ namespace Orbit.Core.Scene.Entities
 
         protected override void UpdateGeometricState()
         {
-            line.X2 = Position.X - Radius;
-            line.Y2 = Position.Y - Radius;
+            line.X2 = RopeContactPoint.X;
+            line.Y2 = RopeContactPoint.Y;
         }
 
         public override void DoCollideWith(ICollidable other)

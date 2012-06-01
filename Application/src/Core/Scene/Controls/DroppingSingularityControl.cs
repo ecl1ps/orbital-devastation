@@ -69,7 +69,10 @@ namespace Orbit.Core.Scene.Controls
 
             hitObjects.Add((movable as ISceneObject).Id);
 
-            Vector newDir = (movable as ISceneObject).Position - me.Position;
+            if (!(movable is Sphere))
+                throw new Exception("Dropping singularity mine collided with other object than Sphere");
+
+            Vector newDir = (movable as Sphere).Center - me.Position;
             newDir.Normalize();
             newDir *= Strength;
             movable.Direction += newDir;
@@ -113,7 +116,7 @@ namespace Orbit.Core.Scene.Controls
 
         private float GetDistFromStartPct()
         {
-            return (float)(meMine.Position.Y / (meMine.SceneMgr.ViewPortSizeOriginal.Height * 0.5));
+            return (float)(meMine.Center.Y / (meMine.SceneMgr.ViewPortSizeOriginal.Height * 0.5));
         }
 
         private float GetDistToExplosionPct()
