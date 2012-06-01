@@ -24,13 +24,15 @@ namespace Orbit.Core.Scene
             s.Id = IdMgr.GetNewId();
             s.IsHeadingRight = headingRight;
             s.Direction = headingRight ? new Vector(1, 0) : new Vector(-1, 0);
+            s.AsteroidType = AsteroidType.NORMAL;
 
             s.Radius = randomGenerator.Next(SharedDef.MIN_ASTEROID_RADIUS, SharedDef.MAX_ASTEROID_RADIUS);
+            s.Gold = s.Radius / 2;
             if (SceneMgr.GetInstance().GetRandomGenerator().Next(100) <= SharedDef.ASTEROID_GOLD_CHANCE)
-                s.Gold = s.Radius / 2;
-            else
-                s.Gold = 0;
-
+            {
+                s.Gold *= SharedDef.GOLD_ASTEROID_BONUS_MULTIPLY;
+                s.AsteroidType = AsteroidType.GOLDEN;
+            }
             s.Position = new Vector(randomGenerator.Next((int)(actionArea.X + s.Radius), (int)(actionArea.Width - s.Radius)),
                 randomGenerator.Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius)));
             s.Color = Color.FromRgb((byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255));

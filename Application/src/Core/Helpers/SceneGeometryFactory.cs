@@ -63,7 +63,8 @@ namespace Orbit.Core.Scene
 
                 BitmapImage bi = new BitmapImage();
                 bi.BeginInit();
-                if (s.Gold > 0)
+                //prozatim jenom na gold pak bude vic typu
+                if (s.AsteroidType == AsteroidType.GOLDEN)
                     bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/rock_gold_" +
                         s.TextureId + ".png");
                 else

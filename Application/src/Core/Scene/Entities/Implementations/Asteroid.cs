@@ -13,7 +13,7 @@ namespace Orbit.Core.Scene.Entities
     {
         NORMAL,
         GOLDEN,
-        BROKEN,
+        UNSTABLE,
     }
 
     public class Asteroid : Sphere, IRotable, ISendable, IContainsGold
