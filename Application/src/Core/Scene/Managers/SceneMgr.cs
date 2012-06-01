@@ -447,6 +447,9 @@ namespace Orbit.Core.Scene
 
         private void SpawnHook(Point point)
         {
+            if (point.Y > PlayerPositionProvider.getVectorPosition(mePlayer).Y)
+                return;
+
             if (GetPlayer(mePlayer).hook == null || GetPlayer(mePlayer).hook.Dead)
             {
                 Hook hook = SceneObjectFactory.CreateHook(point, GetPlayer(mePlayer));
@@ -465,6 +468,9 @@ namespace Orbit.Core.Scene
 
         private void SpawnBullet(Point point)
         {
+            if (point.Y > PlayerPositionProvider.getVectorPosition(mePlayer).Y)
+                return;
+
             if (GetPlayer(mePlayer).IsGunReady())
             {
                 GetPlayer(mePlayer).UseGun();
