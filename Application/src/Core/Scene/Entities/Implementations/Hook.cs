@@ -77,7 +77,6 @@ namespace Orbit.Core.Scene.Entities
             {
                 SceneMgr.GetInstance().GetCanvas().Children.Remove(line);
             }));
-            SceneMgr.GetInstance().ShowStatusText(3, "Gold: " + Player.Data.Gold);
         }
 
         public Boolean HasCaughtObject()

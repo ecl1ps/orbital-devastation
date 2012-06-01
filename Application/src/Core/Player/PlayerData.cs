@@ -2,6 +2,7 @@
 using Orbit.Core.Scene.Entities;
 using System.Windows.Media;
 using System.Diagnostics;
+using Orbit.Core.Scene;
 
 namespace Orbit.Core.Players
 {
@@ -10,7 +11,6 @@ namespace Orbit.Core.Players
         public PlayerPosition PlayerPosition { get; set; }
         public Color PlayerColor { get; set; }
         public int Score { get; set; }
-        public int Gold { get; set; }
         public float MineGrowthSpeed { get; set; }
         public float MineStrength { get; set; }
         public int MineCooldown { get; set; }
@@ -20,6 +20,25 @@ namespace Orbit.Core.Players
         public int BulletDamage { get; set; }
         public int HookLenght { get; set; }
         public int HookSpeed { get; set; }
+
+        private int gold;
+        public int Gold
+        {
+            get
+            {
+                return gold;
+            }
+            set
+            {
+                gold = value;
+                proccesGoldData();
+            }
+        }
+
+        private void proccesGoldData()
+        {
+            SceneMgr.GetInstance().ShowStatusText(3, "Gold: " + Gold);
+        }
         
         public PlayerData()
         {
