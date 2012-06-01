@@ -188,6 +188,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <Resource Include="resources\images\hook\hook_head.png" />
     <Resource Include="resources\images\rock\rock_gold_1.png" />
     <Resource Include="resources\images\rock\rock_gold_2.png" />
     <Resource Include="resources\images\rock\rock_gold_3.png" />

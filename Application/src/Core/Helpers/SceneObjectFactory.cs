@@ -173,24 +173,25 @@ namespace Orbit.Core.Scene
             Hook hook = new Hook();
             hook.Player = player;
             hook.Position = position;
-            hook.Radius = 5;
+            hook.Radius = 8;
+            hook.Rotation = (float)Vector.AngleBetween(new Vector(0, -1), direction);
             hook.Direction = direction;
             hook.Color = player.GetPlayerColor();
 
-            hook.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(hook));
+            hook.SetGeometry(SceneGeometryFactory.CreateHookHead(hook));
             SceneMgr.GetInstance().GetUIDispatcher().BeginInvoke(DispatcherPriority.Send, new Action(() =>
             {
                 Canvas.SetZIndex(hook.GetGeometry(), 99);
             }));
 
             HookControl hookControl = new HookControl();
-            hookControl.Origin = position;
+            hookControl.Origin = new Vector(hook.Center.X, hook.Center.Y - hook.Radius);
             hookControl.Speed = player.Data.HookSpeed;
             hookControl.Lenght = player.Data.HookLenght;
 
             hook.AddControl(hookControl);
 
-            hook.prepareLine();
+            hook.PrepareLine();
             
             return hook;
         }

@@ -138,6 +138,30 @@ namespace Orbit.Core.Scene
             }));
 
             return path;
-        } 
+        }
+
+        public static UIElement CreateHookHead(Hook hook)
+        {
+            Image img = null;
+            SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
+            {
+                BitmapImage bi = new BitmapImage();
+                bi.BeginInit();
+                bi.UriSource = new Uri("pack://application:,,,/resources/images/hook/hook_head.png");
+                bi.DecodePixelWidth = hook.Radius * 4;
+                bi.EndInit();
+
+                img = new Image();
+                img.Source = bi;
+                img.Width = hook.Radius * 2;
+                img.RenderTransform = new RotateTransform(hook.Rotation);
+                img.RenderTransformOrigin = new Point(0.5, 0.5);
+
+                Canvas.SetLeft(img, hook.Position.X);
+                Canvas.SetTop(img, hook.Position.Y);
+            }));
+
+            return img;
+        }
     }
 }

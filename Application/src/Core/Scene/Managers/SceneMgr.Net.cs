@@ -192,7 +192,7 @@ namespace Orbit.Core.Scene
                                     {
                                         Canvas.SetZIndex(h.GetGeometry(), 99);
                                     }));
-                                    h.prepareLine();
+                                    h.PrepareLine();
                                     AttachToScene(h);
                                     SyncReceivedObject(h, msg);
                                 }
