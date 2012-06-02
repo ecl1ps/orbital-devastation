@@ -20,7 +20,7 @@ namespace Orbit.src.Core.weapons
 
         public void Shoot(Point point)
         {
-            hook = spawnHook(point);
+            spawnHook(point);
         }
 
         public IWeapon Next()
@@ -28,13 +28,12 @@ namespace Orbit.src.Core.weapons
             return null;
         }
 
-        private Hook spawnHook(Point point)
+        private void spawnHook(Point point)
         {
             Player player = SceneMgr.GetInstance().GetMePlayer();
-            Hook hook = null;
 
             if (point.Y > PlayerPositionProvider.getVectorPosition(player.GetPosition()).Y)
-                return hook;
+                return;
 
             if (IsReady())
             {
@@ -49,8 +48,6 @@ namespace Orbit.src.Core.weapons
 
                 SceneMgr.GetInstance().AttachToScene(hook);
             }
-
-            return hook;
         }
 
         public bool IsReady()
