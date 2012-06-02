@@ -3,7 +3,7 @@ using Orbit.Core.Scene.Entities;
 using System.Windows.Media;
 using System.Diagnostics;
 using Lidgren.Network;
-using Orbit.src.Core.weapons;
+using Orbit.Core.Weapons;
 
 namespace Orbit.Core.Players
 {

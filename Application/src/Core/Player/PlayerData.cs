@@ -3,7 +3,7 @@ using Orbit.Core.Scene.Entities;
 using System.Windows.Media;
 using System.Diagnostics;
 using Orbit.Core.Scene;
-using Orbit.src.Core.weapons;
+using Orbit.Core.Weapons;
 
 namespace Orbit.Core.Players
 {
@@ -62,7 +62,7 @@ namespace Orbit.Core.Players
 
             Hook = new HookLauncher();
             Mine = new MineLauncher();
-            Canoon = new ProximityCanoon();
+            Canoon = new ProximityCannon();
         }
 
     }
