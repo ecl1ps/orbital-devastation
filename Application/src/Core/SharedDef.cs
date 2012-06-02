@@ -35,7 +35,7 @@ namespace Orbit.Core
 
         public const float MINE_GROWTH_SPEED                = 1f;
         public const float MINE_STRENGTH                    = 100f;
-        public const int MINE_COOLDOWN                      = 1000;
+        public const float MINE_COOLDOWN                    = 1f;
         public const int MINE_FALLING_SPEED                 = 50;
 
         // polovina gravitacniho zrychleni
@@ -46,7 +46,7 @@ namespace Orbit.Core
         public const float STABLE_ORBIT_RELATIVE            = 0.9f;
 
         public const int BULLET_SPEED                       = 300;
-        public const int BULLET_COOLDOWN                    = MINE_COOLDOWN / 2;
+        public const float BULLET_COOLDOWN                  = MINE_COOLDOWN / 2;
         public const int BULLET_DMG                         = 5;
 
         public const int HOOK_LENGHT                        = 400;

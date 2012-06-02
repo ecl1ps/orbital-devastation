@@ -307,6 +307,9 @@ namespace Orbit.Core.Scene
             CheckCollisions();
             RemoveObjectsMarkedForRemoval();
 
+            GetPlayer(mePlayer).Data.Canoon.updateTimer(tpf);
+            GetPlayer(mePlayer).Data.Mine.updateTimer(tpf);
+
             try
             {
                 UpdateGeomtricState();
@@ -434,79 +437,16 @@ namespace Orbit.Core.Scene
             switch (e.ChangedButton)
             {
                 case MouseButton.Left:
-                    SpawnMine(point);
+                    GetPlayer(mePlayer).Data.Mine.Shoot(point);
                     break;
                 case MouseButton.Right:
-                    SpawnBullet(point);
+                    GetPlayer(mePlayer).Data.Canoon.Shoot(point);
                     break;
                 case MouseButton.Middle:
-                    SpawnHook(point);
+                    GetPlayer(mePlayer).Data.Hook.Shoot(point);
                     break;
             }          
         }
-
-        private void SpawnHook(Point point)
-        {
-            if (point.Y > PlayerPositionProvider.getVectorPosition(mePlayer).Y)
-                return;
-
-            if (GetPlayer(mePlayer).hook == null || GetPlayer(mePlayer).hook.Dead)
-            {
-                Hook hook = SceneObjectFactory.CreateHook(point, GetPlayer(mePlayer));
-
-                if (GameType != Gametype.SOLO_GAME)
-                {
-                    NetOutgoingMessage msg = CreateNetMessage();
-                    (hook as ISendable).WriteObject(msg);
-                    SendMessage(msg);
-                }
-
-                AttachToScene(hook);
-                GetPlayer(mePlayer).hook = hook;
-            }
-        }
-
-        private void SpawnBullet(Point point)
-        {
-            if (point.Y > PlayerPositionProvider.getVectorPosition(mePlayer).Y)
-                return;
-
-            if (GetPlayer(mePlayer).IsGunReady())
-            {
-                GetPlayer(mePlayer).UseGun();
-                SingularityBullet bullet = SceneObjectFactory.CreateSingularityBullet(point, GetPlayer(mePlayer));
-
-                if (GameType != Gametype.SOLO_GAME)
-                {
-                    NetOutgoingMessage msg = CreateNetMessage();
-                    (bullet as ISendable).WriteObject(msg);
-                    SendMessage(msg);
-                }
-
-                AttachToScene(bullet);
-            }
-
-        }
-
-        private void SpawnMine(Point point)
-        {
-            if (GetPlayer(mePlayer).IsMineReady())
-            {
-                GetPlayer(mePlayer).UseMine();
-                SingularityMine mine = SceneObjectFactory.CreateDroppingSingularityMine(point, GetPlayer(mePlayer));
-
-                if (GameType != Gametype.SOLO_GAME)
-                {
-                    NetOutgoingMessage msg = CreateNetMessage();
-                    (mine as ISendable).WriteObject(msg);
-                    SendMessage(msg);
-                }
-
-                AttachToScene(mine);
-            }
-
-        }
-
 
         private void CheckPlayerStates()
         {

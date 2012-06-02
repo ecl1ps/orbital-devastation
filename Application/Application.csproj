@@ -105,6 +105,9 @@
     <Compile Include="src\Core\Scene\Entities\IRotable.cs" />
     <Compile Include="src\Core\Helpers\SceneGeometryFactory.cs" />
     <Compile Include="src\Core\Helpers\SceneObjectFactory.cs" />
+    <Compile Include="src\Core\weapons\MineLauncher.cs" />
+    <Compile Include="src\Core\weapons\ProximityCanoon.cs" />
+    <Compile Include="src\Core\weapons\HookLauncher.cs" />
     <Compile Include="src\Core\weapons\IWeapon.cs" />
     <Compile Include="src\Gui\EscMenu.xaml.cs">
       <DependentUpon>EscMenu.xaml</DependentUpon>
