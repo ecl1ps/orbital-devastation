@@ -7,8 +7,9 @@ namespace Orbit.Core.Players
 {
 
 	public enum PlayerPosition {
-		LEFT,
-		RIGHT,
+        LEFT,
+        RIGHT,
+        INVALID
 	}
 
     public class PlayerPositionProvider 

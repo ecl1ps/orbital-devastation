@@ -37,5 +37,11 @@ namespace Orbit.Core.Players
         {
             return Data.PlayerColor;
         }
+
+        public void Update(float tpf)
+        {
+            Data.Canoon.UpdateTimer(tpf);
+            Data.Mine.UpdateTimer(tpf);
+        }
     }
 }

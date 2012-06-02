@@ -22,7 +22,7 @@ namespace Orbit.Core.Scene.Entities
         {
             get
             {
-                return new Vector(Center.X - Direction.X * Radius, Center.Y - Direction.Y * Radius);
+                return Center - Direction * Radius;
             }
         }
 

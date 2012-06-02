@@ -42,7 +42,11 @@ namespace Orbit.Core.Players
 
         private void proccesGoldData()
         {
-            SceneMgr.GetInstance().ShowStatusText(3, "Gold: " + Gold);
+            if (Gold == 0)
+                return;
+
+            if (SceneMgr.GetInstance().GetMePlayer() != null && SceneMgr.GetInstance().GetMePlayer().GetPosition() == PlayerPosition)
+                SceneMgr.GetInstance().ShowStatusText(4, "Gold: " + Gold);
         }
         
         public PlayerData()
