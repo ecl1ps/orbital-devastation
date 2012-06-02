@@ -16,7 +16,7 @@ namespace Orbit.Core.Scene.Entities
     public class Hook : SpherePoint, ISendable, IRotable
     {
         public Player Player { get; set; } // neposilano
-        public float Rotation { get; set; } // neposilano
+        public float Rotation { get; set; }
         public IContainsGold GoldObject { get; set; } // neposilano
         public Vector RopeContactPoint
         {
@@ -95,13 +95,13 @@ namespace Orbit.Core.Scene.Entities
         public void WriteObject(NetOutgoingMessage msg)
         {
             msg.Write((int)PacketType.NEW_HOOK);
-            msg.WriteObjectSphere(this);
+            msg.WriteObjectHook(this);
             msg.WriteControls(GetControlsCopy());
         }
 
         public void ReadObject(NetIncomingMessage msg)
         {
-            msg.ReadObjectSphere(this);
+            msg.ReadObjectHook(this);
             IList<IControl> controls = msg.ReadControls();
             foreach (Control c in controls)
                 AddControl(c);

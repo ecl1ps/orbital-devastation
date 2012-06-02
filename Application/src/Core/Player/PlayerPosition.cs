@@ -14,7 +14,7 @@ namespace Orbit.Core.Players
 
     public class PlayerPositionProvider 
     {
-        public static Vector getVectorPosition(PlayerPosition position)
+        public static Vector GetVectorPosition(PlayerPosition position)
         {
             Vector vector = new Vector(SceneMgr.GetInstance().ViewPortSizeOriginal.Width, SceneMgr.GetInstance().ViewPortSizeOriginal.Height * 0.85);
 

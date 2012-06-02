@@ -33,7 +33,7 @@ namespace Orbit.Core.Weapons
             Player player = SceneMgr.GetInstance().GetMePlayer();
             Hook hook = null;
 
-            if (point.Y > PlayerPositionProvider.getVectorPosition(player.GetPosition()).Y)
+            if (point.Y > PlayerPositionProvider.GetVectorPosition(player.GetPosition()).Y)
                 return hook;
 
             if (IsReady())

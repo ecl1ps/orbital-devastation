@@ -187,7 +187,7 @@ namespace Orbit.Core.Scene
                                     Hook h = new Hook();
                                     (h as ISendable).ReadObject(msg);
                                     h.Player = GetOtherPlayer();
-                                    h.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(h));
+                                    h.SetGeometry(SceneGeometryFactory.CreateHookHead(h));
                                     GetUIDispatcher().BeginInvoke(DispatcherPriority.Send, new Action(() =>
                                     {
                                         Canvas.SetZIndex(h.GetGeometry(), 99);

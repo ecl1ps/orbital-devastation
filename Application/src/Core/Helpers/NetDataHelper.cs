@@ -57,6 +57,7 @@ namespace Orbit.Core
             msg.Write(a.Rotation);
             msg.Write(a.TextureId);
             msg.Write(a.Gold);
+            msg.Write((byte)a.AsteroidType);
         }
 
         public static void ReadObjectAsteroid(this NetIncomingMessage msg, Asteroid a)
@@ -67,6 +68,7 @@ namespace Orbit.Core
             a.Rotation = msg.ReadFloat();
             a.TextureId = msg.ReadInt32();
             a.Gold = msg.ReadInt32();
+            a.AsteroidType = (AsteroidType)msg.ReadByte();
         }
 
         public static void WriteObjectSingularityMine(this NetOutgoingMessage msg, SingularityMine s)
@@ -91,6 +93,18 @@ namespace Orbit.Core
             s.Damage = msg.ReadInt32();
         }
 
+        public static void WriteObjectHook(this NetOutgoingMessage msg, Hook h)
+        {
+            msg.WriteObjectSphere(h);
+            msg.Write(h.Rotation);
+        }
+
+        public static void ReadObjectHook(this NetIncomingMessage msg, Hook h)
+        {
+            msg.ReadObjectSphere(h);
+            h.Rotation = msg.ReadFloat();
+        }
+        
         public static void WriteControls(this NetOutgoingMessage msg, IList<IControl> controls)
         {
             msg.Write(controls.Count);

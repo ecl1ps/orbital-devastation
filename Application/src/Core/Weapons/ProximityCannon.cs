@@ -34,7 +34,7 @@ namespace Orbit.Core.Weapons
         {
             Player player = SceneMgr.GetInstance().GetMePlayer();
 
-            if (point.Y > PlayerPositionProvider.getVectorPosition(player.GetPosition()).Y)
+            if (point.Y > PlayerPositionProvider.GetVectorPosition(player.GetPosition()).Y)
                 return;
 
                 SingularityBullet bullet = SceneObjectFactory.CreateSingularityBullet(new System.Windows.Point(point.X, point.Y), player);
