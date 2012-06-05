@@ -87,6 +87,7 @@
     <Compile Include="src\Core\Helpers\CollisionHelper.cs" />
     <Compile Include="src\Core\ExtensionMethods.cs" />
     <Compile Include="src\Core\FastMath.cs" />
+    <Compile Include="src\Core\Helpers\GuiObjectFactory.cs" />
     <Compile Include="src\Core\Helpers\NetDataHelper.cs" />
     <Compile Include="src\Core\NetSearcher.cs" />
     <Compile Include="src\Core\Player\Player.cs" />
@@ -105,10 +106,15 @@
     <Compile Include="src\Core\Scene\Entities\IRotable.cs" />
     <Compile Include="src\Core\Helpers\SceneGeometryFactory.cs" />
     <Compile Include="src\Core\Helpers\SceneObjectFactory.cs" />
+    <Compile Include="src\Core\utils\HealingKit.cs" />
+    <Compile Include="src\Core\utils\IHealingKit.cs" />
     <Compile Include="src\Core\weapons\MineLauncher.cs" />
     <Compile Include="src\Core\weapons\ProximityCanoon.cs" />
     <Compile Include="src\Core\weapons\HookLauncher.cs" />
     <Compile Include="src\Core\weapons\IWeapon.cs" />
+    <Compile Include="src\Gui\ActionBar.xaml.cs">
+      <DependentUpon>ActionBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="src\Gui\EscMenu.xaml.cs">
       <DependentUpon>EscMenu.xaml</DependentUpon>
     </Compile>
@@ -137,8 +143,13 @@
     <Compile Include="src\Gui\GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\Gui\HealActionWindow.xaml.cs" />
+    <Compile Include="src\Gui\Helpers\ActionHelper.cs" />
     <Compile Include="src\Gui\OptionsUC.xaml.cs">
       <DependentUpon>OptionsUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\Gui\GoldActionWindow.xaml.cs">
+      <DependentUpon>GoldActionWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +179,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="src\Gui\ActionBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="src\Gui\EscMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -188,9 +203,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="src\Gui\GoldActionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <Content Include="resources\images\icons\heal-icon.png" />
+    <Content Include="resources\images\icons\upgrade.png" />
     <Resource Include="resources\images\hook\hook_head.png" />
     <Resource Include="resources\images\rock\rock_gold_1.png" />
     <Resource Include="resources\images\rock\rock_gold_2.png" />
@@ -215,6 +236,7 @@
     <Resource Include="resources\images\rock\rock_normal_8.png" />
     <Resource Include="resources\images\rock\rock_normal_9.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

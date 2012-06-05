@@ -51,6 +51,12 @@ namespace Orbit.Core
 
         public const int HOOK_LENGHT                        = 400;
         public const int HOOK_SPEED                         = 150;
+
+        public const int HEAL_MULTIPLY_COEF                 = 2;
+        public const int HEAL_AMOUNT                        = 25;
+        public const int HEAL_START_COST                    = 10;
+
+        public const float ACTION_BAR_TOP_MARGIN            = 0.3f;
     }
 
     public enum Gametype

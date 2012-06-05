@@ -14,6 +14,7 @@ using System.Windows.Threading;
 using System.Collections.Concurrent;
 using Lidgren.Network;
 using System.Windows.Input;
+using Orbit.src.Gui;
 
 namespace Orbit.Core.Scene
 {
@@ -37,9 +38,10 @@ namespace Orbit.Core.Scene
         private bool gameEnded;
         private float statisticsTimer;
 
+        public ActionBar ActionBar { get; set; }
+
         private static SceneMgr sceneMgr;
         private static Object lck = new Object();
-
 
         public static SceneMgr GetInstance()
         {
@@ -117,6 +119,19 @@ namespace Orbit.Core.Scene
                 CreateAsteroidField();
                 isInitialized = true;
             }
+
+            CreateActionBar();
+        }
+
+        private void CreateActionBar()
+        {
+            GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
+            {
+                ActionBar = new ActionBar();
+                canvas.Children.Add(ActionBar);
+                Canvas.SetLeft(ActionBar, 10);
+                Canvas.SetTop(ActionBar, ViewPortSizeOriginal.Height * (SharedDef.ACTION_BAR_TOP_MARGIN));
+            }));
         }
 
         private void SetMainInfoText(String t)

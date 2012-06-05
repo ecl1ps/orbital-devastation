@@ -4,6 +4,10 @@ using System.Windows.Media;
 using System.Diagnostics;
 using Orbit.Core.Scene;
 using Orbit.src.Core.weapons;
+using Orbit.src.Core.utils;
+using Orbit.src.Gui;
+using Orbit.src.Core.Helpers;
+using Orbit.src.Gui.Helpers;
 
 namespace Orbit.Core.Players
 {
@@ -26,6 +30,8 @@ namespace Orbit.Core.Players
         public IWeapon Mine { get; set; }
         public IWeapon Canoon { get; set; }
 
+        public IHealingKit healingKit { get; set; }
+
         private int gold;
         public int Gold
         {
@@ -36,13 +42,21 @@ namespace Orbit.Core.Players
             set
             {
                 gold = value;
-                proccesGoldData();
+                if(gold != 0)
+                    proccesGoldData();
             }
         }
 
         private void proccesGoldData()
         {
             SceneMgr.GetInstance().ShowStatusText(3, "Gold: " + Gold);
+            if (healingKit.Cost < Gold)
+                showHealingIcon();
+        }
+
+        private void showHealingIcon()
+        {
+            ActionHelper.getInstance().createHealAction(healingKit);
         }
         
         public PlayerData()
@@ -59,6 +73,8 @@ namespace Orbit.Core.Players
             BulletDamage = SharedDef.BULLET_DMG;
             HookLenght = SharedDef.HOOK_LENGHT;
             HookSpeed = SharedDef.HOOK_SPEED;
+
+            healingKit = new HealingKit();
 
             Hook = new HookLauncher();
             Mine = new MineLauncher();
