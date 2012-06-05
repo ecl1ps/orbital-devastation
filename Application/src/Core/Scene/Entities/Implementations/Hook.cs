@@ -66,9 +66,7 @@ namespace Orbit.Core.Scene.Entities
         private void CatchObjectWithGold(IContainsGold gold)
         {
             GoldObject = gold;
-
-            foreach (IControl control in gold.GetControlsCopy())
-                control.Enabled = false;
+            gold.Enabled = false;
 
             (GetControlOfType(typeof(HookControl)) as HookControl).CaughtObject();
         }

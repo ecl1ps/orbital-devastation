@@ -14,6 +14,7 @@ namespace Orbit.Core.Scene.Entities
 
         bool Dead { get; set; }
 
+        bool Enabled { get; set; }
 
         void Update(float tpf);
 
