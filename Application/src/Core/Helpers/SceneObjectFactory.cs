@@ -16,11 +16,11 @@ namespace Orbit.Core.Scene
 {
     static class SceneObjectFactory
     {
-        public static Asteroid CreateNewRandomAsteroid(bool headingRight)
+        public static Asteroid CreateNewRandomAsteroid(ISceneMgr mgr, bool headingRight)
         {
-            Rect actionArea = SceneMgr.GetInstance().GetOrbitArea();
-            Random randomGenerator = SceneMgr.GetInstance().GetRandomGenerator();
-            Asteroid s = new Asteroid();
+            Rect actionArea = mgr.GetOrbitArea();
+            Random randomGenerator = mgr.GetRandomGenerator();
+            Asteroid s = new Asteroid(mgr);
             s.Id = IdMgr.GetNewId();
             s.IsHeadingRight = headingRight;
             s.Direction = headingRight ? new Vector(1, 0) : new Vector(-1, 0);
@@ -28,7 +28,7 @@ namespace Orbit.Core.Scene
 
             s.Radius = randomGenerator.Next(SharedDef.MIN_ASTEROID_RADIUS, SharedDef.MAX_ASTEROID_RADIUS);
             s.Gold = s.Radius / 2;
-            if (SceneMgr.GetInstance().GetRandomGenerator().Next(100) <= SharedDef.ASTEROID_GOLD_CHANCE)
+            if (mgr.GetRandomGenerator().Next(100) <= SharedDef.ASTEROID_GOLD_CHANCE)
             {
                 s.Gold *= SharedDef.GOLD_ASTEROID_BONUS_MULTIPLY;
                 s.AsteroidType = AsteroidType.GOLDEN;
@@ -36,8 +36,8 @@ namespace Orbit.Core.Scene
             s.Position = new Vector(randomGenerator.Next((int)(actionArea.X + s.Radius), (int)(actionArea.Width - s.Radius)),
                 randomGenerator.Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius)));
             s.Color = Color.FromRgb((byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255));
-            s.TextureId = SceneMgr.GetInstance().GetRandomGenerator().Next(1, s.Gold > 0 ? 6 : 18);
-            s.Rotation = SceneMgr.GetInstance().GetRandomGenerator().Next(360);
+            s.TextureId = mgr.GetRandomGenerator().Next(1, s.Gold > 0 ? 6 : 18);
+            s.Rotation = mgr.GetRandomGenerator().Next(360);
 
             CreateAsteroidControls(s);
 
@@ -49,42 +49,41 @@ namespace Orbit.Core.Scene
         private static Asteroid CreateAsteroidControls(Asteroid s)
         {
             NewtonianMovementControl nmc = new NewtonianMovementControl();
-            nmc.InitialSpeed = SceneMgr.GetInstance().GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_SPEED * 10, SharedDef.MAX_ASTEROID_SPEED * 10) / 10.0f;
+            nmc.InitialSpeed = s.SceneMgr.GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_SPEED * 10, SharedDef.MAX_ASTEROID_SPEED * 10) / 10.0f;
             s.AddControl(nmc);
 
             LinearRotationControl lrc = new LinearRotationControl();
-            lrc.RotationSpeed = SceneMgr.GetInstance().GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_ROTATION_SPEED, SharedDef.MAX_ASTEROID_ROTATION_SPEED) / 10.0f;
+            lrc.RotationSpeed = s.SceneMgr.GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_ROTATION_SPEED, SharedDef.MAX_ASTEROID_ROTATION_SPEED) / 10.0f;
             s.AddControl(lrc);
 
             return s;
         }
 
-        public static Base CreateBase(PlayerData data)
+        public static Base CreateBase(ISceneMgr mgr, PlayerData data)
         {
-            Base baze = new Base();
+            Base baze = new Base(mgr);
             baze.Id = IdMgr.GetNewId();
             baze.BasePosition = data.PlayerPosition;
             baze.Color = data.PlayerColor;
             baze.Integrity = SharedDef.BASE_MAX_INGERITY;
             baze.Position = PlayerPositionProvider.GetVectorPosition(data.PlayerPosition);
-            baze.Size = new Size(SceneMgr.GetInstance().ViewPortSizeOriginal.Width * 0.3, 
-                                 SceneMgr.GetInstance().ViewPortSizeOriginal.Height * 0.15);
+            baze.Size = new Size(mgr.ViewPortSizeOriginal.Width * 0.3, mgr.ViewPortSizeOriginal.Height * 0.15);
 
             baze.SetGeometry(SceneGeometryFactory.CreateLinearGradientRectangleGeometry(baze));
 
             return baze;
         }
 
-        public static Asteroid CreateNewAsteroidOnEdge(Asteroid oldSphere)
+        public static Asteroid CreateNewAsteroidOnEdge(ISceneMgr mgr, Asteroid oldSphere)
         {
-            Asteroid s = CreateNewRandomAsteroid(oldSphere.IsHeadingRight);
+            Asteroid s = CreateNewRandomAsteroid(mgr, oldSphere.IsHeadingRight);
 
-            Rect actionArea = SceneMgr.GetInstance().GetOrbitArea();
+            Rect actionArea = mgr.GetOrbitArea();
 
             s.Position = new Vector(s.IsHeadingRight ? (int)(- 2 * s.Radius) : (int)(actionArea.Width),
-                SceneMgr.GetInstance().GetRandomGenerator().Next((int)(actionArea.Y), (int)(actionArea.Height - 2 * s.Radius)));
+                mgr.GetRandomGenerator().Next((int)(actionArea.Y), (int)(actionArea.Height - 2 * s.Radius)));
 
-            SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
+            mgr.Invoke(new Action(() =>
             {
                 Canvas.SetLeft(s.GetGeometry(), s.Position.X);
                 Canvas.SetTop(s.GetGeometry(), s.Position.Y);
@@ -93,9 +92,9 @@ namespace Orbit.Core.Scene
             return s;
         }
 
-        public static SingularityMine CreateSingularityMine(Point point, Player plr)
+        public static SingularityMine CreateSingularityMine(ISceneMgr mgr, Point point, Player plr)
         {
-            SingularityMine mine = new SingularityMine();
+            SingularityMine mine = new SingularityMine(mgr);
             mine.Id = IdMgr.GetNewId();
             mine.Position = point.ToVector();
             mine.Owner = plr;
@@ -111,10 +110,10 @@ namespace Orbit.Core.Scene
             return mine;
         }
 
-        public static SingularityMine CreateDroppingSingularityMine(Point point, Player plr)
+        public static SingularityMine CreateDroppingSingularityMine(ISceneMgr mgr, Point point, Player plr)
         {
 
-            SingularityMine mine = new SingularityMine();
+            SingularityMine mine = new SingularityMine(mgr);
             mine.Id = IdMgr.GetNewId();
             mine.Position = new Vector(point.X, 0);
             mine.Owner = plr;
@@ -135,7 +134,7 @@ namespace Orbit.Core.Scene
             return mine;
         }
 
-        public static SingularityBullet CreateSingularityBullet(Point point, Player plr)
+        public static SingularityBullet CreateSingularityBullet(ISceneMgr mgr, Point point, Player plr)
         {
             Vector position = PlayerPositionProvider.GetVectorPosition(plr.Baze.BasePosition);
             position.X += (plr.Baze.Size.Width / 2);
@@ -143,7 +142,7 @@ namespace Orbit.Core.Scene
             direction.Normalize();
 
 
-            SingularityBullet bullet = new SingularityBullet();
+            SingularityBullet bullet = new SingularityBullet(mgr);
             bullet.Id = IdMgr.GetNewId();
             bullet.Position = position;
             bullet.Player = plr;
@@ -162,7 +161,7 @@ namespace Orbit.Core.Scene
             return bullet;
         }
 
-        public static Hook CreateHook(Point point, Player player)
+        public static Hook CreateHook(ISceneMgr mgr, Point point, Player player)
         {
             Vector position = PlayerPositionProvider.GetVectorPosition(player.Baze.BasePosition);
             position.X += (player.Baze.Size.Width / 2);
@@ -170,7 +169,7 @@ namespace Orbit.Core.Scene
             Vector direction = point.ToVector() - position;
             direction.Normalize();
 
-            Hook hook = new Hook();
+            Hook hook = new Hook(mgr);
             hook.Player = player;
             hook.Position = position;
             hook.Radius = 8;
@@ -179,7 +178,7 @@ namespace Orbit.Core.Scene
             hook.Color = player.GetPlayerColor();
 
             hook.SetGeometry(SceneGeometryFactory.CreateHookHead(hook));
-            SceneMgr.GetInstance().GetUIDispatcher().BeginInvoke(DispatcherPriority.Send, new Action(() =>
+            mgr.BeginInvoke(new Action(() =>
             {
                 Canvas.SetZIndex(hook.GetGeometry(), 99);
             }));

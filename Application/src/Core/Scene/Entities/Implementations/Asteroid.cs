@@ -23,6 +23,10 @@ namespace Orbit.Core.Scene.Entities
         public int TextureId { get; set; }
         public int Gold { get; set; }
         public AsteroidType AsteroidType { get; set; }
+        
+        public Asteroid(ISceneMgr mgr) : base(mgr)
+        {
+        }
 
         protected override void UpdateGeometricState()
         {
@@ -37,13 +41,13 @@ namespace Orbit.Core.Scene.Entities
         {
             if (SceneMgr.GameType == Gametype.SOLO_GAME)
             {
-                SceneMgr.AttachToScene(SceneObjectFactory.CreateNewAsteroidOnEdge(this));
+                SceneMgr.AttachToScene(SceneObjectFactory.CreateNewAsteroidOnEdge(SceneMgr, this));
                 return;
             }
 
             if (SceneMgr.IsServer())
             {
-                Asteroid a = SceneObjectFactory.CreateNewAsteroidOnEdge(this);
+                Asteroid a = SceneObjectFactory.CreateNewAsteroidOnEdge(SceneMgr, this);
                 SceneMgr.AttachToScene(a);
                 NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
                 a.WriteObject(msg);

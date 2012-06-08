@@ -12,8 +12,14 @@ namespace Orbit.Core.Weapons
 {
     class MineLauncher : IWeapon
     {
+        public ISceneMgr SceneMgr { get; set; }
         public float ReloadTime { get; set; }
         public int Cost { get; set; }
+
+        public MineLauncher(ISceneMgr mgr)
+        {
+            SceneMgr = mgr;
+        }
 
         public IWeapon Next()
         {
@@ -31,16 +37,16 @@ namespace Orbit.Core.Weapons
 
         private void SpawnMine(Point point)
         {
-                SingularityMine mine = SceneObjectFactory.CreateDroppingSingularityMine(point, SceneMgr.GetInstance().GetMePlayer());
+                SingularityMine mine = SceneObjectFactory.CreateDroppingSingularityMine(this, point, SceneMgr.GetMePlayer());
 
-                if (SceneMgr.GetInstance().GameType != Gametype.SOLO_GAME)
+                if (SceneMgr.GameType != Gametype.SOLO_GAME)
                 {
                     NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
                     (mine as ISendable).WriteObject(msg);
                     SceneMgr.SendMessage(msg);
                 }
 
-                SceneMgr.GetInstance().AttachToScene(mine);
+                SceneMgr.AttachToScene(mine);
         }
 
         public bool IsReady()

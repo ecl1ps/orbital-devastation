@@ -14,15 +14,13 @@ using System.Windows.Threading;
 using System.Collections.Concurrent;
 using Lidgren.Network;
 using System.Windows.Input;
+using Orbit.Core;
+using Orbit.Core.Scene;
 
-namespace Orbit.Core.Scene
+namespace Orbit.Server
 {
-    public partial class SceneMgr : ISceneMgr
+    public partial class ServerMgr : ISceneMgr
     {
-        public Gametype GameType { get; set; }
-        public Size ViewPortSizeOriginal { get; set; }
-
-        private Canvas canvas;
         private bool isInitialized;
         private bool userActionsDisabled;
         private volatile bool shouldQuit;
@@ -34,25 +32,27 @@ namespace Orbit.Core.Scene
         private PlayerPosition secondPlayer;
         private Rect orbitArea;
         private Random randomGenerator;
+        public Size ViewPortSizeOriginal { get; set; }
         private ConcurrentQueue<Action> synchronizedQueue;
+        public Gametype GameType { get; set; }
         private bool gameEnded;
         private float statisticsTimer;
 
-        private static SceneMgr sceneMgr;
+        private static ServerMgr serverMgr;
         private static Object lck = new Object();
 
 
-        public static SceneMgr GetInstance()
+        /*public static ServerMgr GetInstance()
         {
             lock (lck)
             {
-                if (sceneMgr == null)
-                    sceneMgr = new SceneMgr();
-                return sceneMgr;
+                if (serverMgr == null)
+                    serverMgr = new ServerMgr();
+                return serverMgr;
             }
-        }
+        }*/
 
-        private SceneMgr()
+        public ServerMgr()
         {
             isInitialized = false;
         }
@@ -70,36 +70,11 @@ namespace Orbit.Core.Scene
             synchronizedQueue = new ConcurrentQueue<Action>();
             statisticsTimer = 0;
 
-            Invoke(new Action(() =>
-            {
-                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
-                if (lbl != null)
-                    lbl.Content = "";
-
-                if (gameType != Gametype.CLIENT_GAME)
-                {
-                    Label lbl1 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblIntegrityLeft");
-                    if (lbl1 != null)
-                        lbl1.Content = 100 + "%";
-
-                    Label lbl2 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblIntegrityRight");
-                    if (lbl2 != null)
-                        lbl2.Content = 100 + "%";
-                }
-
-                Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblWaiting");
-                if (lblw != null)
-                    lblw.Content = "";
-                
-            }));
-
             if (gameType == Gametype.SERVER_GAME)
             {
                 userActionsDisabled = true;
-                SetMainInfoText("Waiting for the other player to connect");
                 CreatePlayers();
                 mePlayer = firstPlayer;
-                ShowStatusText(3, "You are " + (players[0].GetPlayerColor() == Colors.Red ? "Red" : "Blue"));
                 InitNetwork();
                 CreateAsteroidField();
                 isInitialized = false;
@@ -107,7 +82,6 @@ namespace Orbit.Core.Scene
             else if (gameType == Gametype.CLIENT_GAME)
             {
                 userActionsDisabled = true;
-                SetMainInfoText("Waiting for the server");
                 InitNetwork();
             }
             else /*Gametype.SOLO_GAME*/
@@ -122,12 +96,7 @@ namespace Orbit.Core.Scene
 
         private void SetMainInfoText(String t)
         {
-            Invoke(new Action(() =>
-            {
-                Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblWaiting");
-                if (lblw != null)
-                    lblw.Content = t;
-            }));
+            // na serveru nic
         }
 
         private void CreateAsteroidField()
@@ -136,15 +105,9 @@ namespace Orbit.Core.Scene
                 AttachToScene(SceneObjectFactory.CreateNewRandomAsteroid(this, i % 2 == 0));
         }
 
-
         public void ShowStatusText(int index, string text)
         {
-            Invoke(new Action(() =>
-            {
-                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "statusText" + index);
-                if (lbl != null)
-                    lbl.Content = text;
-            }));
+            // na serveru nic
         }
 
         private void EndGame(Player plr, GameEnd endType)
@@ -177,43 +140,12 @@ namespace Orbit.Core.Scene
             }
 
             objectsToRemove.Clear();
-
-            Invoke(new Action(() =>
-            {
-                foreach (ISceneObject obj in objects)
-                    canvas.Children.Remove(obj.GetGeometry());
-            }));
         }
 
         public void AttachToScene(ISceneObject obj, bool asNonInteractive = false)
         {
             if (!asNonInteractive)
                 objects.Add(obj);
-            BeginInvoke(new Action(() =>
-            {
-                canvas.Children.Add(obj.GetGeometry());
-            }));
-        }
-
-        public void AttachGraphicalObjectToScene(UIElement obj)
-        {
-            BeginInvoke(new Action(() =>
-            {
-                canvas.Children.Add(obj);
-            }));
-        }
-
-        public void RemoveGraphicalObjectFromScene(UIElement obj)
-        {
-            BeginInvoke(new Action(() =>
-            {
-                canvas.Children.Remove(obj);
-            }));
-        }
-
-        public Canvas GetCanvas()
-        {
-            return canvas;
         }
 
         public void RemoveFromSceneDelayed(ISceneObject obj)
@@ -222,21 +154,12 @@ namespace Orbit.Core.Scene
             objectsToRemove.Add(obj);
         }
 
-        private void DirectRemoveFromScene(ISceneObject obj)
-        {
-            objects.Remove(obj);
-            BeginInvoke(new Action(() =>
-            {
-                canvas.Children.Remove(obj.GetGeometry());
-            }));
-        }
-
         private void RemoveObjectsMarkedForRemoval()
         {
             foreach (ISceneObject obj in objectsToRemove)
             {
                 obj.OnRemove();
-                DirectRemoveFromScene(obj);
+                objects.Remove(obj);
             }
 
             objectsToRemove.Clear();
@@ -299,12 +222,6 @@ namespace Orbit.Core.Scene
             sw.Stop();
 
             CleanUp();
-
-            if (Application.Current != null)
-                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    (Application.Current as App).GameEnded();
-                }));
         }
 
         private void RequestStop()
@@ -332,16 +249,6 @@ namespace Orbit.Core.Scene
 
             GetPlayer(mePlayer).Update(tpf);
 
-            try
-            {
-                UpdateGeomtricState();
-            }
-            catch (NullReferenceException e)
-            {
-                // UI is closed before game finished its Update loop
-                System.Console.Error.WriteLine(e);
-            }
-
             CheckPlayerStates();
         }
 
@@ -363,14 +270,6 @@ namespace Orbit.Core.Scene
             Action act = null;
             while (synchronizedQueue.TryDequeue(out act))
                 act.Invoke();
-        }
-
-        private void UpdateGeomtricState()
-        {
-            foreach (ISceneObject obj in objects)
-            {
-                obj.UpdateGeometric();
-            }
         }
 
         public void UpdateSceneObjects(float tpf)
@@ -420,7 +319,8 @@ namespace Orbit.Core.Scene
 
         public void SetCanvas(Canvas canvas)
         {
-            this.canvas = canvas;
+            // TODO:
+            //this.canvas = canvas;
             ViewPortSizeOriginal = new Size(canvas.Width, canvas.Height);
             orbitArea = new Rect(0, 0, canvas.Width, canvas.Height / 3);
         }
@@ -440,26 +340,6 @@ namespace Orbit.Core.Scene
             return randomGenerator;
         }
 
-
-        public void OnCanvasClick(Point point, MouseButtonEventArgs e)
-        {
-            if (userActionsDisabled)
-                return;
-
-            switch (e.ChangedButton)
-            {
-                case MouseButton.Left:
-                    GetPlayer(mePlayer).Data.Mine.Shoot(point);
-                    break;
-                case MouseButton.Right:
-                    GetPlayer(mePlayer).Data.Canoon.Shoot(point);
-                    break;
-                case MouseButton.Middle:
-                    GetPlayer(mePlayer).Data.Hook.Shoot(point);
-                    break;
-            }          
-        }
-
         private void CheckPlayerStates()
         {
             if (GetPlayer(firstPlayer).GetBaseIntegrity() <= 0)
@@ -477,13 +357,6 @@ namespace Orbit.Core.Scene
                 msg.Write((byte)winner.GetPosition());
                 SendMessage(msg);
             }
-
-            Invoke(new Action(() =>
-            {
-                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
-                if (lbl != null)
-                    lbl.Content = (winner.Data.PlayerColor == Colors.Red ? "Red" : "Blue") + " player win!";
-            }));
         }
 
 
@@ -491,13 +364,6 @@ namespace Orbit.Core.Scene
         {
             if (leaver == null)
                 return;
-
-            Invoke(new Action(() =>
-            {
-                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
-                if (lbl != null)
-                    lbl.Content = (leaver.Data.PlayerColor == Colors.Red ? "Red" : "Blue") + " player left the game!";
-            }));
         }
 
         public Player GetOtherPlayer()
@@ -524,12 +390,12 @@ namespace Orbit.Core.Scene
 
         public void Invoke(Action a)
         {
-            canvas.Dispatcher.Invoke(a);
+            // zadne operace s grafikou na serveru
         }
 
         public void BeginInvoke(Action a)
         {
-            canvas.Dispatcher.BeginInvoke(a);
+            // zadne operace s grafikou na serveru
         }
     }
 }

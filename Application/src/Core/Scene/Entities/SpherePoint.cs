@@ -9,9 +9,12 @@ using System.Windows.Media;
 
 namespace Orbit.Core.Scene.Entities
 {
-    // Unused
     public abstract class SpherePoint : Sphere
     {
+        public SpherePoint(ISceneMgr mgr) : base(mgr)
+        {
+        }
+
         public override bool CollideWith(ICollidable other) 
         {
             if (other is SpherePoint)

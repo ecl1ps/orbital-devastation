@@ -17,8 +17,8 @@ namespace Orbit.Core.Scene.Entities
         public Player Owner { get; set; } // neposilan
         public Brush BorderBrush { get; set; } // neposilan
         public Brush FillBrush { get; set; } // neposilan
-
-        public SingularityMine() : base()
+        
+        public SingularityMine(ISceneMgr mgr) : base(mgr)
         {
             BorderBrush = Brushes.Black;
             FillBrush = Brushes.Black;

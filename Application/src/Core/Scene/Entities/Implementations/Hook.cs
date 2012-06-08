@@ -27,14 +27,18 @@ namespace Orbit.Core.Scene.Entities
         }
 
         private Line line; // neposilano
+        
+        public Hook(ISceneMgr mgr) : base(mgr)
+        {
+        }
 
         public void PrepareLine()
         {
-            SceneMgr.GetInstance().GetUIDispatcher().BeginInvoke(DispatcherPriority.Send, new Action(() =>
+            SceneMgr.BeginInvoke(new Action(() =>
             {
                 HookControl control = GetControlOfType(typeof(HookControl)) as HookControl;
                 line = new Line();
-                line.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
+                line.Stroke = Brushes.LightSteelBlue;
                 line.X1 = control.Origin.X;
                 line.Y1 = control.Origin.Y;
                 line.X2 = control.Origin.X;
@@ -43,9 +47,9 @@ namespace Orbit.Core.Scene.Entities
                 line.VerticalAlignment = VerticalAlignment.Center;
                 line.StrokeThickness = 2;
                 line.Fill = new SolidColorBrush(Colors.Black);
-            
-                SceneMgr.GetInstance().GetCanvas().Children.Add(line);
             }));
+
+            (SceneMgr as SceneMgr).AttachGraphicalObjectToScene(line);
         }
 
         protected override void UpdateGeometricState()
@@ -81,10 +85,7 @@ namespace Orbit.Core.Scene.Entities
                 GoldObject.DoRemoveMe();
             }
             DoRemoveMe();
-            SceneMgr.GetInstance().GetUIDispatcher().BeginInvoke(DispatcherPriority.DataBind, (Action)(delegate
-            {
-                SceneMgr.GetInstance().GetCanvas().Children.Remove(line);
-            }));
+            (SceneMgr as SceneMgr).RemoveGraphicalObjectFromScene(line);
         }
 
         public Boolean HasCaughtObject()

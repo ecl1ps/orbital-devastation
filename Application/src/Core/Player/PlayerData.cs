@@ -9,6 +9,7 @@ namespace Orbit.Core.Players
 {
     public class PlayerData
     {
+        public ISceneMgr SceneMgr { get; set; }
         public PlayerPosition PlayerPosition { get; set; }
         public Color PlayerColor { get; set; }
         public int Score { get; set; }
@@ -45,12 +46,13 @@ namespace Orbit.Core.Players
             if (Gold == 0)
                 return;
 
-            if (SceneMgr.GetInstance().GetMePlayer() != null && SceneMgr.GetInstance().GetMePlayer().GetPosition() == PlayerPosition)
-                SceneMgr.GetInstance().ShowStatusText(4, "Gold: " + Gold);
+            if (SceneMgr.GetMePlayer() != null && SceneMgr.GetMePlayer().GetPosition() == PlayerPosition)
+                SceneMgr.ShowStatusText(4, "Gold: " + Gold);
         }
-        
-        public PlayerData()
+
+        public PlayerData(ISceneMgr sceneMgr)
         {
+            SceneMgr = sceneMgr;
             Score = 0;
             Gold = 0;
             PlayerColor = Colors.Black;
@@ -64,9 +66,9 @@ namespace Orbit.Core.Players
             HookLenght = SharedDef.HOOK_LENGHT;
             HookSpeed = SharedDef.HOOK_SPEED;
 
-            Hook = new HookLauncher();
-            Mine = new MineLauncher();
-            Canoon = new ProximityCannon();
+            Hook = new HookLauncher(SceneMgr);
+            Mine = new MineLauncher(SceneMgr);
+            Canoon = new ProximityCannon(SceneMgr);
         }
 
     }

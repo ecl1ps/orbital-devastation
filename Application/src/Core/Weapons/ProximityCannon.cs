@@ -13,8 +13,14 @@ namespace Orbit.Core.Weapons
 {
     class ProximityCannon : IWeapon
     {
+        public ISceneMgr SceneMgr { get; set; }
         public float ReloadTime { get; set;}
         public int Cost { get; set; }
+
+        public ProximityCannon(ISceneMgr mgr)
+        {
+            SceneMgr = mgr;
+        }
 
         public IWeapon Next()
         {
@@ -32,21 +38,21 @@ namespace Orbit.Core.Weapons
 
         protected void SpawnBullet(Point point)
         {
-            Player player = SceneMgr.GetInstance().GetMePlayer();
+            Player player = SceneMgr.GetMePlayer();
 
             if (point.Y > PlayerPositionProvider.GetVectorPosition(player.GetPosition()).Y)
                 return;
 
-                SingularityBullet bullet = SceneObjectFactory.CreateSingularityBullet(new System.Windows.Point(point.X, point.Y), player);
+                SingularityBullet bullet = SceneObjectFactory.CreateSingularityBullet(SceneMgr, new Point(point.X, point.Y), player);
 
-                if (SceneMgr.GetInstance().GameType != Gametype.SOLO_GAME)
+                if (SceneMgr.GameType != Gametype.SOLO_GAME)
                 {
                     NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
                     (bullet as ISendable).WriteObject(msg);
                     SceneMgr.SendMessage(msg);
                 }
 
-                SceneMgr.GetInstance().AttachToScene(bullet);
+                SceneMgr.AttachToScene(bullet);
         }
 
         public bool IsReady()

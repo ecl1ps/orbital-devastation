@@ -14,15 +14,20 @@ namespace Orbit.Core.Scene.Entities
         public Color Color { get; set; }
         public Vector Direction { get; set; }
         public int Radius { get; set; }
+        public bool HasPositionInCenter { get; set; }
         public Vector Center
         {
             get
             {
-                if (GetGeometry() is Image) // image ma Position v levem hornim rohu
+                if (!HasPositionInCenter) // image ma Position v levem hornim rohu
                     return new Vector(Position.X + Radius, Position.Y + Radius);
                 else
                     return Position; // EllipseGeometry ma Position ve stredu
             }
+        }
+
+        public Sphere(ISceneMgr mgr) : base(mgr)
+        {
         }
 
         public override bool IsOnScreen(System.Windows.Size screenSize)

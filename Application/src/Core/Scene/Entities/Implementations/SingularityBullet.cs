@@ -16,6 +16,10 @@ namespace Orbit.Core.Scene.Entities
         public Player Player { get; set; } // neposilan
         public int Damage { get; set; }
 
+        public SingularityBullet(ISceneMgr mgr) : base(mgr)
+        {
+        }
+
         protected override void UpdateGeometricState()
         {
         }

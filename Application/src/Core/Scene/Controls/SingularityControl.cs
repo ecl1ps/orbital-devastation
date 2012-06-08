@@ -69,12 +69,12 @@ namespace Orbit.Core.Scene.Controls
 
             if (meMine.SceneMgr.GameType != Gametype.SOLO_GAME)
             {
-                NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+                NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();
                 msg.Write((int)PacketType.SINGULARITY_MINE_HIT);
                 msg.Write((movable as ISceneObject).Id);
                 msg.Write((movable as ISceneObject).Position);
                 msg.Write(newDir);
-                SceneMgr.SendMessage(msg);
+                me.SceneMgr.SendMessage(msg);
             }
         }
 

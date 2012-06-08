@@ -13,10 +13,12 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Collections.Concurrent;
 using Lidgren.Network;
+using Orbit.Core.Scene;
+using Orbit.Core;
 
-namespace Orbit.Core.Scene
+namespace Orbit.Server
 {
-    public partial class SceneMgr : ISceneMgr
+    public partial class ServerMgr : ISceneMgr
     {
         private bool isServer;
         private NetPeer peer;
@@ -110,17 +112,6 @@ namespace Orbit.Core.Scene
                                     players.Add(plr);
                                 }
 
-                                Invoke(new Action(() =>
-                                {
-                                    Label lbl1 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblIntegrityLeft");
-                                    if (lbl1 != null)
-                                        lbl1.Content = 100 + "%";
-
-                                    Label lbl2 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblIntegrityRight");
-                                    if (lbl2 != null)
-                                        lbl2.Content = 100 + "%";
-                                }));
-
                                 firstPlayer = players[0].GetPosition();
                                 secondPlayer = players[1].GetPosition();
                                 mePlayer = secondPlayer;
@@ -144,7 +135,7 @@ namespace Orbit.Core.Scene
                                         return;
                                     }
                                     (s as ISendable).ReadObject(msg);
-                                    s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s));;
+                                    s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s)); ;
                                     AttachToScene(s);
                                     SyncReceivedObject(s, msg);
                                 }
@@ -188,10 +179,6 @@ namespace Orbit.Core.Scene
                                     (h as ISendable).ReadObject(msg);
                                     h.Player = GetOtherPlayer();
                                     h.SetGeometry(SceneGeometryFactory.CreateHookHead(h));
-                                    BeginInvoke(new Action(() =>
-                                    {
-                                        Canvas.SetZIndex(h.GetGeometry(), 99);
-                                    }));
                                     h.PrepareLine();
                                     AttachToScene(h);
                                     SyncReceivedObject(h, msg);

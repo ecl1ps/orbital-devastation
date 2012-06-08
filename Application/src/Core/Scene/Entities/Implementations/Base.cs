@@ -12,6 +12,10 @@ namespace Orbit.Core.Scene.Entities
         public PlayerPosition BasePosition { get; set; }
         public Color Color { get; set; }
         public int Integrity { get; set; }
+        
+        public Base(ISceneMgr mgr) : base(mgr)
+        {
+        }
 
         public override bool IsOnScreen(Size screenSize)
         {
@@ -30,9 +34,9 @@ namespace Orbit.Core.Scene.Entities
 
             }
 
-            SceneMgr.GetInstance().GetUIDispatcher().BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            SceneMgr.BeginInvoke(new Action(() =>
             {
-                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(SceneMgr.GetInstance().GetCanvas(),
+                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode((SceneMgr as SceneMgr).GetCanvas(),
                     BasePosition == PlayerPosition.LEFT ? "lblIntegrityLeft" : "lblIntegrityRight");
                 if (lbl != null)
                     lbl.Content = (float)Integrity / (float)SharedDef.BASE_MAX_INGERITY * 100.0f + "%";

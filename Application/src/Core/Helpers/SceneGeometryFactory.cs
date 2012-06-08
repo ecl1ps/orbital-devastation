@@ -17,8 +17,10 @@ namespace Orbit.Core.Scene
     {
         public static Path CreateConstantColorEllipseGeometry(Sphere s)
         {
+            s.HasPositionInCenter = true;
+
             Path path = null;
-            SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
+            s.SceneMgr.Invoke(new Action(() =>
             {
                 EllipseGeometry geom = new EllipseGeometry(new Point(), s.Radius, s.Radius);
                 path = new Path();
@@ -34,8 +36,10 @@ namespace Orbit.Core.Scene
 
         public static Path CreateRadialGradientEllipseGeometry(Sphere s)
         {
+            s.HasPositionInCenter = true;
+
             Path path = null;
-            SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
+            s.SceneMgr.Invoke(new Action(() =>
             {
                 EllipseGeometry geom = new EllipseGeometry(new Point(), s.Radius, s.Radius);
                 path = new Path();
@@ -51,8 +55,10 @@ namespace Orbit.Core.Scene
 
         public static Image CreateAsteroidImage(Asteroid s)
         {
+            s.HasPositionInCenter = false;
+
             Image img = null;
-            SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
+            s.SceneMgr.Invoke(new Action(() =>
             {
                 /*BitmapImage bi = new BitmapImage();
                 bi.BeginInit();
@@ -98,8 +104,10 @@ namespace Orbit.Core.Scene
 
         public static Path CreateRadialGradientEllipseGeometry(SingularityMine mine)
         {
+            mine.HasPositionInCenter = true;
+
             Path path = null;
-            SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
+            mine.SceneMgr.Invoke(new Action(() =>
             {
                 EllipseGeometry geom = new EllipseGeometry(new Point(), 0, 0);
                 path = new Path();
@@ -120,7 +128,7 @@ namespace Orbit.Core.Scene
         public static Path CreateLinearGradientRectangleGeometry(Base baze)
         {
             Path path = null;
-            SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
+            baze.SceneMgr.Invoke(new Action(() =>
             {
                 RectangleGeometry geom = new RectangleGeometry(new Rect(0, 0, baze.Size.Width, baze.Size.Height));
                 path = new Path();
@@ -142,8 +150,10 @@ namespace Orbit.Core.Scene
 
         public static UIElement CreateHookHead(Hook hook)
         {
+            hook.HasPositionInCenter = false;
+
             Image img = null;
-            SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
+            hook.SceneMgr.Invoke(new Action(() =>
             {
                 BitmapImage bi = new BitmapImage();
                 bi.BeginInit();
