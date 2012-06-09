@@ -39,6 +39,8 @@ namespace Orbit.Core.Scene
         public Gametype GameType { get; set; }
         private bool gameEnded;
         private float statisticsTimer;
+        private bool shooting = false;
+        private Point point;
 
         public ActionBar ActionBar { get; set; }
 
@@ -341,6 +343,9 @@ namespace Orbit.Core.Scene
             }
 
             CheckPlayerStates();
+
+            if(shooting)
+                GetPlayer(mePlayer).Data.Canoon.Shoot(point);
         }
 
         private void checkForUpgrades()
@@ -462,6 +467,11 @@ namespace Orbit.Core.Scene
             return randomGenerator;
         }
 
+        public void OnCanvasMouseMove(Point point)
+        {
+            if (shooting)
+                this.point = point;
+        }
 
         public void OnCanvasClick(Point point, MouseButtonEventArgs e)
         {
@@ -474,7 +484,8 @@ namespace Orbit.Core.Scene
                     GetPlayer(mePlayer).Data.Mine.Shoot(point);
                     break;
                 case MouseButton.Right:
-                    GetPlayer(mePlayer).Data.Canoon.Shoot(point);
+                    shooting = (e.ButtonState == MouseButtonState.Pressed);
+                    this.point = point;
                     break;
                 case MouseButton.Middle:
                     GetPlayer(mePlayer).Data.Hook.Shoot(point);
