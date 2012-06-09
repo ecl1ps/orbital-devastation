@@ -289,8 +289,6 @@ namespace Orbit.Core
         }
 
 
-
-
         // basic types
 
         public static void Write(this NetOutgoingMessage msg, Vector v)

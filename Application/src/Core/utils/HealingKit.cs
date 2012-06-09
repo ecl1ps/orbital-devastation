@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Orbit.Core;
 using Orbit.Core.Scene;
+using Lidgren.Network;
 
 namespace Orbit.src.Core.utils
 {
@@ -25,8 +26,19 @@ namespace Orbit.src.Core.utils
                 if (SceneMgr.GetInstance().GetMePlayer().Baze.Integrity > SharedDef.BASE_MAX_INGERITY)
                     SceneMgr.GetInstance().GetMePlayer().Baze.Integrity = SharedDef.BASE_MAX_INGERITY;
 
-                Cost *= 10;
+                Cost *= SharedDef.HEAL_MULTIPLY_COEF;
+
+                if (SceneMgr.GetInstance().GameType != Gametype.SOLO_GAME)
+                    sendMessage();
             }
+        }
+
+        private void sendMessage()
+        {
+            NetOutgoingMessage message = SceneMgr.CreateNetMessage();
+            message.WriteObjectBase(SceneMgr.GetInstance().GetMePlayer().Baze);
+
+            SceneMgr.SendMessage(message);
         }
     }
 }

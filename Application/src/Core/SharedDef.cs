@@ -84,5 +84,6 @@ namespace Orbit.Core
         NEW_SINGULARITY_BULLET,
         NEW_HOOK,
         SINGULARITY_MINE_HIT,
+        PLAYER_HEAL
     }    
 }

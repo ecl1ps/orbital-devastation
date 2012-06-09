@@ -37,7 +37,7 @@ namespace Orbit.Core.Players
         public PlayerData()
         {
             Score = 0;
-            Gold = 0;
+            Gold = 1000;
             PlayerColor = Colors.Black;
             MineGrowthSpeed = SharedDef.MINE_GROWTH_SPEED;
             MineStrength = SharedDef.MINE_STRENGTH;

@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Media.Imaging;
 using Orbit.src.Core.utils;
 using Orbit.Core.Scene;
+using Lidgren.Network;
 
 namespace Orbit.src.Gui
 {

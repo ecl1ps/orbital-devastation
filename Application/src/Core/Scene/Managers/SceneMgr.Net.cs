@@ -224,6 +224,9 @@ namespace Orbit.Core.Scene
                                     (obj as IMovable).Direction += dir;
                                 }
                                 break;
+                            case PacketType.PLAYER_HEAL:
+                                GetOtherPlayer().Baze.Integrity = msg.ReadInt32();
+                                break;
                         }
 
                         break;

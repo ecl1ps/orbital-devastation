@@ -347,7 +347,8 @@ namespace Orbit.Core.Scene
         {
             Player player = GetMePlayer();
             SceneMgr.GetInstance().ShowStatusText(3, "Gold: " + player.Data.Gold);
-            if (player.Data.healingKit.Cost < player.Data.Gold)
+            if (player.Data.healingKit.Cost < player.Data.Gold && 
+                (SharedDef.BASE_MAX_INGERITY - player.Baze.Integrity) > SharedDef.HEAL_AMOUNT)
                 showHealingIcon(player.Data.healingKit);
         }
 
