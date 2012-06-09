@@ -12,7 +12,6 @@ namespace Orbit.src.Core.Helpers
 {
     class GuiObjectFactory
     {
-
         public static UIElement createHealingIcon(IHealingKit healingKit) {
             GoldActionWindow goldAction = null;
 

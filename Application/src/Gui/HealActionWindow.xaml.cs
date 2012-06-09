@@ -15,6 +15,7 @@ namespace Orbit.src.Gui
         public HealActionWindow(IHealingKit healingKit)
         {
             this.healingKit = healingKit;
+            init();
         }
 
         public override BitmapImage initImage()
@@ -29,7 +30,7 @@ namespace Orbit.src.Gui
         public override void initText()
         {
             Header.Text = "Repair base";
-            Text.Text = "Repair your base at cost of " + healingKit.Cost + " credits";
+            Text.Text = "Costs " + healingKit.Cost + " credits";
         }
 
         public override void OnClick(object sender, System.Windows.RoutedEventArgs e)

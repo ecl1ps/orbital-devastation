@@ -23,6 +23,10 @@ namespace Orbit.src.Gui
         public GoldActionWindow()
         {
             InitializeComponent();
+        }
+
+        protected void init()
+        {
             ButtonImage.Source = initImage();
             initText();
         }

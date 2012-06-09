@@ -32,32 +32,7 @@ namespace Orbit.Core.Players
 
         public IHealingKit healingKit { get; set; }
 
-        private int gold;
-        public int Gold
-        {
-            get
-            {
-                return gold;
-            }
-            set
-            {
-                gold = value;
-                if(gold != 0)
-                    proccesGoldData();
-            }
-        }
-
-        private void proccesGoldData()
-        {
-            SceneMgr.GetInstance().ShowStatusText(3, "Gold: " + Gold);
-            if (healingKit.Cost < Gold)
-                showHealingIcon();
-        }
-
-        private void showHealingIcon()
-        {
-            ActionHelper.getInstance().createHealAction(healingKit);
-        }
+        public int Gold { get; set; }
         
         public PlayerData()
         {

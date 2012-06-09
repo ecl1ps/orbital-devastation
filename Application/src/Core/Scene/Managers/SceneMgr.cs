@@ -15,6 +15,8 @@ using System.Collections.Concurrent;
 using Lidgren.Network;
 using System.Windows.Input;
 using Orbit.src.Gui;
+using Orbit.src.Gui.Helpers;
+using Orbit.src.Core.utils;
 
 namespace Orbit.Core.Scene
 {
@@ -131,6 +133,7 @@ namespace Orbit.Core.Scene
                 canvas.Children.Add(ActionBar);
                 Canvas.SetLeft(ActionBar, 10);
                 Canvas.SetTop(ActionBar, ViewPortSizeOriginal.Height * (SharedDef.ACTION_BAR_TOP_MARGIN));
+                Canvas.SetZIndex(ActionBar, 100);
             }));
         }
 
@@ -325,6 +328,8 @@ namespace Orbit.Core.Scene
             GetPlayer(mePlayer).Data.Canoon.updateTimer(tpf);
             GetPlayer(mePlayer).Data.Mine.updateTimer(tpf);
 
+            checkForUpgrades();
+
             try
             {
                 UpdateGeomtricState();
@@ -336,6 +341,19 @@ namespace Orbit.Core.Scene
             }
 
             CheckPlayerStates();
+        }
+
+        private void checkForUpgrades()
+        {
+            Player player = GetMePlayer();
+            SceneMgr.GetInstance().ShowStatusText(3, "Gold: " + player.Data.Gold);
+            if (player.Data.healingKit.Cost < player.Data.Gold)
+                showHealingIcon(player.Data.healingKit);
+        }
+
+        private void showHealingIcon(IHealingKit healingKit)
+        {
+            ActionHelper.getInstance().createHealAction(healingKit);
         }
 
         private void ShowStatistics(float tpf)

@@ -17,7 +17,7 @@ namespace Orbit.src.Gui.Helpers
 
         public void createHealAction(IHealingKit healingKit)
         {
-            if (!HealActionWindow.IsVisible)
+            if (HealActionWindow == null || !HealActionWindow.IsVisible)
             {
                 HealActionWindow = GuiObjectFactory.createHealingIcon(healingKit);
             }
