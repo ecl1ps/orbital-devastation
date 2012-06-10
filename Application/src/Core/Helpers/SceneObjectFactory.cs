@@ -66,7 +66,7 @@ namespace Orbit.Core.Scene
             baze.BasePosition = data.PlayerPosition;
             baze.Color = data.PlayerColor;
             baze.Integrity = SharedDef.BASE_MAX_INGERITY;
-            baze.Position = PlayerPositionProvider.getVectorPosition(data.PlayerPosition);
+            baze.Position = PlayerPositionProvider.GetVectorPosition(data.PlayerPosition);
             baze.Size = new Size(SceneMgr.GetInstance().ViewPortSizeOriginal.Width * 0.3, 
                                  SceneMgr.GetInstance().ViewPortSizeOriginal.Height * 0.15);
 
@@ -137,7 +137,7 @@ namespace Orbit.Core.Scene
 
         public static SingularityBullet CreateSingularityBullet(Point point, Player plr)
         {
-            Vector position = PlayerPositionProvider.getVectorPosition(plr.Baze.BasePosition);
+            Vector position = PlayerPositionProvider.GetVectorPosition(plr.Baze.BasePosition);
             position.X += (plr.Baze.Size.Width / 2);
             Vector direction = point.ToVector() - position;
             direction.Normalize();
@@ -164,7 +164,7 @@ namespace Orbit.Core.Scene
 
         public static Hook CreateHook(Point point, Player player)
         {
-            Vector position = PlayerPositionProvider.getVectorPosition(player.Baze.BasePosition);
+            Vector position = PlayerPositionProvider.GetVectorPosition(player.Baze.BasePosition);
             position.X += (player.Baze.Size.Width / 2);
             position.Y -= 5;
             Vector direction = point.ToVector() - position;

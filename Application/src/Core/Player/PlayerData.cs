@@ -3,7 +3,7 @@ using Orbit.Core.Scene.Entities;
 using System.Windows.Media;
 using System.Diagnostics;
 using Orbit.Core.Scene;
-using Orbit.src.Core.weapons;
+using Orbit.Core.Weapons;
 using Orbit.src.Core.utils;
 using Orbit.src.Gui;
 using Orbit.src.Core.Helpers;
@@ -33,6 +33,7 @@ namespace Orbit.Core.Players
         public IHealingKit healingKit { get; set; }
 
         public int Gold { get; set; }
+
         
         public PlayerData()
         {
@@ -53,7 +54,7 @@ namespace Orbit.Core.Players
 
             Hook = new HookLauncher();
             Mine = new MineLauncher();
-            Canoon = new ProximityCanoon();
+            Canoon = new ProximityCannon();
         }
 
     }

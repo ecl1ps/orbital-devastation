@@ -327,8 +327,7 @@ namespace Orbit.Core.Scene
             CheckCollisions();
             RemoveObjectsMarkedForRemoval();
 
-            GetPlayer(mePlayer).Data.Canoon.updateTimer(tpf);
-            GetPlayer(mePlayer).Data.Mine.updateTimer(tpf);
+            GetPlayer(mePlayer).Update(tpf);
 
             checkForUpgrades();
 
@@ -535,11 +534,23 @@ namespace Orbit.Core.Scene
 
         public Player GetOtherPlayer()
         {
+            if (players.Count == 0)
+                return null;
+
+            if (GameType == Gametype.SOLO_GAME)
+                return null;
+
             return IsServer() ? players[1] : players[0];
         }
 
         public Player GetMePlayer()
         {
+            if (players.Count == 0)
+                return null;
+
+            if (GameType == Gametype.SOLO_GAME)
+                return players[0];
+
             return IsServer() ? players[0] : players[1];
         }
     }

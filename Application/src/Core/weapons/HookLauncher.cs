@@ -9,7 +9,7 @@ using Orbit.Core.Scene;
 using Orbit.Core.Players;
 using Lidgren.Network;
 
-namespace Orbit.src.Core.weapons
+namespace Orbit.Core.Weapons
 {
     class HookLauncher : IWeapon
     {
@@ -20,7 +20,7 @@ namespace Orbit.src.Core.weapons
 
         public void Shoot(Point point)
         {
-            spawnHook(point);
+            hook = SpawnHook(point);
         }
 
         public IWeapon Next()
@@ -28,11 +28,11 @@ namespace Orbit.src.Core.weapons
             return null;
         }
 
-        private void spawnHook(Point point)
+        private Hook SpawnHook(Point point)
         {
             Player player = SceneMgr.GetInstance().GetMePlayer();
 
-            if (point.Y > PlayerPositionProvider.getVectorPosition(player.GetPosition()).Y)
+            if (point.Y > PlayerPositionProvider.GetVectorPosition(player.GetPosition()).Y)
                 return;
 
             if (IsReady())
@@ -55,7 +55,7 @@ namespace Orbit.src.Core.weapons
             return hook == null || hook.Dead;
         }
 
-        public void updateTimer(float value)
+        public void UpdateTimer(float value)
         {
             //i dont need this
         }

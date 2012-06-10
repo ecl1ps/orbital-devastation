@@ -3,7 +3,7 @@ using Orbit.Core.Scene.Entities;
 using System.Windows.Media;
 using System.Diagnostics;
 using Lidgren.Network;
-using Orbit.src.Core.weapons;
+using Orbit.Core.Weapons;
 using Orbit.src.Core.utils;
 
 namespace Orbit.Core.Players
@@ -37,6 +37,12 @@ namespace Orbit.Core.Players
         public Color GetPlayerColor()
         {
             return Data.PlayerColor;
+        }
+
+        public void Update(float tpf)
+        {
+            Data.Canoon.UpdateTimer(tpf);
+            Data.Mine.UpdateTimer(tpf);
         }
     }
 }

@@ -8,7 +8,7 @@ using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene;
 using Lidgren.Network;
 
-namespace Orbit.src.Core.weapons
+namespace Orbit.Core.Weapons
 {
     class MineLauncher : IWeapon
     {
@@ -24,12 +24,12 @@ namespace Orbit.src.Core.weapons
         {
             if (IsReady())
             {
-                spawnMine(point);
+                SpawnMine(point);
                 ReloadTime = SharedDef.MINE_COOLDOWN;
             }
         }
 
-        private void spawnMine(Point point)
+        private void SpawnMine(Point point)
         {
                 SingularityMine mine = SceneObjectFactory.CreateDroppingSingularityMine(point, SceneMgr.GetInstance().GetMePlayer());
 
@@ -49,7 +49,7 @@ namespace Orbit.src.Core.weapons
         }
 
 
-        public void updateTimer(float value)
+        public void UpdateTimer(float value)
         {
             if (ReloadTime > 0)
                 ReloadTime -= value;

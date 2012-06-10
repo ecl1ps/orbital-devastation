@@ -9,9 +9,9 @@ using Orbit.Core.Scene.Entities;
 using Lidgren.Network;
 using System.Windows;
 
-namespace Orbit.src.Core.weapons
+namespace Orbit.Core.Weapons
 {
-    class ProximityCanoon : IWeapon
+    class ProximityCannon : IWeapon
     {
         public float ReloadTime { get; set;}
         public int Cost { get; set; }
@@ -25,16 +25,16 @@ namespace Orbit.src.Core.weapons
         {
             if (IsReady())
             {
-                spawnBullet(point);
+                SpawnBullet(point);
                 ReloadTime = SharedDef.BULLET_COOLDOWN;
             }
         }
 
-        protected void spawnBullet(Point point)
+        protected void SpawnBullet(Point point)
         {
             Player player = SceneMgr.GetInstance().GetMePlayer();
 
-            if (point.Y > PlayerPositionProvider.getVectorPosition(player.GetPosition()).Y)
+            if (point.Y > PlayerPositionProvider.GetVectorPosition(player.GetPosition()).Y)
                 return;
 
                 SingularityBullet bullet = SceneObjectFactory.CreateSingularityBullet(new System.Windows.Point(point.X, point.Y), player);
@@ -54,7 +54,7 @@ namespace Orbit.src.Core.weapons
             return ReloadTime <= 0;
         }
 
-        public void updateTimer(float value)
+        public void UpdateTimer(float value)
         {
             if (ReloadTime > 0)
                 ReloadTime -= value;

@@ -5,7 +5,7 @@ using System.Text;
 using Orbit.Core.Scene.Entities;
 using System.Windows;
 
-namespace Orbit.src.Core.weapons
+namespace Orbit.Core.Weapons
 {
     public interface IWeapon
     {
@@ -18,6 +18,6 @@ namespace Orbit.src.Core.weapons
 
         Boolean IsReady();
 
-        void updateTimer(float value);
+        void UpdateTimer(float value);
     }
 }

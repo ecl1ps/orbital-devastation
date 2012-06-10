@@ -122,10 +122,10 @@
     <Compile Include="src\Core\Helpers\SceneObjectFactory.cs" />
     <Compile Include="src\Core\utils\HealingKit.cs" />
     <Compile Include="src\Core\utils\IHealingKit.cs" />
-    <Compile Include="src\Core\weapons\MineLauncher.cs" />
-    <Compile Include="src\Core\weapons\ProximityCanoon.cs" />
-    <Compile Include="src\Core\weapons\HookLauncher.cs" />
-    <Compile Include="src\Core\weapons\IWeapon.cs" />
+    <Compile Include="src\Core\Weapons\MineLauncher.cs" />
+    <Compile Include="src\Core\Weapons\ProximityCannon.cs" />
+    <Compile Include="src\Core\Weapons\HookLauncher.cs" />
+    <Compile Include="src\Core\Weapons\IWeapon.cs" />
     <Compile Include="src\Gui\ActionBar.xaml.cs">
       <DependentUpon>ActionBar.xaml</DependentUpon>
     </Compile>
