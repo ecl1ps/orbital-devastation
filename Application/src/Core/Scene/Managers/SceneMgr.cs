@@ -28,6 +28,7 @@ namespace Orbit.Core.Scene
         private volatile bool shouldQuit;
         private List<ISceneObject> objects;
         private List<ISceneObject> objectsToRemove;
+        private List<ISceneObject> objectsToAdd;
         private List<Player> players;
         private PlayerPosition mePlayer;
         private PlayerPosition firstPlayer;
@@ -70,6 +71,7 @@ namespace Orbit.Core.Scene
             shouldQuit = false;
             objects = new List<ISceneObject>();
             objectsToRemove = new List<ISceneObject>();
+            objectsToAdd = new List<ISceneObject>();
             randomGenerator = new Random(Environment.TickCount);
             players = new List<Player>(2);
             synchronizedQueue = new ConcurrentQueue<Action>();
@@ -206,11 +208,7 @@ namespace Orbit.Core.Scene
 
         public void AttachToScene(ISceneObject obj)
         {
-            objects.Add(obj);
-            GetUIDispatcher().BeginInvoke(DispatcherPriority.Send, new Action(() =>
-            {
-                canvas.Children.Add(obj.GetGeometry());
-            }));
+            objectsToAdd.Add(obj);
         }
 
         public void RemoveFromSceneDelayed(ISceneObject obj)
@@ -281,7 +279,7 @@ namespace Orbit.Core.Scene
                 sw.Restart();
 
                 ProcessMessages();
-
+                addObjects();
                 if (tpf >= 0.001 && isInitialized)
                     Update(tpf);
 
@@ -302,6 +300,25 @@ namespace Orbit.Core.Scene
                 {
                     (Application.Current as App).GameEnded();
                 }));
+        }
+
+        private void addObjects()
+        {
+            foreach (ISceneObject obj in objectsToAdd)
+            {
+                attach(obj);
+            }
+
+            objectsToAdd.Clear();
+        }
+
+        private void attach(ISceneObject obj)
+        {
+            objects.Add(obj);
+            GetUIDispatcher().BeginInvoke(DispatcherPriority.Send, new Action(() =>
+            {
+                canvas.Children.Add(obj.GetGeometry());
+            }));
         }
 
         private void RequestStop()

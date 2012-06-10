@@ -11,6 +11,7 @@ using System.Windows.Shapes;
 using Orbit.Core.Scene.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
+using Orbit.src.Core.Scene.Entities.Implementations;
 
 namespace Orbit.Core.Scene
 {
@@ -20,23 +21,39 @@ namespace Orbit.Core.Scene
         {
             Rect actionArea = SceneMgr.GetInstance().GetOrbitArea();
             Random randomGenerator = SceneMgr.GetInstance().GetRandomGenerator();
-            Asteroid s = new Asteroid();
+            Asteroid s;
+
+            int chance = SceneMgr.GetInstance().GetRandomGenerator().Next(100);
+            if (chance <= SharedDef.ASTEROID_GOLD_CHANCE)
+            {
+                s = new Asteroid();
+                s.Gold *= SharedDef.GOLD_ASTEROID_BONUS_MULTIPLY;
+                s.AsteroidType = AsteroidType.GOLDEN;
+                s.TextureId = SceneMgr.GetInstance().GetRandomGenerator().Next(1, 6);
+            }
+            else if (chance <= SharedDef.ASTEROID_UNSTABLE_CHANCE)
+            {
+                s = new UnstableAsteroid();
+                s.AsteroidType = AsteroidType.UNSTABLE;
+                s.TextureId = SceneMgr.GetInstance().GetRandomGenerator().Next(1, 6);
+            }
+            else
+            {
+                s = new Asteroid();
+                s.AsteroidType = AsteroidType.NORMAL;
+                s.TextureId = SceneMgr.GetInstance().GetRandomGenerator().Next(1, 18);
+            }
+
             s.Id = IdMgr.GetNewId();
             s.IsHeadingRight = headingRight;
             s.Direction = headingRight ? new Vector(1, 0) : new Vector(-1, 0);
-            s.AsteroidType = AsteroidType.NORMAL;
 
             s.Radius = randomGenerator.Next(SharedDef.MIN_ASTEROID_RADIUS, SharedDef.MAX_ASTEROID_RADIUS);
             s.Gold = s.Radius / 2;
-            if (SceneMgr.GetInstance().GetRandomGenerator().Next(100) <= SharedDef.ASTEROID_GOLD_CHANCE)
-            {
-                s.Gold *= SharedDef.GOLD_ASTEROID_BONUS_MULTIPLY;
-                s.AsteroidType = AsteroidType.GOLDEN;
-            }
+
             s.Position = new Vector(randomGenerator.Next((int)(actionArea.X + s.Radius), (int)(actionArea.Width - s.Radius)),
                 randomGenerator.Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius)));
             s.Color = Color.FromRgb((byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255));
-            s.TextureId = SceneMgr.GetInstance().GetRandomGenerator().Next(1, s.Gold > 0 ? 6 : 18);
             s.Rotation = SceneMgr.GetInstance().GetRandomGenerator().Next(360);
 
             CreateAsteroidControls(s);

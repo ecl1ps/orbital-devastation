@@ -67,6 +67,9 @@ namespace Orbit.Core.Scene
                 if (s.AsteroidType == AsteroidType.GOLDEN)
                     bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/rock_gold_" +
                         s.TextureId + ".png");
+                else if(s.AsteroidType == AsteroidType.UNSTABLE)
+                    bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/rock_unstable_" +
+                        s.TextureId + ".png");
                 else
                     bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/rock_normal_" + 
                         s.TextureId + ".png");

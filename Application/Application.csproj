@@ -108,6 +108,8 @@
     <Compile Include="src\Core\Scene\Controls\DroppingSingularityControl.cs" />
     <Compile Include="src\Core\Scene\Controls\NewtonianMovementControl.cs" />
     <Compile Include="src\Core\Scene\Controls\LinearRotationControl.cs" />
+    <Compile Include="src\Core\Scene\Entities\IDestroyable.cs" />
+    <Compile Include="src\Core\Scene\Entities\Implementations\MinorAsteroid.cs" />
     <Compile Include="src\Core\Scene\Entities\Implementations\UnstableAsteroid.cs" />
     <Compile Include="src\Core\Scene\Entities\Implementations\Hook.cs" />
     <Compile Include="src\Core\Scene\Entities\IContainsGold.cs" />
@@ -228,6 +230,21 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="resources\images\icons\upgrade.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="resources\images\rock\rock_unstable_1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="resources\images\rock\rock_unstable_2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="resources\images\rock\rock_unstable_3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="resources\images\rock\rock_unstable_4.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="resources\images\rock\rock_unstable_5.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Resource Include="resources\images\hook\hook_head.png" />
