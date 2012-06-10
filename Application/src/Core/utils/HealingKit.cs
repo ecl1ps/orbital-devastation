@@ -36,7 +36,8 @@ namespace Orbit.src.Core.utils
         private void sendMessage()
         {
             NetOutgoingMessage message = SceneMgr.CreateNetMessage();
-            message.WriteObjectBase(SceneMgr.GetInstance().GetMePlayer().Baze);
+            message.Write((int)PacketType.PLAYER_HEAL);
+            message.Write((int)SceneMgr.GetInstance().GetMePlayer().Baze.Integrity);
 
             SceneMgr.SendMessage(message);
         }
