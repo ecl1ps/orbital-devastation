@@ -23,7 +23,7 @@ namespace Orbit.src.Gui
         {
             BitmapImage image = new BitmapImage();
             image.BeginInit();
-            image.UriSource = new Uri("heal-icon.png", UriKind.Relative);
+            image.UriSource = new Uri("pack://application:,,,/resources/images/icons/heal-icon.png");
             image.EndInit();
             return image;
         }
