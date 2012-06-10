@@ -15,7 +15,7 @@ namespace Orbit.Core.Scene.Entities
         public bool Dead { get; set; }
         public SceneMgr SceneMgr { get; set; }
 
-        private bool enabled;
+        private bool enabled = true;
         public bool Enabled {
             get
             {

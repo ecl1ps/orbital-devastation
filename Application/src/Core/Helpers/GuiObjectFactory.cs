@@ -7,6 +7,8 @@ using Orbit.src.Gui;
 using Orbit.src.Core.utils;
 using Orbit.Core.Scene;
 using System.Windows.Threading;
+using Orbit.Core.Weapons;
+using Orbit.Core.Players;
 
 namespace Orbit.src.Core.Helpers
 {
@@ -21,6 +23,20 @@ namespace Orbit.src.Core.Helpers
                 SceneMgr.GetInstance().ActionBar.addItem(goldAction);
             }));
             
+
+            return goldAction;
+        }
+
+        public static GoldActionWindow createWeaponAction(IWeapon weapon, Player player)
+        {
+            GoldActionWindow goldAction = null;
+
+            SceneMgr.GetInstance().GetUIDispatcher().Invoke(DispatcherPriority.Send, new Action(() =>
+            {
+                goldAction = new WeaponActionWindow(weapon, player);
+                SceneMgr.GetInstance().ActionBar.addItem(goldAction);
+            }));
+
 
             return goldAction;
         }

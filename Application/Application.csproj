@@ -124,6 +124,7 @@
     <Compile Include="src\Core\Helpers\SceneObjectFactory.cs" />
     <Compile Include="src\Core\utils\HealingKit.cs" />
     <Compile Include="src\Core\utils\IHealingKit.cs" />
+    <Compile Include="src\Core\Weapons\DoubleHookLauncher.cs" />
     <Compile Include="src\Core\Weapons\MineLauncher.cs" />
     <Compile Include="src\Core\Weapons\ProximityCannon.cs" />
     <Compile Include="src\Core\Weapons\HookLauncher.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="src\Gui\GoldActionWindow.xaml.cs">
       <DependentUpon>GoldActionWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\Gui\WeaponActionWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">

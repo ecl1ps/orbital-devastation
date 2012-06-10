@@ -368,9 +368,17 @@ namespace Orbit.Core.Scene
         {
             Player player = GetMePlayer();
             SceneMgr.GetInstance().ShowStatusText(3, "Gold: " + player.Data.Gold);
-            if (player.Data.healingKit.Cost < player.Data.Gold && 
-                (SharedDef.BASE_MAX_INGERITY - player.Baze.Integrity) > SharedDef.HEAL_AMOUNT)
+            if (player.Data.healingKit.Cost < player.Data.Gold &&
+                (SharedDef.BASE_MAX_INGERITY - player.Baze.Integrity) >= SharedDef.HEAL_AMOUNT)
                 showHealingIcon(player.Data.healingKit);
+
+            if (player.Data.Hook.Next() != null && (player.Data.Hook.Next().Cost >= player.Data.Gold))
+                showWeaponIcon(player.Data.Hook.Next());
+        }
+
+        private void showWeaponIcon(Weapons.IWeapon weapon)
+        {
+            ActionHelper.getInstance().CreateWeaponAction(weapon, GetMePlayer());
         }
 
         private void showHealingIcon(IHealingKit healingKit)
@@ -497,14 +505,16 @@ namespace Orbit.Core.Scene
             switch (e.ChangedButton)
             {
                 case MouseButton.Left:
-                    GetPlayer(mePlayer).Data.Mine.Shoot(point);
+                    if (e.ButtonState == MouseButtonState.Pressed)
+                        GetPlayer(mePlayer).Data.Mine.Shoot(point);
                     break;
                 case MouseButton.Right:
                     shooting = (e.ButtonState == MouseButtonState.Pressed);
                     this.point = point;
                     break;
                 case MouseButton.Middle:
-                    GetPlayer(mePlayer).Data.Hook.Shoot(point);
+                    if(e.ButtonState == MouseButtonState.Pressed)
+                        GetPlayer(mePlayer).Data.Hook.Shoot(point);
                     break;
             }          
         }

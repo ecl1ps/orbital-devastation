@@ -14,6 +14,8 @@ namespace Orbit.Core.Weapons
     {
         public float ReloadTime { get; set; }
         public int Cost { get; set; }
+        public WeaponType WeaponType { get; set; }
+        public String Name { get; set; }
 
         public IWeapon Next()
         {

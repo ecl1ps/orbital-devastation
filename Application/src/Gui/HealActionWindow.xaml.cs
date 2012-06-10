@@ -39,5 +39,11 @@ namespace Orbit.src.Gui
             healingKit.heal();
             SceneMgr.GetInstance().ActionBar.removeItem(this);
         }
+
+        public override object getId()
+        {
+            //allways same
+            return 1;
+        }
     }
 }

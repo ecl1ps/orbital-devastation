@@ -6,6 +6,8 @@ using Orbit.src.Core.utils;
 using Orbit.src.Core.Helpers;
 using System.Windows;
 using Orbit.Core.Scene;
+using Orbit.Core.Weapons;
+using Orbit.Core.Players;
 
 namespace Orbit.src.Gui.Helpers
 {
@@ -14,6 +16,18 @@ namespace Orbit.src.Gui.Helpers
         private static ActionHelper instance = null;
 
         private UIElement HealActionWindow;
+        private UIElement HookActionWindow;
+
+        public void CreateWeaponAction(IWeapon weapon, Player player)
+        {
+            switch (weapon.WeaponType)
+            {
+                case WeaponType.HOOK:
+                    if (HookActionWindow == null || !HookActionWindow.IsVisible)
+                        HookActionWindow = GuiObjectFactory.createWeaponAction(weapon, player);
+                    break;
+            }
+        }
 
         public void createHealAction(IHealingKit healingKit)
         {
@@ -21,6 +35,23 @@ namespace Orbit.src.Gui.Helpers
             {
                 HealActionWindow = GuiObjectFactory.createHealingIcon(healingKit);
             }
+        }
+
+        public void hideWeaponAction(IWeapon weapon)
+        {
+            switch (weapon.WeaponType)
+            {
+                case WeaponType.HOOK:
+                    if(HookActionWindow != null)
+                        SceneMgr.GetInstance().ActionBar.removeItem(HealActionWindow);
+                    break;
+            }
+        }
+
+        public void hideHealAction()
+        {
+            if(HealActionWindow != null)
+                SceneMgr.GetInstance().ActionBar.removeItem(HealActionWindow);
         }
 
         public static ActionHelper getInstance()

@@ -40,5 +40,7 @@ namespace Orbit.src.Gui
         public abstract void initText();
 
         public abstract void OnClick(object sender, RoutedEventArgs e);
+
+        public abstract Object getId();
     }
 }
