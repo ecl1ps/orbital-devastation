@@ -15,6 +15,7 @@ namespace Orbit.Core.Scene.Entities
         NORMAL,
         GOLDEN,
         UNSTABLE,
+        SPAWNED
     }
 
     public class Asteroid : Sphere, IRotable, ISendable, IContainsGold, IDestroyable

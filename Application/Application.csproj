@@ -228,50 +228,94 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
-    <Content Include="resources\images\icons\heal-icon.png">
+    <Resource Include="resources\images\icons\heal-icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="resources\images\icons\upgrade.png">
+    </Resource>
+    <Resource Include="resources\images\icons\upgrade.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="resources\images\rock\rock_unstable_1.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="resources\images\rock\rock_unstable_2.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="resources\images\rock\rock_unstable_3.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="resources\images\rock\rock_unstable_4.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="resources\images\rock\rock_unstable_5.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_unstable_1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_unstable_2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_unstable_3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_unstable_4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_unstable_5.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="resources\images\hook\hook_head.png" />
-    <Resource Include="resources\images\rock\rock_gold_1.png" />
-    <Resource Include="resources\images\rock\rock_gold_2.png" />
-    <Resource Include="resources\images\rock\rock_gold_3.png" />
-    <Resource Include="resources\images\rock\rock_gold_4.png" />
-    <Resource Include="resources\images\rock\rock_gold_5.png" />
-    <Resource Include="resources\images\rock\rock_normal_1.png" />
-    <Resource Include="resources\images\rock\rock_normal_10.png" />
-    <Resource Include="resources\images\rock\rock_normal_11.png" />
-    <Resource Include="resources\images\rock\rock_normal_12.png" />
-    <Resource Include="resources\images\rock\rock_normal_13.png" />
-    <Resource Include="resources\images\rock\rock_normal_14.png" />
-    <Resource Include="resources\images\rock\rock_normal_15.png" />
-    <Resource Include="resources\images\rock\rock_normal_16.png" />
-    <Resource Include="resources\images\rock\rock_normal_17.png" />
-    <Resource Include="resources\images\rock\rock_normal_2.png" />
-    <Resource Include="resources\images\rock\rock_normal_3.png" />
-    <Resource Include="resources\images\rock\rock_normal_4.png" />
-    <Resource Include="resources\images\rock\rock_normal_5.png" />
-    <Resource Include="resources\images\rock\rock_normal_6.png" />
-    <Resource Include="resources\images\rock\rock_normal_7.png" />
-    <Resource Include="resources\images\rock\rock_normal_8.png" />
-    <Resource Include="resources\images\rock\rock_normal_9.png" />
+    <Resource Include="resources\images\rock\rock_gold_1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_gold_2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_gold_3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_gold_4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_gold_5.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_normal_1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_normal_10.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_normal_11.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_normal_12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_normal_13.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_normal_14.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_normal_15.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_normal_16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_normal_17.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_normal_2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_normal_3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_normal_4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_normal_5.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_normal_6.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_normal_7.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_normal_8.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\rock\rock_normal_9.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -22,7 +22,7 @@ namespace Orbit.src.Core.Scene.Entities.Implementations
         private void createSmallAsteroid(int radius, double rotation)
         {
             Asteroid asteroid = new MinorAsteroid();
-            asteroid.AsteroidType = AsteroidType.NORMAL;
+            asteroid.AsteroidType = AsteroidType.SPAWNED;
             asteroid.Rotation = Rotation;
             asteroid.Direction = Direction.Rotate(rotation);
             asteroid.Radius = radius;

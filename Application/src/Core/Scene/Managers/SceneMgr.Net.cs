@@ -13,6 +13,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Collections.Concurrent;
 using Lidgren.Network;
+using Orbit.src.Core.Scene.Entities.Implementations;
 
 namespace Orbit.Core.Scene
 {
@@ -137,12 +138,12 @@ namespace Orbit.Core.Scene
                                 int count = msg.ReadInt32();
                                 for (int i = 0; i < count; ++i)
                                 {
-                                    Asteroid s = new Asteroid();
                                     if (msg.ReadInt32() != (int)PacketType.NEW_ASTEROID)
                                     {
                                         Console.Error.WriteLine("Corrupted object PacketType.SYNC_ALL_ASTEROIDS");
                                         return;
                                     }
+                                    Asteroid s = CreateNewAsteroid((AsteroidType)msg.ReadByte());
                                     (s as ISendable).ReadObject(msg);
                                     s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s));;
                                     AttachToScene(s);
@@ -155,7 +156,7 @@ namespace Orbit.Core.Scene
                                 break;
                             case PacketType.NEW_ASTEROID:
                                 {
-                                    Asteroid s = new Asteroid();
+                                    Asteroid s = CreateNewAsteroid((AsteroidType) msg.ReadByte());
                                     (s as ISendable).ReadObject(msg);
                                     s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s));
                                     AttachToScene(s);
@@ -290,6 +291,33 @@ namespace Orbit.Core.Scene
                 }
                 peer.Recycle(msg);
             }
+        }
+
+        private Asteroid CreateNewAsteroid(AsteroidType asteroidType)
+        {
+            Asteroid asteroid;
+            switch (asteroidType)
+            {
+                case AsteroidType.GOLDEN:
+                    asteroid = new Asteroid();
+                    break;
+                case AsteroidType.NORMAL:
+                    asteroid = new Asteroid();
+                    break;
+                case AsteroidType.SPAWNED:
+                    asteroid = new MinorAsteroid();
+                    break;
+                case AsteroidType.UNSTABLE:
+                    asteroid = new UnstableAsteroid();
+                    break;
+
+                default:
+                    asteroid = new Asteroid();
+                    break;
+            }
+
+            asteroid.AsteroidType = asteroidType;
+            return asteroid;
         }
 
         private void SyncReceivedObject(ISceneObject o, NetIncomingMessage msg)
