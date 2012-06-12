@@ -27,7 +27,7 @@ namespace Orbit.Gui
 
         private void btnSinglePlayer_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).StartGame(Gametype.SOLO_GAME);
+            (Application.Current as App).StartSoloGame();
         }
 
         private void btnHostNewGame_Click(object sender, RoutedEventArgs e)

@@ -51,7 +51,7 @@ namespace Orbit.Core.Players
             Data.Mine.UpdateTimer(tpf);
         }
 
-        public long GetId()
+        public int GetId()
         {
             return Data.Id;
         }

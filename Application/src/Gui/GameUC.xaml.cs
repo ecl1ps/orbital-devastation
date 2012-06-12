@@ -32,9 +32,9 @@ namespace Orbit.Gui
         {
             Point p = e.GetPosition(mainCanvas);
 
-            (Application.Current as App).SceneMgr.Enqueue(new Action(() =>
+            (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
             {
-                (Application.Current as App).SceneMgr.OnCanvasClick(p, e);
+                (Application.Current as App).GetSceneMgr().OnCanvasClick(p, e);
             }));
         }
 
@@ -43,9 +43,9 @@ namespace Orbit.Gui
             mainCanvas.RenderTransform = new ScaleTransform(e.NewSize.Width / SizeOriginal.Width, e.NewSize.Height / SizeOriginal.Height);
 
             // unused ATM
-            (Application.Current as App).SceneMgr.Enqueue(new Action(() =>
+            (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
             {
-                (Application.Current as App).SceneMgr.OnViewPortChange(e.NewSize);
+                (Application.Current as App).GetSceneMgr().OnViewPortChange(e.NewSize);
             }));
         }
     }

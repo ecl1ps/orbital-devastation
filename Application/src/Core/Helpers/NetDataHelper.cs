@@ -284,6 +284,9 @@ namespace Orbit.Core
 
         public static void WriteObjectPlayerData(this NetOutgoingMessage msg, PlayerData d)
         {
+            msg.Write(d.Id);
+            msg.Write(d.Name);
+            msg.Write(d.Active);
             msg.Write(d.MineCooldown);
             msg.Write(d.MineGrowthSpeed);
             msg.Write(d.MineStrength);
@@ -294,6 +297,9 @@ namespace Orbit.Core
 
         public static void ReadObjectPlayerData(this NetIncomingMessage msg, PlayerData d)
         {
+            d.Id = msg.ReadInt32();
+            d.Name = msg.ReadString();
+            d.Active = msg.ReadBoolean();
             d.MineCooldown = msg.ReadInt32();
             d.MineGrowthSpeed = msg.ReadFloat();
             d.MineStrength = msg.ReadFloat();

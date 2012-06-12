@@ -71,13 +71,18 @@ namespace Orbit.Core
     {
         PLAYER_CONNECT,
         PLAYER_ID_HAIL,
+        START_GAME_REQUEST,
+
         PLAYER_WON,
-        SYNC_ALL_PLAYER_DATA,
-        SYNC_ALL_ASTEROIDS,
+
+        ALL_PLAYER_DATA,
+        ALL_ASTEROIDS,
+
         NEW_ASTEROID,
         NEW_SINGULARITY_MINE,
         NEW_SINGULARITY_BULLET,
         NEW_HOOK,
+
         SINGULARITY_MINE_HIT,
     }    
 }

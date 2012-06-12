@@ -11,6 +11,7 @@ using System.Threading;
 using System.ComponentModel;
 using System.Windows.Controls;
 using Orbit.Core;
+using Orbit.Server;
 
 namespace Orbit
 {
@@ -19,10 +20,12 @@ namespace Orbit
     /// </summary>
     public partial class App : Application
     {
-        public SceneMgr SceneMgr { get; set; }
+        private SceneMgr sceneMgr;
+        private ServerMgr server;
         private static GameWindow mainWindow;
         private string lastServerAddress;
         private Gametype lastGameType;
+        public string PlayerName { get; set; }
 
         [STAThread]
         public static void Main(string[] args)
@@ -37,7 +40,10 @@ namespace Orbit
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            SceneMgr = new SceneMgr();
+            sceneMgr = new SceneMgr();
+
+            // TODO: ukladat jmeno pomoci esc -> options -> neco
+            PlayerName = "Player1";
         }
 
         protected override void OnExit(ExitEventArgs e)
@@ -45,13 +51,32 @@ namespace Orbit
             ExitGame();
         }
 
-        public void StartGame(Gametype type)
+        public void StartSoloGame()
+        {
+            StartLocalServer();
+
+            sceneMgr.SetRemoteServerAddress("127.0.0.1");
+
+            StartGame(Gametype.SOLO_GAME);
+        }
+
+        private void StartLocalServer()
+        {
+            server = new ServerMgr();
+            server.Init(Gametype.SOLO_GAME);
+
+            Thread serverThread = new Thread(new ThreadStart(server.Run));
+            serverThread.Name = "Server Thread";
+            serverThread.Start();
+        }
+
+        private void StartGame(Gametype type)
         {
             lastGameType = type;
             mainWindow.mainGrid.Children.Clear();
             mainWindow.mainGrid.Children.Add(new GameUC());
-            SceneMgr.SetCanvas((Canvas)LogicalTreeHelper.FindLogicalNode(MainWindow, "mainCanvas"));
-            SceneMgr.Init(type);
+            sceneMgr.SetCanvas((Canvas)LogicalTreeHelper.FindLogicalNode(MainWindow, "mainCanvas"));
+            sceneMgr.Init(type);
 
             StartGameThread();
         }
@@ -64,19 +89,20 @@ namespace Orbit
         public void ConnectToGame(string serverAddress)
         {
             lastServerAddress = serverAddress;
-            SceneMgr.SetRemoteServerAddress(serverAddress);
+            sceneMgr.SetRemoteServerAddress(serverAddress);
             StartGame(Gametype.CLIENT_GAME);
         }
 
         private void StartGameThread()
         {
-            Thread gameThread = new Thread(new ThreadStart(SceneMgr.Run));
+            Thread gameThread = new Thread(new ThreadStart(sceneMgr.Run));
+            gameThread.Name = "Game Thread";
             gameThread.Start();
         }
 
         public SceneMgr GetSceneMgr()
         {
-            return SceneMgr;
+            return sceneMgr;
         }
 
         public void GameEnded()
@@ -99,8 +125,14 @@ namespace Orbit
 
         public void ExitGame()
         {
-            if (SceneMgr != null)
-                SceneMgr.CloseGame();
+            if (sceneMgr != null)
+                sceneMgr.CloseGame();
+
+            if (server != null)
+            {
+                server.Shutdown();
+                server = null;
+            }
         }
 
         public void LookForGame()
@@ -128,6 +160,11 @@ namespace Orbit
                 default:
                     break;
             }
+        }
+
+        public string GetPlayerName()
+        {
+            return PlayerName;
         }
     }
 }

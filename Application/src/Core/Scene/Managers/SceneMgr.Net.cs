@@ -40,12 +40,15 @@ namespace Orbit.Core.Scene
 
             client = new NetClient(conf);
             client.Start();
+        }
 
+        private void ConnectToServer()
+        {
             NetOutgoingMessage msg = client.CreateMessage();
             msg.Write((int)PacketType.PLAYER_CONNECT);
             msg.Write(GetCurrentPlayer().Data.Name);
 
-            client.Connect(serverAddress, SharedDef.PORT_NUMBER, msg);
+            serverConnection = client.Connect(serverAddress, SharedDef.PORT_NUMBER, msg);
         }
 
         private void ProcessMessages()
@@ -68,15 +71,7 @@ namespace Orbit.Core.Scene
                         break;
                     // If incoming message is Request for connection approval
                     // This is the very first packet/message that is sent from client
-                    case NetIncomingMessageType.ConnectionApproval:
-                        if (msg.ReadInt32() == (int)PacketType.PLAYER_CONNECT)
-                        {
-                            GetCurrentPlayer().Data.Id = msg.ReadInt32();
-
-                            serverConnection = msg.SenderConnection;
-
-                            Console.WriteLine("LOGIN confirmed (id: " + GetCurrentPlayer().Data.Id);
-                        }                        
+                    case NetIncomingMessageType.ConnectionApproval:                   
                         break;
                     case NetIncomingMessageType.Data:
                         ProcessIncomingDataMessage(msg);
@@ -89,6 +84,15 @@ namespace Orbit.Core.Scene
                             case NetConnectionStatus.RespondedAwaitingApproval:
                             case NetConnectionStatus.RespondedConnect:
                             case NetConnectionStatus.Connected:
+                                if (msg.SenderConnection.RemoteHailMessage.ReadInt32() == (int)PacketType.PLAYER_ID_HAIL)
+                                {
+                                    GetCurrentPlayer().Data.Id = msg.SenderConnection.RemoteHailMessage.ReadInt32();
+
+                                    Console.WriteLine("LOGIN confirmed (id: " + IdMgr.GetHighId(GetCurrentPlayer().Data.Id) + ")");
+
+                                    if (GameType == Gametype.SOLO_GAME)
+                                        SendStartGameRequest();
+                                }     
                                 break;
                             case NetConnectionStatus.Disconnected:
                             case NetConnectionStatus.Disconnecting:
@@ -108,24 +112,35 @@ namespace Orbit.Core.Scene
             }
         }
 
+        public void SendStartGameRequest()
+        {
+            NetOutgoingMessage msg = CreateNetMessage();
+            msg.Write((int)PacketType.START_GAME_REQUEST);
+            SendMessage(msg);
+        }
+
         private void ProcessIncomingDataMessage(NetIncomingMessage msg)
         {
             PacketType type = (PacketType)msg.ReadInt32();
             switch (type)
             {
-                case PacketType.SYNC_ALL_PLAYER_DATA:
+                case PacketType.ALL_PLAYER_DATA:
                     if (players.Count != 0)
                     {
                         Console.WriteLine("Error: receiving new players but already have " + players.Count);
                         return;
                     }
 
-                    for (int i = 0; i < 2; ++i)
+                    int playerCount = msg.ReadInt32();
+
+                    for (int i = 0; i < playerCount; ++i)
                     {
-                        Player plr = new Player();
-                        plr.Data = new PlayerData(this);
+                        Player plr = CreatePlayer();
                         msg.ReadObjectPlayerData(plr.Data);
                         players.Add(plr);
+
+                        if (plr.Data.Id == currentPlayer.Data.Id)
+                            currentPlayer = plr;
 
                         if (plr.IsActivePlayer())
                         {
@@ -148,7 +163,7 @@ namespace Orbit.Core.Scene
 
                     ShowStatusText(3, "You are " + (GetCurrentPlayer().GetPlayerColor() == Colors.Red ? "Red" : "Blue"));
                     break;
-                case PacketType.SYNC_ALL_ASTEROIDS:
+                case PacketType.ALL_ASTEROIDS:
                     if (objects.Count > 2)
                     {
                         Console.WriteLine("Error: receiving all asteroids but already have " + objects.Count);

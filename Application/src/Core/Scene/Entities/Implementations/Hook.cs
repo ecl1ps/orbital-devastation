@@ -34,7 +34,7 @@ namespace Orbit.Core.Scene.Entities
 
         public void PrepareLine()
         {
-            SceneMgr.BeginInvoke(new Action(() =>
+            SceneMgr.Invoke(new Action(() =>
             {
                 HookControl control = GetControlOfType(typeof(HookControl)) as HookControl;
                 line = new Line();
@@ -49,7 +49,7 @@ namespace Orbit.Core.Scene.Entities
                 line.Fill = new SolidColorBrush(Colors.Black);
             }));
 
-            (SceneMgr as SceneMgr).AttachGraphicalObjectToScene(line);
+            SceneMgr.AttachGraphicalObjectToScene(line);
         }
 
         protected override void UpdateGeometricState()
@@ -85,7 +85,7 @@ namespace Orbit.Core.Scene.Entities
                 GoldObject.DoRemoveMe();
             }
             DoRemoveMe();
-            (SceneMgr as SceneMgr).RemoveGraphicalObjectFromScene(line);
+            SceneMgr.RemoveGraphicalObjectFromScene(line);
         }
 
         public Boolean HasCaughtObject()

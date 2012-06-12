@@ -27,14 +27,24 @@ namespace Orbit.Core
             return ++maxId;
         }
 
-        public static long GetNewId(long highOwnerId)
+        public static long GetNewId(int highOwnerId)
         {
-            return GetInstance().GetIdNew() | (highOwnerId << 32);
+            return GetInstance().GetIdNew() | ((long)highOwnerId << 32);
         }
 
         public static int GetNewPlayerId()
         {
             return ++(GetInstance().playerId);
+        }
+
+        public static int GetLowId(long fullId)
+        {
+            return (int)(fullId & 0xFFFFFFFF);
+        }
+
+        public static int GetHighId(long fullId)
+        {
+            return (int)(fullId & 0xFFFFFFFFL << 32);
         }
     }
 }

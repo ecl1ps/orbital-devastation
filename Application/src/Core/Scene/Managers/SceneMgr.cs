@@ -67,6 +67,14 @@ namespace Orbit.Core.Scene
             synchronizedQueue = new ConcurrentQueue<Action>();
             statisticsTimer = 0;
 
+            currentPlayer = CreatePlayer();
+
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                currentPlayer.Data.Name = (Application.Current as App).GetPlayerName();
+            }));
+            
+
             Invoke(new Action(() =>
             {
                 Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
@@ -106,9 +114,19 @@ namespace Orbit.Core.Scene
             }
             else /*Gametype.SOLO_GAME*/
             {
+                InitNetwork();
                 userActionsDisabled = false;
-                isInitialized = true;
+                isInitialized = false;
             }
+
+            ConnectToServer();
+        }
+
+        private Player CreatePlayer()
+        {
+            Player plr = new Player();
+            plr.Data = new PlayerData(this);
+            return plr;
         }
 
         private void SetMainInfoText(String t)
@@ -244,8 +262,6 @@ namespace Orbit.Core.Scene
                 if (tpf >= 0.001 && isInitialized)
                     Update(tpf);
 
-                //Console.Out.WriteLine(tpf + ": " +sw.ElapsedMilliseconds);
-
 		        if (sw.ElapsedMilliseconds < SharedDef.MINIMUM_UPDATE_TIME) 
                 {
                     Thread.Sleep((int)(SharedDef.MINIMUM_UPDATE_TIME - sw.ElapsedMilliseconds));
@@ -286,7 +302,8 @@ namespace Orbit.Core.Scene
             CheckCollisions();
             RemoveObjectsMarkedForRemoval();
 
-            GetCurrentPlayer().Update(tpf);
+            if (currentPlayer != null)
+                currentPlayer.Update(tpf);
 
             try
             {

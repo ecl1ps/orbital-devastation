@@ -78,7 +78,7 @@ namespace Orbit.Core.Players
 
         private bool IsCurrentPlayer()
         {
-            return SceneMgr is SceneMgr && (SceneMgr as SceneMgr).GetCurrentPlayer().GetId() == Id;
+            return SceneMgr.GetCurrentPlayer().GetId() == Id;
         }
 
         public PlayerData(SceneMgr sceneMgr)

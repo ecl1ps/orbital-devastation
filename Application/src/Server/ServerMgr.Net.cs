@@ -85,7 +85,7 @@ namespace Orbit.Server
                             hailMsg.Write((int)PacketType.PLAYER_ID_HAIL);
                             hailMsg.Write(p.Data.Id);
 
-                            // Approve clients connection ( Its sort of agreenment. "You can be my client and i will host you" )
+                            // Approve clients connection (Its sort of agreenment. "You can be my client and i will host you")
                             msg.SenderConnection.Approve(hailMsg);
                         }
                         break;
@@ -105,37 +105,6 @@ namespace Orbit.Server
                                 EndGame(GetPlayer(msg.SenderConnection), GameEnd.LEFT_GAME);
                                 break;
                             case NetConnectionStatus.Connected:
-
-
-                                // asi nejdriv budou v lobby a poslou si akorat id a jmeno
-                                // TODO
-
-                                // poslani dat hracu
-                                /*NetOutgoingMessage outmsg = peer.CreateMessage();
-
-                                outmsg.Write((int)PacketType.SYNC_ALL_PLAYER_DATA);
-
-                                foreach (Player plr in players)
-                                    outmsg.WriteObjectPlayerData(plr.Data);
-
-                                // Send message/packet to all connections, in reliably order, channel 0
-                                // Reliably means, that each packet arrives in same order they were sent. Its slower than unreliable, but easyest to understand
-                                peer.SendMessage(outmsg, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
-
-                                // poslani vsech asteroidu
-                                outmsg = peer.CreateMessage();
-                                outmsg.Write((int)PacketType.SYNC_ALL_ASTEROIDS);
-
-                                Int32 count = 0;
-                                objects.ForEach(new Action<ISceneObject>(x => { if (x is Asteroid) count++; }));
-                                outmsg.Write(count);
-
-                                foreach (ISceneObject obj in objects)
-                                    if (obj is Asteroid && obj is ISendable)
-                                        (obj as ISendable).WriteObject(outmsg);
-
-                                peer.SendMessage(outmsg, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
-                                isInitialized = true;*/
                                 break;
                         }
 
@@ -155,8 +124,8 @@ namespace Orbit.Server
             PacketType type = (PacketType)msg.ReadInt32();
             switch (type)
             {
-                case PacketType.SYNC_ALL_PLAYER_DATA:
-                case PacketType.SYNC_ALL_ASTEROIDS:
+                case PacketType.ALL_PLAYER_DATA:
+                case PacketType.ALL_ASTEROIDS:
                 case PacketType.NEW_ASTEROID:
                 case PacketType.NEW_SINGULARITY_MINE:
                 case PacketType.NEW_SINGULARITY_BULLET:
@@ -165,6 +134,11 @@ namespace Orbit.Server
                     NetOutgoingMessage outMsg = CreateNetMessage();
                     outMsg.Write(msg);
                     BroadcastMessage(outMsg, msg.SenderConnection);
+                    break;
+                case PacketType.START_GAME_REQUEST:
+                    match = new MatchMaker(this, players);
+                    match.CreateNewMatch();
+                    isInitialized = true;
                     break;
             }
         }

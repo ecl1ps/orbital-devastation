@@ -80,7 +80,7 @@ namespace Orbit.Server
             Thread.Sleep(3000);
         }
 
-        public void CloseGame()
+        public void Shutdown()
         {
             RequestStop();
         }
@@ -109,7 +109,7 @@ namespace Orbit.Server
             match.CreateNewMatch();
         }*/
 
-        private Player CreatePlayer(String name)
+        public Player CreatePlayer(String name)
         {
             Player plr = new Player();
             plr.Data = new PlayerData(null);
@@ -137,7 +137,7 @@ namespace Orbit.Server
                 if (tpf >= 0.001 && isInitialized)
                     Update(tpf);
 
-                //Console.Out.WriteLine(tpf + ": " +sw.ElapsedMilliseconds);
+                //Console.Out.WriteLine(Server tpf + ": " +sw.ElapsedMilliseconds);
 
 		        if (sw.ElapsedMilliseconds < SharedDef.MINIMUM_UPDATE_TIME) 
                 {
@@ -165,15 +165,15 @@ namespace Orbit.Server
         {
             ProcessActionQueue();
 
-            UpdatePlayers(tpf);
+            //UpdatePlayers(tpf);
 
-            CheckPlayerStates();
+            //CheckPlayerStates();
         }
 
-        private void UpdatePlayers(float tpf)
+        /*private void UpdatePlayers(float tpf)
         {
             players.ForEach(plr => plr.Update(tpf));
-        }
+        }*/
 
         private void ProcessActionQueue()
         {
