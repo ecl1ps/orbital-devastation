@@ -70,6 +70,7 @@ namespace Orbit.Core
     public enum PacketType
     {
         PLAYER_CONNECT,
+        PLAYER_ID_HAIL,
         PLAYER_WON,
         SYNC_ALL_PLAYER_DATA,
         SYNC_ALL_ASTEROIDS,

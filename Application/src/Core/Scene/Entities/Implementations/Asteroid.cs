@@ -24,7 +24,7 @@ namespace Orbit.Core.Scene.Entities
         public int Gold { get; set; }
         public AsteroidType AsteroidType { get; set; }
         
-        public Asteroid(ISceneMgr mgr) : base(mgr)
+        public Asteroid(SceneMgr mgr) : base(mgr)
         {
         }
 

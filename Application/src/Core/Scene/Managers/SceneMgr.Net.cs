@@ -16,51 +16,45 @@ using Lidgren.Network;
 
 namespace Orbit.Core.Scene
 {
-    public partial class SceneMgr : ISceneMgr
+    public partial class SceneMgr
     {
-        private bool isServer;
-        private NetPeer peer;
+        private NetClient client;
         private string serverAddress;
+        private NetConnection serverConnection;
 
         private void InitNetwork()
         {
             NetPeerConfiguration conf = new NetPeerConfiguration("Orbit");
-            if (isServer)
-            {
-                conf.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
-                conf.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
-                conf.Port = SharedDef.PORT_NUMBER;
-            }
 
             /*conf.SimulatedMinimumLatency = 0.1f;
             conf.SimulatedRandomLatency = 0.05f;*/
 
-            /*conf.EnableMessageType(NetIncomingMessageType.DebugMessage);
+            // debug
+            conf.EnableMessageType(NetIncomingMessageType.DebugMessage);
             conf.EnableMessageType(NetIncomingMessageType.Error);
             conf.EnableMessageType(NetIncomingMessageType.ErrorMessage);
             conf.EnableMessageType(NetIncomingMessageType.Receipt);
             conf.EnableMessageType(NetIncomingMessageType.UnconnectedData);
             conf.EnableMessageType(NetIncomingMessageType.VerboseDebugMessage);
-            conf.EnableMessageType(NetIncomingMessageType.WarningMessage);*/
+            conf.EnableMessageType(NetIncomingMessageType.WarningMessage);
 
-            peer = new NetPeer(conf);
-            peer.Start();
+            client = new NetClient(conf);
+            client.Start();
 
-            if (!isServer)
-            {
-                NetOutgoingMessage msg = peer.CreateMessage();
-                msg.Write((int)PacketType.PLAYER_CONNECT);
-                peer.Connect(serverAddress, SharedDef.PORT_NUMBER, msg);
-            }
+            NetOutgoingMessage msg = client.CreateMessage();
+            msg.Write((int)PacketType.PLAYER_CONNECT);
+            msg.Write(GetCurrentPlayer().Data.Name);
+
+            client.Connect(serverAddress, SharedDef.PORT_NUMBER, msg);
         }
 
         private void ProcessMessages()
         {
-            if (peer == null || peer.Status != NetPeerStatus.Running)
+            if (client == null || client.Status != NetPeerStatus.Running)
                 return;
 
             NetIncomingMessage msg;
-            while ((msg = peer.ReadMessage()) != null)
+            while ((msg = client.ReadMessage()) != null)
             {
                 switch (msg.MessageType)
                 {
@@ -71,161 +65,21 @@ namespace Orbit.Core.Scene
                         Console.WriteLine(msg.ReadString());
                         break;
                     case NetIncomingMessageType.DiscoveryRequest:
-                        if (!isServer || !userActionsDisabled)
-                            break;
-
-                        NetOutgoingMessage response = peer.CreateMessage();
-                        //response.Write("My server name");
-                        peer.SendDiscoveryResponse(response, msg.SenderEndpoint);
                         break;
                     // If incoming message is Request for connection approval
                     // This is the very first packet/message that is sent from client
                     case NetIncomingMessageType.ConnectionApproval:
                         if (msg.ReadInt32() == (int)PacketType.PLAYER_CONNECT)
                         {
-                            Console.WriteLine("Incoming LOGIN");
+                            GetCurrentPlayer().Data.Id = msg.ReadInt32();
 
-                            // Approve clients connection ( Its sort of agreenment. "You can be my client and i will host you" )
-                            msg.SenderConnection.Approve();
-                        }
+                            serverConnection = msg.SenderConnection;
+
+                            Console.WriteLine("LOGIN confirmed (id: " + GetCurrentPlayer().Data.Id);
+                        }                        
                         break;
                     case NetIncomingMessageType.Data:
-                        PacketType type = (PacketType)msg.ReadInt32();
-                        switch (type)
-                        {
-                            case PacketType.SYNC_ALL_PLAYER_DATA:
-                                if (players.Count != 0)
-                                {
-                                    Console.WriteLine("Error: receiving new players but already have " + players.Count);
-                                    return;
-                                }
-
-                                for (int i = 0; i < 2; ++i)
-                                {
-                                    Player plr = new Player();
-                                    plr.Data = new PlayerData(this);
-                                    msg.ReadObjectPlayerData(plr.Data);
-                                    plr.Baze = SceneObjectFactory.CreateBase(this, plr.Data);
-                                    AttachToScene(plr.Baze);
-                                    players.Add(plr);
-                                }
-
-                                Invoke(new Action(() =>
-                                {
-                                    Label lbl1 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblIntegrityLeft");
-                                    if (lbl1 != null)
-                                        lbl1.Content = 100 + "%";
-
-                                    Label lbl2 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblIntegrityRight");
-                                    if (lbl2 != null)
-                                        lbl2.Content = 100 + "%";
-                                }));
-
-                                firstPlayer = players[0].GetPosition();
-                                secondPlayer = players[1].GetPosition();
-                                mePlayer = secondPlayer;
-                                players[0].Connection = msg.SenderConnection;
-                                ShowStatusText(3, "You are " + (players[1].GetPlayerColor() == Colors.Red ? "Red" : "Blue"));
-                                break;
-                            case PacketType.SYNC_ALL_ASTEROIDS:
-                                if (objects.Count > 2)
-                                {
-                                    Console.WriteLine("Error: receiving all asteroids but already have " + objects.Count);
-                                    return;
-                                }
-
-                                int count = msg.ReadInt32();
-                                for (int i = 0; i < count; ++i)
-                                {
-                                    Asteroid s = new Asteroid(this);
-                                    if (msg.ReadInt32() != (int)PacketType.NEW_ASTEROID)
-                                    {
-                                        Console.Error.WriteLine("Corrupted object PacketType.SYNC_ALL_ASTEROIDS");
-                                        return;
-                                    }
-                                    (s as ISendable).ReadObject(msg);
-                                    s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s));;
-                                    AttachToScene(s);
-                                    SyncReceivedObject(s, msg);
-                                }
-
-                                SetMainInfoText("");
-                                isInitialized = true;
-                                userActionsDisabled = false;
-                                break;
-                            case PacketType.NEW_ASTEROID:
-                                {
-                                    Asteroid s = new Asteroid(this);
-                                    (s as ISendable).ReadObject(msg);
-                                    s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s));
-                                    AttachToScene(s);
-                                    SyncReceivedObject(s, msg);
-                                }
-                                break;
-                            case PacketType.NEW_SINGULARITY_MINE:
-                                {
-                                    SingularityMine s = new SingularityMine(this);
-                                    (s as ISendable).ReadObject(msg);
-                                    s.Owner = GetOtherPlayer();
-                                    s.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(s));
-                                    AttachToScene(s);
-                                    SyncReceivedObject(s, msg);
-                                }
-                                break;
-                            case PacketType.NEW_SINGULARITY_BULLET:
-                                {
-                                    SingularityBullet s = new SingularityBullet(this);
-                                    (s as ISendable).ReadObject(msg);
-                                    s.Player = GetOtherPlayer();
-                                    s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
-                                    AttachToScene(s);
-                                    SyncReceivedObject(s, msg);
-                                }
-                                break;
-                            case PacketType.NEW_HOOK:
-                                {
-                                    Hook h = new Hook(this);
-                                    (h as ISendable).ReadObject(msg);
-                                    h.Player = GetOtherPlayer();
-                                    h.SetGeometry(SceneGeometryFactory.CreateHookHead(h));
-                                    BeginInvoke(new Action(() =>
-                                    {
-                                        Canvas.SetZIndex(h.GetGeometry(), 99);
-                                    }));
-                                    h.PrepareLine();
-                                    AttachToScene(h);
-                                    SyncReceivedObject(h, msg);
-                                }
-                                break;
-                            case PacketType.PLAYER_WON:
-                                EndGame(GetPlayer((PlayerPosition)msg.ReadByte()), GameEnd.WIN_GAME);
-                                break;
-                            case PacketType.SINGULARITY_MINE_HIT:
-                                long mineId = msg.ReadInt64();
-                                long id = msg.ReadInt64();
-                                Vector pos = msg.ReadVector();
-                                Vector dir = msg.ReadVector();
-                                foreach (ISceneObject obj in objects)
-                                {
-                                    if (obj.Id == mineId)
-                                    {
-                                        DroppingSingularityControl c = obj.GetControlOfType(typeof(DroppingSingularityControl)) as DroppingSingularityControl;
-                                        if (c == null)
-                                            Console.Error.WriteLine("Object id " + mineId + " (" + obj.GetType().Name + ") is supposed to be a SingularityMine and have DroppingSingularityControl, but control is null");
-                                        else
-                                            c.StartDetonation();
-                                        continue;
-                                    }
-
-                                    if (obj.Id != id)
-                                        continue;
-
-                                    obj.Position = pos;
-                                    (obj as IMovable).Direction += dir;
-                                }
-                                break;
-                        }
-
+                        ProcessIncomingDataMessage(msg);
                         break;
                     case NetIncomingMessageType.StatusChanged:
                         switch (msg.SenderConnection.Status)
@@ -234,46 +88,12 @@ namespace Orbit.Core.Scene
                             case NetConnectionStatus.InitiatedConnect:
                             case NetConnectionStatus.RespondedAwaitingApproval:
                             case NetConnectionStatus.RespondedConnect:
+                            case NetConnectionStatus.Connected:
                                 break;
                             case NetConnectionStatus.Disconnected:
                             case NetConnectionStatus.Disconnecting:
-                                EndGame(GetPlayer(mePlayer == firstPlayer ? secondPlayer : firstPlayer), GameEnd.LEFT_GAME);
-                                break;
-                            case NetConnectionStatus.Connected:
-                                if (!isServer)
-                                    return;
-
-                                GetOtherPlayer().Connection = msg.SenderConnection;
-
-                                // poslani dat hracu
-                                NetOutgoingMessage outmsg = peer.CreateMessage();
-
-                                outmsg.Write((int)PacketType.SYNC_ALL_PLAYER_DATA);
-
-                                foreach (Player plr in players)
-                                    outmsg.WriteObjectPlayerData(plr.Data);
-
-                                // Send message/packet to all connections, in reliably order, channel 0
-                                // Reliably means, that each packet arrives in same order they were sent. Its slower than unreliable, but easyest to understand
-                                peer.SendMessage(outmsg, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
-
-                                // poslani vsech asteroidu
-                                outmsg = peer.CreateMessage();
-                                outmsg.Write((int)PacketType.SYNC_ALL_ASTEROIDS);
-
-                                Int32 count = 0;
-                                objects.ForEach(new Action<ISceneObject>(x => { if (x is Asteroid) count++; }));
-                                outmsg.Write(count);
-
-                                foreach (ISceneObject obj in objects)
-                                    if (obj is Asteroid && obj is ISendable)
-                                        (obj as ISendable).WriteObject(outmsg);
-
-                                peer.SendMessage(outmsg, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
-
-                                SetMainInfoText("");
-                                isInitialized = true;
-                                userActionsDisabled = false;
+                                // spis by se melo zobrazit neco jako ze bylo ztraceno spojeni k serveru
+                                EndGame(GetOpponentPlayer(), GameEnd.LEFT_GAME);
                                 break;
                         }
 
@@ -284,18 +104,154 @@ namespace Orbit.Core.Scene
                         Console.WriteLine("Unhandled message type: " + msg.MessageType);
                         break;
                 }
-                peer.Recycle(msg);
+                client.Recycle(msg);
             }
+        }
+
+        private void ProcessIncomingDataMessage(NetIncomingMessage msg)
+        {
+            PacketType type = (PacketType)msg.ReadInt32();
+            switch (type)
+            {
+                case PacketType.SYNC_ALL_PLAYER_DATA:
+                    if (players.Count != 0)
+                    {
+                        Console.WriteLine("Error: receiving new players but already have " + players.Count);
+                        return;
+                    }
+
+                    for (int i = 0; i < 2; ++i)
+                    {
+                        Player plr = new Player();
+                        plr.Data = new PlayerData(this);
+                        msg.ReadObjectPlayerData(plr.Data);
+                        players.Add(plr);
+
+                        if (plr.IsActivePlayer())
+                        {
+                            plr.CreateWeapons();
+                            plr.Baze = SceneObjectFactory.CreateBase(this, plr.Data);
+                            AttachToScene(plr.Baze);
+                        }
+                    }
+
+                    Invoke(new Action(() =>
+                    {
+                        Label lbl1 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblIntegrityLeft");
+                        if (lbl1 != null)
+                            lbl1.Content = 100 + "%";
+
+                        Label lbl2 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblIntegrityRight");
+                        if (lbl2 != null)
+                            lbl2.Content = 100 + "%";
+                    }));
+
+                    ShowStatusText(3, "You are " + (GetCurrentPlayer().GetPlayerColor() == Colors.Red ? "Red" : "Blue"));
+                    break;
+                case PacketType.SYNC_ALL_ASTEROIDS:
+                    if (objects.Count > 2)
+                    {
+                        Console.WriteLine("Error: receiving all asteroids but already have " + objects.Count);
+                        return;
+                    }
+
+                    int count = msg.ReadInt32();
+                    for (int i = 0; i < count; ++i)
+                    {
+                        Asteroid s = new Asteroid(this);
+                        if (msg.ReadInt32() != (int)PacketType.NEW_ASTEROID)
+                        {
+                            Console.Error.WriteLine("Corrupted object PacketType.SYNC_ALL_ASTEROIDS");
+                            return;
+                        }
+                        s.ReadObject(msg);
+                        s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s)); ;
+                        AttachToScene(s);
+                        SyncReceivedObject(s, msg);
+                    }
+
+                    SetMainInfoText("");
+                    isInitialized = true;
+                    userActionsDisabled = false;
+                    break;
+                case PacketType.NEW_ASTEROID:
+                    {
+                        Asteroid s = new Asteroid(this);
+                        s.ReadObject(msg);
+                        s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s));
+                        AttachToScene(s);
+                        SyncReceivedObject(s, msg);
+                    }
+                    break;
+                case PacketType.NEW_SINGULARITY_MINE:
+                    {
+                        SingularityMine s = new SingularityMine(this);
+                        s.ReadObject(msg);
+                        s.Owner = GetOpponentPlayer();
+                        s.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(s));
+                        AttachToScene(s);
+                        SyncReceivedObject(s, msg);
+                    }
+                    break;
+                case PacketType.NEW_SINGULARITY_BULLET:
+                    {
+                        SingularityBullet s = new SingularityBullet(this);
+                        s.ReadObject(msg);
+                        s.Player = GetOpponentPlayer();
+                        s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
+                        AttachToScene(s);
+                        SyncReceivedObject(s, msg);
+                    }
+                    break;
+                case PacketType.NEW_HOOK:
+                    {
+                        Hook h = new Hook(this);
+                        h.ReadObject(msg);
+                        h.Owner = GetOpponentPlayer();
+                        h.SetGeometry(SceneGeometryFactory.CreateHookHead(h));
+                        BeginInvoke(new Action(() =>
+                        {
+                            Canvas.SetZIndex(h.GetGeometry(), 99);
+                        }));
+                        h.PrepareLine();
+                        AttachToScene(h);
+                        SyncReceivedObject(h, msg);
+                    }
+                    break;
+                case PacketType.PLAYER_WON:
+                    EndGame(GetPlayer(msg.ReadInt32()), GameEnd.WIN_GAME);
+                    break;
+                case PacketType.SINGULARITY_MINE_HIT:
+                    long mineId = msg.ReadInt64();
+                    long id = msg.ReadInt64();
+                    Vector pos = msg.ReadVector();
+                    Vector dir = msg.ReadVector();
+                    foreach (ISceneObject obj in objects)
+                    {
+                        if (obj.Id == mineId)
+                        {
+                            DroppingSingularityControl c = obj.GetControlOfType(typeof(DroppingSingularityControl)) as DroppingSingularityControl;
+                            if (c == null)
+                                Console.Error.WriteLine("Object id " + mineId + " (" + obj.GetType().Name + ") is supposed to be a SingularityMine and have DroppingSingularityControl, but control is null");
+                            else
+                                c.StartDetonation();
+                            continue;
+                        }
+
+                        if (obj.Id != id)
+                            continue;
+
+                        obj.Position = pos;
+                        (obj as IMovable).Direction += dir;
+                    }
+                    break;
+            }
+
         }
 
         private void SyncReceivedObject(ISceneObject o, NetIncomingMessage msg)
         {
             o.Update(msg.SenderConnection.AverageRoundtripTime / 2);
-        }
-
-        public void SetIsServer(bool isServer)
-        {
-            this.isServer = isServer;
         }
 
         public void SetRemoteServerAddress(string serverAddress)
@@ -305,17 +261,17 @@ namespace Orbit.Core.Scene
 
         public bool IsServer()
         {
-            return isServer;
+            return false;
         }
 
         public NetOutgoingMessage CreateNetMessage()
         {
-            return peer.CreateMessage();
+            return client.CreateMessage();
         }
 
         public void SendMessage(NetOutgoingMessage msg)
         {
-            peer.SendMessage(msg, GetOtherPlayer().Connection, NetDeliveryMethod.ReliableOrdered);
+            client.SendMessage(msg, serverConnection, NetDeliveryMethod.ReliableOrdered);
         }
     }
 }

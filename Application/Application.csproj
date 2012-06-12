@@ -101,7 +101,6 @@
     <Compile Include="src\Core\Scene\Entities\Sphere.cs" />
     <Compile Include="src\Core\Scene\Entities\Implementations\SingularityBullet.cs" />
     <Compile Include="src\Core\Scene\Entities\ISendable.cs" />
-    <Compile Include="src\Core\Scene\Managers\ISceneMgr.cs" />
     <Compile Include="src\Core\Scene\Managers\SceneMgr.Net.cs" />
     <Compile Include="src\Core\Scene\Entities\IRotable.cs" />
     <Compile Include="src\Core\Helpers\SceneGeometryFactory.cs" />
@@ -141,6 +140,7 @@
     <Compile Include="src\Gui\OptionsUC.xaml.cs">
       <DependentUpon>OptionsUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\Server\MatchMaker.cs" />
     <Compile Include="src\Server\ServerMgr.cs" />
     <Compile Include="src\Server\ServerMgr.Net.cs" />
   </ItemGroup>

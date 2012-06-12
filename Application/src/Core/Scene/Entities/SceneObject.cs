@@ -13,13 +13,13 @@ namespace Orbit.Core.Scene.Entities
         protected UIElement geometryElement;
         public Vector Position { get; set; }
         public bool Dead { get; set; }
-        public ISceneMgr SceneMgr { get; set; }
+        public SceneMgr SceneMgr { get; set; }
 
         private SceneObject()
         {
         }
 
-        public SceneObject(ISceneMgr mgr)
+        public SceneObject(SceneMgr mgr)
         {
             controls = new List<IControl>();
             Dead = false;

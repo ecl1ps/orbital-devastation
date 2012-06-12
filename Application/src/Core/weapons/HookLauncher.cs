@@ -13,15 +13,17 @@ namespace Orbit.Core.Weapons
 {
     class HookLauncher : IWeapon
     {
-        public ISceneMgr SceneMgr { get; set; }
+        public Player Owner { get; set; }
+        public SceneMgr SceneMgr { get; set; }
         public float ReloadTime { get; set; }
         public int Cost { get; set; }
 
         private Hook hook;
 
-        public HookLauncher(ISceneMgr mgr)
+        public HookLauncher(SceneMgr mgr, Player owner)
         {
             SceneMgr = mgr;
+            Owner = owner;
         }
 
         public void Shoot(Point point)
@@ -36,15 +38,14 @@ namespace Orbit.Core.Weapons
 
         private Hook SpawnHook(Point point)
         {
-            Player player = SceneMgr.GetMePlayer();
             Hook hook = null;
 
-            if (point.Y > PlayerPositionProvider.GetVectorPosition(player.GetPosition()).Y)
+            if (point.Y > Owner.Data.VectorPosition.Y)
                 return hook;
 
             if (IsReady())
             {
-                hook = SceneObjectFactory.CreateHook(SceneMgr, point, player);
+                hook = SceneObjectFactory.CreateHook(SceneMgr, point, Owner);
 
                 if (SceneMgr.GameType != Gametype.SOLO_GAME)
                 {

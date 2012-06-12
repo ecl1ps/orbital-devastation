@@ -18,7 +18,7 @@ namespace Orbit.Core.Scene.Entities
         public Brush BorderBrush { get; set; } // neposilan
         public Brush FillBrush { get; set; } // neposilan
         
-        public SingularityMine(ISceneMgr mgr) : base(mgr)
+        public SingularityMine(SceneMgr mgr) : base(mgr)
         {
             BorderBrush = Brushes.Black;
             FillBrush = Brushes.Black;

@@ -13,7 +13,7 @@ namespace Orbit.Core.Scene.Entities
         public Color Color { get; set; }
         public int Integrity { get; set; }
         
-        public Base(ISceneMgr mgr) : base(mgr)
+        public Base(SceneMgr mgr) : base(mgr)
         {
         }
 

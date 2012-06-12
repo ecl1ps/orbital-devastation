@@ -14,7 +14,7 @@ namespace Orbit.Core.Scene.Entities
 
         bool Dead { get; set; }
 
-        ISceneMgr SceneMgr { get; set; }
+        SceneMgr SceneMgr { get; set; }
 
         void Update(float tpf);
 

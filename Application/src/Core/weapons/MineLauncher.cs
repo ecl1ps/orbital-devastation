@@ -7,18 +7,21 @@ using System.Windows;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene;
 using Lidgren.Network;
+using Orbit.Core.Players;
 
 namespace Orbit.Core.Weapons
 {
     class MineLauncher : IWeapon
     {
-        public ISceneMgr SceneMgr { get; set; }
+        public Player Owner { get; set; }
+        public SceneMgr SceneMgr { get; set; }
         public float ReloadTime { get; set; }
         public int Cost { get; set; }
 
-        public MineLauncher(ISceneMgr mgr)
+        public MineLauncher(SceneMgr mgr, Player owner)
         {
             SceneMgr = mgr;
+            Owner = owner;
         }
 
         public IWeapon Next()
@@ -37,7 +40,7 @@ namespace Orbit.Core.Weapons
 
         private void SpawnMine(Point point)
         {
-                SingularityMine mine = SceneObjectFactory.CreateDroppingSingularityMine(this, point, SceneMgr.GetMePlayer());
+                SingularityMine mine = SceneObjectFactory.CreateDroppingSingularityMine(SceneMgr, point, Owner);
 
                 if (SceneMgr.GameType != Gametype.SOLO_GAME)
                 {

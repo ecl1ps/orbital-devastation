@@ -32,18 +32,20 @@ namespace Orbit.Gui
         {
             Point p = e.GetPosition(mainCanvas);
 
-            SceneMgr.GetInstance().Enqueue(new Action(() =>
+            (Application.Current as App).SceneMgr.Enqueue(new Action(() =>
             {
-                SceneMgr.GetInstance().OnCanvasClick(p, e);
+                (Application.Current as App).SceneMgr.OnCanvasClick(p, e);
             }));
         }
 
         private void WindowSizeChanged(object sender, SizeChangedEventArgs e)
         {
             mainCanvas.RenderTransform = new ScaleTransform(e.NewSize.Width / SizeOriginal.Width, e.NewSize.Height / SizeOriginal.Height);
-            SceneMgr.GetInstance().Enqueue(new Action(() =>
+
+            // unused ATM
+            (Application.Current as App).SceneMgr.Enqueue(new Action(() =>
             {
-                SceneMgr.GetInstance().OnViewPortChange(e.NewSize);
+                (Application.Current as App).SceneMgr.OnViewPortChange(e.NewSize);
             }));
         }
     }

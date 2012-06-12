@@ -7,10 +7,12 @@ namespace Orbit.Core
     {
         private static IdMgr idMgr;
         private long maxId;
+        private int playerId;
 
         private IdMgr()
         {
             maxId = 0;
+            playerId = 0;
         }
 
         private static IdMgr GetInstance()
@@ -25,12 +27,14 @@ namespace Orbit.Core
             return ++maxId;
         }
 
-        public static long GetNewId()
+        public static long GetNewId(long highOwnerId)
         {
-            if (SceneMgr.GetInstance().GameType == Gametype.CLIENT_GAME)
-                return GetInstance().GetIdNew() | (1L << 32);
+            return GetInstance().GetIdNew() | (highOwnerId << 32);
+        }
 
-            return GetInstance().GetIdNew();
+        public static int GetNewPlayerId()
+        {
+            return ++(GetInstance().playerId);
         }
     }
 }

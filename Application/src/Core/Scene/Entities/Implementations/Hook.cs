@@ -15,7 +15,7 @@ namespace Orbit.Core.Scene.Entities
 {
     public class Hook : SpherePoint, ISendable, IRotable
     {
-        public Player Player { get; set; } // neposilano
+        public Player Owner { get; set; } // neposilano
         public float Rotation { get; set; }
         public IContainsGold GoldObject { get; set; } // neposilano
         public Vector RopeContactPoint
@@ -28,7 +28,7 @@ namespace Orbit.Core.Scene.Entities
 
         private Line line; // neposilano
         
-        public Hook(ISceneMgr mgr) : base(mgr)
+        public Hook(SceneMgr mgr) : base(mgr)
         {
         }
 
@@ -81,7 +81,7 @@ namespace Orbit.Core.Scene.Entities
         {
             if (GoldObject != null)
             {
-                Player.Data.Gold += GoldObject.Gold;
+                Owner.Data.Gold += GoldObject.Gold;
                 GoldObject.DoRemoveMe();
             }
             DoRemoveMe();

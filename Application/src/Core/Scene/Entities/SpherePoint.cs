@@ -11,7 +11,7 @@ namespace Orbit.Core.Scene.Entities
 {
     public abstract class SpherePoint : Sphere
     {
-        public SpherePoint(ISceneMgr mgr) : base(mgr)
+        public SpherePoint(SceneMgr mgr) : base(mgr)
         {
         }
 

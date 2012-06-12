@@ -13,7 +13,7 @@ namespace Orbit.Core.Scene.Entities
     {
         public Size Size { get; set; }
         
-        public Square(ISceneMgr mgr) : base(mgr)
+        public Square(SceneMgr mgr) : base(mgr)
         {
         }
 

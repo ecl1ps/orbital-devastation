@@ -26,7 +26,7 @@ namespace Orbit.Core.Scene.Entities
             }
         }
 
-        public Sphere(ISceneMgr mgr) : base(mgr)
+        public Sphere(SceneMgr mgr) : base(mgr)
         {
         }
 

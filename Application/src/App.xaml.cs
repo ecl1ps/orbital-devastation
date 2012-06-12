@@ -19,7 +19,7 @@ namespace Orbit
     /// </summary>
     public partial class App : Application
     {
-        private SceneMgr sceneMgr;
+        public SceneMgr SceneMgr { get; set; }
         private static GameWindow mainWindow;
         private string lastServerAddress;
         private Gametype lastGameType;
@@ -37,7 +37,7 @@ namespace Orbit
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            sceneMgr = SceneMgr.GetInstance();
+            SceneMgr = new SceneMgr();
         }
 
         protected override void OnExit(ExitEventArgs e)
@@ -50,34 +50,33 @@ namespace Orbit
             lastGameType = type;
             mainWindow.mainGrid.Children.Clear();
             mainWindow.mainGrid.Children.Add(new GameUC());
-            sceneMgr.SetCanvas((Canvas)LogicalTreeHelper.FindLogicalNode(MainWindow, "mainCanvas"));
-            sceneMgr.Init(type);
+            SceneMgr.SetCanvas((Canvas)LogicalTreeHelper.FindLogicalNode(MainWindow, "mainCanvas"));
+            SceneMgr.Init(type);
 
             StartGameThread();
         }
 
         public void StartHostedGame()
         {
-            sceneMgr.SetIsServer(true);
             StartGame(Gametype.SERVER_GAME);
         }
 
         public void ConnectToGame(string serverAddress)
         {
             lastServerAddress = serverAddress;
-            sceneMgr.SetRemoteServerAddress(serverAddress);
+            SceneMgr.SetRemoteServerAddress(serverAddress);
             StartGame(Gametype.CLIENT_GAME);
         }
 
         private void StartGameThread()
         {
-            Thread gameThread = new Thread(new ThreadStart(sceneMgr.Run));
+            Thread gameThread = new Thread(new ThreadStart(SceneMgr.Run));
             gameThread.Start();
         }
 
         public SceneMgr GetSceneMgr()
         {
-            return sceneMgr;
+            return SceneMgr;
         }
 
         public void GameEnded()
@@ -100,8 +99,8 @@ namespace Orbit
 
         public void ExitGame()
         {
-            if (sceneMgr != null)
-                sceneMgr.CloseGame();
+            if (SceneMgr != null)
+                SceneMgr.CloseGame();
         }
 
         public void LookForGame()

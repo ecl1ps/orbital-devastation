@@ -13,6 +13,13 @@ namespace Orbit.Core.Players
         public NetConnection Connection { get; set; }
         public Base Baze  { get; set; }
 
+        public void CreateWeapons()
+        {
+            Data.Hook = new HookLauncher(Data.SceneMgr, this);
+            Data.Mine = new MineLauncher(Data.SceneMgr, this);
+            Data.Canoon = new ProximityCannon(Data.SceneMgr, this);
+        }
+
         public int GetBaseIntegrity()
         {
             return Baze.Integrity;
@@ -42,6 +49,16 @@ namespace Orbit.Core.Players
         {
             Data.Canoon.UpdateTimer(tpf);
             Data.Mine.UpdateTimer(tpf);
+        }
+
+        public long GetId()
+        {
+            return Data.Id;
+        }
+
+        public bool IsActivePlayer()
+        {
+            return Data.Active;
         }
     }
 }

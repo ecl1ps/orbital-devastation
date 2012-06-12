@@ -13,13 +13,15 @@ namespace Orbit.Core.Weapons
 {
     class ProximityCannon : IWeapon
     {
-        public ISceneMgr SceneMgr { get; set; }
+        public Player Owner { get; set; }
+        public SceneMgr SceneMgr { get; set; }
         public float ReloadTime { get; set;}
         public int Cost { get; set; }
 
-        public ProximityCannon(ISceneMgr mgr)
+        public ProximityCannon(SceneMgr mgr, Player owner)
         {
             SceneMgr = mgr;
+            Owner = owner;
         }
 
         public IWeapon Next()
@@ -38,12 +40,10 @@ namespace Orbit.Core.Weapons
 
         protected void SpawnBullet(Point point)
         {
-            Player player = SceneMgr.GetMePlayer();
-
-            if (point.Y > PlayerPositionProvider.GetVectorPosition(player.GetPosition()).Y)
+            if (point.Y > Owner.Data.VectorPosition.Y)
                 return;
 
-                SingularityBullet bullet = SceneObjectFactory.CreateSingularityBullet(SceneMgr, new Point(point.X, point.Y), player);
+                SingularityBullet bullet = SceneObjectFactory.CreateSingularityBullet(SceneMgr, point, Owner);
 
                 if (SceneMgr.GameType != Gametype.SOLO_GAME)
                 {

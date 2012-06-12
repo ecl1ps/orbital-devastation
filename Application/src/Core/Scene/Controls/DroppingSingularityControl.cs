@@ -61,7 +61,7 @@ namespace Orbit.Core.Scene.Controls
             StartDetonation();
 
             if (meMine.SceneMgr.GameType != Gametype.SOLO_GAME && 
-                meMine.Owner.GetPosition() == meMine.SceneMgr.GetOtherPlayer().GetPosition())
+                meMine.Owner.GetPosition() == meMine.SceneMgr.GetOpponentPlayer().GetPosition())
                 return;
 
             if (hitObjects.Contains((movable as ISceneObject).Id))

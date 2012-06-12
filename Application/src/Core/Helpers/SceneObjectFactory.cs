@@ -16,12 +16,12 @@ namespace Orbit.Core.Scene
 {
     static class SceneObjectFactory
     {
-        public static Asteroid CreateNewRandomAsteroid(ISceneMgr mgr, bool headingRight)
+        public static Asteroid CreateNewRandomAsteroid(SceneMgr mgr, bool headingRight)
         {
             Rect actionArea = mgr.GetOrbitArea();
             Random randomGenerator = mgr.GetRandomGenerator();
             Asteroid s = new Asteroid(mgr);
-            s.Id = IdMgr.GetNewId();
+            s.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
             s.IsHeadingRight = headingRight;
             s.Direction = headingRight ? new Vector(1, 0) : new Vector(-1, 0);
             s.AsteroidType = AsteroidType.NORMAL;
@@ -59,14 +59,14 @@ namespace Orbit.Core.Scene
             return s;
         }
 
-        public static Base CreateBase(ISceneMgr mgr, PlayerData data)
+        public static Base CreateBase(SceneMgr mgr, PlayerData data)
         {
             Base baze = new Base(mgr);
-            baze.Id = IdMgr.GetNewId();
+            baze.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
             baze.BasePosition = data.PlayerPosition;
             baze.Color = data.PlayerColor;
             baze.Integrity = SharedDef.BASE_MAX_INGERITY;
-            baze.Position = PlayerPositionProvider.GetVectorPosition(data.PlayerPosition);
+            baze.Position = data.VectorPosition;
             baze.Size = new Size(mgr.ViewPortSizeOriginal.Width * 0.3, mgr.ViewPortSizeOriginal.Height * 0.15);
 
             baze.SetGeometry(SceneGeometryFactory.CreateLinearGradientRectangleGeometry(baze));
@@ -74,7 +74,7 @@ namespace Orbit.Core.Scene
             return baze;
         }
 
-        public static Asteroid CreateNewAsteroidOnEdge(ISceneMgr mgr, Asteroid oldSphere)
+        public static Asteroid CreateNewAsteroidOnEdge(SceneMgr mgr, Asteroid oldSphere)
         {
             Asteroid s = CreateNewRandomAsteroid(mgr, oldSphere.IsHeadingRight);
 
@@ -92,10 +92,10 @@ namespace Orbit.Core.Scene
             return s;
         }
 
-        public static SingularityMine CreateSingularityMine(ISceneMgr mgr, Point point, Player plr)
+        public static SingularityMine CreateSingularityMine(SceneMgr mgr, Point point, Player plr)
         {
             SingularityMine mine = new SingularityMine(mgr);
-            mine.Id = IdMgr.GetNewId();
+            mine.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
             mine.Position = point.ToVector();
             mine.Owner = plr;
             mine.FillBrush = new RadialGradientBrush(Colors.Black, Color.FromRgb(0x66, 0x00, 0x80));
@@ -110,11 +110,11 @@ namespace Orbit.Core.Scene
             return mine;
         }
 
-        public static SingularityMine CreateDroppingSingularityMine(ISceneMgr mgr, Point point, Player plr)
+        public static SingularityMine CreateDroppingSingularityMine(SceneMgr mgr, Point point, Player plr)
         {
 
             SingularityMine mine = new SingularityMine(mgr);
-            mine.Id = IdMgr.GetNewId();
+            mine.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
             mine.Position = new Vector(point.X, 0);
             mine.Owner = plr;
             mine.Radius = 2;
@@ -134,16 +134,16 @@ namespace Orbit.Core.Scene
             return mine;
         }
 
-        public static SingularityBullet CreateSingularityBullet(ISceneMgr mgr, Point point, Player plr)
+        public static SingularityBullet CreateSingularityBullet(SceneMgr mgr, Point point, Player plr)
         {
-            Vector position = PlayerPositionProvider.GetVectorPosition(plr.Baze.BasePosition);
+            Vector position = plr.Data.VectorPosition;
             position.X += (plr.Baze.Size.Width / 2);
             Vector direction = point.ToVector() - position;
             direction.Normalize();
 
 
             SingularityBullet bullet = new SingularityBullet(mgr);
-            bullet.Id = IdMgr.GetNewId();
+            bullet.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
             bullet.Position = position;
             bullet.Player = plr;
             bullet.Radius = 2;
@@ -161,16 +161,16 @@ namespace Orbit.Core.Scene
             return bullet;
         }
 
-        public static Hook CreateHook(ISceneMgr mgr, Point point, Player player)
+        public static Hook CreateHook(SceneMgr mgr, Point point, Player player)
         {
-            Vector position = PlayerPositionProvider.GetVectorPosition(player.Baze.BasePosition);
+            Vector position = player.Data.VectorPosition;
             position.X += (player.Baze.Size.Width / 2);
             position.Y -= 5;
             Vector direction = point.ToVector() - position;
             direction.Normalize();
 
             Hook hook = new Hook(mgr);
-            hook.Player = player;
+            hook.Owner = player;
             hook.Position = position;
             hook.Radius = 8;
             hook.Rotation = (float)Vector.AngleBetween(new Vector(0, -1), direction);
