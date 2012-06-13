@@ -260,6 +260,9 @@ namespace Orbit.Core.Scene
                         (obj as IMovable).Direction += dir;
                     }
                     break;
+                case PacketType.BASE_INTEGRITY_CHANGE:
+                    GetOpponentPlayer().SetBaseIntegrity(msg.ReadInt32());
+                    break;
             }
 
         }

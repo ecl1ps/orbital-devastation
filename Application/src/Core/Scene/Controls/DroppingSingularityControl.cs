@@ -97,10 +97,10 @@ namespace Orbit.Core.Scene.Controls
 
             hitSomething = true;
 
-            /*meMine.GetGeometry().Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
+            meMine.GetGeometry().Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
             {
                 meMine.FillBrush = new RadialGradientBrush(Colors.Black, Color.FromRgb(0x66, 0x00, 0x80));
-            }));*/
+            }));
         }
 
         private void AdjustColorsDueToDistance()

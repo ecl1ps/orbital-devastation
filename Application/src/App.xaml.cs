@@ -148,7 +148,7 @@ namespace Orbit
             switch (lastGameType)
             {
                 case Gametype.SOLO_GAME:
-                    StartGame(Gametype.SOLO_GAME);
+                    StartSoloGame();
                     break;
                 case Gametype.SERVER_GAME:
                     StartHostedGame();

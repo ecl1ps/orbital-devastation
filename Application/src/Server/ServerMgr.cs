@@ -29,7 +29,7 @@ namespace Orbit.Server
         private ConcurrentQueue<Action> synchronizedQueue;
         public Gametype GameType { get; set; }
         private bool gameEnded;
-        private MatchMaker match;
+        private GameManager match;
 
         //private static ServerMgr serverMgr;
         //private static Object lck = new Object();
@@ -59,7 +59,6 @@ namespace Orbit.Server
             randomGenerator = new Random(Environment.TickCount);
             players = new List<Player>(2);
             synchronizedQueue = new ConcurrentQueue<Action>();
-
 
             InitNetwork();
         }
@@ -166,7 +165,7 @@ namespace Orbit.Server
 
         private Player GetPlayer(NetConnection netConnection)
         {
-            return players.Find(plr => plr.Connection != null && plr.Connection.Tag.Equals(netConnection.Tag));
+            return players.Find(plr => plr.Connection != null && plr.Connection.RemoteUniqueIdentifier == netConnection.RemoteUniqueIdentifier);
         }
 
         public Random GetRandomGenerator()
@@ -188,19 +187,22 @@ namespace Orbit.Server
 
         private void PlayerWon(Player winner)
         {
-            if (GameType != Gametype.SOLO_GAME)
-            {
-                NetOutgoingMessage msg = CreateNetMessage();
-                msg.Write((int)PacketType.PLAYER_WON);
-                msg.Write(winner.GetId());
-                BroadcastMessage(msg);
-            }
+            NetOutgoingMessage msg = CreateNetMessage();
+            msg.Write((int)PacketType.PLAYER_WON);
+            msg.Write(winner.GetId());
+            BroadcastMessage(msg);
         }
 
         private void PlayerLeft(Player leaver)
         {
             if (leaver == null)
                 return;
+        }
+
+        public Rect GetOrbitArea()
+        {
+            // TODO: prozatim hack - defaultne je canvas 800*600
+            return new Rect(0, 0, 800, 600 / 3);
         }
     }
 }

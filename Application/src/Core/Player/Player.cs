@@ -6,6 +6,7 @@ using Lidgren.Network;
 using Orbit.Core.Weapons;
 using System.Windows;
 using Orbit.Core.Scene;
+using System.Windows.Controls;
 
 namespace Orbit.Core.Players
 {
@@ -70,11 +71,6 @@ namespace Orbit.Core.Players
                 SceneMgr.ShowStatusText(4, "Gold: " + Data.Gold);
         }
 
-        private bool IsCurrentPlayer()
-        {
-            return SceneMgr.GetCurrentPlayer().GetId() == Data.Id;
-        }
-
         public void CreateWeapons()
         {
             Hook = new HookLauncher(SceneMgr, this);
@@ -87,9 +83,16 @@ namespace Orbit.Core.Players
             return Data.BaseIntegrity;
         }
 
-        public void UpdateBaseIntegrity(int amount)
+        public void SetBaseIntegrity(int amount)
         {
-            Data.BaseIntegrity += amount;
+            Data.BaseIntegrity = amount;
+            SceneMgr.BeginInvoke(new Action(() =>
+            {
+                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(SceneMgr.GetCanvas(),
+                    Data.PlayerPosition == PlayerPosition.LEFT ? "lblIntegrityLeft" : "lblIntegrityRight");
+                if (lbl != null)
+                    lbl.Content = (float)Data.BaseIntegrity / (float)SharedDef.BASE_MAX_INGERITY * 100.0f + "%";
+            }));
         }
 
         public void UpdateScore(int amount)
@@ -121,6 +124,11 @@ namespace Orbit.Core.Players
         public bool IsActivePlayer()
         {
             return Data.Active;
+        }
+
+        public bool IsCurrentPlayer()
+        {
+            return GetId() == SceneMgr.GetCurrentPlayer().GetId();
         }
     }
 }

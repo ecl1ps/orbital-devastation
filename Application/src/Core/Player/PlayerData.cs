@@ -41,7 +41,7 @@ namespace Orbit.Core.Players
         {
             Score = 0;
             Gold = 0;
-            BaseIntegrity = 100;
+            BaseIntegrity = SharedDef.BASE_MAX_INGERITY;
             PlayerColor = Colors.Black;
             MineGrowthSpeed = SharedDef.MINE_GROWTH_SPEED;
             MineStrength = SharedDef.MINE_STRENGTH;

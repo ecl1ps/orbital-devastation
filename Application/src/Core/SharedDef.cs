@@ -84,5 +84,6 @@ namespace Orbit.Core
         NEW_HOOK,
 
         SINGULARITY_MINE_HIT,
+        BASE_INTEGRITY_CHANGE,
     }    
 }

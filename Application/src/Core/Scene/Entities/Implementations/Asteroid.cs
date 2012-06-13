@@ -68,6 +68,8 @@ namespace Orbit.Core.Scene.Entities
             IList<IControl> controls = msg.ReadControls();
             foreach (Control c in controls)
                 AddControl(c);
+            if (controls.Count == 0)
+                SceneObjectFactory.CreateAsteroidControls(this);
         }
     }
 

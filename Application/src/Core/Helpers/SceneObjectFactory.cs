@@ -46,7 +46,7 @@ namespace Orbit.Core.Scene
             return s;
         }
 
-        private static Asteroid CreateAsteroidControls(Asteroid s)
+        public static Asteroid CreateAsteroidControls(Asteroid s)
         {
             NewtonianMovementControl nmc = new NewtonianMovementControl();
             nmc.InitialSpeed = s.SceneMgr.GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_SPEED * 10, SharedDef.MAX_ASTEROID_SPEED * 10) / 10.0f;
@@ -66,7 +66,6 @@ namespace Orbit.Core.Scene
             baze.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
             baze.BasePosition = plr.Data.PlayerPosition;
             baze.Color = plr.Data.PlayerColor;
-            baze.Integrity = SharedDef.BASE_MAX_INGERITY;
             baze.Position = plr.VectorPosition;
             baze.Size = new Size(mgr.ViewPortSizeOriginal.Width * 0.3, mgr.ViewPortSizeOriginal.Height * 0.15);
 

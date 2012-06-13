@@ -131,16 +131,27 @@ namespace Orbit.Server
                 case PacketType.NEW_SINGULARITY_BULLET:
                 case PacketType.NEW_HOOK:
                 case PacketType.SINGULARITY_MINE_HIT:
-                    NetOutgoingMessage outMsg = CreateNetMessage();
-                    outMsg.Write(msg);
-                    BroadcastMessage(outMsg, msg.SenderConnection);
+                    ForwardMessage(msg);
                     break;
                 case PacketType.START_GAME_REQUEST:
-                    match = new MatchMaker(this, players);
+                    match = new GameManager(this, players);
                     match.CreateNewMatch();
                     isInitialized = true;
                     break;
+                case PacketType.BASE_INTEGRITY_CHANGE:
+                    int integrity = msg.ReadInt32();
+                    Player plr = GetPlayer(msg.ReadInt32());
+                    plr.Data.BaseIntegrity = integrity;
+                    ForwardMessage(msg);
+                    break;
             }
+        }
+
+        private void ForwardMessage(NetIncomingMessage msg)
+        {
+            NetOutgoingMessage outMsg = CreateNetMessage();
+            outMsg.Write(msg);
+            BroadcastMessage(outMsg, msg.SenderConnection);
         }
 
         private void SyncReceivedObject(ISceneObject o, NetIncomingMessage msg)

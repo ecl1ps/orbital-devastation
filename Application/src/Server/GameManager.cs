@@ -11,14 +11,14 @@ using Orbit.Core.Scene.Entities;
 
 namespace Orbit.Server
 {
-    public class MatchMaker
+    public class GameManager
     {
         private ServerMgr serverMgr;
         private List<Player> players;
         private List<ISceneObject> objects;
         public int Level { get; set; }
 
-        public MatchMaker(ServerMgr serverMgr, List<Player> players)
+        public GameManager(ServerMgr serverMgr, List<Player> players)
         {
             this.serverMgr = serverMgr;
             this.players = players;
@@ -40,6 +40,7 @@ namespace Orbit.Server
             // TODO: algoritmem vybrat hrace pro novy zapas
             Player plr1 = players[0];
             Player plr2 = players[1];
+            // MatchMaker.SelectPlayersForNewMatch(players, out plr1, out plr2);
 
             plr1.Data.Active = true;
             plr2.Data.Active = true;
@@ -65,13 +66,15 @@ namespace Orbit.Server
                 case 1:
                     CreateAsteroidField(SharedDef.ASTEROID_COUNT);
                     break;
+                default:
+                    break;
             }
         }
 
         private void CreateAsteroidField(int count)
         {
-            /*for (int i = 0; i < count; ++i)
-                objects.Add(SceneObjectFactory.CreateNewRandomAsteroid(this, i % 2 == 0));*/
+            for (int i = 0; i < count; ++i)
+                objects.Add(ServerSceneObjectFactory.CreateNewRandomAsteroid(serverMgr, i % 2 == 0));
         }
 
         private void SendMatchData()

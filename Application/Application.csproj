@@ -140,7 +140,8 @@
     <Compile Include="src\Gui\OptionsUC.xaml.cs">
       <DependentUpon>OptionsUC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\Server\MatchMaker.cs" />
+    <Compile Include="src\Server\GameManager.cs" />
+    <Compile Include="src\Server\ServerSceneObjectFactory.cs" />
     <Compile Include="src\Server\ServerMgr.cs" />
     <Compile Include="src\Server\ServerMgr.Net.cs" />
   </ItemGroup>

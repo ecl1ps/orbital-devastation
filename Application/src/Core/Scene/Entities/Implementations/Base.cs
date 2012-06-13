@@ -4,6 +4,7 @@ using System.Windows.Media;
 using System.Windows;
 using System.Windows.Threading;
 using System.Windows.Controls;
+using Lidgren.Network;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -20,7 +21,16 @@ namespace Orbit.Core.Scene.Entities
             }
             set
             {
-                Owner.UpdateBaseIntegrity(value);
+                if (Owner.IsCurrentPlayer() || SceneMgr.GameType == Gametype.SOLO_GAME)
+                {
+                    Owner.SetBaseIntegrity(value);
+
+                    NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+                    msg.Write((int)PacketType.BASE_INTEGRITY_CHANGE);
+                    msg.Write(value);
+                    msg.Write(Owner.GetId());
+                    SceneMgr.SendMessage(msg);
+                }
             }
         }
         
@@ -30,7 +40,7 @@ namespace Orbit.Core.Scene.Entities
 
         public override bool IsOnScreen(Size screenSize)
         {
-            return Integrity > 0;
+            return true;
         }
 
         public override void DoCollideWith(ICollidable other)
@@ -44,14 +54,6 @@ namespace Orbit.Core.Scene.Entities
                 (other as Asteroid).DoRemoveMe();
 
             }
-
-            SceneMgr.BeginInvoke(new Action(() =>
-            {
-                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(SceneMgr.GetCanvas(),
-                    BasePosition == PlayerPosition.LEFT ? "lblIntegrityLeft" : "lblIntegrityRight");
-                if (lbl != null)
-                    lbl.Content = (float)Integrity / (float)SharedDef.BASE_MAX_INGERITY * 100.0f + "%";
-            }));
         }
 
         public override void UpdateGeometric()
