@@ -34,7 +34,8 @@ namespace Orbit.Core.Scene.Controls
 
             TimeAlive = 0;
             // povrch je az pod povrchem - aby se sfery nezastavily na rozhrani
-            earthSurface = (float)me.SceneMgr.ViewPortSizeOriginal.Height * 2; 
+            if (me.SceneMgr != null) // hack kvuli serveru :(
+                earthSurface = (float)me.SceneMgr.ViewPortSizeOriginal.Height * 2; 
             meMovable = obj as IMovable;
             meMovable.Direction *= InitialSpeed;
         }

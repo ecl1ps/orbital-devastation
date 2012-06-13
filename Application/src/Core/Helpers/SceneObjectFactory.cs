@@ -16,48 +16,6 @@ namespace Orbit.Core.Scene
 {
     static class SceneObjectFactory
     {
-        public static Asteroid CreateNewRandomAsteroid(SceneMgr mgr, bool headingRight)
-        {
-            Rect actionArea = mgr.GetOrbitArea();
-            Random randomGenerator = mgr.GetRandomGenerator();
-            Asteroid s = new Asteroid(mgr);
-            s.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
-            s.IsHeadingRight = headingRight;
-            s.Direction = headingRight ? new Vector(1, 0) : new Vector(-1, 0);
-            s.AsteroidType = AsteroidType.NORMAL;
-
-            s.Radius = randomGenerator.Next(SharedDef.MIN_ASTEROID_RADIUS, SharedDef.MAX_ASTEROID_RADIUS);
-            s.Gold = s.Radius / 2;
-            if (mgr.GetRandomGenerator().Next(100) <= SharedDef.ASTEROID_GOLD_CHANCE)
-            {
-                s.Gold *= SharedDef.GOLD_ASTEROID_BONUS_MULTIPLY;
-                s.AsteroidType = AsteroidType.GOLDEN;
-            }
-            s.Position = new Vector(randomGenerator.Next((int)(actionArea.X + s.Radius), (int)(actionArea.Width - s.Radius)),
-                randomGenerator.Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius)));
-            s.Color = Color.FromRgb((byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255));
-            s.TextureId = mgr.GetRandomGenerator().Next(1, s.Gold > 0 ? 6 : 18);
-            s.Rotation = mgr.GetRandomGenerator().Next(360);
-
-            CreateAsteroidControls(s);
-
-            s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s));
-
-            return s;
-        }
-
-        public static Asteroid CreateAsteroidControls(Asteroid s)
-        {
-            NewtonianMovementControl nmc = new NewtonianMovementControl();
-            nmc.InitialSpeed = s.SceneMgr.GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_SPEED * 10, SharedDef.MAX_ASTEROID_SPEED * 10) / 10.0f;
-            s.AddControl(nmc);
-
-            LinearRotationControl lrc = new LinearRotationControl();
-            lrc.RotationSpeed = s.SceneMgr.GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_ROTATION_SPEED, SharedDef.MAX_ASTEROID_ROTATION_SPEED) / 10.0f;
-            s.AddControl(lrc);
-
-            return s;
-        }
 
         public static Base CreateBase(SceneMgr mgr, Player plr)
         {
@@ -72,24 +30,6 @@ namespace Orbit.Core.Scene
             baze.SetGeometry(SceneGeometryFactory.CreateLinearGradientRectangleGeometry(baze));
 
             return baze;
-        }
-
-        public static Asteroid CreateNewAsteroidOnEdge(SceneMgr mgr, Asteroid oldSphere)
-        {
-            Asteroid s = CreateNewRandomAsteroid(mgr, oldSphere.IsHeadingRight);
-
-            Rect actionArea = mgr.GetOrbitArea();
-
-            s.Position = new Vector(s.IsHeadingRight ? (int)(- 2 * s.Radius) : (int)(actionArea.Width),
-                mgr.GetRandomGenerator().Next((int)(actionArea.Y), (int)(actionArea.Height - 2 * s.Radius)));
-
-            mgr.Invoke(new Action(() =>
-            {
-                Canvas.SetLeft(s.GetGeometry(), s.Position.X);
-                Canvas.SetTop(s.GetGeometry(), s.Position.Y);
-            }));
-
-            return s;
         }
 
         public static SingularityMine CreateSingularityMine(SceneMgr mgr, Point point, Player plr)

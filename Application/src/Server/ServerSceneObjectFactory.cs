@@ -40,6 +40,8 @@ namespace Orbit.Server
             s.TextureId = mgr.GetRandomGenerator().Next(1, s.Gold > 0 ? 6 : 18);
             s.Rotation = mgr.GetRandomGenerator().Next(360);
 
+            CreateAsteroidControls(mgr, s);
+
             return s;
         }
 
@@ -51,6 +53,19 @@ namespace Orbit.Server
 
             s.Position = new Vector(s.IsHeadingRight ? (int)(- 2 * s.Radius) : (int)(actionArea.Width),
                 mgr.GetRandomGenerator().Next((int)(actionArea.Y), (int)(actionArea.Height - 2 * s.Radius)));
+
+            return s;
+        }
+
+        private static Asteroid CreateAsteroidControls(ServerMgr mgr, Asteroid s)
+        {
+            NewtonianMovementControl nmc = new NewtonianMovementControl();
+            nmc.InitialSpeed = mgr.GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_SPEED * 10, SharedDef.MAX_ASTEROID_SPEED * 10) / 10.0f;
+            s.AddControl(nmc);
+
+            LinearRotationControl lrc = new LinearRotationControl();
+            lrc.RotationSpeed = mgr.GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_ROTATION_SPEED, SharedDef.MAX_ASTEROID_ROTATION_SPEED) / 10.0f;
+            s.AddControl(lrc);
 
             return s;
         }
