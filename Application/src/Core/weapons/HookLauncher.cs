@@ -40,7 +40,7 @@ namespace Orbit.Core.Weapons
         {
             Hook hook = null;
 
-            if (point.Y > Owner.Data.VectorPosition.Y)
+            if (point.Y > Owner.VectorPosition.Y)
                 return hook;
 
             if (IsReady())

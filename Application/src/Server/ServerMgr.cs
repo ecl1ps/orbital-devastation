@@ -94,28 +94,12 @@ namespace Orbit.Server
             }
         }
 
-        /*private void CreatePlayers(int count)
-        {
-            for (int i = 0; i < count; ++i)
-            {
-                Player plr = new Player();
-                plr.Data = new PlayerData(this);
-                plr.Data.Id = IdMgr.GetNewPlayerId();
-                players.Add(plr);
-            }
-
-            // TODO
-            match = new MatchMaker(this, players);
-            match.CreateNewMatch();
-        }*/
-
         public Player CreatePlayer(String name)
         {
-            Player plr = new Player();
-            plr.Data = new PlayerData(null);
+            Player plr = new Player(null);
+            plr.Data = new PlayerData();
             plr.Data.Id = IdMgr.GetNewPlayerId();
             plr.Data.Name = name;
-            //plr.CreateWeapons();
             players.Add(plr);
             return plr;
         }
@@ -165,15 +149,8 @@ namespace Orbit.Server
         {
             ProcessActionQueue();
 
-            //UpdatePlayers(tpf);
-
-            //CheckPlayerStates();
+            CheckPlayerStates();
         }
-
-        /*private void UpdatePlayers(float tpf)
-        {
-            players.ForEach(plr => plr.Update(tpf));
-        }*/
 
         private void ProcessActionQueue()
         {

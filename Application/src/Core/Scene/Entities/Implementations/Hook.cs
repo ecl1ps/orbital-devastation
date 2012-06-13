@@ -81,7 +81,7 @@ namespace Orbit.Core.Scene.Entities
         {
             if (GoldObject != null)
             {
-                Owner.Data.Gold += GoldObject.Gold;
+                Owner.AddGoldAndShow(GoldObject.Gold);
                 GoldObject.DoRemoveMe();
             }
             DoRemoveMe();

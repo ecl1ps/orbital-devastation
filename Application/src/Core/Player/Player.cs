@@ -4,30 +4,92 @@ using System.Windows.Media;
 using System.Diagnostics;
 using Lidgren.Network;
 using Orbit.Core.Weapons;
+using System.Windows;
+using Orbit.Core.Scene;
 
 namespace Orbit.Core.Players
 {
     public class Player
     {
+        public SceneMgr SceneMgr { get; set; }
         public PlayerData Data { get; set; }
         public NetConnection Connection { get; set; }
         public Base Baze  { get; set; }
 
+        public IWeapon Hook { get; set; }
+        public IWeapon Mine { get; set; }
+        public IWeapon Canoon { get; set; }      
+
+        public Vector VectorPosition
+        {
+            get
+            {
+                Vector vector = new Vector(SceneMgr.ViewPortSizeOriginal.Width, SceneMgr.ViewPortSizeOriginal.Height * 0.85);
+
+                switch (Data.PlayerPosition)
+                {
+                    case PlayerPosition.LEFT:
+                        vector.X *= 0.1;
+                        break;
+                    case PlayerPosition.RIGHT:
+                        vector.X *= 0.6;
+                        break;
+                    default:
+                        return new Vector();
+                }
+
+                return vector;
+            }
+        }
+
+        public Player(SceneMgr mgr)
+        {
+            SceneMgr = mgr;
+        }
+
+        public void SetGoldAndShow(int gold)
+        {
+            Data.Gold = gold;
+
+            ShowGold();
+        }
+
+        public void AddGoldAndShow(int gold)
+        {
+            Data.Gold += gold;
+
+            ShowGold();
+        }
+
+        private void ShowGold()
+        {
+            if (Data.Gold == 0)
+                return;
+
+            if (IsCurrentPlayer())
+                SceneMgr.ShowStatusText(4, "Gold: " + Data.Gold);
+        }
+
+        private bool IsCurrentPlayer()
+        {
+            return SceneMgr.GetCurrentPlayer().GetId() == Data.Id;
+        }
+
         public void CreateWeapons()
         {
-            Data.Hook = new HookLauncher(Data.SceneMgr, this);
-            Data.Mine = new MineLauncher(Data.SceneMgr, this);
-            Data.Canoon = new ProximityCannon(Data.SceneMgr, this);
+            Hook = new HookLauncher(SceneMgr, this);
+            Mine = new MineLauncher(SceneMgr, this);
+            Canoon = new ProximityCannon(SceneMgr, this);
         }
 
         public int GetBaseIntegrity()
         {
-            return Baze.Integrity;
+            return Data.BaseIntegrity;
         }
 
         public void UpdateBaseIntegrity(int amount)
         {
-            Baze.Integrity += amount;
+            Data.BaseIntegrity += amount;
         }
 
         public void UpdateScore(int amount)
@@ -47,8 +109,8 @@ namespace Orbit.Core.Players
 
         public void Update(float tpf)
         {
-            Data.Canoon.UpdateTimer(tpf);
-            Data.Mine.UpdateTimer(tpf);
+            Canoon.UpdateTimer(tpf);
+            Mine.UpdateTimer(tpf);
         }
 
         public int GetId()

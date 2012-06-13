@@ -9,9 +9,20 @@ namespace Orbit.Core.Scene.Entities
 {
     public class Base : Square
     {
+        public Player Owner { get; set; }
         public PlayerPosition BasePosition { get; set; }
         public Color Color { get; set; }
-        public int Integrity { get; set; }
+        public int Integrity 
+        { 
+            get
+            {
+                return Owner.GetBaseIntegrity();
+            }
+            set
+            {
+                Owner.UpdateBaseIntegrity(value);
+            }
+        }
         
         public Base(SceneMgr mgr) : base(mgr)
         {

@@ -59,14 +59,15 @@ namespace Orbit.Core.Scene
             return s;
         }
 
-        public static Base CreateBase(SceneMgr mgr, PlayerData data)
+        public static Base CreateBase(SceneMgr mgr, Player plr)
         {
             Base baze = new Base(mgr);
+            baze.Owner = plr;
             baze.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
-            baze.BasePosition = data.PlayerPosition;
-            baze.Color = data.PlayerColor;
+            baze.BasePosition = plr.Data.PlayerPosition;
+            baze.Color = plr.Data.PlayerColor;
             baze.Integrity = SharedDef.BASE_MAX_INGERITY;
-            baze.Position = data.VectorPosition;
+            baze.Position = plr.VectorPosition;
             baze.Size = new Size(mgr.ViewPortSizeOriginal.Width * 0.3, mgr.ViewPortSizeOriginal.Height * 0.15);
 
             baze.SetGeometry(SceneGeometryFactory.CreateLinearGradientRectangleGeometry(baze));
@@ -136,7 +137,7 @@ namespace Orbit.Core.Scene
 
         public static SingularityBullet CreateSingularityBullet(SceneMgr mgr, Point point, Player plr)
         {
-            Vector position = plr.Data.VectorPosition;
+            Vector position = plr.VectorPosition;
             position.X += (plr.Baze.Size.Width / 2);
             Vector direction = point.ToVector() - position;
             direction.Normalize();
@@ -163,7 +164,7 @@ namespace Orbit.Core.Scene
 
         public static Hook CreateHook(SceneMgr mgr, Point point, Player player)
         {
-            Vector position = player.Data.VectorPosition;
+            Vector position = player.VectorPosition;
             position.X += (player.Baze.Size.Width / 2);
             position.Y -= 5;
             Vector direction = point.ToVector() - position;

@@ -145,7 +145,7 @@ namespace Orbit.Core.Scene
                         if (plr.IsActivePlayer())
                         {
                             plr.CreateWeapons();
-                            plr.Baze = SceneObjectFactory.CreateBase(this, plr.Data);
+                            plr.Baze = SceneObjectFactory.CreateBase(this, plr);
                             AttachToScene(plr.Baze);
                         }
                     }

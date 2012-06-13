@@ -8,12 +8,17 @@ using System.Windows;
 
 namespace Orbit.Core.Players
 {
+    /// <summary>
+    /// PlayerData musi byt opravdu jen hodnoty, ktere definuji hrace, 
+    /// nesmi byt nijak vazany na scenu a graficke objekty,
+    /// naopak musi obsahovat vsechny dulezite hodnoty, jelikoz jsou posilany
+    /// jako stav hrace (a mohou byt pozdeji i ukladany)
+    /// </summary>
     public class PlayerData
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public bool Active { get; set; }
-        public SceneMgr SceneMgr { get; set; }
         public PlayerPosition PlayerPosition { get; set; }
         public Color PlayerColor { get; set; }
         public int Score { get; set; }
@@ -26,66 +31,17 @@ namespace Orbit.Core.Players
         public int BulletDamage { get; set; }
         public int HookLenght { get; set; }
         public int HookSpeed { get; set; }
+        public int BaseIntegrity { get; set; }
+        /// <summary>
+        /// na klientovi pouzivat funkcni Player.SetGoldAndShow() nebo Player.AddGoldAndShow()
+        /// </summary>
+        public int Gold { get; set; }
 
-        public IWeapon Hook { get; set; }
-        public IWeapon Mine { get; set; }
-        public IWeapon Canoon { get; set; }
-
-        private int gold;
-        public int Gold
+        public PlayerData()
         {
-            get
-            {
-                return gold;
-            }
-            set
-            {
-                gold = value;
-                proccesGoldData();
-            }
-        }
-
-        public Vector VectorPosition
-        {
-            get
-            {
-                Vector vector = new Vector(SceneMgr.ViewPortSizeOriginal.Width, SceneMgr.ViewPortSizeOriginal.Height * 0.85);
-
-                switch (PlayerPosition)
-                {
-                    case PlayerPosition.LEFT:
-                        vector.X *= 0.1;
-                        break;
-                    case PlayerPosition.RIGHT:
-                        vector.X *= 0.6;
-                        break;
-                    default:
-                        return new Vector();
-                }
-
-                return vector;
-            }
-        }
-
-        private void proccesGoldData()
-        {
-            if (Gold == 0)
-                return;
-
-            if (IsCurrentPlayer())
-                SceneMgr.ShowStatusText(4, "Gold: " + Gold);
-        }
-
-        private bool IsCurrentPlayer()
-        {
-            return SceneMgr.GetCurrentPlayer().GetId() == Id;
-        }
-
-        public PlayerData(SceneMgr sceneMgr)
-        {
-            SceneMgr = sceneMgr;
             Score = 0;
             Gold = 0;
+            BaseIntegrity = 100;
             PlayerColor = Colors.Black;
             MineGrowthSpeed = SharedDef.MINE_GROWTH_SPEED;
             MineStrength = SharedDef.MINE_STRENGTH;

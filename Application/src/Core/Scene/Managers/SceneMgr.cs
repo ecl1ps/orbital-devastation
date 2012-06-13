@@ -124,8 +124,8 @@ namespace Orbit.Core.Scene
 
         private Player CreatePlayer()
         {
-            Player plr = new Player();
-            plr.Data = new PlayerData(this);
+            Player plr = new Player(this);
+            plr.Data = new PlayerData();
             return plr;
         }
 
@@ -424,13 +424,13 @@ namespace Orbit.Core.Scene
             switch (e.ChangedButton)
             {
                 case MouseButton.Left:
-                    GetCurrentPlayer().Data.Mine.Shoot(point);
+                    GetCurrentPlayer().Mine.Shoot(point);
                     break;
                 case MouseButton.Right:
-                    GetCurrentPlayer().Data.Canoon.Shoot(point);
+                    GetCurrentPlayer().Canoon.Shoot(point);
                     break;
                 case MouseButton.Middle:
-                    GetCurrentPlayer().Data.Hook.Shoot(point);
+                    GetCurrentPlayer().Hook.Shoot(point);
                     break;
             }          
         }
