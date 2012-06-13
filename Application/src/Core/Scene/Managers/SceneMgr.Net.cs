@@ -90,7 +90,9 @@ namespace Orbit.Core.Scene
 
                                     Console.WriteLine("LOGIN confirmed (id: " + IdMgr.GetHighId(GetCurrentPlayer().Data.Id) + ")");
 
-                                    if (GameType == Gametype.SOLO_GAME)
+                                    // TODO: pri dostatecnem poctu hracu pri multiplayeru (2) ukazat tlacitko, ktere posle SendStartGameRequest()
+                                    // ted se hra vzdy pusti hned pri dvou hracich
+                                    //if (GameType == Gametype.SOLO_GAME)
                                         SendStartGameRequest();
                                 }     
                                 break;
@@ -184,10 +186,7 @@ namespace Orbit.Core.Scene
                         AttachToScene(s);
                         SyncReceivedObject(s, msg);
                     }
-
-                    SetMainInfoText("");
                     isInitialized = true;
-                    userActionsDisabled = false;
                     break;
                 case PacketType.NEW_ASTEROID:
                     {
@@ -262,6 +261,10 @@ namespace Orbit.Core.Scene
                     break;
                 case PacketType.BASE_INTEGRITY_CHANGE:
                     GetOpponentPlayer().SetBaseIntegrity(msg.ReadInt32());
+                    break;
+                case PacketType.START_GAME_RESPONSE:
+                    SetMainInfoText("");
+                    userActionsDisabled = false;
                     break;
             }
 

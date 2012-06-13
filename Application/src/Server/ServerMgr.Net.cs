@@ -75,7 +75,7 @@ namespace Orbit.Server
                             Console.WriteLine("Incoming LOGIN");
 
                             // nepridavat hrace, pokud uz existuje
-                            if (players.Exists(plr => plr.Connection.Tag.Equals(msg.SenderConnection.Tag)))
+                            if (players.Exists(plr => plr.Connection.RemoteUniqueIdentifier == msg.SenderConnection.RemoteUniqueIdentifier))
                                 return;
 
                             Player p = CreatePlayer(msg.ReadString());
@@ -135,9 +135,16 @@ namespace Orbit.Server
                     break;
                 case PacketType.START_GAME_REQUEST:
 
+                    if (GameType != Gametype.SOLO_GAME && players.Count < 2)
+                        break;
+
                     gameSession = new GameManager(this, players);
                     gameSession.CreateNewMatch();
                     isInitialized = true;
+
+                    NetOutgoingMessage startMsg = CreateNetMessage();
+                    startMsg.Write((int)PacketType.START_GAME_RESPONSE);
+                    BroadcastMessage(startMsg);
                     break;
                 case PacketType.BASE_INTEGRITY_CHANGE:
                     int integrity = msg.ReadInt32();

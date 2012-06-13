@@ -59,6 +59,7 @@ namespace Orbit.Core.Scene
             GameType = gameType;
             gameEnded = false;
             isInitialized = false;
+            userActionsDisabled = true;
             shouldQuit = false;
             objects = new List<ISceneObject>();
             objectsToRemove = new List<ISceneObject>();
@@ -100,25 +101,18 @@ namespace Orbit.Core.Scene
 
             if (gameType == Gametype.SERVER_GAME)
             {
-                userActionsDisabled = true;
                 SetMainInfoText("Waiting for the other player to connect");
-                ShowStatusText(3, "You are " + (players[0].GetPlayerColor() == Colors.Red ? "Red" : "Blue"));
-                InitNetwork();
-                isInitialized = false;
             }
             else if (gameType == Gametype.CLIENT_GAME)
             {
-                userActionsDisabled = true;
                 SetMainInfoText("Waiting for the server");
-                InitNetwork();
             }
-            else /*Gametype.SOLO_GAME*/
+            else if (gameType == Gametype.SOLO_GAME)
             {
-                InitNetwork();
                 userActionsDisabled = false;
-                isInitialized = false;
             }
 
+            InitNetwork();
             ConnectToServer();
         }
 
@@ -325,7 +319,7 @@ namespace Orbit.Core.Scene
             statisticsTimer = 0;
 
             ShowStatusText(1, "TPF: " + tpf + " FPS: " + 1.0f / tpf);
-            if (GameType != Gametype.SOLO_GAME)
+            if (GameType != Gametype.SOLO_GAME && GetCurrentPlayer().Connection != null)
                 ShowStatusText(2, "LATENCY: " + GetCurrentPlayer().Connection.AverageRoundtripTime);
         }
 

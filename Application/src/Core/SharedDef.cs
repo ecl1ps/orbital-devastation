@@ -71,7 +71,6 @@ namespace Orbit.Core
     {
         PLAYER_CONNECT,
         PLAYER_ID_HAIL,
-        START_GAME_REQUEST,
 
         PLAYER_WON,
 
@@ -86,5 +85,8 @@ namespace Orbit.Core
         SINGULARITY_MINE_HIT,
         ASTEROID_DESTROYED,
         BASE_INTEGRITY_CHANGE,
+
+        START_GAME_RESPONSE,
+        START_GAME_REQUEST,
     }    
 }

@@ -53,17 +53,17 @@ namespace Orbit
 
         public void StartSoloGame()
         {
-            StartLocalServer();
+            StartLocalServer(Gametype.SOLO_GAME);
 
             sceneMgr.SetRemoteServerAddress("127.0.0.1");
 
             StartGame(Gametype.SOLO_GAME);
         }
 
-        private void StartLocalServer()
+        private void StartLocalServer(Gametype type)
         {
             server = new ServerMgr();
-            server.Init(Gametype.SOLO_GAME);
+            server.Init(type);
 
             Thread serverThread = new Thread(new ThreadStart(server.Run));
             serverThread.Name = "Server Thread";
@@ -83,6 +83,10 @@ namespace Orbit
 
         public void StartHostedGame()
         {
+            StartLocalServer(Gametype.SERVER_GAME);
+
+            sceneMgr.SetRemoteServerAddress("127.0.0.1");
+
             StartGame(Gametype.SERVER_GAME);
         }
 
