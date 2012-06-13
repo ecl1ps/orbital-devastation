@@ -39,20 +39,10 @@ namespace Orbit.Core.Scene.Entities
 
         public override void OnRemove()
         {
-            if (SceneMgr.GameType == Gametype.SOLO_GAME)
-            {
-                SceneMgr.AttachToScene(SceneObjectFactory.CreateNewAsteroidOnEdge(SceneMgr, this));
-                return;
-            }
-
-            if (SceneMgr.IsServer())
-            {
-                Asteroid a = SceneObjectFactory.CreateNewAsteroidOnEdge(SceneMgr, this);
-                SceneMgr.AttachToScene(a);
-                NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-                a.WriteObject(msg);
-                SceneMgr.SendMessage(msg);
-            }
+            NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+            msg.Write((int)PacketType.ASTEROID_DESTROYED);
+            msg.Write(Id);
+            SceneMgr.SendMessage(msg);
         }
 
         public void WriteObject(NetOutgoingMessage msg)

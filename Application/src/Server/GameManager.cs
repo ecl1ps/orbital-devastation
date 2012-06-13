@@ -77,6 +77,26 @@ namespace Orbit.Server
                 objects.Add(ServerSceneObjectFactory.CreateNewRandomAsteroid(serverMgr, i % 2 == 0));
         }
 
+        public void ObjectDestroyed(long id)
+        {
+            ISceneObject obj = objects.Find(o => o.Id == id);
+            if (obj == null)
+                return;
+
+            objects.Remove(obj);
+
+            NetOutgoingMessage msg = serverMgr.CreateNetMessage();
+
+            if (obj is Asteroid)
+            {
+                obj = ServerSceneObjectFactory.CreateNewAsteroidOnEdge(serverMgr, (obj as Asteroid).IsHeadingRight);
+                (obj as Asteroid).WriteObject(msg);
+            }
+
+            objects.Add(obj);
+            serverMgr.BroadcastMessage(msg);
+        }
+
         private void SendMatchData()
         {
             // poslani dat hracu

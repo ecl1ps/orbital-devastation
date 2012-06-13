@@ -29,7 +29,7 @@ namespace Orbit.Server
         private ConcurrentQueue<Action> synchronizedQueue;
         public Gametype GameType { get; set; }
         private bool gameEnded;
-        private GameManager match;
+        private GameManager gameSession;
 
         //private static ServerMgr serverMgr;
         //private static Object lck = new Object();

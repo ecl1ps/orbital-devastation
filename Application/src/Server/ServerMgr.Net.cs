@@ -134,8 +134,9 @@ namespace Orbit.Server
                     ForwardMessage(msg);
                     break;
                 case PacketType.START_GAME_REQUEST:
-                    match = new GameManager(this, players);
-                    match.CreateNewMatch();
+
+                    gameSession = new GameManager(this, players);
+                    gameSession.CreateNewMatch();
                     isInitialized = true;
                     break;
                 case PacketType.BASE_INTEGRITY_CHANGE:
@@ -143,6 +144,9 @@ namespace Orbit.Server
                     Player plr = GetPlayer(msg.ReadInt32());
                     plr.Data.BaseIntegrity = integrity;
                     ForwardMessage(msg);
+                    break;
+                case PacketType.ASTEROID_DESTROYED:
+                    gameSession.ObjectDestroyed(msg.ReadInt64());
                     break;
             }
         }
