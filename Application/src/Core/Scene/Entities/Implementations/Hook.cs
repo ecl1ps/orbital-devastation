@@ -79,7 +79,7 @@ namespace Orbit.Core.Scene.Entities
 
         public void AddGoldToPlayer()
         {
-            if (GoldObject != null)
+            if (GoldObject != null && !GoldObject.Dead)
             {
                 Owner.AddGoldAndShow(GoldObject.Gold);
                 GoldObject.DoRemoveMe();
