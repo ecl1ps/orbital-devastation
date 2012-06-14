@@ -7,6 +7,7 @@ using Orbit.Core.Weapons;
 using Orbit.Core.Players;
 using Orbit.Core.Scene;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Orbit.Gui
 {
@@ -36,13 +37,13 @@ namespace Orbit.Gui
             Text.Text = "Costs " + weapon.Cost + " credits";
         }
 
-        public override void OnClick(object sender, System.Windows.RoutedEventArgs e)
+        public override void OnClick(object sender, RoutedEventArgs e)
         {
             if (player.Data.Gold >= weapon.Cost)
             {
                 player.Data.Gold -= weapon.Cost;
                 AddWeapon();
-                (Application.Current as App).GetSceneMgr().ActionBar.RemoveItem(this);
+                (Parent as Panel).Children.Remove(this);
             }
         }
 

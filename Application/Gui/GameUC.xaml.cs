@@ -60,9 +60,5 @@ namespace Orbit.Gui
             }));
         }
 
-        private void mainCanvas_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-
-        }
     }
 }

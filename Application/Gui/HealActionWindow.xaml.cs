@@ -7,6 +7,7 @@ using Orbit.Core.Utils;
 using Orbit.Core.Scene;
 using Lidgren.Network;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Orbit.Gui
 {
@@ -35,13 +36,10 @@ namespace Orbit.Gui
             Text.Text = "Costs " + healingKit.Cost + " credits";
         }
 
-        public override void OnClick(object sender, System.Windows.RoutedEventArgs e)
+        public override void OnClick(object sender, RoutedEventArgs e)
         {
             healingKit.Heal();
-            (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
-            {
-                (Application.Current as App).GetSceneMgr().ActionBar.RemoveItem(this);
-            }));
+            (Parent as Panel).Children.Remove(this);
         }
 
         public override object GetId()
