@@ -20,6 +20,7 @@ namespace Orbit.Gui
         {
             this.weapon = weapon;
             this.player = player;
+            Init();
         }
 
         public override BitmapImage InitImage()
