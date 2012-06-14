@@ -64,7 +64,7 @@ namespace Orbit.Core.Weapons
                     SceneMgr.SendMessage(msg);
                 }
 
-                SceneMgr.AttachToScene(hook);
+                SceneMgr.DelayedAttachToScene(hook);
             }
         }
 

@@ -152,7 +152,7 @@ namespace Orbit.Core.Client
                         {
                             plr.CreateWeapons();
                             plr.Baze = SceneObjectFactory.CreateBase(this, plr);
-                            AttachToScene(plr.Baze);
+                            DelayedAttachToScene(plr.Baze);
                         }
                     }
 
@@ -187,7 +187,7 @@ namespace Orbit.Core.Client
                         Asteroid s = CreateNewAsteroid((AsteroidType)msg.ReadByte());
                         s.ReadObject(msg);
                         s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s)); ;
-                        AttachToScene(s);
+                        DelayedAttachToScene(s);
                         SyncReceivedObject(s, msg);
                     }
                     isInitialized = true;
@@ -197,7 +197,7 @@ namespace Orbit.Core.Client
                         Asteroid s = CreateNewAsteroid((AsteroidType)msg.ReadByte());
                         s.ReadObject(msg);
                         s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s));
-                        AttachToScene(s);
+                        DelayedAttachToScene(s);
                         SyncReceivedObject(s, msg);
                     }
                     break;
@@ -207,7 +207,7 @@ namespace Orbit.Core.Client
                         s.ReadObject(msg);
                         s.Owner = GetOpponentPlayer();
                         s.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(s));
-                        AttachToScene(s);
+                        DelayedAttachToScene(s);
                         SyncReceivedObject(s, msg);
                     }
                     break;
@@ -217,7 +217,7 @@ namespace Orbit.Core.Client
                         s.ReadObject(msg);
                         s.Player = GetOpponentPlayer();
                         s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
-                        AttachToScene(s);
+                        DelayedAttachToScene(s);
                         SyncReceivedObject(s, msg);
                     }
                     break;
@@ -232,7 +232,7 @@ namespace Orbit.Core.Client
                             Canvas.SetZIndex(h.GetGeometry(), 99);
                         }));
                         h.PrepareLine();
-                        AttachToScene(h);
+                        DelayedAttachToScene(h);
                         SyncReceivedObject(h, msg);
                     }
                     break;

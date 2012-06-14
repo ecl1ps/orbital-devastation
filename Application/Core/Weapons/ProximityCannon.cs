@@ -57,7 +57,7 @@ namespace Orbit.Core.Weapons
                     SceneMgr.SendMessage(msg);
                 }
 
-                SceneMgr.AttachToScene(bullet);
+                SceneMgr.DelayedAttachToScene(bullet);
         }
 
         public bool IsReady()

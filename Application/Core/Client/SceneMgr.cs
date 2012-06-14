@@ -204,14 +204,39 @@ namespace Orbit.Core.Client
             }));
         }
 
-        public void AttachToScene(ISceneObject obj, bool asNonInteractive = false)
+        /************************************************************************/
+        /* manipulace s objekty                                                 */
+        /************************************************************************/
+
+        private void AddObjectsReadyToAdd()
         {
-            if (!asNonInteractive)
-                objects.Add(obj);
-            // TODO: check    
+            objectsToAdd.ForEach(o => DirectAttachToScene(o));
+            objectsToAdd.Clear();
+        }
+
+        /// <summary>
+        /// ihned prida objekt do sceny
+        /// </summary>
+        private void DirectAttachToScene(ISceneObject obj)
+        {
+            objects.Add(obj);
+            BeginInvoke(new Action(() =>
+            {
+                canvas.Children.Add(obj.GetGeometry());
+            }));
+        }
+
+        /// <summary>
+        /// bezpecne prida objekt (SceneObject i gui objekt) v dalsim updatu
+        /// </summary>
+        public void DelayedAttachToScene(ISceneObject obj)
+        { 
             objectsToAdd.Add(obj);
         }
 
+        /// <summary>
+        /// prida GUI objekt do sceny - nikoliv SceneObject
+        /// </summary>
         public void AttachGraphicalObjectToScene(UIElement obj)
         {
             BeginInvoke(new Action(() =>
@@ -220,6 +245,9 @@ namespace Orbit.Core.Client
             }));
         }
 
+        /// <summary>
+        /// odstrani jen GUI element
+        /// </summary>
         public void RemoveGraphicalObjectFromScene(UIElement obj)
         {
             BeginInvoke(new Action(() =>
@@ -228,17 +256,18 @@ namespace Orbit.Core.Client
             }));
         }
 
-        public Canvas GetCanvas()
-        {
-            return canvas;
-        }
-
+        /// <summary>
+        /// bezpecne odstrani objekt (SceneObject i gui objekt) v dalsim updatu
+        /// </summary>
         public void RemoveFromSceneDelayed(ISceneObject obj)
         {
             obj.Dead = true;
             objectsToRemove.Add(obj);
         }
 
+        /// <summary>
+        /// ihned odebere objekt ze sceny
+        /// </summary>
         private void DirectRemoveFromScene(ISceneObject obj)
         {
             objects.Remove(obj);
@@ -257,6 +286,15 @@ namespace Orbit.Core.Client
             }
 
             objectsToRemove.Clear();
+        }
+
+        /************************************************************************/
+        /* konec manipulace s objekty                                           */
+        /************************************************************************/
+
+        public Canvas GetCanvas()
+        {
+            return canvas;
         }
 
         public void Run()
@@ -293,25 +331,6 @@ namespace Orbit.Core.Client
                 }));
         }
 
-        private void AddObjects()
-        {
-            foreach (ISceneObject obj in objectsToAdd)
-            {
-                Attach(obj);
-            }
-
-            objectsToAdd.Clear();
-        }
-
-        private void Attach(ISceneObject obj)
-        {
-            objects.Add(obj);
-            BeginInvoke(new Action(() =>
-            {
-                canvas.Children.Add(obj.GetGeometry());
-            }));
-        }
-
         private void RequestStop()
         {
             shouldQuit = true;
@@ -327,7 +346,7 @@ namespace Orbit.Core.Client
         {
             ShowStatistics(tpf);
 
-            AddObjects();
+            AddObjectsReadyToAdd();
 
             ProcessActionQueue();
 

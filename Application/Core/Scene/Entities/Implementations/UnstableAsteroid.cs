@@ -44,7 +44,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             lrc.RotationSpeed = 1;
             asteroid.AddControl(lrc);
 
-            SceneMgr.AttachToScene(asteroid);
+            SceneMgr.DelayedAttachToScene(asteroid);
         }
 
         public override void DoDamage(int damage)
