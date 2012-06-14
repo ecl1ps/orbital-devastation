@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Orbit.Core.Scene.Entities;
+using Orbit.Core.Client;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {

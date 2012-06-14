@@ -11,8 +11,11 @@ using System.Windows.Shapes;
 using Orbit.Core.Scene.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
+using Orbit.Core.Client;
+using Orbit.Core.Scene.Entities.Implementations;
+using Orbit.Core.Scene.Controls.Implementations;
 
-namespace Orbit.Core.Scene
+namespace Orbit.Core.Helpers
 {
     static class SceneObjectFactory
     {

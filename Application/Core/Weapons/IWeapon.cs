@@ -6,6 +6,7 @@ using Orbit.Core.Scene.Entities;
 using System.Windows;
 using Orbit.Core.Scene;
 using Orbit.Core.Players;
+using Orbit.Core.Client;
 
 namespace Orbit.Core.Weapons
 {

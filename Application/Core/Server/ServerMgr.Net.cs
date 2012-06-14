@@ -16,7 +16,7 @@ using Lidgren.Network;
 using Orbit.Core.Scene;
 using Orbit.Core;
 
-namespace Orbit.Server
+namespace Orbit.Core.Server
 {
     public partial class ServerMgr
     {

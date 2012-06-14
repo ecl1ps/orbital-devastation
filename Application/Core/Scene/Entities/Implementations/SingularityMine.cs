@@ -7,8 +7,11 @@ using System.Windows.Shapes;
 using Lidgren.Network;
 using System.Collections.Generic;
 using Orbit.Core.Players;
+using Orbit.Core.Client;
+using Orbit.Core.Scene.Controls.Implementations;
+using Orbit.Core.Helpers;
 
-namespace Orbit.Core.Scene.Entities
+namespace Orbit.Core.Scene.Entities.Implementations
 {
 
     public class SingularityMine : Sphere, ISendable

@@ -8,7 +8,9 @@ using System.Windows;
 using Orbit.Core.Scene;
 using Orbit.Core.Players;
 using Lidgren.Network;
-using Orbit.src.Core.Weapons;
+using Orbit.Core.Client;
+using Orbit.Core.Scene.Entities.Implementations;
+using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Weapons
 {

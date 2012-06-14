@@ -14,8 +14,10 @@ using System.Windows.Threading;
 using System.Collections.Concurrent;
 using Lidgren.Network;
 using Orbit.Core.Scene.Entities.Implementations;
+using Orbit.Core.Scene.Controls.Implementations;
+using Orbit.Core.Helpers;
 
-namespace Orbit.Core.Scene
+namespace Orbit.Core.Client
 {
     public partial class SceneMgr
     {

@@ -6,6 +6,9 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
 using System.Windows.Controls;
+using Orbit.Core.Client;
+using Orbit.Core.Helpers;
+using Orbit.Core.Scene.Entities.Implementations;
 
 namespace Orbit.Core.Scene.Entities
 {

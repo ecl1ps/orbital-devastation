@@ -7,8 +7,10 @@ using Orbit.Core.Scene.Entities;
 using Orbit.Core.Players;
 using Orbit.Core.Scene;
 using System.Windows;
+using Orbit.Core.Scene.Entities.Implementations;
+using Orbit.Core.Client;
 
-namespace Orbit.src.Core.Weapons
+namespace Orbit.Core.Weapons
 {
     class DoubleHookLauncher : HookLauncher
     {

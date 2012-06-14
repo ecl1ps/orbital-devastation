@@ -13,8 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 using Orbit.Core;
 using Orbit.Core.Scene.Entities.Implementations;
+using Orbit.Core.Scene.Controls.Implementations;
 
-namespace Orbit.Server
+namespace Orbit.Core.Server
 {
     static class ServerSceneObjectFactory
     {

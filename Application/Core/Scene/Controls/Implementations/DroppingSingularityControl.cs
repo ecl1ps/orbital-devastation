@@ -6,8 +6,10 @@ using System.Collections.Generic;
 using Lidgren.Network;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Orbit.Core.Helpers;
+using Orbit.Core.Scene.Entities.Implementations;
 
-namespace Orbit.Core.Scene.Controls
+namespace Orbit.Core.Scene.Controls.Implementations
 {
     public class DroppingSingularityControl : Control
     {

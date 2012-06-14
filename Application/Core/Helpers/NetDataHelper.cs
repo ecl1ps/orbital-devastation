@@ -7,9 +7,11 @@ using Orbit.Core.Scene.Entities;
 using System.Windows;
 using System.Windows.Media;
 using Orbit.Core.Players;
+using Orbit.Core.Scene.Entities.Implementations;
+using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Scene.Controls;
 
-namespace Orbit.Core
+namespace Orbit.Core.Helpers
 {
     static class NetDataHelper
     {

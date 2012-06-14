@@ -10,8 +10,9 @@ using System.Windows.Shapes;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using ShaderEffectLibrary;
+using Orbit.Core.Scene.Entities.Implementations;
 
-namespace Orbit.Core.Scene
+namespace Orbit.Core.Helpers
 {
     class SceneGeometryFactory
     {

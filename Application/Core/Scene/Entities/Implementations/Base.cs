@@ -5,8 +5,9 @@ using System.Windows;
 using System.Windows.Threading;
 using System.Windows.Controls;
 using Lidgren.Network;
+using Orbit.Core.Client;
 
-namespace Orbit.Core.Scene.Entities
+namespace Orbit.Core.Scene.Entities.Implementations
 {
     public class Base : Square
     {

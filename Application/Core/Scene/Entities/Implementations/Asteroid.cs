@@ -6,8 +6,10 @@ using System.Windows.Shapes;
 using Lidgren.Network;
 using Orbit.Core.Scene.Controls;
 using System.Collections.Generic;
+using Orbit.Core.Client;
+using Orbit.Core.Helpers;
 
-namespace Orbit.Core.Scene.Entities
+namespace Orbit.Core.Scene.Entities.Implementations
 {
     public enum AsteroidType
     {

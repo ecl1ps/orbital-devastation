@@ -19,7 +19,7 @@ using Orbit.Gui.Helpers;
 using Orbit.Core.Utils;
 using Orbit.Core.Weapons;
 
-namespace Orbit.Core.Scene
+namespace Orbit.Core.Client
 {
     public partial class SceneMgr
     {

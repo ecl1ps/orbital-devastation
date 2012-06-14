@@ -8,6 +8,7 @@ using System.Windows;
 using Orbit.Core.Scene;
 using Orbit.Core.Weapons;
 using Orbit.Core.Players;
+using Orbit.Core.Client;
 
 namespace Orbit.Gui.Helpers
 {

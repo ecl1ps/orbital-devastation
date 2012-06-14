@@ -4,8 +4,10 @@ using System.Diagnostics;
 using System.Windows;
 using System.Collections.Generic;
 using Lidgren.Network;
+using Orbit.Core.Scene.Entities.Implementations;
+using Orbit.Core.Helpers;
 
-namespace Orbit.Core.Scene.Controls
+namespace Orbit.Core.Scene.Controls.Implementations
 {
     public class SingularityControl : Control
     {

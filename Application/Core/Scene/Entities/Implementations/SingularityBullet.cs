@@ -7,8 +7,10 @@ using Orbit.Core.Players;
 using Orbit.Core.Scene.Controls;
 using Lidgren.Network;
 using Orbit.Core;
+using Orbit.Core.Client;
+using Orbit.Core.Helpers;
 
-namespace Orbit.Core.Scene.Entities
+namespace Orbit.Core.Scene.Entities.Implementations
 {
     class SingularityBullet : Sphere, ISendable
     {

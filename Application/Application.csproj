@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -100,6 +100,7 @@
     <Compile Include="Core\Player\Player.cs" />
     <Compile Include="Core\Player\PlayerData.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DroppingSingularityControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\HookControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\NewtonianMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LinearRotationControl.cs" />
     <Compile Include="Core\Scene\Entities\IDestroyable.cs" />
@@ -318,8 +319,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>rd "$(ProjectDir)obj" /S /Q</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

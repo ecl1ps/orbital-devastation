@@ -3,6 +3,7 @@ using System.Windows;
 using Orbit.Core.Scene.Controls;
 using System.Windows.Shapes;
 using System.Collections.Generic;
+using Orbit.Core.Client;
 
 namespace Orbit.Core.Scene.Entities
 {

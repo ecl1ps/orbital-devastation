@@ -17,7 +17,7 @@ using System.Windows.Input;
 using Orbit.Core;
 using Orbit.Core.Scene;
 
-namespace Orbit.Server
+namespace Orbit.Core.Server
 {
     public partial class ServerMgr
     {

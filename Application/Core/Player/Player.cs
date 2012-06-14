@@ -8,6 +8,8 @@ using Orbit.Core.Utils;
 using System.Windows;
 using Orbit.Core.Scene;
 using System.Windows.Controls;
+using Orbit.Core.Client;
+using Orbit.Core.Scene.Entities.Implementations;
 
 namespace Orbit.Core.Players
 {

@@ -9,6 +9,7 @@ using Orbit.Core.Scene;
 using System.Windows.Threading;
 using Orbit.Core.Weapons;
 using Orbit.Core.Players;
+using Orbit.Core.Client;
 
 namespace Orbit.Core.Helpers
 {

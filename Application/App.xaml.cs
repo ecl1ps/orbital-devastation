@@ -11,7 +11,8 @@ using System.Threading;
 using System.ComponentModel;
 using System.Windows.Controls;
 using Orbit.Core;
-using Orbit.Server;
+using Orbit.Core.Client;
+using Orbit.Core.Server;
 
 namespace Orbit
 {

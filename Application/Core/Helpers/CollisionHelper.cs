@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Media;
 
-namespace Orbit.Core
+namespace Orbit.Core.Helpers
 {
     class CollisionHelper
     {

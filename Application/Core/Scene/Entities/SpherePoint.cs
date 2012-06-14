@@ -6,6 +6,8 @@ using Orbit.Core.Scene.Entities;
 using System.Windows;
 using Orbit.Core;
 using System.Windows.Media;
+using Orbit.Core.Client;
+using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Scene.Entities
 {

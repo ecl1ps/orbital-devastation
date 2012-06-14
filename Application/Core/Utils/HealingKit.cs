@@ -5,6 +5,7 @@ using System.Text;
 using Orbit.Core;
 using Orbit.Core.Scene;
 using Lidgren.Network;
+using Orbit.Core.Client;
 
 namespace Orbit.Core.Utils
 {
