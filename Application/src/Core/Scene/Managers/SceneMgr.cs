@@ -272,7 +272,7 @@ namespace Orbit.Core.Scene
                 sw.Restart();
 
                 ProcessMessages();
-                AddObjects();
+
                 if (tpf >= 0.001 && isInitialized)
                     Update(tpf);
 
@@ -326,6 +326,8 @@ namespace Orbit.Core.Scene
         public void Update(float tpf)
         {
             ShowStatistics(tpf);
+
+            AddObjects();
 
             ProcessActionQueue();
 

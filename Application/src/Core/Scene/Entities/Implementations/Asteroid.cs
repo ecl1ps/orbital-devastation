@@ -6,7 +6,6 @@ using System.Windows.Shapes;
 using Lidgren.Network;
 using Orbit.Core.Scene.Controls;
 using System.Collections.Generic;
-using Orbit.src.Core.Scene.Entities;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -62,7 +61,7 @@ namespace Orbit.Core.Scene.Entities
                 AddControl(c);
         }
 
-        public virtual void doDamage(int damage)
+        public virtual void DoDamage(int damage)
         {
             Radius -= damage;
             if (Radius < SharedDef.ASTEROID_THRESHOLD_RADIUS)

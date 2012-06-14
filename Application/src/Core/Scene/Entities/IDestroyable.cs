@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Orbit.src.Core.Scene.Entities
+namespace Orbit.Core.Scene.Entities
 {
     interface IDestroyable
     {
-       void doDamage(int damage);
+       void DoDamage(int damage);
     }
 }

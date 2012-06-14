@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using Orbit.Core.Weapons;
 using Orbit.Core.Scene.Entities;
+using Orbit.Core.Players;
+using Orbit.Core.Scene;
+using System.Windows;
 
 namespace Orbit.src.Core.Weapons
 {
@@ -12,7 +15,7 @@ namespace Orbit.src.Core.Weapons
         private List<Hook> hooks;
         private int maxCount;
 
-        public DoubleHookLauncher()
+        public DoubleHookLauncher(SceneMgr mgr, Player owner) : base(mgr, owner)
         {
             hooks = new List<Hook>();
             maxCount = 2;
@@ -26,20 +29,20 @@ namespace Orbit.src.Core.Weapons
             return null;
         }
 
-        protected override Hook createHook(System.Windows.Point point, Orbit.Core.Players.Player player)
+        protected override Hook CreateHook(Point point)
         {
-            Hook hook = base.createHook(point, player);
+            Hook hook = base.CreateHook(point);
             hooks.Add(hook);
             return hook;
         }
 
         public override bool IsReady()
         {
-            cleanHooks();
+            CleanHooks();
             return hooks.Count < maxCount;
         }
 
-        private void cleanHooks()
+        private void CleanHooks()
         {
             for (int i = hooks.Count - 1; i >= 0; i--)
             {

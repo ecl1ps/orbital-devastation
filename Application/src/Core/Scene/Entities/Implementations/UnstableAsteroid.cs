@@ -15,14 +15,14 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
         }
 
-        private void spawnSmallMeteors(int radius)
+        private void SpawnSmallMeteors(int radius)
         {
-            createSmallAsteroid(radius, Math.PI / 12);
-            createSmallAsteroid(radius, 0);
-            createSmallAsteroid(radius, -Math.PI / 12);
+            CreateSmallAsteroid(radius, Math.PI / 12);
+            CreateSmallAsteroid(radius, 0);
+            CreateSmallAsteroid(radius, -Math.PI / 12);
         }
 
-        private void createSmallAsteroid(int radius, double rotation)
+        private void CreateSmallAsteroid(int radius, double rotation)
         {
             Asteroid asteroid = new MinorAsteroid(SceneMgr);
             asteroid.AsteroidType = AsteroidType.SPAWNED;
@@ -44,10 +44,10 @@ namespace Orbit.Core.Scene.Entities.Implementations
             SceneMgr.AttachToScene(asteroid);
         }
 
-        public override void doDamage(int damage)
+        public override void DoDamage(int damage)
         {
-            base.doDamage(damage);
-            spawnSmallMeteors(Radius);
+            base.DoDamage(damage);
+            SpawnSmallMeteors(Radius);
         }
     }
 }

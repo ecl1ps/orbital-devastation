@@ -125,6 +125,7 @@ namespace Orbit.Core.Scene
         private void ProcessIncomingDataMessage(NetIncomingMessage msg)
         {
             PacketType type = (PacketType)msg.ReadInt32();
+            Console.WriteLine("Client: received msg " + type.ToString());
             switch (type)
             {
                 case PacketType.ALL_PLAYER_DATA:
@@ -176,12 +177,12 @@ namespace Orbit.Core.Scene
                     int count = msg.ReadInt32();
                     for (int i = 0; i < count; ++i)
                     {
-                        Asteroid s = CreateNewAsteroid((AsteroidType)msg.ReadByte());
                         if (msg.ReadInt32() != (int)PacketType.NEW_ASTEROID)
                         {
-                            Console.Error.WriteLine("Corrupted object PacketType.SYNC_ALL_ASTEROIDS");
+                            Console.WriteLine("Corrupted object PacketType.SYNC_ALL_ASTEROIDS");
                             return;
                         }
+                        Asteroid s = CreateNewAsteroid((AsteroidType)msg.ReadByte());
                         s.ReadObject(msg);
                         s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s)); ;
                         AttachToScene(s);

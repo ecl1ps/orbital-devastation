@@ -24,16 +24,12 @@ namespace Orbit.Core.Weapons
         protected Hook hook;
         protected IWeapon next;
 
-        public HookLauncher()
-        {
-            Name = "Hook launcher";
-            WeaponType = WeaponType.HOOK;
-        }
-
         public HookLauncher(SceneMgr mgr, Player owner)
         {
             SceneMgr = mgr;
             Owner = owner;
+            Name = "Hook launcher";
+            WeaponType = WeaponType.HOOK;
         }
 
         public void Shoot(Point point)
@@ -43,8 +39,8 @@ namespace Orbit.Core.Weapons
 
         public virtual IWeapon Next()
         {
-            if(next == null)
-                next = new DoubleHookLauncher();
+            if (next == null)
+                next = new DoubleHookLauncher(SceneMgr, Owner);
 
             return next;
         }
@@ -57,12 +53,12 @@ namespace Orbit.Core.Weapons
 
             if (IsReady())
             {
-                hook = createHook(point, Owner);
+                hook = CreateHook(point);
 
                 if (SceneMgr.GameType != Gametype.SOLO_GAME)
                 {
                     NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-                    (hook as ISendable).WriteObject(msg);
+                    hook.WriteObject(msg);
                     SceneMgr.SendMessage(msg);
                 }
 
@@ -70,9 +66,9 @@ namespace Orbit.Core.Weapons
             }
         }
 
-        protected virtual Hook createHook(Point point, Player player)
+        protected virtual Hook CreateHook(Point point)
         {
-            return SceneObjectFactory.CreateHook(SceneMgr, point, player);
+            return SceneObjectFactory.CreateHook(SceneMgr, point, Owner);
         }
 
         public virtual bool IsReady()

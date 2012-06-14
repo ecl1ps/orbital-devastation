@@ -7,7 +7,6 @@ using Orbit.Core.Players;
 using Orbit.Core.Scene.Controls;
 using Lidgren.Network;
 using Orbit.Core;
-using Orbit.src.Core.Scene.Entities;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -36,7 +35,7 @@ namespace Orbit.Core.Scene.Entities
 
         private void HitAsteroid(IDestroyable asteroid)
         {
-            asteroid.doDamage(Damage);
+            asteroid.DoDamage(Damage);
         }
 
         public void WriteObject(NetOutgoingMessage msg)
