@@ -4,3 +4,4 @@ Application/bin/
 Data/
 *.suo
 *.orig
+Build/
