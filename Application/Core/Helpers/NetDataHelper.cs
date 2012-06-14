@@ -70,7 +70,6 @@ namespace Orbit.Core.Helpers
             a.Rotation = msg.ReadFloat();
             a.TextureId = msg.ReadInt32();
             a.Gold = msg.ReadInt32();
-            //a.AsteroidType = (AsteroidType)msg.ReadByte();
         }
 
         public static void WriteObjectSingularityMine(this NetOutgoingMessage msg, SingularityMine s)

@@ -31,6 +31,7 @@ namespace Orbit.Core.Server
                 s = new Asteroid(null);
                 s.AsteroidType = AsteroidType.GOLDEN;
                 s.TextureId = randomGenerator.Next(1, 6);
+                s.Radius = randomGenerator.Next(SharedDef.MIN_ASTEROID_RADIUS, SharedDef.MAX_ASTEROID_RADIUS);
                 s.Gold = (s.Radius / 2) * SharedDef.GOLD_ASTEROID_BONUS_MULTIPLY;
             }
             else if (chance <= SharedDef.ASTEROID_UNSTABLE_CHANCE)
@@ -38,6 +39,7 @@ namespace Orbit.Core.Server
                 s = new UnstableAsteroid(null);
                 s.AsteroidType = AsteroidType.UNSTABLE;
                 s.TextureId = randomGenerator.Next(1, 6);
+                s.Radius = randomGenerator.Next(SharedDef.MIN_ASTEROID_RADIUS, SharedDef.MAX_ASTEROID_RADIUS);
                 s.Gold = s.Radius / 2;
             }
             else
@@ -45,14 +47,13 @@ namespace Orbit.Core.Server
                 s = new Asteroid(null);
                 s.AsteroidType = AsteroidType.NORMAL;
                 s.TextureId = randomGenerator.Next(1, 18);
+                s.Radius = randomGenerator.Next(SharedDef.MIN_ASTEROID_RADIUS, SharedDef.MAX_ASTEROID_RADIUS);
                 s.Gold = s.Radius / 2;
             }
 
             s.Id = IdMgr.GetNewId(0);
             s.IsHeadingRight = headingRight;
             s.Direction = headingRight ? new Vector(1, 0) : new Vector(-1, 0);
-
-            s.Radius = randomGenerator.Next(SharedDef.MIN_ASTEROID_RADIUS, SharedDef.MAX_ASTEROID_RADIUS);
 
             s.Position = new Vector(randomGenerator.Next((int)(actionArea.X + s.Radius), (int)(actionArea.Width - s.Radius)),
                 randomGenerator.Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius)));
