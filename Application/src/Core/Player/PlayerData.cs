@@ -5,6 +5,10 @@ using System.Diagnostics;
 using Orbit.Core.Scene;
 using Orbit.Core.Weapons;
 using System.Windows;
+using Orbit.Core.Utils;
+using Orbit.Gui;
+using Orbit.Core.Helpers;
+using Orbit.Gui.Helpers;
 
 namespace Orbit.Core.Players
 {
@@ -40,7 +44,7 @@ namespace Orbit.Core.Players
         public PlayerData()
         {
             Score = 0;
-            Gold = 0;
+            Gold = 1000;
             BaseIntegrity = SharedDef.BASE_MAX_INGERITY;
             PlayerColor = Colors.Black;
             MineGrowthSpeed = SharedDef.MINE_GROWTH_SPEED;

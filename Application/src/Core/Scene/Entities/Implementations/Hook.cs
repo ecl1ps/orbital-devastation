@@ -69,12 +69,13 @@ namespace Orbit.Core.Scene.Entities
 
         private void CatchObjectWithGold(IContainsGold gold)
         {
-            GoldObject = gold;
+            if (gold.Enabled)
+            {
+                GoldObject = gold;
+                gold.Enabled = false;
 
-            foreach (IControl control in gold.GetControlsCopy())
-                control.Enabled = false;
-
-            (GetControlOfType(typeof(HookControl)) as HookControl).CaughtObject();
+                (GetControlOfType(typeof(HookControl)) as HookControl).CaughtObject();
+            }
         }
 
         public void AddGoldToPlayer()

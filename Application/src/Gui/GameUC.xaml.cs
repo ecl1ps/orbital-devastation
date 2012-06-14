@@ -38,6 +38,17 @@ namespace Orbit.Gui
             }));
         }
 
+        private void OnCanvasMouseMove(object sender, MouseEventArgs e)
+        {
+            Point p = e.GetPosition(mainCanvas);
+
+            (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
+            {
+                (Application.Current as App).GetSceneMgr().OnCanvasMouseMove(p);
+            }));
+        }
+
+
         private void WindowSizeChanged(object sender, SizeChangedEventArgs e)
         {
             mainCanvas.RenderTransform = new ScaleTransform(e.NewSize.Width / SizeOriginal.Width, e.NewSize.Height / SizeOriginal.Height);
@@ -47,6 +58,11 @@ namespace Orbit.Gui
             {
                 (Application.Current as App).GetSceneMgr().OnViewPortChange(e.NewSize);
             }));
+        }
+
+        private void mainCanvas_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }

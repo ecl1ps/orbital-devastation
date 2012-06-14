@@ -23,8 +23,10 @@ namespace Orbit.Core
         public const int MAX_ASTEROID_ROTATION_SPEED        =  10;
 
         public const int ASTEROID_COUNT                     = 20;
+        public const int GOLD_ASTEROID_BONUS_MULTIPLY       = 10;
+
         public const int ASTEROID_GOLD_CHANCE               = 10; // (0 - 100)
-        public const int GOLD_ASTEROID_BONUS_MULTIPLY       = 20;
+        public const int ASTEROID_UNSTABLE_CHANCE           = 50; // 10 procent, musi se brat ohled na chance ostatnich typu
 
         public const int BASE_MAX_INGERITY                  = 100;
 
@@ -51,6 +53,12 @@ namespace Orbit.Core
 
         public const int HOOK_LENGHT                        = 400;
         public const int HOOK_SPEED                         = 150;
+
+        public const int HEAL_MULTIPLY_COEF                 = 2;
+        public const int HEAL_AMOUNT                        = 25;
+        public const int HEAL_START_COST                    = 10;
+
+        public const float ACTION_BAR_TOP_MARGIN_PCT        = 0.3f;
     }
 
     public enum Gametype
@@ -85,6 +93,7 @@ namespace Orbit.Core
         SINGULARITY_MINE_HIT,
         ASTEROID_DESTROYED,
         BASE_INTEGRITY_CHANGE,
+        PLAYER_HEAL,
 
         START_GAME_RESPONSE,
         START_GAME_REQUEST,

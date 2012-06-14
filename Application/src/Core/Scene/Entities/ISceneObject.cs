@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows;
 using Orbit.Core.Scene.Controls;
 using System.Windows.Shapes;
@@ -15,6 +15,8 @@ namespace Orbit.Core.Scene.Entities
         bool Dead { get; set; }
 
         SceneMgr SceneMgr { get; set; }
+        
+        bool Enabled { get; set; }
 
         void Update(float tpf);
 

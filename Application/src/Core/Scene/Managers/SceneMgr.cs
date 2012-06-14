@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Orbit;
 using Orbit.Core.Players;
 using Orbit.Core.Scene.Controls;
@@ -14,6 +14,10 @@ using System.Windows.Threading;
 using System.Collections.Concurrent;
 using Lidgren.Network;
 using System.Windows.Input;
+using Orbit.Gui;
+using Orbit.Gui.Helpers;
+using Orbit.Core.Utils;
+using Orbit.Core.Weapons;
 
 namespace Orbit.Core.Scene
 {
@@ -28,6 +32,7 @@ namespace Orbit.Core.Scene
         private volatile bool shouldQuit;
         private List<ISceneObject> objects;
         private List<ISceneObject> objectsToRemove;
+        private List<ISceneObject> objectsToAdd;
         private List<Player> players;
         private Player currentPlayer;
         private Rect orbitArea;
@@ -35,6 +40,9 @@ namespace Orbit.Core.Scene
         private ConcurrentQueue<Action> synchronizedQueue;
         private bool gameEnded;
         private float statisticsTimer;
+        private ActionHelper actionHelper;
+
+        public ActionBar ActionBar { get; set; }
 
         //private static SceneMgr sceneMgr;
         //private static Object lck = new Object();
@@ -63,10 +71,12 @@ namespace Orbit.Core.Scene
             shouldQuit = false;
             objects = new List<ISceneObject>();
             objectsToRemove = new List<ISceneObject>();
+            objectsToAdd = new List<ISceneObject>();
             randomGenerator = new Random(Environment.TickCount);
             players = new List<Player>(2);
             synchronizedQueue = new ConcurrentQueue<Action>();
             statisticsTimer = 0;
+            actionHelper = new ActionHelper(this);
 
             currentPlayer = CreatePlayer();
 
@@ -114,6 +124,7 @@ namespace Orbit.Core.Scene
 
             InitNetwork();
             ConnectToServer();
+            CreateActionBar();
         }
 
         private Player CreatePlayer()
@@ -121,6 +132,18 @@ namespace Orbit.Core.Scene
             Player plr = new Player(this);
             plr.Data = new PlayerData();
             return plr;
+        }
+            
+        private void CreateActionBar()
+        {
+            Invoke(new Action(() =>
+            {
+                ActionBar = new ActionBar();
+                canvas.Children.Add(ActionBar);
+                Canvas.SetLeft(ActionBar, 10);
+                Canvas.SetTop(ActionBar, ViewPortSizeOriginal.Height * (SharedDef.ACTION_BAR_TOP_MARGIN_PCT));
+                Canvas.SetZIndex(ActionBar, 100);
+            }));
         }
 
         private void SetMainInfoText(String t)
@@ -185,11 +208,8 @@ namespace Orbit.Core.Scene
         {
             if (!asNonInteractive)
                 objects.Add(obj);
-
-            BeginInvoke(new Action(() =>
-            {
-                canvas.Children.Add(obj.GetGeometry());
-            }));
+            // TODO: check    
+            objectsToAdd.Add(obj);
         }
 
         public void AttachGraphicalObjectToScene(UIElement obj)
@@ -252,7 +272,7 @@ namespace Orbit.Core.Scene
                 sw.Restart();
 
                 ProcessMessages();
-
+                AddObjects();
                 if (tpf >= 0.001 && isInitialized)
                     Update(tpf);
 
@@ -271,6 +291,25 @@ namespace Orbit.Core.Scene
                 {
                     (Application.Current as App).GameEnded();
                 }));
+        }
+
+        private void AddObjects()
+        {
+            foreach (ISceneObject obj in objectsToAdd)
+            {
+                Attach(obj);
+            }
+
+            objectsToAdd.Clear();
+        }
+
+        private void Attach(ISceneObject obj)
+        {
+            objects.Add(obj);
+            BeginInvoke(new Action(() =>
+            {
+                canvas.Children.Add(obj.GetGeometry());
+            }));
         }
 
         private void RequestStop()
@@ -299,6 +338,8 @@ namespace Orbit.Core.Scene
             if (currentPlayer != null)
                 currentPlayer.Update(tpf);
 
+            CheckForUpgrades();
+
             try
             {
                 UpdateGeomtricState();
@@ -308,6 +349,27 @@ namespace Orbit.Core.Scene
                 // UI is closed before game finished its Update loop
                 System.Console.Error.WriteLine(e);
             }
+        }
+
+        private void CheckForUpgrades()
+        {
+            ShowStatusText(3, "Gold: " + currentPlayer.Data.Gold);
+            if (currentPlayer.HealingKit.Cost < currentPlayer.Data.Gold &&
+                (SharedDef.BASE_MAX_INGERITY - currentPlayer.GetBaseIntegrity()) >= SharedDef.HEAL_AMOUNT)
+                ShowHealingIcon(currentPlayer.HealingKit);
+
+            if (currentPlayer.Hook.Next() != null && (currentPlayer.Hook.Next().Cost >= currentPlayer.Data.Gold))
+                ShowWeaponIcon(currentPlayer.Hook.Next());
+        }
+
+        private void ShowWeaponIcon(IWeapon weapon)
+        {
+            actionHelper.CreateWeaponAction(weapon);
+        }
+
+        private void ShowHealingIcon(IHealingKit healingKit)
+        {
+            actionHelper.CreateHealAction(healingKit);
         }
 
         private void ShowStatistics(float tpf)
@@ -410,6 +472,12 @@ namespace Orbit.Core.Scene
             return randomGenerator;
         }
 
+        public void OnCanvasMouseMove(Point point)
+        {
+            if (currentPlayer.Shooting)
+                currentPlayer.TargetPoint = point;
+        }
+
         public void OnCanvasClick(Point point, MouseButtonEventArgs e)
         {
             if (userActionsDisabled)
@@ -418,13 +486,16 @@ namespace Orbit.Core.Scene
             switch (e.ChangedButton)
             {
                 case MouseButton.Left:
-                    GetCurrentPlayer().Mine.Shoot(point);
+                    if (e.ButtonState == MouseButtonState.Pressed)
+                        currentPlayer.Mine.Shoot(point);
                     break;
                 case MouseButton.Right:
-                    GetCurrentPlayer().Canoon.Shoot(point);
+                    currentPlayer.Shooting = e.ButtonState == MouseButtonState.Pressed;
+                    currentPlayer.TargetPoint = point;
                     break;
                 case MouseButton.Middle:
-                    GetCurrentPlayer().Hook.Shoot(point);
+                    if (e.ButtonState == MouseButtonState.Pressed)
+                        currentPlayer.Hook.Shoot(point);
                     break;
             }          
         }

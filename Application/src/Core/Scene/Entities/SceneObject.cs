@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows;
 using Orbit.Core.Scene.Controls;
 using System.Collections.Generic;
@@ -14,6 +14,19 @@ namespace Orbit.Core.Scene.Entities
         public Vector Position { get; set; }
         public bool Dead { get; set; }
         public SceneMgr SceneMgr { get; set; }
+        private bool enabled = true;
+        public bool Enabled {
+            get
+            {
+                return enabled;
+            }
+            set
+            {
+                enabled = value;
+                foreach (IControl control in GetControlsCopy())
+                    control.Enabled = enabled;
+            }
+        }
 
         private SceneObject()
         {

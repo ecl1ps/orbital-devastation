@@ -17,6 +17,8 @@ namespace Orbit.Core.Weapons
         public SceneMgr SceneMgr { get; set; }
         public float ReloadTime { get; set;}
         public int Cost { get; set; }
+        public WeaponType WeaponType { get; set; }
+        public String Name { get; set; }
 
         public ProximityCannon(SceneMgr mgr, Player owner)
         {

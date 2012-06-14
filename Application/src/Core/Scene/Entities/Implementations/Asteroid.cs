@@ -6,6 +6,7 @@ using System.Windows.Shapes;
 using Lidgren.Network;
 using Orbit.Core.Scene.Controls;
 using System.Collections.Generic;
+using Orbit.src.Core.Scene.Entities;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -14,9 +15,10 @@ namespace Orbit.Core.Scene.Entities
         NORMAL,
         GOLDEN,
         UNSTABLE,
+        SPAWNED
     }
 
-    public class Asteroid : Sphere, IRotable, ISendable, IContainsGold
+    public class Asteroid : Sphere, IRotable, ISendable, IContainsGold, IDestroyable
     {
         public bool IsHeadingRight { get; set; }
         public float Rotation { get; set; }
@@ -58,6 +60,16 @@ namespace Orbit.Core.Scene.Entities
             IList<IControl> controls = msg.ReadControls();
             foreach (Control c in controls)
                 AddControl(c);
+        }
+
+        public virtual void doDamage(int damage)
+        {
+            Radius -= damage;
+            if (Radius < SharedDef.ASTEROID_THRESHOLD_RADIUS)
+            {
+                Radius = 0;
+                DoRemoveMe();
+            }
         }
     }
 

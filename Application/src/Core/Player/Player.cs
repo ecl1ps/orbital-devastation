@@ -4,6 +4,7 @@ using System.Windows.Media;
 using System.Diagnostics;
 using Lidgren.Network;
 using Orbit.Core.Weapons;
+using Orbit.Core.Utils;
 using System.Windows;
 using Orbit.Core.Scene;
 using System.Windows.Controls;
@@ -19,7 +20,12 @@ namespace Orbit.Core.Players
 
         public IWeapon Hook { get; set; }
         public IWeapon Mine { get; set; }
-        public IWeapon Canoon { get; set; }      
+        public IWeapon Canoon { get; set; }
+
+        public bool Shooting { get; set; }
+        public Point TargetPoint { get; set; }
+
+        public IHealingKit HealingKit { get; set; }
 
         public Vector VectorPosition
         {
@@ -46,6 +52,8 @@ namespace Orbit.Core.Players
         public Player(SceneMgr mgr)
         {
             SceneMgr = mgr;
+            Shooting = false;
+            HealingKit = new HealingKit(SceneMgr);
         }
 
         public void SetGoldAndShow(int gold)
@@ -83,6 +91,11 @@ namespace Orbit.Core.Players
             return Data.BaseIntegrity;
         }
 
+        public void ChangeBaseIntegrity(int amount)
+        {
+            SetBaseIntegrity(Data.BaseIntegrity + amount);
+        }
+
         public void SetBaseIntegrity(int amount)
         {
             Data.BaseIntegrity = amount;
@@ -114,6 +127,9 @@ namespace Orbit.Core.Players
         {
             Canoon.UpdateTimer(tpf);
             Mine.UpdateTimer(tpf);
+
+            if (Shooting)
+                Canoon.Shoot(TargetPoint);
         }
 
         public int GetId()

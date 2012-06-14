@@ -9,12 +9,21 @@ using Orbit.Core.Players;
 
 namespace Orbit.Core.Weapons
 {
+    public enum WeaponType
+    {
+        HOOK,
+        CANOON,
+        MINE
+    }
+
     public interface IWeapon
     {
         Player Owner { get; set; }
         SceneMgr SceneMgr { get; set; }
         float ReloadTime { get; set; }
         int Cost { get; set; }
+        String Name { get; set; }
+        WeaponType WeaponType { get; set; }
 
         IWeapon Next();
 

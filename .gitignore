@@ -3,3 +3,4 @@ Application/obj/
 Application/bin/
 Data/
 *.suo
+*.orig

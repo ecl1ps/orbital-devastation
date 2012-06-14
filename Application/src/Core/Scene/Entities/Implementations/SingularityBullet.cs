@@ -7,6 +7,7 @@ using Orbit.Core.Players;
 using Orbit.Core.Scene.Controls;
 using Lidgren.Network;
 using Orbit.Core;
+using Orbit.src.Core.Scene.Entities;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -26,21 +27,16 @@ namespace Orbit.Core.Scene.Entities
 
         public override void DoCollideWith(ICollidable other)
         {
-            if (other is Asteroid)
+            if (other is IDestroyable)
             {
-                HitAsteroid(other as Asteroid);
+                HitAsteroid(other as IDestroyable);
                 DoRemoveMe();
             }
         }
 
-        private void HitAsteroid(Asteroid asteroid)
+        private void HitAsteroid(IDestroyable asteroid)
         {
-            asteroid.Radius -= Damage;
-            if (asteroid.Radius < SharedDef.ASTEROID_THRESHOLD_RADIUS)
-            {
-                asteroid.Radius = 0;
-                asteroid.DoRemoveMe();
-            }
+            asteroid.doDamage(Damage);
         }
 
         public void WriteObject(NetOutgoingMessage msg)
