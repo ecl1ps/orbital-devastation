@@ -146,7 +146,11 @@ namespace Orbit.Core.Client
                         players.Add(plr);
 
                         if (plr.Data.Id == currentPlayer.Data.Id)
+                        {
+                            stateMgr.RemoveGameState(currentPlayer);
                             currentPlayer = plr;
+                            stateMgr.AddGameState(currentPlayer);
+                        }
 
                         if (plr.IsActivePlayer())
                         {

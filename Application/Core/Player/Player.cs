@@ -13,7 +13,7 @@ using Orbit.Core.Scene.Entities.Implementations;
 
 namespace Orbit.Core.Players
 {
-    public class Player
+    public class Player : IGameState
     {
         public SceneMgr SceneMgr { get; set; }
         public PlayerData Data { get; set; }
@@ -72,7 +72,7 @@ namespace Orbit.Core.Players
             ShowGold();
         }
 
-        private void ShowGold()
+        public void ShowGold()
         {
             if (Data.Gold == 0)
                 return;

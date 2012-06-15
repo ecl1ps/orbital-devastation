@@ -15,27 +15,27 @@ namespace Orbit.Core.Helpers
 {
     class GuiObjectFactory
     {
-        public static UIElement CreateHealingIcon(SceneMgr mgr, IHealingKit healingKit)
+        public static HealActionWindow CreateAndAddHealingIcon(SceneMgr mgr, ActionBar actionbar, IHealingKit healingKit)
         {
-            GoldActionWindow goldAction = null;
+            HealActionWindow goldAction = null;
 
             mgr.Invoke(new Action(() =>
             {
                 goldAction = new HealActionWindow(healingKit);
-                mgr.ActionBar.AddItem(goldAction);
+                actionbar.AddItem(goldAction);
             }));
 
             return goldAction;
         }
 
-        public static GoldActionWindow CreateWeaponAction(SceneMgr mgr, IWeapon weapon, Player player)
+        public static WeaponActionWindow CreateAndAddWeaponAction(SceneMgr mgr, ActionBar actionbar, IWeapon weapon, Player player)
         {
-            GoldActionWindow goldAction = null;
+            WeaponActionWindow goldAction = null;
 
             mgr.Invoke(new Action(() =>
             {
                 goldAction = new WeaponActionWindow(weapon, player);
-                mgr.ActionBar.AddItem(goldAction);
+                actionbar.AddItem(goldAction);
             }));
 
             return goldAction;

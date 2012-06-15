@@ -91,6 +91,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Core\GameStateManager.cs" />
     <Compile Include="Core\Helpers\CollisionHelper.cs" />
     <Compile Include="Core\ExtensionMethods.cs" />
     <Compile Include="Core\FastMath.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Core\Scene\Entities\IRotable.cs" />
     <Compile Include="Core\Helpers\SceneGeometryFactory.cs" />
     <Compile Include="Core\Helpers\SceneObjectFactory.cs" />
+    <Compile Include="Core\IGameState.cs" />
     <Compile Include="Core\Utils\HealingKit.cs" />
     <Compile Include="Core\Utils\IHealingKit.cs" />
     <Compile Include="Core\Weapons\DoubleHookLauncher.cs" />
@@ -156,7 +158,7 @@
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\HealActionWindow.xaml.cs" />
-    <Compile Include="Gui\Helpers\ActionHelper.cs" />
+    <Compile Include="Core\Player\PlayerActionManager.cs" />
     <Compile Include="Gui\OptionsUC.xaml.cs">
       <DependentUpon>OptionsUC.xaml</DependentUpon>
     </Compile>

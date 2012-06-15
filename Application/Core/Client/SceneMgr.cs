@@ -15,7 +15,6 @@ using System.Collections.Concurrent;
 using Lidgren.Network;
 using System.Windows.Input;
 using Orbit.Gui;
-using Orbit.Gui.Helpers;
 using Orbit.Core.Utils;
 using Orbit.Core.Weapons;
 
@@ -40,9 +39,8 @@ namespace Orbit.Core.Client
         private ConcurrentQueue<Action> synchronizedQueue;
         private bool gameEnded;
         private float statisticsTimer;
-        private ActionHelper actionHelper;
-
-        public ActionBar ActionBar { get; set; }
+        //private PlayerActionManager actionMgr;
+        private GameStateManager stateMgr;
 
         //private static SceneMgr sceneMgr;
         //private static Object lck = new Object();
@@ -76,9 +74,11 @@ namespace Orbit.Core.Client
             players = new List<Player>(2);
             synchronizedQueue = new ConcurrentQueue<Action>();
             statisticsTimer = 0;
-            actionHelper = new ActionHelper(this);
+            stateMgr = new GameStateManager();
+            stateMgr.AddGameState(new PlayerActionManager(this));
 
             currentPlayer = CreatePlayer();
+            stateMgr.AddGameState(currentPlayer);
 
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
@@ -124,7 +124,6 @@ namespace Orbit.Core.Client
 
             InitNetwork();
             ConnectToServer();
-            CreateActionBar();
         }
 
         private Player CreatePlayer()
@@ -132,18 +131,6 @@ namespace Orbit.Core.Client
             Player plr = new Player(this);
             plr.Data = new PlayerData();
             return plr;
-        }
-            
-        private void CreateActionBar()
-        {
-            Invoke(new Action(() =>
-            {
-                ActionBar = new ActionBar();
-                canvas.Children.Add(ActionBar);
-                Canvas.SetLeft(ActionBar, 10);
-                Canvas.SetTop(ActionBar, ViewPortSizeOriginal.Height * (SharedDef.ACTION_BAR_TOP_MARGIN_PCT));
-                Canvas.SetZIndex(ActionBar, 100);
-            }));
         }
 
         private void SetMainInfoText(String t)
@@ -350,16 +337,13 @@ namespace Orbit.Core.Client
 
             ProcessActionQueue();
 
+            stateMgr.Update(tpf);
+
             UpdateSceneObjects(tpf);
             RemoveObjectsMarkedForRemoval();
 
             CheckCollisions();
             RemoveObjectsMarkedForRemoval();
-
-            if (currentPlayer != null)
-                currentPlayer.Update(tpf);
-
-            CheckForUpgrades();
 
             try
             {
@@ -370,27 +354,6 @@ namespace Orbit.Core.Client
                 // UI is closed before game finished its Update loop
                 System.Console.Error.WriteLine(e);
             }
-        }
-
-        private void CheckForUpgrades()
-        {
-            ShowStatusText(3, "Gold: " + currentPlayer.Data.Gold);
-            if (currentPlayer.HealingKit.Cost < currentPlayer.Data.Gold &&
-                (SharedDef.BASE_MAX_INGERITY - currentPlayer.GetBaseIntegrity()) >= SharedDef.HEAL_AMOUNT)
-                ShowHealingIcon(currentPlayer.HealingKit);
-
-            if (currentPlayer.Hook.Next() != null && (currentPlayer.Hook.Next().Cost >= currentPlayer.Data.Gold))
-                ShowWeaponIcon(currentPlayer.Hook.Next());
-        }
-
-        private void ShowWeaponIcon(IWeapon weapon)
-        {
-            actionHelper.CreateWeaponAction(weapon);
-        }
-
-        private void ShowHealingIcon(IHealingKit healingKit)
-        {
-            actionHelper.CreateHealAction(healingKit);
         }
 
         private void ShowStatistics(float tpf)
@@ -430,7 +393,6 @@ namespace Orbit.Core.Client
                     RemoveFromSceneDelayed(obj);
             }
         }
-
 
         public void CheckCollisions()
         {
