@@ -37,7 +37,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         private void HitAsteroid(IDestroyable asteroid)
         {
-            asteroid.DoDamage(Damage);
+            asteroid.TakeDamage(Damage);
         }
 
         public void WriteObject(NetOutgoingMessage msg)

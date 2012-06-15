@@ -63,7 +63,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 AddControl(c);
         }
 
-        public virtual void DoDamage(int damage)
+        public virtual void TakeDamage(int damage)
         {
             Radius -= damage;
             if (Radius < SharedDef.ASTEROID_THRESHOLD_RADIUS)
