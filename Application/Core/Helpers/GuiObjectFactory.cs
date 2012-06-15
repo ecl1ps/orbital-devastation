@@ -10,35 +10,23 @@ using System.Windows.Threading;
 using Orbit.Core.Weapons;
 using Orbit.Core.Players;
 using Orbit.Core.Client;
+using Orbit.Gui.ActionControllers;
 
 namespace Orbit.Core.Helpers
 {
     class GuiObjectFactory
     {
-        public static HealActionWindow CreateAndAddHealingIcon(SceneMgr mgr, ActionBar actionbar, IHealingKit healingKit)
+        public static BuyActionWindow CreateAndAddBuyActionWindow(SceneMgr mgr, ActionBar actionbar, ActionController controller)
         {
-            HealActionWindow goldAction = null;
+            BuyActionWindow wnd = null;
 
             mgr.Invoke(new Action(() =>
             {
-                goldAction = new HealActionWindow(healingKit);
-                actionbar.AddItem(goldAction);
+                wnd = BuyActionWindow.CreateWindow(controller);
+                actionbar.AddItem(wnd);
             }));
 
-            return goldAction;
-        }
-
-        public static WeaponActionWindow CreateAndAddWeaponAction(SceneMgr mgr, ActionBar actionbar, IWeapon weapon, Player player)
-        {
-            WeaponActionWindow goldAction = null;
-
-            mgr.Invoke(new Action(() =>
-            {
-                goldAction = new WeaponActionWindow(weapon, player);
-                actionbar.AddItem(goldAction);
-            }));
-
-            return goldAction;
+            return wnd;
         }
     }
 }

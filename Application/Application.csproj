@@ -129,6 +129,9 @@
     <Compile Include="Gui\ActionBar.xaml.cs">
       <DependentUpon>ActionBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\ActionControllers\ActionController.cs" />
+    <Compile Include="Gui\ActionControllers\HealActionController.cs" />
+    <Compile Include="Gui\ActionControllers\WeaponActionController.cs" />
     <Compile Include="Gui\EscMenu.xaml.cs">
       <DependentUpon>EscMenu.xaml</DependentUpon>
     </Compile>
@@ -157,7 +160,6 @@
     <Compile Include="Gui\GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Gui\HealActionWindow.xaml.cs" />
     <Compile Include="Core\Player\PlayerActionManager.cs" />
     <Compile Include="Gui\OptionsUC.xaml.cs">
       <DependentUpon>OptionsUC.xaml</DependentUpon>
@@ -166,10 +168,9 @@
     <Compile Include="Core\Server\ServerSceneObjectFactory.cs" />
     <Compile Include="Core\Server\ServerMgr.cs" />
     <Compile Include="Core\Server\ServerMgr.Net.cs" />
-    <Compile Include="Gui\GoldActionWindow.xaml.cs">
-      <DependentUpon>GoldActionWindow.xaml</DependentUpon>
+    <Compile Include="Gui\BuyActionWindow.xaml.cs">
+      <DependentUpon>BuyActionWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Gui\WeaponActionWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
@@ -222,7 +223,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Gui\GoldActionWindow.xaml">
+    <Page Include="Gui\BuyActionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

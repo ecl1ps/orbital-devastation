@@ -12,6 +12,7 @@ using Orbit.Core.Client;
 using Orbit.Gui;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Orbit.Gui.ActionControllers;
 
 namespace Orbit.Core.Players
 {
@@ -21,8 +22,8 @@ namespace Orbit.Core.Players
 
         public ActionBar ActionBar { get; set; }
 
-        private HealActionWindow HealActionWindow;
-        private WeaponActionWindow HookActionWindow;
+        private BuyActionWindow HealActionWindow;
+        private BuyActionWindow HookActionWindow;
 
         public PlayerActionManager(SceneMgr manager)
         {
@@ -35,7 +36,7 @@ namespace Orbit.Core.Players
             mgr.Invoke(new Action(() =>
             {
                 ActionBar = new ActionBar();
-                ActionBar.RenderTransform = new ScaleTransform(0.7, 0.7);
+                ActionBar.RenderTransform = new ScaleTransform(0.8, 0.8);
                 mgr.GetCanvas().Children.Add(ActionBar);
                 Canvas.SetLeft(ActionBar, 10);
                 Canvas.SetTop(ActionBar, mgr.ViewPortSizeOriginal.Height * (SharedDef.ACTION_BAR_TOP_MARGIN_PCT));
@@ -66,7 +67,7 @@ namespace Orbit.Core.Players
             {
                 case WeaponType.HOOK:
                     if (HookActionWindow == null || !HookActionWindow.IsVisible)
-                        HookActionWindow = GuiObjectFactory.CreateAndAddWeaponAction(mgr, ActionBar, weapon, mgr.GetCurrentPlayer());
+                        HookActionWindow = GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, new WeaponActionController(mgr, weapon, mgr.GetCurrentPlayer()));
                     break;
             }
         }
@@ -75,7 +76,7 @@ namespace Orbit.Core.Players
         {
             if (HealActionWindow == null || !HealActionWindow.IsVisible)
             {
-                HealActionWindow = GuiObjectFactory.CreateAndAddHealingIcon(mgr, ActionBar, mgr.GetCurrentPlayer().HealingKit);
+                HealActionWindow = GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar,  new HealActionController(mgr, mgr.GetCurrentPlayer().HealingKit));
             }
         }
 
@@ -85,10 +86,7 @@ namespace Orbit.Core.Players
             {
                 case WeaponType.HOOK:
                     if (HookActionWindow != null)
-                        mgr.Invoke(new Action(() =>
-                        {
-                            ActionBar.RemoveItem(HookActionWindow);
-                        }));
+                        HealActionWindow.Remove();
                     break;
             }
         }
@@ -96,10 +94,7 @@ namespace Orbit.Core.Players
         private void HideHealAction()
         {
             if (HealActionWindow != null)
-                mgr.Invoke(new Action(() =>
-                {
-                    ActionBar.RemoveItem(HealActionWindow);
-                }));
+                HealActionWindow.Remove();
         }
     }
 
