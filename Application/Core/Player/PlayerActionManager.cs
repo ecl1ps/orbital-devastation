@@ -46,6 +46,10 @@ namespace Orbit.Core.Players
 
         public void Update(float tpf)
         {
+            // zatim ne pro spectatory
+            if (!mgr.GetCurrentPlayer().IsActivePlayer())
+                return;
+
             CheckForUpgrades();
         }
 

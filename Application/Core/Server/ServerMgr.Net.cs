@@ -102,7 +102,9 @@ namespace Orbit.Core.Server
                                 break;
                             case NetConnectionStatus.Disconnected:
                             case NetConnectionStatus.Disconnecting:
-                                EndGame(GetPlayer(msg.SenderConnection), GameEnd.LEFT_GAME);
+                                Player disconnected = GetPlayer(msg.SenderConnection);
+                                if (disconnected.IsActivePlayer())
+                                    EndGame(disconnected, GameEnd.LEFT_GAME);
                                 break;
                             case NetConnectionStatus.Connected:
                                 break;

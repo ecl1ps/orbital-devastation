@@ -171,7 +171,10 @@ namespace Orbit.Core.Client
                             lbl2.Content = 100 + "%";
                     }));
 
-                    ShowStatusText(3, "You are " + (GetCurrentPlayer().GetPlayerColor() == Colors.Red ? "Red" : "Blue"));
+                    if (currentPlayer.IsActivePlayer())
+                        ShowStatusText(3, "You are " + (currentPlayer.GetPlayerColor() == Colors.Red ? "Red" : "Blue"));
+                    else
+                        ShowStatusText(3, "You are Spectator");
                     break;
                 case PacketType.ALL_ASTEROIDS:
                     if (objects.Count > 2)
@@ -273,7 +276,8 @@ namespace Orbit.Core.Client
                     break;
                 case PacketType.START_GAME_RESPONSE:
                     SetMainInfoText("");
-                    userActionsDisabled = false;
+                    if (currentPlayer.IsActivePlayer())
+                        userActionsDisabled = false;
                     break;
             }
 
