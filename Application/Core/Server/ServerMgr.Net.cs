@@ -149,6 +149,7 @@ namespace Orbit.Core.Server
                     startMsg.Write((int)PacketType.START_GAME_RESPONSE);
                     BroadcastMessage(startMsg);
                     break;
+                case PacketType.PLAYER_HEAL:
                 case PacketType.BASE_INTEGRITY_CHANGE:
                     int integrity = msg.ReadInt32();
                     Player plr = GetPlayer(msg.ReadInt32());
