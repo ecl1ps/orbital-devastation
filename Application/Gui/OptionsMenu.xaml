@@ -1,0 +1,10 @@
+﻿<UserControl x:Class="Orbit.Gui.OptionsMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" x:Name="optionsMenu"  Width="350" Height="350" BorderBrush="Black" BorderThickness="1">
+    <Grid Width="350" Height="350" Background="#dd655D5D">
+        <Button Content="Player" Height="31" HorizontalAlignment="Center" Margin="0,86,0,0" Name="btnPlayer" VerticalAlignment="Top" Width="84" FontFamily="Bauhaus 93" Click="btnPlayer_Click" />
+    </Grid>
+</UserControl>

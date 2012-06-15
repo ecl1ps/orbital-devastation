@@ -1,0 +1,12 @@
+﻿<UserControl x:Class="Orbit.Gui.PlayerSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" x:Name="playerSettings" Width="350" Height="350" BorderBrush="Black" BorderThickness="1">
+    <Grid Width="350" Height="350" Background="#dd655D5D">
+        <Button Content="Save name" Height="31" HorizontalAlignment="Center" Margin="254,34,12,0" Name="btnSaveName" VerticalAlignment="Top" Width="84" FontFamily="Bauhaus 93" Click="btnSaveName_Click" />
+        <Label Content="Player name:" Height="31" HorizontalAlignment="Left" Margin="12,34,0,0" Name="lblName" VerticalAlignment="Top" Width="92" FontSize="14" FontFamily="Bauhaus 93" />
+        <TextBox Height="31" HorizontalAlignment="Right" Margin="0,34,128,0" Name="tbPlayerName" VerticalAlignment="Top" Width="112" OpacityMask="Black" FontFamily="Bauhaus 93" FontSize="14" Background="#FFE5E5E5" />
+    </Grid>
+</UserControl>

@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using Orbit.Core;
 using Orbit.Core.Client;
 using Orbit.Core.Server;
+using System.IO;
 
 namespace Orbit
 {
@@ -42,9 +43,21 @@ namespace Orbit
         protected override void OnStartup(StartupEventArgs e)
         {
             sceneMgr = new SceneMgr();
+           
+            if (!File.Exists("player"))
+            {
+                PlayerName = "Player";
+                return;
+            }
 
-            // TODO: ukladat jmeno pomoci esc -> options -> neco
-            PlayerName = "Player1";
+            using (StreamReader reader = new StreamReader("player"))
+            {
+                string line;
+                if ((line = reader.ReadLine()) != null)
+                    PlayerName = line;
+                else
+                    PlayerName = "Player";
+            }
         }
 
         protected override void OnExit(ExitEventArgs e)

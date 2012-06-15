@@ -92,17 +92,6 @@ namespace Orbit.Core.Client
                 if (lbl != null)
                     lbl.Content = "";
 
-                if (gameType != Gametype.CLIENT_GAME)
-                {
-                    Label lbl1 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblIntegrityLeft");
-                    if (lbl1 != null)
-                        lbl1.Content = 100 + "%";
-
-                    Label lbl2 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblIntegrityRight");
-                    if (lbl2 != null)
-                        lbl2.Content = 100 + "%";
-                }
-
                 Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblWaiting");
                 if (lblw != null)
                     lblw.Content = "";
@@ -485,25 +474,37 @@ namespace Orbit.Core.Client
 
         private void PlayerWon(Player winner)
         {
+            string text;
+            // kdyz maji hraci stejna jmena, tak jsou rozliseni barvami
+            if (players.Find(p => p.IsActivePlayer() && p.GetId() != winner.GetId()).Data.Name.Equals(winner.Data.Name))
+                text = (winner.Data.PlayerColor == Colors.Red ? "Red" : "Blue") + " player wins!";
+            else
+                text = winner.Data.Name + " wins!";
             Invoke(new Action(() =>
             {
                 Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
                 if (lbl != null)
-                    lbl.Content = (winner.Data.PlayerColor == Colors.Red ? "Red" : "Blue") + " player win!";
+                    lbl.Content = text;
             }));
         }
-
 
         private void PlayerLeft(Player leaver)
         {
             if (leaver == null)
                 return;
 
+            string text;
+            // kdyz maji hraci stejna jmena, tak jsou rozliseni barvami
+            if (players.Find(p => p.IsActivePlayer() && p.GetId() != leaver.GetId()).Data.Name.Equals(leaver.Data.Name))
+                text = (leaver.Data.PlayerColor == Colors.Red ? "Red" : "Blue") + " player left the game!";
+            else
+                text = leaver.Data.Name + " left the game!";
+
             Invoke(new Action(() =>
             {
                 Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
                 if (lbl != null)
-                    lbl.Content = (leaver.Data.PlayerColor == Colors.Red ? "Red" : "Blue") + " player left the game!";
+                    lbl.Content = text;
             }));
         }
 

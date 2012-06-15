@@ -99,6 +99,7 @@
     <Compile Include="Core\Helpers\GuiObjectFactory.cs" />
     <Compile Include="Core\Helpers\NetDataHelper.cs" />
     <Compile Include="Core\NetSearcher.cs" />
+    <Compile Include="Core\Player\SpectatorPlayer.cs" />
     <Compile Include="Core\Player\Player.cs" />
     <Compile Include="Core\Player\PlayerData.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DroppingSingularityControl.cs" />
@@ -141,6 +142,12 @@
     </Compile>
     <Compile Include="Gui\GameUC.xaml.cs">
       <DependentUpon>GameUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\OptionsMenu.xaml.cs">
+      <DependentUpon>OptionsMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\PlayerSettings.xaml.cs">
+      <DependentUpon>PlayerSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Scene\Controls\Control.cs" />
@@ -220,11 +227,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Gui\OptionsMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Gui\OptionsUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\BuyActionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\PlayerSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -11,34 +11,33 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace Orbit.Gui
 {
     /// <summary>
-    /// Interaction logic for EscMenu.xaml
+    /// Interaction logic for PlayerSettings.xaml
     /// </summary>
-    public partial class EscMenu : UserControl
+    public partial class PlayerSettings : UserControl
     {
-        public EscMenu()
+        public PlayerSettings()
         {
             InitializeComponent();
+            tbPlayerName.Text = (Application.Current as App).PlayerName;
         }
 
-        private void btnExit_Click(object sender, RoutedEventArgs e)
+        private void btnSaveName_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
-        }
+            if (tbPlayerName.Text.Length < 2)
+                return;
 
-        private void btnMainMenu_Click(object sender, RoutedEventArgs e)
-        {
-            (Application.Current.MainWindow as GameWindow).mainGrid.Children.Remove(this);
-            (Application.Current as App).ShowStartScreen();
-        }
-
-        private void btnOptions_Click(object sender, RoutedEventArgs e)
-        {
+            (Application.Current as App).PlayerName = tbPlayerName.Text;
             (Parent as Panel).Children.Remove(this);
             (Application.Current.MainWindow as GameWindow).mainGrid.Children.Add(new OptionsMenu());
+            using (StreamWriter writer = new StreamWriter("player", false))
+            {
+                writer.WriteLine(tbPlayerName.Text);
+            }
         }
     }
 }

@@ -160,15 +160,26 @@ namespace Orbit.Core.Client
                         }
                     }
 
+                    string leftPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.LEFT).Data.Name;
+                    string rightPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.RIGHT).Data.Name;
+
                     Invoke(new Action(() =>
                     {
                         Label lbl1 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblIntegrityLeft");
                         if (lbl1 != null)
-                            lbl1.Content = 100 + "%";
+                            lbl1.Content = "100%";
 
                         Label lbl2 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblIntegrityRight");
                         if (lbl2 != null)
-                            lbl2.Content = 100 + "%";
+                            lbl2.Content = "100%";
+
+                        Label lbl3 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblNameLeft");
+                        if (lbl3 != null)
+                            lbl3.Content = leftPlr;
+
+                        Label lbl4 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblNameRight");
+                        if (lbl4 != null)
+                            lbl4.Content = rightPlr;
                     }));
 
                     if (currentPlayer.IsActivePlayer())
