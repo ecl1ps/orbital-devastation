@@ -19,9 +19,28 @@ namespace Orbit.Gui
     /// </summary>
     public partial class LobbyPlayer : UserControl
     {
-        public LobbyPlayer()
+        public int PlayerId { get; set; }
+
+        public LobbyPlayer(LobbyPlayerData data)
         {
             InitializeComponent();
+            PlayerId = data.Id;
+            lblName.Content = data.Name;
+            lblScore.Content = data.Score;
+        }
+    }
+
+    public class LobbyPlayerData
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Score { get; set; }
+
+        public LobbyPlayerData(int id, string name, int score)
+        {
+            Id = id;
+            Name = name;
+            Score = score;
         }
     }
 }

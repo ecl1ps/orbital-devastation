@@ -39,7 +39,7 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
-                <Button Content="Exit Game" Name="btnExit" Margin="0,5,0,5" Height="33" Width="150" FontFamily="Bauhaus 93" FontSize="16" Click="btnExit_Click">
+                <Button Content="Exit Game" Name="btnExit" Margin="0,50,0,5" Height="33" Width="150" FontFamily="Bauhaus 93" FontSize="16" Click="btnExit_Click">
                     <Button.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="Black" Offset="1" />
@@ -48,7 +48,7 @@
                     </Button.Background>
                 </Button>
 
-                <Button Content="Repeat last game" Name="btnRepeatGame" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="16" Click="btnRepeatGame_Click" Visibility="Hidden">
+                <Button Content="Repeat last game" Name="btnRepeatGame" Margin="0,30,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="16" Click="btnRepeatGame_Click" Visibility="Hidden">
                     <Button.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="Black" Offset="1" />

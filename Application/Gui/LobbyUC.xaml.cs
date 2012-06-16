@@ -20,6 +20,7 @@ namespace Orbit.Gui
     public partial class LobbyUC : UserControl
     {
         private bool leader;
+        private List<int> players;
 
         public LobbyUC(bool asLeader)
         {
@@ -33,6 +34,7 @@ namespace Orbit.Gui
             {
                 btnStartGame.Visibility = Visibility.Hidden;
             }
+            players = new List<int>();
         }
 
         private void tbMessage_KeyDown(object sender, KeyEventArgs e)
@@ -69,6 +71,60 @@ namespace Orbit.Gui
             if (leader)
                 (Application.Current as App).PlayerReady();
             tbMessage.Focus();
+        }
+
+        public void UpdateShownPlayers(List<LobbyPlayerData> updatedPlayers)
+        {
+            // nejdriv se odstrani hraci, kteri uz nejsou, ale jsou zobrazeni
+            for (int i = 0; i < players.Count; ++i)
+            {
+                if (!updatedPlayers.Exists(p => p.Id == players[i]))
+                    RemovePlayer(players[i]);
+            }
+
+            // pak se pridaji hraci, kteri jeste nejsou zobrazeni
+            foreach (LobbyPlayerData data in updatedPlayers)
+            {
+                if (!players.Exists(id => id == data.Id))
+                    AddPlayer(data);
+            }
+
+        }
+
+        private void AddPlayer(LobbyPlayerData data)
+        {
+            if (spPlayers1.Children.Count < 5)
+            {
+                spPlayers1.Children.Add(new LobbyPlayer(data));
+                players.Add(data.Id);
+            }
+            else if (spPlayers2.Children.Count < 5)
+            {
+                spPlayers2.Children.Add(new LobbyPlayer(data));
+                players.Add(data.Id);
+            }
+        }
+
+        private void RemovePlayer(int id)
+        {
+            bool removed = false;
+            for (int i = 0; i < spPlayers1.Children.Count; ++i)
+                if ((spPlayers1.Children[i] as LobbyPlayer).PlayerId == id)
+                {
+                    spPlayers1.Children.RemoveAt(i);
+                    removed = true;
+                    players.Remove(id);
+                }
+
+            if (removed)
+                return;
+
+            foreach (UIElement plr in spPlayers2.Children)
+                if ((plr as LobbyPlayer).PlayerId == id)
+                {
+                    spPlayers2.Children.Remove(plr);
+                    players.Remove(id);
+                }
         }
     }
 }

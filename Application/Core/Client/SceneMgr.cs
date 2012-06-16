@@ -563,5 +563,18 @@ namespace Orbit.Core.Client
             msg.Write(currentPlayer.Data.Name + ": " + message);
             SendMessage(msg);
         }
+
+        private void UpdateLobbyPlayers()
+        {
+            List<LobbyPlayerData> data = new List<LobbyPlayerData>();
+            players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score)));
+
+            (Application.Current as App).Dispatcher.BeginInvoke(new Action(() =>
+            {
+                LobbyUC lobby = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
+                if (lobby != null)
+                    lobby.UpdateShownPlayers(data);
+            }));
+        }
     }
 }

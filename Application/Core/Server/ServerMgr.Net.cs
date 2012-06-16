@@ -113,6 +113,8 @@ namespace Orbit.Core.Server
                             case NetConnectionStatus.Disconnected:
                             case NetConnectionStatus.Disconnecting:
                                 Player disconnected = GetPlayer(msg.SenderConnection);
+                                players.Remove(disconnected);
+                                SendPlayerLeftMessage(disconnected);
                                 if (disconnected.IsActivePlayer())
                                     EndGame(disconnected, GameEnd.LEFT_GAME);
                                 break;
@@ -129,6 +131,14 @@ namespace Orbit.Core.Server
                 }
                 server.Recycle(msg);
             }
+        }
+
+        private void SendPlayerLeftMessage(Player p)
+        {
+            NetOutgoingMessage outMsg = CreateNetMessage();
+            outMsg.Write((int)PacketType.PLAYER_DISCONNECTED);
+            outMsg.Write(p.GetId());
+            BroadcastMessage(outMsg);
         }
 
         public NetOutgoingMessage CreateAllPlayersDataMessage()

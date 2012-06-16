@@ -103,5 +103,6 @@ namespace Orbit.Core
         START_GAME_REQUEST,
         PLAYER_READY,
         CHAT_MESSAGE,
+        PLAYER_DISCONNECTED,
     }    
 }
