@@ -41,8 +41,8 @@ namespace Orbit.Core.Utils
         {
             NetOutgoingMessage message = mgr.CreateNetMessage();
             message.Write((int)PacketType.PLAYER_HEAL);
-            message.Write((int)mgr.GetCurrentPlayer().GetBaseIntegrity());
             message.Write((int)mgr.GetCurrentPlayer().GetId());
+            message.Write((int)mgr.GetCurrentPlayer().GetBaseIntegrity());
 
             mgr.SendMessage(message);
         }

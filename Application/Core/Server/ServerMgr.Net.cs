@@ -189,9 +189,7 @@ namespace Orbit.Core.Server
                     break;
                 case PacketType.PLAYER_HEAL:
                 case PacketType.BASE_INTEGRITY_CHANGE:
-                    int integrity = msg.ReadInt32();
-                    Player plr = GetPlayer(msg.ReadInt32());
-                    plr.Data.BaseIntegrity = integrity;
+                    GetPlayer(msg.ReadInt32()).Data.BaseIntegrity = msg.ReadInt32();
                     ForwardMessage(msg);
                     break;
                 case PacketType.ASTEROID_DESTROYED:

@@ -220,7 +220,7 @@ namespace Orbit
         {
             sceneMgr.Enqueue(new Action(() =>
             {
-                //sceneMgr.GetCurrentPlayer().Data.LobbyReady = true;
+                sceneMgr.GetCurrentPlayer().Data.LobbyReady = true;
                 sceneMgr.ShowChatMessage("sent plr ready");
                 sceneMgr.SendPlayerReadyMessage();
             }));

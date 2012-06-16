@@ -291,7 +291,7 @@ namespace Orbit.Core.Client
                     break;
                 case PacketType.BASE_INTEGRITY_CHANGE:
                 case PacketType.PLAYER_HEAL:
-                    GetOpponentPlayer().SetBaseIntegrity(msg.ReadInt32());
+                    GetPlayer(msg.ReadInt32()).SetBaseIntegrity(msg.ReadInt32());
                     break;
                 case PacketType.START_GAME_RESPONSE:
                     string leftPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.LEFT).Data.Name;

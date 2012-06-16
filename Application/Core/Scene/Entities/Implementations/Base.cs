@@ -28,8 +28,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
                     NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
                     msg.Write((int)PacketType.BASE_INTEGRITY_CHANGE);
-                    msg.Write(value);
                     msg.Write(Owner.GetId());
+                    msg.Write(value);
                     SceneMgr.SendMessage(msg);
                 }
             }
