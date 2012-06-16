@@ -41,8 +41,10 @@ namespace Orbit.Gui
         {
             if (e.Key == Key.Enter)
             {
+                if (tbMessage.Text == "")
+                    return;
                 (Application.Current as App).SendChatMessage(tbMessage.Text);
-                lvChat.Items.Add(tbMessage.Text);
+                lvChat.Items.Add((Application.Current as App).GetPlayerName() + ": " +tbMessage.Text);
                 lvChat.ScrollIntoView(lvChat.Items[lvChat.Items.Count - 1]);
                 tbMessage.Text = "";
             }
