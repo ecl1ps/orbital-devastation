@@ -24,9 +24,11 @@ namespace Orbit.Core.Client
         private NetClient client;
         private string serverAddress;
         private NetConnection serverConnection;
+        private Queue<NetOutgoingMessage> pendingMessages;
 
         private void InitNetwork()
         {
+            pendingMessages = new Queue<NetOutgoingMessage>();
             NetPeerConfiguration conf = new NetPeerConfiguration("Orbit");
 
             /*conf.SimulatedMinimumLatency = 0.1f;
@@ -102,10 +104,10 @@ namespace Orbit.Core.Client
                                         }));
                                     }
 
-                                    Console.WriteLine("LOGIN confirmed (id: " + IdMgr.GetHighId(GetCurrentPlayer().Data.Id) + ")");
+                                    while (pendingMessages.Count != 0)
+                                        SendMessage(pendingMessages.Dequeue());
 
-                                    if (GetCurrentPlayer().Data.LobbyReady)
-                                        SendPlayerReadyMessage();
+                                    Console.WriteLine("LOGIN confirmed (id: " + IdMgr.GetHighId(GetCurrentPlayer().Data.Id) + ")");
 
                                     NetOutgoingMessage reqmsg = CreateNetMessage();
                                     reqmsg.Write((int)PacketType.ALL_PLAYER_DATA_REQUEST);
@@ -403,7 +405,10 @@ namespace Orbit.Core.Client
 
         public void SendMessage(NetOutgoingMessage msg)
         {
-            client.SendMessage(msg, serverConnection, NetDeliveryMethod.ReliableOrdered);
+            if (serverConnection.Status != NetConnectionStatus.Connected)
+                pendingMessages.Enqueue(msg);
+            else
+                client.SendMessage(msg, serverConnection, NetDeliveryMethod.ReliableOrdered);
         }
     }
 }

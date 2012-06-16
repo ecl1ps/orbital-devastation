@@ -308,7 +308,11 @@ namespace Orbit.Core.Helpers
             d.PlayerColor = msg.ReadColor();
             d.PlayerPosition = (PlayerPosition)msg.ReadByte();
             d.Score = msg.ReadInt32();
-            d.LobbyReady = msg.ReadBoolean();
+            // osetreni prepsani noveho stavu starym - stav se iniciuje vlastni zpravou, ale je treba ho dal propagovat
+            if (!d.LobbyReady)
+                d.LobbyReady = msg.ReadBoolean();
+            else
+                msg.ReadBoolean();
         }
 
 
