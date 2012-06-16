@@ -549,7 +549,10 @@ namespace Orbit.Core.Client
             {
                 ListView chat = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lvChat") as ListView;
                 if (chat != null)
+                {
                     chat.Items.Add(message);
+                    chat.ScrollIntoView(chat.Items[chat.Items.Count - 1]);
+                }
             }));
         }
 

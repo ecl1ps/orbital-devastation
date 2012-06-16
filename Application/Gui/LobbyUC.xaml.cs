@@ -41,6 +41,7 @@ namespace Orbit.Gui
             {
                 (Application.Current as App).SendChatMessage(tbMessage.Text);
                 lvChat.Items.Add(tbMessage.Text);
+                lvChat.ScrollIntoView(lvChat.Items[lvChat.Items.Count - 1]);
                 tbMessage.Text = "";
             }
         }
@@ -67,6 +68,7 @@ namespace Orbit.Gui
         {
             if (leader)
                 (Application.Current as App).PlayerReady();
+            tbMessage.Focus();
         }
     }
 }
