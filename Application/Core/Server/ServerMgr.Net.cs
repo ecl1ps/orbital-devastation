@@ -30,8 +30,10 @@ namespace Orbit.Core.Server
             conf.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
             conf.Port = SharedDef.PORT_NUMBER;
 
-            /*conf.SimulatedMinimumLatency = 0.1f;
-            conf.SimulatedRandomLatency = 0.05f;*/
+#if DEBUG
+            conf.SimulatedMinimumLatency = 0.1f; // 100ms
+            conf.SimulatedRandomLatency = 0.05f; // +- 50ms
+#endif
 
             // debug only
             conf.EnableMessageType(NetIncomingMessageType.DebugMessage);
