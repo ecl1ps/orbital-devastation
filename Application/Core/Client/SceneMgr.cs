@@ -24,6 +24,7 @@ namespace Orbit.Core.Client
     {
         public Gametype GameType { get; set; }
         public Size ViewPortSizeOriginal { get; set; }
+        public List<IAppState> AppStates { get; set; } 
 
         private Canvas canvas;
         private bool isInitialized;
@@ -67,6 +68,7 @@ namespace Orbit.Core.Client
             isInitialized = false;
             userActionsDisabled = true;
             shouldQuit = false;
+            AppStates = new List<IAppState>();
             objects = new List<ISceneObject>();
             objectsToRemove = new List<ISceneObject>();
             objectsToAdd = new List<ISceneObject>();
@@ -124,6 +126,14 @@ namespace Orbit.Core.Client
 
             InitNetwork();
             ConnectToServer();
+            InitStaticMouse();
+        }
+
+        private void InitStaticMouse()
+        {
+            StaticMouse mouse = new StaticMouse(null, this);
+            mouse.Enabled = true;
+            AppStates.Add(mouse);
         }
 
         private Player CreatePlayer()
@@ -345,6 +355,8 @@ namespace Orbit.Core.Client
             CheckCollisions();
             RemoveObjectsMarkedForRemoval();
 
+            UpdateAppStates(tpf);
+
             try
             {
                 UpdateGeomtricState();
@@ -354,6 +366,12 @@ namespace Orbit.Core.Client
                 // UI is closed before game finished its Update loop
                 System.Console.Error.WriteLine(e);
             }
+        }
+
+        private void UpdateAppStates(float tpf)
+        {
+            foreach (IAppState state in AppStates)
+                state.update(tpf);
         }
 
         private void ShowStatistics(float tpf)
