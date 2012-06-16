@@ -15,6 +15,7 @@ using System.Collections.Concurrent;
 using Lidgren.Network;
 using Orbit.Core.Scene;
 using Orbit.Core;
+using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Server
 {
@@ -63,8 +64,12 @@ namespace Orbit.Core.Server
                         break;
                     case NetIncomingMessageType.DiscoveryRequest:
                         NetOutgoingMessage response = server.CreateMessage();
-                        // TODO: pridat jmeno serveru
-                        //response.Write("My server name");
+                        response.Write((byte)GameType);
+                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        {
+                            response.Write((Application.Current as App).GetPlayerName());
+                        }));
+                        
                         server.SendDiscoveryResponse(response, msg.SenderEndpoint);
                         break;
                     // If incoming message is Request for connection approval
@@ -78,15 +83,20 @@ namespace Orbit.Core.Server
                             if (players.Exists(plr => plr.Connection.RemoteUniqueIdentifier == msg.SenderConnection.RemoteUniqueIdentifier))
                                 return;
 
-                            Player p = CreatePlayer(msg.ReadString());
+                            Player p = CreateAndAddPlayer(msg.ReadString());
                             p.Connection = msg.SenderConnection;
 
                             NetOutgoingMessage hailMsg = CreateNetMessage();
                             hailMsg.Write((int)PacketType.PLAYER_ID_HAIL);
                             hailMsg.Write(p.Data.Id);
+                            hailMsg.Write((byte)GameType);
 
                             // Approve clients connection (Its sort of agreenment. "You can be my client and i will host you")
                             msg.SenderConnection.Approve(hailMsg);
+
+                            // jakmile potvrdime spojeni nejakeho hrace, tak hned zesynchronizujeme data hracu mezi vsemi hraci
+                            NetOutgoingMessage plrs = CreateAllPlayersDataMessage();
+                            BroadcastMessage(plrs);
                         }
                         break;
                     case NetIncomingMessageType.Data:
@@ -121,6 +131,23 @@ namespace Orbit.Core.Server
             }
         }
 
+        public NetOutgoingMessage CreateAllPlayersDataMessage()
+        {
+            // data vsech hracu
+            NetOutgoingMessage outmsg = CreateNetMessage();
+
+            outmsg.Write((int)PacketType.ALL_PLAYER_DATA);
+            outmsg.Write(players.Count);
+
+            foreach (Player plr in players)
+            {
+                outmsg.Write(plr.GetId());
+                outmsg.WriteObjectPlayerData(plr.Data);
+            }
+
+            return outmsg;
+        }
+
         private void ProcessIncomingDataMessage(NetIncomingMessage msg)
         {
             PacketType type = (PacketType)msg.ReadInt32();
@@ -134,12 +161,23 @@ namespace Orbit.Core.Server
                 case PacketType.NEW_SINGULARITY_BULLET:
                 case PacketType.NEW_HOOK:
                 case PacketType.SINGULARITY_MINE_HIT:
+                case PacketType.CHAT_MESSAGE:
                     ForwardMessage(msg);
                     break;
                 case PacketType.START_GAME_REQUEST:
 
                     if (GameType != Gametype.SOLO_GAME && players.Count < 2)
                         break;
+
+                    if (GameType == Gametype.LOBBY_GAME)
+                    {
+                        NetOutgoingMessage tournamentMsg = CreateNetMessage();
+                        tournamentMsg.Write((int)PacketType.TOURNAMENT_STARTING);
+                        BroadcastMessage(tournamentMsg);
+                    }
+
+                    if (gameSession != null && gameSession.IsRunning)
+                        return;
 
                     gameSession = new GameManager(this, players);
                     gameSession.CreateNewMatch();
@@ -159,14 +197,17 @@ namespace Orbit.Core.Server
                 case PacketType.ASTEROID_DESTROYED:
                     gameSession.ObjectDestroyed(msg.ReadInt64());
                     break;
-            }
-        }
+                case PacketType.PLAYER_READY:
+                    GetPlayer(msg.SenderConnection).Data.LobbyReady = true;
+                    BroadcastMessage(msg);
 
-        private void ForwardMessage(NetIncomingMessage msg)
-        {
-            NetOutgoingMessage outMsg = CreateNetMessage();
-            outMsg.Write(msg);
-            BroadcastMessage(outMsg, msg.SenderConnection);
+                    players.ForEach(p => SendChatMessage("plr: " + p.GetId() + " " + p.Data.LobbyReady));
+                    break;
+                case PacketType.ALL_PLAYER_DATA_REQUEST:
+                    NetOutgoingMessage plrs = CreateAllPlayersDataMessage();
+                    server.SendMessage(plrs, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
+                    break;
+            }
         }
 
         private void SyncReceivedObject(ISceneObject o, NetIncomingMessage msg)
@@ -197,6 +238,20 @@ namespace Orbit.Core.Server
         public void BroadcastMessage(NetOutgoingMessage msg)
         {
             server.SendToAll(msg, NetDeliveryMethod.ReliableOrdered);
+        }
+
+        private void BroadcastMessage(NetIncomingMessage msg)
+        {
+            NetOutgoingMessage outMsg = CreateNetMessage();
+            outMsg.Write(msg);
+            BroadcastMessage(outMsg);
+        }
+
+        private void ForwardMessage(NetIncomingMessage msg)
+        {
+            NetOutgoingMessage outMsg = CreateNetMessage();
+            outMsg.Write(msg);
+            BroadcastMessage(outMsg, msg.SenderConnection);
         }
     }
 }

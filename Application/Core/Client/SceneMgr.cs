@@ -27,6 +27,7 @@ namespace Orbit.Core.Client
 
         private Canvas canvas;
         private bool isInitialized;
+        private bool isGameInitialized;
         private bool userActionsDisabled;
         private volatile bool shouldQuit;
         private List<ISceneObject> objects;
@@ -58,13 +59,15 @@ namespace Orbit.Core.Client
         public SceneMgr()
         {
             isInitialized = false;
+            isGameInitialized = false;
+            synchronizedQueue = new ConcurrentQueue<Action>();
         }
 
         public void Init(Gametype gameType)
         {
             GameType = gameType;
             gameEnded = false;
-            isInitialized = false;
+            isGameInitialized = false;
             userActionsDisabled = true;
             shouldQuit = false;
             objects = new List<ISceneObject>();
@@ -72,31 +75,33 @@ namespace Orbit.Core.Client
             objectsToAdd = new List<ISceneObject>();
             randomGenerator = new Random(Environment.TickCount);
             players = new List<Player>(2);
-            synchronizedQueue = new ConcurrentQueue<Action>();
             statisticsTimer = 0;
             stateMgr = new GameStateManager();
-            stateMgr.AddGameState(new PlayerActionManager(this));
 
             currentPlayer = CreatePlayer();
+            players.Add(currentPlayer);
             stateMgr.AddGameState(currentPlayer);
 
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 currentPlayer.Data.Name = (Application.Current as App).GetPlayerName();
             }));
-            
 
-            Invoke(new Action(() =>
+            if (gameType != Gametype.LOBBY_GAME)
             {
-                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
-                if (lbl != null)
-                    lbl.Content = "";
+                stateMgr.AddGameState(new PlayerActionManager(this));
+                Invoke(new Action(() =>
+                {
+                    Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
+                    if (lbl != null)
+                        lbl.Content = "";
 
-                Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblWaiting");
-                if (lblw != null)
-                    lblw.Content = "";
-                
-            }));
+                    Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblWaiting");
+                    if (lblw != null)
+                        lblw.Content = "";
+
+                }));
+            }
 
             if (gameType == Gametype.SERVER_GAME)
             {
@@ -113,6 +118,7 @@ namespace Orbit.Core.Client
 
             InitNetwork();
             ConnectToServer();
+            isInitialized = true;
         }
 
         private Player CreatePlayer()
@@ -173,11 +179,12 @@ namespace Orbit.Core.Client
 
             objectsToRemove.Clear();
 
-            Invoke(new Action(() =>
-            {
-                foreach (ISceneObject obj in objects)
-                    canvas.Children.Remove(obj.GetGeometry());
-            }));
+            if (canvas != null)
+                Invoke(new Action(() =>
+                {
+                    foreach (ISceneObject obj in objects)
+                        canvas.Children.Remove(obj.GetGeometry());
+                }));
         }
 
         /************************************************************************/
@@ -287,7 +294,9 @@ namespace Orbit.Core.Client
 
                 ProcessMessages();
 
-                if (tpf >= 0.001 && isInitialized)
+                ProcessActionQueue();
+
+                if (tpf >= 0.001 && isGameInitialized)
                     Update(tpf);
 
 		        if (sw.ElapsedMilliseconds < SharedDef.MINIMUM_UPDATE_TIME) 
@@ -323,8 +332,6 @@ namespace Orbit.Core.Client
             ShowStatistics(tpf);
 
             AddObjectsReadyToAdd();
-
-            ProcessActionQueue();
 
             stateMgr.Update(tpf);
 
@@ -516,6 +523,42 @@ namespace Orbit.Core.Client
         public void BeginInvoke(Action a)
         {
             canvas.Dispatcher.BeginInvoke(a);
+        }
+
+        private void CheckAllPlayersReady()
+        {
+            ShowChatMessage("checking players: " + players.Count);
+
+            if (players.Count < 2)
+                return;
+
+            players.ForEach(p => ShowChatMessage("plr: " + p.GetId() + " " + p.Data.LobbyReady));
+
+            if (players.TrueForAll(p => p.Data.LobbyReady))
+                (Application.Current as App).Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    LobbyUC wnd = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
+                    if (wnd != null)
+                        wnd.AllReady();
+                }));
+        }
+
+        public void ShowChatMessage(string message)
+        {
+            (Application.Current as App).Dispatcher.BeginInvoke(new Action(() =>
+            {
+                ListView chat = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lvChat") as ListView;
+                if (chat != null)
+                    chat.Items.Add(message);
+            }));
+        }
+
+        public void SendChatMessage(string message)
+        {
+            NetOutgoingMessage msg = CreateNetMessage();
+            msg.Write((int)PacketType.CHAT_MESSAGE);
+            msg.Write(currentPlayer.Data.Name + ": " + message);
+            SendMessage(msg);
         }
     }
 }

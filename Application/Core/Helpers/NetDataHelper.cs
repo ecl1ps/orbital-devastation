@@ -294,6 +294,7 @@ namespace Orbit.Core.Helpers
             msg.Write(d.PlayerColor);
             msg.Write((byte)d.PlayerPosition);
             msg.Write(d.Score);
+            msg.Write(d.LobbyReady);
         }
 
         public static void ReadObjectPlayerData(this NetIncomingMessage msg, PlayerData d)
@@ -307,6 +308,7 @@ namespace Orbit.Core.Helpers
             d.PlayerColor = msg.ReadColor();
             d.PlayerPosition = (PlayerPosition)msg.ReadByte();
             d.Score = msg.ReadInt32();
+            d.LobbyReady = msg.ReadBoolean();
         }
 
 

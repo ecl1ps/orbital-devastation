@@ -68,6 +68,8 @@ namespace Orbit.Core.Server
             if (gameEnded)
                 return;
 
+            gameSession.IsRunning = false;
+
             gameEnded = true;
             if (endType == GameEnd.WIN_GAME)
                 PlayerWon(plr);
@@ -93,7 +95,7 @@ namespace Orbit.Core.Server
             }
         }
 
-        public Player CreatePlayer(String name)
+        public Player CreateAndAddPlayer(String name)
         {
             Player plr = new Player(null);
             plr.Data = new PlayerData();
@@ -203,6 +205,14 @@ namespace Orbit.Core.Server
         {
             // TODO: prozatim hack - defaultne je canvas 800*600
             return new Rect(0, 0, 800, 600 / 3);
+        }
+
+        public void SendChatMessage(string message)
+        {
+            NetOutgoingMessage msg = CreateNetMessage();
+            msg.Write((int)PacketType.CHAT_MESSAGE);
+            msg.Write("Server: " + message);
+            BroadcastMessage(msg);
         }
     }
 }

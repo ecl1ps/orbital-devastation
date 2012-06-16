@@ -99,7 +99,6 @@
     <Compile Include="Core\Helpers\GuiObjectFactory.cs" />
     <Compile Include="Core\Helpers\NetDataHelper.cs" />
     <Compile Include="Core\NetSearcher.cs" />
-    <Compile Include="Core\Player\SpectatorPlayer.cs" />
     <Compile Include="Core\Player\Player.cs" />
     <Compile Include="Core\Player\PlayerData.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DroppingSingularityControl.cs" />
@@ -142,6 +141,9 @@
     </Compile>
     <Compile Include="Gui\GameUC.xaml.cs">
       <DependentUpon>GameUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\LobbyUC.xaml.cs">
+      <DependentUpon>LobbyUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\OptionsMenu.xaml.cs">
       <DependentUpon>OptionsMenu.xaml</DependentUpon>
@@ -226,6 +228,10 @@
     <Page Include="Gui\GameWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Gui\LobbyUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\OptionsMenu.xaml">
       <SubType>Designer</SubType>

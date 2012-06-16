@@ -7,7 +7,7 @@
              d:DesignWidth="800" d:DesignHeight="600">
     <Grid Width="800" Height="600" HorizontalAlignment="Center" VerticalAlignment="Center" ShowGridLines="False">
         <StackPanel Margin="20,0,608,0" Background="#FFBDBDC4" >
-            <Button Content="Start Skirmish" Name="btnSinglePlayer" Margin="0,50,0,5" Height="33"  Width="150" Click="btnSinglePlayer_Click" FontFamily="Bauhaus 93" FontSize="16">
+            <Button Content="Start Practise game" Name="btnSinglePlayer" Margin="0,50,0,5" Height="33"  Width="150" Click="btnSinglePlayer_Click" FontFamily="Bauhaus 93" FontSize="16">
                 <Button.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="Black" Offset="1" />
@@ -15,7 +15,15 @@
                     </LinearGradientBrush>
                 </Button.Background>
             </Button>
-            <Button Content="Host New Game" Name="btnHostNewGame" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="16" Click="btnHostNewGame_Click">
+            <Button Content="Host Quick Game" Name="btnQuickGame" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="16" Click="btnQuickGame_Click">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black" Offset="1" />
+                        <GradientStop Color="#80FFFFFF" Offset="0" />
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>            
+            <Button Content="Host Tournament" Name="btnHostTournament" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="16" Click="btnHostTournament_Click">
                 <Button.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="Black" Offset="1" />

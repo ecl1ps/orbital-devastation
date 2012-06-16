@@ -87,9 +87,9 @@ namespace Orbit
         private void StartGame(Gametype type)
         {
             lastGameType = type;
-            mainWindow.mainGrid.Children.Clear();
-            mainWindow.mainGrid.Children.Add(new GameUC());
-            sceneMgr.SetCanvas((Canvas)LogicalTreeHelper.FindLogicalNode(MainWindow, "mainCanvas"));
+            Canvas c = LogicalTreeHelper.FindLogicalNode(MainWindow, "mainCanvas") as Canvas;
+            if (c != null)
+                sceneMgr.SetCanvas(c);
             sceneMgr.Init(type);
 
             StartGameThread();
@@ -102,6 +102,30 @@ namespace Orbit
             sceneMgr.SetRemoteServerAddress("127.0.0.1");
 
             StartGame(Gametype.SERVER_GAME);
+        }
+
+        public void StartTournamentLobby()
+        {
+            StartLocalServer(Gametype.LOBBY_GAME);
+
+            sceneMgr.SetRemoteServerAddress("127.0.0.1");
+
+            StartGame(Gametype.LOBBY_GAME);
+        }
+
+        public void CreateGameGui()
+        {
+            mainWindow.mainGrid.Children.Clear();
+            mainWindow.mainGrid.Children.Add(new GameUC());
+            Canvas c = LogicalTreeHelper.FindLogicalNode(MainWindow, "mainCanvas") as Canvas;
+            if (c != null)
+                sceneMgr.SetCanvas(c);
+        }
+
+        public void CreateLobbyGui(bool asLeader)
+        {
+            mainWindow.mainGrid.Children.Clear();
+            mainWindow.mainGrid.Children.Add(new LobbyUC(asLeader));
         }
 
         public void ConnectToGame(string serverAddress)
@@ -166,13 +190,20 @@ namespace Orbit
             switch (lastGameType)
             {
                 case Gametype.SOLO_GAME:
+                    CreateGameGui();
                     StartSoloGame();
                     break;
                 case Gametype.SERVER_GAME:
+                    CreateGameGui();
                     StartHostedGame();
                     break;
                 case Gametype.CLIENT_GAME:
+                    CreateGameGui();
                     ConnectToGame(lastServerAddress);
+                    break;
+                case Gametype.LOBBY_GAME:
+                    StartTournamentLobby();
+                    CreateLobbyGui(true);
                     break;
                 case Gametype.NONE:
                 default:
@@ -183,6 +214,32 @@ namespace Orbit
         public string GetPlayerName()
         {
             return PlayerName;
+        }
+
+        public void PlayerReady()
+        {
+            sceneMgr.Enqueue(new Action(() =>
+            {
+                //sceneMgr.GetCurrentPlayer().Data.LobbyReady = true;
+                sceneMgr.ShowChatMessage("sent plr ready");
+                sceneMgr.SendPlayerReadyMessage();
+            }));
+        }
+
+        public void StartTournamentGame()
+        {
+            sceneMgr.Enqueue(new Action(() =>
+            {
+                sceneMgr.SendStartGameRequest();
+            }));
+        }
+
+        public void SendChatMessage(string msg)
+        {
+            sceneMgr.Enqueue(new Action(() =>
+            {
+                sceneMgr.SendChatMessage(msg);
+            }));
         }
     }
 }

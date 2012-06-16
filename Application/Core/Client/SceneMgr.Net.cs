@@ -86,17 +86,31 @@ namespace Orbit.Core.Client
                             case NetConnectionStatus.InitiatedConnect:
                             case NetConnectionStatus.RespondedAwaitingApproval:
                             case NetConnectionStatus.RespondedConnect:
+                                break;
                             case NetConnectionStatus.Connected:
                                 if (msg.SenderConnection.RemoteHailMessage.ReadInt32() == (int)PacketType.PLAYER_ID_HAIL)
                                 {
                                     GetCurrentPlayer().Data.Id = msg.SenderConnection.RemoteHailMessage.ReadInt32();
+                                    // pokud je hra zakladana pres lobby, tak o tom musi vedet i klient, ktery ji nezakladal
+                                    Gametype serverType = (Gametype)msg.SenderConnection.RemoteHailMessage.ReadByte();
+                                    if (GameType != Gametype.LOBBY_GAME && serverType == Gametype.LOBBY_GAME)
+                                    {
+                                        GameType = serverType;
+                                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                                        {
+                                            (Application.Current as App).CreateLobbyGui(false);
+                                        }));
+                                    }
 
                                     Console.WriteLine("LOGIN confirmed (id: " + IdMgr.GetHighId(GetCurrentPlayer().Data.Id) + ")");
 
-                                    // TODO: pri dostatecnem poctu hracu pri multiplayeru (2) ukazat tlacitko, ktere posle SendStartGameRequest()
-                                    // ted se hra vzdy pusti hned pri dvou hracich
-                                    //if (GameType == Gametype.SOLO_GAME)
-                                        SendStartGameRequest();
+                                    if (GetCurrentPlayer().Data.LobbyReady)
+                                        SendPlayerReadyMessage();
+
+                                    NetOutgoingMessage reqmsg = CreateNetMessage();
+                                    reqmsg.Write((int)PacketType.ALL_PLAYER_DATA_REQUEST);
+                                    SendMessage(reqmsg);
+                                    ShowChatMessage("sending player data reqest (just connected)");
                                 }     
                                 break;
                             case NetConnectionStatus.Disconnected:
@@ -124,6 +138,14 @@ namespace Orbit.Core.Client
             SendMessage(msg);
         }
 
+        public void SendPlayerReadyMessage()
+        {
+            NetOutgoingMessage msg = CreateNetMessage();
+            msg.Write((int)PacketType.PLAYER_READY);
+            msg.Write(currentPlayer.GetId());
+            SendMessage(msg);
+        }
+
         private void ProcessIncomingDataMessage(NetIncomingMessage msg)
         {
             PacketType type = (PacketType)msg.ReadInt32();
@@ -131,61 +153,47 @@ namespace Orbit.Core.Client
             switch (type)
             {
                 case PacketType.ALL_PLAYER_DATA:
-                    if (players.Count != 0)
-                    {
-                        Console.WriteLine("Error: receiving new players but already have " + players.Count);
-                        return;
-                    }
-
                     int playerCount = msg.ReadInt32();
+
+                    ShowChatMessage("received plr data - " + playerCount);
 
                     for (int i = 0; i < playerCount; ++i)
                     {
-                        Player plr = CreatePlayer();
-                        msg.ReadObjectPlayerData(plr.Data);
-                        players.Add(plr);
-
-                        if (plr.Data.Id == currentPlayer.Data.Id)
+                        Player plr = GetPlayer(msg.ReadInt32());
+                        // jeste hrace nezname
+                        if (plr == null)
                         {
-                            stateMgr.RemoveGameState(currentPlayer);
-                            currentPlayer = plr;
-                            stateMgr.AddGameState(currentPlayer);
+                            plr = CreatePlayer();
+                            players.Add(plr);
+
+                            msg.ReadObjectPlayerData(plr.Data);
+
+                            if (plr.IsActivePlayer())
+                            {
+                                plr.CreateWeapons();
+                                plr.Baze = SceneObjectFactory.CreateBase(this, plr);
+                                DelayedAttachToScene(plr.Baze);
+                            }
                         }
-
-                        if (plr.IsActivePlayer())
+                        else // hrace uz zname, ale mohl se zmenit jeho stav na active a take se mohly zmenit dalsi player data
                         {
-                            plr.CreateWeapons();
-                            plr.Baze = SceneObjectFactory.CreateBase(this, plr);
-                            DelayedAttachToScene(plr.Baze);
+                            bool alreadyActive = plr.Data.Active;
+
+                            // TODO: pokud je hrac currentPlayer, tak mozna u nej neaplikovat prijata player data - bylo by to bezpecnejsi 
+                            // ale nejspis se to bude hodit
+                            msg.ReadObjectPlayerData(plr.Data);
+
+                            if (!alreadyActive && plr.Data.Active)
+                            {
+                                plr.CreateWeapons();
+                                plr.Baze = SceneObjectFactory.CreateBase(this, plr);
+                                DelayedAttachToScene(plr.Baze);
+                            }
                         }
                     }
-
-                    string leftPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.LEFT).Data.Name;
-                    string rightPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.RIGHT).Data.Name;
-
-                    Invoke(new Action(() =>
-                    {
-                        Label lbl1 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblIntegrityLeft");
-                        if (lbl1 != null)
-                            lbl1.Content = "100%";
-
-                        Label lbl2 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblIntegrityRight");
-                        if (lbl2 != null)
-                            lbl2.Content = "100%";
-
-                        Label lbl3 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblNameLeft");
-                        if (lbl3 != null)
-                            lbl3.Content = leftPlr;
-
-                        Label lbl4 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblNameRight");
-                        if (lbl4 != null)
-                            lbl4.Content = rightPlr;
-                    }));
-
-                    if (currentPlayer.IsActivePlayer())
-                        ShowStatusText(3, "You are " + (currentPlayer.GetPlayerColor() == Colors.Red ? "Red" : "Blue"));
-                    else
-                        ShowStatusText(3, "You are Spectator");
+                    players.ForEach(p => ShowChatMessage("received plr: " + p.GetId() + " " + p.Data.LobbyReady));
+                    if (GameType != Gametype.LOBBY_GAME)
+                        SendStartGameRequest();
                     break;
                 case PacketType.ALL_ASTEROIDS:
                     if (objects.Count > 2)
@@ -208,7 +216,7 @@ namespace Orbit.Core.Client
                         DelayedAttachToScene(s);
                         SyncReceivedObject(s, msg);
                     }
-                    isInitialized = true;
+                    isGameInitialized = true;
                     break;
                 case PacketType.NEW_ASTEROID:
                     {
@@ -286,9 +294,62 @@ namespace Orbit.Core.Client
                     GetOpponentPlayer().SetBaseIntegrity(msg.ReadInt32());
                     break;
                 case PacketType.START_GAME_RESPONSE:
+                    string leftPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.LEFT).Data.Name;
+                    string rightPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.RIGHT).Data.Name;
+
+                    Invoke(new Action(() =>
+                    {
+                        Label lbl1 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblIntegrityLeft");
+                        if (lbl1 != null)
+                            lbl1.Content = "100%";
+
+                        Label lbl2 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblIntegrityRight");
+                        if (lbl2 != null)
+                            lbl2.Content = "100%";
+
+                        Label lbl3 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblNameLeft");
+                        if (lbl3 != null)
+                            lbl3.Content = leftPlr;
+
+                        Label lbl4 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblNameRight");
+                        if (lbl4 != null)
+                            lbl4.Content = rightPlr;
+                    }));
+
+                    if (currentPlayer.IsActivePlayer())
+                        ShowStatusText(3, "You are " + (currentPlayer.GetPlayerColor() == Colors.Red ? "Red" : "Blue"));
+                    else
+                        ShowStatusText(3, "You are Spectator");
+
                     SetMainInfoText("");
                     if (currentPlayer.IsActivePlayer())
                         userActionsDisabled = false;
+                    break;
+                case PacketType.TOURNAMENT_STARTING:
+                    (Application.Current as App).Dispatcher.Invoke(new Action(() =>
+                    {
+                        (Application.Current as App).CreateGameGui();
+                    }));
+                    stateMgr.AddGameState(new PlayerActionManager(this));
+                    Invoke(new Action(() =>
+                    {
+                        Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
+                        if (lbl != null)
+                            lbl.Content = "";
+
+                        Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblWaiting");
+                        if (lblw != null)
+                            lblw.Content = "";
+
+                    }));
+                    break;
+                case PacketType.PLAYER_READY:
+                    Player pp; (pp = GetPlayer(msg.ReadInt32())).Data.LobbyReady = true;
+                    ShowChatMessage("received plr ready - " + pp.GetId());
+                    CheckAllPlayersReady();
+                    break;
+                case PacketType.CHAT_MESSAGE:
+                    ShowChatMessage(msg.ReadString());
                     break;
             }
 

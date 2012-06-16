@@ -18,7 +18,9 @@ namespace Orbit.Core.Server
         private ServerMgr serverMgr;
         private List<Player> players;
         private List<ISceneObject> objects;
+
         public int Level { get; set; }
+        public bool IsRunning { get; set; }
 
         public GameManager(ServerMgr serverMgr, List<Player> players)
         {
@@ -30,9 +32,11 @@ namespace Orbit.Core.Server
 
         public void CreateNewMatch()
         {
+            IsRunning = true;
+
             // pri solo hre se vytvori jeden bot
             if (players.Count == 1)
-                serverMgr.CreatePlayer("Bot");
+                serverMgr.CreateAndAddPlayer("Bot");
 
             CreateNewLevel();
 
@@ -101,18 +105,11 @@ namespace Orbit.Core.Server
 
         private void SendMatchData()
         {
-            // poslani dat hracu
-            NetOutgoingMessage outmsg = serverMgr.CreateNetMessage();
-
-            outmsg.Write((int)PacketType.ALL_PLAYER_DATA);
-            outmsg.Write(players.Count);
-
-            foreach (Player plr in players)
-                outmsg.WriteObjectPlayerData(plr.Data);
-
+            NetOutgoingMessage outmsg = serverMgr.CreateAllPlayersDataMessage();
             serverMgr.BroadcastMessage(outmsg);
 
             // poslani vsech asteroidu
+            outmsg = serverMgr.CreateNetMessage();
             outmsg = serverMgr.CreateNetMessage();
             outmsg.Write((int)PacketType.ALL_ASTEROIDS);
 
