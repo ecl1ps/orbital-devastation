@@ -73,7 +73,8 @@ namespace Orbit.Core
     public enum GameEnd
     {
         WIN_GAME,
-        LEFT_GAME
+        LEFT_GAME,
+        SERVER_DISCONNECTED
     }
 
     public enum PacketType
@@ -104,5 +105,6 @@ namespace Orbit.Core
         PLAYER_READY,
         CHAT_MESSAGE,
         PLAYER_DISCONNECTED,
+        SERVER_SHUTDOWN,
     }    
 }

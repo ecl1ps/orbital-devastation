@@ -117,8 +117,7 @@ namespace Orbit.Core.Client
                                 break;
                             case NetConnectionStatus.Disconnected:
                             case NetConnectionStatus.Disconnecting:
-                                // spis by se melo zobrazit neco jako ze bylo ztraceno spojeni k serveru
-                                EndGame(GetOpponentPlayer(), GameEnd.LEFT_GAME);
+                                EndGame(null, GameEnd.SERVER_DISCONNECTED);
                                 break;
                         }
 
@@ -363,12 +362,20 @@ namespace Orbit.Core.Client
                     break;
                 case PacketType.PLAYER_DISCONNECTED:
                     Player disconnected = GetPlayer(msg.ReadInt32());
-                    players.Remove(disconnected);
+
+                    if (disconnected.IsActivePlayer())
+                        EndGame(disconnected, GameEnd.LEFT_GAME);
+                    else
+                        players.Remove(disconnected);
+
                     if (GameType == Gametype.LOBBY_GAME)
                     {
                         UpdateLobbyPlayers();
                         CheckAllPlayersReady();
                     }
+                    break;
+                case PacketType.SERVER_SHUTDOWN:
+                    EndGame(null, GameEnd.SERVER_DISCONNECTED);
                     break;
             }
 

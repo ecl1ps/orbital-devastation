@@ -83,6 +83,12 @@ namespace Orbit.Core.Server
 
         public void Shutdown()
         {
+            NetOutgoingMessage msg = CreateNetMessage();
+            msg.Write((int)PacketType.SERVER_SHUTDOWN);
+            BroadcastMessage(msg);
+
+            Thread.Sleep(1000);
+
             RequestStop();
         }
 

@@ -162,7 +162,7 @@ namespace Orbit
         {
             ExitGame();
             mainWindow.mainGrid.Children.Clear();
-            mainWindow.mainGrid.Children.Add(new OptionsUC());
+            mainWindow.mainGrid.Children.Add(new MainUC());
         }
 
         public void ExitGame()

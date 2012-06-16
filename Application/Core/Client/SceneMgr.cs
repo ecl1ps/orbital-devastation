@@ -148,22 +148,6 @@ namespace Orbit.Core.Client
             }));
         }
 
-        private void EndGame(Player plr, GameEnd endType)
-        {
-            if (gameEnded)
-                return;
-
-            gameEnded = true;
-            if (endType == GameEnd.WIN_GAME)
-                PlayerWon(plr);
-            else if (endType == GameEnd.LEFT_GAME)
-                PlayerLeft(plr);
-
-            RequestStop();
-
-            Thread.Sleep(3000);
-        }
-
         public void CloseGame()
         {
             RequestStop();
@@ -477,6 +461,34 @@ namespace Orbit.Core.Client
                         currentPlayer.Hook.Shoot(point);
                     break;
             }          
+        }
+
+        private void EndGame(Player plr, GameEnd endType)
+        {
+            if (gameEnded)
+                return;
+
+            gameEnded = true;
+            if (endType == GameEnd.WIN_GAME)
+                PlayerWon(plr);
+            else if (endType == GameEnd.LEFT_GAME)
+                PlayerLeft(plr);
+            else if (endType == GameEnd.SERVER_DISCONNECTED)
+                Disconnected();
+
+            RequestStop();
+
+            Thread.Sleep(3000);
+        }
+
+        private void Disconnected()
+        {
+            Invoke(new Action(() =>
+            {
+                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
+                if (lbl != null)
+                    lbl.Content = "Disconnected from the server";
+            }));
         }
 
         private void PlayerWon(Player winner)
