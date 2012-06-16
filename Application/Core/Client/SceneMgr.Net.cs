@@ -199,7 +199,10 @@ namespace Orbit.Core.Client
                     if (GameType != Gametype.LOBBY_GAME)
                         SendStartGameRequest();
                     else
+                    {
+                        CheckAllPlayersReady();
                         UpdateLobbyPlayers();
+                    }
                     break;
                 case PacketType.ALL_ASTEROIDS:
                     if (objects.Count > 2)
@@ -352,7 +355,7 @@ namespace Orbit.Core.Client
                 case PacketType.PLAYER_READY:
                     Player pl = GetPlayer(msg.ReadInt32());
                     pl.Data.LobbyReady = true;
-                    ShowChatMessage("received plr ready - " + pl.GetId());
+                    ShowChatMessage("received plr ready: " + pl.GetId());
                     CheckAllPlayersReady();
                     break;
                 case PacketType.CHAT_MESSAGE:
@@ -362,7 +365,10 @@ namespace Orbit.Core.Client
                     Player disconnected = GetPlayer(msg.ReadInt32());
                     players.Remove(disconnected);
                     if (GameType == Gametype.LOBBY_GAME)
+                    {
                         UpdateLobbyPlayers();
+                        CheckAllPlayersReady();
+                    }
                     break;
             }
 

@@ -527,20 +527,28 @@ namespace Orbit.Core.Client
 
         private void CheckAllPlayersReady()
         {
-            ShowChatMessage("checking players: " + players.Count);
+            ShowChatMessage("checking players for ready state: " + players.Count);
 
+            bool ready = true;
             if (players.Count < 2)
-                return;
+                ready = false;
 
             players.ForEach(p => ShowChatMessage("plr: " + p.GetId() + " " + p.Data.LobbyReady));
 
-            if (players.TrueForAll(p => p.Data.LobbyReady))
-                (Application.Current as App).Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    LobbyUC wnd = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
-                    if (wnd != null)
-                        wnd.AllReady();
-                }));
+            if (ready)
+                foreach (Player p in players)
+                    if (!p.Data.LobbyReady)
+                    {
+                        ready = false;
+                        break;
+                    }
+
+            (Application.Current as App).Dispatcher.BeginInvoke(new Action(() =>
+            {
+                LobbyUC wnd = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
+                if (wnd != null)
+                    wnd.AllReady(ready);
+            }));
         }
 
         public void ShowChatMessage(string message)

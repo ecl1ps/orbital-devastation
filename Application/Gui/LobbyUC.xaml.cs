@@ -60,10 +60,10 @@ namespace Orbit.Gui
             (Application.Current as App).PlayerReady();
         }
 
-        public void AllReady()
+        public void AllReady(bool ready = true)
         {
             if (leader)
-                btnStartGame.IsEnabled = true;
+                btnStartGame.IsEnabled = ready;
         }
 
         private void lobbyWindow_Loaded(object sender, RoutedEventArgs e)
