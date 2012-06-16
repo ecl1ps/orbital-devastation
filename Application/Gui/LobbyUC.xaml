@@ -3,15 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:controls="clr-namespace:Orbit.Gui"
              mc:Ignorable="d" x:Name="lobbyWindow"
              d:DesignWidth="800" d:DesignHeight="600" Loaded="lobbyWindow_Loaded">
     <Grid Width="800" Height="600" HorizontalAlignment="Center" VerticalAlignment="Center">
         <Label Name="lblTitle" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="419" Margin="0,36,0,507" FontFamily="Bauhaus 93" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" >Game Match Lobby</Label>
-        <StackPanel Name="spPlayers1"  Background="#7D91A0A3" Margin="12,129,401,254">
+        <StackPanel Name="spPlayers1"  Background="#7D91A0A3" Margin="12,129,401,269" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <controls:LobbyPlayer/>
+            <controls:LobbyPlayer/>
+            <controls:LobbyPlayer/>
+            <controls:LobbyPlayer/>
+            <controls:LobbyPlayer/>        
         </StackPanel>
-        <StackPanel Name="spPlayers2" Background="#7D91A0A3" Margin="401,129,12,254" />
+        <StackPanel Name="spPlayers2" Background="#7D91A0A3" Margin="401,129,12,269" />
         <ListView Height="148" HorizontalAlignment="Left" Margin="12,407,0,0" Name="lvChat" VerticalAlignment="Top" Width="776" />
-        <Button Content="Start Game" Height="28" HorizontalAlignment="Center" Margin="330,365,341,0" FontFamily="Bauhaus 93" FontSize="16" Name="btnStartGame" VerticalAlignment="Top" Width="129" Click="btnStartGame_Click" IsEnabled="False">
+        <Button Content="Start Game" Height="28" HorizontalAlignment="Center" Margin="330,357,341,0" FontFamily="Bauhaus 93" FontSize="16" Name="btnStartGame" VerticalAlignment="Top" Width="129" Click="btnStartGame_Click" IsEnabled="False">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="1" />
@@ -19,7 +25,7 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Button Content="Ready" Height="28" HorizontalAlignment="Center" Margin="330,365,341,0" FontFamily="Bauhaus 93" FontSize="16" Name="btnReady" VerticalAlignment="Top" Width="129" Click="btnReady_Click">
+        <Button Content="Ready" Height="28" HorizontalAlignment="Center" Margin="330,358,341,0" FontFamily="Bauhaus 93" FontSize="16" Name="btnReady" VerticalAlignment="Top" Width="129" Click="btnReady_Click">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="1" />

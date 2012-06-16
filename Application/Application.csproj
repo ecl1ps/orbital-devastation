@@ -142,6 +142,9 @@
     <Compile Include="Gui\GameUC.xaml.cs">
       <DependentUpon>GameUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\LobbyPlayer.xaml.cs">
+      <DependentUpon>LobbyPlayer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\LobbyUC.xaml.cs">
       <DependentUpon>LobbyUC.xaml</DependentUpon>
     </Compile>
@@ -228,6 +231,10 @@
     <Page Include="Gui\GameWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Gui\LobbyPlayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\LobbyUC.xaml">
       <SubType>Designer</SubType>
