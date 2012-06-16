@@ -206,10 +206,16 @@ namespace Orbit.Core.Server
                     gameSession.ObjectDestroyed(msg.ReadInt64());
                     break;
                 case PacketType.PLAYER_READY:
-                    GetPlayer(msg.SenderConnection).Data.LobbyReady = true;
-                    BroadcastMessage(msg);
+                    Player p = GetPlayer(msg.SenderConnection);
+                    p.Data.LobbyReady = true;
 
-                    players.ForEach(p => SendChatMessage("plr: " + p.GetId() + " " + p.Data.LobbyReady));
+                    // vytvorit novou zpravu, protoze id jeste nemuselo byt ziniciovano
+                    NetOutgoingMessage rdyMsg = CreateNetMessage();
+                    rdyMsg.Write((int)PacketType.PLAYER_READY);
+                    rdyMsg.Write(p.GetId());
+                    BroadcastMessage(rdyMsg);
+
+                    players.ForEach(pl => SendChatMessage("plr: " + pl.GetId() + " " + pl.Data.LobbyReady));
                     break;
                 case PacketType.ALL_PLAYER_DATA_REQUEST:
                     NetOutgoingMessage plrs = CreateAllPlayersDataMessage();
