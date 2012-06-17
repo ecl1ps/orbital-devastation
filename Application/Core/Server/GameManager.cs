@@ -39,7 +39,10 @@ namespace Orbit.Core.Server
         {
             // pri solo hre se vytvori jeden bot
             if (players.Count == 1)
-                serverMgr.CreateAndAddPlayer("Bot");
+            {
+                Player bot = serverMgr.CreateAndAddPlayer("Bot");
+                bot.Data.StartReady = true;
+            }
 
             CreateNewLevel();
 
