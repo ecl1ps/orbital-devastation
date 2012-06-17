@@ -16,6 +16,7 @@ using Lidgren.Network;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Helpers;
+using Orbit.Core.AI;
 
 namespace Orbit.Core.Client
 {
@@ -179,6 +180,9 @@ namespace Orbit.Core.Client
                                 plr.Baze = SceneObjectFactory.CreateBase(this, plr);
                                 DelayedAttachToScene(plr.Baze);
                             }
+
+                            if (plr.Data.Name.Equals("Bot"))
+                                stateMgr.AddGameState(new SimpleBot(this, objects, plr));
                         }
                         else // hrace uz zname, ale mohl se zmenit jeho stav na active a take se mohly zmenit dalsi player data
                         {
