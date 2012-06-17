@@ -306,16 +306,13 @@ namespace Orbit.Core.Client
                     string leftPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.LEFT).Data.Name;
                     string rightPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.RIGHT).Data.Name;
 
+                    // zobrazi aktualni integrity bazi
+                    foreach (Player p in players)
+                        if (p.IsActivePlayer())
+                            p.SetBaseIntegrity(p.GetBaseIntegrity());
+
                     Invoke(new Action(() =>
                     {
-                        Label lbl1 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblIntegrityLeft");
-                        if (lbl1 != null)
-                            lbl1.Content = "100%";
-
-                        Label lbl2 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblIntegrityRight");
-                        if (lbl2 != null)
-                            lbl2.Content = "100%";
-
                         Label lbl3 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblNameLeft");
                         if (lbl3 != null)
                             lbl3.Content = leftPlr;

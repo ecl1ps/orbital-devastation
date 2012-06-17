@@ -296,6 +296,7 @@ namespace Orbit.Core.Helpers
             msg.Write(d.Score);
             msg.Write(d.LobbyReady);
             msg.Write(d.StartReady);
+            msg.Write(d.BaseIntegrity);
         }
 
         public static void ReadObjectPlayerData(this NetIncomingMessage msg, PlayerData d)
@@ -315,6 +316,7 @@ namespace Orbit.Core.Helpers
             else
                 msg.ReadBoolean();
             d.StartReady = msg.ReadBoolean();
+            d.BaseIntegrity = msg.ReadInt32();
         }
 
 
