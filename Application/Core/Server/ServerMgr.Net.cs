@@ -163,7 +163,7 @@ namespace Orbit.Core.Server
         private void ProcessIncomingDataMessage(NetIncomingMessage msg)
         {
             PacketType type = (PacketType)msg.ReadInt32();
-            Console.WriteLine("Server: received msg " + type.ToString());
+            Console.WriteLine("Server " + GetPlayer(msg.SenderConnection).GetId() + ": received msg " + type.ToString());
             switch (type)
             {
                 case PacketType.ALL_PLAYER_DATA:
@@ -179,25 +179,21 @@ namespace Orbit.Core.Server
                 case PacketType.START_GAME_REQUEST:
 
                     if (GameType != Gametype.SOLO_GAME && players.Count < 2)
-                        break;
-
-                    if (GameType == Gametype.LOBBY_GAME)
                     {
-                        NetOutgoingMessage tournamentMsg = CreateNetMessage();
-                        tournamentMsg.Write((int)PacketType.TOURNAMENT_STARTING);
-                        BroadcastMessage(tournamentMsg);
+                        Console.WriteLine("-------- " + GetPlayer(msg.SenderConnection).GetId() + " return - malo hracu");
+                        break;
                     }
 
-                    if (gameSession != null && gameSession.IsRunning)
-                        return;
+                    if (gameSession == null)
+                    {
+                        gameSession = new GameManager(this, players);
+                        gameSession.CreateNewMatch();
+                        isInitialized = true;
+                    }
 
-                    gameSession = new GameManager(this, players);
-                    gameSession.CreateNewMatch();
-                    isInitialized = true;
+                    if (gameSession.RequestStartMatch(GetPlayer(msg.SenderConnection)))
+                        Console.WriteLine("------ " + GetPlayer(msg.SenderConnection).GetId() + " broadcasting START_GAME_RESPONSE");
 
-                    NetOutgoingMessage startMsg = CreateNetMessage();
-                    startMsg.Write((int)PacketType.START_GAME_RESPONSE);
-                    BroadcastMessage(startMsg);
                     break;
                 case PacketType.PLAYER_HEAL:
                 case PacketType.BASE_INTEGRITY_CHANGE:
@@ -221,7 +217,7 @@ namespace Orbit.Core.Server
                     break;
                 case PacketType.ALL_PLAYER_DATA_REQUEST:
                     NetOutgoingMessage plrs = CreateAllPlayersDataMessage();
-                    server.SendMessage(plrs, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
+                    SendMessage(plrs, msg.SenderConnection);
                     break;
             }
         }
@@ -268,6 +264,16 @@ namespace Orbit.Core.Server
             NetOutgoingMessage outMsg = CreateNetMessage();
             outMsg.Write(msg);
             BroadcastMessage(outMsg, msg.SenderConnection);
+        }
+
+        public void SendMessage(NetOutgoingMessage msg, Player p)
+        {
+            SendMessage(msg, p.Connection);
+        }
+
+        public void SendMessage(NetOutgoingMessage msg, NetConnection con)
+        {
+            server.SendMessage(msg, con, NetDeliveryMethod.ReliableOrdered);
         }
     }
 }

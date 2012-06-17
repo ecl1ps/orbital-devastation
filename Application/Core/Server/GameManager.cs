@@ -32,8 +32,6 @@ namespace Orbit.Core.Server
 
         public void CreateNewMatch()
         {
-            IsRunning = true;
-
             // pri solo hre se vytvori jeden bot
             if (players.Count == 1)
                 serverMgr.CreateAndAddPlayer("Bot");
@@ -59,8 +57,6 @@ namespace Orbit.Core.Server
             bool redBaseColor = serverMgr.GetRandomGenerator().Next(2) == 0 ? true : false;
             plr1.Data.PlayerColor = redBaseColor ? Colors.Red : Colors.Blue;
             plr2.Data.PlayerColor = redBaseColor ? Colors.Blue : Colors.Red;
-
-            SendMatchData();
         }
 
         private void CreateNewLevel()
@@ -103,10 +99,14 @@ namespace Orbit.Core.Server
             serverMgr.BroadcastMessage(msg);
         }
 
-        private void SendMatchData()
+        private void SendMatchData(Player p = null)
         {
+            // poslani vsech hracu
             NetOutgoingMessage outmsg = serverMgr.CreateAllPlayersDataMessage();
-            serverMgr.BroadcastMessage(outmsg);
+            if (p == null)
+                serverMgr.BroadcastMessage(outmsg);
+            else
+                serverMgr.SendMessage(outmsg, p);
 
             // poslani vsech asteroidu
             outmsg = serverMgr.CreateNetMessage();
@@ -121,8 +121,59 @@ namespace Orbit.Core.Server
                 if (obj is Asteroid)
                     (obj as Asteroid).WriteObject(outmsg);
 
-            serverMgr.BroadcastMessage(outmsg);
+            if (p == null)
+                serverMgr.BroadcastMessage(outmsg);
+            else
+                serverMgr.SendMessage(outmsg, p);
+        }
+
+        public bool RequestStartMatch(Player p)
+        {
+            // do tournamentu se nemuzou pridat dalsi hraci, kteri nebyli v lobby pri startu
+            if (serverMgr.GameType == Gametype.LOBBY_GAME && !players.Exists(pl => pl.GetId() == p.GetId()))
+                return false;
+
+            p.Data.StartReady = true;
+
+            if ((p.IsActivePlayer() && !IsRunning && players.Count(plr => plr.IsActivePlayer() && plr.Data.StartReady) == 2)
+                || serverMgr.GameType == Gametype.LOBBY_GAME)
+            {
+                if (serverMgr.GameType == Gametype.LOBBY_GAME)
+                {
+                    NetOutgoingMessage tournamentMsg = serverMgr.CreateNetMessage();
+                    tournamentMsg.Write((int)PacketType.TOURNAMENT_STARTING);
+                    serverMgr.BroadcastMessage(tournamentMsg);
+                }
+
+                SendMatchData();
+
+                NetOutgoingMessage startMsg = serverMgr.CreateNetMessage();
+                startMsg.Write((int)PacketType.START_GAME_RESPONSE);
+                serverMgr.BroadcastMessage(startMsg);
+
+                IsRunning = true;
+                return true;
+            }
             
+            // TODO: nemuze se stat, ze by jeden spectator dal request vickrat? 
+            // pak by bylo jeste potreba kontrolovat stav pred a po requestu
+            if (!p.IsActivePlayer() && IsRunning)
+            {
+                if (serverMgr.GameType == Gametype.LOBBY_GAME)
+                {
+                    NetOutgoingMessage tournamentMsg = serverMgr.CreateNetMessage();
+                    tournamentMsg.Write((int)PacketType.TOURNAMENT_STARTING);
+                    serverMgr.SendMessage(tournamentMsg, p);
+                }
+
+                SendMatchData(p);
+
+                NetOutgoingMessage startMsg = serverMgr.CreateNetMessage();
+                startMsg.Write((int)PacketType.START_GAME_RESPONSE);
+                serverMgr.SendMessage(startMsg, p);
+            }
+
+            return IsRunning;
         }
     }
 }

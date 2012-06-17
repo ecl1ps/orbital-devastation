@@ -86,8 +86,6 @@ namespace Orbit.Core.Client
                         {
                             case NetConnectionStatus.None:
                             case NetConnectionStatus.InitiatedConnect:
-                            case NetConnectionStatus.RespondedAwaitingApproval:
-                            case NetConnectionStatus.RespondedConnect:
                                 break;
                             case NetConnectionStatus.Connected:
                                 if (msg.SenderConnection.RemoteHailMessage.ReadInt32() == (int)PacketType.PLAYER_ID_HAIL)
@@ -150,7 +148,7 @@ namespace Orbit.Core.Client
         private void ProcessIncomingDataMessage(NetIncomingMessage msg)
         {
             PacketType type = (PacketType)msg.ReadInt32();
-            Console.WriteLine("Client: received msg " + type.ToString());
+            Console.WriteLine("Client " + GetCurrentPlayer().GetId() + ": received msg " + type.ToString());
             switch (type)
             {
                 case PacketType.ALL_PLAYER_DATA:
@@ -195,7 +193,7 @@ namespace Orbit.Core.Client
 
                     players.ForEach(p => ShowChatMessage("received plr: " + p.GetId() + " " + p.Data.LobbyReady));
 
-                    if (GameType != Gametype.LOBBY_GAME)
+                    if (GameType != Gametype.LOBBY_GAME && !currentPlayer.Data.StartReady)
                         SendStartGameRequest();
                     else
                     {

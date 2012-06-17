@@ -565,6 +565,9 @@ namespace Orbit.Core.Client
 
         public void ShowChatMessage(string message)
         {
+            if (Application.Current == null)
+                return;
+
             (Application.Current as App).Dispatcher.BeginInvoke(new Action(() =>
             {
                 ListView chat = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lvChat") as ListView;
