@@ -5,19 +5,20 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace Orbit.Core.Client
 {
     public class StaticMouse : IAppState
     {
-        private UIElement cursor;
+        private static StaticMouse instance;
+        public static StaticMouse Instance { get { return instance; } }
+
+        private FrameworkElement cursor;
         private bool enabled;
         private Canvas canvas;
         private SceneMgr sceneMgr;
-        private System.Drawing.Point center;
-        private System.Drawing.Point position;
 
-        public System.Drawing.Point Position { get { return position; } set { position = value; } }
         public bool Enabled
         {
             get { return enabled; }
@@ -30,7 +31,12 @@ namespace Orbit.Core.Client
 
         public float sensitivity { get; set; }
 
-        public StaticMouse(UIElement cursor, SceneMgr mgr)
+        public static void Init(FrameworkElement cursor, SceneMgr mgr)
+        {
+            instance = new StaticMouse(cursor, mgr);
+        }
+
+        private StaticMouse(FrameworkElement cursor, SceneMgr mgr)
         {
             if (cursor == null)
                 throw new Exception("cursor cannot be null");
@@ -42,24 +48,20 @@ namespace Orbit.Core.Client
 
         private void enableMouse(bool enable)
         {
+            if (Enabled == enable)
+                return;
+
             this.enabled = enable;
             if (enable)
             {
-                centerNativeCursor();
                 attachCustomCursor();
             }
             else
             {
-                positionCursor(Position);
                 dettachCustomCursor();
             }
         }
 
-        private void centerNativeCursor()
-        {
-            System.Windows.Forms.Cursor.Position = new System.Drawing.Point((int) sceneMgr.ViewPortSizeOriginal.Width / 2, (int) sceneMgr.ViewPortSizeOriginal.Height / 2);
-            center = System.Windows.Forms.Cursor.Position;
-        }
         public void positionCursor(System.Drawing.Point position) 
         {
             System.Windows.Forms.Cursor.Position = position;
@@ -68,11 +70,17 @@ namespace Orbit.Core.Client
         public void attachCustomCursor()
         {
             sceneMgr.AttachGraphicalObjectToScene(cursor);
+            sceneMgr.Invoke(new Action(() =>
+            {
+                Canvas.SetZIndex(cursor, 500);
+            }));
+            Cursor.Hide();
         }
 
         public void dettachCustomCursor()
         {
             sceneMgr.RemoveGraphicalObjectFromScene(cursor);
+            Cursor.Show();
         }
 
         public void update(float tpf)
@@ -80,20 +88,32 @@ namespace Orbit.Core.Client
             if (!enabled)
                 return;
 
-            position.X += center.X - Cursor.Position.X;
-            position.Y += center.Y - Cursor.Position.Y;
-            centerNativeCursor();
-            if(cursor.IsVisible)
-                updateCustomCursor();
-        }
-
-        private void updateCustomCursor()
-        {
             sceneMgr.Invoke(new Action(() =>
             {
-                Canvas.SetLeft(cursor, Position.X);
-                Canvas.SetTop(cursor, Position.Y);
+                Point p = sceneMgr.GetCanvas().PointFromScreen(new Point(Cursor.Position.X, Cursor.Position.Y));
+
+                if (p.X > sceneMgr.ViewPortSizeOriginal.Width)
+                    p.X = sceneMgr.ViewPortSizeOriginal.Width;
+                else if (p.X < 0)
+                    p.X = 0;
+
+                if (p.Y > sceneMgr.ViewPortSizeOriginal.Height)
+                    p.Y = sceneMgr.ViewPortSizeOriginal.Height;
+                else if (p.Y < 0)
+                    p.Y = 0;
+
+                if (cursor.IsVisible)
+                    updateCustomCursor(p);
+
+                p = canvas.PointToScreen(p);
+                Cursor.Position = new System.Drawing.Point((int)p.X, (int)p.Y);
             }));
+        }
+
+        private void updateCustomCursor(Point p)
+        {
+            Canvas.SetLeft(cursor, p.X - (cursor.ActualWidth / 2));
+            Canvas.SetTop(cursor, p.Y - (cursor.ActualHeight / 2));
         }
     }
 }

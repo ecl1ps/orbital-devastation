@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Orbit.Core.Client;
 
 namespace Orbit.Gui
 {
@@ -39,17 +40,26 @@ namespace Orbit.Gui
                     {
                         mainGrid.Children.Remove(uc);
                         mainGrid.Children.Add(new OptionsMenu());
+                        if(StaticMouse.Instance != null)
+                            StaticMouse.Instance.Enabled = false;
                     }
                     else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "optionsMenu") as UIElement) != null)
                     {
                         mainGrid.Children.Remove(uc);
                         mainGrid.Children.Add(new EscMenu());
+                        if (StaticMouse.Instance != null)
+                            StaticMouse.Instance.Enabled = false;
                     } 
                     else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "escMenu") as UIElement) != null)
                     {
                         mainGrid.Children.Remove(uc);
-                    } else
+                        if (StaticMouse.Instance != null)
+                            StaticMouse.Instance.Enabled = true;
+                    } else {
                         mainGrid.Children.Add(new EscMenu());
+                        if (StaticMouse.Instance != null)
+                            StaticMouse.Instance.Enabled = false;
+                    }
                     break;
             }
         }

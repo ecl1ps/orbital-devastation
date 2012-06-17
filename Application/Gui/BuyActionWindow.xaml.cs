@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using Orbit.Core.Utils;
 using Orbit.Core.Scene;
 using Orbit.Gui.ActionControllers;
+using Orbit.Core.Client;
 
 namespace Orbit.Gui
 {
@@ -98,6 +99,16 @@ namespace Orbit.Gui
             {
                 controller.ActionClicked(this);
             }));
+        }
+
+        private new void MouseEnter(object sender, RoutedEventArgs e)
+        {
+            StaticMouse.Instance.Enabled = false;
+        }
+
+        private new void MouseLeave(object sender, RoutedEventArgs e)
+        {
+            StaticMouse.Instance.Enabled = true;
         }
     }
 }

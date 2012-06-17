@@ -34,6 +34,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             asteroid.Radius = radius;
             asteroid.Position = Center;
             asteroid.TextureId = SceneMgr.GetRandomGenerator().Next(1, 18);
+            asteroid.Enabled = true;
             asteroid.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(asteroid));
 
             NewtonianMovementControl nmc = new NewtonianMovementControl();

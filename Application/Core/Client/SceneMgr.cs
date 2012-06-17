@@ -17,6 +17,7 @@ using System.Windows.Input;
 using Orbit.Gui;
 using Orbit.Core.Utils;
 using Orbit.Core.Weapons;
+using System.Windows.Media.Imaging;
 
 namespace Orbit.Core.Client
 {
@@ -126,9 +127,17 @@ namespace Orbit.Core.Client
 
         private void InitStaticMouse()
         {
-            StaticMouse mouse = new StaticMouse(null, this);
-            mouse.Enabled = true;
-            AppStates.Add(mouse);
+            BitmapImage image = new BitmapImage();
+            image.BeginInit();
+            image.UriSource = new Uri("pack://application:,,,/resources/images/mouse/targeting_icon.png");
+            image.EndInit();
+
+            Image img = new Image();
+            img.Source = image;
+
+            StaticMouse.Init(img, this);
+            StaticMouse.Instance.Enabled = true;
+            AppStates.Add(StaticMouse.Instance);
         }
 
         private Player CreatePlayer()

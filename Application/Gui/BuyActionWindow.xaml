@@ -6,13 +6,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="200">
     <Border CornerRadius="0.95" BorderBrush="Black" BorderThickness="1">
-        <Grid>
+        <Grid MouseEnter="MouseEnter" MouseLeave="MouseLeave">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="150"/>
             </Grid.ColumnDefinitions>
-            <Button Click="OnClick" Name="Button" Grid.Column="0" Grid.Row="0" Width="50">
-                <Image Name="ButtonImage" Source="heal-icon.png" Width="50" Height="50"/>
+            <Button Click="OnClick" Name="Button" Grid.Column="0" Grid.Row="0" Width="50" MouseEnter="MouseEnter" MouseLeave="MouseLeave">
+                <Image Name="ButtonImage" Width="50" Height="50"/>
             </Button>
             <Label Background="AntiqueWhite" Grid.Column="1" Width="150" HorizontalAlignment="Right" FontFamily="Andalus" >
                 <StackPanel>
