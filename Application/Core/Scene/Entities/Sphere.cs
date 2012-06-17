@@ -67,7 +67,7 @@ namespace Orbit.Core.Scene.Entities
             if (other is Sphere)
                 return CollisionHelper.intersectsCircleAndCircle(Center, Radius, (other as Sphere).Center, (other as Sphere).Radius);
 
-            if (other is Base)
+            if (other is Square)
                 return CollisionHelper.intersectsCircleAndSquare(Center, Radius, (other as Base).Position, (other as Base).Size);
 
             return false;

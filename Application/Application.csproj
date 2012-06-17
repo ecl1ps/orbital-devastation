@@ -94,6 +94,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\Client\IAppState.cs" />
+    <Compile Include="Core\AI\SimpleBot.cs" />
     <Compile Include="Core\Client\StaticMouse.cs" />
     <Compile Include="Core\GameStateManager.cs" />
     <Compile Include="Core\Helpers\CollisionHelper.cs" />
