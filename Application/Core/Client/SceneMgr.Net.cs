@@ -91,7 +91,13 @@ namespace Orbit.Core.Client
                             case NetConnectionStatus.Connected:
                                 if (msg.SenderConnection.RemoteHailMessage.ReadInt32() == (int)PacketType.PLAYER_ID_HAIL)
                                 {
-                                    GetCurrentPlayer().Data.Id = msg.SenderConnection.RemoteHailMessage.ReadInt32();
+                                    currentPlayer.Data.Id = msg.SenderConnection.RemoteHailMessage.ReadInt32();
+                                    // pokud uz takove jmeno na serveru existuje, tak obdrzime nove
+                                    currentPlayer.Data.Name = msg.SenderConnection.RemoteHailMessage.ReadString();
+                                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                                    {
+                                        (Application.Current as App).PlayerName = currentPlayer.Data.Name;
+                                    }));
                                     // pokud je hra zakladana pres lobby, tak o tom musi vedet i klient, ktery ji nezakladal
                                     Gametype serverType = (Gametype)msg.SenderConnection.RemoteHailMessage.ReadByte();
                                     tournametRunnig = msg.SenderConnection.RemoteHailMessage.ReadBoolean();

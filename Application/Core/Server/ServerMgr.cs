@@ -106,7 +106,10 @@ namespace Orbit.Core.Server
             Player plr = new Player(null);
             plr.Data = new PlayerData();
             plr.Data.Id = IdMgr.GetNewPlayerId();
-            plr.Data.Name = name;
+            if (players.Exists(p => p.Data.Name.Equals(name)))
+                plr.Data.Name = name + " " + plr.GetId();
+            else
+                plr.Data.Name = name;
             players.Add(plr);
             return plr;
         }

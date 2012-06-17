@@ -67,6 +67,8 @@ namespace Orbit.Core.Server
                     case NetIncomingMessageType.DiscoveryRequest:
                         NetOutgoingMessage response = server.CreateMessage();
                         response.Write((byte)GameType);
+
+                        // jmeno serveru
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
                             response.Write((Application.Current as App).GetPlayerName());
@@ -91,6 +93,7 @@ namespace Orbit.Core.Server
                             NetOutgoingMessage hailMsg = CreateNetMessage();
                             hailMsg.Write((int)PacketType.PLAYER_ID_HAIL);
                             hailMsg.Write(p.Data.Id);
+                            hailMsg.Write(p.Data.Name);
                             hailMsg.Write((byte)GameType);
                             bool tournamentRunning = GameType == Gametype.TOURNAMENT_GAME && gameSession != null && gameSession.IsRunning;
                             hailMsg.Write(tournamentRunning);
