@@ -87,7 +87,7 @@ namespace Orbit.Core.Client
                 currentPlayer.Data.Name = (Application.Current as App).GetPlayerName();
             }));
 
-            if (gameType != Gametype.LOBBY_GAME)
+            if (gameType != Gametype.TOURNAMENT_GAME)
             {
                 stateMgr.AddGameState(new PlayerActionManager(this));
                 Invoke(new Action(() =>

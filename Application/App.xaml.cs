@@ -106,11 +106,11 @@ namespace Orbit
 
         public void StartTournamentLobby()
         {
-            StartLocalServer(Gametype.LOBBY_GAME);
+            StartLocalServer(Gametype.TOURNAMENT_GAME);
 
             sceneMgr.SetRemoteServerAddress("127.0.0.1");
 
-            StartGame(Gametype.LOBBY_GAME);
+            StartGame(Gametype.TOURNAMENT_GAME);
         }
 
         public void CreateGameGui()
@@ -201,7 +201,7 @@ namespace Orbit
                     CreateGameGui();
                     ConnectToGame(lastServerAddress);
                     break;
-                case Gametype.LOBBY_GAME:
+                case Gametype.TOURNAMENT_GAME:
                     StartTournamentLobby();
                     CreateLobbyGui(true);
                     break;

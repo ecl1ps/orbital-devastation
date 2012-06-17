@@ -25,6 +25,7 @@ namespace Orbit.Core.Client
         private string serverAddress;
         private NetConnection serverConnection;
         private Queue<NetOutgoingMessage> pendingMessages;
+        private bool tournametRunnig;
 
         private void InitNetwork()
         {
@@ -93,13 +94,15 @@ namespace Orbit.Core.Client
                                     GetCurrentPlayer().Data.Id = msg.SenderConnection.RemoteHailMessage.ReadInt32();
                                     // pokud je hra zakladana pres lobby, tak o tom musi vedet i klient, ktery ji nezakladal
                                     Gametype serverType = (Gametype)msg.SenderConnection.RemoteHailMessage.ReadByte();
-                                    if (GameType != Gametype.LOBBY_GAME && serverType == Gametype.LOBBY_GAME)
+                                    tournametRunnig = msg.SenderConnection.RemoteHailMessage.ReadBoolean();
+                                    if (GameType != Gametype.TOURNAMENT_GAME && serverType == Gametype.TOURNAMENT_GAME)
                                     {
                                         GameType = serverType;
-                                        Application.Current.Dispatcher.Invoke(new Action(() =>
-                                        {
-                                            (Application.Current as App).CreateLobbyGui(false);
-                                        }));
+                                        if (!tournametRunnig)
+                                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                                            {
+                                                (Application.Current as App).CreateLobbyGui(false);
+                                            }));
                                     }
 
                                     while (pendingMessages.Count != 0)
@@ -193,7 +196,7 @@ namespace Orbit.Core.Client
 
                     players.ForEach(p => ShowChatMessage("received plr: " + p.GetId() + " " + p.Data.LobbyReady));
 
-                    if (GameType != Gametype.LOBBY_GAME && !currentPlayer.Data.StartReady)
+                    if ((GameType != Gametype.TOURNAMENT_GAME || tournametRunnig) && !currentPlayer.Data.StartReady)
                         SendStartGameRequest();
                     else
                     {
@@ -366,7 +369,7 @@ namespace Orbit.Core.Client
                     else
                         players.Remove(disconnected);
 
-                    if (GameType == Gametype.LOBBY_GAME)
+                    if (GameType == Gametype.TOURNAMENT_GAME)
                     {
                         UpdateLobbyPlayers();
                         CheckAllPlayersReady();

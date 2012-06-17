@@ -31,7 +31,7 @@ namespace Orbit.Core.Server
             conf.Port = SharedDef.PORT_NUMBER;
 
 #if DEBUG
-            conf.SimulatedMinimumLatency = 0.1f; // 100ms
+            conf.SimulatedMinimumLatency = 0.4f; // 100ms
             conf.SimulatedRandomLatency = 0.05f; // +- 50ms
 #endif
 
@@ -92,6 +92,8 @@ namespace Orbit.Core.Server
                             hailMsg.Write((int)PacketType.PLAYER_ID_HAIL);
                             hailMsg.Write(p.Data.Id);
                             hailMsg.Write((byte)GameType);
+                            bool tournamentRunning = GameType == Gametype.TOURNAMENT_GAME && gameSession != null && gameSession.IsRunning;
+                            hailMsg.Write(tournamentRunning);
 
                             // Approve clients connection (Its sort of agreenment. "You can be my client and i will host you")
                             msg.SenderConnection.Approve(hailMsg);

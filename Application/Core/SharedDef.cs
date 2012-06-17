@@ -67,7 +67,7 @@ namespace Orbit.Core
         SOLO_GAME,
         SERVER_GAME,
         CLIENT_GAME,
-        LOBBY_GAME
+        TOURNAMENT_GAME
     }
 
     public enum GameEnd
