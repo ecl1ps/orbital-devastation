@@ -288,15 +288,26 @@ namespace Orbit.Core.Helpers
             msg.Write(d.Id);
             msg.Write(d.Name);
             msg.Write(d.Active);
+
             msg.Write(d.MineCooldown);
             msg.Write(d.MineGrowthSpeed);
             msg.Write(d.MineStrength);
+            msg.Write(d.MineFallingSpeed);
+
+            msg.Write(d.BulletCooldown);
+            msg.Write(d.BulletDamage);
+            msg.Write(d.BulletSpeed);
+
+            msg.Write(d.HookLenght);
+            msg.Write(d.HookSpeed);
+
             msg.Write(d.PlayerColor);
             msg.Write((byte)d.PlayerPosition);
             msg.Write(d.Score);
             msg.Write(d.LobbyReady);
             msg.Write(d.StartReady);
             msg.Write(d.BaseIntegrity);
+            msg.Write(d.Gold);
         }
 
         public static void ReadObjectPlayerData(this NetIncomingMessage msg, PlayerData d)
@@ -304,9 +315,19 @@ namespace Orbit.Core.Helpers
             d.Id = msg.ReadInt32();
             d.Name = msg.ReadString();
             d.Active = msg.ReadBoolean();
-            d.MineCooldown = msg.ReadInt32();
+
+            d.MineCooldown = msg.ReadFloat();
             d.MineGrowthSpeed = msg.ReadFloat();
             d.MineStrength = msg.ReadFloat();
+            d.MineFallingSpeed = msg.ReadInt32();
+
+            d.BulletCooldown = msg.ReadFloat();
+            d.BulletDamage = msg.ReadInt32();
+            d.BulletSpeed = msg.ReadInt32();
+
+            d.HookLenght = msg.ReadInt32();
+            d.HookSpeed = msg.ReadInt32();
+
             d.PlayerColor = msg.ReadColor();
             d.PlayerPosition = (PlayerPosition)msg.ReadByte();
             d.Score = msg.ReadInt32();
@@ -317,6 +338,7 @@ namespace Orbit.Core.Helpers
                 msg.ReadBoolean();
             d.StartReady = msg.ReadBoolean();
             d.BaseIntegrity = msg.ReadInt32();
+            d.Gold = msg.ReadInt32();
         }
 
 
