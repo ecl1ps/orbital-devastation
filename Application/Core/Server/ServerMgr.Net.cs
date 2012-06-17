@@ -181,10 +181,7 @@ namespace Orbit.Core.Server
                 case PacketType.START_GAME_REQUEST:
 
                     if (GameType != Gametype.SOLO_GAME && players.Count < 2)
-                    {
-                        Console.WriteLine("-------- " + GetPlayer(msg.SenderConnection).GetId() + " return - malo hracu");
                         break;
-                    }
 
                     if (gameSession == null)
                     {
@@ -193,8 +190,7 @@ namespace Orbit.Core.Server
                         isInitialized = true;
                     }
 
-                    if (gameSession.RequestStartMatch(GetPlayer(msg.SenderConnection)))
-                        Console.WriteLine("------ " + GetPlayer(msg.SenderConnection).GetId() + " broadcasting START_GAME_RESPONSE");
+                    gameSession.RequestStartMatch(GetPlayer(msg.SenderConnection));
 
                     break;
                 case PacketType.PLAYER_HEAL:
@@ -215,8 +211,6 @@ namespace Orbit.Core.Server
                         rdyMsg.Write((int)PacketType.PLAYER_READY);
                         rdyMsg.Write(p.GetId());
                         BroadcastMessage(rdyMsg);
-
-                        players.ForEach(pl => SendChatMessage("plr: " + pl.GetId() + " " + pl.Data.LobbyReady));
                     }
                     break;
                 case PacketType.ALL_PLAYER_DATA_REQUEST:

@@ -113,7 +113,6 @@ namespace Orbit.Core.Client
                                     NetOutgoingMessage reqmsg = CreateNetMessage();
                                     reqmsg.Write((int)PacketType.ALL_PLAYER_DATA_REQUEST);
                                     SendMessage(reqmsg);
-                                    ShowChatMessage("sending player data reqest (just connected)");
                                 }     
                                 break;
                             case NetConnectionStatus.Disconnected:
@@ -157,8 +156,6 @@ namespace Orbit.Core.Client
                 case PacketType.ALL_PLAYER_DATA:
                     int playerCount = msg.ReadInt32();
 
-                    ShowChatMessage("received plr data - " + playerCount);
-
                     for (int i = 0; i < playerCount; ++i)
                     {
                         Player plr = GetPlayer(msg.ReadInt32());
@@ -193,8 +190,6 @@ namespace Orbit.Core.Client
                             }
                         }
                     }
-
-                    players.ForEach(p => ShowChatMessage("received plr: " + p.GetId() + " " + p.Data.LobbyReady));
 
                     if ((GameType != Gametype.TOURNAMENT_GAME || tournametRunnig) && !currentPlayer.Data.StartReady)
                         SendStartGameRequest();
@@ -352,7 +347,6 @@ namespace Orbit.Core.Client
                 case PacketType.PLAYER_READY:
                     Player pl = GetPlayer(msg.ReadInt32());
                     pl.Data.LobbyReady = true;
-                    ShowChatMessage("received plr ready: " + pl.GetId());
                     CheckAllPlayersReady();
                     break;
                 case PacketType.CHAT_MESSAGE:

@@ -539,13 +539,10 @@ namespace Orbit.Core.Client
 
         private void CheckAllPlayersReady()
         {
-            ShowChatMessage("checking players for ready state: " + players.Count);
 
             bool ready = true;
             if (players.Count < 2)
                 ready = false;
-
-            players.ForEach(p => ShowChatMessage("plr: " + p.GetId() + " " + p.Data.LobbyReady));
 
             if (ready)
                 foreach (Player p in players)
@@ -591,6 +588,9 @@ namespace Orbit.Core.Client
         {
             List<LobbyPlayerData> data = new List<LobbyPlayerData>();
             players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score)));
+
+            if (Application.Current == null)
+                return;
 
             (Application.Current as App).Dispatcher.BeginInvoke(new Action(() =>
             {
