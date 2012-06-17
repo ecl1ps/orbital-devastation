@@ -29,10 +29,12 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
             Asteroid asteroid = new MinorAsteroid(SceneMgr);
             asteroid.AsteroidType = AsteroidType.SPAWNED;
+            asteroid.Id = IdMgr.GetNewId(0);
             asteroid.Rotation = SceneMgr.GetRandomGenerator().Next(360);
             asteroid.Direction = Direction.Rotate(rotation);
             asteroid.Radius = radius;
             asteroid.Position = Center;
+            asteroid.Gold = radius * 2;
             asteroid.TextureId = SceneMgr.GetRandomGenerator().Next(1, 18);
             asteroid.Enabled = true;
             asteroid.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(asteroid));

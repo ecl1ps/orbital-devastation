@@ -26,7 +26,7 @@ namespace Orbit.Core
         public const int GOLD_ASTEROID_BONUS_MULTIPLY       = 10;
 
         public const int ASTEROID_GOLD_CHANCE               = 10; // (0 - 100)
-        public const int ASTEROID_UNSTABLE_CHANCE           = 50; // 10 procent, musi se brat ohled na chance ostatnich typu
+        public const int ASTEROID_UNSTABLE_CHANCE           = 80; // 10 procent, musi se brat ohled na chance ostatnich typu
 
         public const int BASE_MAX_INGERITY                  = 100;
 
@@ -38,7 +38,7 @@ namespace Orbit.Core
         public const float MINE_GROWTH_SPEED                = 1f;
         public const float MINE_STRENGTH                    = 100f;
         public const float MINE_COOLDOWN                    = 1f;
-        public const int MINE_FALLING_SPEED                 = 50;
+        public const int MINE_FALLING_SPEED                 = 100;
 
         // polovina gravitacniho zrychleni
         public const float GRAVITY                          = 5f;

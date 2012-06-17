@@ -14,6 +14,7 @@ using Orbit.Core.Client;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Controls.Implementations;
+using System.Diagnostics;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -64,6 +65,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void DoCollideWith(ICollidable other)
         {
+            Console.WriteLine("koliduju " + other.ToString());
+
             if (HasCaughtObject())
                 return;
 
