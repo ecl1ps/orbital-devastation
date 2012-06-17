@@ -6,6 +6,7 @@ using Orbit.Core;
 using Orbit.Core.Scene;
 using Lidgren.Network;
 using Orbit.Core.Client;
+using Orbit.Core.Players;
 
 namespace Orbit.Core.Utils
 {
@@ -14,21 +15,23 @@ namespace Orbit.Core.Utils
         public int Cost { get; set; }
 
         private SceneMgr mgr;
+        private Player owner;
 
-        public HealingKit(SceneMgr mgr)
+        public HealingKit(SceneMgr mgr, Player owner)
         {
             Cost = SharedDef.HEAL_START_COST;
             this.mgr = mgr;
+            this.owner = owner;
         }
 
         public void Heal()
         {
-            if (mgr.GetCurrentPlayer().Data.Gold >= Cost)
+            if (owner.Data.Gold >= Cost)
             {
-                mgr.GetCurrentPlayer().AddGoldAndShow(-Cost);
-                mgr.GetCurrentPlayer().ChangeBaseIntegrity(SharedDef.HEAL_AMOUNT);
-                if (mgr.GetCurrentPlayer().GetBaseIntegrity() > SharedDef.BASE_MAX_INGERITY)
-                    mgr.GetCurrentPlayer().SetBaseIntegrity(SharedDef.BASE_MAX_INGERITY);
+                owner.AddGoldAndShow(-Cost);
+                owner.ChangeBaseIntegrity(SharedDef.HEAL_AMOUNT);
+                if (owner.GetBaseIntegrity() > SharedDef.BASE_MAX_INGERITY)
+                    owner.SetBaseIntegrity(SharedDef.BASE_MAX_INGERITY);
 
                 Cost *= SharedDef.HEAL_MULTIPLY_COEF;
 
@@ -41,8 +44,8 @@ namespace Orbit.Core.Utils
         {
             NetOutgoingMessage message = mgr.CreateNetMessage();
             message.Write((int)PacketType.PLAYER_HEAL);
-            message.Write((int)mgr.GetCurrentPlayer().GetId());
-            message.Write((int)mgr.GetCurrentPlayer().GetBaseIntegrity());
+            message.Write((int)owner.GetId());
+            message.Write((int)owner.GetBaseIntegrity());
 
             mgr.SendMessage(message);
         }
