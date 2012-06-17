@@ -103,12 +103,14 @@ namespace Orbit.Gui
 
         private new void MouseEnter(object sender, RoutedEventArgs e)
         {
-            StaticMouse.Instance.Enabled = false;
+            if (StaticMouse.Instance != null)
+                StaticMouse.Instance.Enabled = false;
         }
 
         private new void MouseLeave(object sender, RoutedEventArgs e)
         {
-            StaticMouse.Instance.Enabled = true;
+            if (StaticMouse.Instance != null)
+                StaticMouse.Instance.Enabled = true;
         }
     }
 }

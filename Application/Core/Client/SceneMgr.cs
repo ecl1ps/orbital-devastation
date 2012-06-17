@@ -119,7 +119,7 @@ namespace Orbit.Core.Client
 
             InitNetwork();
             ConnectToServer();
-            //InitStaticMouse();
+            InitStaticMouse();
             isInitialized = true;
         }
 
