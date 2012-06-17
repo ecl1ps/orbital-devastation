@@ -294,6 +294,9 @@ namespace Orbit.Core.Helpers
             msg.Write(d.PlayerColor);
             msg.Write((byte)d.PlayerPosition);
             msg.Write(d.Score);
+            msg.Write(d.LobbyReady);
+            msg.Write(d.StartReady);
+            msg.Write(d.BaseIntegrity);
         }
 
         public static void ReadObjectPlayerData(this NetIncomingMessage msg, PlayerData d)
@@ -307,6 +310,13 @@ namespace Orbit.Core.Helpers
             d.PlayerColor = msg.ReadColor();
             d.PlayerPosition = (PlayerPosition)msg.ReadByte();
             d.Score = msg.ReadInt32();
+            // osetreni prepsani noveho stavu starym - stav se iniciuje vlastni zpravou, ale je treba ho dal propagovat
+            if (!d.LobbyReady)
+                d.LobbyReady = msg.ReadBoolean();
+            else
+                msg.ReadBoolean();
+            d.StartReady = msg.ReadBoolean();
+            d.BaseIntegrity = msg.ReadInt32();
         }
 
 

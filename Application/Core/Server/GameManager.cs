@@ -10,6 +10,7 @@ using Orbit.Core;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Helpers;
+using System.Net;
 
 namespace Orbit.Core.Server
 {
@@ -17,13 +18,19 @@ namespace Orbit.Core.Server
     {
         private ServerMgr serverMgr;
         private List<Player> players;
+        private List<IPAddress> tournamentPlayerIdentifications;
         private List<ISceneObject> objects;
+
         public int Level { get; set; }
+        public bool IsRunning { get; set; }
 
         public GameManager(ServerMgr serverMgr, List<Player> players)
         {
             this.serverMgr = serverMgr;
             this.players = players;
+            tournamentPlayerIdentifications = new List<IPAddress>();
+            if (serverMgr.GameType == Gametype.TOURNAMENT_GAME)
+                players.ForEach(p => tournamentPlayerIdentifications.Add(p.Connection.RemoteEndpoint.Address));
             //todo
             Level = 1;
         }
@@ -32,7 +39,10 @@ namespace Orbit.Core.Server
         {
             // pri solo hre se vytvori jeden bot
             if (players.Count == 1)
-                serverMgr.CreatePlayer("Bot");
+            {
+                Player bot = serverMgr.CreateAndAddPlayer("Bot");
+                bot.Data.StartReady = true;
+            }
 
             CreateNewLevel();
 
@@ -55,8 +65,6 @@ namespace Orbit.Core.Server
             bool redBaseColor = serverMgr.GetRandomGenerator().Next(2) == 0 ? true : false;
             plr1.Data.PlayerColor = redBaseColor ? Colors.Red : Colors.Blue;
             plr2.Data.PlayerColor = redBaseColor ? Colors.Blue : Colors.Red;
-
-            SendMatchData();
         }
 
         private void CreateNewLevel()
@@ -101,15 +109,8 @@ namespace Orbit.Core.Server
 
         private void SendMatchData()
         {
-            // poslani dat hracu
-            NetOutgoingMessage outmsg = serverMgr.CreateNetMessage();
-
-            outmsg.Write((int)PacketType.ALL_PLAYER_DATA);
-            outmsg.Write(players.Count);
-
-            foreach (Player plr in players)
-                outmsg.WriteObjectPlayerData(plr.Data);
-
+            // poslani vsech hracu
+            NetOutgoingMessage outmsg = serverMgr.CreateAllPlayersDataMessage();
             serverMgr.BroadcastMessage(outmsg);
 
             // poslani vsech asteroidu
@@ -125,7 +126,66 @@ namespace Orbit.Core.Server
                     (obj as Asteroid).WriteObject(outmsg);
 
             serverMgr.BroadcastMessage(outmsg);
+
+        }
+
+        public bool RequestStartMatch(Player p)
+        {
+            // do tournamentu se nemuzou pridat dalsi hraci, kteri nebyli v lobby pri startu
+            // TODO: vymyslet lepsi zpusob - takhle se kontroluje jen ip, 
+            // takze z jedne adresy to dovoli pripojit se i dalsim hracum, kteri v touranmentu byt nemusi
+            if (serverMgr.GameType == Gametype.TOURNAMENT_GAME && !tournamentPlayerIdentifications.Contains(p.Connection.RemoteEndpoint.Address))
+                return false;
+
+            p.Data.StartReady = true;
+
+            if (p.IsActivePlayer() && !IsRunning && 
+                (players.Count(plr => plr.IsActivePlayer() && plr.Data.StartReady) == 2 || serverMgr.GameType == Gametype.TOURNAMENT_GAME))
+            {
+                if (serverMgr.GameType == Gametype.TOURNAMENT_GAME)
+                {
+                    NetOutgoingMessage tournamentMsg = serverMgr.CreateNetMessage();
+                    tournamentMsg.Write((int)PacketType.TOURNAMENT_STARTING);
+                    serverMgr.BroadcastMessage(tournamentMsg);
+                }
+
+                SendMatchData();
+
+                NetOutgoingMessage startMsg = serverMgr.CreateNetMessage();
+                startMsg.Write((int)PacketType.START_GAME_RESPONSE);
+                serverMgr.BroadcastMessage(startMsg);
+
+                IsRunning = true;
+                return true;
+            }
             
+            // TODO: nemuze se stat, ze by jeden spectator dal request vickrat? 
+            // pak by bylo jeste potreba kontrolovat stav pred a po requestu
+            if (!p.IsActivePlayer() && IsRunning)
+            {
+                if (serverMgr.GameType == Gametype.TOURNAMENT_GAME)
+                {
+                    NetOutgoingMessage tournamentMsg = serverMgr.CreateNetMessage();
+                    tournamentMsg.Write((int)PacketType.TOURNAMENT_STARTING);
+                    serverMgr.SendMessage(tournamentMsg, p);
+                }
+
+                NetOutgoingMessage outmsg = serverMgr.CreateAllPlayersDataMessage();
+                serverMgr.SendMessage(outmsg, p);
+
+                // na zacatku neposilame zadne asteroidy, protoze nevime jejich soucasnou pozici - posilaji se az nove
+                // ale zaroven tato zprava iniciuje klienta, takze je nutna
+                outmsg = serverMgr.CreateNetMessage();
+                outmsg.Write((int)PacketType.ALL_ASTEROIDS);
+                outmsg.Write(0);
+                serverMgr.SendMessage(outmsg, p);
+
+                NetOutgoingMessage startMsg = serverMgr.CreateNetMessage();
+                startMsg.Write((int)PacketType.START_GAME_RESPONSE);
+                serverMgr.SendMessage(startMsg, p);
+            }
+
+            return IsRunning;
         }
     }
 }

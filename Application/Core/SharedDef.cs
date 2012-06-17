@@ -66,13 +66,15 @@ namespace Orbit.Core
         NONE,
         SOLO_GAME,
         SERVER_GAME,
-        CLIENT_GAME
+        CLIENT_GAME,
+        TOURNAMENT_GAME
     }
 
     public enum GameEnd
     {
         WIN_GAME,
-        LEFT_GAME
+        LEFT_GAME,
+        SERVER_DISCONNECTED
     }
 
     public enum PacketType
@@ -80,11 +82,14 @@ namespace Orbit.Core
         PLAYER_CONNECT,
         PLAYER_ID_HAIL,
 
+        TOURNAMENT_STARTING,
+
         PLAYER_WON,
 
         ALL_PLAYER_DATA,
-        ALL_ASTEROIDS,
+        ALL_PLAYER_DATA_REQUEST,
 
+        ALL_ASTEROIDS,
         NEW_ASTEROID,
         NEW_SINGULARITY_MINE,
         NEW_SINGULARITY_BULLET,
@@ -97,5 +102,9 @@ namespace Orbit.Core
 
         START_GAME_RESPONSE,
         START_GAME_REQUEST,
+        PLAYER_READY,
+        CHAT_MESSAGE,
+        PLAYER_DISCONNECTED,
+        SERVER_SHUTDOWN,
     }    
 }

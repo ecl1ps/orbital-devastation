@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using Orbit.Core;
 using Orbit.Core.Client;
 using Orbit.Core.Server;
+using System.IO;
 
 namespace Orbit
 {
@@ -42,9 +43,21 @@ namespace Orbit
         protected override void OnStartup(StartupEventArgs e)
         {
             sceneMgr = new SceneMgr();
+           
+            if (!File.Exists("player"))
+            {
+                PlayerName = "Player";
+                return;
+            }
 
-            // TODO: ukladat jmeno pomoci esc -> options -> neco
-            PlayerName = "Player1";
+            using (StreamReader reader = new StreamReader("player"))
+            {
+                string line;
+                if ((line = reader.ReadLine()) != null)
+                    PlayerName = line;
+                else
+                    PlayerName = "Player";
+            }
         }
 
         protected override void OnExit(ExitEventArgs e)
@@ -74,9 +87,9 @@ namespace Orbit
         private void StartGame(Gametype type)
         {
             lastGameType = type;
-            mainWindow.mainGrid.Children.Clear();
-            mainWindow.mainGrid.Children.Add(new GameUC());
-            sceneMgr.SetCanvas((Canvas)LogicalTreeHelper.FindLogicalNode(MainWindow, "mainCanvas"));
+            Canvas c = LogicalTreeHelper.FindLogicalNode(MainWindow, "mainCanvas") as Canvas;
+            if (c != null)
+                sceneMgr.SetCanvas(c);
             sceneMgr.Init(type);
 
             StartGameThread();
@@ -89,6 +102,30 @@ namespace Orbit
             sceneMgr.SetRemoteServerAddress("127.0.0.1");
 
             StartGame(Gametype.SERVER_GAME);
+        }
+
+        public void StartTournamentLobby()
+        {
+            StartLocalServer(Gametype.TOURNAMENT_GAME);
+
+            sceneMgr.SetRemoteServerAddress("127.0.0.1");
+
+            StartGame(Gametype.TOURNAMENT_GAME);
+        }
+
+        public void CreateGameGui()
+        {
+            mainWindow.mainGrid.Children.Clear();
+            mainWindow.mainGrid.Children.Add(new GameUC());
+            Canvas c = LogicalTreeHelper.FindLogicalNode(MainWindow, "mainCanvas") as Canvas;
+            if (c != null)
+                sceneMgr.SetCanvas(c);
+        }
+
+        public void CreateLobbyGui(bool asLeader)
+        {
+            mainWindow.mainGrid.Children.Clear();
+            mainWindow.mainGrid.Children.Add(new LobbyUC(asLeader));
         }
 
         public void ConnectToGame(string serverAddress)
@@ -125,7 +162,7 @@ namespace Orbit
         {
             ExitGame();
             mainWindow.mainGrid.Children.Clear();
-            mainWindow.mainGrid.Children.Add(new OptionsUC());
+            mainWindow.mainGrid.Children.Add(new MainUC());
         }
 
         public void ExitGame()
@@ -153,13 +190,20 @@ namespace Orbit
             switch (lastGameType)
             {
                 case Gametype.SOLO_GAME:
+                    CreateGameGui();
                     StartSoloGame();
                     break;
                 case Gametype.SERVER_GAME:
+                    CreateGameGui();
                     StartHostedGame();
                     break;
                 case Gametype.CLIENT_GAME:
+                    CreateGameGui();
                     ConnectToGame(lastServerAddress);
+                    break;
+                case Gametype.TOURNAMENT_GAME:
+                    StartTournamentLobby();
+                    CreateLobbyGui(true);
                     break;
                 case Gametype.NONE:
                 default:
@@ -170,6 +214,32 @@ namespace Orbit
         public string GetPlayerName()
         {
             return PlayerName;
+        }
+
+        public void PlayerReady()
+        {
+            sceneMgr.Enqueue(new Action(() =>
+            {
+                sceneMgr.GetCurrentPlayer().Data.LobbyReady = true;
+                sceneMgr.SendChatMessage("I am ready");
+                sceneMgr.SendPlayerReadyMessage();
+            }));
+        }
+
+        public void StartTournamentGame()
+        {
+            sceneMgr.Enqueue(new Action(() =>
+            {
+                sceneMgr.SendStartGameRequest();
+            }));
+        }
+
+        public void SendChatMessage(string msg)
+        {
+            sceneMgr.Enqueue(new Action(() =>
+            {
+                sceneMgr.SendChatMessage(msg);
+            }));
         }
     }
 }

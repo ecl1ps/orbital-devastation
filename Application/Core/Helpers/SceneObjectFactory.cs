@@ -114,8 +114,10 @@ namespace Orbit.Core.Helpers
 
             Hook hook = new Hook(mgr);
             hook.Owner = player;
-            hook.Position = position;
             hook.Radius = 8;
+            position.X -= hook.Radius;
+            position.Y -= hook.Radius;
+            hook.Position = position;
             hook.Rotation = (float)Vector.AngleBetween(new Vector(0, -1), direction);
             hook.Direction = direction;
             hook.Color = player.GetPlayerColor();
@@ -127,7 +129,7 @@ namespace Orbit.Core.Helpers
             }));
 
             HookControl hookControl = new HookControl();
-            hookControl.Origin = new Vector(hook.Center.X, hook.Center.Y - hook.Radius);
+            hookControl.Origin = new Vector(hook.Center.X, hook.Center.Y);
             hookControl.Speed = player.Data.HookSpeed;
             hookControl.Lenght = player.Data.HookLenght;
 

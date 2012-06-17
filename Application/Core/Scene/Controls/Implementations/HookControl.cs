@@ -58,7 +58,10 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         private void MoveBackwards(float tpf)
         {
-            hook.Position -= (hook.Direction * Speed * tpf);
+            // jinak se obcas neco bugne a on leti do nekonecna
+            Vector dirToBase = Origin + new Vector(-hook.Radius, -hook.Radius) - hook.Position;
+            dirToBase.Normalize();
+            hook.Position += (dirToBase * Speed * tpf);
         }
 
         private bool IsAtEnd()

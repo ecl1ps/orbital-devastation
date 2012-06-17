@@ -57,12 +57,9 @@ namespace Orbit.Core.Weapons
             {
                 hook = CreateHook(point);
 
-                if (SceneMgr.GameType != Gametype.SOLO_GAME)
-                {
-                    NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-                    hook.WriteObject(msg);
-                    SceneMgr.SendMessage(msg);
-                }
+                NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+                hook.WriteObject(msg);
+                SceneMgr.SendMessage(msg);
 
                 SceneMgr.DelayedAttachToScene(hook);
             }

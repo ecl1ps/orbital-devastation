@@ -61,11 +61,24 @@ namespace Orbit.Gui
             if (lbxFoundServers.SelectedIndex > -1)
             {
                 string ip = lbxFoundServers.Items[lbxFoundServers.SelectedIndex].ToString();
+                string IPMatchExp = @"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})";
+                Match theMatch = Regex.Match(ip, IPMatchExp);
+                if (theMatch.Success)
+                {
+                    ip = theMatch.Groups[1].Value + "." + 
+                        theMatch.Groups[2].Value + "." + 
+                        theMatch.Groups[3].Value + "." + 
+                        theMatch.Groups[4].Value;
+                }
                 System.Console.WriteLine(ip);
                  
                 searcher.Shutdown();
                 Thread.Sleep(10); // vypnuti muze chvili trvat
-                (Application.Current as App).ConnectToGame(ip);
+                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    (Application.Current as App).CreateGameGui();
+                    (Application.Current as App).ConnectToGame(ip);
+                }));
             }
         }
 
@@ -118,6 +131,7 @@ namespace Orbit.Gui
 
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
+                        (Application.Current as App).CreateGameGui();
                         (Application.Current as App).ConnectToGame(tbServerAddress.Text);
                     }));
 

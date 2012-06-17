@@ -56,7 +56,9 @@ namespace Orbit.Core
                         Console.WriteLine(msg.ReadString());
                         break;
                     case NetIncomingMessageType.DiscoveryResponse:
-                        AddServer(msg.SenderEndpoint.Address.ToString());
+                        Gametype type = (Gametype)msg.ReadByte();
+                        string player = msg.ReadString();
+                        AddServer(player + " - " + type.ToString() + " (" + msg.SenderEndpoint.Address.ToString() + ")");
                         break;
                     default:
                         break;

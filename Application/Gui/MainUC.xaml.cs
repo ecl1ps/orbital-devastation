@@ -18,21 +18,29 @@ namespace Orbit.Gui
     /// <summary>
     /// Interaction logic for OptionsUC.xaml
     /// </summary>
-    public partial class OptionsUC : UserControl
+    public partial class MainUC : UserControl
     {
-        public OptionsUC()
+        public MainUC()
         {
             InitializeComponent();
         }
 
         private void btnSinglePlayer_Click(object sender, RoutedEventArgs e)
         {
+            (Application.Current as App).CreateGameGui();
             (Application.Current as App).StartSoloGame();
         }
 
-        private void btnHostNewGame_Click(object sender, RoutedEventArgs e)
+        private void btnQuickGame_Click(object sender, RoutedEventArgs e)
         {
+            (Application.Current as App).CreateGameGui();
             (Application.Current as App).StartHostedGame();
+        }
+
+        private void btnHostTournament_Click(object sender, RoutedEventArgs e)
+        {
+            (Application.Current as App).StartTournamentLobby();
+            (Application.Current as App).CreateLobbyGui(true);
         }
 
         private void btnFindHostedGame_Click(object sender, RoutedEventArgs e)

@@ -34,10 +34,21 @@ namespace Orbit.Gui
             switch (e.Key)
             {
                 case Key.Escape:
-                    UserControl menu = LogicalTreeHelper.FindLogicalNode(mainGrid, "escMenu") as UserControl;
-                    if (menu != null)
-                        mainGrid.Children.Remove(menu);
-                    else
+                    UIElement uc;
+                    if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "playerSettings") as UIElement) != null)
+                    {
+                        mainGrid.Children.Remove(uc);
+                        mainGrid.Children.Add(new OptionsMenu());
+                    }
+                    else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "optionsMenu") as UIElement) != null)
+                    {
+                        mainGrid.Children.Remove(uc);
+                        mainGrid.Children.Add(new EscMenu());
+                    } 
+                    else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "escMenu") as UIElement) != null)
+                    {
+                        mainGrid.Children.Remove(uc);
+                    } else
                         mainGrid.Children.Add(new EscMenu());
                     break;
             }

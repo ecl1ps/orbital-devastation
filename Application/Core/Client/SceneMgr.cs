@@ -28,6 +28,7 @@ namespace Orbit.Core.Client
 
         private Canvas canvas;
         private bool isInitialized;
+        private bool isGameInitialized;
         private bool userActionsDisabled;
         private volatile bool shouldQuit;
         private List<ISceneObject> objects;
@@ -59,13 +60,15 @@ namespace Orbit.Core.Client
         public SceneMgr()
         {
             isInitialized = false;
+            isGameInitialized = false;
+            synchronizedQueue = new ConcurrentQueue<Action>();
         }
 
         public void Init(Gametype gameType)
         {
             GameType = gameType;
             gameEnded = false;
-            isInitialized = false;
+            isGameInitialized = false;
             userActionsDisabled = true;
             shouldQuit = false;
             AppStates = new List<IAppState>();
@@ -74,42 +77,33 @@ namespace Orbit.Core.Client
             objectsToAdd = new List<ISceneObject>();
             randomGenerator = new Random(Environment.TickCount);
             players = new List<Player>(2);
-            synchronizedQueue = new ConcurrentQueue<Action>();
             statisticsTimer = 0;
             stateMgr = new GameStateManager();
-            stateMgr.AddGameState(new PlayerActionManager(this));
 
             currentPlayer = CreatePlayer();
+            players.Add(currentPlayer);
             stateMgr.AddGameState(currentPlayer);
 
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 currentPlayer.Data.Name = (Application.Current as App).GetPlayerName();
             }));
-            
 
-            Invoke(new Action(() =>
+            if (gameType != Gametype.TOURNAMENT_GAME)
             {
-                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
-                if (lbl != null)
-                    lbl.Content = "";
-
-                if (gameType != Gametype.CLIENT_GAME)
+                stateMgr.AddGameState(new PlayerActionManager(this));
+                Invoke(new Action(() =>
                 {
-                    Label lbl1 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblIntegrityLeft");
-                    if (lbl1 != null)
-                        lbl1.Content = 100 + "%";
+                    Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
+                    if (lbl != null)
+                        lbl.Content = "";
 
-                    Label lbl2 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblIntegrityRight");
-                    if (lbl2 != null)
-                        lbl2.Content = 100 + "%";
-                }
+                    Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblWaiting");
+                    if (lblw != null)
+                        lblw.Content = "";
 
-                Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblWaiting");
-                if (lblw != null)
-                    lblw.Content = "";
-                
-            }));
+                }));
+            }
 
             if (gameType == Gametype.SERVER_GAME)
             {
@@ -127,6 +121,7 @@ namespace Orbit.Core.Client
             InitNetwork();
             ConnectToServer();
             InitStaticMouse();
+            isInitialized = true;
         }
 
         private void InitStaticMouse()
@@ -163,22 +158,6 @@ namespace Orbit.Core.Client
             }));
         }
 
-        private void EndGame(Player plr, GameEnd endType)
-        {
-            if (gameEnded)
-                return;
-
-            gameEnded = true;
-            if (endType == GameEnd.WIN_GAME)
-                PlayerWon(plr);
-            else if (endType == GameEnd.LEFT_GAME)
-                PlayerLeft(plr);
-
-            RequestStop();
-
-            Thread.Sleep(3000);
-        }
-
         public void CloseGame()
         {
             RequestStop();
@@ -194,11 +173,12 @@ namespace Orbit.Core.Client
 
             objectsToRemove.Clear();
 
-            Invoke(new Action(() =>
-            {
-                foreach (ISceneObject obj in objects)
-                    canvas.Children.Remove(obj.GetGeometry());
-            }));
+            if (canvas != null)
+                Invoke(new Action(() =>
+                {
+                    foreach (ISceneObject obj in objects)
+                        canvas.Children.Remove(obj.GetGeometry());
+                }));
         }
 
         /************************************************************************/
@@ -308,7 +288,9 @@ namespace Orbit.Core.Client
 
                 ProcessMessages();
 
-                if (tpf >= 0.001 && isInitialized)
+                ProcessActionQueue();
+
+                if (tpf >= 0.001 && isGameInitialized)
                     Update(tpf);
 
 		        if (sw.ElapsedMilliseconds < SharedDef.MINIMUM_UPDATE_TIME) 
@@ -344,8 +326,6 @@ namespace Orbit.Core.Client
             ShowStatistics(tpf);
 
             AddObjectsReadyToAdd();
-
-            ProcessActionQueue();
 
             stateMgr.Update(tpf);
 
@@ -501,27 +481,67 @@ namespace Orbit.Core.Client
             }          
         }
 
-        private void PlayerWon(Player winner)
+        private void EndGame(Player plr, GameEnd endType)
+        {
+            if (gameEnded)
+                return;
+
+            gameEnded = true;
+            if (endType == GameEnd.WIN_GAME)
+                PlayerWon(plr);
+            else if (endType == GameEnd.LEFT_GAME)
+                PlayerLeft(plr);
+            else if (endType == GameEnd.SERVER_DISCONNECTED)
+                Disconnected();
+
+            RequestStop();
+
+            Thread.Sleep(3000);
+        }
+
+        private void Disconnected()
         {
             Invoke(new Action(() =>
             {
                 Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
                 if (lbl != null)
-                    lbl.Content = (winner.Data.PlayerColor == Colors.Red ? "Red" : "Blue") + " player win!";
+                    lbl.Content = "Disconnected from the server";
             }));
         }
 
+        private void PlayerWon(Player winner)
+        {
+            string text;
+            // kdyz maji hraci stejna jmena, tak jsou rozliseni barvami
+            if (players.Find(p => p.IsActivePlayer() && p.GetId() != winner.GetId()).Data.Name.Equals(winner.Data.Name))
+                text = (winner.Data.PlayerColor == Colors.Red ? "Red" : "Blue") + " player wins!";
+            else
+                text = winner.Data.Name + " wins!";
+            Invoke(new Action(() =>
+            {
+                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
+                if (lbl != null)
+                    lbl.Content = text;
+            }));
+        }
 
         private void PlayerLeft(Player leaver)
         {
             if (leaver == null)
                 return;
 
+            string text;
+            // kdyz maji hraci stejna jmena, tak jsou rozliseni barvami
+            if (players.Find(p => p.IsActivePlayer() && p.GetId() != leaver.GetId()).Data.Name.Equals(leaver.Data.Name))
+                text = (leaver.Data.PlayerColor == Colors.Red ? "Red" : "Blue") + " player left the game!";
+            else
+                text = leaver.Data.Name + " left the game!";
+
             Invoke(new Action(() =>
             {
                 Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
                 if (lbl != null)
-                    lbl.Content = (leaver.Data.PlayerColor == Colors.Red ? "Red" : "Blue") + " player left the game!";
+                    lbl.Content = text;
             }));
         }
 
@@ -533,6 +553,69 @@ namespace Orbit.Core.Client
         public void BeginInvoke(Action a)
         {
             canvas.Dispatcher.BeginInvoke(a);
+        }
+
+        private void CheckAllPlayersReady()
+        {
+
+            bool ready = true;
+            if (players.Count < 2)
+                ready = false;
+
+            if (ready)
+                foreach (Player p in players)
+                    if (!p.Data.LobbyReady)
+                    {
+                        ready = false;
+                        break;
+                    }
+
+            (Application.Current as App).Dispatcher.BeginInvoke(new Action(() =>
+            {
+                LobbyUC wnd = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
+                if (wnd != null)
+                    wnd.AllReady(ready);
+            }));
+        }
+
+        public void ShowChatMessage(string message)
+        {
+            if (Application.Current == null)
+                return;
+
+            (Application.Current as App).Dispatcher.BeginInvoke(new Action(() =>
+            {
+                ListView chat = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lvChat") as ListView;
+                if (chat != null)
+                {
+                    chat.Items.Add(message);
+                    chat.ScrollIntoView(chat.Items[chat.Items.Count - 1]);
+                }
+            }));
+        }
+
+        public void SendChatMessage(string message)
+        {
+            NetOutgoingMessage msg = CreateNetMessage();
+            msg.Write((int)PacketType.CHAT_MESSAGE);
+            msg.Write(currentPlayer.Data.Name + ": " + message);
+            SendMessage(msg);
+        }
+
+        private void UpdateLobbyPlayers()
+        {
+            List<LobbyPlayerData> data = new List<LobbyPlayerData>();
+            players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score)));
+
+            if (Application.Current == null)
+                return;
+
+            (Application.Current as App).Dispatcher.BeginInvoke(new Action(() =>
+            {
+                LobbyUC lobby = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
+                if (lobby != null)
+                    lobby.UpdateShownPlayers(data);
+            }));
         }
     }
 }

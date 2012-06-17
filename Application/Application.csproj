@@ -65,8 +65,9 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Lidgren.Network">
-      <HintPath>lib\Lidgren.Network.dll</HintPath>
+    <Reference Include="Lidgren.Network, Version=2012.1.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Lidgren - debug\Lidgren.Network.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -144,6 +145,18 @@
     <Compile Include="Gui\GameUC.xaml.cs">
       <DependentUpon>GameUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\LobbyPlayer.xaml.cs">
+      <DependentUpon>LobbyPlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\LobbyUC.xaml.cs">
+      <DependentUpon>LobbyUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\OptionsMenu.xaml.cs">
+      <DependentUpon>OptionsMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\PlayerSettings.xaml.cs">
+      <DependentUpon>PlayerSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Scene\Controls\Control.cs" />
     <Compile Include="Core\Scene\Controls\IControl.cs" />
@@ -164,8 +177,8 @@
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\Player\PlayerActionManager.cs" />
-    <Compile Include="Gui\OptionsUC.xaml.cs">
-      <DependentUpon>OptionsUC.xaml</DependentUpon>
+    <Compile Include="Gui\MainUC.xaml.cs">
+      <DependentUpon>MainUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\Server\GameManager.cs" />
     <Compile Include="Core\Server\ServerSceneObjectFactory.cs" />
@@ -222,11 +235,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Gui\OptionsUC.xaml">
+    <Page Include="Gui\LobbyPlayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\LobbyUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\OptionsMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\MainUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\BuyActionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\PlayerSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

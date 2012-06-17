@@ -39,6 +39,8 @@ namespace Orbit.Core.Players
         /// na klientovi pouzivat funkcni Player.SetGoldAndShow() nebo Player.AddGoldAndShow()
         /// </summary>
         public int Gold { get; set; }
+        public bool LobbyReady { get; set; }
+        public bool StartReady { get; set; }
 
         public PlayerData()
         {

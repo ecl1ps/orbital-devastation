@@ -101,6 +101,10 @@ namespace Orbit.Core.Players
         public void SetBaseIntegrity(int amount)
         {
             Data.BaseIntegrity = amount;
+
+            if (SceneMgr.GetCanvas() == null)
+                return;
+
             SceneMgr.BeginInvoke(new Action(() =>
             {
                 Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(SceneMgr.GetCanvas(),
