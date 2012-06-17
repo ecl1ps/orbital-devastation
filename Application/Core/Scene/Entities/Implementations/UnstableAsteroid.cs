@@ -29,7 +29,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
             Asteroid asteroid = new MinorAsteroid(SceneMgr);
             asteroid.AsteroidType = AsteroidType.SPAWNED;
-            asteroid.Id = IdMgr.GetNewId(0);
+            asteroid.Id = IdMgr.GetNewId(SceneMgr.GetCurrentPlayer().GetId());
             asteroid.Rotation = SceneMgr.GetRandomGenerator().Next(360);
             asteroid.Direction = Direction.Rotate(rotation);
             asteroid.Radius = radius;

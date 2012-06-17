@@ -65,7 +65,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void DoCollideWith(ICollidable other)
         {
-            Console.WriteLine("koliduju " + other.ToString());
+            //Console.WriteLine("koliduju " + other.ToString());
 
             if (HasCaughtObject())
                 return;

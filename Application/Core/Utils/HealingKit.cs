@@ -10,7 +10,7 @@ using Orbit.Core.Players;
 
 namespace Orbit.Core.Utils
 {
-   public class HealingKit : IHealingKit
+    public class HealingKit : IHealingKit
     {
         public int Cost { get; set; }
 
