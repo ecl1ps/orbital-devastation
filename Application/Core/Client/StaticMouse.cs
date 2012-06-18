@@ -14,6 +14,9 @@ namespace Orbit.Core.Client
         private static StaticMouse instance;
         public static StaticMouse Instance { get { return instance; } }
 
+        public Point position;
+        private Point center;
+
         private FrameworkElement cursor;
         private bool enabled;
         private Canvas canvas;
@@ -55,6 +58,7 @@ namespace Orbit.Core.Client
             if (enable)
             {
                 attachCustomCursor();
+                centerNativeCursor();
             }
             else
             {
@@ -73,6 +77,8 @@ namespace Orbit.Core.Client
             sceneMgr.Invoke(new Action(() =>
             {
                 Canvas.SetZIndex(cursor, 500);
+                Point p = sceneMgr.GetCanvas().PointFromScreen(new Point(Cursor.Position.X, Cursor.Position.Y));
+                positionCursor(new System.Drawing.Point((int)p.X, (int)p.Y));
             }));
             Cursor.Hide();
         }
@@ -80,7 +86,20 @@ namespace Orbit.Core.Client
         public void dettachCustomCursor()
         {
             sceneMgr.RemoveGraphicalObjectFromScene(cursor);
+            positionNativeCursor();
             Cursor.Show();
+        }
+
+        private void positionNativeCursor()
+        {
+            sceneMgr.Invoke(new Action(() =>
+            {
+                if (sceneMgr.GetCanvas().IsVisible)
+                {
+                    Point p = sceneMgr.GetCanvas().PointToScreen(position);
+                    Cursor.Position = new System.Drawing.Point((int)p.X, (int)p.Y);
+                }
+            }));
         }
 
         public void update(float tpf)
@@ -88,25 +107,45 @@ namespace Orbit.Core.Client
             if (!enabled)
                 return;
 
+            if (!sceneMgr.GetCanvas().IsVisible)
+                return;
+
             sceneMgr.Invoke(new Action(() =>
             {
-                Point p = sceneMgr.GetCanvas().PointFromScreen(new Point(Cursor.Position.X, Cursor.Position.Y));
+                if (!enabled)
+                    return;
 
-                if (p.X > sceneMgr.ViewPortSizeOriginal.Width)
-                    p.X = sceneMgr.ViewPortSizeOriginal.Width;
-                else if (p.X < 0)
-                    p.X = 0;
+                position.X += Cursor.Position.X - center.X;
+                position.Y += Cursor.Position.Y - center.Y;
+                centerNativeCursor();
 
-                if (p.Y > sceneMgr.ViewPortSizeOriginal.Height)
-                    p.Y = sceneMgr.ViewPortSizeOriginal.Height;
-                else if (p.Y < 0)
-                    p.Y = 0;
+                if (position.X > sceneMgr.ViewPortSizeOriginal.Width)
+                    position.X = sceneMgr.ViewPortSizeOriginal.Width;
+                else if (position.X < 0)
+                    position.X = 0;
+
+                if (position.Y > sceneMgr.ViewPortSizeOriginal.Height)
+                    position.Y = sceneMgr.ViewPortSizeOriginal.Height;
+                else if (position.Y < 0)
+                    position.Y = 0;
 
                 if (cursor.IsVisible)
-                    updateCustomCursor(p);
+                    updateCustomCursor(position);
+            }));
+        }
 
-                p = canvas.PointToScreen(p);
-                Cursor.Position = new System.Drawing.Point((int)p.X, (int)p.Y);
+        private void centerNativeCursor()
+        {
+            sceneMgr.Invoke(new Action(() =>
+            {
+                if (sceneMgr.GetCanvas().IsVisible)
+                {
+                    Point p = sceneMgr.GetCanvas().PointToScreen(new Point(sceneMgr.ViewPortSizeOriginal.Width / 2, sceneMgr.ViewPortSizeOriginal.Height / 2));
+                    Cursor.Position = new System.Drawing.Point((int)p.X, (int)p.Y);
+                    center = new Point(Cursor.Position.X, Cursor.Position.Y);
+                    if (position == null)
+                        position = center;
+                }
             }));
         }
 

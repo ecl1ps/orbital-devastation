@@ -121,7 +121,6 @@ namespace Orbit.Core.Client
 
             InitNetwork();
             ConnectToServer();
-            InitStaticMouse();
             isInitialized = true;
         }
 
@@ -136,7 +135,6 @@ namespace Orbit.Core.Client
             img.Source = image;
 
             StaticMouse.Init(img, this);
-            StaticMouse.Instance.Enabled = true;
             AppStates.Add(StaticMouse.Instance);
         }
 
@@ -445,6 +443,9 @@ namespace Orbit.Core.Client
             this.canvas = canvas;
             ViewPortSizeOriginal = new Size(canvas.Width, canvas.Height);
             orbitArea = new Rect(0, 0, canvas.Width, canvas.Height / 3);
+
+            InitStaticMouse();
+            StaticMouse.Instance.Enabled = true;
         }
 
         public void OnViewPortChange(Size size)
@@ -465,13 +466,15 @@ namespace Orbit.Core.Client
         public void OnCanvasMouseMove(Point point)
         {
             if (currentPlayer.Shooting)
-                currentPlayer.TargetPoint = point;
+                currentPlayer.TargetPoint = StaticMouse.Instance.position;
         }
 
         public void OnCanvasClick(Point point, MouseButtonEventArgs e)
         {
             if (userActionsDisabled)
                 return;
+
+            point = StaticMouse.Instance.position;
 
             switch (e.ChangedButton)
             {

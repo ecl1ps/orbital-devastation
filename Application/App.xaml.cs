@@ -149,6 +149,7 @@ namespace Orbit
 
         public void GameEnded()
         {
+            StaticMouse.Instance.Enabled = false;
             ShowStartScreen();
             if (lastGameType != Gametype.NONE)
             {
