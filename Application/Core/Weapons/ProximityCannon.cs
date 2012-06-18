@@ -39,7 +39,7 @@ namespace Orbit.Core.Weapons
             if (IsReady())
             {
                 SpawnBullet(point);
-                ReloadTime = SharedDef.BULLET_COOLDOWN;
+                ReloadTime = Owner.Data.BulletCooldown;
             }
         }
 

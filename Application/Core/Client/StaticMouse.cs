@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 
 namespace Orbit.Core.Client
 {
-    public class StaticMouse : IAppState
+    public class StaticMouse : IGameState
     {
         private static StaticMouse instance;
         public static StaticMouse Instance { get { return instance; } }
@@ -24,11 +24,13 @@ namespace Orbit.Core.Client
 
         public bool Enabled
         {
-            get { return enabled; }
-
+            get 
+            { 
+                return enabled; 
+            }
             set
             {
-                enableMouse(value);
+                EnableMouse(value);
             }
         }
 
@@ -49,7 +51,7 @@ namespace Orbit.Core.Client
             this.canvas = mgr.GetCanvas();
         }
 
-        private void enableMouse(bool enable)
+        private void EnableMouse(bool enable)
         {
             if (Enabled == enable)
                 return;
@@ -57,37 +59,50 @@ namespace Orbit.Core.Client
             this.enabled = enable;
             if (enable)
             {
-                attachCustomCursor();
+                AttachCustomCursor();
                 centerNativeCursor();
             }
             else
             {
-                dettachCustomCursor();
+                DettachCustomCursor();
             }
         }
 
-        public void positionCursor(System.Drawing.Point position) 
+        public void PositionCursor(System.Drawing.Point position) 
         {
             System.Windows.Forms.Cursor.Position = position;
         }
 
-        public void attachCustomCursor()
+        public void AttachCustomCursor()
         {
             sceneMgr.AttachGraphicalObjectToScene(cursor);
             sceneMgr.Invoke(new Action(() =>
             {
                 Canvas.SetZIndex(cursor, 500);
-                Point p = sceneMgr.GetCanvas().PointFromScreen(new Point(Cursor.Position.X, Cursor.Position.Y));
-                positionCursor(new System.Drawing.Point((int)p.X, (int)p.Y));
+                Cursor.Hide();
+                //FIXME Point p = sceneMgr.GetCanvas().PointFromScreen(new Point(Cursor.Position.X, Cursor.Position.Y));
+                //positionCursor(new System.Drawing.Point((int)p.X, (int)p.Y));
             }));
-            Cursor.Hide();
+            
         }
 
-        public void dettachCustomCursor()
+        private void positionCursor(System.Drawing.Point point)
         {
-            sceneMgr.RemoveGraphicalObjectFromScene(cursor);
-            positionNativeCursor();
-            Cursor.Show();
+            sceneMgr.Invoke(new Action(() =>
+            {
+                Canvas.SetLeft(cursor, point.X);
+                Canvas.SetTop(cursor, point.Y);
+            }));
+        }
+
+        public void DettachCustomCursor()
+        {
+            sceneMgr.Invoke(new Action(() =>
+            {
+                sceneMgr.RemoveGraphicalObjectFromScene(cursor);
+                positionNativeCursor();
+                Cursor.Show();
+            }));
         }
 
         private void positionNativeCursor()
@@ -102,7 +117,7 @@ namespace Orbit.Core.Client
             }));
         }
 
-        public void update(float tpf)
+        public void Update(float tpf)
         {
             if (!enabled)
                 return;
@@ -130,7 +145,7 @@ namespace Orbit.Core.Client
                     position.Y = 0;
 
                 if (cursor.IsVisible)
-                    updateCustomCursor(position);
+                    UpdateCustomCursor(position);
             }));
         }
 
@@ -149,7 +164,7 @@ namespace Orbit.Core.Client
             }));
         }
 
-        private void updateCustomCursor(Point p)
+        private void UpdateCustomCursor(Point p)
         {
             Canvas.SetLeft(cursor, p.X - (cursor.ActualWidth / 2));
             Canvas.SetTop(cursor, p.Y - (cursor.ActualHeight / 2));

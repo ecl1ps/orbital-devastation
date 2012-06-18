@@ -341,7 +341,13 @@ namespace Orbit.Core.Client
                     {
                         (Application.Current as App).CreateGameGui();
                     }));
-                    stateMgr.AddGameState(new PlayerActionManager(this));
+                    
+                    Enqueue(new Action(() =>
+                    {
+                        actionMgr = new PlayerActionManager(this);
+                        stateMgr.AddGameState(actionMgr);
+                    }));
+                    
                     Invoke(new Action(() =>
                     {
                         Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");

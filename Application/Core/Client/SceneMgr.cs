@@ -25,7 +25,6 @@ namespace Orbit.Core.Client
     {
         public Gametype GameType { get; set; }
         public Size ViewPortSizeOriginal { get; set; }
-        public List<IAppState> AppStates { get; set; } 
 
         private Canvas canvas;
         private bool isInitialized;
@@ -42,7 +41,7 @@ namespace Orbit.Core.Client
         private ConcurrentQueue<Action> synchronizedQueue;
         private bool gameEnded;
         private float statisticsTimer;
-        //private PlayerActionManager actionMgr;
+        private PlayerActionManager actionMgr;
         private GameStateManager stateMgr;
 
         //private static SceneMgr sceneMgr;
@@ -62,6 +61,7 @@ namespace Orbit.Core.Client
         {
             isInitialized = false;
             isGameInitialized = false;
+            shouldQuit = false;
             synchronizedQueue = new ConcurrentQueue<Action>();
         }
 
@@ -72,7 +72,6 @@ namespace Orbit.Core.Client
             isGameInitialized = false;
             userActionsDisabled = true;
             shouldQuit = false;
-            AppStates = new List<IAppState>();
             objects = new List<ISceneObject>();
             objectsToRemove = new List<ISceneObject>();
             objectsToAdd = new List<ISceneObject>();
@@ -92,7 +91,8 @@ namespace Orbit.Core.Client
 
             if (gameType != Gametype.TOURNAMENT_GAME)
             {
-                stateMgr.AddGameState(new PlayerActionManager(this));
+                actionMgr = new PlayerActionManager(this);
+                stateMgr.AddGameState(actionMgr);
                 Invoke(new Action(() =>
                 {
                     Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
@@ -121,6 +121,8 @@ namespace Orbit.Core.Client
 
             InitNetwork();
             ConnectToServer();
+            InitStaticMouse();
+            StaticMouse.Instance.Enabled = true;
             isInitialized = true;
         }
 
@@ -135,7 +137,7 @@ namespace Orbit.Core.Client
             img.Source = image;
 
             StaticMouse.Init(img, this);
-            AppStates.Add(StaticMouse.Instance);
+            stateMgr.AddGameState(StaticMouse.Instance);
         }
 
         private Player CreatePlayer()
@@ -342,8 +344,6 @@ namespace Orbit.Core.Client
             CheckCollisions();
             RemoveObjectsMarkedForRemoval();
 
-            UpdateAppStates(tpf);
-
             try
             {
                 UpdateGeomtricState();
@@ -353,12 +353,6 @@ namespace Orbit.Core.Client
                 // UI is closed before game finished its Update loop
                 System.Console.Error.WriteLine(e);
             }
-        }
-
-        private void UpdateAppStates(float tpf)
-        {
-            foreach (IAppState state in AppStates)
-                state.update(tpf);
         }
 
         private void ShowStatistics(float tpf)
@@ -440,12 +434,12 @@ namespace Orbit.Core.Client
 
         public void SetCanvas(Canvas canvas)
         {
-            this.canvas = canvas;
-            ViewPortSizeOriginal = new Size(canvas.Width, canvas.Height);
-            orbitArea = new Rect(0, 0, canvas.Width, canvas.Height / 3);
-
-            InitStaticMouse();
-            StaticMouse.Instance.Enabled = true;
+            canvas.Dispatcher.Invoke((new Action(() =>
+            {
+               this.canvas = canvas;
+               ViewPortSizeOriginal = new Size(canvas.Width, canvas.Height);
+               orbitArea = new Rect(0, 0, canvas.Width, canvas.Height / 3);
+            })));
         }
 
         public void OnViewPortChange(Size size)
@@ -475,6 +469,8 @@ namespace Orbit.Core.Client
                 return;
 
             point = StaticMouse.Instance.position;
+            
+            proccessClick(point);
 
             switch (e.ChangedButton)
             {
@@ -493,6 +489,15 @@ namespace Orbit.Core.Client
             }          
         }
 
+        private void proccessClick(Point point)
+        {
+            Invoke(new Action(() =>
+            {
+                 actionMgr.ActionBar.OnClick(canvas.PointToScreen(point));
+            }));
+                      
+        }
+
         private void EndGame(Player plr, GameEnd endType)
         {
             if (gameEnded)
@@ -507,6 +512,7 @@ namespace Orbit.Core.Client
                 Disconnected();
 
             RequestStop();
+            StaticMouse.Instance.Enabled = false;
 
             Thread.Sleep(3000);
         }

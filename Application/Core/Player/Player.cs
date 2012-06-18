@@ -55,7 +55,7 @@ namespace Orbit.Core.Players
         {
             SceneMgr = mgr;
             Shooting = false;
-            HealingKit = new HealingKit(SceneMgr);
+            HealingKit = new HealingKit(SceneMgr, this);
         }
 
         public void SetGoldAndShow(int gold)

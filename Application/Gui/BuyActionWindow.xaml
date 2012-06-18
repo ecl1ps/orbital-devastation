@@ -11,7 +11,7 @@
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="150"/>
             </Grid.ColumnDefinitions>
-            <Button Click="OnClick" Name="Button" Grid.Column="0" Grid.Row="0" Width="50">
+            <Button Name="Button" Grid.Column="0" Grid.Row="0" Width="50">
                 <Image Name="ButtonImage" Width="50" Height="50"/>
             </Button>
             <Label Background="AntiqueWhite" Grid.Column="1" Width="150" HorizontalAlignment="Right" FontFamily="Andalus" >

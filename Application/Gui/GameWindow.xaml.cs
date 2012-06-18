@@ -20,6 +20,8 @@ namespace Orbit.Gui
     /// </summary>
     public partial class GameWindow : Window
     {
+        public bool gameRunning { get; set; }
+
         public GameWindow()
         {
             InitializeComponent();
@@ -40,24 +42,24 @@ namespace Orbit.Gui
                     {
                         mainGrid.Children.Remove(uc);
                         mainGrid.Children.Add(new OptionsMenu());
-                        if(StaticMouse.Instance != null)
+                        if(StaticMouse.Instance != null && gameRunning)
                             StaticMouse.Instance.Enabled = false;
                     }
                     else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "optionsMenu") as UIElement) != null)
                     {
                         mainGrid.Children.Remove(uc);
                         mainGrid.Children.Add(new EscMenu());
-                        if (StaticMouse.Instance != null)
+                        if (StaticMouse.Instance != null && gameRunning)
                             StaticMouse.Instance.Enabled = false;
                     } 
                     else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "escMenu") as UIElement) != null)
                     {
                         mainGrid.Children.Remove(uc);
-                        if (StaticMouse.Instance != null)
+                        if (StaticMouse.Instance != null && gameRunning)
                             StaticMouse.Instance.Enabled = true;
                     } else {
                         mainGrid.Children.Add(new EscMenu());
-                        if (StaticMouse.Instance != null)
+                        if (StaticMouse.Instance != null && gameRunning)
                             StaticMouse.Instance.Enabled = false;
                     }
                     break;

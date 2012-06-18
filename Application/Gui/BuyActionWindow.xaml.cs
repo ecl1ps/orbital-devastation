@@ -93,22 +93,20 @@ namespace Orbit.Gui
             }));
         }
 
-        private void OnClick(object sender, RoutedEventArgs e)
+        public void OnClick(Point point)
         {
-            controller.Enqueue(new Action(() =>
-            {
-                controller.ActionClicked(this);
-            }));
-        }
+            Point p = PointFromScreen(point);
+            double maxX = this.ActualWidth;
+            double maxY = this.ActualHeight;
 
-        private new void MouseEnter(object sender, RoutedEventArgs e)
-        {
-            StaticMouse.Instance.Enabled = false;
-        }
-
-        private new void MouseLeave(object sender, RoutedEventArgs e)
-        {
-            StaticMouse.Instance.Enabled = true;
+            if (p.X < this.ActualWidth && p.X > 0)
+                if (p.Y < this.ActualHeight && p.Y > 0)
+                {
+                    controller.Enqueue(new Action(() =>
+                    {
+                        controller.ActionClicked(this);
+                    }));
+                }
         }
     }
 }

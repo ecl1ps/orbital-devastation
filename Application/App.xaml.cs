@@ -86,13 +86,11 @@ namespace Orbit
 
         private void StartGame(Gametype type)
         {
+            StartGameThread();
+
             lastGameType = type;
-            Canvas c = LogicalTreeHelper.FindLogicalNode(MainWindow, "mainCanvas") as Canvas;
-            if (c != null)
-                sceneMgr.SetCanvas(c);
             sceneMgr.Init(type);
 
-            StartGameThread();
         }
 
         public void StartHostedGame()
@@ -137,6 +135,7 @@ namespace Orbit
 
         private void StartGameThread()
         {
+            mainWindow.gameRunning = true;
             Thread gameThread = new Thread(new ThreadStart(sceneMgr.Run));
             gameThread.Name = "Game Thread";
             gameThread.Start();
@@ -176,6 +175,7 @@ namespace Orbit
                 server.Shutdown();
                 server = null;
             }
+            mainWindow.gameRunning = false;
         }
 
         public void LookForGame()

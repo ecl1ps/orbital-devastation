@@ -39,7 +39,7 @@ namespace Orbit.Core.Weapons
             if (IsReady())
             {
                 SpawnMine(point);
-                ReloadTime = SharedDef.MINE_COOLDOWN;
+                ReloadTime = Owner.Data.MineCooldown;
             }
         }
 

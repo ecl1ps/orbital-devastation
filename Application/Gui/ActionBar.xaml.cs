@@ -26,15 +26,33 @@ namespace Orbit.Gui
             InitializeComponent();
         }
 
+        public void OnClick(Point point)
+        {
+            this.Dispatcher.Invoke(new Action(() =>
+            {
+                foreach (UIElement elem in ActionPanel.Children)
+                {
+                    if (elem is BuyActionWindow)
+                        (elem as BuyActionWindow).OnClick(point);
+                }
+            }));
+          
+        }
+        
+        public UIElementCollection getChildrens()
+        {
+            return ActionPanel.Children;
+        }
+
         public void AddItem(UIElement elem)
         {
-            if (!Panel.Children.Contains(elem))
-                Panel.Children.Add(elem);
+            if (!ActionPanel.Children.Contains(elem))
+                ActionPanel.Children.Add(elem);
         }
 
         public void RemoveItem(UIElement elem)
         {
-            Panel.Children.Remove(elem);
+            ActionPanel.Children.Remove(elem);
         }
     }
 }

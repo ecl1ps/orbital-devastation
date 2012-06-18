@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="150">
     <Grid>
-        <StackPanel Name="Panel">
+        <StackPanel Name="ActionPanel">
         </StackPanel>
             
     </Grid>

@@ -22,6 +22,9 @@ namespace Orbit.Core.AI
             sceneMgr = mgr;
             this.objects = objects;
             me = bot;
+
+            me.Data.MineCooldown = me.Data.MineCooldown * 2.5f;
+            me.Data.BulletCooldown = me.Data.BulletCooldown * 2.5f;
         }
 
         public void Update(float tpf)
@@ -34,6 +37,14 @@ namespace Orbit.Core.AI
 
             if (me.Mine.IsReady())
                 MineDrop();
+
+            CheckHeal();
+        }
+
+        private void CheckHeal()
+        {
+            if (me.Data.BaseIntegrity <= SharedDef.BASE_MAX_INGERITY - SharedDef.HEAL_AMOUNT)
+                me.HealingKit.Heal();
         }
 
         private void MineDrop()
