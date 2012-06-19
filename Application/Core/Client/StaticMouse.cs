@@ -86,8 +86,8 @@ namespace Orbit.Core.Client
             {
                 Canvas.SetZIndex(cursor, 500);
                 Cursor.Hide();
-                //FIXME Point p = sceneMgr.GetCanvas().PointFromScreen(new Point(Cursor.Position.X, Cursor.Position.Y));
-                //positionCursor(new System.Drawing.Point((int)p.X, (int)p.Y));
+                Point p = sceneMgr.GetCanvas().PointFromScreen(new Point(Cursor.Position.X, Cursor.Position.Y));
+                PositionCursor(new System.Drawing.Point((int)p.X, (int)p.Y));
             }));
             
         }
@@ -96,6 +96,7 @@ namespace Orbit.Core.Client
         {
             sceneMgr.Invoke(new Action(() =>
             {
+                position = new Point(point.X, point.Y);
                 Canvas.SetLeft(cursor, point.X);
                 Canvas.SetTop(cursor, point.Y);
             }));
