@@ -59,6 +59,8 @@ namespace Orbit.Core
         public const int HEAL_START_COST                    = 10;
 
         public const float ACTION_BAR_TOP_MARGIN_PCT        = 0.3f;
+
+        public const bool ALLOW_SPECTATORS_IN_DUO_MATCH     = true;
     }
 
     public enum Gametype

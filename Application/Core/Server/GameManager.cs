@@ -144,6 +144,9 @@ namespace Orbit.Core.Server
 
         public bool RequestStartMatch(Player p)
         {
+            if (IsRunning && !p.IsActivePlayer() && !SharedDef.ALLOW_SPECTATORS_IN_DUO_MATCH)
+                return false;
+
             // do tournamentu se nemuzou pridat dalsi hraci, kteri nebyli v lobby pri startu
             // TODO: vymyslet lepsi zpusob - takhle se kontroluje jen ip, 
             // takze z jedne adresy to dovoli pripojit se i dalsim hracum, kteri v touranmentu byt nemusi
