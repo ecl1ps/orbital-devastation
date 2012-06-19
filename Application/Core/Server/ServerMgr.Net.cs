@@ -187,11 +187,10 @@ namespace Orbit.Core.Server
                         break;
 
                     if (gameSession == null)
-                    {
                         gameSession = new GameManager(this, players);
-                        gameSession.CreateNewMatch();
-                        isInitialized = true;
-                    }
+
+                    gameSession.CreateNewMatch();
+                    isInitialized = true;
 
                     gameSession.RequestStartMatch(GetPlayer(msg.SenderConnection));
 

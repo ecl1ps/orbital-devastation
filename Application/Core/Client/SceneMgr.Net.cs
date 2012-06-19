@@ -162,6 +162,7 @@ namespace Orbit.Core.Client
             {
                 case PacketType.ALL_PLAYER_DATA:
                     int playerCount = msg.ReadInt32();
+                    List<int> newPlrs = new List<int>(playerCount);
 
                     for (int i = 0; i < playerCount; ++i)
                     {
@@ -174,32 +175,20 @@ namespace Orbit.Core.Client
 
                             msg.ReadObjectPlayerData(plr.Data);
 
-                            if (plr.IsActivePlayer())
-                            {
-                                plr.CreateWeapons();
-                                plr.Baze = SceneObjectFactory.CreateBase(this, plr);
-                                DelayedAttachToScene(plr.Baze);
-                            }
-
                             if (plr.Data.Name.Equals("Bot"))
                                 stateMgr.AddGameState(new SimpleBot(this, objects, plr));
                         }
                         else // hrace uz zname, ale mohl se zmenit jeho stav na active a take se mohly zmenit dalsi player data
-                        {
-                            bool alreadyActive = plr.Data.Active;
-
-                            // TODO: pokud je hrac currentPlayer, tak mozna u nej neaplikovat prijata player data - bylo by to bezpecnejsi 
-                            // ale nejspis se to bude hodit
                             msg.ReadObjectPlayerData(plr.Data);
 
-                            if (!alreadyActive && plr.Data.Active)
-                            {
-                                plr.CreateWeapons();
-                                plr.Baze = SceneObjectFactory.CreateBase(this, plr);
-                                DelayedAttachToScene(plr.Baze);
-                            }
-                        }
+                        newPlrs.Add(plr.GetId());
                     }
+
+                    // pokud mame navic nejake stare hrace, tak je odstranime
+                    if (playerCount != newPlrs.Count)
+                        for (int i = 0; i < players.Count; ++i)
+                            if (!newPlrs.Contains(players[i].GetId()))
+                                players.RemoveAt(i);
 
                     if ((GameType != Gametype.TOURNAMENT_GAME || tournametRunnig) && !currentPlayer.Data.StartReady)
                         SendStartGameRequest();
@@ -311,10 +300,15 @@ namespace Orbit.Core.Client
                     string leftPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.LEFT).Data.Name;
                     string rightPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.RIGHT).Data.Name;
 
-                    // zobrazi aktualni integrity bazi
                     foreach (Player p in players)
                         if (p.IsActivePlayer())
+                        {
+                            p.CreateWeapons();
+                            // zobrazi aktualni integrity bazi
                             p.SetBaseIntegrity(p.GetBaseIntegrity());
+                            p.Baze = SceneObjectFactory.CreateBase(this, p);
+                            DelayedAttachToScene(p.Baze);
+                        }
 
                     Invoke(new Action(() =>
                     {
@@ -337,7 +331,7 @@ namespace Orbit.Core.Client
                         userActionsDisabled = false;
                     break;
                 case PacketType.TOURNAMENT_STARTING:
-                    (Application.Current as App).Dispatcher.Invoke(new Action(() =>
+                    Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
                         (Application.Current as App).CreateGameGui();
                     }));

@@ -89,8 +89,8 @@ namespace Orbit
             StartGameThread();
 
             lastGameType = type;
+            
             sceneMgr.Init(type);
-
         }
 
         public void StartHostedGame()
@@ -114,16 +114,19 @@ namespace Orbit
         public void CreateGameGui()
         {
             mainWindow.mainGrid.Children.Clear();
-            mainWindow.mainGrid.Children.Add(new GameUC());
-            Canvas c = LogicalTreeHelper.FindLogicalNode(MainWindow, "mainCanvas") as Canvas;
-            if (c != null)
-                sceneMgr.SetCanvas(c);
+            GameUC gameW = new GameUC();
+            mainWindow.mainGrid.Children.Add(gameW);
+            sceneMgr.SetCanvas(gameW.mainCanvas);
         }
 
         public void CreateLobbyGui(bool asLeader)
         {
             mainWindow.mainGrid.Children.Clear();
             mainWindow.mainGrid.Children.Add(new LobbyUC(asLeader));
+            sceneMgr.Enqueue(new Action(() =>
+            {
+                sceneMgr.GetCurrentPlayer().Data.LobbyLeader = asLeader;
+            }));
         }
 
         public void ConnectToGame(string serverAddress)

@@ -181,6 +181,8 @@ namespace Orbit.Core.Client
             }
 
             objectsToRemove.Clear();
+            objects.Clear();
+            objectsToAdd.Clear();
 
             if (canvas != null)
                 Invoke(new Action(() =>
@@ -296,6 +298,9 @@ namespace Orbit.Core.Client
                 sw.Restart();
 
                 ProcessMessages();
+
+                if (Application.Current == null)
+                    return;
 
                 ProcessActionQueue();
 
@@ -511,10 +516,43 @@ namespace Orbit.Core.Client
             else if (endType == GameEnd.SERVER_DISCONNECTED)
                 Disconnected();
 
-            RequestStop();
+            if (GameType != Gametype.TOURNAMENT_GAME || endType == GameEnd.SERVER_DISCONNECTED)
+                RequestStop();
             StaticMouse.Instance.Enabled = false;
 
             Thread.Sleep(3000);
+
+            if (Application.Current == null)
+                return;
+
+            if (GameType == Gametype.TOURNAMENT_GAME && endType != GameEnd.SERVER_DISCONNECTED)
+                TournamentGameEnded();
+        }
+
+        private void TournamentGameEnded()
+        {
+            gameEnded = false;
+            isGameInitialized = false;
+            userActionsDisabled = true;
+            objects.Clear();
+            objectsToRemove.Clear();
+            objectsToAdd.Clear();
+            isInitialized = true;
+
+            players.ForEach(p => p.Data.LobbyReady = false);
+
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                (Application.Current as App).CreateLobbyGui(currentPlayer.Data.LobbyLeader);
+            }));
+
+            UpdateLobbyPlayers();
+
+            if (currentPlayer.Data.LobbyLeader)
+            {
+                currentPlayer.Data.LobbyReady = true;
+                SendPlayerReadyMessage();
+            }
         }
 
         private void Disconnected()
@@ -588,7 +626,7 @@ namespace Orbit.Core.Client
                         break;
                     }
 
-            (Application.Current as App).Dispatcher.BeginInvoke(new Action(() =>
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 LobbyUC wnd = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
                 if (wnd != null)
@@ -601,7 +639,7 @@ namespace Orbit.Core.Client
             if (Application.Current == null)
                 return;
 
-            (Application.Current as App).Dispatcher.BeginInvoke(new Action(() =>
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 ListView chat = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lvChat") as ListView;
                 if (chat != null)
@@ -628,7 +666,7 @@ namespace Orbit.Core.Client
             if (Application.Current == null)
                 return;
 
-            (Application.Current as App).Dispatcher.BeginInvoke(new Action(() =>
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 LobbyUC lobby = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
                 if (lobby != null)

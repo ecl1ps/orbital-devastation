@@ -76,9 +76,21 @@ namespace Orbit.Core.Server
             else if (endType == GameEnd.LEFT_GAME)
                 PlayerLeft(plr);
 
-            RequestStop();
+            if (GameType != Gametype.TOURNAMENT_GAME)
+                RequestStop();
+            else
+                TournamentGameEnded(plr, endType);
+        }
 
-            Thread.Sleep(3000);
+        private void TournamentGameEnded(Player plr, GameEnd endType)
+        {
+            isInitialized = false;
+            gameEnded = false;
+
+            gameSession.GameEnded(plr, endType);
+
+            players.ForEach(p => p.Data.LobbyReady = false);
+            players.ForEach(p => p.Data.BaseIntegrity = SharedDef.BASE_MAX_INGERITY);
         }
 
         public void Shutdown()
@@ -149,24 +161,9 @@ namespace Orbit.Core.Server
             shouldQuit = true;
         }
 
-        public void Enqueue(Action act)
-        {
-            if (!shouldQuit && isInitialized)
-                synchronizedQueue.Enqueue(act);
-        }
-
         public void Update(float tpf)
         {
-            ProcessActionQueue();
-
             CheckPlayerStates();
-        }
-
-        private void ProcessActionQueue()
-        {
-            Action act = null;
-            while (synchronizedQueue.TryDequeue(out act))
-                act.Invoke();
         }
 
         public Player GetPlayer(int id)

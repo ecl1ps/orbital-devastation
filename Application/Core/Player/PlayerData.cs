@@ -40,6 +40,7 @@ namespace Orbit.Core.Players
         /// </summary>
         public int Gold { get; set; }
         public bool LobbyReady { get; set; }
+        public bool LobbyLeader { get; set; }
         public bool StartReady { get; set; }
 
         public PlayerData()

@@ -23,6 +23,7 @@ namespace Orbit.Core.Server
 
         public int Level { get; set; }
         public bool IsRunning { get; set; }
+        private bool matchCreated;
 
         public GameManager(ServerMgr serverMgr, List<Player> players)
         {
@@ -33,10 +34,13 @@ namespace Orbit.Core.Server
                 players.ForEach(p => tournamentPlayerIdentifications.Add(p.Connection.RemoteEndpoint.Address));
             //todo
             Level = 1;
+            matchCreated = false;
         }
 
         public void CreateNewMatch()
         {
+            matchCreated = true;
+
             // pri solo hre se vytvori jeden bot
             if (players.Count == 1)
             {
@@ -79,6 +83,12 @@ namespace Orbit.Core.Server
                 default:
                     break;
             }
+        }
+
+        public void GameEnded(Player plr, GameEnd endType)
+        {
+            IsRunning = false;
+            matchCreated = false;
         }
 
         private void CreateAsteroidField(int count)
