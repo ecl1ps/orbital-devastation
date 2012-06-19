@@ -31,23 +31,10 @@ namespace Orbit.Core.Server
         private bool gameEnded;
         private GameManager gameSession;
 
-        //private static ServerMgr serverMgr;
-        //private static Object lck = new Object();
-
-
-        /*public static ServerMgr GetInstance()
-        {
-            lock (lck)
-            {
-                if (serverMgr == null)
-                    serverMgr = new ServerMgr();
-                return serverMgr;
-            }
-        }*/
-
         public ServerMgr()
         {
             isInitialized = false;
+            shouldQuit = false;
         }
 
         public void Init(Gametype gameType)
@@ -104,6 +91,8 @@ namespace Orbit.Core.Server
 
         private void CleanUp()
         {
+            shouldQuit = false;
+
             if (server != null && server.Status != NetPeerStatus.NotRunning)
             {
                 server.Shutdown("Peer closed connection");
@@ -139,6 +128,8 @@ namespace Orbit.Core.Server
 
                 ProcessMessages();
 
+                ProcessActionQueue();
+
                 if (tpf >= 0.001 && isInitialized)
                     Update(tpf);
 
@@ -158,7 +149,20 @@ namespace Orbit.Core.Server
         private void RequestStop()
         {
             shouldQuit = true;
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
+        }
+
+        public void Enqueue(Action act)
+        {
+            if (!shouldQuit)
+                synchronizedQueue.Enqueue(act);
+        }
+
+        private void ProcessActionQueue()
+        {
+            Action act = null;
+            while (synchronizedQueue.TryDequeue(out act))
+                act.Invoke();
         }
 
         public void Update(float tpf)

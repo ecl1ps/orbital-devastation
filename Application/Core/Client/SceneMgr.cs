@@ -150,6 +150,8 @@ namespace Orbit.Core.Client
 
         private void CleanUp()
         {
+            shouldQuit = false;
+
             if (client != null && client.Status != NetPeerStatus.NotRunning)
             {
                 client.Shutdown("Peer closed connection");
