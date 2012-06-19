@@ -10,8 +10,8 @@
             <Label Canvas.Left="570" Canvas.Top="515" Height="30" Name="lblIntegrityRight" Width="60" Panel.ZIndex="100" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
             <Label Canvas.Left="124" Canvas.Top="542" Height="30" Name="lblNameLeft" Width="150" Panel.ZIndex="100" FontSize="15" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
             <Label Canvas.Left="525" Canvas.Top="542" Height="30" Name="lblNameRight" Width="150" Panel.ZIndex="100" FontSize="15" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
-            <Label Canvas.Left="50" Canvas.Top="270" Height="80" Name="lblEndGame" Width="700" Panel.ZIndex="100" FontSize="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Bauhaus 93" Foreground="#FF64008B">Red Player Won</Label>
-            <Label Canvas.Left="50" Canvas.Top="204" Content="Waiting for the other player to connect" Height="59" Name="lblWaiting" Width="700" Panel.ZIndex="100" FontSize="22" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Bauhaus 93" />
+            <Label Canvas.Left="50" Canvas.Top="270" Height="80" Name="lblEndGame" Width="700" Panel.ZIndex="100" FontSize="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Bauhaus 93" Foreground="#FF64008B"></Label>
+            <Label Canvas.Left="50" Canvas.Top="204" Content="" Height="59" Name="lblWaiting" Width="700" Panel.ZIndex="100" FontSize="22" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Bauhaus 93" />
             <StatusBar Canvas.Left="0" Canvas.Bottom="0" Height="20" Name="statusBar1" Width="800" Panel.ZIndex="10" />
             <Label Canvas.Left="0" Canvas.Top="578" Content="TPF: 0" Height="25" Name="statusText1" Width="120" Panel.ZIndex="11" />
             <Label Canvas.Left="120" Canvas.Top="578" Content="" Height="25" Name="statusText2" Width="120" Panel.ZIndex="11" />

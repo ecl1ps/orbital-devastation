@@ -117,9 +117,7 @@ namespace Orbit.Core.Client
 
                                     Console.WriteLine("LOGIN confirmed (id: " + IdMgr.GetHighId(GetCurrentPlayer().Data.Id) + ")");
 
-                                    NetOutgoingMessage reqmsg = CreateNetMessage();
-                                    reqmsg.Write((int)PacketType.ALL_PLAYER_DATA_REQUEST);
-                                    SendMessage(reqmsg);
+                                    SendPlayerDataRequestMessage();
                                 }     
                                 break;
                             case NetConnectionStatus.Disconnected:
@@ -139,6 +137,13 @@ namespace Orbit.Core.Client
             }
         }
 
+        private void SendPlayerDataRequestMessage()
+        {
+            NetOutgoingMessage reqmsg = CreateNetMessage();
+            reqmsg.Write((int)PacketType.ALL_PLAYER_DATA_REQUEST);
+            SendMessage(reqmsg);
+        }
+
         public void SendStartGameRequest()
         {
             NetOutgoingMessage msg = CreateNetMessage();
@@ -151,6 +156,7 @@ namespace Orbit.Core.Client
             NetOutgoingMessage msg = CreateNetMessage();
             msg.Write((int)PacketType.PLAYER_READY);
             msg.Write(currentPlayer.GetId());
+            msg.Write(currentPlayer.Data.LobbyLeader);
             SendMessage(msg);
         }
 
@@ -215,7 +221,7 @@ namespace Orbit.Core.Client
                         }
                         Asteroid s = CreateNewAsteroid((AsteroidType)msg.ReadByte());
                         s.ReadObject(msg);
-                        s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s)); ;
+                        s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s));
                         DelayedAttachToScene(s);
                         SyncReceivedObject(s, msg);
                     }
@@ -373,16 +379,14 @@ namespace Orbit.Core.Client
                 case PacketType.TOURNAMENT_STARTING:
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
-                        (Application.Current as App).CreateGameGui();
+                        (Application.Current as App).CreateGameGui(false);
+                        Canvas c = (Application.Current as App).GetCanvas();
+                        SetCanvas(c, new Size(c.Width, c.Height));
                     }));
                     
-                    Enqueue(new Action(() =>
-                    {
-                        actionMgr = new PlayerActionManager(this);
-                        stateMgr.AddGameState(actionMgr);
-                    }));
-                    
-                    Invoke(new Action(() =>
+                    actionMgr = new PlayerActionManager(this);
+                    stateMgr.AddGameState(actionMgr);
+                    BeginInvoke(new Action(() =>
                     {
                         Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
                         if (lbl != null)
@@ -405,10 +409,10 @@ namespace Orbit.Core.Client
                 case PacketType.PLAYER_DISCONNECTED:
                     Player disconnected = GetPlayer(msg.ReadInt32());
 
+                    players.Remove(disconnected);
+
                     if (disconnected.IsActivePlayer())
                         EndGame(disconnected, GameEnd.LEFT_GAME);
-                    else
-                        players.Remove(disconnected);
 
                     if (GameType == Gametype.TOURNAMENT_GAME)
                     {

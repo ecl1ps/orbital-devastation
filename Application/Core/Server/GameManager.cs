@@ -39,6 +39,9 @@ namespace Orbit.Core.Server
 
         public void CreateNewMatch()
         {
+            if (matchCreated)
+                return;
+
             matchCreated = true;
 
             // pri solo hre se vytvori jeden bot

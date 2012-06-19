@@ -31,7 +31,7 @@ namespace Orbit.Core.Server
             conf.Port = SharedDef.PORT_NUMBER;
 
 #if DEBUG
-            conf.SimulatedMinimumLatency = 0.4f; // 100ms
+            conf.SimulatedMinimumLatency = 0.2f; // 100ms
             conf.SimulatedRandomLatency = 0.05f; // +- 50ms
 #endif
 
@@ -207,12 +207,15 @@ namespace Orbit.Core.Server
                 case PacketType.PLAYER_READY:
                     {
                         Player p = GetPlayer(msg.SenderConnection);
+                        msg.ReadInt32(); // Id
                         p.Data.LobbyReady = true;
+                        p.Data.LobbyLeader = msg.ReadBoolean();
 
                         // vytvorit novou zpravu, protoze id jeste nemuselo byt ziniciovano
                         NetOutgoingMessage rdyMsg = CreateNetMessage();
                         rdyMsg.Write((int)PacketType.PLAYER_READY);
                         rdyMsg.Write(p.GetId());
+                        rdyMsg.Write(p.Data.LobbyLeader);
                         BroadcastMessage(rdyMsg);
                     }
                     break;

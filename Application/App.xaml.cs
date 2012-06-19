@@ -114,26 +114,34 @@ namespace Orbit
             StartGame(Gametype.TOURNAMENT_GAME);
         }
 
-        public void CreateGameGui()
+        public void CreateGameGui(bool setCanvas = true)
         {
             mainWindow.mainGrid.Children.Clear();
             GameUC gameW = new GameUC();
             mainWindow.mainGrid.Children.Add(gameW);
-            Size canvasSize = new Size(gameW.mainCanvas.Width, gameW.mainCanvas.Height);
-            sceneMgr.Enqueue(new Action(() =>
+            if (setCanvas)
             {
-                sceneMgr.SetCanvas(gameW.mainCanvas, canvasSize);
-            }));
+                Size canvasSize = new Size(gameW.mainCanvas.Width, gameW.mainCanvas.Height);
+                sceneMgr.Enqueue(new Action(() =>
+                {
+                    sceneMgr.SetCanvas(gameW.mainCanvas, canvasSize);
+                }));
+            }
+        }
+
+        public Canvas GetCanvas()
+        {
+            return LogicalTreeHelper.FindLogicalNode(MainWindow, "mainCanvas") as Canvas;
         }
 
         public void CreateLobbyGui(bool asLeader)
         {
             mainWindow.mainGrid.Children.Clear();
-            mainWindow.mainGrid.Children.Add(new LobbyUC(asLeader));
             sceneMgr.Enqueue(new Action(() =>
             {
                 sceneMgr.GetCurrentPlayer().Data.LobbyLeader = asLeader;
             }));
+            mainWindow.mainGrid.Children.Add(new LobbyUC(asLeader));
         }
 
         public void ConnectToGame(string serverAddress)
@@ -170,7 +178,6 @@ namespace Orbit
 
         public void ShowStartScreen()
         {
-            ExitGame();
             mainWindow.mainGrid.Children.Clear();
             mainWindow.mainGrid.Children.Add(new MainUC());
         }
@@ -178,12 +185,18 @@ namespace Orbit
         public void ExitGame()
         {
             if (sceneMgr != null)
-                sceneMgr.CloseGame();
+                sceneMgr.Enqueue(new Action(() =>
+                {
+                    sceneMgr.CloseGame();
+                }));
 
             if (server != null)
             {
-                server.Shutdown();
-                server = null;
+                server.Enqueue(new Action(() =>
+                {
+                    server.Shutdown();
+                    server = null;
+                }));
             }
             mainWindow.gameRunning = false;
         }

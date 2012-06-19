@@ -150,6 +150,8 @@ namespace Orbit.Core.Client
 
         private void CleanUp()
         {
+            shouldQuit = false;
+
             if (client != null && client.Status != NetPeerStatus.NotRunning)
             {
                 client.Shutdown("Peer closed connection");
@@ -267,6 +269,7 @@ namespace Orbit.Core.Client
             float tpf = 0;
             sw.Start();
 
+            long elapsedMs = 0;
             while (!shouldQuit)
             {
                 tpf = sw.ElapsedMilliseconds / 1000.0f;
@@ -283,10 +286,11 @@ namespace Orbit.Core.Client
                 if (tpf >= 0.001 && isGameInitialized)
                     Update(tpf);
 
-		        if (sw.ElapsedMilliseconds < SharedDef.MINIMUM_UPDATE_TIME) 
+                elapsedMs = sw.ElapsedMilliseconds;
+                if (elapsedMs < SharedDef.MINIMUM_UPDATE_TIME)
                 {
-                    Thread.Sleep((int)(SharedDef.MINIMUM_UPDATE_TIME - sw.ElapsedMilliseconds));
-		        }
+                    Thread.Sleep((int)(SharedDef.MINIMUM_UPDATE_TIME - elapsedMs));
+                }
             }
 
             sw.Stop();
@@ -520,7 +524,7 @@ namespace Orbit.Core.Client
                 (Application.Current as App).CreateLobbyGui(currentPlayer.Data.LobbyLeader);
             }));
 
-            UpdateLobbyPlayers();
+            SendPlayerDataRequestMessage();
 
             if (currentPlayer.Data.LobbyLeader)
             {
@@ -600,12 +604,13 @@ namespace Orbit.Core.Client
                         break;
                     }
 
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                LobbyUC wnd = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
-                if (wnd != null)
-                    wnd.AllReady(ready);
-            }));
+            if (Application.Current != null)
+                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    LobbyUC wnd = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
+                    if (wnd != null)
+                        wnd.AllReady(ready);
+                }));
         }
 
         public void ShowChatMessage(string message)
@@ -635,7 +640,7 @@ namespace Orbit.Core.Client
         private void UpdateLobbyPlayers()
         {
             List<LobbyPlayerData> data = new List<LobbyPlayerData>();
-            players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score)));
+            players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score, p.Data.LobbyLeader)));
 
             if (Application.Current == null)
                 return;
