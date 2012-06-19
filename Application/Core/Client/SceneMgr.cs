@@ -522,7 +522,7 @@ namespace Orbit.Core.Client
                 (Application.Current as App).CreateLobbyGui(currentPlayer.Data.LobbyLeader);
             }));
 
-            UpdateLobbyPlayers();
+            SendPlayerDataRequestMessage();
 
             if (currentPlayer.Data.LobbyLeader)
             {
@@ -602,12 +602,13 @@ namespace Orbit.Core.Client
                         break;
                     }
 
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                LobbyUC wnd = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
-                if (wnd != null)
-                    wnd.AllReady(ready);
-            }));
+            if (Application.Current != null)
+                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    LobbyUC wnd = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
+                    if (wnd != null)
+                        wnd.AllReady(ready);
+                }));
         }
 
         public void ShowChatMessage(string message)
@@ -637,7 +638,7 @@ namespace Orbit.Core.Client
         private void UpdateLobbyPlayers()
         {
             List<LobbyPlayerData> data = new List<LobbyPlayerData>();
-            players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score)));
+            players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score, p.Data.LobbyLeader)));
 
             if (Application.Current == null)
                 return;

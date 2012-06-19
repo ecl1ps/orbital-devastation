@@ -206,12 +206,15 @@ namespace Orbit.Core.Server
                 case PacketType.PLAYER_READY:
                     {
                         Player p = GetPlayer(msg.SenderConnection);
+                        msg.ReadInt32(); // Id
                         p.Data.LobbyReady = true;
+                        p.Data.LobbyLeader = msg.ReadBoolean();
 
                         // vytvorit novou zpravu, protoze id jeste nemuselo byt ziniciovano
                         NetOutgoingMessage rdyMsg = CreateNetMessage();
                         rdyMsg.Write((int)PacketType.PLAYER_READY);
                         rdyMsg.Write(p.GetId());
+                        rdyMsg.Write(p.Data.LobbyLeader);
                         BroadcastMessage(rdyMsg);
                     }
                     break;

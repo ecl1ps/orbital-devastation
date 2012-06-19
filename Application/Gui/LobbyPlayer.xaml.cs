@@ -35,12 +35,14 @@ namespace Orbit.Gui
         public int Id { get; set; }
         public string Name { get; set; }
         public int Score { get; set; }
+        public bool Leader { get; set; }
 
-        public LobbyPlayerData(int id, string name, int score)
+        public LobbyPlayerData(int id, string name, int score, bool leader)
         {
             Id = id;
             Name = name;
             Score = score;
+            Leader = leader;
         }
     }
 }

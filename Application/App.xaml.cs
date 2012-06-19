@@ -129,11 +129,11 @@ namespace Orbit
         public void CreateLobbyGui(bool asLeader)
         {
             mainWindow.mainGrid.Children.Clear();
-            mainWindow.mainGrid.Children.Add(new LobbyUC(asLeader));
             sceneMgr.Enqueue(new Action(() =>
             {
                 sceneMgr.GetCurrentPlayer().Data.LobbyLeader = asLeader;
             }));
+            mainWindow.mainGrid.Children.Add(new LobbyUC(asLeader));
         }
 
         public void ConnectToGame(string serverAddress)

@@ -151,6 +151,7 @@ namespace Orbit.Core.Client
             NetOutgoingMessage msg = CreateNetMessage();
             msg.Write((int)PacketType.PLAYER_READY);
             msg.Write(currentPlayer.GetId());
+            msg.Write(currentPlayer.Data.LobbyLeader);
             SendMessage(msg);
         }
 
@@ -215,7 +216,7 @@ namespace Orbit.Core.Client
                         }
                         Asteroid s = CreateNewAsteroid((AsteroidType)msg.ReadByte());
                         s.ReadObject(msg);
-                        s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s)); ;
+                        s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s));
                         DelayedAttachToScene(s);
                         SyncReceivedObject(s, msg);
                     }

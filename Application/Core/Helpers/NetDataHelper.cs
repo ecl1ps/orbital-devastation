@@ -304,6 +304,7 @@ namespace Orbit.Core.Helpers
             msg.Write(d.PlayerColor);
             msg.Write((byte)d.PlayerPosition);
             msg.Write(d.Score);
+            msg.Write(d.LobbyLeader);
             msg.Write(d.LobbyReady);
             msg.Write(d.StartReady);
             msg.Write(d.BaseIntegrity);
@@ -331,6 +332,7 @@ namespace Orbit.Core.Helpers
             d.PlayerColor = msg.ReadColor();
             d.PlayerPosition = (PlayerPosition)msg.ReadByte();
             d.Score = msg.ReadInt32();
+            d.LobbyLeader = msg.ReadBoolean();
             // osetreni prepsani noveho stavu starym - stav se iniciuje vlastni zpravou, ale je treba ho dal propagovat
             if (!d.LobbyReady)
                 d.LobbyReady = msg.ReadBoolean();
