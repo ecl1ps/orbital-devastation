@@ -27,7 +27,6 @@ namespace Orbit.Core.Client
         public Size ViewPortSizeOriginal { get; set; }
 
         private Canvas canvas;
-        private bool isInitialized;
         private bool isGameInitialized;
         private bool userActionsDisabled;
         private volatile bool shouldQuit;
@@ -44,22 +43,8 @@ namespace Orbit.Core.Client
         private PlayerActionManager actionMgr;
         private GameStateManager stateMgr;
 
-        //private static SceneMgr sceneMgr;
-        //private static Object lck = new Object();
-
-        /*public static SceneMgr GetInstance()
-        {
-            lock (lck)
-            {
-                if (sceneMgr == null)
-                    sceneMgr = new SceneMgr();
-                return sceneMgr;
-            }
-        }*/
-
         public SceneMgr()
         {
-            isInitialized = false;
             isGameInitialized = false;
             shouldQuit = false;
             synchronizedQueue = new ConcurrentQueue<Action>();
@@ -123,7 +108,6 @@ namespace Orbit.Core.Client
             ConnectToServer();
             InitStaticMouse();
             StaticMouse.Instance.Enabled = true;
-            isInitialized = true;
         }
 
         private void InitStaticMouse()
@@ -331,7 +315,7 @@ namespace Orbit.Core.Client
 
         public void Enqueue(Action act)
         {
-            if (!shouldQuit && isInitialized)
+            if (!shouldQuit)
                 synchronizedQueue.Enqueue(act);
         }
 
@@ -437,14 +421,11 @@ namespace Orbit.Core.Client
             return players.Find(p => p.GetId() == id);
         }
 
-        public void SetCanvas(Canvas canvas)
+        public void SetCanvas(Canvas canvas, Size canvasSize)
         {
-            canvas.Dispatcher.Invoke((new Action(() =>
-            {
-               this.canvas = canvas;
-               ViewPortSizeOriginal = new Size(canvas.Width, canvas.Height);
-               orbitArea = new Rect(0, 0, canvas.Width, canvas.Height / 3);
-            })));
+            this.canvas = canvas;
+            ViewPortSizeOriginal = canvasSize;
+            orbitArea = new Rect(0, 0, canvasSize.Width, canvasSize.Height / 3);
         }
 
         public void OnViewPortChange(Size size)
@@ -537,7 +518,6 @@ namespace Orbit.Core.Client
             objects.Clear();
             objectsToRemove.Clear();
             objectsToAdd.Clear();
-            isInitialized = true;
 
             players.ForEach(p => p.Data.LobbyReady = false);
 

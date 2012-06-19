@@ -89,8 +89,11 @@ namespace Orbit
             StartGameThread();
 
             lastGameType = type;
-            
-            sceneMgr.Init(type);
+
+            sceneMgr.Enqueue(new Action(() =>
+            {
+                sceneMgr.Init(type);
+            }));
         }
 
         public void StartHostedGame()
@@ -116,7 +119,11 @@ namespace Orbit
             mainWindow.mainGrid.Children.Clear();
             GameUC gameW = new GameUC();
             mainWindow.mainGrid.Children.Add(gameW);
-            sceneMgr.SetCanvas(gameW.mainCanvas);
+            Size canvasSize = new Size(gameW.mainCanvas.Width, gameW.mainCanvas.Height);
+            sceneMgr.Enqueue(new Action(() =>
+            {
+                sceneMgr.SetCanvas(gameW.mainCanvas, canvasSize);
+            }));
         }
 
         public void CreateLobbyGui(bool asLeader)
