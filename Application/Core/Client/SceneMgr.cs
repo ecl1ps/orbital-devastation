@@ -267,6 +267,7 @@ namespace Orbit.Core.Client
             float tpf = 0;
             sw.Start();
 
+            long elapsedMs = 0;
             while (!shouldQuit)
             {
                 tpf = sw.ElapsedMilliseconds / 1000.0f;
@@ -283,10 +284,11 @@ namespace Orbit.Core.Client
                 if (tpf >= 0.001 && isGameInitialized)
                     Update(tpf);
 
-		        if (sw.ElapsedMilliseconds < SharedDef.MINIMUM_UPDATE_TIME) 
+                elapsedMs = sw.ElapsedMilliseconds;
+                if (elapsedMs < SharedDef.MINIMUM_UPDATE_TIME)
                 {
-                    Thread.Sleep((int)(SharedDef.MINIMUM_UPDATE_TIME - sw.ElapsedMilliseconds));
-		        }
+                    Thread.Sleep((int)(SharedDef.MINIMUM_UPDATE_TIME - elapsedMs));
+                }
             }
 
             sw.Stop();

@@ -130,6 +130,7 @@ namespace Orbit.Core.Server
             float tpf = 0;
             sw.Start();
 
+            long elapsedMs = 0;
             while (!shouldQuit)
             {
                 tpf = sw.ElapsedMilliseconds / 1000.0f;
@@ -142,10 +143,10 @@ namespace Orbit.Core.Server
                     Update(tpf);
 
                 //Console.Out.WriteLine(Server tpf + ": " +sw.ElapsedMilliseconds);
-
-		        if (sw.ElapsedMilliseconds < SharedDef.MINIMUM_UPDATE_TIME) 
+                elapsedMs = sw.ElapsedMilliseconds;
+                if (elapsedMs < SharedDef.MINIMUM_UPDATE_TIME) 
                 {
-                    Thread.Sleep((int)(SharedDef.MINIMUM_UPDATE_TIME - sw.ElapsedMilliseconds));
+                    Thread.Sleep((int)(SharedDef.MINIMUM_UPDATE_TIME - elapsedMs));
 		        }
             }
 
