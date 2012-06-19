@@ -85,9 +85,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
             return (Origin - hook.Position).Length;
         }
 
-        public void CaughtObject()
+        public void CaughtObject(Vector hitVector)
         {
-            HitVector = hook.GoldObject.Position - hook.Position;
+            HitVector = hitVector;
         }
     }
 }

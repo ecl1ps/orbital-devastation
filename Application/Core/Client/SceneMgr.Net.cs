@@ -292,6 +292,46 @@ namespace Orbit.Core.Client
                         (obj as IMovable).Direction += dir;
                     }
                     break;
+                case PacketType.HOOK_HIT:
+                    long hookId = msg.ReadInt64();
+                    long asteroidId = msg.ReadInt64();
+                    Vector position = msg.ReadVector();
+                    Vector hitVector = msg.ReadVector();
+                    Hook hook = null;
+                    IContainsGold g = null;
+                    foreach (ISceneObject obj in objects)
+                    {
+                        if (obj.Id == hookId)
+                        {
+                            if (obj is Hook)
+                            {
+                                hook = obj as Hook;
+                                if(g != null) {
+                                    hook.Catch(g, hitVector);
+                                    break;
+                                } else
+                                    continue;
+                            } else
+                                Console.Error.WriteLine("Object id " + hookId + " (" + obj.GetType().Name + ") is supposed to be a Hook but it is not");
+                        }
+
+                        if (obj.Id == asteroidId)
+                        {
+                            if (obj is IContainsGold)
+                            {
+                                g = obj as IContainsGold;
+                                obj.Position = position;
+                                if (hook != null)
+                                {
+                                    hook.Catch(g, hitVector);
+                                    break;
+                                }
+                            } else
+                                Console.Error.WriteLine("Object id " + asteroidId + " (" + obj.GetType().Name + ") is supposed to be a IContainsGold but it is not");
+                        }
+
+                    }
+                    break;
                 case PacketType.BASE_INTEGRITY_CHANGE:
                 case PacketType.PLAYER_HEAL:
                     GetPlayer(msg.ReadInt32()).SetBaseIntegrity(msg.ReadInt32());

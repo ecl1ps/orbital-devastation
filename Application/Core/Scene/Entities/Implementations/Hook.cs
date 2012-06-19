@@ -65,8 +65,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void DoCollideWith(ICollidable other)
         {
-            //Console.WriteLine("koliduju " + other.ToString());
-
             if (HasCaughtObject())
                 return;
 
@@ -76,13 +74,33 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         private void CatchObjectWithGold(IContainsGold gold)
         {
+            if (SceneMgr.GameType != Gametype.SOLO_GAME && Owner.GetPosition() == SceneMgr.GetOpponentPlayer().GetPosition())
+                return;
+
+            Vector hitVector = gold.Position - Position;
+
             if (gold.Enabled)
             {
-                GoldObject = gold;
-                gold.Enabled = false;
-
-                (GetControlOfType(typeof(HookControl)) as HookControl).CaughtObject();
+                Catch(gold, hitVector);
+                if (SceneMgr.GameType != Gametype.SOLO_GAME)
+                {
+                    NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+                    msg.Write((int)PacketType.HOOK_HIT);
+                    msg.Write(Id);
+                    msg.Write(gold.Id);
+                    msg.Write(gold.Position);
+                    msg.Write(hitVector);
+                    SceneMgr.SendMessage(msg);
+                }
             }
+        }
+
+        public void Catch(IContainsGold gold, Vector hitVector)
+        {
+            GoldObject = gold;
+            gold.Enabled = false;
+
+            (GetControlOfType(typeof(HookControl)) as HookControl).CaughtObject(hitVector);
         }
 
         public void AddGoldToPlayer()

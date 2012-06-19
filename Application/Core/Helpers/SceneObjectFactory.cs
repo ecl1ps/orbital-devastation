@@ -55,7 +55,6 @@ namespace Orbit.Core.Helpers
 
         public static SingularityMine CreateDroppingSingularityMine(SceneMgr mgr, Point point, Player plr)
         {
-
             SingularityMine mine = new SingularityMine(mgr);
             mine.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
             mine.Position = new Vector(point.X, 0);
@@ -113,6 +112,7 @@ namespace Orbit.Core.Helpers
             direction.Normalize();
 
             Hook hook = new Hook(mgr);
+            hook.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
             hook.Owner = player;
             hook.Radius = 8;
             position.X -= hook.Radius;

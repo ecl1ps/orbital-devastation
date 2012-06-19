@@ -60,6 +60,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         public void CollidedWith(IMovable movable)
         {
+            if (!(movable is Asteroid))
+                return;
+
             StartDetonation();
 
             if (meMine.SceneMgr.GameType != Gametype.SOLO_GAME && 
@@ -70,9 +73,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 return;
 
             hitObjects.Add((movable as ISceneObject).Id);
-
-            if (!(movable is Sphere))
-                throw new Exception("Dropping singularity mine collided with other object than Sphere");
 
             Vector newDir = (movable as Sphere).Center - me.Position;
             newDir.Normalize();
