@@ -60,9 +60,29 @@ namespace Orbit.Core.Players
             if (mgr.GetCurrentPlayer().HealingKit.Cost <= mgr.GetCurrentPlayer().Data.Gold &&
                 (SharedDef.BASE_MAX_INGERITY - mgr.GetCurrentPlayer().GetBaseIntegrity()) >= SharedDef.HEAL_AMOUNT)
                 CreateHealAction();
+            else
+                RemoveHealAction();
 
             if (mgr.GetCurrentPlayer().Hook.Next() != null && (mgr.GetCurrentPlayer().Hook.Next().Cost <= mgr.GetCurrentPlayer().Data.Gold))
                 CreateWeaponAction(mgr.GetCurrentPlayer().Hook.Next());
+            else
+                RemoveHookAction();
+        }
+
+        private void RemoveHookAction()
+        {
+            if (HookActionWindow != null && HookActionWindow.IsVisible)
+            {
+                HookActionWindow.Remove();
+            }
+        }
+
+        private void RemoveHealAction()
+        {
+            if(HealActionWindow != null && HealActionWindow.IsVisible) 
+            {
+                HealActionWindow.Remove();
+            }
         }
 
         private void CreateWeaponAction(IWeapon weapon)
