@@ -107,20 +107,12 @@ namespace Orbit.Core.Client
             InitNetwork();
             ConnectToServer();
             InitStaticMouse();
-            StaticMouse.Instance.Enabled = true;
         }
 
         private void InitStaticMouse()
         {
-            BitmapImage image = new BitmapImage();
-            image.BeginInit();
-            image.UriSource = new Uri("pack://application:,,,/resources/images/mouse/targeting_icon.png");
-            image.EndInit();
-
-            Image img = new Image();
-            img.Source = image;
-
-            StaticMouse.Init(img, this);
+            StaticMouse.Init(this);
+            StaticMouse.Enable(true);
             stateMgr.AddGameState(StaticMouse.Instance);
         }
 
@@ -446,7 +438,7 @@ namespace Orbit.Core.Client
         public void OnCanvasMouseMove(Point point)
         {
             if (currentPlayer.Shooting)
-                currentPlayer.TargetPoint = StaticMouse.Instance.position;
+                currentPlayer.TargetPoint = StaticMouse.Instance != null ? StaticMouse.GetPosition() : point;
         }
 
         public void OnCanvasClick(Point point, MouseButtonEventArgs e)
@@ -454,9 +446,10 @@ namespace Orbit.Core.Client
             if (userActionsDisabled)
                 return;
 
-            point = StaticMouse.Instance.position;
+            if (StaticMouse.Instance != null)
+                point = StaticMouse.GetPosition();
             
-            proccessClick(point);
+            ProccessClick(point);
 
             switch (e.ChangedButton)
             {
@@ -475,7 +468,7 @@ namespace Orbit.Core.Client
             }          
         }
 
-        private void proccessClick(Point point)
+        private void ProccessClick(Point point)
         {
             Invoke(new Action(() =>
             {
@@ -499,7 +492,8 @@ namespace Orbit.Core.Client
 
             if (GameType != Gametype.TOURNAMENT_GAME || endType == GameEnd.SERVER_DISCONNECTED)
                 RequestStop();
-            StaticMouse.Instance.Enabled = false;
+
+            StaticMouse.Enable(false);
 
             Thread.Sleep(3000);
 

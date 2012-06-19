@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Windows.Media.Imaging;
 
 namespace Orbit.Core.Client
 {
@@ -14,7 +15,7 @@ namespace Orbit.Core.Client
         private static StaticMouse instance;
         public static StaticMouse Instance { get { return instance; } }
 
-        public Point position;
+        private Point position;
         private Point center;
 
         private FrameworkElement cursor;
@@ -22,45 +23,55 @@ namespace Orbit.Core.Client
         private Canvas canvas;
         private SceneMgr sceneMgr;
 
-        public bool Enabled
+        public float Sensitivity { get; set; }
+
+        public static void Init(SceneMgr mgr)
         {
-            get 
-            { 
-                return enabled; 
-            }
-            set
+            instance = new StaticMouse(mgr);
+        }
+
+        private StaticMouse(SceneMgr mgr)
+        {
+            Image img = null;
+            mgr.Invoke(new Action(() =>
             {
-                EnableMouse(value);
-            }
-        }
+                BitmapImage image = new BitmapImage();
+                image.BeginInit();
+                image.UriSource = new Uri("pack://application:,,,/resources/images/mouse/targeting_icon.png");
+                image.EndInit();
 
-        public float sensitivity { get; set; }
+                img = new Image();
+                img.Source = image;
+            }));
 
-        public static void Init(FrameworkElement cursor, SceneMgr mgr)
-        {
-            instance = new StaticMouse(cursor, mgr);
-        }
-
-        private StaticMouse(FrameworkElement cursor, SceneMgr mgr)
-        {
-            if (cursor == null)
-                throw new Exception("cursor cannot be null");
-
-            this.cursor = cursor;
+            cursor = img;
             sceneMgr = mgr;
             this.canvas = mgr.GetCanvas();
         }
 
+        public static void Enable(bool enable)
+        {
+            if (instance != null)
+                instance.EnableMouse(enable);
+        }
+
+        public static Point GetPosition()
+        {
+            if (instance != null)
+                return instance.position;
+            return new Point();
+        }
+
         private void EnableMouse(bool enable)
         {
-            if (Enabled == enable)
+            if (enabled == enable)
                 return;
 
-            this.enabled = enable;
+            enabled = enable;
             if (enable)
             {
                 AttachCustomCursor();
-                centerNativeCursor();
+                CenterNativeCursor();
             }
             else
             {
@@ -68,12 +79,7 @@ namespace Orbit.Core.Client
             }
         }
 
-        public void PositionCursor(System.Drawing.Point position) 
-        {
-            System.Windows.Forms.Cursor.Position = position;
-        }
-
-        public void AttachCustomCursor()
+        private void AttachCustomCursor()
         {
             sceneMgr.AttachGraphicalObjectToScene(cursor);
             sceneMgr.Invoke(new Action(() =>
@@ -86,7 +92,7 @@ namespace Orbit.Core.Client
             
         }
 
-        private void positionCursor(System.Drawing.Point point)
+        private void PositionCursor(System.Drawing.Point point)
         {
             sceneMgr.Invoke(new Action(() =>
             {
@@ -95,17 +101,17 @@ namespace Orbit.Core.Client
             }));
         }
 
-        public void DettachCustomCursor()
+        private void DettachCustomCursor()
         {
             sceneMgr.Invoke(new Action(() =>
             {
                 sceneMgr.RemoveGraphicalObjectFromScene(cursor);
-                positionNativeCursor();
+                PositionNativeCursor();
                 Cursor.Show();
             }));
         }
 
-        private void positionNativeCursor()
+        private void PositionNativeCursor()
         {
             sceneMgr.Invoke(new Action(() =>
             {
@@ -132,7 +138,7 @@ namespace Orbit.Core.Client
 
                 position.X += Cursor.Position.X - center.X;
                 position.Y += Cursor.Position.Y - center.Y;
-                centerNativeCursor();
+                CenterNativeCursor();
 
                 if (position.X > sceneMgr.ViewPortSizeOriginal.Width)
                     position.X = sceneMgr.ViewPortSizeOriginal.Width;
@@ -149,7 +155,7 @@ namespace Orbit.Core.Client
             }));
         }
 
-        private void centerNativeCursor()
+        private void CenterNativeCursor()
         {
             sceneMgr.Invoke(new Action(() =>
             {
