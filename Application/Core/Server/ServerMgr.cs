@@ -99,8 +99,6 @@ namespace Orbit.Core.Server
             msg.Write((int)PacketType.SERVER_SHUTDOWN);
             BroadcastMessage(msg);
 
-            Thread.Sleep(1000);
-
             RequestStop();
         }
 
@@ -159,6 +157,7 @@ namespace Orbit.Core.Server
         private void RequestStop()
         {
             shouldQuit = true;
+            Thread.Sleep(1000);
         }
 
         public void Update(float tpf)
