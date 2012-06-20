@@ -215,5 +215,23 @@ namespace Orbit.Core.Players
 
             return sb.ToString();
         }
+
+        public bool IsOnlineAndOrBot()
+        {
+            return (Data.PlayerType == PlayerType.BOT) || (Connection != null && (Connection.Status == NetConnectionStatus.Connected || Connection.Status == NetConnectionStatus.RespondedAwaitingApproval));
+        }
+    }
+
+    public enum PlayerPosition
+    {
+        LEFT,
+        RIGHT,
+        INVALID
+    }
+
+    public enum PlayerType
+    {
+        HUMAN,
+        BOT
     }
 }

@@ -50,6 +50,7 @@ namespace Orbit.Core.Server.Match
             if (players.Count == 1)
             {
                 Player bot = serverMgr.CreateAndAddPlayer("Bot", "NullBotHash");
+                bot.Data.PlayerType = PlayerType.BOT;
                 bot.Data.StartReady = true;
             }
 

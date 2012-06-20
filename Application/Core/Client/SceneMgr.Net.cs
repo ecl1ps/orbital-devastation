@@ -182,7 +182,7 @@ namespace Orbit.Core.Client
 
                             msg.ReadObjectPlayerData(plr.Data);
 
-                            if (plr.Data.Name.Equals("Bot"))
+                            if (plr.Data.PlayerType == PlayerType.BOT)
                                 stateMgr.AddGameState(new SimpleBot(this, objects, plr));
                         }
                         else // hrace uz zname, ale mohl se zmenit jeho stav na active a take se mohly zmenit dalsi player data
@@ -274,6 +274,9 @@ namespace Orbit.Core.Client
                     break;
                 case PacketType.SCORE_QUERY:
                     {
+                        if (!currentPlayer.IsActivePlayer())
+                            return;
+
                         isGameInitialized = false;
                         NetOutgoingMessage scoreMsg = CreateNetMessage();
                         scoreMsg.Write((int)PacketType.SCORE_QUERY_RESPONSE);
@@ -391,7 +394,7 @@ namespace Orbit.Core.Client
                 case PacketType.PLAYER_SCORE:
                     {
                         Player p = GetPlayer(msg.ReadInt32());
-                        if (!p.IsCurrentPlayer())
+                        if (p != null && !p.IsCurrentPlayer())
                             p.Data.Score = msg.ReadInt32();
                     }
                     break;

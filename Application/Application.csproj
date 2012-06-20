@@ -178,7 +178,6 @@
     <Compile Include="Core\Scene\Entities\SceneObject.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\SingularityMine.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Asteroid.cs" />
-    <Compile Include="Core\Players\PlayerPosition.cs" />
     <Compile Include="Core\IdMgr.cs" />
     <Compile Include="Core\Client\SceneMgr.cs" />
     <Compile Include="Core\SharedDef.cs" />

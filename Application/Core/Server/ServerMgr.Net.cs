@@ -92,10 +92,12 @@ namespace Orbit.Core.Server
                             string plrHash = msg.ReadString();
 
                             // nepridavat ani hrace ze stejne instance hry (nejde je potom spolehlive rozlisit v tournamentu)
-                            if (GameType == Gametype.TOURNAMENT_GAME && players.Exists(plr => plr.Data.HashId == plrHash))
+                            Player p = players.Find(plr => plr.Data.HashId == plrHash);
+                            if (p == null)
+                                p = CreateAndAddPlayer(plrName, plrHash);
+                            else if (p.IsOnlineAndOrBot())
                                 return;
 
-                            Player p = CreateAndAddPlayer(plrName, plrHash);
                             p.Connection = msg.SenderConnection;
 
                             NetOutgoingMessage hailMsg = CreateNetMessage();
@@ -130,7 +132,7 @@ namespace Orbit.Core.Server
                                 Player disconnected = GetPlayer(msg.SenderConnection);
                                 if (disconnected == null)
                                     return;
-                                players.Remove(disconnected);
+                                //players.Remove(disconnected);
                                 SendPlayerLeftMessage(disconnected);
                                 if (disconnected.IsActivePlayer())
                                     EndGame(disconnected, GameEnd.LEFT_GAME);
@@ -164,10 +166,15 @@ namespace Orbit.Core.Server
             NetOutgoingMessage outmsg = CreateNetMessage();
 
             outmsg.Write((int)PacketType.ALL_PLAYER_DATA);
-            outmsg.Write(players.Count);
+            int onlinePlayers = 0;
+            players.ForEach(p => { if (p.IsOnlineAndOrBot()) onlinePlayers++; });
+            outmsg.Write(onlinePlayers);
 
             foreach (Player plr in players)
             {
+                if (!plr.IsOnlineAndOrBot())
+                    continue;
+
                 outmsg.Write(plr.GetId());
                 outmsg.WriteObjectPlayerData(plr.Data);
             }
@@ -248,9 +255,11 @@ namespace Orbit.Core.Server
                     {
                         Player p = GetPlayer(msg.ReadInt32());
                         p.Data.Score = msg.ReadInt32();
+
                         if (!playersRespondedScore.Contains(p.GetId()))
                             playersRespondedScore.Add(p.GetId());
-                        if (playersRespondedScore.Count >= players.Count)
+
+                        if (playersRespondedScore.Count >= (players.Count > 1 ? 2 : players.Count))
                         {
                             // EndGame() s hracem, ktery vyhral
                             savedEndGameAction.Invoke();
