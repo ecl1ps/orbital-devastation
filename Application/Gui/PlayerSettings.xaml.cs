@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using Orbit.Core.Players;
+using Orbit.Core.Client;
 
 namespace Orbit.Gui
 {
@@ -40,6 +41,7 @@ namespace Orbit.Gui
             {
                 writer.WriteLine("name=" + tbPlayerName.Text);
                 writer.WriteLine("hash=" + (Application.Current as App).PlayerHashId);
+                writer.WriteLine("mouse=" + StaticMouse.ALLOWED.ToString());
             }
         }
     }

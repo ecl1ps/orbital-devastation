@@ -14,6 +14,7 @@ namespace Orbit.Core.Client
     {
         private static StaticMouse instance;
         public static StaticMouse Instance { get { return instance; } }
+        public static bool ALLOWED = true;
 
         private Point position;
         private Point center;
@@ -65,6 +66,9 @@ namespace Orbit.Core.Client
 
         private void EnableMouse(bool enable)
         {
+            if (!ALLOWED)
+                return;
+
             if (sceneMgr == null || sceneMgr.GetCanvas() == null || !sceneMgr.GetCanvas().IsVisible)
             {
                 enabled = false;

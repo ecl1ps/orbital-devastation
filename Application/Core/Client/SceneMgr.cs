@@ -436,7 +436,7 @@ namespace Orbit.Core.Client
         public void OnCanvasMouseMove(Point point)
         {
             if (currentPlayer.Shooting)
-                currentPlayer.TargetPoint = StaticMouse.Instance != null ? StaticMouse.GetPosition() : point;
+                currentPlayer.TargetPoint = (StaticMouse.Instance != null && StaticMouse.ALLOWED) ? StaticMouse.GetPosition() : point;
         }
 
         public void OnCanvasClick(Point point, MouseButtonEventArgs e)
@@ -444,10 +444,10 @@ namespace Orbit.Core.Client
             if (userActionsDisabled)
                 return;
 
-            if (StaticMouse.Instance != null)
+            if (StaticMouse.Instance != null && StaticMouse.ALLOWED)
                 point = StaticMouse.GetPosition();
-            
-            ProccessClick(point);
+
+            ProcessClick(point);
 
             switch (e.ChangedButton)
             {
@@ -466,11 +466,11 @@ namespace Orbit.Core.Client
             }          
         }
 
-        private void ProccessClick(Point point)
+        private void ProcessClick(Point point)
         {
             Invoke(new Action(() =>
             {
-                 actionMgr.ActionBar.OnClick(canvas.PointToScreen(point));
+                actionMgr.ActionBar.OnClick(canvas.PointToScreen(point));
             }));
                       
         }

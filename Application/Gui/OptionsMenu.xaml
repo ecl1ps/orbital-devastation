@@ -6,5 +6,6 @@
              mc:Ignorable="d" x:Name="optionsMenu"  Width="350" Height="350" BorderBrush="Black" BorderThickness="1">
     <Grid Width="350" Height="350" Background="#dd655D5D">
         <Button Content="Player" Height="31" HorizontalAlignment="Center" Margin="0,86,0,0" Name="btnPlayer" VerticalAlignment="Top" Width="84" FontFamily="Bauhaus 93" Click="btnPlayer_Click" />
+        <ToggleButton Content="Static cursor" Height="31" HorizontalAlignment="Center" Margin="0,120,0,0" Name="btnMouse" VerticalAlignment="Top" Width="84" FontFamily="Bauhaus 93" Click="btnMouse_Click" />
     </Grid>
 </UserControl>

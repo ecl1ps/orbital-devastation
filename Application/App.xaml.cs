@@ -71,6 +71,8 @@ namespace Orbit
                         PlayerName = items[1];
                     else if (items[0].Equals("hash"))
                         PlayerHashId = items[1];
+                    else if (items[0].Equals("mouse"))
+                       Boolean.TryParse(items[1], out StaticMouse.ALLOWED);
                 }
             }
         }
