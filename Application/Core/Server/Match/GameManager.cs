@@ -161,8 +161,8 @@ namespace Orbit.Core.Server.Match
 
             p.Data.StartReady = true;
 
-            if (p.IsActivePlayer() && !IsRunning && 
-                (players.Count(plr => plr.IsActivePlayer() && plr.Data.StartReady) == 2 || serverMgr.GameType == Gametype.TOURNAMENT_GAME))
+            if ((p.IsActivePlayer() && !IsRunning && players.Count(plr => plr.IsActivePlayer() && plr.Data.StartReady) == 2)
+                || (!IsRunning && serverMgr.GameType == Gametype.TOURNAMENT_GAME))
             {
                 if (serverMgr.GameType == Gametype.TOURNAMENT_GAME)
                 {
