@@ -30,6 +30,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
             if (other is IDestroyable)
             {
+                if (SceneMgr.GameType != Gametype.SOLO_GAME && Player.GetPosition() == SceneMgr.GetOpponentPlayer().GetPosition())
+                    return;
+
                 HitAsteroid(other as IDestroyable);
                 DoRemoveMe();
             }
@@ -38,6 +41,16 @@ namespace Orbit.Core.Scene.Entities.Implementations
         private void HitAsteroid(IDestroyable asteroid)
         {
             asteroid.TakeDamage(Damage);
+
+            if (SceneMgr.GameType != Gametype.SOLO_GAME)
+            {
+                NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+                msg.Write((int)PacketType.BULLET_HIT);
+                msg.Write(Id);
+                msg.Write(asteroid.Id);
+                msg.Write(Damage);
+                SceneMgr.SendMessage(msg);
+            }
         }
 
         public void WriteObject(NetOutgoingMessage msg)

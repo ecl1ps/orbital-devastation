@@ -97,6 +97,8 @@ namespace Orbit.Core
 
         SINGULARITY_MINE_HIT,
         HOOK_HIT,
+        BULLET_HIT,
+
         ASTEROID_DESTROYED,
         BASE_INTEGRITY_CHANGE,
         PLAYER_HEAL,

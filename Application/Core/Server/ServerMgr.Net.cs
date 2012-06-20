@@ -180,6 +180,7 @@ namespace Orbit.Core.Server
                 case PacketType.SINGULARITY_MINE_HIT:
                 case PacketType.CHAT_MESSAGE:
                 case PacketType.HOOK_HIT:
+                case PacketType.BULLET_HIT:
                     ForwardMessage(msg);
                     break;
                 case PacketType.START_GAME_REQUEST:

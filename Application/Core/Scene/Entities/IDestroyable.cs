@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Orbit.Core.Scene.Entities
 {
-    public interface IDestroyable
+    public interface IDestroyable : ISceneObject
     {
        void TakeDamage(int damage);
     }

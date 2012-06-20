@@ -338,6 +338,37 @@ namespace Orbit.Core.Client
 
                     }
                     break;
+                case PacketType.BULLET_HIT:
+                    long bulletId = msg.ReadInt64();
+                    long aId = msg.ReadInt64();
+                    int damage = msg.ReadInt32();
+
+                    foreach (ISceneObject obj in objects)
+                    {
+                        if (obj.Id == bulletId)
+                        {
+                            if(obj is SingularityBullet) 
+                            {
+                                SingularityBullet bullet = obj as SingularityBullet;
+                                bullet.DoRemoveMe();
+                            }
+                            else
+                                Console.Error.WriteLine("Object id " + bulletId + " (" + obj.GetType().Name + ") is supposed to be a instance of SingularityBullet but it is not");
+
+                            continue;
+                        }
+
+                        if (obj.Id != aId)
+                            continue;
+
+                        if (obj is IDestroyable)
+                        {
+                            (obj as IDestroyable).TakeDamage(damage);
+                        } 
+                        else
+                            Console.Error.WriteLine("Object id " + bulletId + " (" + obj.GetType().Name + ") is supposed to be a instance of IDestroyable but it is not");
+                    }
+                    break;
                 case PacketType.BASE_INTEGRITY_CHANGE:
                 case PacketType.PLAYER_HEAL:
                     GetPlayer(msg.ReadInt32()).SetBaseIntegrity(msg.ReadInt32());
