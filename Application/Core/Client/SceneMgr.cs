@@ -533,7 +533,6 @@ namespace Orbit.Core.Client
             objectsToAdd.Clear();
 
             players.ForEach(p => p.Data.LobbyReady = false);
-            players.ForEach(p => p.Data.BaseIntegrity = SharedDef.BASE_MAX_INGERITY);
 
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {

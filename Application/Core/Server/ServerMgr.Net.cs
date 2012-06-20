@@ -211,6 +211,9 @@ namespace Orbit.Core.Server
                     break;
                 case PacketType.PLAYER_HEAL:
                 case PacketType.BASE_INTEGRITY_CHANGE:
+                    // neprijimat opozdene packety s ubranim zivotu
+                    if (!isInitialized)
+                        return;
                     GetPlayer(msg.ReadInt32()).Data.BaseIntegrity = msg.ReadInt32();
                     ForwardMessage(msg);
                     break;
