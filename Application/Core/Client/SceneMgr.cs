@@ -107,8 +107,6 @@ namespace Orbit.Core.Client
 
             InitNetwork();
             ConnectToServer();
-            if (gameType != Gametype.TOURNAMENT_GAME && gameType != Gametype.SERVER_GAME && gameType != Gametype.CLIENT_GAME)
-                InitStaticMouse();
         }
 
         public void InitStaticMouse()
