@@ -480,7 +480,8 @@ namespace Orbit.Core.Client
             if (gameEnded)
                 return;
 
-            (Application.Current as App).setGameStarted(false);
+            if (Application.Current != null)
+                (Application.Current as App).setGameStarted(false);
 
             isGameInitialized = true;
             gameEnded = true;

@@ -61,7 +61,6 @@ namespace Orbit.Core.Players
         {
             SceneMgr = mgr;
             Shooting = false;
-            HealingKit = new HealingKit(SceneMgr, this);
         }
 
         public void SetGoldAndShow(int gold)
@@ -105,6 +104,7 @@ namespace Orbit.Core.Players
             Hook = new HookLauncher(SceneMgr, this);
             Mine = new MineLauncher(SceneMgr, this);
             Canoon = new ProximityCannon(SceneMgr, this);
+            HealingKit = new HealingKit(SceneMgr, this);
         }
 
         public int GetBaseIntegrity()
