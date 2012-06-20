@@ -23,6 +23,9 @@ namespace Orbit.Gui
         public MainUC()
         {
             InitializeComponent();
+#if (DEBUG == false)
+            spMenu.Children.Remove(btnConnectToLocalhost);
+#endif
         }
 
         private void btnSinglePlayer_Click(object sender, RoutedEventArgs e)
@@ -56,6 +59,12 @@ namespace Orbit.Gui
         private void btnRepeatGame_Click(object sender, RoutedEventArgs e)
         {
             (Application.Current as App).RepeatGame();
+        }
+
+        private void btnConnectToLocalhost_Click(object sender, RoutedEventArgs e)
+        {
+            (Application.Current as App).CreateGameGui();
+            (Application.Current as App).ConnectToGame("127.0.0.1");
         }
     }
 }

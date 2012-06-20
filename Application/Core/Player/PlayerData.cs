@@ -20,6 +20,7 @@ namespace Orbit.Core.Players
     public class PlayerData
     {
         public int Id { get; set; }
+        public string HashId { get; set; }
         public string Name { get; set; }
         public bool Active { get; set; }
         public PlayerPosition PlayerPosition { get; set; }
@@ -42,6 +43,8 @@ namespace Orbit.Core.Players
         public bool LobbyReady { get; set; }
         public bool LobbyLeader { get; set; }
         public bool StartReady { get; set; }
+        public int PlayedMatches { get; set; }
+        public int WonMatches { get; set; }
 
         public PlayerData()
         {
@@ -59,6 +62,5 @@ namespace Orbit.Core.Players
             HookLenght = SharedDef.HOOK_LENGHT;
             HookSpeed = SharedDef.HOOK_SPEED;
         }
-
     }
 }

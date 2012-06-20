@@ -14,6 +14,7 @@ using Orbit.Core;
 using Orbit.Core.Client;
 using Orbit.Core.Server;
 using System.IO;
+using Orbit.Core.Players;
 
 namespace Orbit
 {
@@ -28,6 +29,7 @@ namespace Orbit
         private string lastServerAddress;
         private Gametype lastGameType;
         public string PlayerName { get; set; }
+        public string PlayerHashId { get; set; }
 
         [STAThread]
         public static void Main(string[] args)
@@ -43,20 +45,33 @@ namespace Orbit
         protected override void OnStartup(StartupEventArgs e)
         {
             sceneMgr = new SceneMgr();
-           
+
+            PlayerName = "Player";
+
             if (!File.Exists("player"))
             {
-                PlayerName = "Player";
+                PlayerHashId = Player.GenerateNewHashId(PlayerName);
+                using (StreamWriter writer = new StreamWriter("player", false))
+                {
+                    writer.WriteLine("name=" + PlayerName);
+                    writer.WriteLine("hash=" + PlayerHashId);
+                }
                 return;
             }
 
+            // TODO: je mozne aby hrac upravil soubor tak, ze nebude obsahovat hash, to by pak byla celkem chyba
             using (StreamReader reader = new StreamReader("player"))
             {
                 string line;
-                if ((line = reader.ReadLine()) != null)
-                    PlayerName = line;
-                else
-                    PlayerName = "Player";
+                string[] items;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    items = line.Split('=');
+                    if (items[0].Equals("name"))
+                        PlayerName = items[1];
+                    else if (items[0].Equals("hash"))
+                        PlayerHashId = items[1];
+                }
             }
         }
 
@@ -235,11 +250,6 @@ namespace Orbit
             }
         }
 
-        public string GetPlayerName()
-        {
-            return PlayerName;
-        }
-
         public void PlayerReady()
         {
             sceneMgr.Enqueue(new Action(() =>
@@ -264,6 +274,12 @@ namespace Orbit
             {
                 sceneMgr.SendChatMessage(msg);
             }));
+        }
+
+        public void CreateScoreboardGui(LobbyPlayerData winnerData, List<LobbyPlayerData> data)
+        {
+            mainWindow.mainGrid.Children.Clear();
+            mainWindow.mainGrid.Children.Add(new ScoreboardUC(winnerData, data));
         }
     }
 }

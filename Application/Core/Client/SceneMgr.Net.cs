@@ -54,6 +54,7 @@ namespace Orbit.Core.Client
             NetOutgoingMessage msg = client.CreateMessage();
             msg.Write((int)PacketType.PLAYER_CONNECT);
             msg.Write(GetCurrentPlayer().Data.Name);
+            msg.Write(GetCurrentPlayer().Data.HashId);
 
             serverConnection = client.Connect(serverAddress, SharedDef.PORT_NUMBER, msg);
         }
@@ -272,7 +273,11 @@ namespace Orbit.Core.Client
                     }
                     break;
                 case PacketType.PLAYER_WON:
-                    EndGame(GetPlayer(msg.ReadInt32()), GameEnd.WIN_GAME);
+                    {
+                        Player winner = GetPlayer(msg.ReadInt32());
+                        winner.Data.WonMatches = msg.ReadInt32();
+                        EndGame(winner, GameEnd.WIN_GAME);
+                    }
                     break;
                 case PacketType.SINGULARITY_MINE_HIT:
                     long mineId = msg.ReadInt64();
@@ -428,6 +433,9 @@ namespace Orbit.Core.Client
                             lblw.Content = "";
 
                     }));
+                    break;
+                case PacketType.TOURNAMENT_FINISHED:
+                    EndGame(GetPlayer(msg.ReadInt32()), GameEnd.TOURNAMENT_FINISHED);
                     break;
                 case PacketType.PLAYER_READY:
                     Player pl = GetPlayer(msg.ReadInt32());

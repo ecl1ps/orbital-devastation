@@ -16,6 +16,7 @@ using Lidgren.Network;
 using Orbit.Core.Scene;
 using Orbit.Core;
 using Orbit.Core.Helpers;
+using Orbit.Core.Server.Match;
 
 namespace Orbit.Core.Server
 {
@@ -71,7 +72,7 @@ namespace Orbit.Core.Server
                         // jmeno serveru
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            response.Write((Application.Current as App).GetPlayerName());
+                            response.Write((Application.Current as App).PlayerName);
                         }));
                         
                         server.SendDiscoveryResponse(response, msg.SenderEndpoint);
@@ -87,7 +88,14 @@ namespace Orbit.Core.Server
                             if (players.Exists(plr => plr.Connection.RemoteUniqueIdentifier == msg.SenderConnection.RemoteUniqueIdentifier))
                                 return;
 
-                            Player p = CreateAndAddPlayer(msg.ReadString());
+                            string plrName = msg.ReadString();
+                            string plrHash = msg.ReadString();
+
+                            // nepridavat ani hrace ze stejne instance hry (nejde je potom spolehlive rozlisit v tournamentu)
+                            if (GameType == Gametype.TOURNAMENT_GAME && players.Exists(plr => plr.Data.HashId == plrHash))
+                                return;
+
+                            Player p = CreateAndAddPlayer(plrName, plrHash);
                             p.Connection = msg.SenderConnection;
 
                             NetOutgoingMessage hailMsg = CreateNetMessage();
@@ -120,6 +128,8 @@ namespace Orbit.Core.Server
                             case NetConnectionStatus.Disconnected:
                             case NetConnectionStatus.Disconnecting:
                                 Player disconnected = GetPlayer(msg.SenderConnection);
+                                if (disconnected == null)
+                                    return;
                                 players.Remove(disconnected);
                                 SendPlayerLeftMessage(disconnected);
                                 if (disconnected.IsActivePlayer())
@@ -191,6 +201,9 @@ namespace Orbit.Core.Server
                     if (gameSession == null)
                         gameSession = new GameManager(this, players);
 
+                    if (gameSession.CheckTournamentFinished())
+                        break;
+
                     gameSession.CreateNewMatch();
                     isInitialized = true;
 
@@ -199,6 +212,9 @@ namespace Orbit.Core.Server
                     break;
                 case PacketType.PLAYER_HEAL:
                 case PacketType.BASE_INTEGRITY_CHANGE:
+                    // neprijimat opozdene packety s ubranim zivotu
+                    if (!isInitialized)
+                        return;
                     GetPlayer(msg.ReadInt32()).Data.BaseIntegrity = msg.ReadInt32();
                     ForwardMessage(msg);
                     break;

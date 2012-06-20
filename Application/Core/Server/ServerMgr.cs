@@ -16,6 +16,7 @@ using Lidgren.Network;
 using System.Windows.Input;
 using Orbit.Core;
 using Orbit.Core.Scene;
+using Orbit.Core.Server.Match;
 
 namespace Orbit.Core.Server
 {
@@ -56,6 +57,7 @@ namespace Orbit.Core.Server
                 return;
 
             gameSession.IsRunning = false;
+            gameSession.GameEnded(plr, endType);
 
             gameEnded = true;
             if (endType == GameEnd.WIN_GAME)
@@ -74,7 +76,11 @@ namespace Orbit.Core.Server
             isInitialized = false;
             gameEnded = false;
 
-            gameSession.GameEnded(plr, endType);
+            if (gameSession.CheckTournamentFinished(true))
+            {
+                RequestStop();
+                return;
+            }
 
             players.ForEach(p => p.Data.LobbyReady = false);
             players.ForEach(p => p.Data.BaseIntegrity = SharedDef.BASE_MAX_INGERITY);
@@ -100,7 +106,7 @@ namespace Orbit.Core.Server
             }
         }
 
-        public Player CreateAndAddPlayer(String name)
+        public Player CreateAndAddPlayer(String name, String hash)
         {
             Player plr = new Player(null);
             plr.Data = new PlayerData();
@@ -109,6 +115,7 @@ namespace Orbit.Core.Server
                 plr.Data.Name = name + " " + plr.GetId();
             else
                 plr.Data.Name = name;
+            plr.Data.HashId = hash;
             players.Add(plr);
             return plr;
         }
@@ -202,6 +209,7 @@ namespace Orbit.Core.Server
             NetOutgoingMessage msg = CreateNetMessage();
             msg.Write((int)PacketType.PLAYER_WON);
             msg.Write(winner.GetId());
+            msg.Write(winner.Data.WonMatches);
             BroadcastMessage(msg);
         }
 

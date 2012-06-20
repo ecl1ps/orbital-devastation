@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignWidth="800" d:DesignHeight="600">
     <Grid Width="800" Height="600" HorizontalAlignment="Center" VerticalAlignment="Center" ShowGridLines="False">
-        <StackPanel Margin="20,0,608,0" Background="#FFBDBDC4" >
+        <StackPanel Margin="20,0,608,0" Background="#FFBDBDC4" Name="spMenu">
             <Button Content="Start Practise game" Name="btnSinglePlayer" Margin="0,50,0,5" Height="33"  Width="150" Click="btnSinglePlayer_Click" FontFamily="Bauhaus 93" FontSize="16">
                 <Button.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -39,7 +39,15 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
-                <Button Content="Exit Game" Name="btnExit" Margin="0,50,0,5" Height="33" Width="150" FontFamily="Bauhaus 93" FontSize="16" Click="btnExit_Click">
+            <Button Content="Connect To Localhost" Name="btnConnectToLocalhost" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="14" Click="btnConnectToLocalhost_Click">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black" Offset="1" />
+                        <GradientStop Color="#80FFFFFF" Offset="0" />
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+            <Button Content="Exit Game" Name="btnExit" Margin="0,50,0,5" Height="33" Width="150" FontFamily="Bauhaus 93" FontSize="16" Click="btnExit_Click">
                     <Button.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="Black" Offset="1" />

@@ -286,6 +286,7 @@ namespace Orbit.Core.Helpers
         public static void WriteObjectPlayerData(this NetOutgoingMessage msg, PlayerData d)
         {
             msg.Write(d.Id);
+            msg.Write(d.HashId);
             msg.Write(d.Name);
             msg.Write(d.Active);
 
@@ -301,19 +302,24 @@ namespace Orbit.Core.Helpers
             msg.Write(d.HookLenght);
             msg.Write(d.HookSpeed);
 
+            msg.Write(d.BaseIntegrity);
+            msg.Write(d.Gold);
+
             msg.Write(d.PlayerColor);
             msg.Write((byte)d.PlayerPosition);
             msg.Write(d.Score);
             msg.Write(d.LobbyLeader);
             msg.Write(d.LobbyReady);
             msg.Write(d.StartReady);
-            msg.Write(d.BaseIntegrity);
-            msg.Write(d.Gold);
+
+            msg.Write(d.PlayedMatches);
+            msg.Write(d.WonMatches);
         }
 
         public static void ReadObjectPlayerData(this NetIncomingMessage msg, PlayerData d)
         {
             d.Id = msg.ReadInt32();
+            d.HashId = msg.ReadString();
             d.Name = msg.ReadString();
             d.Active = msg.ReadBoolean();
 
@@ -329,6 +335,9 @@ namespace Orbit.Core.Helpers
             d.HookLenght = msg.ReadInt32();
             d.HookSpeed = msg.ReadInt32();
 
+            d.BaseIntegrity = msg.ReadInt32();
+            d.Gold = msg.ReadInt32();
+
             d.PlayerColor = msg.ReadColor();
             d.PlayerPosition = (PlayerPosition)msg.ReadByte();
             d.Score = msg.ReadInt32();
@@ -339,8 +348,9 @@ namespace Orbit.Core.Helpers
             else
                 msg.ReadBoolean();
             d.StartReady = msg.ReadBoolean();
-            d.BaseIntegrity = msg.ReadInt32();
-            d.Gold = msg.ReadInt32();
+
+            d.PlayedMatches = msg.ReadInt32();
+            d.WonMatches = msg.ReadInt32();
         }
 
 

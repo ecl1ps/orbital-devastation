@@ -42,7 +42,7 @@ namespace Orbit.Gui
                 if (tbMessage.Text == "")
                     return;
                 (Application.Current as App).SendChatMessage(tbMessage.Text);
-                lvChat.Items.Add((Application.Current as App).GetPlayerName() + ": " +tbMessage.Text);
+                lvChat.Items.Add((Application.Current as App).PlayerName + ": " +tbMessage.Text);
                 lvChat.ScrollIntoView(lvChat.Items[lvChat.Items.Count - 1]);
                 tbMessage.Text = "";
             }
