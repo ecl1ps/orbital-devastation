@@ -275,5 +275,11 @@ namespace Orbit
                 sceneMgr.SendChatMessage(msg);
             }));
         }
+
+        public void CreateScoreboardGui(LobbyPlayerData winnerData, List<LobbyPlayerData> data)
+        {
+            mainWindow.mainGrid.Children.Clear();
+            mainWindow.mainGrid.Children.Add(new ScoreboardUC(winnerData, data));
+        }
     }
 }
