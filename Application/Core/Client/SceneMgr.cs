@@ -297,12 +297,6 @@ namespace Orbit.Core.Client
             sw.Stop();
 
             CleanUp();
-
-            if (Application.Current != null)
-                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    (Application.Current as App).GameEnded();
-                }));
         }
 
         private void RequestStop()
@@ -494,8 +488,10 @@ namespace Orbit.Core.Client
                 PlayerLeft(plr);
             else if (endType == GameEnd.SERVER_DISCONNECTED)
                 Disconnected();
+            else if (endType == GameEnd.TOURNAMENT_FINISHED)
+                TournamenFinished(plr);
 
-            if (GameType != Gametype.TOURNAMENT_GAME || endType == GameEnd.SERVER_DISCONNECTED)
+            if (GameType != Gametype.TOURNAMENT_GAME || endType == GameEnd.SERVER_DISCONNECTED || endType == GameEnd.TOURNAMENT_FINISHED)
                 RequestStop();
 
             StaticMouse.Enable(false);
@@ -505,8 +501,26 @@ namespace Orbit.Core.Client
             if (Application.Current == null)
                 return;
 
-            if (GameType == Gametype.TOURNAMENT_GAME && endType != GameEnd.SERVER_DISCONNECTED)
+            if (GameType == Gametype.TOURNAMENT_GAME && endType != GameEnd.SERVER_DISCONNECTED && endType != GameEnd.TOURNAMENT_FINISHED)
                 TournamentGameEnded();
+            else if (endType != GameEnd.TOURNAMENT_FINISHED)
+                NormalGameEnded();
+        }
+
+        private void TournamenFinished(Player winner)
+        {
+            if (Application.Current == null)
+                return;
+
+            List<LobbyPlayerData> data = new List<LobbyPlayerData>();
+            players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score, p.Data.LobbyLeader, p.Data.PlayedMatches, p.Data.WonMatches)));
+
+            LobbyPlayerData winnerData = data.Find(d => d.Id == winner.Data.Id);
+
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                (Application.Current as App).CreateScoreboardGui(winnerData, data);
+            }));
         }
 
         private void TournamentGameEnded()
@@ -519,6 +533,7 @@ namespace Orbit.Core.Client
             objectsToAdd.Clear();
 
             players.ForEach(p => p.Data.LobbyReady = false);
+            players.ForEach(p => p.Data.BaseIntegrity = SharedDef.BASE_MAX_INGERITY);
 
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
@@ -532,6 +547,15 @@ namespace Orbit.Core.Client
                 currentPlayer.Data.LobbyReady = true;
                 SendPlayerReadyMessage();
             }
+        }
+
+        private void NormalGameEnded()
+        {
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                (Application.Current as App).GameEnded();
+                //(Application.Current as App).ExitGame();
+            }));
         }
 
         private void Disconnected()
@@ -640,11 +664,11 @@ namespace Orbit.Core.Client
 
         private void UpdateLobbyPlayers()
         {
-            List<LobbyPlayerData> data = new List<LobbyPlayerData>();
-            players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score, p.Data.LobbyLeader)));
-
             if (Application.Current == null)
                 return;
+
+            List<LobbyPlayerData> data = new List<LobbyPlayerData>();
+            players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score, p.Data.LobbyLeader, p.Data.PlayedMatches, p.Data.WonMatches)));
 
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {

@@ -203,6 +203,7 @@ namespace Orbit.Core.Server
             NetOutgoingMessage msg = CreateNetMessage();
             msg.Write((int)PacketType.PLAYER_WON);
             msg.Write(winner.GetId());
+            msg.Write(winner.Data.WonMatches);
             BroadcastMessage(msg);
         }
 

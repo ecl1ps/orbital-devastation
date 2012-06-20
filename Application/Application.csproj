@@ -157,6 +157,9 @@
     <Compile Include="Gui\PlayerSettings.xaml.cs">
       <DependentUpon>PlayerSettings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\ScoreboardUC.xaml.cs">
+      <DependentUpon>ScoreboardUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Scene\Controls\Control.cs" />
     <Compile Include="Core\Scene\Controls\IControl.cs" />
@@ -256,6 +259,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\PlayerSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\ScoreboardUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
