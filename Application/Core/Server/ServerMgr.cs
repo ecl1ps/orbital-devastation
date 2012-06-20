@@ -16,6 +16,7 @@ using Lidgren.Network;
 using System.Windows.Input;
 using Orbit.Core;
 using Orbit.Core.Scene;
+using Orbit.Core.Server.Match;
 
 namespace Orbit.Core.Server
 {
@@ -56,6 +57,7 @@ namespace Orbit.Core.Server
                 return;
 
             gameSession.IsRunning = false;
+            gameSession.GameEnded(plr, endType);
 
             gameEnded = true;
             if (endType == GameEnd.WIN_GAME)
@@ -74,7 +76,11 @@ namespace Orbit.Core.Server
             isInitialized = false;
             gameEnded = false;
 
-            gameSession.GameEnded(plr, endType);
+            if (gameSession.CheckTournamentFinished(true))
+            {
+                RequestStop();
+                return;
+            }
 
             players.ForEach(p => p.Data.LobbyReady = false);
             players.ForEach(p => p.Data.BaseIntegrity = SharedDef.BASE_MAX_INGERITY);

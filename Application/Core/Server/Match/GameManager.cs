@@ -12,14 +12,15 @@ using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Helpers;
 using System.Net;
 
-namespace Orbit.Core.Server
+namespace Orbit.Core.Server.Match
 {
     public class GameManager
     {
         private ServerMgr serverMgr;
         private List<Player> players;
-        private List<IPAddress> tournamentPlayerIdentifications;
+        private SortedSet<string> tournamentPlayerIds;
         private List<ISceneObject> objects;
+        private ITournamentMatchMaker matchMaker;
 
         public int Level { get; set; }
         public bool IsRunning { get; set; }
@@ -29,9 +30,10 @@ namespace Orbit.Core.Server
         {
             this.serverMgr = serverMgr;
             this.players = players;
-            tournamentPlayerIdentifications = new List<IPAddress>();
+            matchMaker = new OneToAllMatchMaker(players, serverMgr.GetRandomGenerator());
+            tournamentPlayerIds = new SortedSet<string>();
             if (serverMgr.GameType == Gametype.TOURNAMENT_GAME)
-                players.ForEach(p => tournamentPlayerIdentifications.Add(p.Connection.RemoteEndpoint.Address));
+                players.ForEach(p => tournamentPlayerIds.Add(p.Data.HashId));
             //todo
             Level = 1;
             matchCreated = false;
@@ -47,7 +49,7 @@ namespace Orbit.Core.Server
             // pri solo hre se vytvori jeden bot
             if (players.Count == 1)
             {
-                Player bot = serverMgr.CreateAndAddPlayer("Bot");
+                Player bot = serverMgr.CreateAndAddPlayer("Bot", "NullBotHash");
                 bot.Data.StartReady = true;
             }
 
@@ -56,14 +58,17 @@ namespace Orbit.Core.Server
             foreach (Player p in players)
                 p.Data.Active = false;
 
-            // TODO: algoritmem vybrat hrace pro novy zapas
             Player plr1 = players[0];
             Player plr2 = players[1];
-            // MatchMaker.SelectPlayersForNewMatch(players, out plr1, out plr2);
+
+            if (serverMgr.GameType == Gametype.TOURNAMENT_GAME)
+                matchMaker.SelectPlayersForNewMatch(out plr1, out plr2);
 
             plr1.Data.Active = true;
             plr2.Data.Active = true;
 
+            plr1.Data.PlayedMatches += 1;
+            plr2.Data.PlayedMatches += 1;
 
             PlayerPosition firstPlayerPosition = serverMgr.GetRandomGenerator().Next(2) == 0 ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
             plr1.Data.PlayerPosition = firstPlayerPosition;
@@ -92,6 +97,9 @@ namespace Orbit.Core.Server
         {
             IsRunning = false;
             matchCreated = false;
+
+            if (serverMgr.GameType == Gametype.TOURNAMENT_GAME)
+                matchMaker.MatchEnded(plr, endType);
         }
 
         private void CreateAsteroidField(int count)
@@ -131,7 +139,7 @@ namespace Orbit.Core.Server
             outmsg.Write((int)PacketType.ALL_ASTEROIDS);
 
             Int32 count = 0;
-            objects.ForEach(new Action<ISceneObject>(x => { if (x is Asteroid) count++; }));
+            objects.ForEach(x => { if (x is Asteroid) count++; });
             outmsg.Write(count);
 
             foreach (ISceneObject obj in objects)
@@ -148,9 +156,7 @@ namespace Orbit.Core.Server
                 return false;
 
             // do tournamentu se nemuzou pridat dalsi hraci, kteri nebyli v lobby pri startu
-            // TODO: vymyslet lepsi zpusob - takhle se kontroluje jen ip, 
-            // takze z jedne adresy to dovoli pripojit se i dalsim hracum, kteri v touranmentu byt nemusi
-            if (serverMgr.GameType == Gametype.TOURNAMENT_GAME && !tournamentPlayerIdentifications.Contains(p.Connection.RemoteEndpoint.Address))
+            if (serverMgr.GameType == Gametype.TOURNAMENT_GAME && !tournamentPlayerIds.Contains(p.Data.HashId))
                 return false;
 
             p.Data.StartReady = true;
@@ -202,6 +208,23 @@ namespace Orbit.Core.Server
             }
 
             return IsRunning;
+        }
+
+        public bool CheckTournamentFinished(bool announce = false)
+        {
+            Player winner = matchMaker.GetWinner();
+            if (winner == null)
+                return false;
+
+            if (announce)
+            {
+                NetOutgoingMessage tournamentFinished = serverMgr.CreateNetMessage();
+                tournamentFinished.Write((int)PacketType.TOURNAMENT_FINISHED);
+                tournamentFinished.Write(winner.GetId());
+                serverMgr.BroadcastMessage(tournamentFinished);
+            }
+
+            return true;
         }
     }
 }

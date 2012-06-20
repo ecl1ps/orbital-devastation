@@ -16,6 +16,7 @@ using Lidgren.Network;
 using Orbit.Core.Scene;
 using Orbit.Core;
 using Orbit.Core.Helpers;
+using Orbit.Core.Server.Match;
 
 namespace Orbit.Core.Server
 {
@@ -189,6 +190,9 @@ namespace Orbit.Core.Server
 
                     if (gameSession == null)
                         gameSession = new GameManager(this, players);
+
+                    if (gameSession.CheckTournamentFinished())
+                        break;
 
                     gameSession.CreateNewMatch();
                     isInitialized = true;

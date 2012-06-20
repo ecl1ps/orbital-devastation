@@ -123,6 +123,9 @@
     <Compile Include="Core\Helpers\SceneGeometryFactory.cs" />
     <Compile Include="Core\Helpers\SceneObjectFactory.cs" />
     <Compile Include="Core\IGameState.cs" />
+    <Compile Include="Core\Server\Match\ITournamentMatchMaker.cs" />
+    <Compile Include="Core\Server\Match\OneToAllMatchMaker.cs" />
+    <Compile Include="Core\Server\Match\PlayerMatchData.cs" />
     <Compile Include="Core\Utils\HealingKit.cs" />
     <Compile Include="Core\Utils\IHealingKit.cs" />
     <Compile Include="Core\Weapons\DoubleHookLauncher.cs" />
@@ -183,7 +186,7 @@
     <Compile Include="Gui\MainUC.xaml.cs">
       <DependentUpon>MainUC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Core\Server\GameManager.cs" />
+    <Compile Include="Core\Server\Match\GameManager.cs" />
     <Compile Include="Core\Server\ServerSceneObjectFactory.cs" />
     <Compile Include="Core\Server\ServerMgr.cs" />
     <Compile Include="Core\Server\ServerMgr.Net.cs" />
