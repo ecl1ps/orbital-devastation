@@ -126,6 +126,7 @@
     <Compile Include="Core\Server\Match\OneToAllThenScoreMatchMaker.cs" />
     <Compile Include="Core\Server\Match\ITournamentMatchMaker.cs" />
     <Compile Include="Core\Server\Match\OneToAllTillWinnerMatchMaker.cs" />
+    <Compile Include="Core\Server\Match\OneToOneInfiniteMachMaker.cs" />
     <Compile Include="Core\Server\Match\PlayerMatchData.cs" />
     <Compile Include="Core\Utils\HealingKit.cs" />
     <Compile Include="Core\Utils\IHealingKit.cs" />
