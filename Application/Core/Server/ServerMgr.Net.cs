@@ -88,7 +88,14 @@ namespace Orbit.Core.Server
                             if (players.Exists(plr => plr.Connection.RemoteUniqueIdentifier == msg.SenderConnection.RemoteUniqueIdentifier))
                                 return;
 
-                            Player p = CreateAndAddPlayer(msg.ReadString(), msg.ReadString());
+                            string plrName = msg.ReadString();
+                            string plrHash = msg.ReadString();
+
+                            // nepridavat ani hrace ze stejne instance hry (nejde je potom spolehlive rozlisit v tournamentu)
+                            if (GameType == Gametype.TOURNAMENT_GAME && players.Exists(plr => plr.Data.HashId == plrHash))
+                                return;
+
+                            Player p = CreateAndAddPlayer(plrName, plrHash);
                             p.Connection = msg.SenderConnection;
 
                             NetOutgoingMessage hailMsg = CreateNetMessage();
@@ -121,6 +128,8 @@ namespace Orbit.Core.Server
                             case NetConnectionStatus.Disconnected:
                             case NetConnectionStatus.Disconnecting:
                                 Player disconnected = GetPlayer(msg.SenderConnection);
+                                if (disconnected == null)
+                                    return;
                                 players.Remove(disconnected);
                                 SendPlayerLeftMessage(disconnected);
                                 if (disconnected.IsActivePlayer())
