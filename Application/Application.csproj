@@ -102,8 +102,9 @@
     <Compile Include="Core\Helpers\GuiObjectFactory.cs" />
     <Compile Include="Core\Helpers\NetDataHelper.cs" />
     <Compile Include="Core\NetSearcher.cs" />
-    <Compile Include="Core\Player\Player.cs" />
-    <Compile Include="Core\Player\PlayerData.cs" />
+    <Compile Include="Core\Players\Player.cs" />
+    <Compile Include="Core\Players\PlayerData.cs" />
+    <Compile Include="Core\Players\ScoreDefines.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DroppingSingularityControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\HookControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\NewtonianMovementControl.cs" />
@@ -177,14 +178,14 @@
     <Compile Include="Core\Scene\Entities\SceneObject.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\SingularityMine.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Asteroid.cs" />
-    <Compile Include="Core\Player\PlayerPosition.cs" />
+    <Compile Include="Core\Players\PlayerPosition.cs" />
     <Compile Include="Core\IdMgr.cs" />
     <Compile Include="Core\Client\SceneMgr.cs" />
     <Compile Include="Core\SharedDef.cs" />
     <Compile Include="Gui\GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Core\Player\PlayerActionManager.cs" />
+    <Compile Include="Core\Players\PlayerActionManager.cs" />
     <Compile Include="Gui\MainUC.xaml.cs">
       <DependentUpon>MainUC.xaml</DependentUpon>
     </Compile>

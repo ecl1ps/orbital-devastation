@@ -74,8 +74,13 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         private void CatchObjectWithGold(IContainsGold gold)
         {
-            if (SceneMgr.GameType != Gametype.SOLO_GAME && Owner.GetPosition() == SceneMgr.GetOpponentPlayer().GetPosition())
+            if (SceneMgr.GameType != Gametype.SOLO_GAME && Owner.GetId() == SceneMgr.GetOpponentPlayer().GetId())
                 return;
+
+            Owner.AddScoreAndShow(ScoreDefines.HOOK_HIT);
+            HookControl control = GetControlOfType(typeof(HookControl)) as HookControl;
+            if (control != null && control.GetDistanceFromOriginPct() > 0.9)
+                Owner.AddScoreAndShow(ScoreDefines.HOOK_CAUGHT_OBJECT_AFTER_90PCT_DISTANCE);
 
             Vector hitVector = gold.Position - Position;
 

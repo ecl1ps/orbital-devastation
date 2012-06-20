@@ -240,6 +240,10 @@ namespace Orbit.Core.Server
                     NetOutgoingMessage plrs = CreateAllPlayersDataMessage();
                     SendMessage(plrs, msg.SenderConnection);
                     break;
+                case PacketType.PLAYER_SCORE:
+                    GetPlayer(msg.ReadInt32()).Data.Score = msg.ReadInt32();
+                    ForwardMessage(msg);
+                    break;
             }
         }
 

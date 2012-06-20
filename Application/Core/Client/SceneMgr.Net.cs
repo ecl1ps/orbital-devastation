@@ -378,6 +378,13 @@ namespace Orbit.Core.Client
                 case PacketType.PLAYER_HEAL:
                     GetPlayer(msg.ReadInt32()).SetBaseIntegrity(msg.ReadInt32());
                     break;
+                case PacketType.PLAYER_SCORE:
+                    {
+                        Player p = GetPlayer(msg.ReadInt32());
+                        if (!p.IsCurrentPlayer())
+                            p.Data.Score = msg.ReadInt32();
+                    }
+                    break;
                 case PacketType.START_GAME_RESPONSE:
                     string leftPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.LEFT).Data.Name;
                     string rightPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.RIGHT).Data.Name;

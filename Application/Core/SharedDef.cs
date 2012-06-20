@@ -113,5 +113,6 @@ namespace Orbit.Core
         PLAYER_DISCONNECTED,
         SERVER_SHUTDOWN,
         TOURNAMENT_FINISHED,
+        PLAYER_SCORE,
     }    
 }

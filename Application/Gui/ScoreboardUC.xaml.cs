@@ -30,7 +30,7 @@ namespace Orbit.Gui
 
             lblWinner.Content = winnerData.Name + " is winner!";
 
-            IEnumerable<LobbyPlayerData> sortedData = data.OrderByDescending(p => p.Won).ThenBy(p => p.Score);
+            IEnumerable<LobbyPlayerData> sortedData = data.OrderByDescending(p => p.Won).ThenByDescending(p => p.Score);
 
             foreach (LobbyPlayerData d in sortedData)
                 spResults.Children.Add(new LobbyPlayer(d));

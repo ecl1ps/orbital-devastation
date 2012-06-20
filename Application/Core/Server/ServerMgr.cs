@@ -59,6 +59,15 @@ namespace Orbit.Core.Server
             gameSession.IsRunning = false;
             gameSession.GameEnded(plr, endType);
 
+            foreach (Player p in players)
+            {
+                NetOutgoingMessage msg = CreateNetMessage();
+                msg.Write((int)PacketType.PLAYER_SCORE);
+                msg.Write(p.GetId());
+                msg.Write(p.Data.Score);
+                BroadcastMessage(msg, p);
+            }
+
             gameEnded = true;
             if (endType == GameEnd.WIN_GAME)
                 PlayerWon(plr);

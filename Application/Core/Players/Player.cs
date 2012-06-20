@@ -32,6 +32,9 @@ namespace Orbit.Core.Players
 
         public IHealingKit HealingKit { get; set; }
 
+        private float scoreUpdateTimer = 0;
+        private int lastScoreValue = 0;
+
         public Vector VectorPosition
         {
             get
@@ -70,6 +73,8 @@ namespace Orbit.Core.Players
 
         public void AddGoldAndShow(int gold)
         {
+            AddScoreAndShow((int)(gold * ScoreDefines.GOLD_TAKEN));
+
             Data.Gold += gold;
 
             ShowGold();
@@ -77,11 +82,22 @@ namespace Orbit.Core.Players
 
         public void ShowGold()
         {
-            if (Data.Gold == 0)
+            if (Data.Gold <= 0)
                 return;
 
             if (IsCurrentPlayer())
                 SceneMgr.ShowStatusText(4, "Gold: " + Data.Gold);
+        }
+
+        public void AddScoreAndShow(int score)
+        {
+            Data.Score += score;
+
+            if (Data.Score <= 0)
+                return;
+
+            if (IsCurrentPlayer())
+                SceneMgr.ShowStatusText(5, "Score: " + Data.Score);
         }
 
         public void CreateWeapons()
@@ -103,6 +119,11 @@ namespace Orbit.Core.Players
 
         public void SetBaseIntegrity(int amount)
         {
+            // tohle je mozna trochu sporne - hrac bude dostavat body i kdyz se protihrac bude poskozovat sam
+            int diff = Data.BaseIntegrity - amount;
+            if (diff < 0 && SceneMgr.GetCurrentPlayer().GetId() != GetId())
+                SceneMgr.GetCurrentPlayer().AddScoreAndShow((-diff) * ScoreDefines.DAMAGE_DEALT);
+
             Data.BaseIntegrity = amount;
 
             if (SceneMgr.GetCanvas() == null)
@@ -143,6 +164,26 @@ namespace Orbit.Core.Players
 
             if (Shooting)
                 Canoon.Shoot(TargetPoint);
+
+            scoreUpdateTimer += tpf;
+            if (scoreUpdateTimer > 1)
+            {
+                if (lastScoreValue != Data.Score)
+                {
+                    lastScoreValue = Data.Score;
+                    SendScoreUpdate();
+                }
+                scoreUpdateTimer = 0;
+            }
+        }
+
+        private void SendScoreUpdate()
+        {
+            NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+            msg.Write((int)PacketType.PLAYER_SCORE);
+            msg.Write(GetId());
+            msg.Write(Data.Score);
+            SceneMgr.SendMessage(msg);
         }
 
         public int GetId()
