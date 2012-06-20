@@ -40,6 +40,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         private void HitAsteroid(IDestroyable asteroid)
         {
+            Player.AddScoreAndShow(ScoreDefines.CANNON_HIT);
             asteroid.TakeDamage(Damage);
 
             if (SceneMgr.GameType != Gametype.SOLO_GAME)

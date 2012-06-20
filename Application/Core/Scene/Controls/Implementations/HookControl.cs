@@ -85,6 +85,11 @@ namespace Orbit.Core.Scene.Controls.Implementations
             return (Origin - hook.Position).Length;
         }
 
+        public double GetDistanceFromOriginPct()
+        {
+            return ((Origin - hook.Position).Length / Lenght) * 100;
+        }
+
         public void CaughtObject(Vector hitVector)
         {
             HitVector = hitVector;

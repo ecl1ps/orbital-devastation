@@ -272,6 +272,16 @@ namespace Orbit.Core.Client
                         SyncReceivedObject(h, msg);
                     }
                     break;
+                case PacketType.SCORE_QUERY:
+                    {
+                        isGameInitialized = false;
+                        NetOutgoingMessage scoreMsg = CreateNetMessage();
+                        scoreMsg.Write((int)PacketType.SCORE_QUERY_RESPONSE);
+                        scoreMsg.Write(currentPlayer.GetId());
+                        scoreMsg.Write(currentPlayer.Data.Score);
+                        SendMessage(scoreMsg);
+                    }
+                    break;
                 case PacketType.PLAYER_WON:
                     {
                         Player winner = GetPlayer(msg.ReadInt32());
@@ -377,6 +387,13 @@ namespace Orbit.Core.Client
                 case PacketType.BASE_INTEGRITY_CHANGE:
                 case PacketType.PLAYER_HEAL:
                     GetPlayer(msg.ReadInt32()).SetBaseIntegrity(msg.ReadInt32());
+                    break;
+                case PacketType.PLAYER_SCORE:
+                    {
+                        Player p = GetPlayer(msg.ReadInt32());
+                        if (!p.IsCurrentPlayer())
+                            p.Data.Score = msg.ReadInt32();
+                    }
                     break;
                 case PacketType.START_GAME_RESPONSE:
                     string leftPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.LEFT).Data.Name;

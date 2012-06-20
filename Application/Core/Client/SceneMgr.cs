@@ -484,6 +484,7 @@ namespace Orbit.Core.Client
 
             (Application.Current as App).setGameStarted(false);
 
+            isGameInitialized = true;
             gameEnded = true;
             if (endType == GameEnd.WIN_GAME)
                 PlayerWon(plr);

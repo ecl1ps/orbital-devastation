@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.Entities.Implementations;
+using Orbit.Core.Players;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -51,6 +52,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             if (lifeTime >= SharedDef.MINE_LIFE_TIME)
             {
+                meMine.Owner.AddScoreAndShow(hitObjects.Count ^ ScoreDefines.MINE_HIT_MULTIPLE_EXPONENT);
                 meMine.DoRemoveMe();
                 return;
             }
@@ -66,11 +68,13 @@ namespace Orbit.Core.Scene.Controls.Implementations
             StartDetonation();
 
             if (meMine.SceneMgr.GameType != Gametype.SOLO_GAME && 
-                meMine.Owner.GetPosition() == meMine.SceneMgr.GetOpponentPlayer().GetPosition())
+                meMine.Owner.GetId() == meMine.SceneMgr.GetOpponentPlayer().GetId())
                 return;
 
             if (hitObjects.Contains((movable as ISceneObject).Id))
                 return;
+
+            meMine.Owner.AddScoreAndShow(ScoreDefines.MINE_HIT);
 
             hitObjects.Add((movable as ISceneObject).Id);
 
