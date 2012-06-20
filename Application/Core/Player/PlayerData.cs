@@ -43,6 +43,8 @@ namespace Orbit.Core.Players
         public bool LobbyReady { get; set; }
         public bool LobbyLeader { get; set; }
         public bool StartReady { get; set; }
+        public int PlayedMatches { get; set; }
+        public int WonMatches { get; set; }
 
         public PlayerData()
         {

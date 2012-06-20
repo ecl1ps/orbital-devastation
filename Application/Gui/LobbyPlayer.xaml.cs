@@ -27,6 +27,7 @@ namespace Orbit.Gui
             PlayerId = data.Id;
             lblName.Content = data.Name;
             lblScore.Content = data.Score;
+            lblWins.Content = "Won: " + data.Won + "/" + data.Played;
         }
     }
 
@@ -36,13 +37,17 @@ namespace Orbit.Gui
         public string Name { get; set; }
         public int Score { get; set; }
         public bool Leader { get; set; }
+        public int Played { get; set; }
+        public int Won { get; set; }
 
-        public LobbyPlayerData(int id, string name, int score, bool leader)
+        public LobbyPlayerData(int id, string name, int score, bool leader, int played, int won)
         {
             Id = id;
             Name = name;
             Score = score;
             Leader = leader;
+            Played = played;
+            Won = won;
         }
     }
 }
