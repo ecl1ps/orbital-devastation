@@ -10,6 +10,9 @@ using Orbit.Core.Scene;
 using System.Windows.Controls;
 using Orbit.Core.Client;
 using Orbit.Core.Scene.Entities.Implementations;
+using System.Security.Cryptography;
+using System.Text;
+using System.IO;
 
 namespace Orbit.Core.Players
 {
@@ -155,6 +158,21 @@ namespace Orbit.Core.Players
         public bool IsCurrentPlayer()
         {
             return GetId() == SceneMgr.GetCurrentPlayer().GetId();
+        }
+
+        public static string GenerateNewHashId(string name)
+        {
+            //string value = name + Environment.CurrentDirectory + Environment.TickCount;
+            string value = name + Environment.CurrentDirectory;
+            MD5 md5 = MD5.Create();
+            byte[] inputBytes = Encoding.ASCII.GetBytes(value);
+            byte[] hash = md5.ComputeHash(inputBytes);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hash.Length; i++)
+                sb.Append(hash[i].ToString("X2"));
+
+            return sb.ToString();
         }
     }
 }

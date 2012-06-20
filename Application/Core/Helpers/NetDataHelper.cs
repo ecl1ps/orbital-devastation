@@ -286,6 +286,7 @@ namespace Orbit.Core.Helpers
         public static void WriteObjectPlayerData(this NetOutgoingMessage msg, PlayerData d)
         {
             msg.Write(d.Id);
+            msg.Write(d.HashId);
             msg.Write(d.Name);
             msg.Write(d.Active);
 
@@ -314,6 +315,7 @@ namespace Orbit.Core.Helpers
         public static void ReadObjectPlayerData(this NetIncomingMessage msg, PlayerData d)
         {
             d.Id = msg.ReadInt32();
+            d.HashId = msg.ReadString();
             d.Name = msg.ReadString();
             d.Active = msg.ReadBoolean();
 

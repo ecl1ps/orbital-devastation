@@ -54,6 +54,7 @@ namespace Orbit.Core.Client
             NetOutgoingMessage msg = client.CreateMessage();
             msg.Write((int)PacketType.PLAYER_CONNECT);
             msg.Write(GetCurrentPlayer().Data.Name);
+            msg.Write(GetCurrentPlayer().Data.HashId);
 
             serverConnection = client.Connect(serverAddress, SharedDef.PORT_NUMBER, msg);
         }

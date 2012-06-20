@@ -71,7 +71,8 @@ namespace Orbit.Core.Client
 
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-                currentPlayer.Data.Name = (Application.Current as App).GetPlayerName();
+                currentPlayer.Data.Name = (Application.Current as App).PlayerName;
+                currentPlayer.Data.HashId = (Application.Current as App).PlayerHashId;
             }));
 
             if (gameType != Gametype.TOURNAMENT_GAME)

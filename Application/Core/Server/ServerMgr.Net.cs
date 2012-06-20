@@ -71,7 +71,7 @@ namespace Orbit.Core.Server
                         // jmeno serveru
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            response.Write((Application.Current as App).GetPlayerName());
+                            response.Write((Application.Current as App).PlayerName);
                         }));
                         
                         server.SendDiscoveryResponse(response, msg.SenderEndpoint);
@@ -87,7 +87,7 @@ namespace Orbit.Core.Server
                             if (players.Exists(plr => plr.Connection.RemoteUniqueIdentifier == msg.SenderConnection.RemoteUniqueIdentifier))
                                 return;
 
-                            Player p = CreateAndAddPlayer(msg.ReadString());
+                            Player p = CreateAndAddPlayer(msg.ReadString(), msg.ReadString());
                             p.Connection = msg.SenderConnection;
 
                             NetOutgoingMessage hailMsg = CreateNetMessage();
