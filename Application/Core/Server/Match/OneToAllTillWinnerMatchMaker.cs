@@ -34,8 +34,6 @@ namespace Orbit.Core.Server.Match
                     plr1 = SelectRandomPlayerForMatch(foundPlayers);
                     foundPlayers.Remove(plr1);
                     plr2 = SelectRandomPlayerForMatchWithPlayer(foundPlayers, plr1);
-
-                    SetPlayingTogether(plr1, plr2);
                     return;
                 }
             }
@@ -89,6 +87,7 @@ namespace Orbit.Core.Server.Match
             if (endType != GameEnd.WIN_GAME)
                 return;
 
+            SetPlayingTogether(plr, players.Find(p => p.IsActivePlayer() && p.Data.HashId != plr.Data.HashId));
             PlayerMatchData d = GetPlayerMatchData(plr);
             d.WonGames += 1;
             plr.Data.WonMatches = d.WonGames;
