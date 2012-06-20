@@ -272,6 +272,16 @@ namespace Orbit.Core.Client
                         SyncReceivedObject(h, msg);
                     }
                     break;
+                case PacketType.SCORE_QUERY:
+                    {
+                        isGameInitialized = false;
+                        NetOutgoingMessage scoreMsg = CreateNetMessage();
+                        scoreMsg.Write((int)PacketType.SCORE_QUERY_RESPONSE);
+                        scoreMsg.Write(currentPlayer.GetId());
+                        scoreMsg.Write(currentPlayer.Data.Score);
+                        SendMessage(scoreMsg);
+                    }
+                    break;
                 case PacketType.PLAYER_WON:
                     {
                         Player winner = GetPlayer(msg.ReadInt32());

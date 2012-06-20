@@ -114,5 +114,7 @@ namespace Orbit.Core
         SERVER_SHUTDOWN,
         TOURNAMENT_FINISHED,
         PLAYER_SCORE,
+        SCORE_QUERY,
+        SCORE_QUERY_RESPONSE,
     }    
 }

@@ -166,7 +166,7 @@ namespace Orbit.Core.Players
                 Canoon.Shoot(TargetPoint);
 
             scoreUpdateTimer += tpf;
-            if (scoreUpdateTimer > 1)
+            if (scoreUpdateTimer > 0.3)
             {
                 if (lastScoreValue != Data.Score)
                 {

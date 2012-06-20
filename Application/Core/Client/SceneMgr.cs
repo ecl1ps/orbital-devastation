@@ -481,6 +481,7 @@ namespace Orbit.Core.Client
             if (gameEnded)
                 return;
 
+            isGameInitialized = true;
             gameEnded = true;
             if (endType == GameEnd.WIN_GAME)
                 PlayerWon(plr);

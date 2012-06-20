@@ -31,6 +31,8 @@ namespace Orbit.Core.Server
         public Gametype GameType { get; set; }
         private bool gameEnded;
         private GameManager gameSession;
+        private Action savedEndGameAction;
+        private List<int> playersRespondedScore;
 
         public ServerMgr()
         {
@@ -208,9 +210,22 @@ namespace Orbit.Core.Server
                     foreach (Player winner in players)
                         if (winner.IsActivePlayer() && winner.GetId() != plr.GetId())
                         {
-                            EndGame(winner, GameEnd.WIN_GAME);
+                            if (GameType == Gametype.TOURNAMENT_GAME)
+                                StopAndRequestScores(new Action(() => EndGame(winner, GameEnd.WIN_GAME)));
+                            else
+                                EndGame(winner, GameEnd.WIN_GAME);
                             return;
                         }
+        }
+
+        private void StopAndRequestScores(Action action)
+        {
+            playersRespondedScore = new List<int>();
+            savedEndGameAction = action;
+            isInitialized = false;
+            NetOutgoingMessage msg = CreateNetMessage();
+            msg.Write((int)PacketType.SCORE_QUERY);
+            BroadcastMessage(msg);
         }
 
         private void PlayerWon(Player winner)

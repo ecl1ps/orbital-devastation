@@ -244,6 +244,20 @@ namespace Orbit.Core.Server
                     GetPlayer(msg.ReadInt32()).Data.Score = msg.ReadInt32();
                     ForwardMessage(msg);
                     break;
+                case PacketType.SCORE_QUERY_RESPONSE:
+                    {
+                        Player p = GetPlayer(msg.ReadInt32());
+                        p.Data.Score = msg.ReadInt32();
+                        if (!playersRespondedScore.Contains(p.GetId()))
+                            playersRespondedScore.Add(p.GetId());
+                        if (playersRespondedScore.Count >= players.Count)
+                        {
+                            // EndGame() s hracem, ktery vyhral
+                            savedEndGameAction.Invoke();
+                            savedEndGameAction = null;
+                        }
+                    }
+                    break;
             }
         }
 
