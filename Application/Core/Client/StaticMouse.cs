@@ -27,7 +27,8 @@ namespace Orbit.Core.Client
 
         public static void Init(SceneMgr mgr)
         {
-            instance = new StaticMouse(mgr);
+            if(instance == null)
+                instance = new StaticMouse(mgr);
         }
 
         private StaticMouse(SceneMgr mgr)
@@ -64,6 +65,12 @@ namespace Orbit.Core.Client
 
         private void EnableMouse(bool enable)
         {
+            if (sceneMgr == null || sceneMgr.GetCanvas() == null || !sceneMgr.GetCanvas().IsVisible)
+            {
+                enabled = false;
+                return;
+            }
+
             if (enabled == enable)
                 return;
 

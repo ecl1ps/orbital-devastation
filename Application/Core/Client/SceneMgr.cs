@@ -107,10 +107,11 @@ namespace Orbit.Core.Client
 
             InitNetwork();
             ConnectToServer();
-            InitStaticMouse();
+            if (gameType != Gametype.TOURNAMENT_GAME && gameType != Gametype.SERVER_GAME && gameType != Gametype.CLIENT_GAME)
+                InitStaticMouse();
         }
 
-        private void InitStaticMouse()
+        public void InitStaticMouse()
         {
             StaticMouse.Init(this);
             StaticMouse.Enable(true);
@@ -480,6 +481,8 @@ namespace Orbit.Core.Client
         {
             if (gameEnded)
                 return;
+
+            (Application.Current as App).setGameStarted(false);
 
             gameEnded = true;
             if (endType == GameEnd.WIN_GAME)

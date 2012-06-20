@@ -382,6 +382,9 @@ namespace Orbit.Core.Client
                     string leftPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.LEFT).Data.Name;
                     string rightPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.RIGHT).Data.Name;
 
+                    InitStaticMouse();
+                    (Application.Current as App).setGameStarted(true);
+
                     foreach (Player p in players)
                         if (p.IsActivePlayer())
                         {
@@ -416,12 +419,14 @@ namespace Orbit.Core.Client
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
                         (Application.Current as App).CreateGameGui(false);
+                        (Application.Current as App).setGameStarted(true);
                         Canvas c = (Application.Current as App).GetCanvas();
                         SetCanvas(c, new Size(c.Width, c.Height));
                     }));
                     
                     actionMgr = new PlayerActionManager(this);
                     stateMgr.AddGameState(actionMgr);
+                    InitStaticMouse();
                     BeginInvoke(new Action(() =>
                     {
                         Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
@@ -449,6 +454,7 @@ namespace Orbit.Core.Client
                     Player disconnected = GetPlayer(msg.ReadInt32());
 
                     players.Remove(disconnected);
+                    (Application.Current as App).setGameStarted(false);
 
                     if (disconnected.IsActivePlayer())
                         EndGame(disconnected, GameEnd.LEFT_GAME);

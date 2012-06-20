@@ -104,6 +104,8 @@ namespace Orbit
             StartGameThread();
 
             lastGameType = type;
+            if(type != Gametype.SERVER_GAME && type != Gametype.CLIENT_GAME)
+                mainWindow.gameRunning = true;
 
             sceneMgr.Enqueue(new Action(() =>
             {
@@ -127,6 +129,11 @@ namespace Orbit
             sceneMgr.SetRemoteServerAddress("127.0.0.1");
 
             StartGame(Gametype.TOURNAMENT_GAME);
+        }
+
+        public void setGameStarted(bool started)
+        {
+            mainWindow.gameRunning = started;
         }
 
         public void CreateGameGui(bool setCanvas = true)
@@ -168,7 +175,6 @@ namespace Orbit
 
         private void StartGameThread()
         {
-            mainWindow.gameRunning = true;
             Thread gameThread = new Thread(new ThreadStart(sceneMgr.Run));
             gameThread.Name = "Game Thread";
             gameThread.Start();
