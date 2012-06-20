@@ -46,18 +46,18 @@ namespace Orbit.Core.Weapons
         protected void SpawnBullet(Point point)
         {
             if (point.Y > Owner.VectorPosition.Y)
-                return;
+                point.Y = Owner.VectorPosition.Y;
 
-                SingularityBullet bullet = SceneObjectFactory.CreateSingularityBullet(SceneMgr, point, Owner);
+            SingularityBullet bullet = SceneObjectFactory.CreateSingularityBullet(SceneMgr, point, Owner);
 
-                if (SceneMgr.GameType != Gametype.SOLO_GAME)
-                {
-                    NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-                    (bullet as ISendable).WriteObject(msg);
-                    SceneMgr.SendMessage(msg);
-                }
+            if (SceneMgr.GameType != Gametype.SOLO_GAME)
+            {
+                NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+                (bullet as ISendable).WriteObject(msg);
+                SceneMgr.SendMessage(msg);
+            }
 
-                SceneMgr.DelayedAttachToScene(bullet);
+            SceneMgr.DelayedAttachToScene(bullet);
         }
 
         public bool IsReady()

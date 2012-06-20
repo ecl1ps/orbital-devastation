@@ -50,7 +50,7 @@ namespace Orbit.Core.Players
         public PlayerData()
         {
             Score = 0;
-            Gold = 500;
+            Gold = 100;
             PlayerType = PlayerType.HUMAN;
             BaseIntegrity = SharedDef.BASE_MAX_INGERITY;
             PlayerColor = Colors.Black;

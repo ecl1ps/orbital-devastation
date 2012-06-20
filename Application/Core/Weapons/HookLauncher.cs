@@ -50,8 +50,8 @@ namespace Orbit.Core.Weapons
         protected virtual void SpawnHook(Point point)
         {
 
-            if (point.Y > Owner.VectorPosition.Y)
-                return;
+            if (point.Y > Owner.VectorPosition.Y - 5)
+                point.Y = Owner.VectorPosition.Y - 5;
 
             if (IsReady())
             {
