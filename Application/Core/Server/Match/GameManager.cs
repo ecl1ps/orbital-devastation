@@ -30,11 +30,11 @@ namespace Orbit.Core.Server.Match
         {
             this.serverMgr = serverMgr;
             this.players = players;
-            matchMaker = new OneToAllMatchMaker(players, serverMgr.GetRandomGenerator());
+            matchMaker = new OneToAllThenScoreMatchMaker(players, serverMgr.GetRandomGenerator());
             tournamentPlayerIds = new SortedSet<string>();
             if (serverMgr.GameType == Gametype.TOURNAMENT_GAME)
                 players.ForEach(p => tournamentPlayerIds.Add(p.Data.HashId));
-            //todo
+            // TODO
             Level = 1;
             matchCreated = false;
         }

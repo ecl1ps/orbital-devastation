@@ -123,8 +123,9 @@
     <Compile Include="Core\Helpers\SceneGeometryFactory.cs" />
     <Compile Include="Core\Helpers\SceneObjectFactory.cs" />
     <Compile Include="Core\IGameState.cs" />
+    <Compile Include="Core\Server\Match\OneToAllThenScoreMatchMaker.cs" />
     <Compile Include="Core\Server\Match\ITournamentMatchMaker.cs" />
-    <Compile Include="Core\Server\Match\OneToAllMatchMaker.cs" />
+    <Compile Include="Core\Server\Match\OneToAllTillWinnerMatchMaker.cs" />
     <Compile Include="Core\Server\Match\PlayerMatchData.cs" />
     <Compile Include="Core\Utils\HealingKit.cs" />
     <Compile Include="Core\Utils\IHealingKit.cs" />

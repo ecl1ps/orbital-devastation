@@ -6,13 +6,16 @@ using Orbit.Core.Players;
 
 namespace Orbit.Core.Server.Match
 {
-    public class OneToAllMatchMaker : ITournamentMatchMaker
+    /// <summary>
+    /// kazdy hraje s kazdym tolikrat, dokud neni jednoznacny vyherce
+    /// </summary>
+    public class OneToAllTillWinnerMatchMaker : ITournamentMatchMaker
     {
         private List<Player> players;
         private List<PlayerMatchData> data;
         private Random rand;
 
-        public OneToAllMatchMaker(List<Player> players, Random randGen)
+        public OneToAllTillWinnerMatchMaker(List<Player> players, Random randGen)
         {
             this.players = players;
             data = new List<PlayerMatchData>();
@@ -22,8 +25,7 @@ namespace Orbit.Core.Server.Match
 
         public void SelectPlayersForNewMatch(out Player plr1, out Player plr2)
         {
-            // nejdriv se odehraji zapasy kazdy s kazdym
-            for (int i = 1; i < players.Count; ++i)
+            for (int i = 1; i < players.Count + 10; ++i)
             {
                 if (!EveryOnePlayedWithNumberOfPlayers(i))
                 {
@@ -38,21 +40,9 @@ namespace Orbit.Core.Server.Match
                 }
             }
 
-            // po dohrani se kontroluje, jestli je jednoznacny vitez
-            // pokud neni, tak spolu hraji hraci, kteri maji nejvetsi pocet vyher
-            int maxWins = 0;
-            data.ForEach(d => { if (d.WonGames > maxWins) maxWins = d.WonGames; });
-
-            List<Player> bestPlayers = GetPlayersWhoWonNumberOfMatches(maxWins);
-
-            // TODO: pokud zbydou napriklad tri hraci s nejvetsim score, tak dalsi zapas odehrajou dva a vitez je finalnim vitezem 
-            // meli by hrat vsichni
-
-            plr1 = SelectRandomPlayerForMatch(bestPlayers);
-            bestPlayers.Remove(plr1);
-            plr2 = SelectRandomPlayerForMatchWithPlayer(bestPlayers, plr1);
-
-            SetPlayingTogether(plr1, plr2);
+            plr1 = null;
+            plr2 = null;
+            throw new Exception("Shouldn't ever happen");
         }
 
         private void SetPlayingTogether(Player plr1, Player plr2)
@@ -114,7 +104,7 @@ namespace Orbit.Core.Server.Match
         /// </summary>
         public Player GetWinner()
         {
-            if (!data.TrueForAll(p => p.playedWith.Count >= players.Count - 1))
+            if (!EveryOnePlayedWithNumberOfPlayers(players.Count - 1))
                 return null;
 
             int maxWins = 0;
@@ -123,11 +113,28 @@ namespace Orbit.Core.Server.Match
             if (maxWins == 0)
                 return null;
 
+            // pokud neni stale neni jednoznacny vyherce
+            int maxPlayed = 0;
+            // najdeme kolik nejvickrat nekdo hral
+            players.ForEach(p => { if (p.Data.PlayedMatches > maxPlayed) maxPlayed = p.Data.PlayedMatches; });
+            // vsichni musi mit odehrano stejne her, aby se rozhodovalo o vitezi
+            if (!EveryOnePlayedWithNumberOfPlayers(maxPlayed))
+                return null;
+
             List<Player> bestPlayers = GetPlayersWhoWonNumberOfMatches(maxWins);
             if (bestPlayers.Count == 1)
                 return bestPlayers[0];
             else
+            {
+                // pokud to je uz vic nez kazdy s kazdym a jeste se ctyrma
+                if (maxPlayed >= players.Count + 4)
+                {
+                    // potom rozhoduje score - aby se nehralo do nekonecna
+                    IOrderedEnumerable<Player> bp = bestPlayers.OrderByDescending(p => p.Data.Score);
+                    return bp.First();
+                }
                 return null;
+            }
         }
 
         private List<Player> GetPlayersWhoWonNumberOfMatches(int wins)
