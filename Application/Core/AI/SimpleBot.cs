@@ -11,6 +11,10 @@ using Orbit.Core.Players;
 
 namespace Orbit.Core.AI
 {
+    /// <summary>
+    /// bot urovne 1 - healuje se, strili nahodne z kanonu a pousti nahodne miny nad nepritelem
+    /// na obou zbranich ma zpomaleni 2.5*
+    /// </summary>
     public class SimpleBot : IGameState
     {
         private SceneMgr sceneMgr;

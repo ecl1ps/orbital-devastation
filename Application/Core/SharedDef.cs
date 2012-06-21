@@ -61,6 +61,8 @@ namespace Orbit.Core
         public const float ACTION_BAR_TOP_MARGIN_PCT        = 0.3f;
 
         public const bool ALLOW_SPECTATORS_IN_DUO_MATCH     = true;
+
+        public const int START_GOLD                         = 100;
     }
 
     public enum Gametype
