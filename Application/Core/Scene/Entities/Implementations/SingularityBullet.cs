@@ -45,6 +45,29 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 Player.AddScoreAndShow(ScoreDefines.CANNON_HIT);
                 SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.CANNON_HIT, Center, FloatingTextManager.TIME_LENGTH_1, 
                     FloatingTextType.SCORE);
+
+                if (asteroid is UnstableAsteroid)
+                {
+                    double xMin = 0, xMax = 0;
+                    if (Player.GetPosition() == PlayerPosition.RIGHT)
+                    {
+                        xMin = SceneMgr.ViewPortSizeOriginal.Width * 0.1;
+                        xMax = SceneMgr.ViewPortSizeOriginal.Width * 0.4;
+                    }
+                    else
+                    {
+                        xMin = SceneMgr.ViewPortSizeOriginal.Width * 0.6;
+                        xMax = SceneMgr.ViewPortSizeOriginal.Width * 0.9;
+                    }
+
+                    if (asteroid.Position.Y > SceneMgr.ViewPortSizeOriginal.Height * 0.4 &&
+                        asteroid.Position.X >= xMin && asteroid.Position.X <= xMax)
+                    {
+                        SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.CANNON_DESTROYED_UNSTABLE_ASTEROID_ABOVE_ENEMY, Center, 
+                            FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG);
+                        Player.AddScoreAndShow(ScoreDefines.CANNON_DESTROYED_UNSTABLE_ASTEROID_ABOVE_ENEMY);
+                    }
+                }
             }
 
             asteroid.TakeDamage(Damage);
