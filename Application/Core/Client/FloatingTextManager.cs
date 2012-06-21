@@ -51,13 +51,10 @@ namespace Orbit.Core.Client
 
         private void GrowFloatingText(FloatingText ft)
         {
-            // TODO: pozicovat pri zvetsovani
             float newSize = GetNewFontSize(ft.TotalTime - ft.RemainingTime, ft.TotalTime * 0.3f, ft.FontSize);
             mgr.BeginInvoke(new Action(() =>
             {
                 ft.GUIObject.FontSize = newSize;
-                /*Canvas.SetLeft(ft.GUIObject, ft.Position.X - ft.GUIObject.Width / 2);
-                Canvas.SetTop(ft.GUIObject, ft.Position.Y - ft.GUIObject.Width / 2);*/
             }));
         }
 
@@ -88,12 +85,10 @@ namespace Orbit.Core.Client
                 tb = new TextBlock();
                 tb.Text = ft.Text;
                 tb.Foreground = GetColorForType(ft.Type);
-                tb.FontWeight = FontWeights.Medium;
+                tb.FontWeight = FontWeights.Bold;
                 tb.FontSize = 5;
                 Canvas.SetLeft(tb, ft.Position.X);
                 Canvas.SetTop(tb, ft.Position.Y);
-                /*Canvas.SetLeft(tb, ft.Position.X - tb.Width / 2);
-                Canvas.SetTop(tb, ft.Position.Y - tb.Width / 2);*/
                 mgr.GetCanvas().Children.Add(tb);
             }));
             ft.GUIObject = tb;
