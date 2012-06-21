@@ -682,5 +682,10 @@ namespace Orbit.Core.Client
                     lobby.UpdateShownPlayers(data);
             }));
         }
+
+        public Player GetOtherActivePlayer(int firstPlayerId)
+        {
+            return players.Find(p => p.IsActivePlayer() && p.GetId() != firstPlayerId);
+        }
     }
 }

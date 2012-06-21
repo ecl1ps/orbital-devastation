@@ -119,11 +119,6 @@ namespace Orbit.Core.Players
 
         public void SetBaseIntegrity(int amount)
         {
-            // tohle je mozna trochu sporne - hrac bude dostavat body i kdyz se protihrac bude poskozovat sam
-            int diff = Data.BaseIntegrity - amount;
-            if (diff < 0 && SceneMgr.GetCurrentPlayer().GetId() != GetId())
-                SceneMgr.GetCurrentPlayer().AddScoreAndShow((-diff) * ScoreDefines.DAMAGE_DEALT);
-
             Data.BaseIntegrity = amount;
 
             if (SceneMgr.GetCanvas() == null)

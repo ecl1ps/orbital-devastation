@@ -48,9 +48,22 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
             if (other is Asteroid)
             {
-                SceneMgr.FloatingTextMgr.AddFloatingText((other as Asteroid).Radius / 2, (other as Asteroid).Center, 
-                    FloatingTextManager.TIME_LENGTH_1, FloatingTextType.DAMAGE);
-                Integrity -= (other as Asteroid).Radius / 2;
+                int damage = (other as Asteroid).Radius / 2;
+
+                // score
+                Player otherPlayer = SceneMgr.GetOtherActivePlayer(Owner.GetId());
+                Vector textPos = new Vector(otherPlayer.VectorPosition.X + (Size.Width / 2), otherPlayer.VectorPosition.Y - 20);
+                SceneMgr.FloatingTextMgr.AddFloatingText(damage * ScoreDefines.DAMAGE_DEALT, textPos, FloatingTextManager.TIME_LENGTH_2,
+                    FloatingTextType.SCORE, FloatingTextManager.SIZE_MEDIUM);
+
+                if (otherPlayer.IsCurrentPlayer())
+                    otherPlayer.AddScoreAndShow(damage * ScoreDefines.DAMAGE_DEALT);
+
+                // damage
+                SceneMgr.FloatingTextMgr.AddFloatingText(damage, (other as Asteroid).Center, 
+                    FloatingTextManager.TIME_LENGTH_1, FloatingTextType.DAMAGE, FloatingTextManager.SIZE_MEDIUM);
+
+                Integrity -= damage;
                 if (Integrity < 0)
                     Integrity = 0;
 
