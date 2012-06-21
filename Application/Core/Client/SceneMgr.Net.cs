@@ -184,6 +184,10 @@ namespace Orbit.Core.Client
 
                             if (plr.Data.PlayerType == PlayerType.BOT)
                                 stateMgr.AddGameState(new SimpleBot(this, objects, plr));
+                            else
+                                FloatingTextMgr.AddFloatingText(plr.Data.Name + " has joined the game",
+                                    new Vector(ViewPortSizeOriginal.Width / 2 - 100, ViewPortSizeOriginal.Height / 2 - 50),
+                                    FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
                         }
                         else // hrace uz zname, ale mohl se zmenit jeho stav na active a take se mohly zmenit dalsi player data
                             msg.ReadObjectPlayerData(plr.Data);
@@ -388,8 +392,17 @@ namespace Orbit.Core.Client
                     }
                     break;
                 case PacketType.BASE_INTEGRITY_CHANGE:
-                case PacketType.PLAYER_HEAL:
                     GetPlayer(msg.ReadInt32()).SetBaseIntegrity(msg.ReadInt32());
+                    break;
+                case PacketType.PLAYER_HEAL:
+                    {
+                        Player p = GetPlayer(msg.ReadInt32());
+                        int newIntegrity = msg.ReadInt32();
+                        Vector textPos = new Vector(p.VectorPosition.X + (p.Baze.Size.Width / 2), p.VectorPosition.Y - 10);
+                        FloatingTextMgr.AddFloatingText("+ " + (newIntegrity - p.GetBaseIntegrity()), textPos, 
+                            FloatingTextManager.TIME_LENGTH_3, FloatingTextType.HEAL, FloatingTextManager.SIZE_BIG, true);
+                        p.SetBaseIntegrity(newIntegrity);
+                    }
                     break;
                 case PacketType.PLAYER_SCORE:
                     {
@@ -472,6 +485,10 @@ namespace Orbit.Core.Client
                     break;
                 case PacketType.PLAYER_DISCONNECTED:
                     Player disconnected = GetPlayer(msg.ReadInt32());
+
+                    FloatingTextMgr.AddFloatingText(disconnected.Data.Name + " has disconnected", 
+                        new Vector(ViewPortSizeOriginal.Width / 2 - 100, ViewPortSizeOriginal.Height / 2 - 50), 
+                        FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
 
                     players.Remove(disconnected);
                     (Application.Current as App).setGameStarted(false);

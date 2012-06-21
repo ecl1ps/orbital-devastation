@@ -7,6 +7,7 @@ using Orbit.Core.Scene;
 using Lidgren.Network;
 using Orbit.Core.Client;
 using Orbit.Core.Players;
+using System.Windows;
 
 namespace Orbit.Core.Utils
 {
@@ -32,6 +33,10 @@ namespace Orbit.Core.Utils
                 owner.ChangeBaseIntegrity(SharedDef.HEAL_AMOUNT);
                 if (owner.GetBaseIntegrity() > SharedDef.BASE_MAX_INGERITY)
                     owner.SetBaseIntegrity(SharedDef.BASE_MAX_INGERITY);
+
+                Vector textPos = new Vector(owner.VectorPosition.X + (owner.Baze.Size.Width / 2) - 30, owner.VectorPosition.Y - 30);
+                mgr.FloatingTextMgr.AddFloatingText("+ " + SharedDef.HEAL_AMOUNT, textPos, FloatingTextManager.TIME_LENGTH_3, 
+                    FloatingTextType.HEAL, FloatingTextManager.SIZE_BIG, true);
 
                 Cost *= SharedDef.HEAL_MULTIPLY_COEF;
 

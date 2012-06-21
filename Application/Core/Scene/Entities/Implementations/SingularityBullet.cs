@@ -30,7 +30,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
             if (other is IDestroyable)
             {
-                if (SceneMgr.GameType != Gametype.SOLO_GAME && Player.GetPosition() == SceneMgr.GetOpponentPlayer().GetPosition())
+                if (SceneMgr.GameType != Gametype.SOLO_GAME && !Player.IsCurrentPlayer())
                     return;
 
                 HitAsteroid(other as IDestroyable);
@@ -40,7 +40,13 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         private void HitAsteroid(IDestroyable asteroid)
         {
-            Player.AddScoreAndShow(ScoreDefines.CANNON_HIT);
+            if (Player.IsCurrentPlayer())
+            {
+                Player.AddScoreAndShow(ScoreDefines.CANNON_HIT);
+                SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.CANNON_HIT, Center, FloatingTextManager.TIME_LENGTH_1, 
+                    FloatingTextType.SCORE);
+            }
+
             asteroid.TakeDamage(Damage);
 
             if (SceneMgr.GameType != Gametype.SOLO_GAME)

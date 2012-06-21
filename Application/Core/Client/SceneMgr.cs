@@ -25,6 +25,7 @@ namespace Orbit.Core.Client
     {
         public Gametype GameType { get; set; }
         public Size ViewPortSizeOriginal { get; set; }
+        public FloatingTextManager FloatingTextMgr { get; set; }
 
         private Canvas canvas;
         private bool isGameInitialized;
@@ -68,6 +69,8 @@ namespace Orbit.Core.Client
             currentPlayer = CreatePlayer();
             players.Add(currentPlayer);
             stateMgr.AddGameState(currentPlayer);
+            FloatingTextMgr = new FloatingTextManager(this);
+            stateMgr.AddGameState(FloatingTextMgr);
 
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {

@@ -48,6 +48,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
             if (other is Asteroid)
             {
+                SceneMgr.FloatingTextMgr.AddFloatingText((other as Asteroid).Radius / 2, (other as Asteroid).Center, 
+                    FloatingTextManager.TIME_LENGTH_1, FloatingTextType.DAMAGE);
                 Integrity -= (other as Asteroid).Radius / 2;
                 if (Integrity < 0)
                     Integrity = 0;

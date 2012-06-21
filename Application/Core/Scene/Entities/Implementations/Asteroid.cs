@@ -65,6 +65,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public virtual void TakeDamage(int damage)
         {
+            SceneMgr.FloatingTextMgr.AddFloatingText(damage, Center, FloatingTextManager.TIME_LENGTH_1, FloatingTextType.DAMAGE);
+
             Radius -= damage;
             if (Radius < SharedDef.ASTEROID_THRESHOLD_RADIUS)
             {
