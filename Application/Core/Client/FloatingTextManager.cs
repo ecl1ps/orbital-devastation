@@ -55,6 +55,8 @@ namespace Orbit.Core.Client
             mgr.BeginInvoke(new Action(() =>
             {
                 ft.GUIObject.FontSize = newSize;
+                Canvas.SetLeft(ft.GUIObject, ft.Position.X - ft.GUIObject.ActualWidth / 2);
+                Canvas.SetTop(ft.GUIObject, ft.Position.Y - ft.GUIObject.ActualHeight / 2);
             }));
         }
 
@@ -130,7 +132,7 @@ namespace Orbit.Core.Client
                 case FloatingTextType.HEAL:
                     return Brushes.Green;
                 case FloatingTextType.SYSTEM:
-                    return Brushes.Brown;
+                    return Brushes.DarkMagenta;
                 default:
                     return Brushes.Black;
             }
