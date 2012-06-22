@@ -87,7 +87,7 @@ namespace Orbit.Core.Helpers
             SingularityBullet bullet = new SingularityBullet(mgr);
             bullet.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
             bullet.Position = position;
-            bullet.Player = plr;
+            bullet.Owner = plr;
             bullet.Radius = 2;
             bullet.Damage = plr.Data.BulletDamage;
             bullet.Direction = direction;

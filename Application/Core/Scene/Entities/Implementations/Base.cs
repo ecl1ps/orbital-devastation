@@ -68,7 +68,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
                     Integrity = 0;
 
                 (other as Asteroid).DoRemoveMe();
-
             }
         }
 

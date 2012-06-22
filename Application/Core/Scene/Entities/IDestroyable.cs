@@ -7,6 +7,6 @@ namespace Orbit.Core.Scene.Entities
 {
     public interface IDestroyable : ISceneObject
     {
-       void TakeDamage(int damage);
+        void TakeDamage(int damage, ISceneObject from);
     }
 }

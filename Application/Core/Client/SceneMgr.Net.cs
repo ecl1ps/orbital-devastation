@@ -255,7 +255,7 @@ namespace Orbit.Core.Client
                     {
                         SingularityBullet s = new SingularityBullet(this);
                         s.ReadObject(msg);
-                        s.Player = GetOpponentPlayer();
+                        s.Owner = GetOpponentPlayer();
                         s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
                         DelayedAttachToScene(s);
                         SyncReceivedObject(s, msg);
@@ -365,30 +365,37 @@ namespace Orbit.Core.Client
                     long aId = msg.ReadInt64();
                     int damage = msg.ReadInt32();
 
+                    SingularityBullet bullet = null;
+
                     foreach (ISceneObject obj in objects)
                     {
                         if (obj.Id == bulletId)
                         {
-                            if(obj is SingularityBullet) 
+                            if (obj is SingularityBullet) 
                             {
-                                SingularityBullet bullet = obj as SingularityBullet;
+                                bullet = obj as SingularityBullet;
                                 bullet.DoRemoveMe();
                             }
                             else
                                 Console.Error.WriteLine("Object id " + bulletId + " (" + obj.GetType().Name + ") is supposed to be a instance of SingularityBullet but it is not");
 
-                            continue;
+                            break;
                         }
+                    }
 
+                    foreach (ISceneObject obj in objects)
+                    {
                         if (obj.Id != aId)
                             continue;
 
                         if (obj is IDestroyable)
                         {
-                            (obj as IDestroyable).TakeDamage(damage);
-                        } 
+                            (obj as IDestroyable).TakeDamage(damage, bullet);
+                        }
                         else
                             Console.Error.WriteLine("Object id " + bulletId + " (" + obj.GetType().Name + ") is supposed to be a instance of IDestroyable but it is not");
+
+                        break;
                     }
                     break;
                 case PacketType.BASE_INTEGRITY_CHANGE:

@@ -9,11 +9,16 @@ using Orbit.Core.Scene.Controls;
 using Orbit.Core.Client;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.Controls.Implementations;
+using Orbit.Core.Players;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
     class UnstableAsteroid : Asteroid
     {
+        private Player destroyer;
+        private int childsDestroyed = 0;
+        private bool allDestroyedByTheSamePlayer = true;
+
         public UnstableAsteroid(SceneMgr mgr) : base(mgr)
         {
         }
@@ -27,7 +32,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         private void CreateSmallAsteroid(int radius, double rotation)
         {
-            Asteroid asteroid = new MinorAsteroid(SceneMgr);
+            MinorAsteroid asteroid = new MinorAsteroid(SceneMgr);
             asteroid.AsteroidType = AsteroidType.SPAWNED;
             asteroid.Id = IdMgr.GetNewId(SceneMgr.GetCurrentPlayer().GetId());
             asteroid.Rotation = SceneMgr.GetRandomGenerator().Next(360);
@@ -38,6 +43,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
             asteroid.TextureId = SceneMgr.GetRandomGenerator().Next(1, 18);
             asteroid.Enabled = true;
             asteroid.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(asteroid));
+
+            asteroid.Parent = this;
 
             NewtonianMovementControl nmc = new NewtonianMovementControl();
             nmc.InitialSpeed = 1;
@@ -50,11 +57,32 @@ namespace Orbit.Core.Scene.Entities.Implementations
             SceneMgr.DelayedAttachToScene(asteroid);
         }
 
-        public override void TakeDamage(int damage)
+        public override void TakeDamage(int damage, ISceneObject from)
         {
-            base.TakeDamage(damage);
+            // TODO: lepsi pretypovani, je mozne, ze bude vic bulletu
+            if (from is SingularityBullet)
+                destroyer = (from as SingularityBullet).Owner;
+            base.TakeDamage(damage, from);
             DoRemoveMe();
             SpawnSmallMeteors((int)(Radius * 0.7f));
+        }
+
+        /// <summary>
+        /// kontroluje extra score za zniceni vsech potomku jednim hracem
+        /// </summary>
+        public void NoticeChildAsteroidDestroyedBy(Player lastHitTakenFrom, MinorAsteroid destroyedChild)
+        {
+            childsDestroyed++;
+            if (allDestroyedByTheSamePlayer)
+                if (lastHitTakenFrom == null || lastHitTakenFrom.GetId() != destroyer.GetId())
+                    allDestroyedByTheSamePlayer = false;
+
+            if (childsDestroyed == 3 && allDestroyedByTheSamePlayer)
+            {
+                SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.CANNON_DESTROYED_ENTIRE_UNSTABLE_ASTEROID, destroyedChild.Center,
+                    FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG);
+                destroyer.AddScoreAndShow(ScoreDefines.CANNON_DESTROYED_ENTIRE_UNSTABLE_ASTEROID);
+            }
         }
     }
 }
