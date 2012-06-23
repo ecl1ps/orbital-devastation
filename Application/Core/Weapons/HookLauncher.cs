@@ -78,5 +78,16 @@ namespace Orbit.Core.Weapons
         {
             //i dont need this
         }
+
+
+        virtual public void triggerUpgrade(IWeapon old)
+        {
+            //i dont need this
+        }
+
+        public Hook getHook()
+        {
+            return hook;
+        }
     }
 }

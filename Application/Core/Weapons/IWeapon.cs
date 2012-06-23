@@ -33,5 +33,7 @@ namespace Orbit.Core.Weapons
         Boolean IsReady();
 
         void UpdateTimer(float value);
+
+        void triggerUpgrade(IWeapon old);
     }
 }

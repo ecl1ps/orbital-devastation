@@ -23,9 +23,42 @@ namespace Orbit.Core.Players
         public NetConnection Connection { get; set; }
         public Base Baze  { get; set; }
 
-        public IWeapon Hook { get; set; }
-        public IWeapon Mine { get; set; }
-        public IWeapon Canoon { get; set; }
+        private IWeapon hook;
+        public IWeapon Hook {
+            get
+            {
+                return hook;
+            }
+            set
+            {
+                value.triggerUpgrade(hook);
+                hook = value;
+            }
+        }
+        private IWeapon mine;
+        public IWeapon Mine {
+            get
+            {
+                return mine;
+            }
+            set
+            {
+                value.triggerUpgrade(mine);
+                mine = value;
+            }
+        }
+        private IWeapon canoon;
+        public IWeapon Canoon {
+            get
+            {
+                return canoon;
+            }
+            set
+            {
+                value.triggerUpgrade(canoon);
+                canoon = value;
+            }
+        }
 
         public bool Shooting { get; set; }
         public Point TargetPoint { get; set; }

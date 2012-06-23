@@ -62,7 +62,7 @@ namespace Orbit.Core
 
         public const bool ALLOW_SPECTATORS_IN_DUO_MATCH     = true;
 
-        public const int START_GOLD                         = 100;
+        public const int START_GOLD                         = 500;
     }
 
     public enum Gametype
