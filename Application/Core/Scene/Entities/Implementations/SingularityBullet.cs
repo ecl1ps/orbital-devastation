@@ -18,8 +18,11 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public Player Owner { get; set; } // neposilan
         public int Damage { get; set; }
 
+        private bool hit;
+
         public SingularityBullet(SceneMgr mgr) : base(mgr)
         {
+            hit = false;
         }
 
         protected override void UpdateGeometricState()
@@ -40,6 +43,11 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         private void HitAsteroid(IDestroyable asteroid)
         {
+            if (hit)
+                return;
+            else
+                hit = true;
+
             if (Owner.IsCurrentPlayer())
             {
                 Owner.AddScoreAndShow(ScoreDefines.CANNON_HIT);
