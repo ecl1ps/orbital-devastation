@@ -26,7 +26,7 @@ namespace Orbit.Core
         public const int GOLD_ASTEROID_BONUS_MULTIPLY       = 10;
 
         public const int ASTEROID_GOLD_CHANCE               = 25; // (0 - 100)
-        public const int ASTEROID_UNSTABLE_CHANCE           = 50; // 10 procent, musi se brat ohled na chance ostatnich typu
+        public const int ASTEROID_UNSTABLE_CHANCE           = 80; // 10 procent, musi se brat ohled na chance ostatnich typu
 
         public const int BASE_MAX_INGERITY                  = 100;
 
@@ -96,6 +96,7 @@ namespace Orbit.Core
 
         ALL_ASTEROIDS,
         NEW_ASTEROID,
+        MINOR_ASTEROID_SPAWN,
         NEW_SINGULARITY_MINE,
         NEW_SINGULARITY_BULLET,
         NEW_HOOK,

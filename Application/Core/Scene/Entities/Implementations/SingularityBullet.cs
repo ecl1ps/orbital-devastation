@@ -12,7 +12,7 @@ using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    class SingularityBullet : Sphere, ISendable
+    class SingularityBullet : Sphere, ISendable, IDamageable
     {
 
         public Player Owner { get; set; } // neposilan

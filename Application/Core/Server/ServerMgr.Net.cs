@@ -190,7 +190,6 @@ namespace Orbit.Core.Server
             {
                 case PacketType.ALL_PLAYER_DATA:
                 case PacketType.ALL_ASTEROIDS:
-                case PacketType.NEW_ASTEROID:
                 case PacketType.NEW_SINGULARITY_MINE:
                 case PacketType.NEW_SINGULARITY_BULLET:
                 case PacketType.NEW_HOOK:
@@ -198,6 +197,8 @@ namespace Orbit.Core.Server
                 case PacketType.CHAT_MESSAGE:
                 case PacketType.HOOK_HIT:
                 case PacketType.BULLET_HIT:
+                case PacketType.NEW_ASTEROID:
+                case PacketType.MINOR_ASTEROID_SPAWN:
                     ForwardMessage(msg);
                     break;
                 case PacketType.START_GAME_REQUEST:

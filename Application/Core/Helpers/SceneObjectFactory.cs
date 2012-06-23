@@ -139,5 +139,30 @@ namespace Orbit.Core.Helpers
             
             return hook;
         }
+
+        public static MinorAsteroid CreateSmallAsteroid(SceneMgr mgr, long id, Vector direction, Vector center, int rot, int textureId, int radius, double rotation)
+        {
+            MinorAsteroid asteroid = new MinorAsteroid(mgr);
+            asteroid.AsteroidType = AsteroidType.SPAWNED;
+            asteroid.Id = id;
+            asteroid.Rotation = rot;
+            asteroid.Direction = direction.Rotate(rotation);
+            asteroid.Radius = radius;
+            asteroid.Position = center;
+            asteroid.Gold = radius * 2;
+            asteroid.TextureId = textureId;
+            asteroid.Enabled = true;
+            asteroid.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(asteroid));
+
+            NewtonianMovementControl nmc = new NewtonianMovementControl();
+            nmc.InitialSpeed = 1;
+            asteroid.AddControl(nmc);
+
+            LinearRotationControl lrc = new LinearRotationControl();
+            lrc.RotationSpeed = mgr.GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_ROTATION_SPEED, SharedDef.MAX_ASTEROID_ROTATION_SPEED) / 10.0f;
+            asteroid.AddControl(lrc);
+
+            return asteroid;
+        }
     }
 }

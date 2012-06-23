@@ -10,58 +10,67 @@ using Orbit.Core.Client;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Players;
+using Lidgren.Network;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
     class UnstableAsteroid : Asteroid
     {
-        private Player destroyer;
+        public int Destroyer { get; set; }
         private int childsDestroyed = 0;
         private bool allDestroyedByTheSamePlayer = true;
 
         public UnstableAsteroid(SceneMgr mgr) : base(mgr)
         {
+            Destroyer = -1;
         }
 
         private void SpawnSmallMeteors(int radius)
         {
-            CreateSmallAsteroid(radius, Math.PI / 12);
-            CreateSmallAsteroid(radius, 0);
-            CreateSmallAsteroid(radius, -Math.PI / 12);
-        }
+            if (Destroyer != SceneMgr.GetCurrentPlayer().GetId() && SceneMgr.GameType != Gametype.SOLO_GAME)
+                return; 
 
-        private void CreateSmallAsteroid(int radius, double rotation)
-        {
-            MinorAsteroid asteroid = new MinorAsteroid(SceneMgr);
-            asteroid.AsteroidType = AsteroidType.SPAWNED;
-            asteroid.Id = IdMgr.GetNewId(SceneMgr.GetCurrentPlayer().GetId());
-            asteroid.Rotation = SceneMgr.GetRandomGenerator().Next(360);
-            asteroid.Direction = Direction.Rotate(rotation);
-            asteroid.Radius = radius;
-            asteroid.Position = Center;
-            asteroid.Gold = radius * 2;
-            asteroid.TextureId = SceneMgr.GetRandomGenerator().Next(1, 18);
-            asteroid.Enabled = true;
-            asteroid.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(asteroid));
+            int rotation = SceneMgr.GetRandomGenerator().Next(360);
+            int textureId = SceneMgr.GetRandomGenerator().Next(1, 18);
 
-            asteroid.Parent = this;
+            long id1 = IdMgr.GetNewId(SceneMgr.GetCurrentPlayer().GetId());
+            long id2 = IdMgr.GetNewId(SceneMgr.GetCurrentPlayer().GetId());
+            long id3 = IdMgr.GetNewId(SceneMgr.GetCurrentPlayer().GetId());
 
-            NewtonianMovementControl nmc = new NewtonianMovementControl();
-            nmc.InitialSpeed = 1;
-            asteroid.AddControl(nmc);
+            MinorAsteroid a1 = SceneObjectFactory.CreateSmallAsteroid(SceneMgr, id1, Direction, Center, rotation, textureId, radius, Math.PI / 12);
+            MinorAsteroid a2 = SceneObjectFactory.CreateSmallAsteroid(SceneMgr, id2, Direction, Center, rotation, textureId, radius, 0);
+            MinorAsteroid a3 = SceneObjectFactory.CreateSmallAsteroid(SceneMgr, id3, Direction, Center, rotation, textureId, radius, -Math.PI / 12);
 
-            LinearRotationControl lrc = new LinearRotationControl();
-            lrc.RotationSpeed = SceneMgr.GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_ROTATION_SPEED, SharedDef.MAX_ASTEROID_ROTATION_SPEED) / 10.0f;
-            asteroid.AddControl(lrc);
+            a1.Parent = this;
+            a2.Parent = this;
+            a3.Parent = this;
 
-            SceneMgr.DelayedAttachToScene(asteroid);
+            SceneMgr.DelayedAttachToScene(a1);
+            SceneMgr.DelayedAttachToScene(a2);
+            SceneMgr.DelayedAttachToScene(a3);
+
+            if (SceneMgr.GameType != Gametype.SOLO_GAME)
+            {
+                NetOutgoingMessage message = SceneMgr.CreateNetMessage();
+                message.Write((int)PacketType.MINOR_ASTEROID_SPAWN);
+                message.Write(radius);
+                message.Write(Direction);
+                message.Write(Center);
+                message.Write(rotation);
+                message.Write(textureId);
+                message.Write(Destroyer);
+                message.Write(id1);
+                message.Write(id2);
+                message.Write(id3);
+
+                SceneMgr.SendMessage(message);
+            }
         }
 
         public override void TakeDamage(int damage, ISceneObject from)
         {
-            // TODO: lepsi pretypovani, je mozne, ze bude vic bulletu
-            if (from is SingularityBullet)
-                destroyer = (from as SingularityBullet).Owner;
+            if (from is IDamageable)
+                Destroyer = (from as IDamageable).Owner.GetId();
             base.TakeDamage(damage, from);
             DoRemoveMe();
             SpawnSmallMeteors((int)(Radius * 0.7f));
@@ -72,16 +81,23 @@ namespace Orbit.Core.Scene.Entities.Implementations
         /// </summary>
         public void NoticeChildAsteroidDestroyedBy(Player lastHitTakenFrom, MinorAsteroid destroyedChild)
         {
+            if (Destroyer == -1)
+                return;
+
             childsDestroyed++;
             if (allDestroyedByTheSamePlayer)
-                if (lastHitTakenFrom == null || lastHitTakenFrom.GetId() != destroyer.GetId())
+                if (lastHitTakenFrom == null || lastHitTakenFrom.GetId() != Destroyer)
                     allDestroyedByTheSamePlayer = false;
 
             if (childsDestroyed == 3 && allDestroyedByTheSamePlayer)
             {
                 SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.CANNON_DESTROYED_ENTIRE_UNSTABLE_ASTEROID, destroyedChild.Center,
                     FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG);
-                destroyer.AddScoreAndShow(ScoreDefines.CANNON_DESTROYED_ENTIRE_UNSTABLE_ASTEROID);
+
+                if(SceneMgr.GetCurrentPlayer().GetId() == Destroyer)
+                    SceneMgr.GetCurrentPlayer().AddScoreAndShow(ScoreDefines.CANNON_DESTROYED_ENTIRE_UNSTABLE_ASTEROID);
+                else
+                    SceneMgr.GetOpponentPlayer().AddScoreAndShow(ScoreDefines.CANNON_DESTROYED_ENTIRE_UNSTABLE_ASTEROID);
             }
         }
     }

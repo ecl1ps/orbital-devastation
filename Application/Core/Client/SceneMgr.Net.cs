@@ -241,6 +241,38 @@ namespace Orbit.Core.Client
                         SyncReceivedObject(s, msg);
                     }
                     break;
+                case PacketType.MINOR_ASTEROID_SPAWN:
+                    {
+                        int radius = msg.ReadInt32();
+                        Vector direction = msg.ReadVector();
+                        Vector center = msg.ReadVector();
+                        int rot = msg.ReadInt32();
+                        int textureId = msg.ReadInt32();
+                        int destoryerId = msg.ReadInt32();
+                        long id1 = msg.ReadInt64();
+                        long id2 = msg.ReadInt64();
+                        long id3 = msg.ReadInt64();
+
+                        MinorAsteroid a1 = SceneObjectFactory.CreateSmallAsteroid(this, id1, direction, center, rot, textureId, radius, Math.PI / 12);
+                        MinorAsteroid a2 = SceneObjectFactory.CreateSmallAsteroid(this, id2, direction, center, rot, textureId, radius, 0);
+                        MinorAsteroid a3 = SceneObjectFactory.CreateSmallAsteroid(this, id3, direction, center, rot, textureId, radius, -Math.PI / 12);
+
+                        UnstableAsteroid p = new UnstableAsteroid(this);
+                        p.Destroyer = destoryerId;
+
+                        a1.Parent = p;
+                        a2.Parent = p;
+                        a3.Parent = p;
+
+                        DelayedAttachToScene(a1);
+                        DelayedAttachToScene(a2);
+                        DelayedAttachToScene(a3);
+
+                        SyncReceivedObject(a1, msg);
+                        SyncReceivedObject(a2, msg);
+                        SyncReceivedObject(a3, msg);
+                    }
+                    break;
                 case PacketType.NEW_SINGULARITY_MINE:
                     {
                         SingularityMine s = new SingularityMine(this);

@@ -72,6 +72,20 @@ namespace Orbit.Core.Helpers
             a.Gold = msg.ReadInt32();
         }
 
+        public static void WriteObjectMinorAsteroid(this NetOutgoingMessage msg, MinorAsteroid a)
+        {
+            msg.WriteObjectAsteroid(a);
+            msg.Write(a.Direction);
+            msg.Write(a.Parent.Id);
+        }
+
+        public static void ReadObjectMinorAsteroid(this NetIncomingMessage msg, MinorAsteroid a)
+        {
+            msg.ReadObjectAsteroid(a);
+            a.Direction = msg.ReadVector();
+        }
+
+
         public static void WriteObjectSingularityMine(this NetOutgoingMessage msg, SingularityMine s)
         {
             msg.WriteObjectSphere(s);
