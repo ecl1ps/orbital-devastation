@@ -74,6 +74,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         private void CatchObjectWithGold(IContainsGold gold)
         {
+            if (!gold.Enabled)
+                return;
+
             if (SceneMgr.GameType != Gametype.SOLO_GAME && !Owner.IsCurrentPlayer())
                 return;
 
