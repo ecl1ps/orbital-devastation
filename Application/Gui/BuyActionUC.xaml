@@ -4,20 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="200">
+             d:DesignHeight="30" d:DesignWidth="125">
     <Border CornerRadius="0.95" BorderBrush="Black" BorderThickness="1">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="95"/>
             </Grid.ColumnDefinitions>
-            <Button Name="Button" Grid.Column="0" Grid.Row="0" Width="50">
-                <Image Name="ButtonImage" Width="50" Height="50"/>
-            </Button>
-            <Label Background="AntiqueWhite" Grid.Column="1" Width="150" HorizontalAlignment="Right" FontFamily="Andalus" >
+            <Image Name="ButtonImage" Width="30" Height="30"/>
+            <Label Background="AntiqueWhite" Grid.Column="1" Width="95" HorizontalAlignment="Right" FontFamily="Andalus" Padding="0">
                 <StackPanel>
-                    <TextBlock Name="Header" TextAlignment="Center" TextWrapping="Wrap" Width="150" FontSize="14" FontWeight="ExtraBlack">Upgrade Hook</TextBlock>
-                    <TextBlock Name="Price" TextAlignment="Center" TextWrapping="Wrap" Width="150">Multi harpoon Hook</TextBlock>
+                    <TextBlock Name="Header" TextAlignment="Center" TextWrapping="Wrap" Width="95" FontSize="9" HorizontalAlignment="Right" FontWeight="ExtraBlack">Double Hook Launcher</TextBlock>
+                    <TextBlock Name="Price" TextAlignment="Center" TextWrapping="Wrap" Width="95" FontSize="9" HorizontalAlignment="Right">Costs 500 gold</TextBlock>
                 </StackPanel>
             </Label>
         </Grid>

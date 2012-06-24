@@ -35,12 +35,7 @@ namespace Orbit.Core.Players
         {
             mgr.Invoke(new Action(() =>
             {
-                ActionBar = new ActionBar();
-                ActionBar.RenderTransform = new ScaleTransform(0.8, 0.8);
-                mgr.GetCanvas().Children.Add(ActionBar);
-                Canvas.SetLeft(ActionBar, 10);
-                Canvas.SetTop(ActionBar, mgr.ViewPortSizeOriginal.Height * (SharedDef.ACTION_BAR_TOP_MARGIN_PCT));
-                Canvas.SetZIndex(ActionBar, 100);
+                ActionBar = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "ActionBarUC") as ActionBar;
             }));
         }
 

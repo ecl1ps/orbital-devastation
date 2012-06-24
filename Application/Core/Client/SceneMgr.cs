@@ -446,8 +446,6 @@ namespace Orbit.Core.Client
             if (StaticMouse.Instance != null && StaticMouse.ALLOWED)
                 point = StaticMouse.GetPosition();
 
-            ProcessClick(point);
-
             switch (e.ChangedButton)
             {
                 case MouseButton.Left:
@@ -463,15 +461,6 @@ namespace Orbit.Core.Client
                         currentPlayer.Hook.Shoot(point);
                     break;
             }          
-        }
-
-        private void ProcessClick(Point point)
-        {
-            Invoke(new Action(() =>
-            {
-                actionMgr.ActionBar.OnClick(canvas.PointToScreen(point));
-            }));
-                      
         }
 
         private void EndGame(Player plr, GameEnd endType)

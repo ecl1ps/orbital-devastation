@@ -35,6 +35,13 @@ namespace Orbit.Gui
             }));
         }
 
+        private void OnActionBarClick(object sender, MouseButtonEventArgs e)
+        {
+            Point p = e.GetPosition(ActionBarUC);
+
+            (ActionBarUC as ActionBar).OnClick(ActionBarUC.PointToScreen(p));
+        }
+
         private void OnCanvasMouseMove(object sender, MouseEventArgs e)
         {
             Point p = e.GetPosition(mainCanvas);
