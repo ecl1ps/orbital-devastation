@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 namespace Orbit.Core.Client
 {
@@ -28,7 +29,7 @@ namespace Orbit.Core.Client
 
         public static void Init(SceneMgr mgr)
         {
-            if(instance == null)
+            if (instance == null)
                 instance = new StaticMouse(mgr);
         }
 
@@ -39,10 +40,12 @@ namespace Orbit.Core.Client
             {
                 BitmapImage image = new BitmapImage();
                 image.BeginInit();
-                image.UriSource = new Uri("pack://application:,,,/resources/images/mouse/targeting_icon.png");
+                image.UriSource = new Uri("pack://application:,,,/resources/images/mouse/targeting_icon2.png");
                 image.EndInit();
 
                 img = new Image();
+                img.RenderTransform = new ScaleTransform(0.5, 0.5);
+                img.RenderTransformOrigin = new Point(0.5, 0.5);
                 img.Source = image;
             }));
 

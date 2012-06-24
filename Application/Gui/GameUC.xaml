@@ -18,12 +18,12 @@
         <Grid Height="50" VerticalAlignment="Bottom">
             <controls:ActionBar HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="0,0,0,20" Height="30" Background="DarkGray" MouseUp="OnActionBarClick" x:Name="ActionBarUC"/>
             <StatusBar Height="20" Name="statusBar1" Width="1000" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" >
-                <Label Content="TPF: 0" Height="25" Name="statusText1" Width="120" Padding="0" />
-                <Label Height="25" Name="statusText2" Width="120" Padding="0" />
-                <Label Height="25" Name="statusText3" Width="120" Padding="0" />
-                <Label Height="25" Name="statusText4" Width="120" Padding="0" />
-                <Label Height="25" Name="statusText5" Width="120" Padding="0" />
-                <Label Height="25" Name="statusText6" Width="120" Padding="0" />
+                <Label Content="TPF: 0" Height="20" Name="statusText1" Width="120" Padding="0" FontSize="11" />
+                <Label Height="20" Name="statusText2" Width="120" Padding="0" FontSize="11" />
+                <Label Height="20" Name="statusText3" Width="120" Padding="0" FontSize="11" />
+                <Label Height="20" Name="statusText4" Width="120" Padding="0" FontSize="11" />
+                <Label Height="20" Name="statusText5" Width="120" Padding="0" FontSize="11" />
+                <Label Height="20" Name="statusText6" Width="120" Padding="0" FontSize="11" />
             </StatusBar>
         </Grid>
     </Grid>

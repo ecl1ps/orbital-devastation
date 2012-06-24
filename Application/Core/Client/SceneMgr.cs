@@ -341,7 +341,7 @@ namespace Orbit.Core.Client
 
             statisticsTimer = 0;
 
-            ShowStatusText(1, "TPF: " + tpf + " FPS: " + 1.0f / tpf);
+            ShowStatusText(1, "TPF: " + tpf + " FPS: " + (int)(1.0f / tpf));
             if (GameType != Gametype.SOLO_GAME && GetCurrentPlayer().Connection != null)
                 ShowStatusText(2, "LATENCY: " + GetCurrentPlayer().Connection.AverageRoundtripTime);
         }
