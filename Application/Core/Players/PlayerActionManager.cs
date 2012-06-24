@@ -22,8 +22,8 @@ namespace Orbit.Core.Players
 
         public ActionBar ActionBar { get; set; }
 
-        private BuyActionWindow HealActionWindow;
-        private BuyActionWindow HookActionWindow;
+        private BuyActionUC HealActionWindow;
+        private BuyActionUC HookActionWindow;
 
         public PlayerActionManager(SceneMgr manager)
         {

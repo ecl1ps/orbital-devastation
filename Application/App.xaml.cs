@@ -106,8 +106,8 @@ namespace Orbit
             StartGameThread();
 
             lastGameType = type;
-            if(type != Gametype.SERVER_GAME && type != Gametype.CLIENT_GAME)
-                mainWindow.gameRunning = true;
+            if (type != Gametype.SERVER_GAME && type != Gametype.CLIENT_GAME)
+                mainWindow.GameRunning = true;
 
             sceneMgr.Enqueue(new Action(() =>
             {
@@ -135,7 +135,7 @@ namespace Orbit
 
         public void setGameStarted(bool started)
         {
-            mainWindow.gameRunning = started;
+            mainWindow.GameRunning = started;
         }
 
         public void CreateGameGui(bool setCanvas = true)
@@ -221,7 +221,7 @@ namespace Orbit
                     server = null;
                 }));
             }
-            mainWindow.gameRunning = false;
+            mainWindow.GameRunning = false;
         }
 
         public void LookForGame()

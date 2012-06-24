@@ -103,10 +103,6 @@ namespace Orbit.Core.Client
             {
                 SetMainInfoText("Waiting for the server");
             }
-            else if (gameType == Gametype.SOLO_GAME)
-            {
-                userActionsDisabled = false;
-            }
 
             InitNetwork();
             ConnectToServer();
@@ -140,7 +136,7 @@ namespace Orbit.Core.Client
         {
             Invoke(new Action(() =>
             {
-                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "statusText" + index);
+                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas.Parent, "statusText" + index);
                 if (lbl != null)
                     lbl.Content = text;
             }));
@@ -418,7 +414,7 @@ namespace Orbit.Core.Client
         {
             this.canvas = canvas;
             ViewPortSizeOriginal = canvasSize;
-            orbitArea = new Rect(0, 0, canvasSize.Width, canvasSize.Height / 3);
+            orbitArea = new Rect(0, 0, canvasSize.Width, 200);
         }
 
         public void OnViewPortChange(Size size)

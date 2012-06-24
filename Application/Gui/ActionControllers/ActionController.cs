@@ -24,12 +24,12 @@ namespace Orbit.Gui.ActionControllers
             sceneMgr.Enqueue(act);
         }
 
-        public abstract void ActionClicked(BuyActionWindow window);
+        public abstract void ActionClicked(BuyActionUC window);
 
-        public abstract void CreateHeaderText(BuyActionWindow window);
+        public abstract void CreateHeaderText(BuyActionUC window);
 
-        public abstract void CreatePriceText(BuyActionWindow window);
+        public abstract void CreatePriceText(BuyActionUC window);
 
-        public abstract void CreateImageUriString(BuyActionWindow window);
+        public abstract void CreateImageUriString(BuyActionUC window);
     }
 }

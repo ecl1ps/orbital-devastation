@@ -4,9 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:controls="clr-namespace:Orbit.Gui"
-             mc:Ignorable="d" SizeToContent="WidthAndHeight" Closing="OnClose"  
-             WindowStyle="ThreeDBorderWindow" Title="Orbital Devastation" WindowStartupLocation="CenterScreen" KeyDown="OnKeyDown" Icon="/Application;component/resources/images/rock/rock_normal_6.png">
-    <Grid x:Name="mainGrid">
-        <controls:MainUC />
+             Closing="OnClose" Name="mainWindow"
+             WindowStyle="ThreeDBorderWindow" Title="Orbital Devastation" WindowStartupLocation="CenterScreen" KeyDown="OnKeyDown" Icon="/Application;component/resources/images/rock/rock_normal_6.png"
+             Width="1020" Height="740" >
+
+    <Grid Name="mainContainerGrid" SizeChanged="OnSizeChanged" >
+        <Grid.LayoutTransform>
+            <ScaleTransform x:Name="ApplicationScaleTransform"
+                        CenterX="0"
+                        CenterY="0"
+                        ScaleX="{Binding ElementName=mainWindow, Path=ScaleValueX}"
+                        ScaleY="{Binding ElementName=mainWindow, Path=ScaleValueY}" />
+        </Grid.LayoutTransform>
+        <Grid Name="mainGrid" VerticalAlignment="Center" HorizontalAlignment="Center" >
+            <controls:MainUC />
+        </Grid>
+
     </Grid>
 </Window>

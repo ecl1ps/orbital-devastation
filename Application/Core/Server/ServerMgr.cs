@@ -26,13 +26,13 @@ namespace Orbit.Core.Server
         private volatile bool shouldQuit;
         private List<Player> players;
         private Random randomGenerator;
-        public Size ViewPortSizeOriginal { get; set; }
         private ConcurrentQueue<Action> synchronizedQueue;
         public Gametype GameType { get; set; }
         private bool gameEnded;
         private GameManager gameSession;
         private Action savedEndGameAction;
         private List<int> playersRespondedScore;
+        private Rect orbitArea = new Rect(0, 0, 1000, 200);
 
         public ServerMgr()
         {
@@ -245,8 +245,7 @@ namespace Orbit.Core.Server
 
         public Rect GetOrbitArea()
         {
-            // TODO: prozatim hack - defaultne je canvas 800*600
-            return new Rect(0, 0, 800, 600 / 3);
+            return orbitArea;
         }
 
         public void SendChatMessage(string message)

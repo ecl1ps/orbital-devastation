@@ -4,15 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignWidth="800" d:DesignHeight="600" >
-    <Grid Width="800" Height="600" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Border BorderBrush="Silver" BorderThickness="1" Height="586" HorizontalAlignment="Left" Name="borderLeft" VerticalAlignment="Top" Width="390" Margin="5,5,0,5">
+             d:DesignWidth="1000" d:DesignHeight="700" Width="1000" Height="700" >
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="807" Height="703">
+        <Border BorderBrush="Silver" BorderThickness="1" Height="698" HorizontalAlignment="Left" Name="borderLeft" VerticalAlignment="Top" Width="390" Margin="5,5,0,0">
             <Grid HorizontalAlignment="Center" Width="324">
                 <ListBox Height="205" Margin="6,114,6,0" Name="lbxFoundServers" VerticalAlignment="Top" MouseDoubleClick="lbxFoundServers_MouseDoubleClick" />
                 <Button Content="Find LAN Servers" Height="22" Margin="0,54,0,0" Name="btnFindServers" VerticalAlignment="Top" Width="134" Click="btnFindServers_Click" />
             </Grid>
         </Border>
-        <Border BorderBrush="Silver" BorderThickness="1" Height="586" HorizontalAlignment="Right" Name="borderRight" VerticalAlignment="Top" Width="395" Margin="0,5,5,0">
+        <Border BorderBrush="Silver" BorderThickness="1" Height="698" HorizontalAlignment="Right" Name="borderRight" VerticalAlignment="Top" Width="395" Margin="0,5,5,0">
             <Grid  HorizontalAlignment="Center">
                 <Button Content="Connect to Server" Height="22" Margin="0,178,0,0" Name="btnDirectConnect" VerticalAlignment="Top" Width="132" Click="btnDirectConnect_Click" />
                 <TextBox Height="24" HorizontalAlignment="Left" Margin="0,140,0,0" Name="tbServerAddress" VerticalAlignment="Top" Width="132" Text="127.0.0.1" KeyDown="tbServerAddress_KeyDown" />
