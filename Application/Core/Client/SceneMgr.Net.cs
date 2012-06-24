@@ -183,7 +183,7 @@ namespace Orbit.Core.Client
                             msg.ReadObjectPlayerData(plr.Data);
 
                             if (plr.Data.PlayerType == PlayerType.BOT)
-                                stateMgr.AddGameState(new SimpleBot(this, objects, plr));
+                                StateMgr.AddGameState(new SimpleBot(this, objects, plr));
                             else
                                 FloatingTextMgr.AddFloatingText(plr.Data.Name + " has joined the game",
                                     new Vector(ViewPortSizeOriginal.Width / 2, ViewPortSizeOriginal.Height / 2 - 50),
@@ -497,7 +497,7 @@ namespace Orbit.Core.Client
                     }));
                     
                     actionMgr = new PlayerActionManager(this);
-                    stateMgr.AddGameState(actionMgr);
+                    StateMgr.AddGameState(actionMgr);
                     InitStaticMouse();
                     BeginInvoke(new Action(() =>
                     {

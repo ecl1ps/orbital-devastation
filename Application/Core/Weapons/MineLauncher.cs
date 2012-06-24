@@ -11,6 +11,7 @@ using Orbit.Core.Players;
 using Orbit.Core.Client;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Helpers;
+using System.Windows.Input;
 
 namespace Orbit.Core.Weapons
 {
@@ -62,17 +63,25 @@ namespace Orbit.Core.Weapons
             return ReloadTime <= 0;
         }
 
-
-        public void UpdateTimer(float value)
+        public void triggerUpgrade(IWeapon old)
         {
-            if (ReloadTime > 0)
-                ReloadTime -= value;
+            if (old != null)
+                old.SceneMgr.StateMgr.RemoveGameState(old);
+
+            SceneMgr.StateMgr.AddGameState(this);
         }
 
 
-        public void triggerUpgrade(IWeapon old)
+        virtual public void ProccessClickEvent(Point point, MouseButton button, MouseButtonState state)
         {
-            //i dont need this
+            if (button == MouseButton.Left && state == MouseButtonState.Pressed)
+                Shoot(point);
+        }
+
+        virtual public void Update(float tpf)
+        {
+            if (ReloadTime > 0)
+                ReloadTime -= tpf;
         }
     }
 }

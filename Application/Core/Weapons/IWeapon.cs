@@ -7,6 +7,7 @@ using System.Windows;
 using Orbit.Core.Scene;
 using Orbit.Core.Players;
 using Orbit.Core.Client;
+using System.Windows.Input;
 
 namespace Orbit.Core.Weapons
 {
@@ -17,7 +18,7 @@ namespace Orbit.Core.Weapons
         MINE
     }
 
-    public interface IWeapon
+    public interface IWeapon : IGameState
     {
         Player Owner { get; set; }
         SceneMgr SceneMgr { get; set; }
@@ -28,11 +29,11 @@ namespace Orbit.Core.Weapons
 
         IWeapon Next();
 
+        void ProccessClickEvent(Point point, MouseButton button, MouseButtonState buttonState);
+
         void Shoot(Point point);
 
         Boolean IsReady();
-
-        void UpdateTimer(float value);
 
         void triggerUpgrade(IWeapon old);
     }

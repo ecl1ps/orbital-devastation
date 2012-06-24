@@ -16,6 +16,9 @@ namespace Orbit.Core
 
         public void AddGameState(IGameState state)
         {
+            if (state == null)
+                return;
+
             if (gameStates.Contains(state))
             {
                 Console.WriteLine("This GameState is already in GameStateManager");

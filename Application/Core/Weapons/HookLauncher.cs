@@ -11,6 +11,7 @@ using Lidgren.Network;
 using Orbit.Core.Client;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Helpers;
+using System.Windows.Input;
 
 namespace Orbit.Core.Weapons
 {
@@ -32,11 +33,15 @@ namespace Orbit.Core.Weapons
             Owner = owner;
             Name = "Hook launcher";
             WeaponType = WeaponType.HOOK;
+            ReloadTime = 0;
         }
 
         public void Shoot(Point point)
         {
-            SpawnHook(point);
+            if(IsReady()) {
+                SpawnHook(point);
+                ReloadTime = Owner.Data.HookCooldown;
+            }
         }
 
         public virtual IWeapon Next()
@@ -52,8 +57,6 @@ namespace Orbit.Core.Weapons
             if (point.Y > Owner.VectorPosition.Y - 5)
                 point.Y = Owner.VectorPosition.Y - 5;
 
-            if (IsReady())
-            {
                 hook = CreateHook(point);
 
                 NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
@@ -61,7 +64,6 @@ namespace Orbit.Core.Weapons
                 SceneMgr.SendMessage(msg);
 
                 SceneMgr.DelayedAttachToScene(hook);
-            }
         }
 
         protected virtual Hook CreateHook(Point point)
@@ -71,23 +73,33 @@ namespace Orbit.Core.Weapons
 
         public virtual bool IsReady()
         {
-            return hook == null || hook.Dead;
+            return (hook == null || hook.Dead) && ReloadTime <= 0;
         }
-
-        public void UpdateTimer(float value)
-        {
-            //i dont need this
-        }
-
 
         virtual public void triggerUpgrade(IWeapon old)
         {
-            //i dont need this
+            if (old != null)
+                old.SceneMgr.StateMgr.RemoveGameState(old);
+
+            SceneMgr.StateMgr.AddGameState(this);
         }
 
         public Hook getHook()
         {
             return hook;
+        }
+
+
+        public void ProccessClickEvent(Point point, MouseButton button, MouseButtonState state)
+        {
+            if (button == MouseButton.Middle && state == MouseButtonState.Pressed)
+                Shoot(point);
+        }
+
+        public void Update(float tpf)
+        {
+            if (ReloadTime > 0)
+                ReloadTime -= tpf;
         }
     }
 }

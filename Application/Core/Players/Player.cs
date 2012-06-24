@@ -187,12 +187,6 @@ namespace Orbit.Core.Players
             if (!IsActivePlayer())
                 return;
 
-            Canoon.UpdateTimer(tpf);
-            Mine.UpdateTimer(tpf);
-
-            if (Shooting)
-                Canoon.Shoot(TargetPoint);
-
             scoreUpdateTimer += tpf;
             if (scoreUpdateTimer > 0.3)
             {

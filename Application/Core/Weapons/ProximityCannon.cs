@@ -11,6 +11,7 @@ using System.Windows;
 using Orbit.Core.Client;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Helpers;
+using System.Windows.Input;
 
 namespace Orbit.Core.Weapons
 {
@@ -22,6 +23,8 @@ namespace Orbit.Core.Weapons
         public int Cost { get; set; }
         public WeaponType WeaponType { get; set; }
         public String Name { get; set; }
+
+        private Boolean shooting;
 
         public ProximityCannon(SceneMgr mgr, Player owner)
         {
@@ -65,16 +68,30 @@ namespace Orbit.Core.Weapons
             return ReloadTime <= 0;
         }
 
-        public void UpdateTimer(float value)
+        public void triggerUpgrade(IWeapon old)
         {
-            if (ReloadTime > 0)
-                ReloadTime -= value;
+            if(old != null)
+                old.SceneMgr.StateMgr.RemoveGameState(old);
+            
+            SceneMgr.StateMgr.AddGameState(this);
         }
 
 
-        public void triggerUpgrade(IWeapon old)
+        public void ProccessClickEvent(Point point, MouseButton button, MouseButtonState buttonState)
         {
-            //i dont need this
+            if (button != MouseButton.Right)
+                return;
+
+            shooting = buttonState == MouseButtonState.Pressed;
+        }
+
+        public void Update(float tpf)
+        {
+            if (ReloadTime > 0)
+                ReloadTime -= tpf;
+            else if(shooting)
+                Shoot(StaticMouse.GetPosition());
+
         }
     }
 }

@@ -56,6 +56,7 @@ namespace Orbit.Core.Weapons
 
         public override void triggerUpgrade(IWeapon old)
         {
+            base.triggerUpgrade(old);
             if (old is HookLauncher)
             {
                 if (!(old as HookLauncher).IsReady())

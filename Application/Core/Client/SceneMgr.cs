@@ -42,7 +42,7 @@ namespace Orbit.Core.Client
         private bool gameEnded;
         private float statisticsTimer;
         private PlayerActionManager actionMgr;
-        private GameStateManager stateMgr;
+        public GameStateManager StateMgr { get; set; }
 
         public SceneMgr()
         {
@@ -64,13 +64,13 @@ namespace Orbit.Core.Client
             randomGenerator = new Random(Environment.TickCount);
             players = new List<Player>(2);
             statisticsTimer = 0;
-            stateMgr = new GameStateManager();
+            StateMgr = new GameStateManager();
 
             currentPlayer = CreatePlayer();
             players.Add(currentPlayer);
-            stateMgr.AddGameState(currentPlayer);
+            StateMgr.AddGameState(currentPlayer);
             FloatingTextMgr = new FloatingTextManager(this);
-            stateMgr.AddGameState(FloatingTextMgr);
+            StateMgr.AddGameState(FloatingTextMgr);
 
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
@@ -81,7 +81,7 @@ namespace Orbit.Core.Client
             if (gameType != Gametype.TOURNAMENT_GAME)
             {
                 actionMgr = new PlayerActionManager(this);
-                stateMgr.AddGameState(actionMgr);
+                StateMgr.AddGameState(actionMgr);
                 Invoke(new Action(() =>
                 {
                     Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
@@ -116,7 +116,7 @@ namespace Orbit.Core.Client
         {
             StaticMouse.Init(this);
             StaticMouse.Enable(true);
-            stateMgr.AddGameState(StaticMouse.Instance);
+            StateMgr.AddGameState(StaticMouse.Instance);
         }
 
         private Player CreatePlayer()
@@ -318,7 +318,7 @@ namespace Orbit.Core.Client
 
             AddObjectsReadyToAdd();
 
-            stateMgr.Update(tpf);
+            StateMgr.Update(tpf);
 
             UpdateSceneObjects(tpf);
             RemoveObjectsMarkedForRemoval();
@@ -450,23 +450,12 @@ namespace Orbit.Core.Client
             if (StaticMouse.Instance != null && StaticMouse.ALLOWED)
                 point = StaticMouse.GetPosition();
 
-            ProcessClick(point);
-
-            switch (e.ChangedButton)
-            {
-                case MouseButton.Left:
-                    if (e.ButtonState == MouseButtonState.Pressed)
-                        currentPlayer.Mine.Shoot(point);
-                    break;
-                case MouseButton.Right:
-                    currentPlayer.Shooting = e.ButtonState == MouseButtonState.Pressed;
-                    currentPlayer.TargetPoint = point;
-                    break;
-                case MouseButton.Middle:
-                    if (e.ButtonState == MouseButtonState.Pressed)
-                        currentPlayer.Hook.Shoot(point);
-                    break;
-            }          
+            if(e.ChangedButton == MouseButton.Left && e.ButtonState == MouseButtonState.Pressed)
+                ProcessClick(point);
+            
+            currentPlayer.Mine.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
+            currentPlayer.Hook.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
+            currentPlayer.Canoon.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
         }
 
         private void ProcessClick(Point point)

@@ -36,6 +36,7 @@ namespace Orbit.Core.Players
         public int BulletDamage { get; set; }
         public int HookLenght { get; set; }
         public int HookSpeed { get; set; }
+        public float HookCooldown { get; set; }
         public int BaseIntegrity { get; set; }
         /// <summary>
         /// na klientovi pouzivat funkcni Player.SetGoldAndShow() nebo Player.AddGoldAndShow()
@@ -63,6 +64,7 @@ namespace Orbit.Core.Players
             BulletDamage = SharedDef.BULLET_DMG;
             HookLenght = SharedDef.HOOK_LENGHT;
             HookSpeed = SharedDef.HOOK_SPEED;
+            HookCooldown = SharedDef.HOOK_COOLDOWN;
         }
     }
 }
