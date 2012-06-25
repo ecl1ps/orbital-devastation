@@ -93,8 +93,10 @@ namespace Orbit.Gui
 
         private void CalculateScale()
         {
-            double xScale = ActualWidth / 1020f;
-            double yScale = ActualHeight / 740f;
+            // event musi byt navazany na hodnoty velikosti okna (jinak scale stale preskakuje)
+            // ale hodnoty, se kterymi se pocita, musi byt zmensene na velikost osahu okna (okno: 1020*740, obsah okna: 1000*700)
+            double xScale = (ActualWidth - 20) / 1000f;
+            double yScale = (ActualHeight - 40) / 700f;
             ScaleValueX = (double)OnCoerceScaleValue(mainContainerGrid, xScale);
             ScaleValueY = (double)OnCoerceScaleValue(mainContainerGrid, yScale);
         }
