@@ -32,7 +32,6 @@ namespace Orbit.Core.Server
         private GameManager gameSession;
         private Action savedEndGameAction;
         private List<int> playersRespondedScore;
-        private Rect orbitArea = new Rect(0, 0, 1000, 200);
 
         public ServerMgr()
         {
@@ -241,11 +240,6 @@ namespace Orbit.Core.Server
         {
             if (leaver == null)
                 return;
-        }
-
-        public Rect GetOrbitArea()
-        {
-            return orbitArea;
         }
 
         public void SendChatMessage(string message)

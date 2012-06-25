@@ -186,7 +186,7 @@ namespace Orbit.Core.Client
                                 stateMgr.AddGameState(new SimpleBot(this, objects, plr));
                             else
                                 FloatingTextMgr.AddFloatingText(plr.Data.Name + " has joined the game",
-                                    new Vector(ViewPortSize.Width / 2, ViewPortSize.Height / 2 - 50),
+                                    new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
                                     FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
                         }
                         else // hrace uz zname, ale mohl se zmenit jeho stav na active a take se mohly zmenit dalsi player data
@@ -524,8 +524,8 @@ namespace Orbit.Core.Client
                 case PacketType.PLAYER_DISCONNECTED:
                     Player disconnected = GetPlayer(msg.ReadInt32());
 
-                    FloatingTextMgr.AddFloatingText(disconnected.Data.Name + " has disconnected", 
-                        new Vector(ViewPortSize.Width / 2, ViewPortSize.Height / 2 - 50), 
+                    FloatingTextMgr.AddFloatingText(disconnected.Data.Name + " has disconnected",
+                        new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50), 
                         FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
 
                     players.Remove(disconnected);

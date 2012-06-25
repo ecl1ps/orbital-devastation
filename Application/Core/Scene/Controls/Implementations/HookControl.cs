@@ -66,13 +66,13 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         private bool IsAtEnd()
         {
-            return GetDistanceFromOrigin() > Lenght || outOfScreen();
+            return GetDistanceFromOrigin() > Lenght || OutOfScreen();
         }
 
-        private bool outOfScreen()
+        private bool OutOfScreen()
         {
             return hook.Position.X < 0 || hook.Position.Y < 0 ||
-                hook.Position.X > hook.SceneMgr.ViewPortSize.Width || hook.Position.Y > hook.SceneMgr.ViewPortSize.Height;
+                hook.Position.X > SharedDef.VIEW_PORT_SIZE.Width || hook.Position.Y > SharedDef.VIEW_PORT_SIZE.Height;
         }
 
         private bool IsAtStart()

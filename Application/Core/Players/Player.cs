@@ -72,7 +72,7 @@ namespace Orbit.Core.Players
         {
             get
             {
-                Vector vector = new Vector(SceneMgr.ViewPortSize.Width, SceneMgr.ViewPortSize.Height * 0.85);
+                Vector vector = new Vector(SharedDef.VIEW_PORT_SIZE.Width, SharedDef.VIEW_PORT_SIZE.Height * 0.85);
 
                 switch (Data.PlayerPosition)
                 {

@@ -24,26 +24,12 @@ namespace Orbit.Core.Client
     public partial class SceneMgr
     {
         public Gametype GameType { get; set; }
-        private Size canvasSize = new Size(1000, 700);
-        /// <summary>
-        /// velikost canvasu je zaroven velikost celeho okna
-        /// </summary>
-        public Size CanvasSize { get { return canvasSize; } }
-        private Size viewPort = new Size(1000, 650);
-        /// <summary>
-        /// view port je oblast, kde se odehrava cela hra - mimo ni by se nemelo nic dit (mimo je pak action bar)
-        /// </summary>
-        public Size ViewPortSize { get { return viewPort; } }
         public FloatingTextManager FloatingTextMgr { get; set; }
 
         /// <summary>
         /// canvas je velky 1000*700 - pres cele okno
         /// </summary>
         private Canvas canvas;
-        /// <summary>
-        /// orbit area je horni oblast obrazovky - pas kde se pohybuji asteroidy
-        /// </summary>
-        private Rect orbitArea = new Rect(0, 0, 1000, 200);
         private bool isGameInitialized;
         private bool userActionsDisabled;
         private volatile bool shouldQuit;
@@ -381,7 +367,7 @@ namespace Orbit.Core.Client
             foreach (ISceneObject obj in objects)
             {             
                 obj.Update(tpf);
-                if (!obj.IsOnScreen(ViewPortSize))
+                if (!obj.IsOnScreen(SharedDef.VIEW_PORT_SIZE))
                     RemoveFromSceneDelayed(obj);
             }
         }
@@ -433,11 +419,6 @@ namespace Orbit.Core.Client
         public void OnViewPortChange(Size size)
         {
             
-        }
-
-        public Rect GetOrbitArea()
-        {
-            return orbitArea;
         }
 
         public Random GetRandomGenerator()
@@ -493,10 +474,10 @@ namespace Orbit.Core.Client
 
         private bool IsPointInViewPort(Point point)
         {
-            if (point.X > viewPort.Width || point.X < 0)
+            if (point.X > SharedDef.VIEW_PORT_SIZE.Width || point.X < 0)
                 return false;
 
-            if (point.Y > viewPort.Height || point.Y < 0)
+            if (point.Y > SharedDef.VIEW_PORT_SIZE.Height || point.Y < 0)
                 return false;
 
             return true;
