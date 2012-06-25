@@ -31,7 +31,7 @@ namespace Orbit.Core.Players
             }
             set
             {
-                value.triggerUpgrade(hook);
+                value.TriggerUpgrade(hook);
                 hook = value;
             }
         }
@@ -43,7 +43,7 @@ namespace Orbit.Core.Players
             }
             set
             {
-                value.triggerUpgrade(mine);
+                value.TriggerUpgrade(mine);
                 mine = value;
             }
         }
@@ -55,7 +55,7 @@ namespace Orbit.Core.Players
             }
             set
             {
-                value.triggerUpgrade(canoon);
+                value.TriggerUpgrade(canoon);
                 canoon = value;
             }
         }
@@ -67,28 +67,6 @@ namespace Orbit.Core.Players
 
         private float scoreUpdateTimer = 0;
         private int lastScoreValue = 0;
-
-        public Vector VectorPosition
-        {
-            get
-            {
-                Vector vector = new Vector(SharedDef.VIEW_PORT_SIZE.Width, SharedDef.VIEW_PORT_SIZE.Height * 0.85);
-
-                switch (Data.PlayerPosition)
-                {
-                    case PlayerPosition.LEFT:
-                        vector.X *= 0.1;
-                        break;
-                    case PlayerPosition.RIGHT:
-                        vector.X *= 0.6;
-                        break;
-                    default:
-                        return new Vector();
-                }
-
-                return vector;
-            }
-        }
 
         public Player(SceneMgr mgr)
         {
@@ -247,6 +225,11 @@ namespace Orbit.Core.Players
         public bool IsOnlineAndOrBot()
         {
             return (Data.PlayerType == PlayerType.BOT) || (Connection != null && (Connection.Status == NetConnectionStatus.Connected || Connection.Status == NetConnectionStatus.RespondedAwaitingApproval));
+        }
+
+        public Rect GetBaseLocation()
+        {
+            return PlayerBaseLocation.GetBaseLocation(Data.PlayerPosition);
         }
     }
 

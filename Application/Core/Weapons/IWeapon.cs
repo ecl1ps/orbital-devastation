@@ -34,6 +34,6 @@ namespace Orbit.Core.Weapons
 
         void UpdateTimer(float value);
 
-        void triggerUpgrade(IWeapon old);
+        void TriggerUpgrade(IWeapon old);
     }
 }

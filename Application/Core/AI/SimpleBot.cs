@@ -53,17 +53,9 @@ namespace Orbit.Core.AI
 
         private void MineDrop()
         {
-            double xMin = 0, xMax = 0;
-            if (me.GetPosition() == PlayerPosition.RIGHT)
-            {
-                xMin = SharedDef.VIEW_PORT_SIZE.Width * 0.1;
-                xMax = SharedDef.VIEW_PORT_SIZE.Width * 0.4;
-            }
-            else
-            {
-                xMin = SharedDef.VIEW_PORT_SIZE.Width * 0.6;
-                xMax = SharedDef.VIEW_PORT_SIZE.Width * 0.9;
-            }
+            Rect opponentLoc = PlayerBaseLocation.GetBaseLocation(me.GetPosition() == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT);
+            double xMin = opponentLoc.X;
+            double xMax = opponentLoc.X + opponentLoc.Width;
             me.Mine.Shoot(new Point(sceneMgr.GetRandomGenerator().Next((int)xMin, (int)xMax), 1));
  
         }

@@ -437,7 +437,7 @@ namespace Orbit.Core.Client
                     {
                         Player p = GetPlayer(msg.ReadInt32());
                         int newIntegrity = msg.ReadInt32();
-                        Vector textPos = new Vector(p.VectorPosition.X + (p.Baze.Size.Width / 2), p.VectorPosition.Y - 20);
+                        Vector textPos = new Vector(p.GetBaseLocation().X + (p.GetBaseLocation().Width / 2), p.GetBaseLocation().Y - 20);
                         FloatingTextMgr.AddFloatingText("+ " + (newIntegrity - p.GetBaseIntegrity()), textPos, 
                             FloatingTextManager.TIME_LENGTH_3, FloatingTextType.HEAL, FloatingTextManager.SIZE_BIG, true);
                         p.SetBaseIntegrity(newIntegrity);

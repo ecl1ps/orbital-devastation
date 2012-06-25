@@ -52,7 +52,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
                 // score
                 Player otherPlayer = SceneMgr.GetOtherActivePlayer(Owner.GetId());
-                Vector textPos = new Vector(otherPlayer.VectorPosition.X + (Size.Width / 2), otherPlayer.VectorPosition.Y - 20);
+                Vector textPos = new Vector(otherPlayer.GetBaseLocation().X + (otherPlayer.GetBaseLocation().Width / 2), otherPlayer.GetBaseLocation().Y - 20);
                 SceneMgr.FloatingTextMgr.AddFloatingText(damage * ScoreDefines.DAMAGE_DEALT, textPos, FloatingTextManager.TIME_LENGTH_2,
                     FloatingTextType.SCORE, FloatingTextManager.SIZE_MEDIUM);
 

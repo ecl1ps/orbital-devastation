@@ -70,7 +70,7 @@ namespace Orbit.Core.Weapons
         }
 
 
-        public void triggerUpgrade(IWeapon old)
+        public void TriggerUpgrade(IWeapon old)
         {
             //i dont need this
         }
