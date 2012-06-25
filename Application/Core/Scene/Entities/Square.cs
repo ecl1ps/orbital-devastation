@@ -22,13 +22,13 @@ namespace Orbit.Core.Scene.Entities
         public bool CollideWith(ICollidable other)
         {
             if (other is SpherePoint)
-                return CollisionHelper.intersectSquareAndPoint(((SpherePoint)other).Position, Position, Size);
+                return CollisionHelper.IntersectsPointAndSquare(((SpherePoint)other).Center, Position, Size);
 
             if (other is Sphere)
-                return CollisionHelper.intersectsCircleAndSquare((other as Sphere).Center, (other as Sphere).Radius, Position, Size);
+                return CollisionHelper.IntersectsCircleAndSquare((other as Sphere).Center, (other as Sphere).Radius, Position, Size);
 
             if (other is Square)
-                return CollisionHelper.intersectSquareAndSquare(Position, Size, (other as Square).Position, (other as Square).Size);
+                return CollisionHelper.IntersectsSquareAndSquare(Position, Size, (other as Square).Position, (other as Square).Size);
 
             return false;
         }

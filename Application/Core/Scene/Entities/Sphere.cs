@@ -62,13 +62,13 @@ namespace Orbit.Core.Scene.Entities
         public virtual bool CollideWith(ICollidable other)
         {
             if (other is SpherePoint)
-                return CollisionHelper.intersectsCircleAndPoint(((SpherePoint)other).Center, Center, Radius);
+                return CollisionHelper.IntersectsCircleAndPoint(((SpherePoint)other).Center, Center, Radius);
 
             if (other is Sphere)
-                return CollisionHelper.intersectsCircleAndCircle(Center, Radius, (other as Sphere).Center, (other as Sphere).Radius);
+                return CollisionHelper.IntersectsCircleAndCircle(Center, Radius, (other as Sphere).Center, (other as Sphere).Radius);
 
             if (other is Square)
-                return CollisionHelper.intersectsCircleAndSquare(Center, Radius, (other as Base).Position, (other as Base).Size);
+                return CollisionHelper.IntersectsCircleAndSquare(Center, Radius, (other as Base).Position, (other as Base).Size);
 
             return false;
         }
