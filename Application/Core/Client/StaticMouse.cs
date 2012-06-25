@@ -155,13 +155,13 @@ namespace Orbit.Core.Client
                 position.Y += Cursor.Position.Y - center.Y;
                 CenterNativeCursor();
 
-                if (position.X > sceneMgr.ViewPortSizeOriginal.Width)
-                    position.X = sceneMgr.ViewPortSizeOriginal.Width;
+                if (position.X > sceneMgr.CanvasSize.Width)
+                    position.X = sceneMgr.CanvasSize.Width;
                 else if (position.X < 0)
                     position.X = 0;
 
-                if (position.Y > sceneMgr.ViewPortSizeOriginal.Height)
-                    position.Y = sceneMgr.ViewPortSizeOriginal.Height;
+                if (position.Y > sceneMgr.CanvasSize.Height)
+                    position.Y = sceneMgr.CanvasSize.Height;
                 else if (position.Y < 0)
                     position.Y = 0;
 
@@ -176,7 +176,7 @@ namespace Orbit.Core.Client
             {
                 if (sceneMgr.GetCanvas().IsVisible)
                 {
-                    Point p = sceneMgr.GetCanvas().PointToScreen(new Point(sceneMgr.ViewPortSizeOriginal.Width / 2, sceneMgr.ViewPortSizeOriginal.Height / 2));
+                    Point p = sceneMgr.GetCanvas().PointToScreen(new Point(sceneMgr.CanvasSize.Width / 2, sceneMgr.CanvasSize.Height / 2));
                     Cursor.Position = new System.Drawing.Point((int)p.X, (int)p.Y);
                     center = new Point(Cursor.Position.X, Cursor.Position.Y);
                     if (position == null)

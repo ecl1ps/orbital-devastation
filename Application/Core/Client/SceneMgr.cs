@@ -24,10 +24,26 @@ namespace Orbit.Core.Client
     public partial class SceneMgr
     {
         public Gametype GameType { get; set; }
-        public Size ViewPortSizeOriginal { get; set; }
+        private Size canvasSize = new Size(1000, 700);
+        /// <summary>
+        /// velikost canvasu je zaroven velikost celeho okna
+        /// </summary>
+        public Size CanvasSize { get { return canvasSize; } }
+        private Size viewPort = new Size(1000, 650);
+        /// <summary>
+        /// view port je oblast, kde se odehrava cela hra - mimo ni by se nemelo nic dit (mimo je pak action bar)
+        /// </summary>
+        public Size ViewPortSize { get { return viewPort; } }
         public FloatingTextManager FloatingTextMgr { get; set; }
 
+        /// <summary>
+        /// canvas je velky 1000*700 - pres cele okno
+        /// </summary>
         private Canvas canvas;
+        /// <summary>
+        /// orbit area je horni oblast obrazovky - pas kde se pohybuji asteroidy
+        /// </summary>
+        private Rect orbitArea = new Rect(0, 0, 1000, 200);
         private bool isGameInitialized;
         private bool userActionsDisabled;
         private volatile bool shouldQuit;
@@ -36,7 +52,6 @@ namespace Orbit.Core.Client
         private List<ISceneObject> objectsToAdd;
         private List<Player> players;
         private Player currentPlayer;
-        private Rect orbitArea;
         private Random randomGenerator;
         private ConcurrentQueue<Action> synchronizedQueue;
         private bool gameEnded;
@@ -136,7 +151,7 @@ namespace Orbit.Core.Client
         {
             Invoke(new Action(() =>
             {
-                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas.Parent, "statusText" + index);
+                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "statusText" + index);
                 if (lbl != null)
                     lbl.Content = text;
             }));
@@ -366,7 +381,7 @@ namespace Orbit.Core.Client
             foreach (ISceneObject obj in objects)
             {             
                 obj.Update(tpf);
-                if (!obj.IsOnScreen(ViewPortSizeOriginal))
+                if (!obj.IsOnScreen(ViewPortSize))
                     RemoveFromSceneDelayed(obj);
             }
         }
@@ -410,11 +425,9 @@ namespace Orbit.Core.Client
             return players.Find(p => p.GetId() == id);
         }
 
-        public void SetCanvas(Canvas canvas, Size canvasSize)
+        public void SetCanvas(Canvas canvas)
         {
             this.canvas = canvas;
-            ViewPortSizeOriginal = canvasSize;
-            orbitArea = new Rect(0, 0, canvasSize.Width, 200);
         }
 
         public void OnViewPortChange(Size size)
@@ -443,8 +456,15 @@ namespace Orbit.Core.Client
             if (userActionsDisabled)
                 return;
 
+
             if (StaticMouse.Instance != null && StaticMouse.ALLOWED)
                 point = StaticMouse.GetPosition();
+
+            if (!IsPointInViewPort(point) && StaticMouse.Instance != null && StaticMouse.ALLOWED)
+            {
+                ProcessStaticMouseActionBarClick(point);
+                return;
+            }
 
             switch (e.ChangedButton)
             {
@@ -461,6 +481,25 @@ namespace Orbit.Core.Client
                         currentPlayer.Hook.Shoot(point);
                     break;
             }          
+        }
+
+        private void ProcessStaticMouseActionBarClick(Point point)
+        {
+            Invoke(new Action(() =>
+            {
+                actionMgr.ActionBar.OnClick(canvas.PointToScreen(point));
+            }));
+        }
+
+        private bool IsPointInViewPort(Point point)
+        {
+            if (point.X > viewPort.Width || point.X < 0)
+                return false;
+
+            if (point.Y > viewPort.Height || point.Y < 0)
+                return false;
+
+            return true;
         }
 
         private void EndGame(Player plr, GameEnd endType)

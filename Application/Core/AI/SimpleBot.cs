@@ -56,13 +56,13 @@ namespace Orbit.Core.AI
             double xMin = 0, xMax = 0;
             if (me.GetPosition() == PlayerPosition.RIGHT)
             {
-                xMin = sceneMgr.ViewPortSizeOriginal.Width * 0.1;
-                xMax = sceneMgr.ViewPortSizeOriginal.Width * 0.4;
+                xMin = sceneMgr.ViewPortSize.Width * 0.1;
+                xMax = sceneMgr.ViewPortSize.Width * 0.4;
             }
             else
             {
-                xMin = sceneMgr.ViewPortSizeOriginal.Width * 0.6;
-                xMax = sceneMgr.ViewPortSizeOriginal.Width * 0.9;
+                xMin = sceneMgr.ViewPortSize.Width * 0.6;
+                xMax = sceneMgr.ViewPortSize.Width * 0.9;
             }
             me.Mine.Shoot(new Point(sceneMgr.GetRandomGenerator().Next((int)xMin, (int)xMax), 1));
  
@@ -73,13 +73,13 @@ namespace Orbit.Core.AI
             double xMin = 0, xMax = 0;
             if (me.GetPosition() == PlayerPosition.LEFT)
             {
-                xMin = sceneMgr.ViewPortSizeOriginal.Width * 0.25;
-                xMax = sceneMgr.ViewPortSizeOriginal.Width;
+                xMin = sceneMgr.ViewPortSize.Width * 0.25;
+                xMax = sceneMgr.ViewPortSize.Width;
             }
             else
             {
                 xMin = 0;
-                xMax = sceneMgr.ViewPortSizeOriginal.Width * 0.75;
+                xMax = sceneMgr.ViewPortSize.Width * 0.75;
             }
             me.Canoon.Shoot(new Point(sceneMgr.GetRandomGenerator().Next((int)xMin, (int)xMax), 0));
         }

@@ -144,13 +144,10 @@ namespace Orbit
             GameUC gameW = new GameUC();
             mainWindow.mainGrid.Children.Add(gameW);
             if (setCanvas)
-            {
-                Size canvasSize = new Size(gameW.mainCanvas.Width, gameW.mainCanvas.Height);
                 sceneMgr.Enqueue(new Action(() =>
                 {
-                    sceneMgr.SetCanvas(gameW.mainCanvas, canvasSize);
+                    sceneMgr.SetCanvas(gameW.mainCanvas);
                 }));
-            }
         }
 
         public Canvas GetCanvas()

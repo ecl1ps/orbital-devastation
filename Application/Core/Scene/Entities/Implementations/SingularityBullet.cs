@@ -59,16 +59,16 @@ namespace Orbit.Core.Scene.Entities.Implementations
                     double xMin = 0, xMax = 0;
                     if (Owner.GetPosition() == PlayerPosition.RIGHT)
                     {
-                        xMin = SceneMgr.ViewPortSizeOriginal.Width * 0.1;
-                        xMax = SceneMgr.ViewPortSizeOriginal.Width * 0.4;
+                        xMin = SceneMgr.ViewPortSize.Width * 0.1;
+                        xMax = SceneMgr.ViewPortSize.Width * 0.4;
                     }
                     else
                     {
-                        xMin = SceneMgr.ViewPortSizeOriginal.Width * 0.6;
-                        xMax = SceneMgr.ViewPortSizeOriginal.Width * 0.9;
+                        xMin = SceneMgr.ViewPortSize.Width * 0.6;
+                        xMax = SceneMgr.ViewPortSize.Width * 0.9;
                     }
 
-                    if (asteroid.Position.Y > SceneMgr.ViewPortSizeOriginal.Height * 0.4 &&
+                    if (asteroid.Position.Y > SceneMgr.ViewPortSize.Height * 0.4 &&
                         asteroid.Position.X >= xMin && asteroid.Position.X <= xMax)
                     {
                         SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.CANNON_DESTROYED_UNSTABLE_ASTEROID_ABOVE_ENEMY, Center, 

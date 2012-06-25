@@ -72,7 +72,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private bool outOfScreen()
         {
             return hook.Position.X < 0 || hook.Position.Y < 0 ||
-                hook.Position.X > hook.SceneMgr.ViewPortSizeOriginal.Width || hook.Position.Y > hook.SceneMgr.ViewPortSizeOriginal.Height;
+                hook.Position.X > hook.SceneMgr.ViewPortSize.Width || hook.Position.Y > hook.SceneMgr.ViewPortSize.Height;
         }
 
         private bool IsAtStart()

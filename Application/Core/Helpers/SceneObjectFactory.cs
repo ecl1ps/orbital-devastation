@@ -28,7 +28,7 @@ namespace Orbit.Core.Helpers
             baze.BasePosition = plr.Data.PlayerPosition;
             baze.Color = plr.Data.PlayerColor;
             baze.Position = plr.VectorPosition;
-            baze.Size = new Size(mgr.ViewPortSizeOriginal.Width * 0.3, mgr.ViewPortSizeOriginal.Height * 0.15);
+            baze.Size = new Size(mgr.ViewPortSize.Width * 0.3, mgr.ViewPortSize.Height * 0.15);
 
             baze.SetGeometry(SceneGeometryFactory.CreateLinearGradientRectangleGeometry(baze));
 
