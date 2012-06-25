@@ -133,7 +133,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         private float GetDistFromStartPct()
         {
-            return (float)(meMine.Center.Y / (meMine.SceneMgr.ViewPortSizeOriginal.Height * 0.5));
+            return (float)(meMine.Center.Y / (SharedDef.VIEW_PORT_SIZE.Height * 0.5));
         }
 
         private float GetDistToExplosionPct()

@@ -91,6 +91,7 @@ namespace Orbit.Gui
 
         private void AddPlayer(LobbyPlayerData data)
         {
+            // TODO: ted se jich vejde alespon 6
             if (spPlayers1.Children.Count < 5)
                 spPlayers1.Children.Add(new LobbyPlayer(data));
             else if (spPlayers2.Children.Count < 5)

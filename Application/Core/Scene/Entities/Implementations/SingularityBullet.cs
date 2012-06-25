@@ -9,6 +9,7 @@ using Lidgren.Network;
 using Orbit.Core;
 using Orbit.Core.Client;
 using Orbit.Core.Helpers;
+using System.Windows;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -56,19 +57,11 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
                 if (asteroid is UnstableAsteroid)
                 {
-                    double xMin = 0, xMax = 0;
-                    if (Owner.GetPosition() == PlayerPosition.RIGHT)
-                    {
-                        xMin = SceneMgr.ViewPortSizeOriginal.Width * 0.1;
-                        xMax = SceneMgr.ViewPortSizeOriginal.Width * 0.4;
-                    }
-                    else
-                    {
-                        xMin = SceneMgr.ViewPortSizeOriginal.Width * 0.6;
-                        xMax = SceneMgr.ViewPortSizeOriginal.Width * 0.9;
-                    }
+                    Rect opponentLoc = PlayerBaseLocation.GetBaseLocation(Owner.GetPosition() == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT);
+                    double xMin = opponentLoc.X;
+                    double xMax = opponentLoc.X + opponentLoc.Width;
 
-                    if (asteroid.Position.Y > SceneMgr.ViewPortSizeOriginal.Height * 0.4 &&
+                    if (asteroid.Position.Y > SharedDef.VIEW_PORT_SIZE.Height * 0.4 &&
                         asteroid.Position.X >= xMin && asteroid.Position.X <= xMax)
                     {
                         SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.CANNON_DESTROYED_UNSTABLE_ASTEROID_ABOVE_ENEMY, Center, 

@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 namespace Orbit.Core.Client
 {
@@ -28,7 +29,7 @@ namespace Orbit.Core.Client
 
         public static void Init(SceneMgr mgr)
         {
-            if(instance == null)
+            if (instance == null)
                 instance = new StaticMouse(mgr);
         }
 
@@ -39,10 +40,12 @@ namespace Orbit.Core.Client
             {
                 BitmapImage image = new BitmapImage();
                 image.BeginInit();
-                image.UriSource = new Uri("pack://application:,,,/resources/images/mouse/targeting_icon.png");
+                image.UriSource = new Uri("pack://application:,,,/resources/images/mouse/targeting_icon2.png");
                 image.EndInit();
 
                 img = new Image();
+                img.RenderTransform = new ScaleTransform(0.5, 0.5);
+                img.RenderTransformOrigin = new Point(0.5, 0.5);
                 img.Source = image;
             }));
 
@@ -152,13 +155,13 @@ namespace Orbit.Core.Client
                 position.Y += Cursor.Position.Y - center.Y;
                 CenterNativeCursor();
 
-                if (position.X > sceneMgr.ViewPortSizeOriginal.Width)
-                    position.X = sceneMgr.ViewPortSizeOriginal.Width;
+                if (position.X > SharedDef.CANVAS_SIZE.Width)
+                    position.X = SharedDef.CANVAS_SIZE.Width;
                 else if (position.X < 0)
                     position.X = 0;
 
-                if (position.Y > sceneMgr.ViewPortSizeOriginal.Height)
-                    position.Y = sceneMgr.ViewPortSizeOriginal.Height;
+                if (position.Y > SharedDef.CANVAS_SIZE.Height)
+                    position.Y = SharedDef.CANVAS_SIZE.Height;
                 else if (position.Y < 0)
                     position.Y = 0;
 
@@ -173,7 +176,7 @@ namespace Orbit.Core.Client
             {
                 if (sceneMgr.GetCanvas().IsVisible)
                 {
-                    Point p = sceneMgr.GetCanvas().PointToScreen(new Point(sceneMgr.ViewPortSizeOriginal.Width / 2, sceneMgr.ViewPortSizeOriginal.Height / 2));
+                    Point p = sceneMgr.GetCanvas().PointToScreen(new Point(SharedDef.CANVAS_SIZE.Width / 2, SharedDef.CANVAS_SIZE.Height / 2));
                     Cursor.Position = new System.Drawing.Point((int)p.X, (int)p.Y);
                     center = new Point(Cursor.Position.X, Cursor.Position.Y);
                     if (position == null)

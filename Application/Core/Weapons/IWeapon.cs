@@ -35,6 +35,6 @@ namespace Orbit.Core.Weapons
 
         Boolean IsReady();
 
-        void triggerUpgrade(IWeapon old);
+        void TriggerUpgrade(IWeapon old);
     }
 }

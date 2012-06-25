@@ -24,9 +24,11 @@ namespace Orbit.Core.Client
     public partial class SceneMgr
     {
         public Gametype GameType { get; set; }
-        public Size ViewPortSizeOriginal { get; set; }
         public FloatingTextManager FloatingTextMgr { get; set; }
 
+        /// <summary>
+        /// canvas je velky 1000*700 - pres cele okno
+        /// </summary>
         private Canvas canvas;
         private bool isGameInitialized;
         private bool userActionsDisabled;
@@ -36,7 +38,6 @@ namespace Orbit.Core.Client
         private List<ISceneObject> objectsToAdd;
         private List<Player> players;
         private Player currentPlayer;
-        private Rect orbitArea;
         private Random randomGenerator;
         private ConcurrentQueue<Action> synchronizedQueue;
         private bool gameEnded;
@@ -102,10 +103,6 @@ namespace Orbit.Core.Client
             else if (gameType == Gametype.CLIENT_GAME)
             {
                 SetMainInfoText("Waiting for the server");
-            }
-            else if (gameType == Gametype.SOLO_GAME)
-            {
-                userActionsDisabled = false;
             }
 
             InitNetwork();
@@ -345,7 +342,7 @@ namespace Orbit.Core.Client
 
             statisticsTimer = 0;
 
-            ShowStatusText(1, "TPF: " + tpf + " FPS: " + 1.0f / tpf);
+            ShowStatusText(1, "TPF: " + tpf + " FPS: " + (int)(1.0f / tpf));
             if (GameType != Gametype.SOLO_GAME && GetCurrentPlayer().Connection != null)
                 ShowStatusText(2, "LATENCY: " + GetCurrentPlayer().Connection.AverageRoundtripTime);
         }
@@ -370,7 +367,7 @@ namespace Orbit.Core.Client
             foreach (ISceneObject obj in objects)
             {             
                 obj.Update(tpf);
-                if (!obj.IsOnScreen(ViewPortSizeOriginal))
+                if (!obj.IsOnScreen(SharedDef.VIEW_PORT_SIZE))
                     RemoveFromSceneDelayed(obj);
             }
         }
@@ -414,21 +411,14 @@ namespace Orbit.Core.Client
             return players.Find(p => p.GetId() == id);
         }
 
-        public void SetCanvas(Canvas canvas, Size canvasSize)
+        public void SetCanvas(Canvas canvas)
         {
             this.canvas = canvas;
-            ViewPortSizeOriginal = canvasSize;
-            orbitArea = new Rect(0, 0, canvasSize.Width, canvasSize.Height / 3);
         }
 
         public void OnViewPortChange(Size size)
         {
             
-        }
-
-        public Rect GetOrbitArea()
-        {
-            return orbitArea;
         }
 
         public Random GetRandomGenerator()
@@ -447,24 +437,39 @@ namespace Orbit.Core.Client
             if (userActionsDisabled)
                 return;
 
+
             if (StaticMouse.Instance != null && StaticMouse.ALLOWED)
                 point = StaticMouse.GetPosition();
 
             if(e.ChangedButton == MouseButton.Left && e.ButtonState == MouseButtonState.Pressed)
-                ProcessClick(point);
+            if (!IsPointInViewPort(point) && StaticMouse.Instance != null && StaticMouse.ALLOWED)
+            {
+                ProcessStaticMouseActionBarClick(point);
+                return;
+            }
             
             currentPlayer.Mine.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
             currentPlayer.Hook.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
             currentPlayer.Canoon.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
         }
 
-        private void ProcessClick(Point point)
+        private void ProcessStaticMouseActionBarClick(Point point)
         {
             Invoke(new Action(() =>
             {
                 actionMgr.ActionBar.OnClick(canvas.PointToScreen(point));
             }));
-                      
+        }
+
+        private bool IsPointInViewPort(Point point)
+        {
+            if (point.X > SharedDef.VIEW_PORT_SIZE.Width || point.X < 0)
+                return false;
+
+            if (point.Y > SharedDef.VIEW_PORT_SIZE.Height || point.Y < 0)
+                return false;
+
+            return true;
         }
 
         private void EndGame(Player plr, GameEnd endType)

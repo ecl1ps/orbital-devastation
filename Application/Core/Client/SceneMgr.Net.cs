@@ -186,7 +186,7 @@ namespace Orbit.Core.Client
                                 StateMgr.AddGameState(new SimpleBot(this, objects, plr));
                             else
                                 FloatingTextMgr.AddFloatingText(plr.Data.Name + " has joined the game",
-                                    new Vector(ViewPortSizeOriginal.Width / 2, ViewPortSizeOriginal.Height / 2 - 50),
+                                    new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
                                     FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
                         }
                         else // hrace uz zname, ale mohl se zmenit jeho stav na active a take se mohly zmenit dalsi player data
@@ -437,7 +437,7 @@ namespace Orbit.Core.Client
                     {
                         Player p = GetPlayer(msg.ReadInt32());
                         int newIntegrity = msg.ReadInt32();
-                        Vector textPos = new Vector(p.VectorPosition.X + (p.Baze.Size.Width / 2), p.VectorPosition.Y - 20);
+                        Vector textPos = new Vector(p.GetBaseLocation().X + (p.GetBaseLocation().Width / 2), p.GetBaseLocation().Y - 20);
                         FloatingTextMgr.AddFloatingText("+ " + (newIntegrity - p.GetBaseIntegrity()), textPos, 
                             FloatingTextManager.TIME_LENGTH_3, FloatingTextType.HEAL, FloatingTextManager.SIZE_BIG, true);
                         p.SetBaseIntegrity(newIntegrity);
@@ -492,8 +492,7 @@ namespace Orbit.Core.Client
                     {
                         (Application.Current as App).CreateGameGui(false);
                         (Application.Current as App).setGameStarted(true);
-                        Canvas c = (Application.Current as App).GetCanvas();
-                        SetCanvas(c, new Size(c.Width, c.Height));
+                        SetCanvas((Application.Current as App).GetCanvas());
                     }));
                     
                     actionMgr = new PlayerActionManager(this);
@@ -525,8 +524,8 @@ namespace Orbit.Core.Client
                 case PacketType.PLAYER_DISCONNECTED:
                     Player disconnected = GetPlayer(msg.ReadInt32());
 
-                    FloatingTextMgr.AddFloatingText(disconnected.Data.Name + " has disconnected", 
-                        new Vector(ViewPortSizeOriginal.Width / 2, ViewPortSizeOriginal.Height / 2 - 50), 
+                    FloatingTextMgr.AddFloatingText(disconnected.Data.Name + " has disconnected",
+                        new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50), 
                         FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
 
                     players.Remove(disconnected);

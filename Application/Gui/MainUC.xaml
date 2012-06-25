@@ -4,9 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignWidth="800" d:DesignHeight="600">
-    <Grid Width="800" Height="600" HorizontalAlignment="Center" VerticalAlignment="Center" ShowGridLines="False">
-        <StackPanel Margin="20,0,608,0" Background="#FFBDBDC4" Name="spMenu">
+             d:DesignWidth="1000" d:DesignHeight="700"  Width="1000" Height="700">
+    
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" ShowGridLines="False" Width="1000" Height="700">
+        <StackPanel Margin="20,0,788,0" Background="#FFBDBDC4" Name="spMenu">
             <Button Content="Start Practise game" Name="btnSinglePlayer" Margin="0,50,0,5" Height="33"  Width="150" Click="btnSinglePlayer_Click" FontFamily="Bauhaus 93" FontSize="16">
                 <Button.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -65,6 +66,6 @@
                     </Button.Background>
                 </Button>
         </StackPanel>
-        <TextBlock Height="258" Name="tbTitle" Text="Orbital Devastation" VerticalAlignment="Center" Width="466" IsHitTestVisible="False" FontSize="80" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow" TextAlignment="Center" Panel.ZIndex="-1" FontFamily="Bauhaus 93" Margin="256,95,78,247"><TextBlock.Background><RadialGradientBrush><GradientStop Color="Black" Offset="0" /><GradientStop Color="#67FCFCFC" Offset="0.512" /><GradientStop Color="#FF7E7E7E" Offset="0" /></RadialGradientBrush></TextBlock.Background></TextBlock>
+        <TextBlock Height="258" Name="tbTitle" Text="Orbital Devastation" VerticalAlignment="Center" Width="466" IsHitTestVisible="False" FontSize="80" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow" TextAlignment="Center" Panel.ZIndex="-1" FontFamily="Bauhaus 93" Margin="363,116,171,326"><TextBlock.Background><RadialGradientBrush><GradientStop Color="Black" Offset="0" /><GradientStop Color="#67FCFCFC" Offset="0.512" /><GradientStop Color="#FF7E7E7E" Offset="0" /></RadialGradientBrush></TextBlock.Background></TextBlock>
     </Grid>
 </UserControl>

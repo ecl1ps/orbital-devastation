@@ -18,23 +18,23 @@ namespace Orbit.Gui.ActionControllers
             this.healingKit = healingKit;
         }
 
-        public override void ActionClicked(BuyActionWindow window)
+        public override void ActionClicked(BuyActionUC window)
         {
             healingKit.Heal();
             window.Remove();
         }
 
-        public override void CreateHeaderText(BuyActionWindow window)
+        public override void CreateHeaderText(BuyActionUC window)
         {
             window.SetHeaderText("Repair base");
         }
 
-        public override void CreatePriceText(BuyActionWindow window)
+        public override void CreatePriceText(BuyActionUC window)
         {
             window.SetPriceText("Costs " + healingKit.Cost + " credits");
         }
 
-        public override void CreateImageUriString(BuyActionWindow window)
+        public override void CreateImageUriString(BuyActionUC window)
         {
             window.SetImageUri("pack://application:,,,/resources/images/icons/heal-icon.png");
         }

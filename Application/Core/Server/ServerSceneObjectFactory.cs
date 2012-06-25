@@ -21,7 +21,6 @@ namespace Orbit.Core.Server
     {
         public static Asteroid CreateNewRandomAsteroid(ServerMgr mgr, bool headingRight)
         {
-            Rect actionArea = mgr.GetOrbitArea();
             Random randomGenerator = mgr.GetRandomGenerator();
 
             Asteroid s;
@@ -55,8 +54,8 @@ namespace Orbit.Core.Server
             s.IsHeadingRight = headingRight;
             s.Direction = headingRight ? new Vector(1, 0) : new Vector(-1, 0);
 
-            s.Position = new Vector(randomGenerator.Next((int)(actionArea.X + s.Radius), (int)(actionArea.Width - s.Radius)),
-                randomGenerator.Next((int)(actionArea.Y + s.Radius), (int)(actionArea.Height - s.Radius)));
+            s.Position = new Vector(randomGenerator.Next((int)(SharedDef.ORBIT_AREA.X + s.Radius), (int)(SharedDef.ORBIT_AREA.Width - s.Radius)),
+                randomGenerator.Next((int)(SharedDef.ORBIT_AREA.Y + s.Radius), (int)(SharedDef.ORBIT_AREA.Height - s.Radius)));
             s.Color = Color.FromRgb((byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255));
             s.Rotation = mgr.GetRandomGenerator().Next(360);
 
@@ -69,10 +68,8 @@ namespace Orbit.Core.Server
         {
             Asteroid s = CreateNewRandomAsteroid(mgr, headingRight);
 
-            Rect actionArea = mgr.GetOrbitArea();
-
-            s.Position = new Vector(s.IsHeadingRight ? (int)(- 2 * s.Radius) : (int)(actionArea.Width),
-                mgr.GetRandomGenerator().Next((int)(actionArea.Y), (int)(actionArea.Height - 2 * s.Radius)));
+            s.Position = new Vector(s.IsHeadingRight ? (int)(-2 * s.Radius) : (int)(SharedDef.ORBIT_AREA.Width),
+                mgr.GetRandomGenerator().Next((int)(SharedDef.ORBIT_AREA.Y), (int)(SharedDef.ORBIT_AREA.Height - 2 * s.Radius)));
 
             return s;
         }

@@ -195,8 +195,8 @@
     <Compile Include="Core\Server\ServerSceneObjectFactory.cs" />
     <Compile Include="Core\Server\ServerMgr.cs" />
     <Compile Include="Core\Server\ServerMgr.Net.cs" />
-    <Compile Include="Gui\BuyActionWindow.xaml.cs">
-      <DependentUpon>BuyActionWindow.xaml</DependentUpon>
+    <Compile Include="Gui\BuyActionUC.xaml.cs">
+      <DependentUpon>BuyActionUC.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -262,7 +262,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Gui\BuyActionWindow.xaml">
+    <Page Include="Gui\BuyActionUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -277,6 +277,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <Resource Include="resources\images\mouse\targeting_icon2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="resources\images\mouse\targeting_icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

@@ -106,8 +106,8 @@ namespace Orbit
             StartGameThread();
 
             lastGameType = type;
-            if(type != Gametype.SERVER_GAME && type != Gametype.CLIENT_GAME)
-                mainWindow.gameRunning = true;
+            if (type != Gametype.SERVER_GAME && type != Gametype.CLIENT_GAME)
+                mainWindow.GameRunning = true;
 
             sceneMgr.Enqueue(new Action(() =>
             {
@@ -135,7 +135,7 @@ namespace Orbit
 
         public void setGameStarted(bool started)
         {
-            mainWindow.gameRunning = started;
+            mainWindow.GameRunning = started;
         }
 
         public void CreateGameGui(bool setCanvas = true)
@@ -144,13 +144,10 @@ namespace Orbit
             GameUC gameW = new GameUC();
             mainWindow.mainGrid.Children.Add(gameW);
             if (setCanvas)
-            {
-                Size canvasSize = new Size(gameW.mainCanvas.Width, gameW.mainCanvas.Height);
                 sceneMgr.Enqueue(new Action(() =>
                 {
-                    sceneMgr.SetCanvas(gameW.mainCanvas, canvasSize);
+                    sceneMgr.SetCanvas(gameW.mainCanvas);
                 }));
-            }
         }
 
         public Canvas GetCanvas()
@@ -221,7 +218,7 @@ namespace Orbit
                     server = null;
                 }));
             }
-            mainWindow.gameRunning = false;
+            mainWindow.GameRunning = false;
         }
 
         public void LookForGame()

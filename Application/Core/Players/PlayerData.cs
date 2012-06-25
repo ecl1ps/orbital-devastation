@@ -67,4 +67,23 @@ namespace Orbit.Core.Players
             HookCooldown = SharedDef.HOOK_COOLDOWN;
         }
     }
+
+    public class PlayerBaseLocation
+    {
+        private static Rect BASE_LEFT = new Rect(SharedDef.VIEW_PORT_SIZE.Width * 0.1, SharedDef.VIEW_PORT_SIZE.Height * 0.9,
+                                                 SharedDef.VIEW_PORT_SIZE.Width * 0.3, SharedDef.VIEW_PORT_SIZE.Height * 0.1);
+
+        private static Rect BASE_RIGHT = new Rect(SharedDef.VIEW_PORT_SIZE.Width * 0.6, SharedDef.VIEW_PORT_SIZE.Height * 0.9,
+                                                  SharedDef.VIEW_PORT_SIZE.Width * 0.3, SharedDef.VIEW_PORT_SIZE.Height * 0.1);
+
+        public static Rect GetBaseLocation(Player p)
+        {
+            return GetBaseLocation(p.Data.PlayerPosition);
+        }
+
+        public static Rect GetBaseLocation(PlayerPosition pos)
+        {
+            return pos == PlayerPosition.LEFT ? BASE_LEFT : BASE_RIGHT;
+        }
+    }
 }
