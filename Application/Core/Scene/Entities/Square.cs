@@ -25,10 +25,10 @@ namespace Orbit.Core.Scene.Entities
                 return CollisionHelper.intersectSquareAndPoint(((SpherePoint)other).Position, Position, Size);
 
             if (other is Sphere)
-                return CollisionHelper.intersectsCircleAndSquare((other as Sphere).Position, (other as Sphere).Radius, Position, Size);
+                return CollisionHelper.intersectsCircleAndSquare((other as Sphere).Center, (other as Sphere).Radius, Position, Size);
 
             if (other is Square)
-                return CollisionHelper.intersectSquareAndSquare(this.Position, this.Size, (other as Square).Position, (other as Square).Size);
+                return CollisionHelper.intersectSquareAndSquare(Position, Size, (other as Square).Position, (other as Square).Size);
 
             return false;
         }

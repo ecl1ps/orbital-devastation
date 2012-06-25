@@ -86,7 +86,11 @@ namespace Orbit.Core.Players
             {
                 case WeaponType.HOOK:
                     if (HookActionWindow == null || !HookActionWindow.IsVisible)
+                    {
                         HookActionWindow = GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, new WeaponActionController(mgr, weapon, mgr.GetCurrentPlayer()));
+                        GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, new WeaponActionController(mgr, weapon, mgr.GetCurrentPlayer()));
+                        GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, new WeaponActionController(mgr, weapon, mgr.GetCurrentPlayer()));
+                    }
                     break;
             }
         }
