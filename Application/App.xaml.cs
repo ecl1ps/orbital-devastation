@@ -263,5 +263,11 @@ namespace Orbit
             mainWindow.mainGrid.Children.Clear();
             mainWindow.mainGrid.Children.Add(new ScoreboardUC(winnerData, data));
         }
+
+        public void ShowStatisticsGui()
+        {
+            mainWindow.mainGrid.Children.Clear();
+            mainWindow.mainGrid.Children.Add(new StatisticsUC());
+        }
     }
 }

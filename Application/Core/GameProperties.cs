@@ -24,6 +24,12 @@ namespace Orbit.Core
             defaults.Add(PropertyKey.PLAYER_HASH_ID, Player.GenerateNewHashId("Player"));
             defaults.Add(PropertyKey.STATIC_MOUSE_ENABLED, true.ToString());
             defaults.Add(PropertyKey.USED_SERVERS, "");
+            defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO1, "0");
+            defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO2, "0");
+            defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO3, "0");
+            defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO4, "0");
+            defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO5, "0");
+            defaults.Add(PropertyKey.PLAYER_HIGHSCORE_QUICK_GAME, "0");
             return defaults;
         }
     }
@@ -33,6 +39,12 @@ namespace Orbit.Core
         PLAYER_NAME,
         PLAYER_HASH_ID,
         STATIC_MOUSE_ENABLED,
-        USED_SERVERS
+        USED_SERVERS,
+        PLAYER_HIGHSCORE_SOLO1,
+        PLAYER_HIGHSCORE_SOLO2,
+        PLAYER_HIGHSCORE_SOLO3,
+        PLAYER_HIGHSCORE_SOLO4,
+        PLAYER_HIGHSCORE_SOLO5,
+        PLAYER_HIGHSCORE_QUICK_GAME
     }
 }
