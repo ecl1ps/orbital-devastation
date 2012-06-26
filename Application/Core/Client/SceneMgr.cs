@@ -410,11 +410,6 @@ namespace Orbit.Core.Client
             this.canvas = canvas;
         }
 
-        public void OnViewPortChange(Size size)
-        {
-            
-        }
-
         public Random GetRandomGenerator()
         {
             return randomGenerator;
@@ -430,7 +425,6 @@ namespace Orbit.Core.Client
         {
             if (userActionsDisabled)
                 return;
-
 
             if (StaticMouse.Instance != null && StaticMouse.ALLOWED)
                 point = StaticMouse.GetPosition();
@@ -536,7 +530,16 @@ namespace Orbit.Core.Client
 
             int hs = int.Parse(GameProperties.Props.Get(key));
             if (hs < currentPlayer.Data.Score)
-                GameProperties.Props.SetAndSave(key, currentPlayer.Data.Score);
+            {
+                hs = currentPlayer.Data.Score;
+                GameProperties.Props.SetAndSave(key, hs);
+                Invoke(new Action(() =>
+                {
+                    Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblHighScore");
+                    if (lbl != null)
+                        lbl.Content = "New HighScore " + hs + "!";
+                }));
+            }
 
         }
 
