@@ -7,29 +7,32 @@
              d:DesignWidth="1000" d:DesignHeight="700" Width="1000" Height="700" >
 
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Label Name="lblTitle" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="550" Margin="0,36,0,507" FontFamily="Bauhaus 93" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" >Player Statistics</Label>
-        <Grid Width="550" Margin="0,200,0,100">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0">
-                <Label Name="lblHSText1" FontFamily="Bauhaus 93" FontSize="20" >HighScore Solo vs. SimpleBot:</Label>
-                <Label Name="lblHSText2" FontFamily="Bauhaus 93" FontSize="20" >HighScore Solo vs. Bot2:</Label>
-                <Label Name="lblHSText3" FontFamily="Bauhaus 93" FontSize="20" >HighScore Solo vs. Bot3:</Label>
-                <Label Name="lblHSText4" FontFamily="Bauhaus 93" FontSize="20" >HighScore Solo vs. Bot4:</Label>
-                <Label Name="lblHSText5" FontFamily="Bauhaus 93" FontSize="20" >HighScore Solo vs. Bot5:</Label>
-                <Label Name="lblHSText6" FontFamily="Bauhaus 93" FontSize="20" >HighScore 1v1 Quick Game:</Label>
-            </StackPanel>
-            <StackPanel Grid.Column="1">
-                <Label Name="lblHS1" FontFamily="Bauhaus 93" FontSize="20" >0</Label>
-                <Label Name="lblHS2" FontFamily="Bauhaus 93" FontSize="20" >0</Label>
-                <Label Name="lblHS3" FontFamily="Bauhaus 93" FontSize="20" >0</Label>
-                <Label Name="lblHS4" FontFamily="Bauhaus 93" FontSize="20" >0</Label>
-                <Label Name="lblHS5" FontFamily="Bauhaus 93" FontSize="20" >0</Label>
-                <Label Name="lblHS6" FontFamily="Bauhaus 93" FontSize="20" >0</Label>
-            </StackPanel>
-        </Grid>
+        <Label Name="lblTitle" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="400" Margin="0,36,0,507" FontFamily="Bauhaus 93" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" >Player Statistics</Label>
+        <Label Name="lblHighScoreCaption"  Width="150" Margin="0,153,0,468" FontFamily="Bauhaus 93" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Center" >HighScores</Label>
+        <Border BorderThickness="1" BorderBrush="Black"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,197,0,265" CornerRadius="3">
+            <Grid Width="400" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <Label Name="lblHSText1" FontSize="14" FontWeight="Bold">Solo vs. SimpleBot:</Label>
+                    <Label Name="lblHSText2" FontSize="14" FontWeight="Bold">Solo vs. Bot2:</Label>
+                    <Label Name="lblHSText3" FontSize="14" FontWeight="Bold">Solo vs. Bot3:</Label>
+                    <Label Name="lblHSText4" FontSize="14" FontWeight="Bold">Solo vs. Bot4:</Label>
+                    <Label Name="lblHSText5" FontSize="14" FontWeight="Bold">Solo vs. Bot5:</Label>
+                    <Label Name="lblHSText6" FontSize="14" FontWeight="Bold">1v1 Quick Game:</Label>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <Label Name="lblHS1" FontSize="14" FontWeight="Bold">0</Label>
+                    <Label Name="lblHS2" FontSize="14" FontWeight="Bold">0</Label>
+                    <Label Name="lblHS3" FontSize="14" FontWeight="Bold">0</Label>
+                    <Label Name="lblHS4" FontSize="14" FontWeight="Bold">0</Label>
+                    <Label Name="lblHS5" FontSize="14" FontWeight="Bold">0</Label>
+                    <Label Name="lblHS6" FontSize="14" FontWeight="Bold">0</Label>
+                </StackPanel>
+            </Grid>
+        </Border>
         <Button Content="Close" Height="28" HorizontalAlignment="Center" Margin="0,636,0,0" FontFamily="Bauhaus 93" FontSize="16" Name="btnClose" VerticalAlignment="Top" Width="129" Click="btnClose_Click">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

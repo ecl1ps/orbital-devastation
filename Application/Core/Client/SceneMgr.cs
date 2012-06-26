@@ -483,7 +483,13 @@ namespace Orbit.Core.Client
                 return;
 
             if (Application.Current != null)
-                (Application.Current as App).SetGameStarted(false);
+                Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    (Application.Current as App).SetGameStarted(false);
+                }));
+
+            if (endType == GameEnd.WIN_GAME)
+                CheckHighScore();
 
             isGameInitialized = true;
             gameEnded = true;
@@ -510,6 +516,28 @@ namespace Orbit.Core.Client
                 TournamentGameEnded();
             else if (endType != GameEnd.TOURNAMENT_FINISHED)
                 NormalGameEnded();
+        }
+
+        private void CheckHighScore()
+        {
+            // zatim jen pro solo a 1v1 hry
+            if (GameType != Gametype.SOLO_GAME && GameType != Gametype.MULTIPLAYER_GAME)
+                return;
+
+            PropertyKey key = PropertyKey.PLAYER_HIGHSCORE_SOLO1;
+
+            if (GameType == Gametype.MULTIPLAYER_GAME)
+                key = PropertyKey.PLAYER_HIGHSCORE_QUICK_GAME;
+            else if (GameType == Gametype.SOLO_GAME)
+            {
+                // TODO pridat pocitani high scores pro dalsi boty
+                key = PropertyKey.PLAYER_HIGHSCORE_SOLO1;
+            }
+
+            int hs = int.Parse(GameProperties.Props.Get(key));
+            if (hs < currentPlayer.Data.Score)
+                GameProperties.Props.SetAndSave(key, currentPlayer.Data.Score);
+
         }
 
         private void TournamenFinished(Player winner)
