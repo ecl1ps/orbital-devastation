@@ -31,7 +31,6 @@ namespace Orbit
         private Gametype lastGameType;
         public string PlayerName { get; set; }
         public string PlayerHashId { get; set; }
-        public Properties GameProperties { get; set; }
 
         [STAThread]
         public static void Main(string[] args)
@@ -46,26 +45,15 @@ namespace Orbit
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            GameProperties = new Properties(SharedDef.CONFIG_FILE, GetDefaultConfigValues());
             if (!File.Exists(SharedDef.CONFIG_FILE))
-                GameProperties.Save();
+                GameProperties.Props.Save();
 
-            PlayerName = GameProperties.Get(PropertyKey.PLAYER_NAME);
-            PlayerHashId = GameProperties.Get(PropertyKey.PLAYER_HASH_ID);
-            Boolean.TryParse(GameProperties.Get(PropertyKey.STATIC_MOUSE_ENABLED), out StaticMouse.ALLOWED);
-            usedServerAdresses.AddRange(GameProperties.Get(PropertyKey.USED_SERVERS).Split(';'));
+            PlayerName = GameProperties.Props.Get(PropertyKey.PLAYER_NAME);
+            PlayerHashId = GameProperties.Props.Get(PropertyKey.PLAYER_HASH_ID);
+            Boolean.TryParse(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_ENABLED), out StaticMouse.ALLOWED);
+            usedServerAdresses.AddRange(GameProperties.Props.Get(PropertyKey.USED_SERVERS).Split(';'));
 
             sceneMgr = new SceneMgr();
-        }
-
-        private Dictionary<PropertyKey, string> GetDefaultConfigValues()
-        {
-            Dictionary<PropertyKey, string> defaults = new Dictionary<PropertyKey, string>();
-            defaults.Add(PropertyKey.PLAYER_NAME, "Player");
-            defaults.Add(PropertyKey.PLAYER_HASH_ID, Player.GenerateNewHashId("Player"));
-            defaults.Add(PropertyKey.STATIC_MOUSE_ENABLED, true.ToString());
-            defaults.Add(PropertyKey.USED_SERVERS, "");
-            return defaults;
         }
 
         protected override void OnExit(ExitEventArgs e)

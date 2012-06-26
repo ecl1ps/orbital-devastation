@@ -47,7 +47,7 @@ namespace Orbit.Gui
             if (StaticMouse.Instance != null)
                 StaticMouse.Enable(allow);
 
-            (Application.Current as App).GameProperties.SetAndSave(PropertyKey.STATIC_MOUSE_ENABLED, allow);
+            GameProperties.Props.SetAndSave(PropertyKey.STATIC_MOUSE_ENABLED, allow);
         }
     }
 }

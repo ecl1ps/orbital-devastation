@@ -96,6 +96,7 @@
     <Compile Include="Core\AI\SimpleBot.cs" />
     <Compile Include="Core\Client\FloatingTextManager.cs" />
     <Compile Include="Core\Client\StaticMouse.cs" />
+    <Compile Include="Core\GameProperties.cs" />
     <Compile Include="Core\GameStateManager.cs" />
     <Compile Include="Core\Helpers\CollisionHelper.cs" />
     <Compile Include="Core\ExtensionMethods.cs" />
@@ -107,7 +108,6 @@
     <Compile Include="Core\Players\PlayerData.cs" />
     <Compile Include="Core\Players\ScoreDefines.cs" />
     <Compile Include="Core\Properties.cs" />
-    <Compile Include="Core\PropertyKey.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DroppingSingularityControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\HookControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\NewtonianMovementControl.cs" />
