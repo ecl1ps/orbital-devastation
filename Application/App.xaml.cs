@@ -28,6 +28,7 @@ namespace Orbit
         private static GameWindow mainWindow;
         private string lastServerAddress;
         private Gametype lastGameType;
+        private bool hostedLastgame = false;
         public string PlayerName { get; set; }
         public string PlayerHashId { get; set; }
 
@@ -83,7 +84,8 @@ namespace Orbit
             StartGameThread();
 
             lastGameType = type;
-            if (type != Gametype.SERVER_GAME && type != Gametype.CLIENT_GAME)
+
+            if (type != Gametype.MULTIPLAYER_GAME)
                 mainWindow.GameRunning = true;
 
             sceneMgr.Enqueue(new Action(() =>
@@ -94,11 +96,13 @@ namespace Orbit
 
         public void StartHostedGame()
         {
-            StartLocalServer(Gametype.SERVER_GAME);
+            hostedLastgame = true;
+
+            StartLocalServer(Gametype.MULTIPLAYER_GAME);
 
             sceneMgr.SetRemoteServerAddress("127.0.0.1");
 
-            StartGame(Gametype.SERVER_GAME);
+            StartGame(Gametype.MULTIPLAYER_GAME);
         }
 
         public void StartTournamentLobby()
@@ -110,7 +114,7 @@ namespace Orbit
             StartGame(Gametype.TOURNAMENT_GAME);
         }
 
-        public void setGameStarted(bool started)
+        public void SetGameStarted(bool started)
         {
             mainWindow.GameRunning = started;
         }
@@ -144,9 +148,10 @@ namespace Orbit
 
         public void ConnectToGame(string serverAddress)
         {
+            hostedLastgame = false;
             lastServerAddress = serverAddress;
             sceneMgr.SetRemoteServerAddress(serverAddress);
-            StartGame(Gametype.CLIENT_GAME);
+            StartGame(Gametype.MULTIPLAYER_GAME);
         }
 
         private void StartGameThread()
@@ -214,13 +219,12 @@ namespace Orbit
                     CreateGameGui();
                     StartSoloGame();
                     break;
-                case Gametype.SERVER_GAME:
+                case Gametype.MULTIPLAYER_GAME:
                     CreateGameGui();
-                    StartHostedGame();
-                    break;
-                case Gametype.CLIENT_GAME:
-                    CreateGameGui();
-                    ConnectToGame(lastServerAddress);
+                    if (hostedLastgame)
+                        StartHostedGame();
+                    else
+                        ConnectToGame(lastServerAddress);
                     break;
                 case Gametype.TOURNAMENT_GAME:
                     StartTournamentLobby();

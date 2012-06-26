@@ -87,8 +87,7 @@ namespace Orbit.Core
     {
         NONE,
         SOLO_GAME,
-        SERVER_GAME,
-        CLIENT_GAME,
+        MULTIPLAYER_GAME,
         TOURNAMENT_GAME
     }
 

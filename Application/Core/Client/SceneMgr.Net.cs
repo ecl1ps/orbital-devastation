@@ -455,7 +455,7 @@ namespace Orbit.Core.Client
                     string rightPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.RIGHT).Data.Name;
 
                     InitStaticMouse();
-                    (Application.Current as App).setGameStarted(true);
+                    (Application.Current as App).SetGameStarted(true);
 
                     foreach (Player p in players)
                         if (p.IsActivePlayer())
@@ -491,7 +491,7 @@ namespace Orbit.Core.Client
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
                         (Application.Current as App).CreateGameGui(false);
-                        (Application.Current as App).setGameStarted(true);
+                        (Application.Current as App).SetGameStarted(true);
                         SetCanvas((Application.Current as App).GetCanvas());
                     }));
                     
@@ -529,7 +529,7 @@ namespace Orbit.Core.Client
                         FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
 
                     players.Remove(disconnected);
-                    (Application.Current as App).setGameStarted(false);
+                    (Application.Current as App).SetGameStarted(false);
 
                     if (disconnected.IsActivePlayer())
                         EndGame(disconnected, GameEnd.LEFT_GAME);

@@ -96,14 +96,8 @@ namespace Orbit.Core.Client
                 }));
             }
 
-            if (gameType == Gametype.SERVER_GAME)
-            {
-                SetMainInfoText("Waiting for the other player to connect");
-            }
-            else if (gameType == Gametype.CLIENT_GAME)
-            {
-                SetMainInfoText("Waiting for the server");
-            }
+            if (gameType == Gametype.MULTIPLAYER_GAME)
+                SetMainInfoText("Establishing connection...");
 
             InitNetwork();
             ConnectToServer();
@@ -489,7 +483,7 @@ namespace Orbit.Core.Client
                 return;
 
             if (Application.Current != null)
-                (Application.Current as App).setGameStarted(false);
+                (Application.Current as App).SetGameStarted(false);
 
             isGameInitialized = true;
             gameEnded = true;
