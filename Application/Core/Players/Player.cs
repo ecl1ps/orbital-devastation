@@ -83,7 +83,8 @@ namespace Orbit.Core.Players
 
         public void AddGoldAndShow(int gold)
         {
-            AddScoreAndShow((int)(gold * ScoreDefines.GOLD_TAKEN));
+            if (gold > 0)
+                AddScoreAndShow((int)(gold * ScoreDefines.GOLD_TAKEN));
 
             Data.Gold += gold;
 
