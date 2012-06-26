@@ -79,6 +79,8 @@ namespace Orbit.Core
         /// orbit area je horni oblast obrazovky - pas kde se pohybuji asteroidy
         /// </summary>
         public static Rect ORBIT_AREA = new Rect(0, 0, CANVAS_SIZE.Width, 200);
+
+        public const string CONFIG_FILE                     = "player";
     }
 
     public enum Gametype

@@ -27,9 +27,11 @@ namespace Orbit
         private ServerMgr server;
         private static GameWindow mainWindow;
         private string lastServerAddress;
+        private List<string> usedServerAdresses = new List<string>();
         private Gametype lastGameType;
         public string PlayerName { get; set; }
         public string PlayerHashId { get; set; }
+        public Properties GameProperties { get; set; }
 
         [STAThread]
         public static void Main(string[] args)
@@ -44,37 +46,26 @@ namespace Orbit
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            GameProperties = new Properties(SharedDef.CONFIG_FILE, GetDefaultConfigValues());
+            if (!File.Exists(SharedDef.CONFIG_FILE))
+                GameProperties.Save();
+
+            PlayerName = GameProperties.Get(PropertyKey.PLAYER_NAME);
+            PlayerHashId = GameProperties.Get(PropertyKey.PLAYER_HASH_ID);
+            Boolean.TryParse(GameProperties.Get(PropertyKey.STATIC_MOUSE_ENABLED), out StaticMouse.ALLOWED);
+            usedServerAdresses.AddRange(GameProperties.Get(PropertyKey.USED_SERVERS).Split(';'));
+
             sceneMgr = new SceneMgr();
+        }
 
-            PlayerName = "Player";
-
-            if (!File.Exists("player"))
-            {
-                PlayerHashId = Player.GenerateNewHashId(PlayerName);
-                using (StreamWriter writer = new StreamWriter("player", false))
-                {
-                    writer.WriteLine("name=" + PlayerName);
-                    writer.WriteLine("hash=" + PlayerHashId);
-                }
-                return;
-            }
-
-            // TODO: je mozne aby hrac upravil soubor tak, ze nebude obsahovat hash, to by pak byla celkem chyba
-            using (StreamReader reader = new StreamReader("player"))
-            {
-                string line;
-                string[] items;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    items = line.Split('=');
-                    if (items[0].Equals("name"))
-                        PlayerName = items[1];
-                    else if (items[0].Equals("hash"))
-                        PlayerHashId = items[1];
-                    else if (items[0].Equals("mouse"))
-                       Boolean.TryParse(items[1], out StaticMouse.ALLOWED);
-                }
-            }
+        private Dictionary<PropertyKey, string> GetDefaultConfigValues()
+        {
+            Dictionary<PropertyKey, string> defaults = new Dictionary<PropertyKey, string>();
+            defaults.Add(PropertyKey.PLAYER_NAME, "Player");
+            defaults.Add(PropertyKey.PLAYER_HASH_ID, Player.GenerateNewHashId("Player"));
+            defaults.Add(PropertyKey.STATIC_MOUSE_ENABLED, true.ToString());
+            defaults.Add(PropertyKey.USED_SERVERS, "");
+            return defaults;
         }
 
         protected override void OnExit(ExitEventArgs e)

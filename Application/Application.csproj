@@ -106,6 +106,8 @@
     <Compile Include="Core\Players\Player.cs" />
     <Compile Include="Core\Players\PlayerData.cs" />
     <Compile Include="Core\Players\ScoreDefines.cs" />
+    <Compile Include="Core\Properties.cs" />
+    <Compile Include="Core\PropertyKey.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DroppingSingularityControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\HookControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\NewtonianMovementControl.cs" />
