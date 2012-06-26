@@ -27,7 +27,6 @@ namespace Orbit
         private ServerMgr server;
         private static GameWindow mainWindow;
         private string lastServerAddress;
-        private List<string> usedServerAdresses = new List<string>();
         private Gametype lastGameType;
         public string PlayerName { get; set; }
         public string PlayerHashId { get; set; }
@@ -51,7 +50,6 @@ namespace Orbit
             PlayerName = GameProperties.Props.Get(PropertyKey.PLAYER_NAME);
             PlayerHashId = GameProperties.Props.Get(PropertyKey.PLAYER_HASH_ID);
             Boolean.TryParse(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_ENABLED), out StaticMouse.ALLOWED);
-            usedServerAdresses.AddRange(GameProperties.Props.Get(PropertyKey.USED_SERVERS).Split(';'));
 
             sceneMgr = new SceneMgr();
         }
