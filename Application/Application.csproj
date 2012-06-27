@@ -93,6 +93,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Core\AI\HookerBot.cs" />
     <Compile Include="Core\AI\SimpleBot.cs" />
     <Compile Include="Core\Client\FloatingTextManager.cs" />
     <Compile Include="Core\Client\StaticMouse.cs" />

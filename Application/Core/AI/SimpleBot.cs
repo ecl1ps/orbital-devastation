@@ -17,14 +17,14 @@ namespace Orbit.Core.AI
     /// </summary>
     public class SimpleBot : IGameState
     {
+        public const string NAME = "SimpleBot";
+
         private SceneMgr sceneMgr;
-        private List<ISceneObject> objects;
         private Player me;
 
         public SimpleBot(SceneMgr mgr, List<ISceneObject> objects, Player bot)
         {
             sceneMgr = mgr;
-            this.objects = objects;
             me = bot;
 
             me.Data.MineCooldown = me.Data.MineCooldown * 2.5f;
