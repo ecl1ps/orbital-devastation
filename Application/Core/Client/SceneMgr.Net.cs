@@ -183,7 +183,7 @@ namespace Orbit.Core.Client
                             msg.ReadObjectPlayerData(plr.Data);
 
                             if (plr.Data.PlayerType == PlayerType.BOT)
-                                stateMgr.AddGameState(new HookerBot(this, objects, plr));
+                                stateMgr.AddGameState(CreateBot(plr));
                             else
                                 FloatingTextMgr.AddFloatingText(plr.Data.Name + " has joined the game",
                                     new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
@@ -545,6 +545,22 @@ namespace Orbit.Core.Client
                     break;
             }
 
+        }
+
+        private IGameState CreateBot(Player plr)
+        {
+            switch (plr.Data.BotType)
+            {
+                case BotType.LEVEL1:
+                    return new SimpleBot(this, objects, plr);
+                case BotType.LEVEL2:
+                    return new HookerBot(this, objects, plr);
+                case BotType.LEVEL3:
+                case BotType.LEVEL4:
+                case BotType.LEVEL5:
+                default:
+                    return null;
+            }
         }
 
         private Asteroid CreateNewAsteroid(AsteroidType asteroidType)

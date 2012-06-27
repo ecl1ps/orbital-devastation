@@ -524,8 +524,26 @@ namespace Orbit.Core.Client
                 key = PropertyKey.PLAYER_HIGHSCORE_QUICK_GAME;
             else if (GameType == Gametype.SOLO_GAME)
             {
-                // TODO pridat pocitani high scores pro dalsi boty
-                key = PropertyKey.PLAYER_HIGHSCORE_SOLO1;
+                switch (GetOpponentPlayer().Data.BotType)
+                {
+                    case BotType.LEVEL1:
+                        key = PropertyKey.PLAYER_HIGHSCORE_SOLO1;
+                        break;
+                    case BotType.LEVEL2:
+                        key = PropertyKey.PLAYER_HIGHSCORE_SOLO2;
+                        break;
+                    case BotType.LEVEL3:
+                        key = PropertyKey.PLAYER_HIGHSCORE_SOLO3;
+                        break;
+                    case BotType.LEVEL4:
+                        key = PropertyKey.PLAYER_HIGHSCORE_SOLO4;
+                        break;
+                    case BotType.LEVEL5:
+                        key = PropertyKey.PLAYER_HIGHSCORE_SOLO5;
+                        break;
+                    default:
+                        break;
+                }
             }
 
             int hs = int.Parse(GameProperties.Props.Get(key));

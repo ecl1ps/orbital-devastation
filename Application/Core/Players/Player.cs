@@ -246,4 +246,14 @@ namespace Orbit.Core.Players
         HUMAN,
         BOT
     }
+
+    public enum BotType
+    {
+        NONE,
+        LEVEL1,
+        LEVEL2,
+        LEVEL3,
+        LEVEL4,
+        LEVEL5
+    }
 }

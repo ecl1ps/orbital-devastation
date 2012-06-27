@@ -52,6 +52,7 @@ namespace Orbit.Core.Server.Match
             {
                 Player bot = serverMgr.CreateAndAddPlayer("Bot", "NullBotHash");
                 bot.Data.PlayerType = PlayerType.BOT;
+                bot.Data.BotType = BotType.LEVEL2;
                 bot.Data.StartReady = true;
             }
 

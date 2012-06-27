@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Orbit.Core;
+using Orbit.Core.AI;
 
 namespace Orbit.Gui
 {
@@ -23,6 +24,9 @@ namespace Orbit.Gui
         public StatisticsUC()
         {
             InitializeComponent();
+            lblHSText1.Content = "Solo vs. " + SimpleBot.NAME;
+            lblHSText2.Content = "Solo vs. " + HookerBot.NAME;
+
             lblHS1.Content = GameProperties.Props.Get(PropertyKey.PLAYER_HIGHSCORE_SOLO1);
             lblHS2.Content = GameProperties.Props.Get(PropertyKey.PLAYER_HIGHSCORE_SOLO2);
             lblHS3.Content = GameProperties.Props.Get(PropertyKey.PLAYER_HIGHSCORE_SOLO3);
