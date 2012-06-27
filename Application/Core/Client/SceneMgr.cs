@@ -460,7 +460,7 @@ namespace Orbit.Core.Client
             }));
         }
 
-        private bool IsPointInViewPort(Point point)
+        public static bool IsPointInViewPort(Point point)
         {
             if (point.X > SharedDef.VIEW_PORT_SIZE.Width || point.X < 0)
                 return false;

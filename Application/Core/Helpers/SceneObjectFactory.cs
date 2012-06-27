@@ -160,5 +160,43 @@ namespace Orbit.Core.Helpers
 
             return asteroid;
         }
+
+        public static VectorLine CreateVectorLine(SceneMgr mgr, Vector origin, Vector vector, Color color, ISceneObject parent = null)
+        {
+            VectorLine l = new VectorLine(mgr);
+            l.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
+            l.Position = origin;
+            l.Direction = vector;
+            l.Color = color;
+
+            if (parent != null)
+            {
+                VectorLineObjectMovementControl c = new VectorLineObjectMovementControl();
+                c.Parent = parent;
+                l.AddControl(c);
+            }
+
+            l.SetGeometry(SceneGeometryFactory.CreateLineGeometry(l));
+
+            return l;
+        }
+
+        public static Circle CreateCircle(SceneMgr mgr, Vector point, Color color)
+        {
+            Circle c = new Circle(mgr);
+            c.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
+            c.Position = point;
+            c.Radius = 4;
+            c.Color = color;
+
+            c.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(c));
+
+            mgr.BeginInvoke(new Action(() =>
+            {
+                Canvas.SetZIndex(c.GetGeometry(), 500);
+            }));
+
+            return c;
+        }
     }
 }

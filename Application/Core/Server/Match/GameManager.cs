@@ -102,10 +102,10 @@ namespace Orbit.Core.Server.Match
         {
             Rect baseLoc = PlayerBaseLocation.GetBaseLocation(PlayerPosition.LEFT);
 
-            objects.Add(ServerSceneObjectFactory.CreateCustomAsteroid(serverMgr, 10, new Vector(baseLoc.X - 10 * 2 - 1, 100)));
-            objects.Add(ServerSceneObjectFactory.CreateCustomAsteroid(serverMgr, 20, new Vector(baseLoc.X - 20 * 2, 200)));
-            objects.Add(ServerSceneObjectFactory.CreateCustomAsteroid(serverMgr, 10, new Vector(baseLoc.X + baseLoc.Width +  1, 100)));
-            objects.Add(ServerSceneObjectFactory.CreateCustomAsteroid(serverMgr, 20, new Vector(baseLoc.X + baseLoc.Width, 200)));
+            objects.Add(ServerSceneObjectFactory.CreateCustomAsteroid(serverMgr, 10, new Vector(baseLoc.X - 10 * 2 - 1, 100), new Vector(0, 1)));
+            objects.Add(ServerSceneObjectFactory.CreateCustomAsteroid(serverMgr, 20, new Vector(baseLoc.X - 20 * 2, 200), new Vector(0, 1)));
+            objects.Add(ServerSceneObjectFactory.CreateCustomAsteroid(serverMgr, 10, new Vector(baseLoc.X + baseLoc.Width + 1, 100), new Vector(0, 1)));
+            objects.Add(ServerSceneObjectFactory.CreateCustomAsteroid(serverMgr, 20, new Vector(baseLoc.X + baseLoc.Width, 200), new Vector(0, 1)));
         }
 
         public void GameEnded(Player plr, GameEnd endType)

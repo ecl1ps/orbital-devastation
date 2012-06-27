@@ -24,6 +24,8 @@
                 <Label Height="20" Name="statusText4" Width="120" Padding="0" FontSize="11" />
                 <Label Height="20" Name="statusText5" Width="120" Padding="0" FontSize="11" />
                 <Label Height="20" Name="statusText6" Width="120" Padding="0" FontSize="11" />
+                <Label Height="20" Name="statusText7" Width="120" Padding="0" FontSize="11" />
+                <Label Height="20" Name="statusText8" Width="120" Padding="0" FontSize="11" />
             </StatusBar>
         </Grid>
     </Canvas>

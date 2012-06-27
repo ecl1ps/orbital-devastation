@@ -45,6 +45,9 @@ namespace Orbit.Core.Scene.Entities
             return true;
         }
 
+        /// <summary>
+        /// tuto metodu neprepisovat - pouzit UpdateGeometricState()
+        /// </summary>
         public override void UpdateGeometric()
         {
             geometryElement.Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
@@ -57,7 +60,13 @@ namespace Orbit.Core.Scene.Entities
             }));
         }
 
-        protected abstract void UpdateGeometricState();
+        /// <summary>
+        /// tato metoda je volana ve vlaknu GUI -> NEPOSILAT PRES DISPATCHER
+        /// </summary>
+        protected virtual void UpdateGeometricState() 
+        {
+
+        }
 
         public virtual bool CollideWith(ICollidable other)
         {

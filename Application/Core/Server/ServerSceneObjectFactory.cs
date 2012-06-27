@@ -64,7 +64,7 @@ namespace Orbit.Core.Server
             return s;
         }
 
-        public static Asteroid CreateCustomAsteroid(ServerMgr mgr, int rad, Vector pos)
+        public static Asteroid CreateCustomAsteroid(ServerMgr mgr, int rad, Vector pos, Vector dir)
         {
             Random randomGenerator = mgr.GetRandomGenerator();
 
@@ -75,7 +75,7 @@ namespace Orbit.Core.Server
             s.Radius = rad;
 
             s.Id = IdMgr.GetNewId(0);
-            s.Direction = new Vector(0, 1);
+            s.Direction = dir;
             s.Position = pos;
             s.Rotation = mgr.GetRandomGenerator().Next(360);
 
