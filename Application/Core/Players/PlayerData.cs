@@ -52,7 +52,7 @@ namespace Orbit.Core.Players
         public PlayerData()
         {
             Score = 0;
-            Gold = SharedDef.START_GOLD;
+            Gold = SharedDef.START_GOLD * 10;
             PlayerType = PlayerType.HUMAN;
             BotType = BotType.NONE;
             BaseIntegrity = SharedDef.BASE_MAX_INGERITY;

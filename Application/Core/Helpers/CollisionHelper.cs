@@ -72,5 +72,12 @@ namespace Orbit.Core.Helpers
         {
             return ((int)point1.X) == ((int)point2.X) && ((int)point1.Y) == ((int)point2.Y);
         }
+
+        public static bool IntersectsPointAndLine(Vector point1, Point start, Point end)
+        {
+            //TODO asigned by hromada ;)
+            return false;
+        }
+
     }
 }
