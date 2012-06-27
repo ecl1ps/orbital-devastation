@@ -15,7 +15,7 @@ using System.Windows.Input;
 
 namespace Orbit.Core.Weapons
 {
-    class MineLauncher : IWeapon
+    public class MineLauncher : IWeapon
     {
         public Player Owner { get; set; }
         public SceneMgr SceneMgr { get; set; }
@@ -24,15 +24,21 @@ namespace Orbit.Core.Weapons
         public WeaponType WeaponType { get; set; }
         public String Name { get; set; }
 
+        protected IWeapon next = null;
+
         public MineLauncher(SceneMgr mgr, Player owner)
         {
             SceneMgr = mgr;
             Owner = owner;
+            WeaponType = WeaponType.MINE;
         }
 
-        public IWeapon Next()
+        public virtual IWeapon Next()
         {
-            return null;
+            if (next == null)
+                next = new TargetingMineLauncher(SceneMgr, Owner);
+            
+            return next;
         }
 
         public void Shoot(Point point)
@@ -44,7 +50,7 @@ namespace Orbit.Core.Weapons
             }
         }
 
-        private void SpawnMine(Point point)
+        protected virtual void SpawnMine(Point point)
         {
                 SingularityMine mine = SceneObjectFactory.CreateDroppingSingularityMine(SceneMgr, point, Owner);
 
@@ -63,7 +69,7 @@ namespace Orbit.Core.Weapons
             return ReloadTime <= 0;
         }
 
-        public void triggerUpgrade(IWeapon old)
+        public virtual void TriggerUpgrade(IWeapon old)
         {
             if (old != null)
                 old.SceneMgr.StateMgr.RemoveGameState(old);

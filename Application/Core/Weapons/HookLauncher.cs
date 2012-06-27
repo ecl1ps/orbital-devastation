@@ -15,7 +15,7 @@ using System.Windows.Input;
 
 namespace Orbit.Core.Weapons
 {
-    class HookLauncher : IWeapon
+    public class HookLauncher : IWeapon
     {
         public Player Owner { get; set; }
         public SceneMgr SceneMgr { get; set; }
@@ -76,7 +76,7 @@ namespace Orbit.Core.Weapons
             return (hook == null || hook.Dead) && ReloadTime <= 0;
         }
 
-        virtual public void triggerUpgrade(IWeapon old)
+        public virtual void TriggerUpgrade(IWeapon old)
         {
             if (old != null)
                 old.SceneMgr.StateMgr.RemoveGameState(old);
@@ -96,7 +96,7 @@ namespace Orbit.Core.Weapons
                 Shoot(point);
         }
 
-        public void Update(float tpf)
+        public virtual void Update(float tpf)
         {
             if (ReloadTime > 0)
                 ReloadTime -= tpf;

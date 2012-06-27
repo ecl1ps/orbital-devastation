@@ -68,7 +68,7 @@ namespace Orbit.Core.Weapons
             return ReloadTime <= 0;
         }
 
-        public void triggerUpgrade(IWeapon old)
+        public void TriggerUpgrade(IWeapon old)
         {
             if(old != null)
                 old.SceneMgr.StateMgr.RemoveGameState(old);

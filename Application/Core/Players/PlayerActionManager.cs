@@ -24,6 +24,7 @@ namespace Orbit.Core.Players
 
         private BuyActionUC HealActionWindow;
         private BuyActionUC HookActionWindow;
+        private BuyActionUC MineActionWindow;
 
         public PlayerActionManager(SceneMgr manager)
         {
@@ -62,6 +63,19 @@ namespace Orbit.Core.Players
                 CreateWeaponAction(mgr.GetCurrentPlayer().Hook.Next());
             else
                 RemoveHookAction();
+
+            if (mgr.GetCurrentPlayer().Mine.Next() != null && (mgr.GetCurrentPlayer().Mine.Next().Cost <= mgr.GetCurrentPlayer().Data.Gold))
+                CreateWeaponAction(mgr.GetCurrentPlayer().Mine.Next());
+            else
+                RemoveMineAction();
+        }
+
+        private void RemoveMineAction()
+        {
+            if (MineActionWindow != null && MineActionWindow.IsVisible)
+            {
+                MineActionWindow.Remove();
+            }
         }
 
         private void RemoveHookAction()
@@ -87,6 +101,10 @@ namespace Orbit.Core.Players
                 case WeaponType.HOOK:
                     if (HookActionWindow == null || !HookActionWindow.IsVisible)
                         HookActionWindow = GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, new WeaponActionController(mgr, weapon, mgr.GetCurrentPlayer()));
+                    break;
+                case WeaponType.MINE:
+                    if (MineActionWindow == null || !MineActionWindow.IsVisible)
+                        MineActionWindow = GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, new WeaponActionController(mgr, weapon, mgr.GetCurrentPlayer()));
                     break;
             }
         }

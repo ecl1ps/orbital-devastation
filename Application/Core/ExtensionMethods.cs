@@ -38,6 +38,11 @@ namespace Orbit.Core
             return new Vector(p.X, p.Y);
         }
 
+        public static Vector NormalizeV(this Vector v)
+        {
+            return new Vector(v.X / v.Length, v.Y / v.Length);
+        }
+
         public static Vector Rotate(this Vector vec, double angle)
         {
             double x = ((vec.X * Math.Cos(angle)) - (vec.Y * Math.Sin(angle)));

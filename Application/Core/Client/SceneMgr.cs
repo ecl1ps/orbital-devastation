@@ -441,8 +441,8 @@ namespace Orbit.Core.Client
             if (StaticMouse.Instance != null && StaticMouse.ALLOWED)
                 point = StaticMouse.GetPosition();
 
-            if(e.ChangedButton == MouseButton.Left && e.ButtonState == MouseButtonState.Pressed)
-            if (!IsPointInViewPort(point) && StaticMouse.Instance != null && StaticMouse.ALLOWED)
+            if((e.ChangedButton == MouseButton.Left && e.ButtonState == MouseButtonState.Pressed) &&
+                (!IsPointInViewPort(point) && StaticMouse.Instance != null && StaticMouse.ALLOWED))
             {
                 ProcessStaticMouseActionBarClick(point);
                 return;

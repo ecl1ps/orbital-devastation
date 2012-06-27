@@ -12,14 +12,26 @@ using Orbit.Core.Client;
 
 namespace Orbit.Core.Weapons
 {
-    class DoubleHookLauncher : HookLauncher
+    public class DoubleHookLauncher : HookLauncher
     {
-        private List<Hook> hooks;
+        protected class HookData
+        {
+            public Hook Hook { get; set; }
+            public float Time { get; set; }
+
+            public HookData(Hook hook, float Time)
+            {
+                this.Hook = hook;
+                this.Time = Time;
+            }
+        }
+
+        private List<HookData> hooks;
         private int maxCount;
 
         public DoubleHookLauncher(SceneMgr mgr, Player owner) : base(mgr, owner)
         {
-            hooks = new List<Hook>();
+            hooks = new List<HookData>();
             maxCount = 2;
             Cost = 300;
             Name = "Double hook launcher";
@@ -34,7 +46,7 @@ namespace Orbit.Core.Weapons
         protected override Hook CreateHook(Point point)
         {
             Hook hook = base.CreateHook(point);
-            hooks.Add(hook);
+            hooks.Add(new HookData(hook, SharedDef.HOOK_COOLDOWN));
             return hook;
         }
 
@@ -48,19 +60,24 @@ namespace Orbit.Core.Weapons
         {
             for (int i = hooks.Count - 1; i >= 0; i--)
             {
-                if (hooks.ElementAt(i).Dead)
+                if (hooks.ElementAt(i).Hook.Dead && hooks.ElementAt(i).Time <= 0)
                     hooks.RemoveAt(i);
             }
+        }
+
+        public override void Update(float tpf)
+        {
+            hooks.ForEach(a => a.Time -= tpf);
         }
 
 
         public override void TriggerUpgrade(IWeapon old)
         {
-            base.triggerUpgrade(old);
+            base.TriggerUpgrade(old);
             if (old is HookLauncher)
             {
                 if (!(old as HookLauncher).IsReady())
-                    hooks.Add((old as HookLauncher).getHook());
+                    hooks.Add(new HookData((old as HookLauncher).getHook(), 0));
             }
         }
     }
