@@ -41,9 +41,6 @@ namespace Orbit.Core.AI
 
         public void Update(float tpf)
         {
-            me.Canoon.UpdateTimer(tpf);
-            me.Mine.UpdateTimer(tpf);
-
             if (me.Canoon.IsReady())
                 CannonShoot();
 

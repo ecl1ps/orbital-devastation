@@ -183,7 +183,7 @@ namespace Orbit.Core.Client
                             msg.ReadObjectPlayerData(plr.Data);
 
                             if (plr.Data.PlayerType == PlayerType.BOT)
-                                stateMgr.AddGameState(new SimpleBot(this, objects, plr));
+                                StateMgr.AddGameState(new HookerBot(this, objects, plr));
                             else
                                 FloatingTextMgr.AddFloatingText(plr.Data.Name + " has joined the game",
                                     new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
