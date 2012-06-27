@@ -18,7 +18,7 @@ using System.Diagnostics;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    public class Hook : SpherePoint, ISendable, IRotable
+    public class Hook : SpherePoint, ISendable, IRotable, IDamageable
     {
         public Player Owner { get; set; } // neposilano
         public float Rotation { get; set; }
@@ -95,22 +95,30 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
             if (gold.Enabled)
             {
-                Catch(gold, hitVector);
-                if (SceneMgr.GameType != Gametype.SOLO_GAME)
-                {
-                    NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-                    msg.Write((int)PacketType.HOOK_HIT);
-                    msg.Write(Id);
-                    msg.Write(gold.Id);
-                    msg.Write(gold.Position);
-                    msg.Write(hitVector);
-                    SceneMgr.SendMessage(msg);
-                }
+                    Catch(gold, hitVector);
+                    
+                    if (SceneMgr.GameType != Gametype.SOLO_GAME)
+                    {
+                        NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+                        msg.Write((int)PacketType.HOOK_HIT);
+                        msg.Write(Id);
+                        msg.Write(gold.Id);
+                        msg.Write(gold.Position);
+                        msg.Write(hitVector);
+                        SceneMgr.SendMessage(msg);
+                    }
+
             }
         }
 
         public void Catch(IContainsGold gold, Vector hitVector)
         {
+            if (gold is IDestroyable)
+                (gold as IDestroyable).TakeDamage(0, this);
+
+            if (gold is UnstableAsteroid)
+                return;
+
             GoldObject = gold;
             gold.Enabled = false;
 

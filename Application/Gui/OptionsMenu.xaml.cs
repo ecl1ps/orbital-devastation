@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Orbit.Core.Client;
 using System.IO;
+using Orbit.Core;
 
 namespace Orbit.Gui
 {
@@ -46,12 +47,7 @@ namespace Orbit.Gui
             if (StaticMouse.Instance != null)
                 StaticMouse.Enable(allow);
 
-            using (StreamWriter writer = new StreamWriter("player", false))
-            {
-                writer.WriteLine("name=" + (Application.Current as App).PlayerName);
-                writer.WriteLine("hash=" + (Application.Current as App).PlayerHashId);
-                writer.WriteLine("mouse=" + allow.ToString());
-            }
+            GameProperties.Props.SetAndSave(PropertyKey.STATIC_MOUSE_ENABLED, allow);
         }
     }
 }

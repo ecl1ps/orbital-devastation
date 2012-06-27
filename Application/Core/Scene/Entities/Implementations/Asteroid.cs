@@ -63,7 +63,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 AddControl(c);
         }
 
-        public virtual void TakeDamage(int damage)
+        public virtual void TakeDamage(int damage, ISceneObject from)
         {
             SceneMgr.FloatingTextMgr.AddFloatingText(damage, Center, FloatingTextManager.TIME_LENGTH_1, FloatingTextType.DAMAGE);
 

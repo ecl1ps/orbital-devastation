@@ -17,14 +17,14 @@ namespace Orbit.Core.AI
     /// </summary>
     public class SimpleBot : IGameState
     {
+        public const string NAME = "SimpleBot";
+
         private SceneMgr sceneMgr;
-        private List<ISceneObject> objects;
         private Player me;
 
         public SimpleBot(SceneMgr mgr, List<ISceneObject> objects, Player bot)
         {
             sceneMgr = mgr;
-            this.objects = objects;
             me = bot;
 
             me.Data.MineCooldown = me.Data.MineCooldown * 2.5f;
@@ -53,17 +53,9 @@ namespace Orbit.Core.AI
 
         private void MineDrop()
         {
-            double xMin = 0, xMax = 0;
-            if (me.GetPosition() == PlayerPosition.RIGHT)
-            {
-                xMin = sceneMgr.ViewPortSizeOriginal.Width * 0.1;
-                xMax = sceneMgr.ViewPortSizeOriginal.Width * 0.4;
-            }
-            else
-            {
-                xMin = sceneMgr.ViewPortSizeOriginal.Width * 0.6;
-                xMax = sceneMgr.ViewPortSizeOriginal.Width * 0.9;
-            }
+            Rect opponentLoc = PlayerBaseLocation.GetBaseLocation(me.GetPosition() == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT);
+            double xMin = opponentLoc.X;
+            double xMax = opponentLoc.X + opponentLoc.Width;
             me.Mine.Shoot(new Point(sceneMgr.GetRandomGenerator().Next((int)xMin, (int)xMax), 1));
  
         }
@@ -73,13 +65,13 @@ namespace Orbit.Core.AI
             double xMin = 0, xMax = 0;
             if (me.GetPosition() == PlayerPosition.LEFT)
             {
-                xMin = sceneMgr.ViewPortSizeOriginal.Width * 0.25;
-                xMax = sceneMgr.ViewPortSizeOriginal.Width;
+                xMin = SharedDef.VIEW_PORT_SIZE.Width * 0.25;
+                xMax = SharedDef.VIEW_PORT_SIZE.Width;
             }
             else
             {
                 xMin = 0;
-                xMax = sceneMgr.ViewPortSizeOriginal.Width * 0.75;
+                xMax = SharedDef.VIEW_PORT_SIZE.Width * 0.75;
             }
             me.Canoon.Shoot(new Point(sceneMgr.GetRandomGenerator().Next((int)xMin, (int)xMax), 0));
         }

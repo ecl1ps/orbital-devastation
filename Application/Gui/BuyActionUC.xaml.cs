@@ -18,11 +18,11 @@ using Orbit.Core.Client;
 
 namespace Orbit.Gui
 {
-    public partial class BuyActionWindow : UserControl
+    public partial class BuyActionUC : UserControl
     {
         private ActionController controller;
 
-        private BuyActionWindow(ActionController c)
+        private BuyActionUC(ActionController c)
         {
             controller = c;
             InitializeComponent();
@@ -31,9 +31,9 @@ namespace Orbit.Gui
         /// <summary>
         /// okno musi byt vytvareno statickou tovarni metodou, protoze jinak by slo o nebezpecne publikovani objektu
         /// </summary>
-        public static BuyActionWindow CreateWindow(ActionController c)
+        public static BuyActionUC CreateWindow(ActionController c)
         {
-            BuyActionWindow w = new BuyActionWindow(c);
+            BuyActionUC w = new BuyActionUC(c);
 
             c.Enqueue(new Action(() =>
             {

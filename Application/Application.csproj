@@ -93,9 +93,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Core\AI\HookerBot.cs" />
     <Compile Include="Core\AI\SimpleBot.cs" />
     <Compile Include="Core\Client\FloatingTextManager.cs" />
     <Compile Include="Core\Client\StaticMouse.cs" />
+    <Compile Include="Core\GameProperties.cs" />
     <Compile Include="Core\GameStateManager.cs" />
     <Compile Include="Core\Helpers\CollisionHelper.cs" />
     <Compile Include="Core\ExtensionMethods.cs" />
@@ -106,11 +108,16 @@
     <Compile Include="Core\Players\Player.cs" />
     <Compile Include="Core\Players\PlayerData.cs" />
     <Compile Include="Core\Players\ScoreDefines.cs" />
+    <Compile Include="Core\Properties.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\VectorLineObjectMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DroppingSingularityControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\FiringSingularityControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\HookControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\NewtonianMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LinearRotationControl.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\Circle.cs" />
+    <Compile Include="Core\Scene\Entities\VectorLine.cs" />
+    <Compile Include="Core\Scene\Entities\IDamageable.cs" />
     <Compile Include="Core\Scene\Entities\IDestroyable.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\MinorAsteroid.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\SingularityExplodingBullet.cs" />
@@ -170,6 +177,9 @@
     <Compile Include="Gui\ScoreboardUC.xaml.cs">
       <DependentUpon>ScoreboardUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\StatisticsUC.xaml.cs">
+      <DependentUpon>StatisticsUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Scene\Controls\Control.cs" />
     <Compile Include="Core\Scene\Controls\IControl.cs" />
@@ -196,8 +206,8 @@
     <Compile Include="Core\Server\ServerSceneObjectFactory.cs" />
     <Compile Include="Core\Server\ServerMgr.cs" />
     <Compile Include="Core\Server\ServerMgr.Net.cs" />
-    <Compile Include="Gui\BuyActionWindow.xaml.cs">
-      <DependentUpon>BuyActionWindow.xaml</DependentUpon>
+    <Compile Include="Gui\BuyActionUC.xaml.cs">
+      <DependentUpon>BuyActionUC.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -263,7 +273,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Gui\BuyActionWindow.xaml">
+    <Page Include="Gui\BuyActionUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -275,9 +285,16 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Gui\StatisticsUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <Resource Include="resources\images\mouse\targeting_icon2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="resources\images\mouse\targeting_icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

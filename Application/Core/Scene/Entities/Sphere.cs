@@ -45,6 +45,9 @@ namespace Orbit.Core.Scene.Entities
             return true;
         }
 
+        /// <summary>
+        /// tuto metodu neprepisovat - pouzit UpdateGeometricState()
+        /// </summary>
         public override void UpdateGeometric()
         {
             geometryElement.Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
@@ -57,18 +60,24 @@ namespace Orbit.Core.Scene.Entities
             }));
         }
 
-        protected abstract void UpdateGeometricState();
+        /// <summary>
+        /// tato metoda je volana ve vlaknu GUI -> NEPOSILAT PRES DISPATCHER
+        /// </summary>
+        protected virtual void UpdateGeometricState() 
+        {
+
+        }
 
         public virtual bool CollideWith(ICollidable other)
         {
             if (other is SpherePoint)
-                return CollisionHelper.intersectsCircleAndPoint(((SpherePoint)other).Center, Center, Radius);
+                return CollisionHelper.IntersectsCircleAndPoint(((SpherePoint)other).Center, Center, Radius);
 
             if (other is Sphere)
-                return CollisionHelper.intersectsCircleAndCircle(Center, Radius, (other as Sphere).Center, (other as Sphere).Radius);
+                return CollisionHelper.IntersectsCircleAndCircle(Center, Radius, (other as Sphere).Center, (other as Sphere).Radius);
 
             if (other is Square)
-                return CollisionHelper.intersectsCircleAndSquare(Center, Radius, (other as Base).Position, (other as Base).Size);
+                return CollisionHelper.IntersectsCircleAndSquare(Center, Radius, (other as Base).Position, (other as Base).Size);
 
             return false;
         }

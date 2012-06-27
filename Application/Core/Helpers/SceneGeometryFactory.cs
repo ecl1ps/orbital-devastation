@@ -54,6 +54,23 @@ namespace Orbit.Core.Helpers
             return path;
         }
 
+        public static Path CreateRadialGradientEllipseGeometry(Circle s)
+        {
+            Path path = null;
+            s.SceneMgr.Invoke(new Action(() =>
+            {
+                EllipseGeometry geom = new EllipseGeometry(new Point(), s.Radius, s.Radius);
+                path = new Path();
+                path.Data = geom;
+                path.Fill = new SolidColorBrush(s.Color);
+                path.Stroke = Brushes.Black;
+                Canvas.SetLeft(path, s.Position.X);
+                Canvas.SetTop(path, s.Position.Y);
+            }));
+
+            return path;
+        }
+
         public static Image CreateAsteroidImage(Asteroid s)
         {
             s.HasPositionInCenter = false;
@@ -176,6 +193,23 @@ namespace Orbit.Core.Helpers
             }));
 
             return img;
+        }
+
+        public static Line CreateLineGeometry(VectorLine l)
+        {
+            Line line = null;
+            l.SceneMgr.Invoke(new Action(() =>
+            {
+                line = new Line();
+                line.Stroke = new SolidColorBrush(l.Color);
+                line.X1 = l.Position.X;
+                line.Y1 = l.Position.Y;
+                line.X2 = l.Position.X + l.Direction.X;
+                line.Y2 = l.Position.Y + l.Direction.Y;
+                line.StrokeThickness = 1;
+            }));
+
+            return line;
         }
     }
 }

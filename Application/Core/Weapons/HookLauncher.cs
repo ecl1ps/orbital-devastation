@@ -49,8 +49,8 @@ namespace Orbit.Core.Weapons
 
         protected virtual void SpawnHook(Point point)
         {
-            if (point.Y > Owner.VectorPosition.Y - 5)
-                point.Y = Owner.VectorPosition.Y - 5;
+            if (point.Y > Owner.GetBaseLocation().Y - 5)
+                point.Y = Owner.GetBaseLocation().Y - 5;
 
             if (IsReady())
             {
@@ -77,6 +77,17 @@ namespace Orbit.Core.Weapons
         public void UpdateTimer(float value)
         {
             //i dont need this
+        }
+
+
+        virtual public void TriggerUpgrade(IWeapon old)
+        {
+            //i dont need this
+        }
+
+        public Hook getHook()
+        {
+            return hook;
         }
     }
 }

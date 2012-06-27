@@ -1,4 +1,5 @@
 ﻿
+using System.Windows;
 namespace Orbit.Core
 {
     class SharedDef
@@ -22,11 +23,11 @@ namespace Orbit.Core
         public const int MIN_ASTEROID_ROTATION_SPEED        = -10;
         public const int MAX_ASTEROID_ROTATION_SPEED        =  10;
 
-        public const int ASTEROID_COUNT                     = 20;
+        public const int ASTEROID_COUNT                     = 30;
         public const int GOLD_ASTEROID_BONUS_MULTIPLY       = 10;
 
         public const int ASTEROID_GOLD_CHANCE               = 25; // (0 - 100)
-        public const int ASTEROID_UNSTABLE_CHANCE           = 50; // 10 procent, musi se brat ohled na chance ostatnich typu
+        public const int ASTEROID_UNSTABLE_CHANCE           = 80; // 10 procent, musi se brat ohled na chance ostatnich typu
 
         public const int BASE_MAX_INGERITY                  = 100;
 
@@ -66,15 +67,31 @@ namespace Orbit.Core
 
         public const bool ALLOW_SPECTATORS_IN_DUO_MATCH     = true;
 
-        public const int START_GOLD                         = 100;
+        public const int START_GOLD                         = 500;
+
+        /// <summary>
+        /// velikost canvasu je zaroven velikost celeho okna
+        /// </summary>
+        public static Size CANVAS_SIZE = new Size(1000, 700);
+
+        /// <summary>
+        /// view port je oblast, kde se odehrava cela hra - mimo ni by se nemelo nic dit (mimo je pak action bar)
+        /// </summary>
+        public static Size VIEW_PORT_SIZE = new Size(CANVAS_SIZE.Width, CANVAS_SIZE.Height - 50); // 50 JSOU BARY DOLE
+
+        /// <summary>
+        /// orbit area je horni oblast obrazovky - pas kde se pohybuji asteroidy
+        /// </summary>
+        public static Rect ORBIT_AREA = new Rect(0, 0, CANVAS_SIZE.Width, 200);
+
+        public const string CONFIG_FILE                     = "player";
     }
 
     public enum Gametype
     {
         NONE,
         SOLO_GAME,
-        SERVER_GAME,
-        CLIENT_GAME,
+        MULTIPLAYER_GAME,
         TOURNAMENT_GAME
     }
 
@@ -100,6 +117,7 @@ namespace Orbit.Core
 
         ALL_ASTEROIDS,
         NEW_ASTEROID,
+        MINOR_ASTEROID_SPAWN,
         NEW_SINGULARITY_MINE,
         NEW_SINGULARITY_BULLET,
         NEW_HOOK,

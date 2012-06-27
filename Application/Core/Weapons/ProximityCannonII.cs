@@ -30,8 +30,8 @@ namespace Orbit.Core.Weapons
 
         protected override void SpawnBullet(Point point)
         {
-            if (point.Y > Owner.VectorPosition.Y)
-                point.Y = Owner.VectorPosition.Y;
+            if (point.Y > Owner.GetBaseLocation().Y)
+                point.Y = Owner.GetBaseLocation().Y;
 
             SingularityExplodingBullet bullet = SceneObjectFactory.CreateSingularityExploadingBullet(SceneMgr, point, Owner);
 

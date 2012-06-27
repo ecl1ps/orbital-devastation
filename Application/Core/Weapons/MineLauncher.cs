@@ -68,5 +68,11 @@ namespace Orbit.Core.Weapons
             if (ReloadTime > 0)
                 ReloadTime -= value;
         }
+
+
+        public void TriggerUpgrade(IWeapon old)
+        {
+            //i dont need this
+        }
     }
 }

@@ -22,9 +22,9 @@ namespace Orbit.Core.Players
 
         public ActionBar ActionBar { get; set; }
 
-        private BuyActionWindow HealActionWindow;
-        private BuyActionWindow HookActionWindow;
-        private BuyActionWindow CannonActionWindow;
+        private BuyActionUC HealActionWindow;
+        private BuyActionUC HookActionWindow;
+        private BuyActionUC CannonActionWindow;
 
         public PlayerActionManager(SceneMgr manager)
         {
@@ -36,12 +36,7 @@ namespace Orbit.Core.Players
         {
             mgr.Invoke(new Action(() =>
             {
-                ActionBar = new ActionBar();
-                ActionBar.RenderTransform = new ScaleTransform(0.8, 0.8);
-                mgr.GetCanvas().Children.Add(ActionBar);
-                Canvas.SetLeft(ActionBar, 10);
-                Canvas.SetTop(ActionBar, mgr.ViewPortSizeOriginal.Height * (SharedDef.ACTION_BAR_TOP_MARGIN_PCT));
-                Canvas.SetZIndex(ActionBar, 100);
+                ActionBar = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "ActionBarUC") as ActionBar;
             }));
         }
 

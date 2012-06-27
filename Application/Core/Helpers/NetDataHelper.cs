@@ -72,6 +72,20 @@ namespace Orbit.Core.Helpers
             a.Gold = msg.ReadInt32();
         }
 
+        public static void WriteObjectMinorAsteroid(this NetOutgoingMessage msg, MinorAsteroid a)
+        {
+            msg.WriteObjectAsteroid(a);
+            msg.Write(a.Direction);
+            msg.Write(a.Parent.Id);
+        }
+
+        public static void ReadObjectMinorAsteroid(this NetIncomingMessage msg, MinorAsteroid a)
+        {
+            msg.ReadObjectAsteroid(a);
+            a.Direction = msg.ReadVector();
+        }
+
+
         public static void WriteObjectSingularityMine(this NetOutgoingMessage msg, SingularityMine s)
         {
             msg.WriteObjectSphere(s);
@@ -290,6 +304,7 @@ namespace Orbit.Core.Helpers
             msg.Write(d.Name);
             msg.Write(d.Active);
             msg.Write((byte)d.PlayerType);
+            msg.Write((byte)d.BotType);
 
             msg.Write(d.MineCooldown);
             msg.Write(d.MineGrowthSpeed);
@@ -324,6 +339,7 @@ namespace Orbit.Core.Helpers
             d.Name = msg.ReadString();
             d.Active = msg.ReadBoolean();
             d.PlayerType = (PlayerType)msg.ReadByte();
+            d.BotType = (BotType)msg.ReadByte();
 
             d.MineCooldown = msg.ReadFloat();
             d.MineGrowthSpeed = msg.ReadFloat();

@@ -52,5 +52,15 @@ namespace Orbit.Core.Weapons
                     hooks.RemoveAt(i);
             }
         }
+
+
+        public override void TriggerUpgrade(IWeapon old)
+        {
+            if (old is HookLauncher)
+            {
+                if (!(old as HookLauncher).IsReady())
+                    hooks.Add((old as HookLauncher).getHook());
+            }
+        }
     }
 }

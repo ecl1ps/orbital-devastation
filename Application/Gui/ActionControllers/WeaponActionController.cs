@@ -19,7 +19,7 @@ namespace Orbit.Gui.ActionControllers
             this.player = player;
         }
 
-        public override void ActionClicked(BuyActionWindow window)
+        public override void ActionClicked(BuyActionUC window)
         {
             if (player.Data.Gold >= weapon.Cost)
             {
@@ -42,17 +42,17 @@ namespace Orbit.Gui.ActionControllers
             }
         }
 
-        public override void CreateHeaderText(BuyActionWindow window)
+        public override void CreateHeaderText(BuyActionUC window)
         {
             window.SetHeaderText(weapon.Name);
         }
 
-        public override void CreatePriceText(BuyActionWindow window)
+        public override void CreatePriceText(BuyActionUC window)
         {
             window.SetPriceText("Costs " + weapon.Cost + " credits");
         }
 
-        public override void CreateImageUriString(BuyActionWindow window)
+        public override void CreateImageUriString(BuyActionUC window)
         {
             window.SetImageUri("pack://application:,,,/resources/images/icons/upgrade.png");
         }

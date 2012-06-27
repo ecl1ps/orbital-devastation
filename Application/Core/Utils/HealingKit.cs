@@ -34,7 +34,7 @@ namespace Orbit.Core.Utils
                 if (owner.GetBaseIntegrity() > SharedDef.BASE_MAX_INGERITY)
                     owner.SetBaseIntegrity(SharedDef.BASE_MAX_INGERITY);
 
-                Vector textPos = new Vector(owner.VectorPosition.X + (owner.Baze.Size.Width / 2) - 30, owner.VectorPosition.Y - 30);
+                Vector textPos = new Vector(owner.GetBaseLocation().X + (owner.GetBaseLocation().Width / 2), owner.GetBaseLocation().Y - 20);
                 mgr.FloatingTextMgr.AddFloatingText("+ " + SharedDef.HEAL_AMOUNT, textPos, FloatingTextManager.TIME_LENGTH_3, 
                     FloatingTextType.HEAL, FloatingTextManager.SIZE_BIG, true);
 

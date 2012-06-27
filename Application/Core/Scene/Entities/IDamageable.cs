@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Orbit.Core.Players;
 
 namespace Orbit.Core.Scene.Entities
 {
-    public interface IDestroyable : ISceneObject
+    public interface IDamageable : ISceneObject
     {
-        void TakeDamage(int damage, ISceneObject from);
+        Player Owner { get; set; }
     }
 }

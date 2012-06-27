@@ -27,8 +27,8 @@ namespace Orbit.Core.Helpers
             baze.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
             baze.BasePosition = plr.Data.PlayerPosition;
             baze.Color = plr.Data.PlayerColor;
-            baze.Position = plr.VectorPosition;
-            baze.Size = new Size(mgr.ViewPortSizeOriginal.Width * 0.3, mgr.ViewPortSizeOriginal.Height * 0.15);
+            baze.Position = new Vector(plr.GetBaseLocation().X, plr.GetBaseLocation().Y);
+            baze.Size = new Size(plr.GetBaseLocation().Width, plr.GetBaseLocation().Height);
 
             baze.SetGeometry(SceneGeometryFactory.CreateLinearGradientRectangleGeometry(baze));
 
@@ -78,11 +78,9 @@ namespace Orbit.Core.Helpers
 
         public static SingularityBullet CreateSingularityBullet(SceneMgr mgr, Point point, Player plr)
         {
-            Vector position = plr.VectorPosition;
-            position.X += (plr.Baze.Size.Width / 2);
+            Vector position = new Vector(plr.GetBaseLocation().X + plr.GetBaseLocation().Width / 2, plr.GetBaseLocation().Y);
             Vector direction = point.ToVector() - position;
             direction.Normalize();
-
 
             SingularityBullet bullet = new SingularityBullet(mgr);
             bullet.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
@@ -105,9 +103,7 @@ namespace Orbit.Core.Helpers
 
         public static Hook CreateHook(SceneMgr mgr, Point point, Player player)
         {
-            Vector position = player.VectorPosition;
-            position.X += (player.Baze.Size.Width / 2);
-            position.Y -= 5;
+            Vector position = new Vector(player.GetBaseLocation().X + player.GetBaseLocation().Width / 2, player.GetBaseLocation().Y - 5);
             Vector direction = point.ToVector() - position;
             direction.Normalize();
 
@@ -140,10 +136,72 @@ namespace Orbit.Core.Helpers
             return hook;
         }
 
+        public static MinorAsteroid CreateSmallAsteroid(SceneMgr mgr, long id, Vector direction, Vector center, int rot, int textureId, int radius, double rotation)
+        {
+            MinorAsteroid asteroid = new MinorAsteroid(mgr);
+            asteroid.AsteroidType = AsteroidType.SPAWNED;
+            asteroid.Id = id;
+            asteroid.Rotation = rot;
+            asteroid.Direction = direction.Rotate(rotation);
+            asteroid.Radius = radius;
+            asteroid.Position = center;
+            asteroid.Gold = radius * 2;
+            asteroid.TextureId = textureId;
+            asteroid.Enabled = true;
+            asteroid.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(asteroid));
+
+            NewtonianMovementControl nmc = new NewtonianMovementControl();
+            nmc.InitialSpeed = 1;
+            asteroid.AddControl(nmc);
+
+            LinearRotationControl lrc = new LinearRotationControl();
+            lrc.RotationSpeed = mgr.GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_ROTATION_SPEED, SharedDef.MAX_ASTEROID_ROTATION_SPEED) / 10.0f;
+            asteroid.AddControl(lrc);
+
+            return asteroid;
+        }
+
+        public static VectorLine CreateVectorLine(SceneMgr mgr, Vector origin, Vector vector, Color color, ISceneObject parent = null)
+        {
+            VectorLine l = new VectorLine(mgr);
+            l.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
+            l.Position = origin;
+            l.Direction = vector;
+            l.Color = color;
+
+            if (parent != null)
+            {
+                VectorLineObjectMovementControl c = new VectorLineObjectMovementControl();
+                c.Parent = parent;
+                l.AddControl(c);
+            }
+
+            l.SetGeometry(SceneGeometryFactory.CreateLineGeometry(l));
+
+            return l;
+        }
+
+        public static Circle CreateCircle(SceneMgr mgr, Vector point, Color color)
+        {
+            Circle c = new Circle(mgr);
+            c.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
+            c.Position = point;
+            c.Radius = 4;
+            c.Color = color;
+
+            c.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(c));
+
+            mgr.BeginInvoke(new Action(() =>
+            {
+                Canvas.SetZIndex(c.GetGeometry(), 500);
+            }));
+
+            return c;
+        }
+        
         public static SingularityExplodingBullet CreateSingularityExploadingBullet(SceneMgr mgr, Point point, Player plr)
         {
-            Vector position = plr.VectorPosition;
-            position.X += (plr.Baze.Size.Width / 2);
+            Vector position = new Vector(plr.GetBaseLocation().X + plr.GetBaseLocation().Width / 2, plr.GetBaseLocation().Y);
             Vector direction = point.ToVector() - position;
             direction.Normalize();
 
@@ -170,5 +228,6 @@ namespace Orbit.Core.Helpers
 
             return bullet;
         }
+
     }
 }

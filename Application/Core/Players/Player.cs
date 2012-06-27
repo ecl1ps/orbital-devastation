@@ -23,9 +23,42 @@ namespace Orbit.Core.Players
         public NetConnection Connection { get; set; }
         public Base Baze  { get; set; }
 
-        public IWeapon Hook { get; set; }
-        public IWeapon Mine { get; set; }
-        public IWeapon Canoon { get; set; }
+        private IWeapon hook;
+        public IWeapon Hook {
+            get
+            {
+                return hook;
+            }
+            set
+            {
+                value.TriggerUpgrade(hook);
+                hook = value;
+            }
+        }
+        private IWeapon mine;
+        public IWeapon Mine {
+            get
+            {
+                return mine;
+            }
+            set
+            {
+                value.TriggerUpgrade(mine);
+                mine = value;
+            }
+        }
+        private IWeapon canoon;
+        public IWeapon Canoon {
+            get
+            {
+                return canoon;
+            }
+            set
+            {
+                value.TriggerUpgrade(canoon);
+                canoon = value;
+            }
+        }
 
         public bool Shooting { get; set; }
         public Point TargetPoint { get; set; }
@@ -34,28 +67,6 @@ namespace Orbit.Core.Players
 
         private float scoreUpdateTimer = 0;
         private int lastScoreValue = 0;
-
-        public Vector VectorPosition
-        {
-            get
-            {
-                Vector vector = new Vector(SceneMgr.ViewPortSizeOriginal.Width, SceneMgr.ViewPortSizeOriginal.Height * 0.85);
-
-                switch (Data.PlayerPosition)
-                {
-                    case PlayerPosition.LEFT:
-                        vector.X *= 0.1;
-                        break;
-                    case PlayerPosition.RIGHT:
-                        vector.X *= 0.6;
-                        break;
-                    default:
-                        return new Vector();
-                }
-
-                return vector;
-            }
-        }
 
         public Player(SceneMgr mgr)
         {
@@ -72,7 +83,8 @@ namespace Orbit.Core.Players
 
         public void AddGoldAndShow(int gold)
         {
-            AddScoreAndShow((int)(gold * ScoreDefines.GOLD_TAKEN));
+            if (gold > 0)
+                AddScoreAndShow((int)(gold * ScoreDefines.GOLD_TAKEN));
 
             Data.Gold += gold;
 
@@ -215,6 +227,11 @@ namespace Orbit.Core.Players
         {
             return (Data.PlayerType == PlayerType.BOT) || (Connection != null && (Connection.Status == NetConnectionStatus.Connected || Connection.Status == NetConnectionStatus.RespondedAwaitingApproval));
         }
+
+        public Rect GetBaseLocation()
+        {
+            return PlayerBaseLocation.GetBaseLocation(Data.PlayerPosition);
+        }
     }
 
     public enum PlayerPosition
@@ -228,5 +245,15 @@ namespace Orbit.Core.Players
     {
         HUMAN,
         BOT
+    }
+
+    public enum BotType
+    {
+        NONE,
+        LEVEL1,
+        LEVEL2,
+        LEVEL3,
+        LEVEL4,
+        LEVEL5
     }
 }

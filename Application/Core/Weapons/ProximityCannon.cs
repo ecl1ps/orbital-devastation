@@ -49,8 +49,8 @@ namespace Orbit.Core.Weapons
 
         protected virtual void SpawnBullet(Point point)
         {
-            if (point.Y > Owner.VectorPosition.Y)
-                point.Y = Owner.VectorPosition.Y;
+            if (point.Y > Owner.GetBaseLocation().Y)
+                point.Y = Owner.GetBaseLocation().Y;
 
             SingularityBullet bullet = SceneObjectFactory.CreateSingularityBullet(SceneMgr, point, Owner);
 
@@ -73,6 +73,12 @@ namespace Orbit.Core.Weapons
         {
             if (ReloadTime > 0)
                 ReloadTime -= value;
+        }
+
+
+        public void TriggerUpgrade(IWeapon old)
+        {
+            //i dont need this
         }
     }
 }

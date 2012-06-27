@@ -22,6 +22,7 @@ namespace Orbit.Core.Players
         public int Id { get; set; }
         public string HashId { get; set; }
         public PlayerType PlayerType { get; set; }
+        public BotType BotType { get; set; }
         public string Name { get; set; }
         public bool Active { get; set; }
         public PlayerPosition PlayerPosition { get; set; }
@@ -52,6 +53,7 @@ namespace Orbit.Core.Players
             Score = 0;
             Gold = SharedDef.START_GOLD;
             PlayerType = PlayerType.HUMAN;
+            BotType = BotType.NONE;
             BaseIntegrity = SharedDef.BASE_MAX_INGERITY;
             PlayerColor = Colors.Black;
             MineGrowthSpeed = SharedDef.MINE_GROWTH_SPEED;
@@ -63,6 +65,25 @@ namespace Orbit.Core.Players
             BulletDamage = SharedDef.BULLET_DMG;
             HookLenght = SharedDef.HOOK_LENGHT;
             HookSpeed = SharedDef.HOOK_SPEED;
+        }
+    }
+
+    public class PlayerBaseLocation
+    {
+        private static Rect BASE_LEFT = new Rect(SharedDef.VIEW_PORT_SIZE.Width * 0.1, SharedDef.VIEW_PORT_SIZE.Height * 0.9,
+                                                 SharedDef.VIEW_PORT_SIZE.Width * 0.3, SharedDef.VIEW_PORT_SIZE.Height * 0.1);
+
+        private static Rect BASE_RIGHT = new Rect(SharedDef.VIEW_PORT_SIZE.Width * 0.6, SharedDef.VIEW_PORT_SIZE.Height * 0.9,
+                                                  SharedDef.VIEW_PORT_SIZE.Width * 0.3, SharedDef.VIEW_PORT_SIZE.Height * 0.1);
+
+        public static Rect GetBaseLocation(Player p)
+        {
+            return GetBaseLocation(p.Data.PlayerPosition);
+        }
+
+        public static Rect GetBaseLocation(PlayerPosition pos)
+        {
+            return pos == PlayerPosition.LEFT ? BASE_LEFT : BASE_RIGHT;
         }
     }
 }

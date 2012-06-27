@@ -183,10 +183,10 @@ namespace Orbit.Core.Client
                             msg.ReadObjectPlayerData(plr.Data);
 
                             if (plr.Data.PlayerType == PlayerType.BOT)
-                                stateMgr.AddGameState(new SimpleBot(this, objects, plr));
+                                stateMgr.AddGameState(CreateBot(plr));
                             else
                                 FloatingTextMgr.AddFloatingText(plr.Data.Name + " has joined the game",
-                                    new Vector(ViewPortSizeOriginal.Width / 2 - 100, ViewPortSizeOriginal.Height / 2 - 50),
+                                    new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
                                     FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
                         }
                         else // hrace uz zname, ale mohl se zmenit jeho stav na active a take se mohly zmenit dalsi player data
@@ -239,6 +239,38 @@ namespace Orbit.Core.Client
                         s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s));
                         DelayedAttachToScene(s);
                         SyncReceivedObject(s, msg);
+                    }
+                    break;
+                case PacketType.MINOR_ASTEROID_SPAWN:
+                    {
+                        int radius = msg.ReadInt32();
+                        Vector direction = msg.ReadVector();
+                        Vector center = msg.ReadVector();
+                        int rot = msg.ReadInt32();
+                        int textureId = msg.ReadInt32();
+                        int destoryerId = msg.ReadInt32();
+                        long id1 = msg.ReadInt64();
+                        long id2 = msg.ReadInt64();
+                        long id3 = msg.ReadInt64();
+
+                        MinorAsteroid a1 = SceneObjectFactory.CreateSmallAsteroid(this, id1, direction, center, rot, textureId, radius, Math.PI / 12);
+                        MinorAsteroid a2 = SceneObjectFactory.CreateSmallAsteroid(this, id2, direction, center, rot, textureId, radius, 0);
+                        MinorAsteroid a3 = SceneObjectFactory.CreateSmallAsteroid(this, id3, direction, center, rot, textureId, radius, -Math.PI / 12);
+
+                        UnstableAsteroid p = new UnstableAsteroid(this);
+                        p.Destroyer = destoryerId;
+
+                        a1.Parent = p;
+                        a2.Parent = p;
+                        a3.Parent = p;
+
+                        DelayedAttachToScene(a1);
+                        DelayedAttachToScene(a2);
+                        DelayedAttachToScene(a3);
+
+                        SyncReceivedObject(a1, msg);
+                        SyncReceivedObject(a2, msg);
+                        SyncReceivedObject(a3, msg);
                     }
                     break;
                 case PacketType.NEW_SINGULARITY_MINE:
@@ -365,30 +397,37 @@ namespace Orbit.Core.Client
                     long aId = msg.ReadInt64();
                     int damage = msg.ReadInt32();
 
+                    SingularityBullet bullet = null;
+
                     foreach (ISceneObject obj in objects)
                     {
                         if (obj.Id == bulletId)
                         {
-                            if(obj is SingularityBullet) 
+                            if (obj is SingularityBullet) 
                             {
-                                SingularityBullet bullet = obj as SingularityBullet;
+                                bullet = obj as SingularityBullet;
                                 bullet.DoRemoveMe();
                             }
                             else
                                 Console.Error.WriteLine("Object id " + bulletId + " (" + obj.GetType().Name + ") is supposed to be a instance of SingularityBullet but it is not");
 
-                            continue;
+                            break;
                         }
+                    }
 
+                    foreach (ISceneObject obj in objects)
+                    {
                         if (obj.Id != aId)
                             continue;
 
                         if (obj is IDestroyable)
                         {
-                            (obj as IDestroyable).TakeDamage(damage);
-                        } 
+                            (obj as IDestroyable).TakeDamage(damage, bullet);
+                        }
                         else
                             Console.Error.WriteLine("Object id " + bulletId + " (" + obj.GetType().Name + ") is supposed to be a instance of IDestroyable but it is not");
+
+                        break;
                     }
                     break;
                 case PacketType.BASE_INTEGRITY_CHANGE:
@@ -398,7 +437,7 @@ namespace Orbit.Core.Client
                     {
                         Player p = GetPlayer(msg.ReadInt32());
                         int newIntegrity = msg.ReadInt32();
-                        Vector textPos = new Vector(p.VectorPosition.X + (p.Baze.Size.Width / 2), p.VectorPosition.Y - 10);
+                        Vector textPos = new Vector(p.GetBaseLocation().X + (p.GetBaseLocation().Width / 2), p.GetBaseLocation().Y - 20);
                         FloatingTextMgr.AddFloatingText("+ " + (newIntegrity - p.GetBaseIntegrity()), textPos, 
                             FloatingTextManager.TIME_LENGTH_3, FloatingTextType.HEAL, FloatingTextManager.SIZE_BIG, true);
                         p.SetBaseIntegrity(newIntegrity);
@@ -416,7 +455,7 @@ namespace Orbit.Core.Client
                     string rightPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.RIGHT).Data.Name;
 
                     InitStaticMouse();
-                    (Application.Current as App).setGameStarted(true);
+                    (Application.Current as App).SetGameStarted(true);
 
                     foreach (Player p in players)
                         if (p.IsActivePlayer())
@@ -452,9 +491,8 @@ namespace Orbit.Core.Client
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
                         (Application.Current as App).CreateGameGui(false);
-                        (Application.Current as App).setGameStarted(true);
-                        Canvas c = (Application.Current as App).GetCanvas();
-                        SetCanvas(c, new Size(c.Width, c.Height));
+                        (Application.Current as App).SetGameStarted(true);
+                        SetCanvas((Application.Current as App).GetCanvas());
                     }));
                     
                     actionMgr = new PlayerActionManager(this);
@@ -486,12 +524,12 @@ namespace Orbit.Core.Client
                 case PacketType.PLAYER_DISCONNECTED:
                     Player disconnected = GetPlayer(msg.ReadInt32());
 
-                    FloatingTextMgr.AddFloatingText(disconnected.Data.Name + " has disconnected", 
-                        new Vector(ViewPortSizeOriginal.Width / 2 - 100, ViewPortSizeOriginal.Height / 2 - 50), 
+                    FloatingTextMgr.AddFloatingText(disconnected.Data.Name + " has disconnected",
+                        new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50), 
                         FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
 
                     players.Remove(disconnected);
-                    (Application.Current as App).setGameStarted(false);
+                    (Application.Current as App).SetGameStarted(false);
 
                     if (disconnected.IsActivePlayer())
                         EndGame(disconnected, GameEnd.LEFT_GAME);
@@ -507,6 +545,22 @@ namespace Orbit.Core.Client
                     break;
             }
 
+        }
+
+        private IGameState CreateBot(Player plr)
+        {
+            switch (plr.Data.BotType)
+            {
+                case BotType.LEVEL1:
+                    return new SimpleBot(this, objects, plr);
+                case BotType.LEVEL2:
+                    return new HookerBot(this, objects, plr);
+                case BotType.LEVEL3:
+                case BotType.LEVEL4:
+                case BotType.LEVEL5:
+                default:
+                    return null;
+            }
         }
 
         private Asteroid CreateNewAsteroid(AsteroidType asteroidType)
