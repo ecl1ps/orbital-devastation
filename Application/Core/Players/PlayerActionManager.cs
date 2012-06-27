@@ -24,6 +24,7 @@ namespace Orbit.Core.Players
 
         private BuyActionWindow HealActionWindow;
         private BuyActionWindow HookActionWindow;
+        private BuyActionWindow CannonActionWindow;
 
         public PlayerActionManager(SceneMgr manager)
         {
@@ -67,6 +68,19 @@ namespace Orbit.Core.Players
                 CreateWeaponAction(mgr.GetCurrentPlayer().Hook.Next());
             else
                 RemoveHookAction();
+
+            if (mgr.GetCurrentPlayer().Canoon.Next() != null && (mgr.GetCurrentPlayer().Canoon.Next().Cost <= mgr.GetCurrentPlayer().Data.Gold))
+                CreateWeaponAction(mgr.GetCurrentPlayer().Canoon.Next());
+            else
+                RemoveCannonAction();
+        }
+
+        private void RemoveCannonAction()
+        {
+            if (CannonActionWindow != null && CannonActionWindow.IsVisible)
+            {
+                CannonActionWindow.Remove();
+            }
         }
 
         private void RemoveHookAction()
@@ -93,6 +107,10 @@ namespace Orbit.Core.Players
                     if (HookActionWindow == null || !HookActionWindow.IsVisible)
                         HookActionWindow = GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, new WeaponActionController(mgr, weapon, mgr.GetCurrentPlayer()));
                     break;
+                case WeaponType.CANNON:
+                    if (CannonActionWindow == null || !CannonActionWindow.IsVisible)
+                        CannonActionWindow = GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, new WeaponActionController(mgr, weapon, mgr.GetCurrentPlayer()));
+                    break;
             }
         }
 
@@ -104,7 +122,7 @@ namespace Orbit.Core.Players
             }
         }
 
-        public void HideWeaponAction(IWeapon weapon)
+       /* public void HideWeaponAction(IWeapon weapon)
         {
             switch (weapon.WeaponType)
             {
@@ -119,7 +137,7 @@ namespace Orbit.Core.Players
         {
             if (HealActionWindow != null)
                 HealActionWindow.Remove();
-        }
+        }*/
     }
 
 }

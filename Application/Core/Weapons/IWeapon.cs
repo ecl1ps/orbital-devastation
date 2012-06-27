@@ -13,7 +13,7 @@ namespace Orbit.Core.Weapons
     public enum WeaponType
     {
         HOOK,
-        CANOON,
+        CANNON,
         MINE
     }
 

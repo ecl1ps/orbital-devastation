@@ -255,7 +255,7 @@ namespace Orbit.Core.Client
                     {
                         SingularityBullet s = new SingularityBullet(this);
                         s.ReadObject(msg);
-                        s.Player = GetOpponentPlayer();
+                        s.Owner = GetOpponentPlayer();
                         s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
                         DelayedAttachToScene(s);
                         SyncReceivedObject(s, msg);

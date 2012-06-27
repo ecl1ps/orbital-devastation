@@ -87,7 +87,7 @@ namespace Orbit.Core.Helpers
             SingularityBullet bullet = new SingularityBullet(mgr);
             bullet.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
             bullet.Position = position;
-            bullet.Player = plr;
+            bullet.Owner = plr;
             bullet.Radius = 2;
             bullet.Damage = plr.Data.BulletDamage;
             bullet.Direction = direction;
@@ -138,6 +138,37 @@ namespace Orbit.Core.Helpers
             hook.PrepareLine();
             
             return hook;
+        }
+
+        public static SingularityExplodingBullet CreateSingularityExploadingBullet(SceneMgr mgr, Point point, Player plr)
+        {
+            Vector position = plr.VectorPosition;
+            position.X += (plr.Baze.Size.Width / 2);
+            Vector direction = point.ToVector() - position;
+            direction.Normalize();
+
+            SingularityExplodingBullet bullet = new SingularityExplodingBullet(mgr);
+            bullet.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
+            bullet.Position = position;
+            bullet.Owner = plr;
+            bullet.Radius = 2;
+            bullet.Damage = plr.Data.BulletDamage;
+            bullet.Direction = direction;
+            bullet.Direction.Normalize();
+            bullet.Color = plr.Data.PlayerColor;
+
+            LinearMovementControl lmc = new LinearMovementControl();
+            lmc.InitialSpeed = plr.Data.BulletSpeed;
+            bullet.AddControl(lmc);
+
+            FiringSingularityControl c = new FiringSingularityControl();
+            c.Speed = SharedDef.BULLET_EXPLOSION_SPEED;
+            c.Strength = SharedDef.BULLET_EXPLOSION_STRENGTH;
+            bullet.AddControl(c);
+
+            bullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(bullet));
+
+            return bullet;
         }
     }
 }

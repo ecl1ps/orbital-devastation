@@ -23,15 +23,19 @@ namespace Orbit.Core.Weapons
         public WeaponType WeaponType { get; set; }
         public String Name { get; set; }
 
+        protected IWeapon next;
+
         public ProximityCannon(SceneMgr mgr, Player owner)
         {
             SceneMgr = mgr;
             Owner = owner;
         }
 
-        public IWeapon Next()
+        public virtual IWeapon Next()
         {
-            throw null;
+            if (next == null)
+                next = new ProximityCannonII(SceneMgr, Owner);
+            return next;
         }
 
         public void Shoot(Point point)
@@ -43,7 +47,7 @@ namespace Orbit.Core.Weapons
             }
         }
 
-        protected void SpawnBullet(Point point)
+        protected virtual void SpawnBullet(Point point)
         {
             if (point.Y > Owner.VectorPosition.Y)
                 point.Y = Owner.VectorPosition.Y;

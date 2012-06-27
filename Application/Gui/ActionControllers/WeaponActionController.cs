@@ -36,6 +36,9 @@ namespace Orbit.Gui.ActionControllers
                 case WeaponType.HOOK:
                     player.Hook = weapon;
                     break;
+                case WeaponType.CANNON:
+                    player.Canoon = weapon;
+                    break;
             }
         }
 

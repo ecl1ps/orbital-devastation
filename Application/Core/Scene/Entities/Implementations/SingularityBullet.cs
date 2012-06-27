@@ -15,7 +15,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
     class SingularityBullet : Sphere, ISendable
     {
 
-        public Player Player { get; set; } // neposilan
+        public Player Owner { get; set; } // neposilan
         public int Damage { get; set; }
 
         public SingularityBullet(SceneMgr mgr) : base(mgr)
@@ -30,26 +30,26 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
             if (other is IDestroyable)
             {
-                if (SceneMgr.GameType != Gametype.SOLO_GAME && !Player.IsCurrentPlayer())
+                if (SceneMgr.GameType != Gametype.SOLO_GAME && !Owner.IsCurrentPlayer())
                     return;
-
+               
                 HitAsteroid(other as IDestroyable);
                 DoRemoveMe();
             }
         }
 
-        private void HitAsteroid(IDestroyable asteroid)
+        public void HitAsteroid(IDestroyable asteroid)
         {
-            if (Player.IsCurrentPlayer())
+            if (Owner.IsCurrentPlayer())
             {
-                Player.AddScoreAndShow(ScoreDefines.CANNON_HIT);
+                Owner.AddScoreAndShow(ScoreDefines.CANNON_HIT);
                 SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.CANNON_HIT, Center, FloatingTextManager.TIME_LENGTH_1, 
                     FloatingTextType.SCORE);
 
                 if (asteroid is UnstableAsteroid)
                 {
                     double xMin = 0, xMax = 0;
-                    if (Player.GetPosition() == PlayerPosition.RIGHT)
+                    if (Owner.GetPosition() == PlayerPosition.RIGHT)
                     {
                         xMin = SceneMgr.ViewPortSizeOriginal.Width * 0.1;
                         xMax = SceneMgr.ViewPortSizeOriginal.Width * 0.4;
@@ -65,7 +65,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
                     {
                         SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.CANNON_DESTROYED_UNSTABLE_ASTEROID_ABOVE_ENEMY, Center, 
                             FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG);
-                        Player.AddScoreAndShow(ScoreDefines.CANNON_DESTROYED_UNSTABLE_ASTEROID_ABOVE_ENEMY);
+                        Owner.AddScoreAndShow(ScoreDefines.CANNON_DESTROYED_UNSTABLE_ASTEROID_ABOVE_ENEMY);
                     }
                 }
             }

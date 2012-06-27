@@ -107,11 +107,13 @@
     <Compile Include="Core\Players\PlayerData.cs" />
     <Compile Include="Core\Players\ScoreDefines.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DroppingSingularityControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\FiringSingularityControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\HookControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\NewtonianMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LinearRotationControl.cs" />
     <Compile Include="Core\Scene\Entities\IDestroyable.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\MinorAsteroid.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\SingularityExplodingBullet.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\UnstableAsteroid.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Hook.cs" />
     <Compile Include="Core\Scene\Entities\IContainsGold.cs" />
@@ -137,6 +139,7 @@
     <Compile Include="Core\Weapons\ProximityCannon.cs" />
     <Compile Include="Core\Weapons\HookLauncher.cs" />
     <Compile Include="Core\Weapons\IWeapon.cs" />
+    <Compile Include="Core\Weapons\ProximityCannonII.cs" />
     <Compile Include="Gui\ActionBar.xaml.cs">
       <DependentUpon>ActionBar.xaml</DependentUpon>
     </Compile>
