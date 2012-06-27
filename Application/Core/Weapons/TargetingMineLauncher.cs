@@ -28,6 +28,11 @@ namespace Orbit.Core.Weapons
             Name = "Targeted mine";
         }
 
+        public override IWeapon Next()
+        {
+            return null;
+        }
+
         public override void ProccessClickEvent(Point point, MouseButton button, MouseButtonState state)
         {
             if (button == MouseButton.Left && state == MouseButtonState.Pressed && IsReady())
