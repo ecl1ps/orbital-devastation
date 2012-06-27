@@ -64,10 +64,10 @@ namespace Orbit.Core.Scene.Entities
 
         public void RemoveControl(Type type)
         {
-            foreach (IControl control in controls)
+            for (int i = 0; i < controls.Count; ++i)
             {
-                if (type.IsAssignableFrom(control.GetType()))
-                    controls.Remove(control);
+                if (type.IsAssignableFrom(controls[i].GetType()))
+                    controls.Remove(controls[i]);
             }
         }
 
