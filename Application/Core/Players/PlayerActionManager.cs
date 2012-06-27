@@ -67,20 +67,23 @@ namespace Orbit.Core.Players
 
             if (mgr.GetCurrentPlayer().Canoon.Next() != null && (mgr.GetCurrentPlayer().Canoon.Next().Cost <= mgr.GetCurrentPlayer().Data.Gold))
                 CreateWeaponAction(mgr.GetCurrentPlayer().Canoon.Next());
+            else 
+                RemoveCannonAction();
             if (mgr.GetCurrentPlayer().Mine.Next() != null && (mgr.GetCurrentPlayer().Mine.Next().Cost <= mgr.GetCurrentPlayer().Data.Gold))
                 CreateWeaponAction(mgr.GetCurrentPlayer().Mine.Next());
             else
                 RemoveMineAction();
-                RemoveCannonAction();
         }
 
         private void RemoveMineAction()
-        private void RemoveCannonAction()
         {
             if (MineActionWindow != null && MineActionWindow.IsVisible)
+                MineActionWindow.Remove();
+        }
+        private void RemoveCannonAction()
+        {
             if (CannonActionWindow != null && CannonActionWindow.IsVisible)
             {
-                MineActionWindow.Remove();
                 CannonActionWindow.Remove();
             }
         }
