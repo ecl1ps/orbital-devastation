@@ -38,6 +38,7 @@ namespace Orbit.Gui.ActionControllers
                     break;
                 case WeaponType.MINE:
                     player.Mine = weapon;
+                    break;
                 case WeaponType.CANNON:
                     player.Canoon = weapon;
                     break;

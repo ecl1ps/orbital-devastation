@@ -25,7 +25,10 @@ namespace Orbit.Core.Weapons
 
         public override IWeapon Next()
         {
-            return null;
+            if (next == null)
+                next = new Lazor(SceneMgr, Owner);
+
+            return next;
         }
 
         protected override void SpawnBullet(Point point)
