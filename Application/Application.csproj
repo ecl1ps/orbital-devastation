@@ -134,6 +134,7 @@
     <Compile Include="Core\Utils\HealingKit.cs" />
     <Compile Include="Core\Utils\IHealingKit.cs" />
     <Compile Include="Core\Weapons\DoubleHookLauncher.cs" />
+    <Compile Include="Core\Weapons\Lazor.cs" />
     <Compile Include="Core\Weapons\MineLauncher.cs" />
     <Compile Include="Core\Weapons\ProximityCannon.cs" />
     <Compile Include="Core\Weapons\HookLauncher.cs" />

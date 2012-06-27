@@ -52,6 +52,7 @@ namespace Orbit.Core
         public const int BULLET_SPEED                       = 300;
         public const float BULLET_COOLDOWN                  = MINE_COOLDOWN / 2;
         public const int BULLET_DMG                         = 5;
+        public const float LASER_CHARGING_TIME              = 3;
 
         public const int HOOK_LENGHT                        = 400;
         public const int HOOK_SPEED                         = 150;
