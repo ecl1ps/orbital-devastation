@@ -11,6 +11,7 @@ using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Helpers;
 using System.Net;
+using System.Windows;
 
 namespace Orbit.Core.Server.Match
 {
@@ -51,6 +52,7 @@ namespace Orbit.Core.Server.Match
             {
                 Player bot = serverMgr.CreateAndAddPlayer("Bot", "NullBotHash");
                 bot.Data.PlayerType = PlayerType.BOT;
+                bot.Data.BotType = BotType.LEVEL2;
                 bot.Data.StartReady = true;
             }
 
@@ -89,9 +91,22 @@ namespace Orbit.Core.Server.Match
                 case 1:
                     CreateAsteroidField(SharedDef.ASTEROID_COUNT);
                     break;
+                case 2:
+                    CreateTestLevel();
+                    break;
                 default:
                     break;
             }
+        }
+
+        private void CreateTestLevel()
+        {
+            Rect baseLoc = PlayerBaseLocation.GetBaseLocation(PlayerPosition.LEFT);
+
+            objects.Add(ServerSceneObjectFactory.CreateCustomAsteroid(serverMgr, 10, new Vector(baseLoc.X - 10 * 2 - 1, 100), new Vector(0, 1)));
+            objects.Add(ServerSceneObjectFactory.CreateCustomAsteroid(serverMgr, 20, new Vector(baseLoc.X - 20 * 2, 200), new Vector(0, 1)));
+            objects.Add(ServerSceneObjectFactory.CreateCustomAsteroid(serverMgr, 10, new Vector(baseLoc.X + baseLoc.Width + 1, 100), new Vector(0, 1)));
+            objects.Add(ServerSceneObjectFactory.CreateCustomAsteroid(serverMgr, 20, new Vector(baseLoc.X + baseLoc.Width, 200), new Vector(0, 1)));
         }
 
         public void GameEnded(Player plr, GameEnd endType)

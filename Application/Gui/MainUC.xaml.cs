@@ -66,5 +66,10 @@ namespace Orbit.Gui
             (Application.Current as App).CreateGameGui();
             (Application.Current as App).ConnectToGame("127.0.0.1");
         }
+
+        private void btnShowStatistics_Click(object sender, RoutedEventArgs e)
+        {
+            (Application.Current as App).ShowStatisticsGui();
+        }
     }
 }

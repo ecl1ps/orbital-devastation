@@ -22,6 +22,7 @@ namespace Orbit.Core.Players
         public int Id { get; set; }
         public string HashId { get; set; }
         public PlayerType PlayerType { get; set; }
+        public BotType BotType { get; set; }
         public string Name { get; set; }
         public bool Active { get; set; }
         public PlayerPosition PlayerPosition { get; set; }
@@ -53,6 +54,7 @@ namespace Orbit.Core.Players
             Score = 0;
             Gold = SharedDef.START_GOLD;
             PlayerType = PlayerType.HUMAN;
+            BotType = BotType.NONE;
             BaseIntegrity = SharedDef.BASE_MAX_INGERITY;
             PlayerColor = Colors.Black;
             MineGrowthSpeed = SharedDef.MINE_GROWTH_SPEED;

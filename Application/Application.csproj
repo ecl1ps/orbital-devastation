@@ -93,9 +93,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Core\AI\HookerBot.cs" />
     <Compile Include="Core\AI\SimpleBot.cs" />
     <Compile Include="Core\Client\FloatingTextManager.cs" />
     <Compile Include="Core\Client\StaticMouse.cs" />
+    <Compile Include="Core\GameProperties.cs" />
     <Compile Include="Core\GameStateManager.cs" />
     <Compile Include="Core\Helpers\CollisionHelper.cs" />
     <Compile Include="Core\ExtensionMethods.cs" />
@@ -106,13 +108,19 @@
     <Compile Include="Core\Players\Player.cs" />
     <Compile Include="Core\Players\PlayerData.cs" />
     <Compile Include="Core\Players\ScoreDefines.cs" />
+    <Compile Include="Core\Properties.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\VectorLineObjectMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DroppingSingularityControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\FiringSingularityControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\HookControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\NewtonianMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LinearRotationControl.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\Circle.cs" />
+    <Compile Include="Core\Scene\Entities\VectorLine.cs" />
     <Compile Include="Core\Scene\Entities\IDamageable.cs" />
     <Compile Include="Core\Scene\Entities\IDestroyable.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\MinorAsteroid.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\SingularityExplodingBullet.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\UnstableAsteroid.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Hook.cs" />
     <Compile Include="Core\Scene\Entities\IContainsGold.cs" />
@@ -140,6 +148,7 @@
     <Compile Include="Core\Weapons\HookLauncher.cs" />
     <Compile Include="Core\Weapons\IWeapon.cs" />
     <Compile Include="Core\Weapons\TargetingMineLauncher.cs" />
+    <Compile Include="Core\Weapons\ProximityCannonII.cs" />
     <Compile Include="Gui\ActionBar.xaml.cs">
       <DependentUpon>ActionBar.xaml</DependentUpon>
     </Compile>
@@ -169,6 +178,9 @@
     </Compile>
     <Compile Include="Gui\ScoreboardUC.xaml.cs">
       <DependentUpon>ScoreboardUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\StatisticsUC.xaml.cs">
+      <DependentUpon>StatisticsUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Scene\Controls\Control.cs" />
@@ -272,6 +284,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\ScoreboardUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\StatisticsUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

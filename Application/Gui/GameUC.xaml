@@ -13,6 +13,7 @@
         <Label Canvas.Left="679" Canvas.Top="612" Height="30" Name="lblNameRight" Width="150" Panel.ZIndex="100" FontSize="15" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
         <Label Canvas.Left="153" Canvas.Top="296" Height="80" Name="lblEndGame" Width="700" Panel.ZIndex="100" FontSize="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Bauhaus 93" Foreground="#FF64008B"></Label>
         <Label Canvas.Left="153" Canvas.Top="230" Content="" Height="59" Name="lblWaiting" Width="700" Panel.ZIndex="100" FontSize="22" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Bauhaus 93" />
+        <Label Canvas.Left="153" Canvas.Top="210" Content="" Height="59" Name="lblHighScore" Width="700" Panel.ZIndex="100" FontSize="33" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Bauhaus 93" Foreground="#FFED0000" />
 
         <Grid Canvas.Left="0" Canvas.Top="650" Panel.ZIndex="100" Height="50" VerticalAlignment="Bottom">
             <controls:ActionBar HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="0,0,0,20" Height="30" Background="DarkGray" MouseUp="OnActionBarClick" x:Name="ActionBarUC"/>
@@ -23,6 +24,8 @@
                 <Label Height="20" Name="statusText4" Width="120" Padding="0" FontSize="11" />
                 <Label Height="20" Name="statusText5" Width="120" Padding="0" FontSize="11" />
                 <Label Height="20" Name="statusText6" Width="120" Padding="0" FontSize="11" />
+                <Label Height="20" Name="statusText7" Width="120" Padding="0" FontSize="11" />
+                <Label Height="20" Name="statusText8" Width="120" Padding="0" FontSize="11" />
             </StatusBar>
         </Grid>
     </Canvas>

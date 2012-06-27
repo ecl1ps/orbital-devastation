@@ -304,6 +304,7 @@ namespace Orbit.Core.Helpers
             msg.Write(d.Name);
             msg.Write(d.Active);
             msg.Write((byte)d.PlayerType);
+            msg.Write((byte)d.BotType);
 
             msg.Write(d.MineCooldown);
             msg.Write(d.MineGrowthSpeed);
@@ -338,6 +339,7 @@ namespace Orbit.Core.Helpers
             d.Name = msg.ReadString();
             d.Active = msg.ReadBoolean();
             d.PlayerType = (PlayerType)msg.ReadByte();
+            d.BotType = (BotType)msg.ReadByte();
 
             d.MineCooldown = msg.ReadFloat();
             d.MineGrowthSpeed = msg.ReadFloat();

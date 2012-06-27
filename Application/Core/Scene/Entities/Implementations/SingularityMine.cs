@@ -39,13 +39,10 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         protected override void UpdateGeometricState()
         {
-            geometryElement.Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
-            {
-                ((geometryElement as Path).Data as EllipseGeometry).RadiusX = Radius;
-                ((geometryElement as Path).Data as EllipseGeometry).RadiusY = Radius;
-                (geometryElement as Path).Stroke = BorderBrush;
-                (geometryElement as Path).Fill = FillBrush;
-            }));
+            ((geometryElement as Path).Data as EllipseGeometry).RadiusX = Radius;
+            ((geometryElement as Path).Data as EllipseGeometry).RadiusY = Radius;
+            (geometryElement as Path).Stroke = BorderBrush;
+            (geometryElement as Path).Fill = FillBrush;
         }
 
         public void WriteObject(NetOutgoingMessage msg)

@@ -96,14 +96,8 @@ namespace Orbit.Core.Client
                 }));
             }
 
-            if (gameType == Gametype.SERVER_GAME)
-            {
-                SetMainInfoText("Waiting for the other player to connect");
-            }
-            else if (gameType == Gametype.CLIENT_GAME)
-            {
-                SetMainInfoText("Waiting for the server");
-            }
+            if (gameType == Gametype.MULTIPLAYER_GAME)
+                SetMainInfoText("Establishing connection...");
 
             InitNetwork();
             ConnectToServer();
@@ -416,11 +410,6 @@ namespace Orbit.Core.Client
             this.canvas = canvas;
         }
 
-        public void OnViewPortChange(Size size)
-        {
-            
-        }
-
         public Random GetRandomGenerator()
         {
             return randomGenerator;
@@ -436,7 +425,6 @@ namespace Orbit.Core.Client
         {
             if (userActionsDisabled)
                 return;
-
 
             if (StaticMouse.Instance != null && StaticMouse.ALLOWED)
                 point = StaticMouse.GetPosition();
@@ -461,7 +449,7 @@ namespace Orbit.Core.Client
             }));
         }
 
-        private bool IsPointInViewPort(Point point)
+        public static bool IsPointInViewPort(Point point)
         {
             if (point.X > SharedDef.VIEW_PORT_SIZE.Width || point.X < 0)
                 return false;
@@ -478,7 +466,13 @@ namespace Orbit.Core.Client
                 return;
 
             if (Application.Current != null)
-                (Application.Current as App).setGameStarted(false);
+                Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    (Application.Current as App).SetGameStarted(false);
+                }));
+
+            if (endType == GameEnd.WIN_GAME)
+                CheckHighScore();
 
             isGameInitialized = true;
             gameEnded = true;
@@ -505,6 +499,55 @@ namespace Orbit.Core.Client
                 TournamentGameEnded();
             else if (endType != GameEnd.TOURNAMENT_FINISHED)
                 NormalGameEnded();
+        }
+
+        private void CheckHighScore()
+        {
+            // zatim jen pro solo a 1v1 hry
+            if (GameType != Gametype.SOLO_GAME && GameType != Gametype.MULTIPLAYER_GAME)
+                return;
+
+            PropertyKey key = PropertyKey.PLAYER_HIGHSCORE_SOLO1;
+
+            if (GameType == Gametype.MULTIPLAYER_GAME)
+                key = PropertyKey.PLAYER_HIGHSCORE_QUICK_GAME;
+            else if (GameType == Gametype.SOLO_GAME)
+            {
+                switch (GetOpponentPlayer().Data.BotType)
+                {
+                    case BotType.LEVEL1:
+                        key = PropertyKey.PLAYER_HIGHSCORE_SOLO1;
+                        break;
+                    case BotType.LEVEL2:
+                        key = PropertyKey.PLAYER_HIGHSCORE_SOLO2;
+                        break;
+                    case BotType.LEVEL3:
+                        key = PropertyKey.PLAYER_HIGHSCORE_SOLO3;
+                        break;
+                    case BotType.LEVEL4:
+                        key = PropertyKey.PLAYER_HIGHSCORE_SOLO4;
+                        break;
+                    case BotType.LEVEL5:
+                        key = PropertyKey.PLAYER_HIGHSCORE_SOLO5;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            int hs = int.Parse(GameProperties.Props.Get(key));
+            if (hs < currentPlayer.Data.Score)
+            {
+                hs = currentPlayer.Data.Score;
+                GameProperties.Props.SetAndSave(key, hs);
+                Invoke(new Action(() =>
+                {
+                    Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblHighScore");
+                    if (lbl != null)
+                        lbl.Content = "New HighScore " + hs + "!";
+                }));
+            }
+
         }
 
         private void TournamenFinished(Player winner)

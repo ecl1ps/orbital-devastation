@@ -11,17 +11,17 @@ namespace Orbit.Core.Helpers
     {
         private static Vector tempVector = new Vector();
 
-        public static bool intersectsCircleAndPoint(Vector point, Vector center, int radius)
+        public static bool IntersectsCircleAndPoint(Vector point, Vector center, int radius)
         {
             return (point - center).Length <= radius;
         }
 
-        public static bool intersectsCircleAndCircle(Vector center1, int radius1, Vector center2, int radius2)
+        public static bool IntersectsCircleAndCircle(Vector center1, int radius1, Vector center2, int radius2)
         {
             return (center1 - center2).Length <= radius1 + radius2;
         }
 
-        public static bool intersectsCircleAndSquare(Vector circleCenter, int circleRadius, Vector rectPosition, Size rectSize)
+        public static bool IntersectsCircleAndSquare(Vector circleCenter, int circleRadius, Vector rectPosition, Size rectSize)
         {
 
             tempVector.X = Math.Abs(circleCenter.X - rectPosition.X - rectSize.Width / 2);
@@ -45,10 +45,10 @@ namespace Orbit.Core.Helpers
             return cornerDistanceSquared <= Math.Pow(circleRadius, 2);
         }
 
-        public static bool intersectSquareAndSquare(Vector center1, Size rectSize1, Vector center2, Size rectSize2)
+        public static bool IntersectsSquareAndSquare(Vector center1, Size rectSize1, Vector center2, Size rectSize2)
         {
             double lenght = (center1 - center2).Length;
-            if (intersectSquareAndPoint(center1, center2, rectSize2))
+            if (IntersectsPointAndSquare(center1, center2, rectSize2))
                 return true;
 
             if (lenght < ((rectSize1.Height / 2) + (rectSize2.Height / 2)))
@@ -59,17 +59,16 @@ namespace Orbit.Core.Helpers
             return false;
         }
 
-        public static bool intersectSquareAndPoint(Vector point, Vector center, Size size)
+        public static bool IntersectsPointAndSquare(Vector point, Vector squarePos, Size squareSize)
         {
-            if (point.X > center.X - (size.Width / 2))
-                return true;
-            if (point.Y > center.Y - (size.Height / 2))
+            if (point.X >= squarePos.X && point.X <= squarePos.X + squareSize.Width &&
+                point.Y >= squarePos.Y && point.Y <= squarePos.Y + squareSize.Height)
                 return true;
 
             return false;
         }
 
-        public static bool intersectPointAndPoint(Vector point1, Vector point2)  
+        public static bool IntersectsPointAndPoint(Vector point1, Vector point2)  
         {
             return ((int)point1.X) == ((int)point2.X) && ((int)point1.Y) == ((int)point2.Y);
         }

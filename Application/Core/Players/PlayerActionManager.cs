@@ -25,6 +25,7 @@ namespace Orbit.Core.Players
         private BuyActionUC HealActionWindow;
         private BuyActionUC HookActionWindow;
         private BuyActionUC MineActionWindow;
+        private BuyActionUC CannonActionWindow;
 
         public PlayerActionManager(SceneMgr manager)
         {
@@ -64,17 +65,23 @@ namespace Orbit.Core.Players
             else
                 RemoveHookAction();
 
+            if (mgr.GetCurrentPlayer().Canoon.Next() != null && (mgr.GetCurrentPlayer().Canoon.Next().Cost <= mgr.GetCurrentPlayer().Data.Gold))
+                CreateWeaponAction(mgr.GetCurrentPlayer().Canoon.Next());
             if (mgr.GetCurrentPlayer().Mine.Next() != null && (mgr.GetCurrentPlayer().Mine.Next().Cost <= mgr.GetCurrentPlayer().Data.Gold))
                 CreateWeaponAction(mgr.GetCurrentPlayer().Mine.Next());
             else
                 RemoveMineAction();
+                RemoveCannonAction();
         }
 
         private void RemoveMineAction()
+        private void RemoveCannonAction()
         {
             if (MineActionWindow != null && MineActionWindow.IsVisible)
+            if (CannonActionWindow != null && CannonActionWindow.IsVisible)
             {
                 MineActionWindow.Remove();
+                CannonActionWindow.Remove();
             }
         }
 
@@ -106,6 +113,10 @@ namespace Orbit.Core.Players
                     if (MineActionWindow == null || !MineActionWindow.IsVisible)
                         MineActionWindow = GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, new WeaponActionController(mgr, weapon, mgr.GetCurrentPlayer()));
                     break;
+                case WeaponType.CANNON:
+                    if (CannonActionWindow == null || !CannonActionWindow.IsVisible)
+                        CannonActionWindow = GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, new WeaponActionController(mgr, weapon, mgr.GetCurrentPlayer()));
+                    break;
             }
         }
 
@@ -117,7 +128,7 @@ namespace Orbit.Core.Players
             }
         }
 
-        public void HideWeaponAction(IWeapon weapon)
+       /* public void HideWeaponAction(IWeapon weapon)
         {
             switch (weapon.WeaponType)
             {
@@ -132,7 +143,7 @@ namespace Orbit.Core.Players
         {
             if (HealActionWindow != null)
                 HealActionWindow.Remove();
-        }
+        }*/
     }
 
 }

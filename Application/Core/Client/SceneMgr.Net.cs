@@ -183,7 +183,7 @@ namespace Orbit.Core.Client
                             msg.ReadObjectPlayerData(plr.Data);
 
                             if (plr.Data.PlayerType == PlayerType.BOT)
-                                StateMgr.AddGameState(new SimpleBot(this, objects, plr));
+                                stateMgr.AddGameState(new SimpleBot(this, objects, plr));
                             else
                                 FloatingTextMgr.AddFloatingText(plr.Data.Name + " has joined the game",
                                     new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
@@ -455,7 +455,7 @@ namespace Orbit.Core.Client
                     string rightPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.RIGHT).Data.Name;
 
                     InitStaticMouse();
-                    (Application.Current as App).setGameStarted(true);
+                    (Application.Current as App).SetGameStarted(true);
 
                     foreach (Player p in players)
                         if (p.IsActivePlayer())
@@ -491,7 +491,7 @@ namespace Orbit.Core.Client
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
                         (Application.Current as App).CreateGameGui(false);
-                        (Application.Current as App).setGameStarted(true);
+                        (Application.Current as App).SetGameStarted(true);
                         SetCanvas((Application.Current as App).GetCanvas());
                     }));
                     
@@ -529,7 +529,7 @@ namespace Orbit.Core.Client
                         FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
 
                     players.Remove(disconnected);
-                    (Application.Current as App).setGameStarted(false);
+                    (Application.Current as App).SetGameStarted(false);
 
                     if (disconnected.IsActivePlayer())
                         EndGame(disconnected, GameEnd.LEFT_GAME);
@@ -545,6 +545,22 @@ namespace Orbit.Core.Client
                     break;
             }
 
+        }
+
+        private IGameState CreateBot(Player plr)
+        {
+            switch (plr.Data.BotType)
+            {
+                case BotType.LEVEL1:
+                    return new SimpleBot(this, objects, plr);
+                case BotType.LEVEL2:
+                    return new HookerBot(this, objects, plr);
+                case BotType.LEVEL3:
+                case BotType.LEVEL4:
+                case BotType.LEVEL5:
+                default:
+                    return null;
+            }
         }
 
         private Asteroid CreateNewAsteroid(AsteroidType asteroidType)

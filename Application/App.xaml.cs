@@ -28,6 +28,7 @@ namespace Orbit
         private static GameWindow mainWindow;
         private string lastServerAddress;
         private Gametype lastGameType;
+        private bool hostedLastgame = false;
         public string PlayerName { get; set; }
         public string PlayerHashId { get; set; }
 
@@ -44,37 +45,14 @@ namespace Orbit
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            if (!File.Exists(SharedDef.CONFIG_FILE))
+                GameProperties.Props.Save();
+
+            PlayerName = GameProperties.Props.Get(PropertyKey.PLAYER_NAME);
+            PlayerHashId = GameProperties.Props.Get(PropertyKey.PLAYER_HASH_ID);
+            Boolean.TryParse(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_ENABLED), out StaticMouse.ALLOWED);
+
             sceneMgr = new SceneMgr();
-
-            PlayerName = "Player";
-
-            if (!File.Exists("player"))
-            {
-                PlayerHashId = Player.GenerateNewHashId(PlayerName);
-                using (StreamWriter writer = new StreamWriter("player", false))
-                {
-                    writer.WriteLine("name=" + PlayerName);
-                    writer.WriteLine("hash=" + PlayerHashId);
-                }
-                return;
-            }
-
-            // TODO: je mozne aby hrac upravil soubor tak, ze nebude obsahovat hash, to by pak byla celkem chyba
-            using (StreamReader reader = new StreamReader("player"))
-            {
-                string line;
-                string[] items;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    items = line.Split('=');
-                    if (items[0].Equals("name"))
-                        PlayerName = items[1];
-                    else if (items[0].Equals("hash"))
-                        PlayerHashId = items[1];
-                    else if (items[0].Equals("mouse"))
-                       Boolean.TryParse(items[1], out StaticMouse.ALLOWED);
-                }
-            }
         }
 
         protected override void OnExit(ExitEventArgs e)
@@ -106,7 +84,8 @@ namespace Orbit
             StartGameThread();
 
             lastGameType = type;
-            if (type != Gametype.SERVER_GAME && type != Gametype.CLIENT_GAME)
+
+            if (type != Gametype.MULTIPLAYER_GAME)
                 mainWindow.GameRunning = true;
 
             sceneMgr.Enqueue(new Action(() =>
@@ -117,11 +96,13 @@ namespace Orbit
 
         public void StartHostedGame()
         {
-            StartLocalServer(Gametype.SERVER_GAME);
+            hostedLastgame = true;
+
+            StartLocalServer(Gametype.MULTIPLAYER_GAME);
 
             sceneMgr.SetRemoteServerAddress("127.0.0.1");
 
-            StartGame(Gametype.SERVER_GAME);
+            StartGame(Gametype.MULTIPLAYER_GAME);
         }
 
         public void StartTournamentLobby()
@@ -133,7 +114,7 @@ namespace Orbit
             StartGame(Gametype.TOURNAMENT_GAME);
         }
 
-        public void setGameStarted(bool started)
+        public void SetGameStarted(bool started)
         {
             mainWindow.GameRunning = started;
         }
@@ -167,9 +148,10 @@ namespace Orbit
 
         public void ConnectToGame(string serverAddress)
         {
+            hostedLastgame = false;
             lastServerAddress = serverAddress;
             sceneMgr.SetRemoteServerAddress(serverAddress);
-            StartGame(Gametype.CLIENT_GAME);
+            StartGame(Gametype.MULTIPLAYER_GAME);
         }
 
         private void StartGameThread()
@@ -237,13 +219,12 @@ namespace Orbit
                     CreateGameGui();
                     StartSoloGame();
                     break;
-                case Gametype.SERVER_GAME:
+                case Gametype.MULTIPLAYER_GAME:
                     CreateGameGui();
-                    StartHostedGame();
-                    break;
-                case Gametype.CLIENT_GAME:
-                    CreateGameGui();
-                    ConnectToGame(lastServerAddress);
+                    if (hostedLastgame)
+                        StartHostedGame();
+                    else
+                        ConnectToGame(lastServerAddress);
                     break;
                 case Gametype.TOURNAMENT_GAME:
                     StartTournamentLobby();
@@ -285,6 +266,12 @@ namespace Orbit
         {
             mainWindow.mainGrid.Children.Clear();
             mainWindow.mainGrid.Children.Add(new ScoreboardUC(winnerData, data));
+        }
+
+        public void ShowStatisticsGui()
+        {
+            mainWindow.mainGrid.Children.Clear();
+            mainWindow.mainGrid.Children.Add(new StatisticsUC());
         }
     }
 }

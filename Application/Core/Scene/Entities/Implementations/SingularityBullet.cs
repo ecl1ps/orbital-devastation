@@ -36,13 +36,13 @@ namespace Orbit.Core.Scene.Entities.Implementations
             {
                 if (SceneMgr.GameType != Gametype.SOLO_GAME && !Owner.IsCurrentPlayer())
                     return;
-
+               
                 HitAsteroid(other as IDestroyable);
                 DoRemoveMe();
             }
         }
 
-        private void HitAsteroid(IDestroyable asteroid)
+        public void HitAsteroid(IDestroyable asteroid)
         {
             if (hit)
                 return;

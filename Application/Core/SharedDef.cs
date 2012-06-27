@@ -53,6 +53,10 @@ namespace Orbit.Core
         public const float BULLET_COOLDOWN                  = MINE_COOLDOWN / 2;
         public const int BULLET_DMG                         = 5;
         public const float LASER_CHARGING_TIME              = 3;
+        public const float BULLET_LIFE_TIME                 = 1f;
+        public const float BULLET_EXPLODE_DURATION          = 0.3f;
+        public const float BULLET_EXPLOSION_STRENGTH        = 50;
+        public const float BULLET_EXPLOSION_SPEED           = 0.6f;
 
         public const int HOOK_LENGHT                        = 400;
         public const int HOOK_SPEED                         = 150;
@@ -82,14 +86,15 @@ namespace Orbit.Core
         /// orbit area je horni oblast obrazovky - pas kde se pohybuji asteroidy
         /// </summary>
         public static Rect ORBIT_AREA = new Rect(0, 0, CANVAS_SIZE.Width, 200);
+
+        public const string CONFIG_FILE                     = "player";
     }
 
     public enum Gametype
     {
         NONE,
         SOLO_GAME,
-        SERVER_GAME,
-        CLIENT_GAME,
+        MULTIPLAYER_GAME,
         TOURNAMENT_GAME
     }
 

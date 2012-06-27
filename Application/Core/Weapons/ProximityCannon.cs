@@ -25,6 +25,7 @@ namespace Orbit.Core.Weapons
         public String Name { get; set; }
 
         private Boolean shooting;
+        protected IWeapon next;
 
         public ProximityCannon(SceneMgr mgr, Player owner)
         {
@@ -32,9 +33,11 @@ namespace Orbit.Core.Weapons
             Owner = owner;
         }
 
-        public IWeapon Next()
+        public virtual IWeapon Next()
         {
-            throw null;
+            if (next == null)
+                next = new ProximityCannonII(SceneMgr, Owner);
+            return next;
         }
 
         public void Shoot(Point point)
@@ -46,7 +49,7 @@ namespace Orbit.Core.Weapons
             }
         }
 
-        protected void SpawnBullet(Point point)
+        protected virtual void SpawnBullet(Point point)
         {
             if (point.Y > Owner.GetBaseLocation().Y)
                 point.Y = Owner.GetBaseLocation().Y;

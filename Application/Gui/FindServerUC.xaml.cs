@@ -33,10 +33,15 @@ namespace Orbit.Gui
                 tbServerAddress.Text = value;
             }
         }
+        private List<string> usedServerAdresses = new List<string>();
 
         public FindServerUC()
         {
             InitializeComponent();
+            usedServerAdresses.AddRange(GameProperties.Props.Get(PropertyKey.USED_SERVERS).Split(';'));
+            foreach (string ip in usedServerAdresses)
+                if (!String.IsNullOrWhiteSpace(ip))
+                    lbxUsedServers.Items.Add(ip);
         }
 
         private void btnFindServers_Click(object sender, RoutedEventArgs e)
@@ -76,8 +81,13 @@ namespace Orbit.Gui
                 Thread.Sleep(10); // vypnuti muze chvili trvat
                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {
+                    if (!usedServerAdresses.Contains(ip.Trim()))
+                    {
+                        usedServerAdresses.Add(ip.Trim());
+                        SaveUsedServerAdresses();
+                    }
                     (Application.Current as App).CreateGameGui();
-                    (Application.Current as App).ConnectToGame(ip);
+                    (Application.Current as App).ConnectToGame(ip.Trim());
                 }));
             }
         }
@@ -131,8 +141,13 @@ namespace Orbit.Gui
 
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
+                        if (!usedServerAdresses.Contains(adr.ToString()))
+                        {
+                            usedServerAdresses.Add(adr.ToString());
+                            SaveUsedServerAdresses();
+                        }
                         (Application.Current as App).CreateGameGui();
-                        (Application.Current as App).ConnectToGame(tbServerAddress.Text);
+                        (Application.Current as App).ConnectToGame(adr.ToString());
                     }));
 
                 });
@@ -144,10 +159,46 @@ namespace Orbit.Gui
             }
         }
 
+        private void SaveUsedServerAdresses()
+        {
+            string concatenatedIps = "";
+            foreach (string ip in usedServerAdresses)
+                concatenatedIps += ip + ";";
+            GameProperties.Props.SetAndSave(PropertyKey.USED_SERVERS, concatenatedIps.Trim(';'));
+        }
+
         private void tbServerAddress_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
                 TryToConnect();
+        }
+
+        private void lbxUsedServers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (lbxUsedServers.SelectedIndex > -1)
+            {
+                (Application.Current as App).CreateGameGui();
+                (Application.Current as App).ConnectToGame(lbxUsedServers.SelectedItem.ToString());
+            }
+        }
+
+        private void btnConnectToSaved_Click(object sender, RoutedEventArgs e)
+        {
+            if (lbxUsedServers.SelectedIndex > -1)
+            {
+                (Application.Current as App).CreateGameGui();
+                (Application.Current as App).ConnectToGame(lbxUsedServers.SelectedItem.ToString());
+            }
+        }
+
+        private void btnRemove_Click(object sender, RoutedEventArgs e)
+        {
+            if (lbxUsedServers.SelectedIndex > -1)
+            {
+                usedServerAdresses.RemoveAt(lbxUsedServers.SelectedIndex);
+                lbxUsedServers.Items.RemoveAt(lbxUsedServers.SelectedIndex);
+                SaveUsedServerAdresses();
+            }
         }
     }
 }
