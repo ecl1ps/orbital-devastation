@@ -14,32 +14,35 @@ namespace Orbit.Core.Scene.Entities.Implementations
     {
         public Point Start {get; set; }
         public Point End { get; set; }
+        public int Width { get; set; }
         public Player Owner { get; set; }
 
-        private Line line;
-
-
-        public SolidLine(SceneMgr mgr, Player owner, Point start, Point end, Color color) : base(mgr)
+        public SolidLine(SceneMgr mgr, Player owner, Point start, Point end, Color color, Brush brush, int width) : base(mgr)
         {
             SceneMgr = mgr;
             Owner = owner;
-            CreateLine(color);
+            Start = start;
+            End = end;
+            Width = width;
+            CreateLine(color, brush);
         }
 
-        private void CreateLine(Color color)
+        private void CreateLine(Color color, Brush brush)
         {
             SceneMgr.Invoke(new Action(() =>
             {
-                line = new Line();
-                line.Stroke = Brushes.Black;
+                Line line = new Line();
+                line.Stroke = brush;
                 line.X1 = Start.X;
                 line.Y1 = Start.Y;
                 line.X2 = End.X;
                 line.Y2 = End.Y;
                 line.HorizontalAlignment = HorizontalAlignment.Left;
                 line.VerticalAlignment = VerticalAlignment.Center;
-                line.StrokeThickness = 1;
+                line.StrokeThickness = Width;
                 line.Fill = new SolidColorBrush(color);
+
+                geometryElement = line;
             }));
         }
 
@@ -51,20 +54,23 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void UpdateGeometric()
         {
-            line.X1 = Start.X;
-            line.Y1 = Start.Y;
-            line.X2 = End.X;
-            line.Y2 = End.Y;
+            SceneMgr.Invoke(new Action(() =>
+            {
+                Line line = geometryElement as Line;
+                line.X1 = Start.X;
+                line.Y1 = Start.Y;
+                line.X2 = End.X;
+                line.Y2 = End.Y;
+            }));
         }
 
         public bool CollideWith(ICollidable other)
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         public void DoCollideWith(ICollidable other)
         {
-            throw new NotImplementedException();
         }
     }
 }

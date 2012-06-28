@@ -8,6 +8,7 @@ using System.Windows.Shapes;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using Orbit.Core.Scene.Entities.Implementations;
 
 namespace Orbit.Core.Weapons
 {
@@ -31,6 +32,7 @@ namespace Orbit.Core.Weapons
         private Vector rightVector;
 
         private Vector origin;
+        private SolidLine laser;
 
         public Lazor(SceneMgr mgr, Player owner) 
         {
@@ -109,12 +111,12 @@ namespace Orbit.Core.Weapons
 
         public void Shoot(Point point)
         {
-            throw new NotImplementedException();
+            Fire();
         }
 
         public bool IsReady()
         {
-            throw new NotImplementedException();
+            return !shooting;
         }
 
         public void TriggerUpgrade(IWeapon old)
@@ -127,8 +129,37 @@ namespace Orbit.Core.Weapons
 
         public void Update(float tpf)
         {
-            if(!shooting)
+            if (!shooting)
                 UpdateCharging(tpf);
+            else
+                UpdateShooting(tpf);
+        }
+
+        private void UpdateShooting(float tpf)
+        {
+            if (chargingTime >= SharedDef.LASER_CHARGING_TIME)
+                stopShooting();
+            else
+            {
+                chargingTime += tpf;
+                changeShootingPosition();
+            }
+        }
+
+        private void changeShootingPosition()
+        {
+            Vector v = StaticMouse.GetPosition() - origin.ToPoint();
+            v.Normalize();
+            v *= 1000;
+            v += origin;
+
+            laser.End = v.ToPoint();
+        }
+
+        private void stopShooting()
+        {
+            shooting = false;
+            SceneMgr.RemoveFromSceneDelayed(laser);
         }
 
         private void UpdateCharging(float tpf)
@@ -186,7 +217,18 @@ namespace Orbit.Core.Weapons
 
         private void Fire()
         {
-            throw new NotImplementedException();
+            shooting = true;
+            charging = false;
+            chargingTime = 0;
+
+            Vector v = new Vector(0, -1);
+            v *= 1000;
+            v.X += origin.X;
+            v.Y += origin.Y;
+
+            laser = new SolidLine(SceneMgr, Owner, origin.ToPoint(), v.ToPoint(), Colors.Blue, Brushes.Blue, 5);
+            SceneMgr.DelayedAttachToScene(laser);
+            removeLines();
         }
     }
 }
