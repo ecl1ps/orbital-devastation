@@ -199,6 +199,7 @@ namespace Orbit.Core.Server
                 case PacketType.BULLET_HIT:
                 case PacketType.NEW_ASTEROID:
                 case PacketType.MINOR_ASTEROID_SPAWN:
+                case PacketType.NEW_SINGULARITY_EXPLODING_BULLET:
                     ForwardMessage(msg);
                     break;
                 case PacketType.START_GAME_REQUEST:

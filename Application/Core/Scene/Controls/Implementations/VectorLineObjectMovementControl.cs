@@ -1,6 +1,7 @@
 using System;
 using System.Windows;
 using Orbit.Core.Scene.Entities;
+using Orbit.Core.Scene.Entities.Implementations;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {

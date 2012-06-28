@@ -19,7 +19,7 @@ namespace Orbit.Core.Weapons
         public ProximityCannonII(SceneMgr mgr, Player owner) : base(mgr, owner)
         {
             Cost = 300;
-            Name = "ProximityCannonII";
+            Name = "Proximity Cannon II";
             WeaponType = WeaponType.CANNON;
         }
 

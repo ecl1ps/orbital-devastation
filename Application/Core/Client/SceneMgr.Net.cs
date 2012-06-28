@@ -293,6 +293,16 @@ namespace Orbit.Core.Client
                         SyncReceivedObject(s, msg);
                     }
                     break;
+                case PacketType.NEW_SINGULARITY_EXPLODING_BULLET:
+                    {
+                        SingularityExplodingBullet s = new SingularityExplodingBullet(this);
+                        s.ReadObject(msg);
+                        s.Owner = GetOpponentPlayer();
+                        s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
+                        DelayedAttachToScene(s);
+                        SyncReceivedObject(s, msg);
+                    }
+                    break;
                 case PacketType.NEW_HOOK:
                     {
                         Hook h = new Hook(this);

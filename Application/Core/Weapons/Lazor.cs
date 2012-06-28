@@ -186,7 +186,7 @@ namespace Orbit.Core.Weapons
 
         private void Fire()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

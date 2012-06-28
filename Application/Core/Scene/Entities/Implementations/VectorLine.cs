@@ -11,7 +11,7 @@ using Orbit.Core.Helpers;
 using Orbit.Core.Scene.Entities.Implementations;
 using System.Windows.Shapes;
 
-namespace Orbit.Core.Scene.Entities
+namespace Orbit.Core.Scene.Entities.Implementations
 {
     public class VectorLine : SceneObject, IMovable
     {

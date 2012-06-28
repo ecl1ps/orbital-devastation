@@ -118,7 +118,7 @@
     <Compile Include="Core\Scene\Entities\Implementations\Circle.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\SolidLine.cs" />
     <Compile Include="Core\Scene\Entities\IProjectile.cs" />
-    <Compile Include="Core\Scene\Entities\VectorLine.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\VectorLine.cs" />
     <Compile Include="Core\Scene\Entities\IDamageable.cs" />
     <Compile Include="Core\Scene\Entities\IDestroyable.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\MinorAsteroid.cs" />
