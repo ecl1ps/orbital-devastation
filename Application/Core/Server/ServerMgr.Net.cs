@@ -124,20 +124,6 @@ namespace Orbit.Core.Server
             Console.WriteLine("Server " + GetPlayer(msg.SenderConnection).GetId() + ": received msg " + type.ToString());
             switch (type)
             {
-                case PacketType.ALL_PLAYER_DATA:
-                case PacketType.ALL_ASTEROIDS:
-                case PacketType.NEW_SINGULARITY_MINE:
-                case PacketType.NEW_SINGULARITY_BULLET:
-                case PacketType.NEW_HOOK:
-                case PacketType.SINGULARITY_MINE_HIT:
-                case PacketType.CHAT_MESSAGE:
-                case PacketType.HOOK_HIT:
-                case PacketType.BULLET_HIT:
-                case PacketType.NEW_ASTEROID:
-                case PacketType.MINOR_ASTEROID_SPAWN:
-                case PacketType.NEW_SINGULARITY_EXPLODING_BULLET:
-                    ForwardMessage(msg);
-                    break;
                 case PacketType.START_GAME_REQUEST:
                     ReceivedStartGameRequestMsg(msg);
                     break;
@@ -165,6 +151,9 @@ namespace Orbit.Core.Server
                     break;
                 case PacketType.SCORE_QUERY_RESPONSE:
                     ReceivedScoreQueryResponseMsg(msg);
+                    break;
+                default:
+                    ForwardMessage(msg);
                     break;
             }
         }
