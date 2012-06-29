@@ -25,7 +25,10 @@ namespace Orbit.Gui.ActionControllers
             {
                 player.AddGoldAndShow(-weapon.Cost);
                 AddWeapon();
-                window.Remove();
+                if (weapon.Next() != null)
+                    window.AttachNewController(new WeaponActionController(sceneMgr, weapon.Next(), player));
+                else
+                    window.Remove();
             }
         }
 

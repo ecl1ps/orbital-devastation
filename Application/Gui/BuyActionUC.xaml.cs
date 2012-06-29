@@ -15,12 +15,14 @@ using Orbit.Core.Utils;
 using Orbit.Core.Scene;
 using Orbit.Gui.ActionControllers;
 using Orbit.Core.Client;
+using ShaderEffectLibrary;
 
 namespace Orbit.Gui
 {
     public partial class BuyActionUC : UserControl
     {
         private ActionController controller;
+        private bool active = true;
 
         private BuyActionUC(ActionController c)
         {
@@ -35,14 +37,19 @@ namespace Orbit.Gui
         {
             BuyActionUC w = new BuyActionUC(c);
 
-            c.Enqueue(new Action(() =>
-            {
-                c.CreateHeaderText(w);
-                c.CreatePriceText(w);
-                c.CreateImageUriString(w);
-            }));
+            w.AttachNewController(c);
 
             return w;
+        }
+
+        public void AttachNewController(ActionController c)
+        {
+            c.Enqueue(new Action(() =>
+            {
+                c.CreateHeaderText(this);
+                c.CreatePriceText(this);
+                c.CreateImageUriString(this);
+            }));
         }
 
         /// <summary>
@@ -95,6 +102,9 @@ namespace Orbit.Gui
 
         public void OnClick(Point point)
         {
+            if (!active)
+                return;
+
             Point p = PointFromScreen(point);
             double maxX = this.ActualWidth;
             double maxY = this.ActualHeight;
@@ -107,6 +117,41 @@ namespace Orbit.Gui
                         controller.ActionClicked(this);
                     }));
                 }
+        }
+
+        /// <summary>
+        /// thread safe
+        /// </summary>
+        public void Activate()
+        {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (!active)
+                {
+                    active = true;
+                    ButtonImage.Effect = null;
+                }
+            }));
+        }
+
+        /// <summary>
+        /// thread safe
+        /// </summary>
+        public void Deactivate()
+        {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (active)
+                {
+                    active = false;
+                    MonochromeEffect eff = new MonochromeEffect();
+                    eff.FilterColor = Color.FromArgb(0x00, 0x40, 0x40, 0x40);
+                    /*EmbossedEffect eff = new EmbossedEffect();
+                    eff.Amount = 10;
+                    eff.Width = 0.001;*/
+                    ButtonImage.Effect = eff;
+                }
+            }));
         }
     }
 }

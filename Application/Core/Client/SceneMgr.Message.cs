@@ -192,6 +192,9 @@ namespace Orbit.Core.Client
                 if (p.IsActivePlayer())
                 {
                     p.CreateWeapons();
+                    if (p.IsCurrentPlayer())
+                        actionMgr.CreateActionBarItems();
+
                     // zobrazi aktualni integrity bazi
                     p.SetBaseIntegrity(p.GetBaseIntegrity());
                     p.Baze = SceneObjectFactory.CreateBase(this, p);

@@ -70,22 +70,22 @@ namespace Orbit.Core
 
         public const bool ALLOW_SPECTATORS_IN_DUO_MATCH     = true;
 
-        public const int START_GOLD                         = 500;
+        public const int START_GOLD                         = 600;
 
         /// <summary>
         /// velikost canvasu je zaroven velikost celeho okna
         /// </summary>
-        public static Size CANVAS_SIZE = new Size(1000, 700);
+        public static Size CANVAS_SIZE                      = new Size(1000, 700);
 
         /// <summary>
         /// view port je oblast, kde se odehrava cela hra - mimo ni by se nemelo nic dit (mimo je pak action bar)
         /// </summary>
-        public static Size VIEW_PORT_SIZE = new Size(CANVAS_SIZE.Width, CANVAS_SIZE.Height - 50); // 50 JSOU BARY DOLE
+        public static Size VIEW_PORT_SIZE                   = new Size(CANVAS_SIZE.Width, CANVAS_SIZE.Height - 50); // 50 JSOU BARY DOLE
 
         /// <summary>
         /// orbit area je horni oblast obrazovky - pas kde se pohybuji asteroidy
         /// </summary>
-        public static Rect ORBIT_AREA = new Rect(0, 0, CANVAS_SIZE.Width, 200);
+        public static Rect ORBIT_AREA                       = new Rect(0, 0, CANVAS_SIZE.Width, 200);
 
         public const string CONFIG_FILE                     = "player";
     }
