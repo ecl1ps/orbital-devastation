@@ -20,7 +20,7 @@ namespace Orbit.Core.Weapons
         {
             Cost = 300;
             Name = "Proximity Cannon II";
-            WeaponType = WeaponType.CANNON;
+            WeaponLevel = WeaponLevel.LEVEL2;
         }
 
         public override IWeapon Next()

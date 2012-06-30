@@ -18,6 +18,13 @@ namespace Orbit.Core.Weapons
         MINE
     }
 
+    public enum WeaponLevel
+    {
+        LEVEL1,
+        LEVEL2,
+        LEVEL3,
+    }
+
     public interface IWeapon : IGameState
     {
         Player Owner { get; set; }
@@ -26,6 +33,7 @@ namespace Orbit.Core.Weapons
         int Cost { get; set; }
         String Name { get; set; }
         WeaponType WeaponType { get; set; }
+        WeaponLevel WeaponLevel { get; set; }
 
         IWeapon Next();
 

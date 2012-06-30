@@ -23,6 +23,7 @@ namespace Orbit.Core.Weapons
         public int Cost { get; set; }
         public String Name { get; set; }
         public WeaponType WeaponType { get; set; }
+        public WeaponLevel WeaponLevel { get; set; }
 
         protected Hook hook;
         protected IWeapon next;
@@ -33,6 +34,7 @@ namespace Orbit.Core.Weapons
             Owner = owner;
             Name = "Hook launcher";
             WeaponType = WeaponType.HOOK;
+            WeaponLevel = WeaponLevel.LEVEL1;
             ReloadTime = 0;
         }
 

@@ -144,5 +144,6 @@ namespace Orbit.Core
         PLAYER_SCORE,
         SCORE_QUERY,
         SCORE_QUERY_RESPONSE,
+        PLAYER_RECEIVED_POWERUP,
     }    
 }

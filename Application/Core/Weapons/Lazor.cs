@@ -19,6 +19,7 @@ namespace Orbit.Core.Weapons
         public int Cost { get; set; }
         public string Name { get; set; }
         public WeaponType WeaponType { get; set; }
+        public WeaponLevel WeaponLevel { get; set; }
         private float chargingTime = 0;
 
         private bool charging = false;
@@ -37,6 +38,7 @@ namespace Orbit.Core.Weapons
             SceneMgr = mgr;
             Owner = owner;
             WeaponType = WeaponType.CANNON;
+            WeaponLevel = WeaponLevel.LEVEL3;
             Name = "Blue Laser";
             Cost = 650;
             origin = Owner.Baze.Position;

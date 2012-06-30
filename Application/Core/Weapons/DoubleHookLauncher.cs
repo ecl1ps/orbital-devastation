@@ -35,7 +35,7 @@ namespace Orbit.Core.Weapons
             maxCount = 2;
             Cost = 300;
             Name = "Double Hook Launcher";
-            WeaponType = WeaponType.HOOK;
+            WeaponLevel = WeaponLevel.LEVEL2;
         }
 
         public override IWeapon Next()
