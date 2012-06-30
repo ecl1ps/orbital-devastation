@@ -21,14 +21,14 @@ namespace Orbit.Gui.ActionControllers
 
         public override void ActionClicked(BuyActionUC window)
         {
+            if (weapon == null)
+                return;
+
             if (player.Data.Gold >= weapon.Cost)
             {
                 player.AddGoldAndShow(-weapon.Cost);
                 AddWeapon();
-                if (weapon.Next() != null)
-                    window.AttachNewController(new WeaponActionController(sceneMgr, weapon.Next(), player));
-                else
-                    window.Remove();
+                window.AttachNewController(new WeaponActionController(sceneMgr, weapon.Next(), player));
             }
         }
 
@@ -50,12 +50,21 @@ namespace Orbit.Gui.ActionControllers
 
         public override void CreateHeaderText(BuyActionUC window)
         {
-            window.SetHeaderText(weapon.Name);
+            if (weapon != null)
+                window.SetHeaderText(weapon.Name);
+            else
+                window.SetHeaderText("No upgrades");
         }
 
         public override void CreatePriceText(BuyActionUC window)
         {
-            window.SetPriceText("Costs " + weapon.Cost + " credits");
+            if (weapon != null)
+                window.SetPriceText("Costs " + weapon.Cost + " credits");
+            else
+            {
+                window.SetPriceText("No cost");
+                window.Deactivate();
+            }
         }
 
         public override void CreateImageUriString(BuyActionUC window)
