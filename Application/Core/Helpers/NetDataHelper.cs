@@ -155,8 +155,13 @@ namespace Orbit.Core.Helpers
                     msg.Write(typeof(HookControl).GUID.GetHashCode());
                     msg.WriteObjectHookControl(c as HookControl);
                 }
+                else if (c is FiringSingularityControl)
+                {
+                    msg.Write(typeof(FiringSingularityControl).GUID.GetHashCode());
+                    msg.WriteObjectFiringSingularityControl(c as FiringSingularityControl);
+                }
                 else
-                    Console.Error.WriteLine("Sending unspported control (" + typeof(LinearMovementControl).Name + ")!");
+                    Console.Error.WriteLine("Sending unspported control (" + c.GetType().Name + ")!");
             }
         }
 
@@ -201,6 +206,12 @@ namespace Orbit.Core.Helpers
                 {
                     HookControl c = new HookControl();
                     msg.ReadObjectHookControl(c);
+                    controls.Add(c);
+                }
+                else if (hash == typeof(FiringSingularityControl).GUID.GetHashCode())
+                {
+                    FiringSingularityControl c = new FiringSingularityControl();
+                    msg.ReadObjectFiringSingularityControl(c);
                     controls.Add(c);
                 }
                 else
@@ -275,6 +286,18 @@ namespace Orbit.Core.Helpers
             c.Lenght = msg.ReadInt32();
             c.Origin = msg.ReadVector();
             c.Speed = msg.ReadInt32();
+        }
+
+        public static void WriteObjectFiringSingularityControl(this NetOutgoingMessage msg, FiringSingularityControl c)
+        {
+            msg.Write(c.Strength);
+            msg.Write(c.Speed);
+        }
+
+        public static void ReadObjectFiringSingularityControl(this NetIncomingMessage msg, FiringSingularityControl c)
+        {
+            c.Strength = msg.ReadFloat();
+            c.Speed = msg.ReadFloat();
         }
 
         public static void WriteObjectBase(this NetOutgoingMessage msg, Base b)

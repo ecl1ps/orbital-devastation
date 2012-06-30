@@ -36,10 +36,10 @@ namespace Orbit.Core.Scene.Entities
         public override bool IsOnScreen(System.Windows.Size screenSize)
         {
             // 5 je tolerance, ktera zabranuje nepresnostem na rozhrani
-            if (Center.X <= -(Radius + 5) || Center.Y <= -(Radius + 5))
+            if (Center.X <= -(Radius * 3 + 5) || Center.Y <= -(Radius + 5))
                 return false;
 
-            if (Center.X >= screenSize.Width + Radius + 5 || Center.Y >= screenSize.Height + Radius + 5)
+            if (Center.X >= screenSize.Width + Radius * 3 + 5 || Center.Y >= screenSize.Height + Radius + 5)
                 return false;
 
             return true;

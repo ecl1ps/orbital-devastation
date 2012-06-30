@@ -34,7 +34,7 @@ namespace Orbit.Core.Weapons
             hooks = new List<HookData>();
             maxCount = 2;
             Cost = 300;
-            Name = "Double hook launcher";
+            Name = "Double Hook Launcher";
             WeaponType = WeaponType.HOOK;
         }
 

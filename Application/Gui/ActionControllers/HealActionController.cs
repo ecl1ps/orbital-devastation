@@ -21,7 +21,7 @@ namespace Orbit.Gui.ActionControllers
         public override void ActionClicked(BuyActionUC window)
         {
             healingKit.Heal();
-            window.Remove();
+            window.AttachNewController(new HealActionController(sceneMgr, sceneMgr.GetCurrentPlayer().HealingKit));
         }
 
         public override void CreateHeaderText(BuyActionUC window)

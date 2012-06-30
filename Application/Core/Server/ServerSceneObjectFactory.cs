@@ -88,7 +88,7 @@ namespace Orbit.Core.Server
         {
             Asteroid s = CreateNewRandomAsteroid(mgr, headingRight);
 
-            s.Position = new Vector(s.IsHeadingRight ? (int)(-2 * s.Radius) : (int)(SharedDef.ORBIT_AREA.Width),
+            s.Position = new Vector(s.IsHeadingRight ? (int)(-4 * s.Radius) : (int)(SharedDef.ORBIT_AREA.Width + 2 * s.Radius),
                 mgr.GetRandomGenerator().Next((int)(SharedDef.ORBIT_AREA.Y), (int)(SharedDef.ORBIT_AREA.Height - 2 * s.Radius)));
 
             return s;

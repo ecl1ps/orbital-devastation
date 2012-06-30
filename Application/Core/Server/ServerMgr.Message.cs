@@ -1,0 +1,128 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Lidgren.Network;
+using Orbit.Core.Players;
+using Orbit.Core.Helpers;
+using Orbit.Core.Server.Match;
+
+namespace Orbit.Core.Server
+{
+    public partial class ServerMgr
+    {
+        private void PlayerConnectionApproval(NetIncomingMessage msg)
+        {
+            Console.WriteLine("Incoming LOGIN");
+
+            // nepridavat hrace, pokud uz existuje
+            if (players.Exists(plr => plr.Connection.RemoteUniqueIdentifier == msg.SenderConnection.RemoteUniqueIdentifier))
+                return;
+
+            string plrName = msg.ReadString();
+            string plrHash = msg.ReadString();
+
+            // nepridavat ani hrace ze stejne instance hry (nejde je potom spolehlive rozlisit v tournamentu)
+            Player p = players.Find(plr => plr.Data.HashId == plrHash);
+            if (p == null)
+                p = CreateAndAddPlayer(plrName, plrHash);
+            else if (p.IsOnlineAndOrBot())
+                return;
+
+            p.Connection = msg.SenderConnection;
+
+            NetOutgoingMessage hailMsg = CreateNetMessage();
+            hailMsg.Write((int)PacketType.PLAYER_ID_HAIL);
+            hailMsg.Write(p.Data.Id);
+            hailMsg.Write(p.Data.Name);
+            hailMsg.Write((byte)GameType);
+            bool tournamentRunning = GameType == Gametype.TOURNAMENT_GAME && gameSession != null && gameSession.IsRunning;
+            hailMsg.Write(tournamentRunning);
+
+            // Approve clients connection (Its sort of agreenment. "You can be my client and i will host you")
+            msg.SenderConnection.Approve(hailMsg);
+
+            // jakmile potvrdime spojeni nejakeho hrace, tak hned zesynchronizujeme data hracu mezi vsemi hraci
+            NetOutgoingMessage plrs = CreateAllPlayersDataMessage();
+            BroadcastMessage(plrs);
+        }
+
+        private void SendPlayerLeftMessage(Player p)
+        {
+            NetOutgoingMessage outMsg = CreateNetMessage();
+            outMsg.Write((int)PacketType.PLAYER_DISCONNECTED);
+            outMsg.Write(p.GetId());
+            BroadcastMessage(outMsg);
+        }
+
+        public NetOutgoingMessage CreateAllPlayersDataMessage()
+        {
+            // data vsech hracu
+            NetOutgoingMessage outmsg = CreateNetMessage();
+
+            outmsg.Write((int)PacketType.ALL_PLAYER_DATA);
+            int onlinePlayers = 0;
+            players.ForEach(p => { if (p.IsOnlineAndOrBot()) onlinePlayers++; });
+            outmsg.Write(onlinePlayers);
+
+            foreach (Player plr in players)
+            {
+                if (!plr.IsOnlineAndOrBot())
+                    continue;
+
+                outmsg.Write(plr.GetId());
+                outmsg.WriteObjectPlayerData(plr.Data);
+            }
+
+            return outmsg;
+        }
+
+        private void ReceivedScoreQueryResponseMsg(NetIncomingMessage msg)
+        {
+            Player p = GetPlayer(msg.ReadInt32());
+            p.Data.Score = msg.ReadInt32();
+
+            if (!playersRespondedScore.Contains(p.GetId()))
+                playersRespondedScore.Add(p.GetId());
+
+            if (playersRespondedScore.Count >= (players.Count > 1 ? 2 : players.Count))
+            {
+                // EndGame() s hracem, ktery vyhral
+                savedEndGameAction.Invoke();
+                savedEndGameAction = null;
+            }
+        }
+
+        private void ReceivedPlayerReadyMsg(NetIncomingMessage msg)
+        {
+            Player p = GetPlayer(msg.SenderConnection);
+            msg.ReadInt32(); // Id
+            p.Data.LobbyReady = true;
+            p.Data.LobbyLeader = msg.ReadBoolean();
+
+            // vytvorit novou zpravu, protoze id jeste nemuselo byt ziniciovano
+            NetOutgoingMessage rdyMsg = CreateNetMessage();
+            rdyMsg.Write((int)PacketType.PLAYER_READY);
+            rdyMsg.Write(p.GetId());
+            rdyMsg.Write(p.Data.LobbyLeader);
+            BroadcastMessage(rdyMsg);
+        }
+
+        private void ReceivedStartGameRequestMsg(NetIncomingMessage msg)
+        {
+            if (GameType != Gametype.SOLO_GAME && players.Count < 2)
+                return;
+
+            if (gameSession == null)
+                gameSession = new GameManager(this, players);
+
+            if (gameSession.CheckTournamentFinished())
+                return;
+
+            gameSession.CreateNewMatch();
+            isInitialized = true;
+
+            gameSession.RequestStartMatch(GetPlayer(msg.SenderConnection));
+        }
+    }
+}

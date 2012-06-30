@@ -69,5 +69,20 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
             SceneMgr.DelayedAttachToScene(smallBullet);
         }
+
+        public override void WriteObject(NetOutgoingMessage msg)
+        {
+            msg.Write((int)PacketType.NEW_SINGULARITY_EXPLODING_BULLET);
+            msg.WriteObjectSingularityBullet(this);
+            msg.WriteControls(GetControlsCopy());
+        }
+
+        public override void ReadObject(NetIncomingMessage msg)
+        {
+            msg.ReadObjectSingularityBullet(this);
+            IList<IControl> controls = msg.ReadControls();
+            foreach (Control c in controls)
+                AddControl(c);
+        }
     }
 }

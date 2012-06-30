@@ -26,10 +26,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
             hit = false;
         }
 
-        protected override void UpdateGeometricState()
-        {
-        }
-
         public override void DoCollideWith(ICollidable other)
         {
             if (other is IDestroyable)
@@ -84,14 +80,14 @@ namespace Orbit.Core.Scene.Entities.Implementations
             }
         }
 
-        public void WriteObject(NetOutgoingMessage msg)
+        public virtual void WriteObject(NetOutgoingMessage msg)
         {
             msg.Write((int)PacketType.NEW_SINGULARITY_BULLET);
             msg.WriteObjectSingularityBullet(this);
             msg.WriteControls(GetControlsCopy());
         }
 
-        public void ReadObject(NetIncomingMessage msg)
+        public virtual void ReadObject(NetIncomingMessage msg)
         {
             msg.ReadObjectSingularityBullet(this);
             IList<IControl> controls = msg.ReadControls();
