@@ -19,6 +19,7 @@ namespace Orbit.Core.Client
 
         private Point position;
         private Point center;
+        private Point nativePosition;
 
         private FrameworkElement cursor;
         private bool enabled;
@@ -62,9 +63,12 @@ namespace Orbit.Core.Client
 
         public static Point GetPosition()
         {
-            if (instance != null)
+            if (instance != null && instance.enabled)
                 return instance.position;
-            return new Point();
+            else if (instance != null && !instance.enabled)
+                return instance.nativePosition;
+            else
+                return new Point(Cursor.Position.X, Cursor.Position.Y);
         }
 
         private void EnableMouse(bool enable)
@@ -141,7 +145,10 @@ namespace Orbit.Core.Client
         public void Update(float tpf)
         {
             if (!enabled)
+            {
+                ComputeNativePosition();
                 return;
+            }
 
             if (!sceneMgr.GetCanvas().IsVisible)
                 return;
@@ -167,6 +174,14 @@ namespace Orbit.Core.Client
 
                 if (cursor.IsVisible)
                     UpdateCustomCursor(position);
+            }));
+        }
+
+        private void ComputeNativePosition()
+        {
+            sceneMgr.Invoke(new Action(() =>
+            {
+                nativePosition = sceneMgr.GetCanvas().PointFromScreen(new Point(Cursor.Position.X, Cursor.Position.Y));
             }));
         }
 
