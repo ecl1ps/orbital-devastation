@@ -217,7 +217,7 @@ namespace Orbit.Core.Players
             return sb.ToString();
         }
 
-        public bool IsOnlineAndOrBot()
+        public bool IsOnlineOrBot()
         {
             return (Data.PlayerType == PlayerType.BOT) || (Connection != null && (Connection.Status == NetConnectionStatus.Connected || Connection.Status == NetConnectionStatus.RespondedAwaitingApproval));
         }

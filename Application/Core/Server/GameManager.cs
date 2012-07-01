@@ -12,19 +12,24 @@ using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Helpers;
 using System.Net;
 using System.Windows;
+using Orbit.Core.Weapons;
+using Orbit.Core.Server.Match;
+using Orbit.Core.Server.Level;
 
-namespace Orbit.Core.Server.Match
+namespace Orbit.Core.Server
 {
-    public class GameManager
+    public class GameManager : IGameState
     {
         private ServerMgr serverMgr;
         private List<Player> players;
         private SortedSet<string> tournamentPlayerIds;
         private List<ISceneObject> objects;
         private ITournamentMatchMaker matchMaker;
+        private IGameLevel gameLevel;
 
         public int Level { get; set; }
         public bool IsRunning { get; set; }
+
         private bool matchCreated;
 
         public GameManager(ServerMgr serverMgr, List<Player> players)
@@ -35,8 +40,7 @@ namespace Orbit.Core.Server.Match
             tournamentPlayerIds = new SortedSet<string>();
             if (serverMgr.GameType == Gametype.TOURNAMENT_GAME)
                 players.ForEach(p => tournamentPlayerIds.Add(p.Data.HashId));
-            // TODO
-            Level = 1;
+
             matchCreated = false;
         }
 
@@ -47,16 +51,17 @@ namespace Orbit.Core.Server.Match
 
             matchCreated = true;
 
+            CreateNewLevel();
+
             // pri solo hre se vytvori jeden bot
             if (players.Count == 1)
             {
                 Player bot = serverMgr.CreateAndAddPlayer("Bot", "NullBotHash");
                 bot.Data.PlayerType = PlayerType.BOT;
-                bot.Data.BotType = BotType.LEVEL2;
+                if (gameLevel.IsBotAllowed())
+                    bot.Data.BotType = SharedDef.DEFAULT_BOT;
                 bot.Data.StartReady = true;
             }
-
-            CreateNewLevel();
 
             foreach (Player p in players)
                 p.Data.Active = false;
@@ -86,27 +91,8 @@ namespace Orbit.Core.Server.Match
         {
             objects = new List<ISceneObject>();
 
-            switch (Level)
-            {
-                case 1:
-                    CreateAsteroidField(SharedDef.ASTEROID_COUNT);
-                    break;
-                case 2:
-                    CreateTestLevel();
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private void CreateTestLevel()
-        {
-            Rect baseLoc = PlayerBaseLocation.GetBaseLocation(PlayerPosition.LEFT);
-
-            objects.Add(ServerSceneObjectFactory.CreateCustomAsteroid(serverMgr, 10, new Vector(baseLoc.X - 10 * 2 - 1, 100), new Vector(0, 1)));
-            objects.Add(ServerSceneObjectFactory.CreateCustomAsteroid(serverMgr, 20, new Vector(baseLoc.X - 20 * 2, 200), new Vector(0, 1)));
-            objects.Add(ServerSceneObjectFactory.CreateCustomAsteroid(serverMgr, 10, new Vector(baseLoc.X + baseLoc.Width + 1, 100), new Vector(0, 1)));
-            objects.Add(ServerSceneObjectFactory.CreateCustomAsteroid(serverMgr, 20, new Vector(baseLoc.X + baseLoc.Width, 200), new Vector(0, 1)));
+            gameLevel = GameLevelManager.CreateNewGameLevel(serverMgr, SharedDef.STARTING_LEVEL, objects);
+            gameLevel.CreateLevelObjects();
         }
 
         public void GameEnded(Player plr, GameEnd endType)
@@ -118,12 +104,6 @@ namespace Orbit.Core.Server.Match
                 matchMaker.MatchEnded(plr, endType);
         }
 
-        private void CreateAsteroidField(int count)
-        {
-            for (int i = 0; i < count; ++i)
-                objects.Add(ServerSceneObjectFactory.CreateNewRandomAsteroid(serverMgr, i % 2 == 0));
-        }
-
         public void ObjectDestroyed(long id)
         {
             ISceneObject obj = objects.Find(o => o.Id == id);
@@ -132,16 +112,12 @@ namespace Orbit.Core.Server.Match
 
             objects.Remove(obj);
 
-            NetOutgoingMessage msg = serverMgr.CreateNetMessage();
-
             if (obj is Asteroid)
             {
                 obj = ServerSceneObjectFactory.CreateNewAsteroidOnEdge(serverMgr, (obj as Asteroid).IsHeadingRight);
-                (obj as Asteroid).WriteObject(msg);
+                GameLevelManager.SendNewObject(serverMgr, obj);
+                objects.Add(obj);
             }
-
-            objects.Add(obj);
-            serverMgr.BroadcastMessage(msg);
         }
 
         private void SendMatchData()
@@ -193,6 +169,8 @@ namespace Orbit.Core.Server.Match
                 startMsg.Write((int)PacketType.START_GAME_RESPONSE);
                 serverMgr.BroadcastMessage(startMsg);
 
+                gameLevel.OnStart();
+
                 IsRunning = true;
                 return true;
             }
@@ -242,5 +220,20 @@ namespace Orbit.Core.Server.Match
 
             return true;
         }
+
+        public void Update(float tpf)
+        {
+            if (!IsRunning)
+                return;
+
+            gameLevel.Update(tpf);
+        }
+    }
+
+    public enum GameLevel
+    {
+        NORMAL1,
+        TEST_BASE_COLLISIONS,
+        TEST_POWERUPS
     }
 }

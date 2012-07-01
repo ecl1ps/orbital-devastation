@@ -189,19 +189,24 @@ namespace Orbit.Core.Client
 
         }
 
-        private IGameState CreateBot(Player plr)
+        private void CreateAndAddBot(Player plr)
         {
+            if (plr.Data.BotType == BotType.NONE)
+                return;
+
             switch (plr.Data.BotType)
             {
                 case BotType.LEVEL1:
-                    return new SimpleBot(this, objects, plr);
+                    StateMgr.AddGameState(new SimpleBot(this, objects, plr));
+                    break;
                 case BotType.LEVEL2:
-                    return new HookerBot(this, objects, plr);
+                    StateMgr.AddGameState(new HookerBot(this, objects, plr));
+                    break;
                 case BotType.LEVEL3:
                 case BotType.LEVEL4:
                 case BotType.LEVEL5:
                 default:
-                    return null;
+                    break;
             }
         }
 

@@ -26,7 +26,7 @@ namespace Orbit.Core.Server
             Player p = players.Find(plr => plr.Data.HashId == plrHash);
             if (p == null)
                 p = CreateAndAddPlayer(plrName, plrHash);
-            else if (p.IsOnlineAndOrBot())
+            else if (p.IsOnlineOrBot())
                 return;
 
             p.Connection = msg.SenderConnection;
@@ -62,12 +62,12 @@ namespace Orbit.Core.Server
 
             outmsg.Write((int)PacketType.ALL_PLAYER_DATA);
             int onlinePlayers = 0;
-            players.ForEach(p => { if (p.IsOnlineAndOrBot()) onlinePlayers++; });
+            players.ForEach(p => { if (p.IsOnlineOrBot()) onlinePlayers++; });
             outmsg.Write(onlinePlayers);
 
             foreach (Player plr in players)
             {
-                if (!plr.IsOnlineAndOrBot())
+                if (!plr.IsOnlineOrBot())
                     continue;
 
                 outmsg.Write(plr.GetId());

@@ -139,6 +139,11 @@
     <Compile Include="Core\Helpers\SceneGeometryFactory.cs" />
     <Compile Include="Core\Helpers\SceneObjectFactory.cs" />
     <Compile Include="Core\IGameState.cs" />
+    <Compile Include="Core\Server\Level\LevelTestPowerUp.cs" />
+    <Compile Include="Core\Server\Level\GameLevelManager.cs" />
+    <Compile Include="Core\Server\Level\IGameLevel.cs" />
+    <Compile Include="Core\Server\Level\LevelNormal1.cs" />
+    <Compile Include="Core\Server\Level\LevelTestBaseCollisions.cs" />
     <Compile Include="Core\Server\Match\OneToAllThenScoreMatchMaker.cs" />
     <Compile Include="Core\Server\Match\ITournamentMatchMaker.cs" />
     <Compile Include="Core\Server\Match\OneToAllTillWinnerMatchMaker.cs" />
@@ -210,7 +215,7 @@
     <Compile Include="Gui\MainUC.xaml.cs">
       <DependentUpon>MainUC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Core\Server\Match\GameManager.cs" />
+    <Compile Include="Core\Server\GameManager.cs" />
     <Compile Include="Core\Server\ServerSceneObjectFactory.cs" />
     <Compile Include="Core\Server\ServerMgr.cs" />
     <Compile Include="Core\Server\ServerMgr.Net.cs" />
@@ -410,6 +415,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>rd "$(ProjectDir)obj" /S /Q

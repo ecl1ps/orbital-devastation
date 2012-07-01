@@ -1,5 +1,7 @@
 ﻿
 using System.Windows;
+using Orbit.Core.Server;
+using Orbit.Core.Players;
 namespace Orbit.Core
 {
     class SharedDef
@@ -24,12 +26,16 @@ namespace Orbit.Core
         public const int MAX_ASTEROID_ROTATION_SPEED        =  10;
 
         public const int ASTEROID_COUNT                     = 30;
+        public const float NEW_ASTEROID_TIMER               = 10; // seconds
         public const int GOLD_ASTEROID_BONUS_MULTIPLY       = 10;
 
         public const int ASTEROID_GOLD_CHANCE               = 25; // (0 - 100)
         public const int ASTEROID_UNSTABLE_CHANCE           = 80; // 10 procent, musi se brat ohled na chance ostatnich typu
 
         public const int BASE_MAX_INGERITY                  = 100;
+
+        public const int NEW_STAT_POWERUP_TIMER_MIN         = 2; // seconds
+        public const int NEW_STAT_POWERUP_TIMER_MAX         = 5; // seconds
 
         // pouzito pouze v SingularityControl
         public const float MINE_INVISIBILITY_TIME           = 0.5f;
@@ -88,6 +94,8 @@ namespace Orbit.Core
         public static Rect ORBIT_AREA                       = new Rect(0, 0, CANVAS_SIZE.Width, 200);
 
         public const string CONFIG_FILE                     = "player";
+        public const GameLevel STARTING_LEVEL               = GameLevel.TEST_POWERUPS;
+        public const BotType DEFAULT_BOT                    = BotType.LEVEL2;
     }
 
     public enum Gametype
