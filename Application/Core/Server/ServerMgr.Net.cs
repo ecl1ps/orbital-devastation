@@ -34,9 +34,7 @@ namespace Orbit.Core.Server
 #if DEBUG
             conf.SimulatedMinimumLatency = 0.2f; // 100ms
             conf.SimulatedRandomLatency = 0.05f; // +- 50ms
-#endif
 
-            // debug only
             conf.EnableMessageType(NetIncomingMessageType.DebugMessage);
             conf.EnableMessageType(NetIncomingMessageType.Error);
             conf.EnableMessageType(NetIncomingMessageType.ErrorMessage);
@@ -44,6 +42,7 @@ namespace Orbit.Core.Server
             conf.EnableMessageType(NetIncomingMessageType.UnconnectedData);
             conf.EnableMessageType(NetIncomingMessageType.VerboseDebugMessage);
             conf.EnableMessageType(NetIncomingMessageType.WarningMessage);
+#endif
 
             server = new NetServer(conf);
             server.Start();
@@ -121,7 +120,9 @@ namespace Orbit.Core.Server
         private void ProcessIncomingDataMessage(NetIncomingMessage msg)
         {
             PacketType type = (PacketType)msg.ReadInt32();
+#if DEBUG
             Console.WriteLine("Server " + GetPlayer(msg.SenderConnection).GetId() + ": received msg " + type.ToString());
+#endif
             switch (type)
             {
                 case PacketType.START_GAME_REQUEST:

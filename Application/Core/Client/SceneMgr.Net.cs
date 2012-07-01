@@ -33,10 +33,10 @@ namespace Orbit.Core.Client
             pendingMessages = new Queue<NetOutgoingMessage>();
             NetPeerConfiguration conf = new NetPeerConfiguration("Orbit");
 
-            /*conf.SimulatedMinimumLatency = 0.1f;
-            conf.SimulatedRandomLatency = 0.05f;*/
+#if DEBUG
+            conf.SimulatedMinimumLatency = 0.1f; // 100ms
+            conf.SimulatedRandomLatency = 0.05f; // +- 50ms
 
-            // debug
             conf.EnableMessageType(NetIncomingMessageType.DebugMessage);
             conf.EnableMessageType(NetIncomingMessageType.Error);
             conf.EnableMessageType(NetIncomingMessageType.ErrorMessage);
@@ -44,6 +44,7 @@ namespace Orbit.Core.Client
             conf.EnableMessageType(NetIncomingMessageType.UnconnectedData);
             conf.EnableMessageType(NetIncomingMessageType.VerboseDebugMessage);
             conf.EnableMessageType(NetIncomingMessageType.WarningMessage);
+#endif
 
             client = new NetClient(conf);
             client.Start();
@@ -104,7 +105,9 @@ namespace Orbit.Core.Client
         private void ProcessIncomingDataMessage(NetIncomingMessage msg)
         {
             PacketType type = (PacketType)msg.ReadInt32();
+#if DEBUG
             Console.WriteLine("Client " + GetCurrentPlayer().GetId() + ": received msg " + type.ToString());
+#endif
             switch (type)
             {
                 case PacketType.ALL_PLAYER_DATA:
