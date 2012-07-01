@@ -25,6 +25,8 @@ namespace Orbit.Core.Client
     {
         public Gametype GameType { get; set; }
         public FloatingTextManager FloatingTextMgr { get; set; }
+        public StatsMgr StatsMgr { get; set; }
+        public GameStateManager StateMgr { get; set; }
 
         /// <summary>
         /// canvas je velky 1000*700 - pres cele okno
@@ -43,10 +45,10 @@ namespace Orbit.Core.Client
         private bool gameEnded;
         private float statisticsTimer;
         private PlayerActionManager actionMgr;
-        public GameStateManager StateMgr { get; set; }
 
         public SceneMgr()
         {
+            StatsMgr = new StatsMgr(this);
             isGameInitialized = false;
             shouldQuit = false;
             synchronizedQueue = new ConcurrentQueue<Action>();

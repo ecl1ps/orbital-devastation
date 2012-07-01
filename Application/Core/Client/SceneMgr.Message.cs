@@ -463,6 +463,27 @@ namespace Orbit.Core.Client
             SyncReceivedObject(s, msg);
         }
 
+        private void ReceivedNewStatPowerupMsg(NetIncomingMessage msg)
+        {
+            StatPowerUp p = new StatPowerUp(this);
+            p.ReadObject(msg);
+            p.SetGeometry(SceneGeometryFactory.CreatePowerUpImage(p));
+            DelayedAttachToScene(p);
+            SyncReceivedObject(p, msg);
+        }
+
+        private void ReceivedPlayerReceivedPowerUpMsg(NetIncomingMessage msg)
+        {
+            StatsMgr.AddStatToPlayer(GetPlayer(msg.ReadInt32()).Data, (PlayerStats)msg.ReadByte(), msg.ReadFloat());
+        }
+
+        private void ReceivedPlayerReadyMsg(NetIncomingMessage msg)
+        {
+            Player pl = GetPlayer(msg.ReadInt32());
+            pl.Data.LobbyReady = true;
+            CheckAllPlayersReady();
+        }
+
         private void ReceivedAllAsteroidsMsg(NetIncomingMessage msg)
         {
             if (objects.Count > 2)

@@ -152,6 +152,10 @@ namespace Orbit.Core.Server
                 case PacketType.SCORE_QUERY_RESPONSE:
                     ReceivedScoreQueryResponseMsg(msg);
                     break;
+                case PacketType.PLAYER_RECEIVED_POWERUP:
+                    statsMgr.AddStatToPlayer(GetPlayer(msg.ReadInt32()).Data, (PlayerStats)msg.ReadByte(), msg.ReadFloat());
+                    ForwardMessage(msg);
+                    break;
                 default:
                     ForwardMessage(msg);
                     break;

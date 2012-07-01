@@ -125,6 +125,7 @@ namespace Orbit.Core
         NEW_SINGULARITY_BULLET,
         NEW_SINGULARITY_EXPLODING_BULLET,
         NEW_HOOK,
+        NEW_STAT_POWERUP,
 
         SINGULARITY_MINE_HIT,
         HOOK_HIT,

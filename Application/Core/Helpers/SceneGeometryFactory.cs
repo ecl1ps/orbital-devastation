@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using ShaderEffectLibrary;
 using Orbit.Core.Scene.Entities.Implementations;
+using Orbit.Core.Weapons;
 
 namespace Orbit.Core.Helpers
 {
@@ -210,6 +211,38 @@ namespace Orbit.Core.Helpers
             }));
 
             return line;
+        }
+
+        public static UIElement CreatePowerUpImage(StatPowerUp p)
+        {
+            Image img = null;
+            p.SceneMgr.Invoke(new Action(() =>
+            {
+
+                BitmapImage bi = new BitmapImage();
+                bi.BeginInit();
+                if (p.PowerUpWeaponType == WeaponType.MINE)
+                    bi.UriSource = new Uri("pack://application:,,,/resources/images/box/box_blue1.png");
+                else if (p.PowerUpWeaponType == WeaponType.CANNON)
+                    bi.UriSource = new Uri("pack://application:,,,/resources/images/box/box_brown.png");
+                else
+                    bi.UriSource = new Uri("pack://application:,,,/resources/images/box/box_purple.png");
+                bi.DecodePixelWidth = (int)p.Size.Width * 2;
+                bi.DecodePixelHeight = (int)p.Size.Height * 2;
+                bi.EndInit();
+
+                img = new Image();
+                img.Source = bi;
+                img.Width = p.Size.Width;
+                img.Height = p.Size.Height;
+                img.RenderTransform = new RotateTransform(p.Rotation);
+                img.RenderTransformOrigin = new Point(0.5, 0.5);
+
+                Canvas.SetLeft(img, p.Position.X);
+                Canvas.SetTop(img, p.Position.Y);
+            }));
+
+            return img;
         }
     }
 }

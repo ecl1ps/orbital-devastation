@@ -114,7 +114,10 @@ namespace Orbit.Core.Server
                 return;
 
             if (gameSession == null)
+            {
                 gameSession = new GameManager(this, players);
+                StateMgr.AddGameState(gameSession);
+            }
 
             if (gameSession.CheckTournamentFinished())
                 return;

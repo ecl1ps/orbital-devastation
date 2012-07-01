@@ -18,28 +18,32 @@ namespace Orbit.Core.Players
         {
             sceneMgr = mgr;
 
-            allStats.Add(PlayerStats.MINE_1_COOLDOWN, new Stat(WeaponLevel.LEVEL1, PlayerStats.MINE_1_COOLDOWN, 0.1f, 0.3f));
-            allStats.Add(PlayerStats.MINE_1_FALLING_SPEED, new Stat(WeaponLevel.LEVEL1, PlayerStats.MINE_1_FALLING_SPEED, 10f, 30f));
-            allStats.Add(PlayerStats.MINE_1_GROWTH_SPEED, new Stat(WeaponLevel.LEVEL1, PlayerStats.MINE_1_GROWTH_SPEED, 0.1f, 0.3f));
-            allStats.Add(PlayerStats.MINE_1_STRENGTH, new Stat(WeaponLevel.LEVEL1, PlayerStats.MINE_1_STRENGTH, 10f, 30f));
+            allStats.Add(PlayerStats.MINE_1_COOLDOWN, new Stat(WeaponLevel.LEVEL1, PlayerStats.MINE_1_COOLDOWN, -0.1f, -0.3f));
+            allStats.Add(PlayerStats.MINE_1_FALLING_SPEED, new Stat(WeaponLevel.LEVEL1, PlayerStats.MINE_1_FALLING_SPEED, +10f, +30f));
+            allStats.Add(PlayerStats.MINE_1_GROWTH_SPEED, new Stat(WeaponLevel.LEVEL1, PlayerStats.MINE_1_GROWTH_SPEED, +0.1f, +0.3f));
+            allStats.Add(PlayerStats.MINE_1_STRENGTH, new Stat(WeaponLevel.LEVEL1, PlayerStats.MINE_1_STRENGTH, +10f, +30f));
 
-            allStats.Add(PlayerStats.BULLET_1_COOLDOWN, new Stat(WeaponLevel.LEVEL1, PlayerStats.BULLET_1_COOLDOWN, 0.1f, 0.2f));
-            allStats.Add(PlayerStats.BULLET_1_DAMAGE, new Stat(WeaponLevel.LEVEL1, PlayerStats.BULLET_1_DAMAGE, 1f, 2f));
-            allStats.Add(PlayerStats.BULLET_1_SPEED, new Stat(WeaponLevel.LEVEL1, PlayerStats.BULLET_1_SPEED, 30f, 100f));
+            allStats.Add(PlayerStats.BULLET_1_COOLDOWN, new Stat(WeaponLevel.LEVEL1, PlayerStats.BULLET_1_COOLDOWN, -0.03f, -0.7f));
+            allStats.Add(PlayerStats.BULLET_1_DAMAGE, new Stat(WeaponLevel.LEVEL1, PlayerStats.BULLET_1_DAMAGE, +1f, +2f));
+            allStats.Add(PlayerStats.BULLET_1_SPEED, new Stat(WeaponLevel.LEVEL1, PlayerStats.BULLET_1_SPEED, +30f, +100f));
 
-            allStats.Add(PlayerStats.HOOK_1_COOLDOWN, new Stat(WeaponLevel.LEVEL1, PlayerStats.HOOK_1_COOLDOWN, 20f, 40f));
-            allStats.Add(PlayerStats.HOOK_1_LENGTH, new Stat(WeaponLevel.LEVEL1, PlayerStats.HOOK_1_LENGTH, 40f, 80f));
-            allStats.Add(PlayerStats.HOOK_1_SPEED, new Stat(WeaponLevel.LEVEL1, PlayerStats.HOOK_1_SPEED, 0.1f, 0.3f));
+            allStats.Add(PlayerStats.HOOK_1_SPEED, new Stat(WeaponLevel.LEVEL1, PlayerStats.HOOK_1_SPEED, +20f, +40f));
+            allStats.Add(PlayerStats.HOOK_1_LENGTH, new Stat(WeaponLevel.LEVEL1, PlayerStats.HOOK_1_LENGTH, +40f, +80f));
+            allStats.Add(PlayerStats.HOOK_1_COOLDOWN, new Stat(WeaponLevel.LEVEL1, PlayerStats.HOOK_1_COOLDOWN, -0.1f, -0.3f));
         }
         
         public void OnPlayerCaughtPowerUp(Player plr, WeaponType type)
         {
+            if (!plr.IsCurrentPlayer())
+                return;
+
             Stat pickedStat = GetStatForWeaponTypeAndLevel(type, GetWeaponLevel(plr, type));
 
             float addedValue = GenerateAndAddStatToPlayer(pickedStat, plr.Data);
 
             NetOutgoingMessage msg = sceneMgr.CreateNetMessage();
             msg.Write((int)PacketType.PLAYER_RECEIVED_POWERUP);
+            msg.Write(plr.GetId());
             msg.Write((byte)pickedStat.type);
             msg.Write(addedValue);
             sceneMgr.SendMessage(msg);
@@ -106,7 +110,7 @@ namespace Orbit.Core.Players
                         case WeaponLevel.LEVEL2:
                         case WeaponLevel.LEVEL3:
                         default:
-                            return allStats[(PlayerStats)sceneMgr.GetRandomGenerator().Next((int)PlayerStats.MINE_1_MIN, (int)PlayerStats.MINE_1_MAX)];
+                            return allStats[(PlayerStats)sceneMgr.GetRandomGenerator().Next((int)PlayerStats.MINE_1_MIN + 1, (int)PlayerStats.MINE_1_MAX)];
                     }
                 case WeaponType.CANNON:
                     switch (weaponLevel)
@@ -115,7 +119,7 @@ namespace Orbit.Core.Players
                         case WeaponLevel.LEVEL2:
                         case WeaponLevel.LEVEL3:
                         default:
-                            return allStats[(PlayerStats)sceneMgr.GetRandomGenerator().Next((int)PlayerStats.BULLET_1_MIN, (int)PlayerStats.BULLET_1_MAX)];
+                            return allStats[(PlayerStats)sceneMgr.GetRandomGenerator().Next((int)PlayerStats.BULLET_1_MIN + 1, (int)PlayerStats.BULLET_1_MAX)];
                     }
                 case WeaponType.HOOK:
                     switch (weaponLevel)
@@ -124,7 +128,7 @@ namespace Orbit.Core.Players
                         case WeaponLevel.LEVEL2:
                         case WeaponLevel.LEVEL3:
                         default:
-                            return allStats[(PlayerStats)sceneMgr.GetRandomGenerator().Next((int)PlayerStats.HOOK_1_MIN, (int)PlayerStats.HOOK_1_MAX)];
+                            return allStats[(PlayerStats)sceneMgr.GetRandomGenerator().Next((int)PlayerStats.HOOK_1_MIN + 1, (int)PlayerStats.HOOK_1_MAX)];
                     }
                 default:
                     throw new Exception("Received invalid WeaponType");

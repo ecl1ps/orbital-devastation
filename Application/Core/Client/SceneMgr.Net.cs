@@ -119,6 +119,9 @@ namespace Orbit.Core.Client
                 case PacketType.MINOR_ASTEROID_SPAWN:
                     ReceivedMinorAsteroidSpawnMsg(msg);
                     break;
+                case PacketType.NEW_STAT_POWERUP:
+                    ReceivedNewStatPowerupMsg(msg);
+                    break;
                 case PacketType.NEW_SINGULARITY_MINE:
                     ReceivedNewSingularityMineMsg(msg);
                     break;
@@ -165,9 +168,7 @@ namespace Orbit.Core.Client
                     ReceivedTournamentFinishedMgs(msg);
                     break;
                 case PacketType.PLAYER_READY:
-                    Player pl = GetPlayer(msg.ReadInt32());
-                    pl.Data.LobbyReady = true;
-                    CheckAllPlayersReady();
+                    ReceivedPlayerReadyMsg(msg);
                     break;
                 case PacketType.CHAT_MESSAGE:
                     ShowChatMessage(msg.ReadString());
@@ -177,6 +178,9 @@ namespace Orbit.Core.Client
                     break;
                 case PacketType.SERVER_SHUTDOWN:
                     ReceivedServerShuttingDownMsg(msg);
+                    break;
+                case PacketType.PLAYER_RECEIVED_POWERUP:
+                    ReceivedPlayerReceivedPowerUpMsg(msg);
                     break;
             }
 

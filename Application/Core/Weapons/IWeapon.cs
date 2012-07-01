@@ -13,9 +13,11 @@ namespace Orbit.Core.Weapons
 {
     public enum WeaponType
     {
+        WEAPON_FIRST,
         HOOK,
         CANNON,
-        MINE
+        MINE,
+        WEAPON_LAST
     }
 
     public enum WeaponLevel
