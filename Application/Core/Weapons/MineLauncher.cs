@@ -21,8 +21,8 @@ namespace Orbit.Core.Weapons
         public SceneMgr SceneMgr { get; set; }
         public float ReloadTime { get; set; }
         public int Cost { get; set; }
-        public WeaponType WeaponType { get; set; }
-        public WeaponLevel WeaponLevel { get; set; }
+        public DeviceType DeviceType { get; set; }
+        public UpgradeLevel UpgradeLevel { get; set; }
         public String Name { get; set; }
 
         protected IWeapon next = null;
@@ -31,8 +31,8 @@ namespace Orbit.Core.Weapons
         {
             SceneMgr = mgr;
             Owner = owner;
-            WeaponType = WeaponType.MINE;
-            WeaponLevel = WeaponLevel.LEVEL1;
+            DeviceType = DeviceType.MINE;
+            UpgradeLevel = UpgradeLevel.LEVEL1;
         }
 
         public virtual IWeapon Next()

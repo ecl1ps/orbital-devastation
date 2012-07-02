@@ -5,6 +5,7 @@ using System.Text;
 using Orbit.Core.Weapons;
 using Orbit.Core.Client;
 using Lidgren.Network;
+using System.Windows;
 
 namespace Orbit.Core.Players
 { 
@@ -18,26 +19,29 @@ namespace Orbit.Core.Players
         {
             sceneMgr = mgr;
 
-            allStats.Add(PlayerStats.MINE_1_COOLDOWN, new Stat(WeaponLevel.LEVEL1, PlayerStats.MINE_1_COOLDOWN, -0.1f, -0.3f));
-            allStats.Add(PlayerStats.MINE_1_FALLING_SPEED, new Stat(WeaponLevel.LEVEL1, PlayerStats.MINE_1_FALLING_SPEED, +10f, +30f));
-            allStats.Add(PlayerStats.MINE_1_GROWTH_SPEED, new Stat(WeaponLevel.LEVEL1, PlayerStats.MINE_1_GROWTH_SPEED, +0.1f, +0.3f));
-            allStats.Add(PlayerStats.MINE_1_STRENGTH, new Stat(WeaponLevel.LEVEL1, PlayerStats.MINE_1_STRENGTH, +10f, +30f));
+            allStats.Add(PlayerStats.MINE_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_COOLDOWN, -0.1f, -0.3f));
+            allStats.Add(PlayerStats.MINE_1_FALLING_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_FALLING_SPEED, +10f, +30f));
+            allStats.Add(PlayerStats.MINE_1_GROWTH_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_GROWTH_SPEED, +0.1f, +0.3f));
+            allStats.Add(PlayerStats.MINE_1_STRENGTH, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_STRENGTH, +10f, +30f));
 
-            allStats.Add(PlayerStats.BULLET_1_COOLDOWN, new Stat(WeaponLevel.LEVEL1, PlayerStats.BULLET_1_COOLDOWN, -0.03f, -0.7f));
-            allStats.Add(PlayerStats.BULLET_1_DAMAGE, new Stat(WeaponLevel.LEVEL1, PlayerStats.BULLET_1_DAMAGE, +1f, +2f));
-            allStats.Add(PlayerStats.BULLET_1_SPEED, new Stat(WeaponLevel.LEVEL1, PlayerStats.BULLET_1_SPEED, +30f, +100f));
+            allStats.Add(PlayerStats.BULLET_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.BULLET_1_COOLDOWN, -0.03f, -0.07f));
+            allStats.Add(PlayerStats.BULLET_1_DAMAGE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.BULLET_1_DAMAGE, +1f, +2f));
+            allStats.Add(PlayerStats.BULLET_1_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.BULLET_1_SPEED, +30f, +100f));
 
-            allStats.Add(PlayerStats.HOOK_1_SPEED, new Stat(WeaponLevel.LEVEL1, PlayerStats.HOOK_1_SPEED, +20f, +40f));
-            allStats.Add(PlayerStats.HOOK_1_LENGTH, new Stat(WeaponLevel.LEVEL1, PlayerStats.HOOK_1_LENGTH, +40f, +80f));
-            allStats.Add(PlayerStats.HOOK_1_COOLDOWN, new Stat(WeaponLevel.LEVEL1, PlayerStats.HOOK_1_COOLDOWN, -0.1f, -0.3f));
+            allStats.Add(PlayerStats.HOOK_1_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_SPEED, +20f, +40f));
+            allStats.Add(PlayerStats.HOOK_1_LENGTH, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_LENGTH, +40f, +80f));
+            allStats.Add(PlayerStats.HOOK_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_COOLDOWN, -0.1f, -0.3f));
+
+            allStats.Add(PlayerStats.HEALING_KIT_1_REPAIR_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_REPAIR_BASE, +15f, +25f));
+            allStats.Add(PlayerStats.HEALING_KIT_1_FORTIFY_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_FORTIFY_BASE, +10f, +20f));
         }
         
-        public void OnPlayerCaughtPowerUp(Player plr, WeaponType type)
+        public void OnPlayerCaughtPowerUp(Player plr, DeviceType type)
         {
-            if (!plr.IsCurrentPlayer())
+            if (!plr.IsCurrentPlayer() && !plr.IsBot())
                 return;
 
-            Stat pickedStat = GetStatForWeaponTypeAndLevel(type, GetWeaponLevel(plr, type));
+            Stat pickedStat = GetStatForDeviceTypeAndLevel(type, GetUpgradeLevel(plr, type));
 
             float addedValue = GenerateAndAddStatToPlayer(pickedStat, plr.Data);
 
@@ -54,7 +58,9 @@ namespace Orbit.Core.Players
         {
             // ziskame rozmezi min - max
             float val = (float)sceneMgr.GetRandomGenerator().NextDouble() * (stat.max - stat.min) + stat.min;
-
+#if DEBUG
+            Console.WriteLine("Added stat " + stat.type + " (" + val + ") to player " + data.Name);
+#endif
             AddStatToPlayer(data, stat.type, val);
 
             return val;
@@ -96,69 +102,102 @@ namespace Orbit.Core.Players
                 case PlayerStats.HOOK_1_SPEED:
                     data.HookSpeed += (int)val;
                     break;
+
+                case PlayerStats.HEALING_KIT_1_REPAIR_BASE:
+                    if (sceneMgr != null)
+                        sceneMgr.GetPlayer(data.Id).ChangeBaseIntegrity((int)val, true);
+                    else
+                    {
+                        data.BaseIntegrity += (int)val;
+                        if (data.BaseIntegrity > data.MaxBaseIntegrity)
+                            data.BaseIntegrity = data.MaxBaseIntegrity;
+                    }
+                    break;
+                case PlayerStats.HEALING_KIT_1_FORTIFY_BASE:
+                    data.MaxBaseIntegrity += (int)val;
+                    if (sceneMgr != null)
+                        sceneMgr.GetPlayer(data.Id).ChangeBaseIntegrity((int)val, true);
+                    else
+                    {
+                        data.BaseIntegrity += (int)val;
+                        if (data.BaseIntegrity > data.MaxBaseIntegrity)
+                            data.BaseIntegrity = data.MaxBaseIntegrity;
+                    }
+                    break;
             }
         }
 
-        private Stat GetStatForWeaponTypeAndLevel(WeaponType type, WeaponLevel weaponLevel)
+        private Stat GetStatForDeviceTypeAndLevel(DeviceType type, UpgradeLevel upgradeLevel)
         {
             switch (type)
             {
-                case WeaponType.MINE:
-                    switch (weaponLevel)
+                case DeviceType.MINE:
+                    switch (upgradeLevel)
                     {
-                        case WeaponLevel.LEVEL1:
-                        case WeaponLevel.LEVEL2:
-                        case WeaponLevel.LEVEL3:
+                        case UpgradeLevel.LEVEL1:
+                        case UpgradeLevel.LEVEL2:
+                        case UpgradeLevel.LEVEL3:
                         default:
                             return allStats[(PlayerStats)sceneMgr.GetRandomGenerator().Next((int)PlayerStats.MINE_1_MIN + 1, (int)PlayerStats.MINE_1_MAX)];
                     }
-                case WeaponType.CANNON:
-                    switch (weaponLevel)
+                case DeviceType.CANNON:
+                    switch (upgradeLevel)
                     {
-                        case WeaponLevel.LEVEL1:
-                        case WeaponLevel.LEVEL2:
-                        case WeaponLevel.LEVEL3:
+                        case UpgradeLevel.LEVEL1:
+                        case UpgradeLevel.LEVEL2:
+                        case UpgradeLevel.LEVEL3:
                         default:
                             return allStats[(PlayerStats)sceneMgr.GetRandomGenerator().Next((int)PlayerStats.BULLET_1_MIN + 1, (int)PlayerStats.BULLET_1_MAX)];
                     }
-                case WeaponType.HOOK:
-                    switch (weaponLevel)
+                case DeviceType.HOOK:
+                    switch (upgradeLevel)
                     {
-                        case WeaponLevel.LEVEL1:
-                        case WeaponLevel.LEVEL2:
-                        case WeaponLevel.LEVEL3:
+                        case UpgradeLevel.LEVEL1:
+                        case UpgradeLevel.LEVEL2:
+                        case UpgradeLevel.LEVEL3:
                         default:
                             return allStats[(PlayerStats)sceneMgr.GetRandomGenerator().Next((int)PlayerStats.HOOK_1_MIN + 1, (int)PlayerStats.HOOK_1_MAX)];
                     }
+                case DeviceType.HEALING_KIT:
+                    switch (upgradeLevel)
+                    {
+                        case UpgradeLevel.LEVEL1:
+                        case UpgradeLevel.LEVEL2:
+                        case UpgradeLevel.LEVEL3:
+                        default:
+                            return allStats[(PlayerStats)sceneMgr.GetRandomGenerator().Next((int)PlayerStats.HEALING_KIT_1_MIN + 1, (int)PlayerStats.HEALING_KIT_1_MAX)];
+                    }
                 default:
-                    throw new Exception("Received invalid WeaponType");
+                    throw new Exception("Received invalid DeviceType");
             }
         }
 
-        private WeaponLevel GetWeaponLevel(Player plr, WeaponType type)
+        private UpgradeLevel GetUpgradeLevel(Player plr, DeviceType type)
         {
             switch (type)
             {
-                case WeaponType.MINE:
-                    return plr.Mine.WeaponLevel;
-                case WeaponType.CANNON:
-                    return plr.Canoon.WeaponLevel;
-                case WeaponType.HOOK:
-                    return plr.Hook.WeaponLevel;
+                case DeviceType.MINE:
+                    return plr.Mine.UpgradeLevel;
+                case DeviceType.CANNON:
+                    return plr.Canoon.UpgradeLevel;
+                case DeviceType.HOOK:
+                    return plr.Hook.UpgradeLevel;
+                case DeviceType.HEALING_KIT:
+                    return plr.HealingKit.UpgradeLevel;
                 default:
-                    throw new Exception("Received invalid WeaponType");
+                    throw new Exception("Received invalid DeviceType");
             }
         }
     }
 
     public struct Stat
     {
-        public WeaponLevel level;
+        public UpgradeLevel level;
         public PlayerStats type;
         public float min;
         public float max;
 
-        public Stat(WeaponLevel level, PlayerStats type, float min, float max)
+        public Stat(UpgradeLevel level, PlayerStats type, float min, float max)
         {
             this.level = level;
             this.type = type;
@@ -187,5 +226,10 @@ namespace Orbit.Core.Players
         HOOK_1_SPEED,
         HOOK_1_COOLDOWN,
         HOOK_1_MAX,
+
+        HEALING_KIT_1_MIN,
+        HEALING_KIT_1_REPAIR_BASE,
+        HEALING_KIT_1_FORTIFY_BASE,
+        HEALING_KIT_1_MAX
     }
 }

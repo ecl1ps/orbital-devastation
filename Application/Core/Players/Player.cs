@@ -124,24 +124,36 @@ namespace Orbit.Core.Players
             return Data.BaseIntegrity;
         }
 
-        public void ChangeBaseIntegrity(int amount)
+        public void ChangeBaseIntegrity(int amount, bool showHeal = false)
         {
-            SetBaseIntegrity(Data.BaseIntegrity + amount);
+            SetBaseIntegrity(Data.BaseIntegrity + amount, showHeal);
         }
 
-        public void SetBaseIntegrity(int amount)
+        public void SetBaseIntegrity(int amount, bool showHeal = false)
         {
+            if (amount > Data.MaxBaseIntegrity)
+                amount = Data.MaxBaseIntegrity;
+
+            int diff = amount - Data.BaseIntegrity;
+
             Data.BaseIntegrity = amount;
 
             if (SceneMgr.GetCanvas() == null)
                 return;
+
+            if (showHeal)
+            {
+                Vector textPos = new Vector(GetBaseLocation().X + (GetBaseLocation().Width / 2), GetBaseLocation().Y - 20);
+                SceneMgr.FloatingTextMgr.AddFloatingText("+ " + diff, textPos, FloatingTextManager.TIME_LENGTH_3,
+                    FloatingTextType.HEAL, FloatingTextManager.SIZE_BIG, true);
+            }
 
             SceneMgr.BeginInvoke(new Action(() =>
             {
                 Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(SceneMgr.GetCanvas(),
                     Data.PlayerPosition == PlayerPosition.LEFT ? "lblIntegrityLeft" : "lblIntegrityRight");
                 if (lbl != null)
-                    lbl.Content = (float)Data.BaseIntegrity / (float)SharedDef.BASE_MAX_INGERITY * 100.0f + "%";
+                    lbl.Content = (int)((float)Data.BaseIntegrity / (float)Data.MaxBaseIntegrity * 100.0f) + "%";
             }));
         }
 
@@ -225,6 +237,11 @@ namespace Orbit.Core.Players
         public Rect GetBaseLocation()
         {
             return PlayerBaseLocation.GetBaseLocation(Data.PlayerPosition);
+        }
+
+        public bool IsBot()
+        {
+            return Data.PlayerType == PlayerType.BOT;
         }
     }
 

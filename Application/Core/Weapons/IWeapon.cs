@@ -11,16 +11,17 @@ using System.Windows.Input;
 
 namespace Orbit.Core.Weapons
 {
-    public enum WeaponType
+    public enum DeviceType
     {
         WEAPON_FIRST,
         HOOK,
         CANNON,
         MINE,
+        HEALING_KIT,
         WEAPON_LAST
     }
 
-    public enum WeaponLevel
+    public enum UpgradeLevel
     {
         LEVEL1,
         LEVEL2,
@@ -34,8 +35,8 @@ namespace Orbit.Core.Weapons
         float ReloadTime { get; set; }
         int Cost { get; set; }
         String Name { get; set; }
-        WeaponType WeaponType { get; set; }
-        WeaponLevel WeaponLevel { get; set; }
+        DeviceType DeviceType { get; set; }
+        UpgradeLevel UpgradeLevel { get; set; }
 
         IWeapon Next();
 

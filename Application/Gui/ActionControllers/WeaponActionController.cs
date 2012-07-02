@@ -34,15 +34,15 @@ namespace Orbit.Gui.ActionControllers
 
         private void AddWeapon()
         {
-            switch (weapon.WeaponType)
+            switch (weapon.DeviceType)
             {
-                case WeaponType.HOOK:
+                case DeviceType.HOOK:
                     player.Hook = weapon;
                     break;
-                case WeaponType.MINE:
+                case DeviceType.MINE:
                     player.Mine = weapon;
                     break;
-                case WeaponType.CANNON:
+                case DeviceType.CANNON:
                     player.Canoon = weapon;
                     break;
             }

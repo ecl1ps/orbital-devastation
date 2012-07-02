@@ -8,11 +8,13 @@ using Lidgren.Network;
 using Orbit.Core.Client;
 using Orbit.Core.Players;
 using System.Windows;
+using Orbit.Core.Weapons;
 
 namespace Orbit.Core.Utils
 {
     public class HealingKit : IHealingKit
     {
+        public UpgradeLevel UpgradeLevel { get; set; }
         public int Cost { get; set; }
 
         private SceneMgr mgr;
@@ -20,6 +22,7 @@ namespace Orbit.Core.Utils
 
         public HealingKit(SceneMgr mgr, Player owner)
         {
+            UpgradeLevel = UpgradeLevel.LEVEL1;
             Cost = SharedDef.HEAL_START_COST;
             this.mgr = mgr;
             this.owner = owner;
@@ -30,13 +33,7 @@ namespace Orbit.Core.Utils
             if (owner.Data.Gold >= Cost)
             {
                 owner.AddGoldAndShow(-Cost);
-                owner.ChangeBaseIntegrity(SharedDef.HEAL_AMOUNT);
-                if (owner.GetBaseIntegrity() > SharedDef.BASE_MAX_INGERITY)
-                    owner.SetBaseIntegrity(SharedDef.BASE_MAX_INGERITY);
-
-                Vector textPos = new Vector(owner.GetBaseLocation().X + (owner.GetBaseLocation().Width / 2), owner.GetBaseLocation().Y - 20);
-                mgr.FloatingTextMgr.AddFloatingText("+ " + SharedDef.HEAL_AMOUNT, textPos, FloatingTextManager.TIME_LENGTH_3, 
-                    FloatingTextType.HEAL, FloatingTextManager.SIZE_BIG, true);
+                owner.ChangeBaseIntegrity(SharedDef.HEAL_AMOUNT, true);
 
                 Cost *= SharedDef.HEAL_MULTIPLY_COEF;
 

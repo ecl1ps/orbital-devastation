@@ -39,6 +39,7 @@ namespace Orbit.Core.Players
         public int HookSpeed { get; set; }
         public float HookCooldown { get; set; }
         public int BaseIntegrity { get; set; }
+        public int MaxBaseIntegrity { get; set; }
         /// <summary>
         /// na klientovi pouzivat funkcni Player.SetGoldAndShow() nebo Player.AddGoldAndShow()
         /// </summary>
@@ -55,7 +56,8 @@ namespace Orbit.Core.Players
             Gold = SharedDef.START_GOLD;
             PlayerType = PlayerType.HUMAN;
             BotType = BotType.NONE;
-            BaseIntegrity = SharedDef.BASE_MAX_INGERITY;
+            MaxBaseIntegrity = SharedDef.BASE_MAX_INGERITY;
+            BaseIntegrity = MaxBaseIntegrity;
             PlayerColor = Colors.Black;
             MineGrowthSpeed = SharedDef.MINE_GROWTH_SPEED;
             MineStrength = SharedDef.MINE_STRENGTH;

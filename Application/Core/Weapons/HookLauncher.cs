@@ -22,8 +22,8 @@ namespace Orbit.Core.Weapons
         public float ReloadTime { get; set; }
         public int Cost { get; set; }
         public String Name { get; set; }
-        public WeaponType WeaponType { get; set; }
-        public WeaponLevel WeaponLevel { get; set; }
+        public DeviceType DeviceType { get; set; }
+        public UpgradeLevel UpgradeLevel { get; set; }
 
         protected Hook hook;
         protected IWeapon next;
@@ -33,8 +33,8 @@ namespace Orbit.Core.Weapons
             SceneMgr = mgr;
             Owner = owner;
             Name = "Hook launcher";
-            WeaponType = WeaponType.HOOK;
-            WeaponLevel = WeaponLevel.LEVEL1;
+            DeviceType = DeviceType.HOOK;
+            UpgradeLevel = UpgradeLevel.LEVEL1;
             ReloadTime = 0;
         }
 

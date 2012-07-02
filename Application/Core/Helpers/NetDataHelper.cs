@@ -144,7 +144,7 @@ namespace Orbit.Core.Helpers
             dir.Normalize();
             msg.Write(dir);
             msg.Write(s.Rotation);
-            msg.Write((byte)s.PowerUpWeaponType);
+            msg.Write((byte)s.PowerUpType);
         }
 
         public static void ReadObjectStatPowerUp(this NetIncomingMessage msg, StatPowerUp s)
@@ -153,7 +153,7 @@ namespace Orbit.Core.Helpers
 
             s.Direction = msg.ReadVector();
             s.Rotation = msg.ReadFloat();
-            s.PowerUpWeaponType = (WeaponType)msg.ReadByte();
+            s.PowerUpType = (DeviceType)msg.ReadByte();
         }
 
         public static void WriteControls(this NetOutgoingMessage msg, IList<IControl> controls)

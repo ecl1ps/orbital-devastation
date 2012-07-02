@@ -221,12 +221,15 @@ namespace Orbit.Core.Helpers
 
                 BitmapImage bi = new BitmapImage();
                 bi.BeginInit();
-                if (p.PowerUpWeaponType == WeaponType.MINE)
+                if (p.PowerUpType == DeviceType.MINE)
                     bi.UriSource = new Uri("pack://application:,,,/resources/images/box/box_blue1.png");
-                else if (p.PowerUpWeaponType == WeaponType.CANNON)
+                else if (p.PowerUpType == DeviceType.CANNON)
                     bi.UriSource = new Uri("pack://application:,,,/resources/images/box/box_brown.png");
-                else
+                else if (p.PowerUpType == DeviceType.HOOK)
                     bi.UriSource = new Uri("pack://application:,,,/resources/images/box/box_purple.png");
+                else
+                    bi.UriSource = new Uri("pack://application:,,,/resources/images/box/box_green.png");
+
                 bi.DecodePixelWidth = (int)p.Size.Width * 2;
                 bi.DecodePixelHeight = (int)p.Size.Height * 2;
                 bi.EndInit();

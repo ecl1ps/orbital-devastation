@@ -17,7 +17,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
     {
         public Vector Direction { get; set; }
         public float Rotation { get; set; }
-        public WeaponType PowerUpWeaponType { get; set; }
+        public DeviceType PowerUpType { get; set; }
 
         public StatPowerUp(SceneMgr mgr) : base(mgr) { }
 
@@ -26,7 +26,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             if (other is Base)
             {
                 Console.WriteLine("Colided with base");
-                SceneMgr.StatsMgr.OnPlayerCaughtPowerUp((other as Base).Owner, PowerUpWeaponType);
+                SceneMgr.StatsMgr.OnPlayerCaughtPowerUp((other as Base).Owner, PowerUpType);
                 DoRemoveMe();
             }
         }

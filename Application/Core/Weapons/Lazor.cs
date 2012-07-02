@@ -18,8 +18,8 @@ namespace Orbit.Core.Weapons
         public float ReloadTime { get; set; }
         public int Cost { get; set; }
         public string Name { get; set; }
-        public WeaponType WeaponType { get; set; }
-        public WeaponLevel WeaponLevel { get; set; }
+        public DeviceType DeviceType { get; set; }
+        public UpgradeLevel UpgradeLevel { get; set; }
         private float chargingTime = 0;
 
         private bool charging = false;
@@ -37,8 +37,8 @@ namespace Orbit.Core.Weapons
         {
             SceneMgr = mgr;
             Owner = owner;
-            WeaponType = WeaponType.CANNON;
-            WeaponLevel = WeaponLevel.LEVEL3;
+            DeviceType = DeviceType.CANNON;
+            UpgradeLevel = UpgradeLevel.LEVEL3;
             Name = "Blue Laser";
             Cost = 650;
             origin = Owner.Baze.Position;

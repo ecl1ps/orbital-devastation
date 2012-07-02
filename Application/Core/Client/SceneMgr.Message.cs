@@ -236,12 +236,7 @@ namespace Orbit.Core.Client
 
         private void ReceivedPlayerHealMsg(NetIncomingMessage msg)
         {
-            Player p = GetPlayer(msg.ReadInt32());
-            int newIntegrity = msg.ReadInt32();
-            Vector textPos = new Vector(p.GetBaseLocation().X + (p.GetBaseLocation().Width / 2), p.GetBaseLocation().Y - 20);
-            FloatingTextMgr.AddFloatingText("+ " + (newIntegrity - p.GetBaseIntegrity()), textPos,
-                FloatingTextManager.TIME_LENGTH_3, FloatingTextType.HEAL, FloatingTextManager.SIZE_BIG, true);
-            p.SetBaseIntegrity(newIntegrity);
+            GetPlayer(msg.ReadInt32()).SetBaseIntegrity(msg.ReadInt32(), true);
         }
 
         private void ReceivedBulletHitMsg(NetIncomingMessage msg)

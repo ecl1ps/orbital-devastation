@@ -26,7 +26,7 @@ namespace Orbit.Core.Weapons
         {
             Cost = 350;
             Name = "Targeted mine";
-            WeaponLevel = WeaponLevel.LEVEL2;
+            UpgradeLevel = UpgradeLevel.LEVEL2;
         }
 
         public override IWeapon Next()

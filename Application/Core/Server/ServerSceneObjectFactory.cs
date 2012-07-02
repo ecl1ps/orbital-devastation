@@ -118,7 +118,7 @@ namespace Orbit.Core.Server
             return s;
         }
 
-        public static StatPowerUp CreateStatPowerUp(ServerMgr mgr, WeaponType type)
+        public static StatPowerUp CreateStatPowerUp(ServerMgr mgr, DeviceType type)
         {
             Random randomGenerator = mgr.GetRandomGenerator();
 
@@ -130,7 +130,7 @@ namespace Orbit.Core.Server
             s.Direction = headingRight ? new Vector(1, 0) : new Vector(-1, 0);
             s.Rotation = mgr.GetRandomGenerator().Next(360);
 
-            s.PowerUpWeaponType = type;
+            s.PowerUpType = type;
 
             NewtonianMovementControl nmc = new NewtonianMovementControl();
             nmc.InitialSpeed = mgr.GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_SPEED * 10, SharedDef.MAX_ASTEROID_SPEED * 10) / 10.0f;
