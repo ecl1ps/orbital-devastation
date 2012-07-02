@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
+using Orbit.Core.Client;
 
 namespace Orbit.Core.Helpers
 {
@@ -45,19 +46,117 @@ namespace Orbit.Core.Helpers
             return cornerDistanceSquared <= Math.Pow(circleRadius, 2);
         }
 
-        public static bool IntersectsSquareAndSquare(Vector center1, Size rectSize1, Vector center2, Size rectSize2)
+        public static bool IntersectsSquareAndSquare(Vector pos1, Size size1, Vector pos2, Size size2)
         {
-            double lenght = (center1 - center2).Length;
-            if (IntersectsPointAndSquare(center1, center2, rectSize2))
-                return true;
+            // SAT collision detection
+            // http://stackoverflow.com/questions/115426/algorithm-to-detect-intersection-of-two-rectangles
+            // http://www.sevenson.com.au/actionscript/sat/
 
-            if (lenght < ((rectSize1.Height / 2) + (rectSize2.Height / 2)))
-                return true;
-            if (lenght < ((rectSize1.Width / 2) + (rectSize2.Width / 2)))
-                return true;
+            // zatim pocitam jen s obdelniky, ktere jsou rovnobezne s osami
+            // jinak by bylo potreba souradnice jejich bodu dal rotovat
+            // dalsi postup uz by byl stejny
 
+            // vrcholy prvniho telesa
+            Vector[] vertices1 = new Vector[4];
+            vertices1[0] = pos1;
+            vertices1[1] = new Vector(pos1.X + size1.Width, pos1.Y);
+            vertices1[2] = new Vector(pos1.X, pos1.Y + size1.Height);
+            vertices1[3] = new Vector(pos1.X + size1.Width, pos1.Y + size1.Height);
+
+            // vrcholy prvniho telesa
+            Vector[] vertices2 = new Vector[4];
+            vertices2[0] = pos2;
+            vertices2[1] = new Vector(pos2.X + size2.Width, pos2.Y);
+            vertices2[2] = new Vector(pos2.X, pos2.Y + size2.Height);
+            vertices2[3] = new Vector(pos2.X + size2.Width, pos2.Y + size2.Height);
+
+            // TODO: kontrolovat jestli nejsou uplne v sobe
+
+            // nejdriv pro jedno teleso
+            if (CheckPolygonAndPolygonForSAT(vertices1, vertices2))
+                return false;
+
+            // pokud nenajdu, ze se neprotinaji, tak kontroluju jeste druhe teleso
+            if (CheckPolygonAndPolygonForSAT(vertices2, vertices1))
+                return false;
+
+            return true;
+        }
+
+        /// <summary>
+        /// vraci true pokud se neprotinaji (je mezi nimi mezera) a false, pokud se to nevi
+        /// </summary>
+        private static bool CheckPolygonAndPolygonForSAT(Vector[] verts1, Vector[] verts2)
+        {
+            Vector offsetVect = new Vector(verts1[0].X - verts2[0].X, verts1[0].Y - verts2[0].Y);
+            SATCheckInfo res1, res2;
+            Vector normal;
+            double offset, dist1, dist2;
+
+            // vezmu kazdou stranu prvniho polygonu a udelam k nemu normalu
+            for (int i = 0; i < verts1.Length; ++i)
+            {
+                normal = GetAxisNormal(verts1, i);
+                res1 = CheckDistancesForSAT(normal, verts1);
+                res2 = CheckDistancesForSAT(normal, verts2);
+
+                // posunuti promitnutych bodu prvniho polygonu
+                offset = Vector.Multiply(normal, offsetVect);
+                res1.min += offset;
+                res1.max += offset;
+
+                // kontrola pruniku
+                dist1 = res1.min - res2.max;
+                dist2 = res2.min - res1.max;
+                // nalezena mezera mezi objekty
+                if (dist1 > 0 || dist2 > 0)
+                    return true;
+
+                /*if (max0 > max1 || min0 < min1) result.shapeAContained = false;
+                if (max1 > max0 || min1 < min0) result.shapeBContained = false;*/
+            }
+
+            // nenasli jsme zadnou mezeru - telesa se mohou a nemusi protinat (je treba je kontrolovat navzajem)
             return false;
         }
+
+        /// <summary>
+        /// vraci normalu strany polygonu
+        /// </summary>
+		private static Vector GetAxisNormal(Vector[] verts1, int index)
+        {
+			Vector pt1 = verts1[index];
+			Vector pt2 = (index >= verts1.Length - 1) ? verts1[0] : verts1[index + 1];
+			return new Vector(-(pt2.Y - pt1.Y), pt2.X - pt1.X);
+		}
+
+        /// <summary>
+        /// vraci vzdalenosti bodu promitnutych na normalu
+        /// </summary>
+        private static SATCheckInfo CheckDistancesForSAT(Vector normal, Vector[] verts)
+        {
+            double dot;
+            SATCheckInfo result = new SATCheckInfo();
+            result.min = Vector.Multiply(normal, verts[0]);
+            result.max = result.min;
+
+            for (int i = 1; i < verts.Length; ++i)
+            {
+                dot = Vector.Multiply(normal, verts[i]);
+                if (dot < result.min)
+                    result.min = dot;
+                if (dot > result.max)
+                    result.max = dot;
+            }
+
+            return result;
+        }
+
+        private struct SATCheckInfo
+        {
+            public double min;
+            public double max;
+        }   
 
         public static bool IntersectsPointAndSquare(Vector point, Vector squarePos, Size squareSize)
         {

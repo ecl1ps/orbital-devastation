@@ -49,5 +49,10 @@ namespace Orbit.Core
             double y = ((vec.X * Math.Sin(angle)) + (vec.Y * Math.Cos(angle)));
             return new Vector(x, y);
         }
+
+        public static Vector Normal(this Vector v)
+        {
+            return new Vector(-v.Y, v.X);
+        }
     }
 }
