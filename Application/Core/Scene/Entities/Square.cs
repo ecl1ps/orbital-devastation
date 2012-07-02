@@ -14,6 +14,13 @@ namespace Orbit.Core.Scene.Entities
     public abstract class Square : SceneObject, ICollidable
     {
         public Size Size { get; set; }
+        public Vector Center
+        {
+            get
+            {
+                return new Vector(Position.X + Size.Width / 2, Position.Y + Size.Height / 2);
+            }
+        }
         
         public Square(SceneMgr mgr) : base(mgr)
         {
@@ -35,15 +42,12 @@ namespace Orbit.Core.Scene.Entities
 
         public abstract void DoCollideWith(ICollidable other);
 
-        public override bool IsOnScreen(System.Windows.Size screenSize)
+        public override bool IsOnScreen(Size screenSize)
         {
-            double halfWidth = Size.Width / 2;
-            double halfHeight = Size.Height / 2;
-
-            if(Position.X - halfWidth < 0 || Position.Y - halfHeight < 0)
+            if (Position.X + 2 * Size.Width + 5 < 0 || Position.Y + Size.Height + 5 < 0)
                 return false;
 
-            if ((Position.X + halfWidth > screenSize.Width) || (Position.Y + halfHeight > screenSize.Height))
+            if ((Position.X - Size.Width - 5 > screenSize.Width) || (Position.Y + 5 > screenSize.Height))
                 return false;
 
             return true;

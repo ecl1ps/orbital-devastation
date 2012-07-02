@@ -21,7 +21,8 @@ namespace Orbit.Core.Weapons
         public SceneMgr SceneMgr { get; set; }
         public float ReloadTime { get; set;}
         public int Cost { get; set; }
-        public WeaponType WeaponType { get; set; }
+        public DeviceType DeviceType { get; set; }
+        public UpgradeLevel UpgradeLevel { get; set; }
         public String Name { get; set; }
 
         private Boolean shooting;
@@ -31,6 +32,8 @@ namespace Orbit.Core.Weapons
         {
             SceneMgr = mgr;
             Owner = owner;
+            DeviceType = DeviceType.CANNON;
+            UpgradeLevel = UpgradeLevel.LEVEL1;
         }
 
         public virtual IWeapon Next()

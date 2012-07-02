@@ -68,7 +68,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         public void CollidedWith(IMovable movable)
         {
-            if (!(movable is Asteroid))
+            if (!(movable is Asteroid) && !(movable is StatPowerUp))
                 return;
 
             StartDetonation();
@@ -88,10 +88,11 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             hitObjects.Add((movable as ISceneObject).Id);
 
-            Vector newDir = (movable as Sphere).Center - me.Position;
-            newDir.Normalize();
-            newDir *= Strength;
-            movable.Direction += newDir;
+            Vector newDir = new Vector();
+            if (movable is Sphere)
+                newDir = CollideWithSphere(movable as Sphere);
+            else if (movable is Square)
+                newDir = CollideWithSquare(movable as Square);
 
             if (meMine.SceneMgr.GameType != Gametype.SOLO_GAME)
             {
@@ -105,6 +106,26 @@ namespace Orbit.Core.Scene.Controls.Implementations
             }
         }
 
+        private Vector CollideWithSquare(Square square)
+        {
+            Vector newDir = square.Center - me.Position;
+            newDir.Normalize();
+            newDir *= Strength;
+            (square as IMovable).Direction += newDir;
+
+            return newDir;
+        }
+
+        private Vector CollideWithSphere(Sphere sphere)
+        {
+            Vector newDir = sphere.Center - me.Position;
+            newDir.Normalize();
+            newDir *= Strength;
+            sphere.Direction += newDir;
+
+            return newDir;
+        }
+
         public void StartDetonation()
         {
             // nevybuchne vickrat
@@ -112,6 +133,10 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 return;
 
             hitSomething = true;
+
+            double speed = meMine.Direction.Length;
+            meMine.Direction = meMine.Direction.NormalizeV();
+            meMine.Direction *= (speed / 4);
 
             meMine.GetGeometry().Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
             {

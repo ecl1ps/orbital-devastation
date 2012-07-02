@@ -27,14 +27,18 @@ namespace Orbit.Core.Server
         private List<Player> players;
         private Random randomGenerator;
         private ConcurrentQueue<Action> synchronizedQueue;
-        public Gametype GameType { get; set; }
         private bool gameEnded;
         private GameManager gameSession;
         private Action savedEndGameAction;
         private List<int> playersRespondedScore;
+        private StatsMgr statsMgr;
+
+        public Gametype GameType { get; set; }
+        public GameStateManager StateMgr { get; set; }
 
         public ServerMgr()
         {
+            statsMgr = new StatsMgr(null);
             isInitialized = false;
             shouldQuit = false;
         }
@@ -48,6 +52,7 @@ namespace Orbit.Core.Server
             randomGenerator = new Random(Environment.TickCount);
             players = new List<Player>(2);
             synchronizedQueue = new ConcurrentQueue<Action>();
+            StateMgr = new GameStateManager();
 
             InitNetwork();
         }
@@ -185,6 +190,8 @@ namespace Orbit.Core.Server
         public void Update(float tpf)
         {
             CheckPlayerStates();
+
+            StateMgr.Update(tpf);
         }
 
         public Player GetPlayer(int id)

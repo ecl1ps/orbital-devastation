@@ -97,7 +97,7 @@ namespace Orbit.Core.Client
                     msg.ReadObjectPlayerData(plr.Data);
 
                     if (plr.Data.PlayerType == PlayerType.BOT)
-                        StateMgr.AddGameState(new HookerBot(this, objects, plr));
+                        CreateAndAddBot(plr);
                     else
                         FloatingTextMgr.AddFloatingText(plr.Data.Name + " has joined the game",
                             new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
@@ -236,12 +236,7 @@ namespace Orbit.Core.Client
 
         private void ReceivedPlayerHealMsg(NetIncomingMessage msg)
         {
-            Player p = GetPlayer(msg.ReadInt32());
-            int newIntegrity = msg.ReadInt32();
-            Vector textPos = new Vector(p.GetBaseLocation().X + (p.GetBaseLocation().Width / 2), p.GetBaseLocation().Y - 20);
-            FloatingTextMgr.AddFloatingText("+ " + (newIntegrity - p.GetBaseIntegrity()), textPos,
-                FloatingTextManager.TIME_LENGTH_3, FloatingTextType.HEAL, FloatingTextManager.SIZE_BIG, true);
-            p.SetBaseIntegrity(newIntegrity);
+            GetPlayer(msg.ReadInt32()).SetBaseIntegrity(msg.ReadInt32(), true);
         }
 
         private void ReceivedBulletHitMsg(NetIncomingMessage msg)
@@ -461,6 +456,27 @@ namespace Orbit.Core.Client
             s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s));
             DelayedAttachToScene(s);
             SyncReceivedObject(s, msg);
+        }
+
+        private void ReceivedNewStatPowerupMsg(NetIncomingMessage msg)
+        {
+            StatPowerUp p = new StatPowerUp(this);
+            p.ReadObject(msg);
+            p.SetGeometry(SceneGeometryFactory.CreatePowerUpImage(p));
+            DelayedAttachToScene(p);
+            SyncReceivedObject(p, msg);
+        }
+
+        private void ReceivedPlayerReceivedPowerUpMsg(NetIncomingMessage msg)
+        {
+            StatsMgr.AddStatToPlayer(GetPlayer(msg.ReadInt32()).Data, (PlayerStats)msg.ReadByte(), msg.ReadFloat());
+        }
+
+        private void ReceivedPlayerReadyMsg(NetIncomingMessage msg)
+        {
+            Player pl = GetPlayer(msg.ReadInt32());
+            pl.Data.LobbyReady = true;
+            CheckAllPlayersReady();
         }
 
         private void ReceivedAllAsteroidsMsg(NetIncomingMessage msg)

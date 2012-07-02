@@ -10,6 +10,7 @@ using Orbit.Core.Players;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Scene.Controls;
+using Orbit.Core.Weapons;
 
 namespace Orbit.Core.Helpers
 {
@@ -119,7 +120,42 @@ namespace Orbit.Core.Helpers
             msg.ReadObjectSphere(h);
             h.Rotation = msg.ReadFloat();
         }
-        
+
+        public static void WriteObjectSquare(this NetOutgoingMessage msg, Square s)
+        {
+            msg.WriteObjectSceneObject(s);
+
+            msg.Write(s.Size.Width);
+            msg.Write(s.Size.Height);
+        }
+
+        public static void ReadObjectSquare(this NetIncomingMessage msg, Square s)
+        {
+            msg.ReadObjectSceneObject(s);
+
+            s.Size = new Size(msg.ReadDouble(), msg.ReadDouble());
+        }
+
+        public static void WriteObjectStatPowerUp(this NetOutgoingMessage msg, StatPowerUp s)
+        {
+            msg.WriteObjectSquare(s);
+
+            Vector dir = s.Direction.Clone();
+            dir.Normalize();
+            msg.Write(dir);
+            msg.Write(s.Rotation);
+            msg.Write((byte)s.PowerUpType);
+        }
+
+        public static void ReadObjectStatPowerUp(this NetIncomingMessage msg, StatPowerUp s)
+        {
+            msg.ReadObjectSquare(s);
+
+            s.Direction = msg.ReadVector();
+            s.Rotation = msg.ReadFloat();
+            s.PowerUpType = (DeviceType)msg.ReadByte();
+        }
+
         public static void WriteControls(this NetOutgoingMessage msg, IList<IControl> controls)
         {
             msg.Write(controls.Count);
