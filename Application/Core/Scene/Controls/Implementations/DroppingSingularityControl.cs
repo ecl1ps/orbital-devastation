@@ -134,6 +134,10 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             hitSomething = true;
 
+            double speed = meMine.Direction.Length;
+            meMine.Direction = meMine.Direction.NormalizeV();
+            meMine.Direction *= (speed / 4);
+
             meMine.GetGeometry().Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
             {
                 meMine.FillBrush = new RadialGradientBrush(Colors.Black, Color.FromRgb(0x66, 0x00, 0x80));

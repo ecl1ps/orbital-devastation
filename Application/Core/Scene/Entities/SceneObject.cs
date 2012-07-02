@@ -47,9 +47,9 @@ namespace Orbit.Core.Scene.Entities
 
         private void UpdateControls(float tpf)
         {
-            foreach (Control control in controls)
+            for (int i = 0; i < controls.Count; ++i)
             {
-                control.Update(tpf);
+                (controls[i] as Control).Update(tpf);
             }
         }
 
