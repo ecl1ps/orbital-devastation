@@ -68,9 +68,10 @@ namespace Orbit.Core.Server
             foreach (Player p in players)
             {
                 NetOutgoingMessage msg = CreateNetMessage();
-                msg.Write((int)PacketType.PLAYER_SCORE);
+                msg.Write((int)PacketType.PLAYER_SCORE_AND_GOLD);
                 msg.Write(p.GetId());
                 msg.Write(p.Data.Score);
+                msg.Write(p.Data.Gold);
                 BroadcastMessage(msg, p);
             }
 

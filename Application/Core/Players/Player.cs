@@ -67,6 +67,7 @@ namespace Orbit.Core.Players
 
         private float scoreUpdateTimer = 0;
         private int lastScoreValue = 0;
+        private int lastGoldValue = 0;
 
         public Player(SceneMgr mgr)
         {
@@ -181,21 +182,23 @@ namespace Orbit.Core.Players
             scoreUpdateTimer += tpf;
             if (scoreUpdateTimer > 0.3)
             {
-                if (lastScoreValue != Data.Score)
+                if (lastScoreValue != Data.Score || lastGoldValue != Data.Gold)
                 {
-                    lastScoreValue = Data.Score;
-                    SendScoreUpdate();
+                    lastScoreValue = Data.Score
+                    lastGoldValue = Data.Gold;
+                    SendScoreAndGoldUpdate();
                 }
                 scoreUpdateTimer = 0;
             }
         }
 
-        private void SendScoreUpdate()
+        private void SendScoreAndGoldUpdate()
         {
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-            msg.Write((int)PacketType.PLAYER_SCORE);
+            msg.Write((int)PacketType.PLAYER_SCORE_AND_GOLD);
             msg.Write(GetId());
             msg.Write(Data.Score);
+            msg.Write(Data.Gold);
             SceneMgr.SendMessage(msg);
         }
 

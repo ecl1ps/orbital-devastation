@@ -158,8 +158,8 @@ namespace Orbit.Core.Client
                 case PacketType.PLAYER_HEAL:
                     ReceivedPlayerHealMsg(msg);
                     break;
-                case PacketType.PLAYER_SCORE:
-                    ReceivedPlayerScoreMsg(msg);
+                case PacketType.PLAYER_SCORE_AND_GOLD:
+                    ReceivedPlayerAndGoldScoreMsg(msg);
                     break;
                 case PacketType.START_GAME_RESPONSE:
                     ReceivedStartGameResponseMsg(msg);

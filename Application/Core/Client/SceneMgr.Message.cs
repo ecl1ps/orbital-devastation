@@ -224,11 +224,14 @@ namespace Orbit.Core.Client
                 userActionsDisabled = false;
         }
 
-        private void ReceivedPlayerScoreMsg(NetIncomingMessage msg)
+        private void ReceivedPlayerAndGoldScoreMsg(NetIncomingMessage msg)
         {
             Player p = GetPlayer(msg.ReadInt32());
             if (p != null && !p.IsCurrentPlayer())
+            {
                 p.Data.Score = msg.ReadInt32();
+                p.Data.Gold = msg.ReadInt32();
+            }
         }
 
         private void ReceivedBaseIntegrityChangeMsg(NetIncomingMessage msg)

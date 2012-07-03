@@ -127,5 +127,13 @@ namespace Orbit.Core.Server
 
             gameSession.RequestStartMatch(GetPlayer(msg.SenderConnection));
         }
+
+        private void ReceivedPlayerScoreAndGoldMsg(NetIncomingMessage msg)
+        {
+            Player p = GetPlayer(msg.ReadInt32());
+            p.Data.Score = msg.ReadInt32();
+            p.Data.Gold = msg.ReadInt32();
+            ForwardMessage(msg);
+        }
     }
 }
