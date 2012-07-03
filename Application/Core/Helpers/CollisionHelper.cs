@@ -60,17 +60,15 @@ namespace Orbit.Core.Helpers
             Vector[] vertices1 = new Vector[4];
             vertices1[0] = pos1;
             vertices1[1] = new Vector(pos1.X + size1.Width, pos1.Y);
-            vertices1[2] = new Vector(pos1.X, pos1.Y + size1.Height);
-            vertices1[3] = new Vector(pos1.X + size1.Width, pos1.Y + size1.Height);
+            vertices1[2] = new Vector(pos1.X + size1.Width, pos1.Y + size1.Height);
+            vertices1[3] = new Vector(pos1.X, pos1.Y + size1.Height);
 
             // vrcholy prvniho telesa
             Vector[] vertices2 = new Vector[4];
             vertices2[0] = pos2;
             vertices2[1] = new Vector(pos2.X + size2.Width, pos2.Y);
-            vertices2[2] = new Vector(pos2.X, pos2.Y + size2.Height);
-            vertices2[3] = new Vector(pos2.X + size2.Width, pos2.Y + size2.Height);
-
-            // TODO: kontrolovat jestli nejsou uplne v sobe
+            vertices2[2] = new Vector(pos2.X + size2.Width, pos2.Y + size2.Height);
+            vertices2[3] = new Vector(pos2.X, pos2.Y + size2.Height);
 
             // nejdriv pro jedno teleso
             if (CheckPolygonAndPolygonForSAT(vertices1, vertices2))
@@ -91,7 +89,7 @@ namespace Orbit.Core.Helpers
             Vector offsetVect = new Vector(verts1[0].X - verts2[0].X, verts1[0].Y - verts2[0].Y);
             SATCheckInfo res1, res2;
             Vector normal;
-            double offset, dist1, dist2;
+            double dist1, dist2;
 
             // vezmu kazdou stranu prvniho polygonu a udelam k nemu normalu
             for (int i = 0; i < verts1.Length; ++i)
@@ -99,11 +97,6 @@ namespace Orbit.Core.Helpers
                 normal = GetAxisNormal(verts1, i);
                 res1 = CheckDistancesForSAT(normal, verts1);
                 res2 = CheckDistancesForSAT(normal, verts2);
-
-                // posunuti promitnutych bodu prvniho polygonu
-                offset = Vector.Multiply(normal, offsetVect);
-                res1.min += offset;
-                res1.max += offset;
 
                 // kontrola pruniku
                 dist1 = res1.min - res2.max;
