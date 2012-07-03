@@ -43,7 +43,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public void TakeDamage(int damage, ISceneObject from)
         {
-            DoRemoveMe();
+            
         }
 
         public void WriteObject(NetOutgoingMessage msg)
