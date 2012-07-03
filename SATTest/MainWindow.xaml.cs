@@ -22,6 +22,7 @@ namespace SATTest
         private Rectangle r1;
         private Rectangle r2;
         private Label lbl;
+        private double angle1 = 0, angle2 = 0;
 
         public MainWindow()
         {
@@ -52,9 +53,15 @@ namespace SATTest
             Size size2 = new Size(rectangle2.Width, rectangle2.Height);
 
             if (IntersectsSquareAndSquare(pos1, size1, pos2, size2))
+            {
                 label1.Content = "Colliding";
+                rectangle1.Fill = Brushes.Red;
+            }
             else
+            {
                 label1.Content = "Not Colliding";
+                rectangle1.Fill = Brushes.White;
+            }
         }
 
         private void DrawEllipse(Vector vec)
@@ -91,18 +98,10 @@ namespace SATTest
             // dalsi postup uz by byl stejny
 
             // vrcholy prvniho telesa
-            Vector[] vertices1 = new Vector[4];
-            vertices1[0] = pos1;
-            vertices1[1] = new Vector(pos1.X + size1.Width, pos1.Y);
-            vertices1[2] = new Vector(pos1.X + size1.Width, pos1.Y + size1.Height);
-            vertices1[3] = new Vector(pos1.X, pos1.Y + size1.Height);
+            Vector[] vertices1 = GetVertices(pos1, size1, angle1);
 
             // vrcholy prvniho telesa
-            Vector[] vertices2 = new Vector[4];
-            vertices2[0] = pos2;
-            vertices2[1] = new Vector(pos2.X + size2.Width, pos2.Y);
-            vertices2[2] = new Vector(pos2.X + size2.Width, pos2.Y + size2.Height);
-            vertices2[3] = new Vector(pos2.X, pos2.Y + size2.Height);
+            Vector[] vertices2 = GetVertices(pos2, size2, angle2);
 
             // nejdriv pro jedno teleso
             if (CheckPolygonAndPolygonForSAT(vertices1, vertices2))
@@ -113,6 +112,43 @@ namespace SATTest
                 return false;
 
             return true;
+        }
+
+        private Vector[] GetVertices(Vector pos1, Size size1, double angle)
+        {
+            Vector[] vertices1 = new Vector[4];
+            vertices1[0] = pos1;
+            vertices1[1] = new Vector(pos1.X + size1.Width, pos1.Y);
+            vertices1[2] = new Vector(pos1.X + size1.Width, pos1.Y + size1.Height);
+            vertices1[3] = new Vector(pos1.X, pos1.Y + size1.Height);
+
+            Vector squareCenter = new Vector(pos1.X + size1.Width / 2, pos1.Y + size1.Height / 2);
+            for (int i = 0; i < vertices1.Length; ++i )
+            {
+                vertices1[i] = Rotate(vertices1[i], angle, squareCenter, false);
+                DrawEllipse(vertices1[i]);
+            }
+
+
+            return vertices1;
+        }
+
+        public static Vector Rotate(Vector vec, double angle, Vector rotationOrigin, bool inRadians)
+        {
+            if (!inRadians)
+                angle = Math.PI * angle / 180;
+            
+            return rotationOrigin + Rotate(vec - rotationOrigin, angle);
+        }
+
+        public static Vector Rotate(Vector vec, double angle, bool inRadians = true)
+        {
+            if (!inRadians)
+                angle = Math.PI * angle / 180;
+
+            double x = ((vec.X * Math.Cos(angle)) - (vec.Y * Math.Sin(angle)));
+            double y = ((vec.X * Math.Sin(angle)) + (vec.Y * Math.Cos(angle)));
+            return new Vector(x, y);
         }
 
         /// <summary>
@@ -185,6 +221,20 @@ namespace SATTest
         {
             public double min;
             public double max;
+        }
+
+        private void slider1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            angle1 = e.NewValue;
+            rectangle1.RenderTransform = new RotateTransform(angle1);
+            rectangle1.RenderTransformOrigin = new Point(0.5, 0.5);
+        }
+
+        private void slider2_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            angle2 = e.NewValue;
+            rectangle2.RenderTransform = new RotateTransform(angle2);
+            rectangle2.RenderTransformOrigin = new Point(0.5, 0.5);
         }   
     }
 }
