@@ -42,7 +42,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         public override void UpdateControl(float tpf)
         {
-            if (meMovable == null)
+            if (meMovable == null || double.IsNaN(meMovable.Direction.Length))
                 return;
 
             Vector dirToSurf = new Vector(0, -1);

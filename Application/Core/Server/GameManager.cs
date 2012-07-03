@@ -234,6 +234,7 @@ namespace Orbit.Core.Server
     {
         NORMAL1,
         TEST_BASE_COLLISIONS,
-        TEST_POWERUPS
+        TEST_POWERUPS,
+        TEST_STATIC_OBJ
     }
 }

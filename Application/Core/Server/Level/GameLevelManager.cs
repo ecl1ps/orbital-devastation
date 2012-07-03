@@ -25,6 +25,9 @@ namespace Orbit.Core.Server.Level
                 case GameLevel.TEST_POWERUPS:
                     newLvl = new LevelTestPoweUp(mgr, objects);
                     break;
+                case GameLevel.TEST_STATIC_OBJ:
+                    newLvl = new LevelTestStaticObjects(mgr);
+                    break;
             }
 
             return newLvl;
