@@ -25,7 +25,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
             if (other is Base)
             {
-                Console.WriteLine("Colided with base");
+                SceneMgr.FloatingTextMgr.AddFloatingText("Collided", Position, FloatingTextManager.TIME_LENGTH_3,
+                    FloatingTextType.SYSTEM, FloatingTextManager.SIZE_BIG, true);
                 SceneMgr.StatsMgr.OnPlayerCaughtPowerUp((other as Base).Owner, PowerUpType);
                 DoRemoveMe();
             }
