@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="Orbit.Gui.PlayerOverview"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="650" Margin="0,5,0,0">
+    <Border BorderBrush="Black" BorderThickness="1">
+        <Grid Width="650">
+            <Label Content="Hooker Maxi Bot" Height="28" HorizontalAlignment="Left" Margin="12,0,0,0" Name="lblName" VerticalAlignment="Center" FontSize="12" />
+            <Label Content="Spectating" Height="28" HorizontalAlignment="Left" Margin="105,0,0,0" Name="lblActive" VerticalAlignment="Center" FontSize="11" />
+            <Label Content="Score: 264831" Height="28" HorizontalAlignment="Left" Margin="171,0,0,0" Name="lblScore" VerticalAlignment="Center" FontSize="11" />
+            <Label Content="Gold: 41646" Height="28" HorizontalAlignment="Right" Margin="0,0,332,0" Name="lblGold" VerticalAlignment="Center" FontSize="11" />
+
+            <Label Content="Mine: III" Height="28" Margin="330,0,271,0" Name="lblMine" VerticalAlignment="Center" FontSize="11" />
+            <Label Content="Cannon: III" Height="28" HorizontalAlignment="Left" Margin="376,0,0,0" Name="lblCannon" VerticalAlignment="Center" FontSize="11" />
+            <Label Content="Hook: III" Height="28" HorizontalAlignment="Left" Margin="436,0,0,0" Name="lblHook" VerticalAlignment="Center" FontSize="11" />
+            <Label Content="Repair: III" Height="28" HorizontalAlignment="Right" Margin="0,0,111,0" Name="lblHealingKit" VerticalAlignment="Center" FontSize="11" />
+
+            <Label Content="Won: 0" Height="28" HorizontalAlignment="Left" Margin="550,0,0,0" Name="lblWon" VerticalAlignment="Center" FontSize="11" />
+            <Label Content="Played: 0" Height="28" HorizontalAlignment="Left" Name="lblPlayed" VerticalAlignment="Center" FontSize="11" Margin="590,0,0,0" />
+        </Grid>
+    </Border>
+</UserControl>

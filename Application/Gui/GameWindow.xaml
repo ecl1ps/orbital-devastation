@@ -6,7 +6,7 @@
              xmlns:controls="clr-namespace:Orbit.Gui"
              Closing="OnClose" Name="mainWindow"
              WindowStyle="ThreeDBorderWindow" Title="Orbital Devastation" WindowStartupLocation="CenterScreen" KeyDown="OnKeyDown" Icon="/Application;component/resources/images/rock/rock_normal_6.png"
-             Width="1020" Height="740" >
+             Width="1020" Height="740" KeyUp="OnKeyUp">
 
     <Grid Name="mainContainerGrid" SizeChanged="OnSizeChanged">
         <Grid.LayoutTransform>

@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="Orbit.Gui.GameOverviewUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:controls="clr-namespace:Orbit.Gui"
+             mc:Ignorable="d" x:Name="gameOverview"  Width="700" Height="355" BorderBrush="Black" BorderThickness="1" Margin="0,50,0,0" VerticalAlignment="Top">
+    
+    <Grid Width="700" Height="355" Background="#E7A0A0A0">
+        <Label Content="Game Overview" Height="28" HorizontalAlignment="Center" Margin="0,20,0,0" Name="label1" VerticalAlignment="Top" FontSize="16" FontFamily="Bauhaus 93" />
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Name="spPlayers" Margin="0,70,0,0">
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -273,5 +273,18 @@ namespace Orbit
             mainWindow.mainGrid.Children.Clear();
             mainWindow.mainGrid.Children.Add(new StatisticsUC());
         }
+
+        public void OnKeyEvent(System.Windows.Input.KeyEventArgs e)
+        {
+            sceneMgr.Enqueue(new Action(() =>
+            {
+                sceneMgr.OnKeyEvent(e);
+            }));
+        }
+
+        public void ShowGameOverview(List<PlayerOverviewData> data)
+        {
+            mainWindow.mainGrid.Children.Add(new GameOverviewUC(data));
+        }
     }
 }

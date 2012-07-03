@@ -15,6 +15,7 @@ using System.Windows;
 using Orbit.Core.Weapons;
 using Orbit.Core.Server.Match;
 using Orbit.Core.Server.Level;
+using Orbit.Core.AI;
 
 namespace Orbit.Core.Server
 {
@@ -56,7 +57,7 @@ namespace Orbit.Core.Server
             // pri solo hre se vytvori jeden bot
             if (players.Count == 1)
             {
-                Player bot = serverMgr.CreateAndAddPlayer("Bot", "NullBotHash");
+                Player bot = serverMgr.CreateAndAddPlayer(BotNameAccessor.GetBotName(SharedDef.DEFAULT_BOT), "NullBotHash");
                 bot.Data.PlayerType = PlayerType.BOT;
                 if (gameLevel.IsBotAllowed())
                     bot.Data.BotType = SharedDef.DEFAULT_BOT;

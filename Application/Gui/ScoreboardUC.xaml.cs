@@ -19,14 +19,9 @@ namespace Orbit.Gui
     /// </summary>
     public partial class ScoreboardUC : UserControl
     {
-        private LobbyPlayerData winnerData;
-        private List<LobbyPlayerData> data;
-
         public ScoreboardUC(LobbyPlayerData winnerData, List<LobbyPlayerData> data)
         {
             InitializeComponent();
-            this.winnerData = winnerData;
-            this.data = data;
 
             lblWinner.Content = winnerData.Name + " is winner!";
 

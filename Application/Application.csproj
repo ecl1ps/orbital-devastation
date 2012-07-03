@@ -93,6 +93,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Core\AI\BotNameAccessor.cs" />
     <Compile Include="Core\AI\HookerBot.cs" />
     <Compile Include="Core\AI\SimpleBot.cs" />
     <Compile Include="Core\Client\FloatingTextManager.cs" />
@@ -174,6 +175,9 @@
     <Compile Include="Gui\FindServerUC.xaml.cs">
       <DependentUpon>FindServerUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\GameOverviewUC.xaml.cs">
+      <DependentUpon>GameOverviewUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\GameUC.xaml.cs">
       <DependentUpon>GameUC.xaml</DependentUpon>
     </Compile>
@@ -185,6 +189,9 @@
     </Compile>
     <Compile Include="Gui\OptionsMenu.xaml.cs">
       <DependentUpon>OptionsMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\PlayerOverview.xaml.cs">
+      <DependentUpon>PlayerOverview.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\PlayerSettings.xaml.cs">
       <DependentUpon>PlayerSettings.xaml</DependentUpon>
@@ -264,6 +271,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Gui\GameOverviewUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Gui\GameUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -289,6 +300,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\BuyActionUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\PlayerOverview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

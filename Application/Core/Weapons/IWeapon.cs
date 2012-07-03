@@ -23,6 +23,7 @@ namespace Orbit.Core.Weapons
 
     public enum UpgradeLevel
     {
+        LEVEL_NONE = 0,
         LEVEL1,
         LEVEL2,
         LEVEL3,

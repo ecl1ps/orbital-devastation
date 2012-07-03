@@ -164,8 +164,6 @@ namespace Orbit.Core.Client
                 SetCanvas((Application.Current as App).GetCanvas());
             }));
 
-            actionMgr = new PlayerActionManager(this);
-            StateMgr.AddGameState(actionMgr);
             InitStaticMouse();
             BeginInvoke(new Action(() =>
             {
@@ -193,7 +191,11 @@ namespace Orbit.Core.Client
                 {
                     p.CreateWeapons();
                     if (p.IsCurrentPlayer())
+                    {
+                        actionMgr = new PlayerActionManager(this);
+                        StateMgr.AddGameState(actionMgr);
                         actionMgr.CreateActionBarItems();
+                    }
 
                     // zobrazi aktualni integrity bazi
                     p.SetBaseIntegrity(p.GetBaseIntegrity());

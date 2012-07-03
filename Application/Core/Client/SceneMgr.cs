@@ -83,8 +83,8 @@ namespace Orbit.Core.Client
 
             if (gameType != Gametype.TOURNAMENT_GAME)
             {
-                actionMgr = new PlayerActionManager(this);
-                StateMgr.AddGameState(actionMgr);
+                /*actionMgr = new PlayerActionManager(this);
+                StateMgr.AddGameState(actionMgr);*/
                 Invoke(new Action(() =>
                 {
                     Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
@@ -725,6 +725,39 @@ namespace Orbit.Core.Client
         public Player GetOtherActivePlayer(int firstPlayerId)
         {
             return players.Find(p => p.IsActivePlayer() && p.GetId() != firstPlayerId);
+        }
+
+        public void OnKeyEvent(KeyEventArgs e)
+        {
+            if (!isGameInitialized)
+                return;
+
+            switch (e.Key)
+            {
+                case Key.Tab:
+                    {
+                        if (!e.IsDown)
+                            break;
+
+                        List<PlayerOverviewData> data = new List<PlayerOverviewData>(players.Count);
+                        foreach (Player p in players)
+                        {
+                            if (p.IsActivePlayer())
+                                data.Add(new PlayerOverviewData(p.Data.Name, p.Data.Score, p.Data.Gold, p.Data.Active, p.Data.PlayedMatches, p.Data.WonMatches,
+                                    p.Mine.UpgradeLevel, p.Canoon.UpgradeLevel, p.Hook.UpgradeLevel, p.HealingKit.UpgradeLevel));
+                            else
+                                data.Add(new PlayerOverviewData(p.Data.Name, p.Data.Score, p.Data.Gold, p.Data.Active, p.Data.PlayedMatches, p.Data.WonMatches,
+                                    UpgradeLevel.LEVEL_NONE, UpgradeLevel.LEVEL_NONE, UpgradeLevel.LEVEL_NONE, UpgradeLevel.LEVEL_NONE));
+                        }
+
+                        Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            (Application.Current as App).ShowGameOverview(data);
+                        }));
+                    }
+                    break;
+            }
+
         }
     }
 }

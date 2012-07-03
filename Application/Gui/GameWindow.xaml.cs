@@ -21,6 +21,7 @@ namespace Orbit.Gui
     public partial class GameWindow : Window
     {
         public bool GameRunning { get; set; }
+        public bool tabDown = false;
 
         public GameWindow()
         {
@@ -137,7 +138,35 @@ namespace Orbit.Gui
                             StaticMouse.Enable(false);
                     }
                     break;
+                case Key.Tab:
+                    if (tabDown)
+                        return;
+                    tabDown = true;
+                    GameOverviewUC go = LogicalTreeHelper.FindLogicalNode(mainGrid, "gameOverview") as GameOverviewUC;
+                    if (go != null)
+                        mainGrid.Children.Remove(go);
+                    break;
             }
+
+            (Application.Current as App).OnKeyEvent(e);
+        }
+
+        private void OnKeyUp(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Tab:
+                    if (!tabDown)
+                        return;
+
+                    tabDown = false;
+                    GameOverviewUC go = LogicalTreeHelper.FindLogicalNode(mainGrid, "gameOverview") as GameOverviewUC;
+                    if (go != null)
+                        mainGrid.Children.Remove(go);
+                    break;
+            }
+
+            (Application.Current as App).OnKeyEvent(e);
         }
     }
 }
