@@ -5,3 +5,5 @@ Data/
 *.suo
 *.orig
 Build/
+SATTest/bin/*
+SATTest/obj/*
