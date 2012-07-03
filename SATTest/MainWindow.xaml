@@ -10,9 +10,9 @@
         </Canvas>
         <Slider Height="23" Name="slider1" Width="158" Interval="10" Maximum="360" ValueChanged="slider1_ValueChanged" Margin="293,376,52,0" />
         <Slider Height="23" Interval="10" Maximum="360" Name="slider2" Width="158" ValueChanged="slider2_ValueChanged" Margin="294,352,51,25" />
-        <RadioButton Content="2 strany" Height="16" HorizontalAlignment="Left" Margin="25,356,0,0" Name="rb2" VerticalAlignment="Top" Checked="rb2_Checked" />
-        <RadioButton Content="3 strany" Height="16" HorizontalAlignment="Left" Margin="25,376,0,0" Name="rb3" VerticalAlignment="Top" Checked="rb3_Checked" />
-        <RadioButton Content="4 strany" Height="16" HorizontalAlignment="Left" Margin="121,356,0,0" Name="rb4" VerticalAlignment="Top" Checked="rb4_Checked" />
-        <RadioButton Content="5 strany" Height="16" HorizontalAlignment="Left" Margin="121,376,0,0" Name="rb5" VerticalAlignment="Top" Checked="rb5_Checked" />
+        <RadioButton Content="2 body" Height="16" HorizontalAlignment="Left" Margin="25,356,0,0" Name="rb2" VerticalAlignment="Top" Checked="rb2_Checked" />
+        <RadioButton Content="3 body" Height="16" HorizontalAlignment="Left" Margin="25,376,0,0" Name="rb3" VerticalAlignment="Top" Checked="rb3_Checked" />
+        <RadioButton Content="4 body" Height="16" HorizontalAlignment="Left" Margin="121,356,0,0" Name="rb4" VerticalAlignment="Top" Checked="rb4_Checked" />
+        <RadioButton Content="5 bodů" Height="16" HorizontalAlignment="Left" Margin="121,376,0,0" Name="rb5" VerticalAlignment="Top" Checked="rb5_Checked" />
     </Grid>
 </Window>
