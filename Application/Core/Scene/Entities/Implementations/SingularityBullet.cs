@@ -13,7 +13,7 @@ using System.Windows;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    class SingularityBullet : Sphere, ISendable, IDamageable
+    class SingularityBullet : Sphere, ISendable, IProjectile
     {
 
         public Player Owner { get; set; } // neposilan
@@ -26,7 +26,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             hit = false;
         }
 
-        public override void DoCollideWith(ICollidable other)
+        public override void DoCollideWith(ICollidable other, float tpf)
         {
             if (other is IDestroyable)
             {

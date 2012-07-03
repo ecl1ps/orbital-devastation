@@ -44,7 +44,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             return true;
         }
 
-        public override void DoCollideWith(ICollidable other)
+        public override void DoCollideWith(ICollidable other, float tpf)
         {
             if (other is Asteroid)
             {

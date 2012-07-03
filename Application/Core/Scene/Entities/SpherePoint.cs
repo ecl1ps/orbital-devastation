@@ -8,6 +8,7 @@ using Orbit.Core;
 using System.Windows.Media;
 using Orbit.Core.Client;
 using Orbit.Core.Helpers;
+using Orbit.Core.Scene.Entities.Implementations;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -27,6 +28,9 @@ namespace Orbit.Core.Scene.Entities
 
             if (other is Sphere)
                 return CollisionHelper.IntersectsCircleAndPoint(Center, ((Sphere)other).Center, ((Sphere)other).Radius);
+
+            if (other is SolidLine)
+                return CollisionHelper.IntersectsPointAndLine((other as SolidLine).Start, (other as SolidLine).End, Center.ToPoint());
 
             return false;
         }

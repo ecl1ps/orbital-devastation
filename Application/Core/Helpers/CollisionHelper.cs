@@ -68,16 +68,60 @@ namespace Orbit.Core.Helpers
             return false;
         }
 
-        public static bool IntersectsPointAndPoint(Vector point1, Vector point2)  
+        public static bool IntersectsPointAndPoint(Vector point1, Vector point2)
         {
             return ((int)point1.X) == ((int)point2.X) && ((int)point1.Y) == ((int)point2.Y);
         }
 
-        public static bool IntersectsPointAndLine(Vector point1, Point start, Point end)
+        public static bool IntersectsPointAndLine(Point p1, Point p2, Point point)
         {
-            //TODO asigned by hromada ;)
-            return false;
+            return PointToLineDistance(p1, p2, point) == 0;
         }
 
+        public static bool IntersectCircleAndLine(Point p1, Point p2, Point center, double radius)
+        {
+            return PointToLineDistance(p1, p2, center) < radius;
+        }
+
+        public static bool IntersectLineAndLine(Point a1, Point a2, Point b1, Point b2)
+        {
+            Vector n = new Vector(-(a2.Y - a1.Y), a2.X - a1.X);
+            
+            double dot = n * (b1 - b2);
+            
+            //rovnobezky
+            if (dot == 0)
+                return false;
+
+            double lenght = ((a1 - b1) * n) / dot;
+
+            return lenght > 0 && lenght < 1;
+        }
+
+        public static double PointToLineDistance(Point l1, Point l2, Point p)
+        {
+            double normalLength = Math.Sqrt((l2.X - l1.X) * (l2.X - l1.X) + (l2.Y - l1.Y) * (l2.Y - l1.Y));
+
+            return Math.Abs((p.X - p.X) * (l2.Y - l1.Y) - (p.Y - l1.Y) * (l2.X - l1.X)) / normalLength;
+        }
+
+        public static bool IntersectLineAndSquare(Point l1, Point l2, Point sCenter, Size sSize)
+        {
+            Point p1 = sCenter;
+            Point p2 = new Point(sCenter.X + sSize.Width, sCenter.Y);
+            Point p3 = new Point(sCenter.X, sCenter.Y + sSize.Height);
+            Point p4 = new Point(sCenter.X + sSize.Width, sCenter.Y + sSize.Width);
+
+            if (IntersectLineAndLine(l1, l2, p1, p2))
+                return true;
+            if (IntersectLineAndLine(l1, l2, p1, p3))
+                return true;
+            if (IntersectLineAndLine(l1, l2, p2, p4))
+                return true;
+            if (IntersectLineAndLine(l1, l2, p3, p4))
+                return true;
+
+            return false;
+        }
     }
 }

@@ -18,7 +18,7 @@ using System.Diagnostics;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    public class Hook : SpherePoint, ISendable, IRotable, IDamageable
+    public class Hook : SpherePoint, ISendable, IRotable, IProjectile
     {
         public Player Owner { get; set; } // neposilano
         public float Rotation { get; set; }
@@ -63,7 +63,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             line.Y2 = RopeContactPoint.Y;
         }
 
-        public override void DoCollideWith(ICollidable other)
+        public override void DoCollideWith(ICollidable other, float tpf)
         {
             if (HasCaughtObject())
                 return;

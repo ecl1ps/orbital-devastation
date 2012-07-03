@@ -8,6 +8,7 @@ using System.Windows.Threading;
 using System.Windows.Controls;
 using Orbit.Core.Client;
 using Orbit.Core.Helpers;
+using Orbit.Core.Scene.Entities.Implementations;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -37,10 +38,13 @@ namespace Orbit.Core.Scene.Entities
             if (other is Square)
                 return CollisionHelper.IntersectsSquareAndSquare(Position, Size, (other as Square).Position, (other as Square).Size);
 
+            if (other is SolidLine)
+                return CollisionHelper.IntersectLineAndSquare((other as SolidLine).Start, (other as SolidLine).End, Position.ToPoint(), Size);
+
             return false;
         }
 
-        public abstract void DoCollideWith(ICollidable other);
+        public abstract void DoCollideWith(ICollidable other, float tpf);
 
         public override bool IsOnScreen(Size screenSize)
         {

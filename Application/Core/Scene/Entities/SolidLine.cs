@@ -7,20 +7,19 @@ using Orbit.Core.Client;
 using Orbit.Core.Players;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Orbit.Core.Helpers;
 
-namespace Orbit.Core.Scene.Entities.Implementations
+namespace Orbit.Core.Scene.Entities
 {
-    class SolidLine : SceneObject, IProjectile, ICollidable
+    public abstract class SolidLine : SceneObject, ICollidable
     {
         public Point Start {get; set; }
         public Point End { get; set; }
         public int Width { get; set; }
-        public Player Owner { get; set; }
 
-        public SolidLine(SceneMgr mgr, Player owner, Point start, Point end, Color color, Brush brush, int width) : base(mgr)
+        public SolidLine(SceneMgr mgr, Point start, Point end, Color color, Brush brush, int width) : base(mgr)
         {
             SceneMgr = mgr;
-            Owner = owner;
             Start = start;
             End = end;
             Width = width;
@@ -66,11 +65,18 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public bool CollideWith(ICollidable other)
         {
+            if (other is SpherePoint)
+                return CollisionHelper.IntersectsPointAndLine(Start, End, (other as SpherePoint).Center.ToPoint());
+            if (other is Sphere)
+                return CollisionHelper.IntersectCircleAndLine(Start, End, (other as Sphere).Center.ToPoint(), (other as Sphere).Radius);
+            if(other is Square)
+                return CollisionHelper.IntersectLineAndSquare(Start, End, (other as Square).Position.ToPoint(), (other as Square).Size);
+            if (other is SolidLine)
+                return CollisionHelper.IntersectLineAndLine(Start, End, (other as SolidLine).Start, (other as SolidLine).End);
+
             return false;
         }
 
-        public void DoCollideWith(ICollidable other)
-        {
-        }
+        public abstract void DoCollideWith(ICollidable other, float tpf);
     }
 }

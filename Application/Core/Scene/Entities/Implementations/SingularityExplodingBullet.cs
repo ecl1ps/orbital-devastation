@@ -31,7 +31,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             ((geometryElement as Path).Data as EllipseGeometry).RadiusY = Radius;
         }
 
-        public override void DoCollideWith(ICollidable other)
+        public override void DoCollideWith(ICollidable other, float tpf)
         {
             if (other is IMovable)
             {

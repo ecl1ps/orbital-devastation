@@ -69,8 +69,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void TakeDamage(int damage, ISceneObject from)
         {
-            if (from is IDamageable)
-                Destroyer = (from as IDamageable).Owner.GetId();
+            if (from is IProjectile)
+                Destroyer = (from as IProjectile).Owner.GetId();
             base.TakeDamage(damage, from);
             DoRemoveMe();
             SpawnSmallMeteors((int)(Radius * 0.7f));

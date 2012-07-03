@@ -34,9 +34,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 Parent.NoticeChildAsteroidDestroyedBy(lastHitTakenFrom, this);
         }
 
-        public override void DoCollideWith(ICollidable other)
+        public override void DoCollideWith(ICollidable other, float tpf)
         {
-            base.DoCollideWith(other);
+            base.DoCollideWith(other, tpf);
             if (!(other is SingularityBullet))
                 lastHitTakenFrom = null;
         }

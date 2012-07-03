@@ -23,6 +23,12 @@ namespace Orbit.Core
             return new Point(vec.X, vec.Y);
         }
 
+        public static double Distance(this Point p1, Point p2)
+        {
+            double d = Math.Pow(p1.X - p2.X, 2) + Math.Pow(p2.Y - p2.Y, 2);
+            return Math.Sqrt(d);
+        }
+
         public static float GetHorizontalLenght(this Vector vec)
         {
             return (float)new Vector(vec.X, 0).Length;

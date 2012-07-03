@@ -6,8 +6,8 @@ using Orbit.Core.Players;
 
 namespace Orbit.Core.Scene.Entities
 {
-    interface IProjectile
+    public interface IProjectile : ISceneObject
     {
-        Player Owner {get; set;}
+        Player Owner { get; set; }
     }
 }

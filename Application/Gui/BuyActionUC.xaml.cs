@@ -44,6 +44,7 @@ namespace Orbit.Gui
 
         public void AttachNewController(ActionController c)
         {
+            controller = c;
             c.Enqueue(new Action(() =>
             {
                 c.CreateHeaderText(this);

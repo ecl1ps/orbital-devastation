@@ -33,7 +33,7 @@ namespace Orbit.Core.Weapons
         private Vector rightVector;
 
         private Vector origin;
-        private SolidLine laser;
+        private Laser laser;
 
         public Lazor(SceneMgr mgr, Player owner) 
         {
@@ -228,7 +228,7 @@ namespace Orbit.Core.Weapons
             v.X += origin.X;
             v.Y += origin.Y;
 
-            laser = new SolidLine(SceneMgr, Owner, origin.ToPoint(), v.ToPoint(), Colors.Blue, Brushes.Blue, 5);
+            laser = new Laser(Owner, SceneMgr, origin.ToPoint(), v.ToPoint(), Colors.Blue, Brushes.Blue, 5);
             SceneMgr.DelayedAttachToScene(laser);
             removeLines();
         }

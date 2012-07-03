@@ -79,9 +79,12 @@ namespace Orbit.Core.Scene.Entities
             if (other is Square)
                 return CollisionHelper.IntersectsCircleAndSquare(Center, Radius, (other as Square).Position, (other as Square).Size);
 
+            if (other is SolidLine)
+                return CollisionHelper.IntersectCircleAndLine((other as SolidLine).Start, (other as SolidLine).End, Center.ToPoint(), Radius);
+            
             return false;
         }
 
-        public abstract void DoCollideWith(ICollidable other);
+        public abstract void DoCollideWith(ICollidable other, float tpf);
     }
 }

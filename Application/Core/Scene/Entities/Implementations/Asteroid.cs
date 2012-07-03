@@ -36,7 +36,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             (geometryElement as System.Windows.Controls.Image).RenderTransform = new RotateTransform(Rotation);
         }
 
-        public override void DoCollideWith(ICollidable other)
+        public override void DoCollideWith(ICollidable other, float tpf)
         {
         }
 

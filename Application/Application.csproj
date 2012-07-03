@@ -118,11 +118,11 @@
     <Compile Include="Core\Scene\Controls\Implementations\NewtonianMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LinearRotationControl.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Circle.cs" />
-    <Compile Include="Core\Scene\Entities\Implementations\SolidLine.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\Laser.cs" />
+    <Compile Include="Core\Scene\Entities\SolidLine.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\StatPowerUp.cs" />
-    <Compile Include="Core\Scene\Entities\IProjectile.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\VectorLine.cs" />
-    <Compile Include="Core\Scene\Entities\IDamageable.cs" />
+    <Compile Include="Core\Scene\Entities\IProjectile.cs" />
     <Compile Include="Core\Scene\Entities\IDestroyable.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\MinorAsteroid.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\SingularityExplodingBullet.cs" />

@@ -6,6 +6,6 @@ namespace Orbit.Core.Scene.Entities
     {
         bool CollideWith(ICollidable other);
 
-        void DoCollideWith(ICollidable other);
+        void DoCollideWith(ICollidable other, float tpf);
     }
 }

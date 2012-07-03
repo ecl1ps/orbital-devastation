@@ -316,7 +316,7 @@ namespace Orbit.Core.Client
             UpdateSceneObjects(tpf);
             RemoveObjectsMarkedForRemoval();
 
-            CheckCollisions();
+            CheckCollisions(tpf);
             RemoveObjectsMarkedForRemoval();
 
             try
@@ -368,7 +368,7 @@ namespace Orbit.Core.Client
             }
         }
 
-        public void CheckCollisions()
+        public void CheckCollisions(float tpf)
         {
             foreach (ISceneObject obj1 in objects)
             {
@@ -387,7 +387,7 @@ namespace Orbit.Core.Client
                         continue;
 
                     if (((ICollidable)obj1).CollideWith((ICollidable)obj2))
-                        ((ICollidable)obj1).DoCollideWith((ICollidable)obj2);
+                        ((ICollidable)obj1).DoCollideWith((ICollidable)obj2, tpf);
                 }
             }
         }
