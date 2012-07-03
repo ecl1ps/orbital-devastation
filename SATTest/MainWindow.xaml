@@ -5,10 +5,14 @@
     <Grid Height="400">
         <Canvas Name="canvas" Height="350" VerticalAlignment="Top">
             <Rectangle Canvas.Left="96" Canvas.Top="205" Height="57" Name="rectangle2" Stroke="Black" Width="172" />
-            <Rectangle Canvas.Left="169" Canvas.Top="80" Height="50" Name="rectangle1" Stroke="Black" Width="50" />
+            <Polygon Points="0,0 100,0 50,50" Stroke="Black" StrokeThickness="1" Canvas.Left="50" Canvas.Top="50" Name="poly" />
             <Label Canvas.Left="154" Canvas.Top="220" Content="" Height="28" Name="label1" />
         </Canvas>
-        <Slider Height="23" Name="slider1" Width="158" Interval="10" Maximum="360" ValueChanged="slider1_ValueChanged" Margin="168,376,176,0" />
-        <Slider Height="23" Interval="10" Maximum="360" Name="slider2" Width="158" ValueChanged="slider2_ValueChanged" Margin="169,352,176,25" />
+        <Slider Height="23" Name="slider1" Width="158" Interval="10" Maximum="360" ValueChanged="slider1_ValueChanged" Margin="293,376,52,0" />
+        <Slider Height="23" Interval="10" Maximum="360" Name="slider2" Width="158" ValueChanged="slider2_ValueChanged" Margin="294,352,51,25" />
+        <RadioButton Content="2 strany" Height="16" HorizontalAlignment="Left" Margin="25,356,0,0" Name="rb2" VerticalAlignment="Top" Checked="rb2_Checked" />
+        <RadioButton Content="3 strany" Height="16" HorizontalAlignment="Left" Margin="25,376,0,0" Name="rb3" VerticalAlignment="Top" Checked="rb3_Checked" />
+        <RadioButton Content="4 strany" Height="16" HorizontalAlignment="Left" Margin="121,356,0,0" Name="rb4" VerticalAlignment="Top" Checked="rb4_Checked" />
+        <RadioButton Content="5 strany" Height="16" HorizontalAlignment="Left" Margin="121,376,0,0" Name="rb5" VerticalAlignment="Top" Checked="rb5_Checked" />
     </Grid>
 </Window>

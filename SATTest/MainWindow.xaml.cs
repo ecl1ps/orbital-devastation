@@ -19,15 +19,16 @@ namespace SATTest
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Rectangle r1;
+        private Polygon polygon;
         private Rectangle r2;
         private Label lbl;
         private double angle1 = 0, angle2 = 0;
+        private Point lastPos;
 
         public MainWindow()
         {
             InitializeComponent();
-            r1 = rectangle1;
+            polygon = poly;
             r2 = rectangle2;
             lbl = label1;
             MoveTo(new Point(150, 150));
@@ -35,32 +36,36 @@ namespace SATTest
 
         private void canvas_MouseMove(object sender, MouseEventArgs ev)
         {
-            canvas.Children.Clear();
-            canvas.Children.Add(r1);
-            canvas.Children.Add(r2);
-            canvas.Children.Add(lbl);
+            ReAddObjectsOnCanvas();
 
             MoveTo(ev.GetPosition(canvas));
         }
 
+        private void ReAddObjectsOnCanvas()
+        {
+            canvas.Children.Clear();
+            canvas.Children.Add(polygon);
+            canvas.Children.Add(r2);
+            canvas.Children.Add(lbl);
+        }
+
         private void MoveTo(Point p)
         {
-            Vector pos1 = new Vector(p.X, p.Y);
-            Canvas.SetLeft(rectangle1, pos1.X);
-            Canvas.SetTop(rectangle1, pos1.Y);
+            lastPos = p;
+            Canvas.SetLeft(polygon, p.X);
+            Canvas.SetTop(polygon, p.Y);
             Vector pos2 = new Vector(Canvas.GetLeft(rectangle2), Canvas.GetTop(rectangle2));
-            Size size1 = new Size(rectangle1.Width, rectangle1.Height);
             Size size2 = new Size(rectangle2.Width, rectangle2.Height);
 
-            if (IntersectsSquareAndSquare(pos1, size1, pos2, size2))
+            if (IntersectsPolygonAndSquare(GetVerticesOfMovable(), pos2, size2))
             {
                 label1.Content = "Colliding";
-                rectangle1.Fill = Brushes.Red;
+                rectangle2.Fill = Brushes.Red;
             }
             else
             {
                 label1.Content = "Not Colliding";
-                rectangle1.Fill = Brushes.White;
+                rectangle2.Fill = Brushes.White;
             }
         }
 
@@ -87,21 +92,14 @@ namespace SATTest
             canvas.Children.Add(l);
         }
 
-        public bool IntersectsSquareAndSquare(Vector pos1, Size size1, Vector pos2, Size size2)
+        public bool IntersectsPolygonAndSquare(Vector[] vertices1, Vector pos2, Size size2)
         {
             // SAT collision detection
             // http://stackoverflow.com/questions/115426/algorithm-to-detect-intersection-of-two-rectangles
             // http://www.sevenson.com.au/actionscript/sat/
 
-            // zatim pocitam jen s obdelniky, ktere jsou rovnobezne s osami
-            // jinak by bylo potreba souradnice jejich bodu dal rotovat
-            // dalsi postup uz by byl stejny
-
-            // vrcholy prvniho telesa
-            Vector[] vertices1 = GetVertices(pos1, size1, angle1);
-
-            // vrcholy prvniho telesa
-            Vector[] vertices2 = GetVertices(pos2, size2, angle2);
+            // vrcholy druheho telesa
+            Vector[] vertices2 = GetVerticesOfStatic(pos2, size2, angle2);
 
             // nejdriv pro jedno teleso
             if (CheckPolygonAndPolygonForSAT(vertices1, vertices2))
@@ -114,7 +112,27 @@ namespace SATTest
             return true;
         }
 
-        private Vector[] GetVertices(Vector pos1, Size size1, double angle)
+        private Vector[] GetVerticesOfMovable()
+        {
+            Point[] points = polygon.Points.ToArray();
+            Vector[] vertices1 = new Vector[points.Length];
+            Vector polyPos = new Vector(Canvas.GetLeft(polygon), Canvas.GetTop(polygon));
+            for (int i = 0; i < points.Length; ++i)
+            {
+                vertices1[i] = new Vector(points[i].X, points[i].Y) + polyPos;
+            }
+
+            Vector squareCenter = new Vector(polyPos.X + polygon.ActualWidth / 2, polyPos.Y + polygon.ActualHeight / 2);
+            for (int i = 0; i < vertices1.Length; ++i )
+            {
+                vertices1[i] = Rotate(vertices1[i], angle1, squareCenter, false);
+                DrawEllipse(vertices1[i]);
+            }
+
+            return vertices1;
+        }
+
+        private Vector[] GetVerticesOfStatic(Vector pos1, Size size1, double angle)
         {
             Vector[] vertices1 = new Vector[4];
             vertices1[0] = pos1;
@@ -123,12 +141,11 @@ namespace SATTest
             vertices1[3] = new Vector(pos1.X, pos1.Y + size1.Height);
 
             Vector squareCenter = new Vector(pos1.X + size1.Width / 2, pos1.Y + size1.Height / 2);
-            for (int i = 0; i < vertices1.Length; ++i )
+            for (int i = 0; i < vertices1.Length; ++i)
             {
                 vertices1[i] = Rotate(vertices1[i], angle, squareCenter, false);
                 DrawEllipse(vertices1[i]);
             }
-
 
             return vertices1;
         }
@@ -226,8 +243,8 @@ namespace SATTest
         private void slider1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             angle1 = e.NewValue;
-            rectangle1.RenderTransform = new RotateTransform(angle1);
-            rectangle1.RenderTransformOrigin = new Point(0.5, 0.5);
+            polygon.RenderTransform = new RotateTransform(angle1);
+            polygon.RenderTransformOrigin = new Point(0.5, 0.5);
         }
 
         private void slider2_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -235,6 +252,58 @@ namespace SATTest
             angle2 = e.NewValue;
             rectangle2.RenderTransform = new RotateTransform(angle2);
             rectangle2.RenderTransformOrigin = new Point(0.5, 0.5);
+        }
+
+        private void CreateNewPolygon(PointCollection points)
+        {
+            polygon = new Polygon();
+            polygon.Stroke = Brushes.Black;
+            polygon.StrokeThickness = 1;
+            polygon.Points = points;
+            polygon.RenderTransform = new RotateTransform(angle1);
+            polygon.RenderTransformOrigin = new Point(0.5, 0.5);
+            Canvas.SetLeft(polygon, lastPos.X);
+            Canvas.SetTop(polygon, lastPos.Y);
+
+            ReAddObjectsOnCanvas();
+        }
+
+        private void rb2_Checked(object sender, RoutedEventArgs e)
+        {
+            PointCollection points = new PointCollection();
+            points.Add(new Point(0, 0));
+            points.Add(new Point(100, 0));
+            CreateNewPolygon(points);
+        }
+
+        private void rb3_Checked(object sender, RoutedEventArgs e)
+        {
+            PointCollection points = new PointCollection();
+            points.Add(new Point(0, 0));
+            points.Add(new Point(100, 0));
+            points.Add(new Point(50, 50));
+            CreateNewPolygon(points);
+        }
+
+        private void rb4_Checked(object sender, RoutedEventArgs e)
+        {
+            PointCollection points = new PointCollection();
+            points.Add(new Point(0, 0));
+            points.Add(new Point(100, 0));
+            points.Add(new Point(100, 100));
+            points.Add(new Point(0, 100));
+            CreateNewPolygon(points);
+        }
+
+        private void rb5_Checked(object sender, RoutedEventArgs e)
+        {
+            PointCollection points = new PointCollection();
+            points.Add(new Point(0, 0));
+            points.Add(new Point(100, 0));
+            points.Add(new Point(180, 60));
+            points.Add(new Point(30, 90));
+            points.Add(new Point(-20, 40));
+            CreateNewPolygon(points);
         }   
     }
 }
