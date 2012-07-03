@@ -55,8 +55,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         public void CollidedWith(IMovable movable)
         {
-            if (me.SceneMgr.GameType != Gametype.SOLO_GAME && 
-                meMine.Owner.GetPosition() == me.SceneMgr.GetOpponentPlayer().GetPosition())
+            if (!meMine.Owner.IsCurrentPlayerOrBot())
                 return;
 
             if (hitObjects.Contains((movable as ISceneObject).Id))
@@ -69,15 +68,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
             newDir *= Strength;
             movable.Direction += newDir;
 
-            if (me.SceneMgr.GameType != Gametype.SOLO_GAME)
-            {
-                NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();
-                msg.Write((int)PacketType.SINGULARITY_MINE_HIT);
-                msg.Write((movable as ISceneObject).Id);
-                msg.Write((movable as ISceneObject).Position);
-                msg.Write(newDir);
-                me.SceneMgr.SendMessage(msg);
-            }
+            NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();
+            msg.Write((int)PacketType.SINGULARITY_MINE_HIT);
+            msg.Write((movable as ISceneObject).Id);
+            msg.Write((movable as ISceneObject).Position);
+            msg.Write(newDir);
+            me.SceneMgr.SendMessage(msg);
         }
 
     }

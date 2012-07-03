@@ -74,7 +74,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (hitObjects.Contains((movable as ISceneObject).Id))
                 return;
 
-            if (meBullet.Owner.IsCurrentPlayer())
+            if (meBullet.Owner.IsCurrentPlayerOrBot())
             {
                 me.SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.MINE_HIT, meBullet.Center, FloatingTextManager.TIME_LENGTH_1,
                     FloatingTextType.SCORE);
@@ -90,21 +90,18 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 newDir *= Strength;
                 movable.Direction += newDir;
 
-                if (meBullet.SceneMgr.GameType != Gametype.SOLO_GAME)
-                {
-                    NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();
-                    msg.Write((int)PacketType.SINGULARITY_MINE_HIT);
-                    msg.Write(me.Id);
-                    msg.Write((movable as ISceneObject).Id);
-                    msg.Write((movable as ISceneObject).Position);
-                    msg.Write(newDir);
-                    me.SceneMgr.SendMessage(msg);
-                }
+                NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();
+                msg.Write((int)PacketType.SINGULARITY_MINE_HIT);
+                msg.Write(me.Id);
+                msg.Write((movable as ISceneObject).Id);
+                msg.Write((movable as ISceneObject).Position);
+                msg.Write(newDir);
+                me.SceneMgr.SendMessage(msg);
             }
 
             if (movable is IDestroyable)
             {
-                if (me.SceneMgr.GameType != Gametype.SOLO_GAME && !(me as SingularityBullet).Owner.IsCurrentPlayer())
+                if (!(me as SingularityBullet).Owner.IsCurrentPlayerOrBot())
                     return;
 
                 (me as SingularityBullet).HitAsteroid(movable as IDestroyable);

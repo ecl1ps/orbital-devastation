@@ -77,40 +77,33 @@ namespace Orbit.Core.Scene.Entities.Implementations
             if (!gold.Enabled)
                 return;
 
-            if (SceneMgr.GameType != Gametype.SOLO_GAME && !Owner.IsCurrentPlayer())
+            if (!Owner.IsCurrentPlayerOrBot())
                 return;
 
-            if (Owner.IsCurrentPlayer())
+            SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.HOOK_HIT, Center, FloatingTextManager.TIME_LENGTH_1, 
+                FloatingTextType.SCORE);
+            Owner.AddScoreAndShow(ScoreDefines.HOOK_HIT);
+            HookControl control = GetControlOfType(typeof(HookControl)) as HookControl;
+            if (control != null && control.GetDistanceFromOriginPct() > 0.9)
             {
-                SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.HOOK_HIT, Center, FloatingTextManager.TIME_LENGTH_1, 
-                    FloatingTextType.SCORE);
-                Owner.AddScoreAndShow(ScoreDefines.HOOK_HIT);
-                HookControl control = GetControlOfType(typeof(HookControl)) as HookControl;
-                if (control != null && control.GetDistanceFromOriginPct() > 0.9)
-                {
-                    SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.HOOK_CAUGHT_OBJECT_AFTER_90PCT_DISTANCE, Center, 
-                        FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG);
-                    Owner.AddScoreAndShow(ScoreDefines.HOOK_CAUGHT_OBJECT_AFTER_90PCT_DISTANCE);
-                }
+                SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.HOOK_CAUGHT_OBJECT_AFTER_90PCT_DISTANCE, Center, 
+                    FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG);
+                Owner.AddScoreAndShow(ScoreDefines.HOOK_CAUGHT_OBJECT_AFTER_90PCT_DISTANCE);
             }
 
             Vector hitVector = gold.Position - Position;
 
             if (gold.Enabled)
             {
-                    Catch(gold, hitVector);
-                    
-                    if (SceneMgr.GameType != Gametype.SOLO_GAME)
-                    {
-                        NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-                        msg.Write((int)PacketType.HOOK_HIT);
-                        msg.Write(Id);
-                        msg.Write(gold.Id);
-                        msg.Write(gold.Position);
-                        msg.Write(hitVector);
-                        SceneMgr.SendMessage(msg);
-                    }
+                Catch(gold, hitVector);
 
+                NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+                msg.Write((int)PacketType.HOOK_HIT);
+                msg.Write(Id);
+                msg.Write(gold.Id);
+                msg.Write(gold.Position);
+                msg.Write(hitVector);
+                SceneMgr.SendMessage(msg);
             }
         }
 

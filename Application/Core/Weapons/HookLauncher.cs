@@ -40,7 +40,7 @@ namespace Orbit.Core.Weapons
 
         public void Shoot(Point point)
         {
-            if(IsReady()) {
+            if (IsReady()) {
                 SpawnHook(point);
                 ReloadTime = Owner.Data.HookCooldown;
             }

@@ -38,7 +38,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         public void HitObject(IDestroyable enemy) 
         {
-            if(IsValidTarget(enemy)) 
+            if (IsValidTarget(enemy)) 
             {
                 enemy.TakeDamage(SharedDef.LASER_DMG, me);
                 datas.Add(new HitData(enemy, SharedDef.LASER_DMG_INTERVAL));
@@ -70,7 +70,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 data.Time -= tpf;
 
                 Console.WriteLine(data.Time);
-                if(data.Time <= 0)
+                if (data.Time <= 0)
                     datas.RemoveAt(i);
             }
         }

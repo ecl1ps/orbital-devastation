@@ -56,7 +56,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 SceneMgr.FloatingTextMgr.AddFloatingText(damage * ScoreDefines.DAMAGE_DEALT, textPos, FloatingTextManager.TIME_LENGTH_2,
                     FloatingTextType.SCORE, FloatingTextManager.SIZE_MEDIUM);
 
-                if (otherPlayer.IsCurrentPlayer())
+                if (otherPlayer.IsCurrentPlayerOrBot())
                     otherPlayer.AddScoreAndShow(damage * ScoreDefines.DAMAGE_DEALT);
 
                 // damage

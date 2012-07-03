@@ -37,12 +37,11 @@ namespace Orbit.Core.Utils
 
                 Cost *= SharedDef.HEAL_MULTIPLY_COEF;
 
-                if (mgr.GameType != Gametype.SOLO_GAME)
-                    SendMessage();
+                SendMessageWithHeal();
             }
         }
 
-        private void SendMessage()
+        private void SendMessageWithHeal()
         {
             NetOutgoingMessage message = mgr.CreateNetMessage();
             message.Write((int)PacketType.PLAYER_HEAL);

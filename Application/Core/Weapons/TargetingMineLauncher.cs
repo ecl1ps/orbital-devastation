@@ -87,12 +87,9 @@ namespace Orbit.Core.Weapons
             mine.Direction = dir;
             mine.Direction *= SharedDef.MINE_LAUNCHER_SPEED_MODIFIER * SharedDef.MINE_FALLING_SPEED;
 
-            if (SceneMgr.GameType != Gametype.SOLO_GAME)
-            {
-                NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-                (mine as ISendable).WriteObject(msg);
-                SceneMgr.SendMessage(msg);
-            }
+            NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+            (mine as ISendable).WriteObject(msg);
+            SceneMgr.SendMessage(msg);
 
             SceneMgr.DelayedAttachToScene(mine);
         }

@@ -38,12 +38,9 @@ namespace Orbit.Core.Weapons
 
             SingularityExplodingBullet bullet = SceneObjectFactory.CreateSingularityExploadingBullet(SceneMgr, point, Owner);
 
-            if (SceneMgr.GameType != Gametype.SOLO_GAME)
-            {
-                NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-                (bullet as ISendable).WriteObject(msg);
-                SceneMgr.SendMessage(msg);
-            }
+            NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+            (bullet as ISendable).WriteObject(msg);
+            SceneMgr.SendMessage(msg);
 
             SceneMgr.DelayedAttachToScene(bullet);
         }

@@ -27,7 +27,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         private void SpawnSmallMeteors(int radius)
         {
-            if (Destroyer != SceneMgr.GetCurrentPlayer().GetId() && SceneMgr.GameType != Gametype.SOLO_GAME)
+            if (SceneMgr.GetPlayer(Destroyer) == null || !SceneMgr.GetPlayer(Destroyer).IsCurrentPlayerOrBot())
                 return; 
 
             int rotation = SceneMgr.GetRandomGenerator().Next(360);
@@ -49,22 +49,19 @@ namespace Orbit.Core.Scene.Entities.Implementations
             SceneMgr.DelayedAttachToScene(a2);
             SceneMgr.DelayedAttachToScene(a3);
 
-            if (SceneMgr.GameType != Gametype.SOLO_GAME)
-            {
-                NetOutgoingMessage message = SceneMgr.CreateNetMessage();
-                message.Write((int)PacketType.MINOR_ASTEROID_SPAWN);
-                message.Write(radius);
-                message.Write(Direction);
-                message.Write(Center);
-                message.Write(rotation);
-                message.Write(textureId);
-                message.Write(Destroyer);
-                message.Write(id1);
-                message.Write(id2);
-                message.Write(id3);
+            NetOutgoingMessage message = SceneMgr.CreateNetMessage();
+            message.Write((int)PacketType.MINOR_ASTEROID_SPAWN);
+            message.Write(radius);
+            message.Write(Direction);
+            message.Write(Center);
+            message.Write(rotation);
+            message.Write(textureId);
+            message.Write(Destroyer);
+            message.Write(id1);
+            message.Write(id2);
+            message.Write(id3);
 
-                SceneMgr.SendMessage(message);
-            }
+            SceneMgr.SendMessage(message);
         }
 
         public override void TakeDamage(int damage, ISceneObject from)
@@ -94,10 +91,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.CANNON_DESTROYED_ENTIRE_UNSTABLE_ASTEROID, destroyedChild.Center,
                     FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG);
 
-                if(SceneMgr.GetCurrentPlayer().GetId() == Destroyer)
-                    SceneMgr.GetCurrentPlayer().AddScoreAndShow(ScoreDefines.CANNON_DESTROYED_ENTIRE_UNSTABLE_ASTEROID);
-                else
-                    SceneMgr.GetOpponentPlayer().AddScoreAndShow(ScoreDefines.CANNON_DESTROYED_ENTIRE_UNSTABLE_ASTEROID);
+                if (SceneMgr.GetPlayer(Destroyer).IsCurrentPlayerOrBot())
+                    SceneMgr.GetPlayer(Destroyer).AddScoreAndShow(ScoreDefines.CANNON_DESTROYED_ENTIRE_UNSTABLE_ASTEROID);
             }
         }
     }

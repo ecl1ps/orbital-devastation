@@ -76,7 +76,7 @@ namespace Orbit.Core.Weapons
 
         public void TriggerUpgrade(IWeapon old)
         {
-            if(old != null)
+            if (old != null)
                 old.SceneMgr.StateMgr.RemoveGameState(old);
             
             SceneMgr.StateMgr.AddGameState(this);

@@ -45,7 +45,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             else
                 hit = true;
 
-            if (Owner.IsCurrentPlayer())
+            if (Owner.IsCurrentPlayerOrBot())
             {
                 Owner.AddScoreAndShow(ScoreDefines.CANNON_HIT);
                 SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.CANNON_HIT, Center, FloatingTextManager.TIME_LENGTH_1, 

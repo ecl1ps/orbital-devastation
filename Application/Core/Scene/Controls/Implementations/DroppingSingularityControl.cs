@@ -53,7 +53,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             if (lifeTime >= SharedDef.MINE_LIFE_TIME)
             {
-                if (meMine.Owner.IsCurrentPlayer() && hitObjects.Count > 2)
+                if (meMine.Owner.IsCurrentPlayerOrBot() && hitObjects.Count > 2)
                 {
                     me.SceneMgr.FloatingTextMgr.AddFloatingText((int)Math.Pow(hitObjects.Count, ScoreDefines.MINE_HIT_MULTIPLE_EXPONENT),
                         meMine.Center, FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG);
@@ -79,7 +79,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (hitObjects.Contains((movable as ISceneObject).Id))
                 return;
 
-            if (meMine.Owner.IsCurrentPlayer())
+            if (meMine.Owner.IsCurrentPlayerOrBot())
             {
                 me.SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.MINE_HIT, meMine.Center, FloatingTextManager.TIME_LENGTH_1, 
                     FloatingTextType.SCORE);
@@ -94,16 +94,13 @@ namespace Orbit.Core.Scene.Controls.Implementations
             else if (movable is Square)
                 newDir = CollideWithSquare(movable as Square);
 
-            if (meMine.SceneMgr.GameType != Gametype.SOLO_GAME)
-            {
-                NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();
-                msg.Write((int)PacketType.SINGULARITY_MINE_HIT);
-                msg.Write(me.Id);
-                msg.Write((movable as ISceneObject).Id);
-                msg.Write((movable as ISceneObject).Position);
-                msg.Write(newDir);
-                me.SceneMgr.SendMessage(msg);
-            }
+            NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();
+            msg.Write((int)PacketType.SINGULARITY_MINE_HIT);
+            msg.Write(me.Id);
+            msg.Write((movable as ISceneObject).Id);
+            msg.Write((movable as ISceneObject).Position);
+            msg.Write(newDir);
+            me.SceneMgr.SendMessage(msg);
         }
 
         private Vector CollideWithSquare(Square square)

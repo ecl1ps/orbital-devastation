@@ -243,6 +243,11 @@ namespace Orbit.Core.Players
         {
             return Data.PlayerType == PlayerType.BOT;
         }
+
+        public bool IsCurrentPlayerOrBot()
+        {
+            return GetId() == SceneMgr.GetCurrentPlayer().GetId() || Data.PlayerType == PlayerType.BOT;
+        }
     }
 
     public enum PlayerPosition

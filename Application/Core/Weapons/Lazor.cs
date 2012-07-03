@@ -56,7 +56,7 @@ namespace Orbit.Core.Weapons
 
         public void ProccessClickEvent(Point point, MouseButton button, MouseButtonState buttonState)
         {
-            if(button != MouseButton.Right)
+            if (button != MouseButton.Right)
                 return;
 
             if (buttonState == MouseButtonState.Pressed && !charging && !shooting)
@@ -73,7 +73,7 @@ namespace Orbit.Core.Weapons
         private void startCharging()
         {
             charging = true;
-            if(leftLine == null)
+            if (leftLine == null)
                 prepareLines();
         }
 
