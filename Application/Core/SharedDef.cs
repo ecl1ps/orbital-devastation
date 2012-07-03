@@ -58,11 +58,14 @@ namespace Orbit.Core
         public const int BULLET_SPEED                       = 300;
         public const float BULLET_COOLDOWN                  = MINE_COOLDOWN / 2;
         public const int BULLET_DMG                         = 5;
-        public const float LASER_CHARGING_TIME              = 3;
         public const float BULLET_LIFE_TIME                 = 1f;
         public const float BULLET_EXPLODE_DURATION          = 0.3f;
         public const float BULLET_EXPLOSION_STRENGTH        = 50;
         public const float BULLET_EXPLOSION_SPEED           = 0.6f;
+
+        public const float LASER_CHARGING_TIME              = 3;
+        public const int LASER_DMG                          = 5;
+        public const float LASER_DMG_INTERVAL               = 0.25f;
 
         public const int HOOK_LENGHT                        = 400;
         public const int HOOK_SPEED                         = 150;
@@ -94,7 +97,7 @@ namespace Orbit.Core
         public static Rect ORBIT_AREA                       = new Rect(0, 0, CANVAS_SIZE.Width, 200);
 
         public const string CONFIG_FILE                     = "player";
-        public const GameLevel STARTING_LEVEL               = GameLevel.TEST_POWERUPS;
+        public const GameLevel STARTING_LEVEL               = GameLevel.NORMAL1;
         public const BotType DEFAULT_BOT                    = BotType.LEVEL2;
     }
 

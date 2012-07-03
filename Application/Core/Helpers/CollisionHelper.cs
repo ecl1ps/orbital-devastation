@@ -199,9 +199,24 @@ namespace Orbit.Core.Helpers
 
         public static double PointToLineDistance(Point l1, Point l2, Point p)
         {
-            double normalLength = Math.Sqrt((l2.X - l1.X) * (l2.X - l1.X) + (l2.Y - l1.Y) * (l2.Y - l1.Y));
+            Point closest = ClosestPointOnSegment(l1.ToVector(), l2.ToVector(), p.ToVector());
+            return (p - closest).Length;
+        }
 
-            return Math.Abs((p.X - p.X) * (l2.Y - l1.Y) - (p.Y - l1.Y) * (l2.X - l1.X)) / normalLength;
+        public static Point ClosestPointOnSegment(Vector A, Vector B, Vector P)
+        {
+            Vector D = B-A;
+            double numer = (P-A) * D;
+
+            if (numer <= 0.0f)
+                return A.ToPoint();
+            
+            double denom = D * D;
+            
+            if (numer >= denom)
+                return B.ToPoint();
+            
+            return (A + (numer/denom) * D).ToPoint();
         }
 
         public static bool IntersectLineAndSquare(Point l1, Point l2, Point sCenter, Size sSize)

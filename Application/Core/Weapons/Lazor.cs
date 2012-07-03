@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Orbit.Core.Scene.Entities.Implementations;
+using Orbit.Core.Scene.Controls.Implementations;
 
 namespace Orbit.Core.Weapons
 {
@@ -228,7 +229,10 @@ namespace Orbit.Core.Weapons
             v.X += origin.X;
             v.Y += origin.Y;
 
-            laser = new Laser(Owner, SceneMgr, origin.ToPoint(), v.ToPoint(), Colors.Blue, Brushes.Blue, 5);
+            laser = new Laser(Owner, SceneMgr, origin.ToPoint(), v.ToPoint(), Colors.Blue, Brushes.Blue, 3);
+            LaserDamageControl control = new LaserDamageControl();
+            laser.AddControl(control);
+
             SceneMgr.DelayedAttachToScene(laser);
             removeLines();
         }
