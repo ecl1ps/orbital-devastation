@@ -46,29 +46,11 @@ namespace Orbit.Core.Helpers
             return cornerDistanceSquared <= Math.Pow(circleRadius, 2);
         }
 
-        public static bool IntersectsSquareAndSquare(Vector pos1, Size size1, Vector pos2, Size size2)
+        public static bool IntersectsSquareAndSquare(Vector[] vertices1, Vector[] vertices2)
         {
             // SAT collision detection
             // http://stackoverflow.com/questions/115426/algorithm-to-detect-intersection-of-two-rectangles
             // http://www.sevenson.com.au/actionscript/sat/
-
-            // zatim pocitam jen s obdelniky, ktere jsou rovnobezne s osami
-            // jinak by bylo potreba souradnice jejich bodu dal rotovat
-            // dalsi postup uz by byl stejny
-
-            // vrcholy prvniho telesa
-            Vector[] vertices1 = new Vector[4];
-            vertices1[0] = pos1;
-            vertices1[1] = new Vector(pos1.X + size1.Width, pos1.Y);
-            vertices1[2] = new Vector(pos1.X + size1.Width, pos1.Y + size1.Height);
-            vertices1[3] = new Vector(pos1.X, pos1.Y + size1.Height);
-
-            // vrcholy prvniho telesa
-            Vector[] vertices2 = new Vector[4];
-            vertices2[0] = pos2;
-            vertices2[1] = new Vector(pos2.X + size2.Width, pos2.Y);
-            vertices2[2] = new Vector(pos2.X + size2.Width, pos2.Y + size2.Height);
-            vertices2[3] = new Vector(pos2.X, pos2.Y + size2.Height);
 
             // nejdriv pro jedno teleso
             if (CheckPolygonAndPolygonForSAT(vertices1, vertices2))

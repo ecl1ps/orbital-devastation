@@ -35,7 +35,7 @@ namespace Orbit.Core.Scene.Entities
                 return CollisionHelper.IntersectsCircleAndSquare((other as Sphere).Center, (other as Sphere).Radius, Position, Size);
 
             if (other is Square)
-                return CollisionHelper.IntersectsSquareAndSquare(Position, Size, (other as Square).Position, (other as Square).Size);
+                return CollisionHelper.IntersectsSquareAndSquare(GetVertices(), (other as Square).GetVertices());
 
             return false;
         }
@@ -53,5 +53,21 @@ namespace Orbit.Core.Scene.Entities
             return true;
         }
 
+        public Vector[] GetVertices()
+        {
+            Vector[] vertices = new Vector[4];
+            vertices[0] = Position;
+            vertices[1] = new Vector(Position.X + Size.Width, Position.Y);
+            vertices[2] = new Vector(Position.X + Size.Width, Position.Y + Size.Height);
+            vertices[3] = new Vector(Position.X, Position.Y + Size.Height);
+
+            if (!(this is IRotable) || (this as IRotable).Rotation == 0)
+                return vertices;
+
+            for (int i = 0; i < vertices.Length; ++i)
+                vertices[i] = vertices[i].Rotate((this as IRotable).Rotation, Center, false);
+
+            return vertices;
+        }
     }
 }
