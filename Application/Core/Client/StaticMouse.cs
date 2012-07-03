@@ -181,7 +181,10 @@ namespace Orbit.Core.Client
         {
             sceneMgr.Invoke(new Action(() =>
             {
-                nativePosition = sceneMgr.GetCanvas().PointFromScreen(new Point(Cursor.Position.X, Cursor.Position.Y));
+                if (sceneMgr.GetCanvas().IsVisible)
+                    nativePosition = sceneMgr.GetCanvas().PointFromScreen(new Point(Cursor.Position.X, Cursor.Position.Y));
+                else
+                    nativePosition = new Point(Cursor.Position.X, Cursor.Position.Y);
             }));
         }
 
