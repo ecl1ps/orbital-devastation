@@ -49,8 +49,19 @@ namespace Orbit.Core
             return new Vector(v.X / v.Length, v.Y / v.Length);
         }
 
-        public static Vector Rotate(this Vector vec, double angle)
+        public static Vector Rotate(this Vector vec, double angle, Vector rotationOrigin, bool inRadians = true)
         {
+            if (!inRadians)
+                angle = Math.PI * angle / 180;
+
+            return rotationOrigin + Rotate(vec - rotationOrigin, angle);
+        }
+
+        public static Vector Rotate(this Vector vec, double angle, bool inRadians = true)
+        {
+            if (!inRadians)
+                angle = Math.PI * angle / 180;
+
             double x = ((vec.X * Math.Cos(angle)) - (vec.Y * Math.Sin(angle)));
             double y = ((vec.X * Math.Sin(angle)) + (vec.Y * Math.Cos(angle)));
             return new Vector(x, y);

@@ -39,16 +39,18 @@ namespace Orbit.Core.Server.Level
             GameLevelManager.SendNewObject(mgr, ServerSceneObjectFactory.CreateCustomAsteroid(mgr, 10, new Vector(baseLoc.X + baseLoc.Width + 1, 100), new Vector(0, 1)));
             GameLevelManager.SendNewObject(mgr, ServerSceneObjectFactory.CreateCustomAsteroid(mgr, 20, new Vector(baseLoc.X + baseLoc.Width, 200), new Vector(0, 1)));
 
-            GameLevelManager.SendNewObject(mgr, CreateAndSendNewStatPowerup(new Vector(0, 1)));
-            GameLevelManager.SendNewObject(mgr, CreateAndSendNewStatPowerup(new Vector(0, 1)));
-            GameLevelManager.SendNewObject(mgr, CreateAndSendNewStatPowerup(new Vector(0, 1)));
-            GameLevelManager.SendNewObject(mgr, CreateAndSendNewStatPowerup(new Vector(0, 1)));
+            baseLoc = PlayerBaseLocation.GetBaseLocation(PlayerPosition.RIGHT);
+            GameLevelManager.SendNewObject(mgr, CreateAndSendNewStatPowerup(new Vector(baseLoc.X - 10 * 2 - 1, 100), new Vector(0, 1)));
+            GameLevelManager.SendNewObject(mgr, CreateAndSendNewStatPowerup(new Vector(baseLoc.X - 20 * 2, 200), new Vector(0, 1)));
+            GameLevelManager.SendNewObject(mgr, CreateAndSendNewStatPowerup(new Vector(baseLoc.X + baseLoc.Width + 1, 100), new Vector(0, 1)));
+            GameLevelManager.SendNewObject(mgr, CreateAndSendNewStatPowerup(new Vector(baseLoc.X + baseLoc.Width, 200), new Vector(0, 1)));
         }
 
-        private StatPowerUp CreateAndSendNewStatPowerup(Vector dir)
+        private StatPowerUp CreateAndSendNewStatPowerup(Vector pos, Vector dir)
         {
             StatPowerUp p = ServerSceneObjectFactory.CreateStatPowerUp(mgr,
                 (DeviceType)mgr.GetRandomGenerator().Next((int)DeviceType.WEAPON_FIRST + 1, (int)DeviceType.WEAPON_LAST));
+            p.Position = pos;
             p.Direction = dir;
             return p;
         }
