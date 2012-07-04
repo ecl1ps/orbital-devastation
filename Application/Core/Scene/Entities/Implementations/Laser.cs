@@ -7,10 +7,11 @@ using System.Windows.Media;
 using System.Windows;
 using Orbit.Core.Client;
 using Orbit.Core.Scene.Controls.Implementations;
+using Lidgren.Network;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    class Laser : SolidLine, IProjectile
+    class Laser : SolidLine, IProjectile, ISendable
     {
 
         public Player Owner { get; set; }
@@ -39,6 +40,15 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 throw new Exception("Laser must have LaserDamageControl attached");
 
             damageControl.HitObject(enemy);
+        }
+
+        public void WriteObject(NetOutgoingMessage msg)
+        {
+            msg.Write((int)PacketType.NEW_LASER);
+        }
+
+        public void ReadObject(NetIncomingMessage msg)
+        {
         }
     }
 }
