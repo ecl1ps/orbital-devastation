@@ -25,8 +25,8 @@ namespace Orbit.Core
         public const int MIN_ASTEROID_ROTATION_SPEED        = -10;
         public const int MAX_ASTEROID_ROTATION_SPEED        =  10;
 
-        public const int ASTEROID_COUNT                     = 30;
-        public const float NEW_ASTEROID_TIMER               = 10; // seconds
+        public const int ASTEROID_COUNT                     = 25;
+        public const float NEW_ASTEROID_TIMER               = 30; // seconds
         public const int GOLD_ASTEROID_BONUS_MULTIPLY       = 10;
 
         public const int ASTEROID_GOLD_CHANCE               = 25; // (0 - 100)
@@ -35,7 +35,7 @@ namespace Orbit.Core
         public const int BASE_MAX_INGERITY                  = 100;
 
         public const int NEW_STAT_POWERUP_TIMER_MIN         = 2; // seconds
-        public const int NEW_STAT_POWERUP_TIMER_MAX         = 5; // seconds
+        public const int NEW_STAT_POWERUP_TIMER_MAX         = 4; // seconds
 
         // pouzito pouze v SingularityControl
         public const float MINE_INVISIBILITY_TIME           = 0.5f;
@@ -63,7 +63,7 @@ namespace Orbit.Core
         public const float BULLET_EXPLOSION_STRENGTH        = 50;
         public const float BULLET_EXPLOSION_SPEED           = 0.6f;
 
-        public const float LASER_CHARGING_TIME              = 3;
+        public const float LASER_CHARGING_TIME              = 1.5f;
         public const int LASER_DMG                          = 5;
         public const float LASER_DMG_INTERVAL               = 0.25f;
 

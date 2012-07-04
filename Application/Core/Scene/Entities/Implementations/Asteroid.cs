@@ -33,7 +33,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         protected override void UpdateGeometricState()
         {
-            (geometryElement as System.Windows.Controls.Image).RenderTransform = new RotateTransform(Rotation);
+            geometryElement.RenderTransform = new RotateTransform(Rotation);
         }
 
         public override void DoCollideWith(ICollidable other, float tpf)

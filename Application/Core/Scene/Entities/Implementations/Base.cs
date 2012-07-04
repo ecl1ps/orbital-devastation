@@ -70,11 +70,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 (other as Asteroid).DoRemoveMe();
             }
         }
-
-        public override void UpdateGeometric()
-        {
-            
-        }
     }
 
 }

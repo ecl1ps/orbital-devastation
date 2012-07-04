@@ -30,12 +30,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
             }
         }
 
-        public override void UpdateGeometric()
+        protected override void UpdateGeometricState()
         {
-            Canvas.SetLeft(geometryElement, Position.X);
-            Canvas.SetTop(geometryElement, Position.Y);
-            if (geometryElement is Image)
-                (geometryElement as Image).RenderTransform = new RotateTransform(Rotation);
+            geometryElement.RenderTransform = new RotateTransform(Rotation);
         }
 
         public void TakeDamage(int damage, ISceneObject from)
