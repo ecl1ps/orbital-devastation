@@ -117,12 +117,13 @@ namespace Orbit.Core.Players
                     }
                     break;
                 case PlayerStats.HEALING_KIT_1_FORTIFY_BASE:
+                    int healVal = data.BaseIntegrity * (data.MaxBaseIntegrity + (int)val) / data.MaxBaseIntegrity - data.BaseIntegrity;
                     data.MaxBaseIntegrity += (int)val;
                     if (sceneMgr != null)
-                        sceneMgr.GetPlayer(data.Id).ChangeBaseIntegrity((int)val, true);
+                        sceneMgr.GetPlayer(data.Id).ChangeBaseIntegrity(healVal, true);
                     else
                     {
-                        data.BaseIntegrity += (int)val;
+                        data.BaseIntegrity += healVal;
                         if (data.BaseIntegrity > data.MaxBaseIntegrity)
                             data.BaseIntegrity = data.MaxBaseIntegrity;
                     }
