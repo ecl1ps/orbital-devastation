@@ -50,7 +50,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             me.Position += (meMovable.Direction * tpf) +
                 (dirToSurf * 
                     (
-                        (SharedDef.GRAVITY - SharedDef.GRAVITY * 
+                        (me.SceneMgr.LevelEnv.CurrentGravity - me.SceneMgr.LevelEnv.CurrentGravity * 
                             (1 + Math.Pow((HorizontalSpeed - SharedDef.FIRST_COSMICAL_SPEED) / SharedDef.FIRST_COSMICAL_SPEED, 2)) 
                             * 1 / (GetRealativeAltitude() / SharedDef.STABLE_ORBIT_RELATIVE)
                         )

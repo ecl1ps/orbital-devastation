@@ -27,6 +27,7 @@ namespace Orbit.Core.Client
         public FloatingTextManager FloatingTextMgr { get; set; }
         public StatsMgr StatsMgr { get; set; }
         public GameStateManager StateMgr { get; set; }
+        public LevelEnvironment LevelEnv { get; set; }
 
         /// <summary>
         /// canvas je velky 1000*700 - pres cele okno
@@ -74,6 +75,8 @@ namespace Orbit.Core.Client
             StateMgr.AddGameState(currentPlayer);
             FloatingTextMgr = new FloatingTextManager(this);
             StateMgr.AddGameState(FloatingTextMgr);
+            LevelEnv = new LevelEnvironment();
+            StateMgr.AddGameState(LevelEnv);
 
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
