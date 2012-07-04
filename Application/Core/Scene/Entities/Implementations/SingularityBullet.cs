@@ -28,9 +28,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void DoCollideWith(ICollidable other, float tpf)
         {
-            if (other is IDestroyable)
+            if (other is Asteroid)
             {
-                if (SceneMgr.GameType != Gametype.SOLO_GAME && !Owner.IsCurrentPlayer())
+                if (!Owner.IsCurrentPlayerOrBot())
                     return;
                
                 HitAsteroid(other as IDestroyable);
