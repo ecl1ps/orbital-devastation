@@ -69,7 +69,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 data = datas[i];
                 data.Time -= tpf;
 
-                Console.WriteLine(data.Time);
                 if (data.Time <= 0)
                     datas.RemoveAt(i);
             }
