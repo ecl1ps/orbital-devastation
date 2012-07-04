@@ -184,7 +184,7 @@ namespace Orbit.Core.Players
             {
                 if (lastScoreValue != Data.Score || lastGoldValue != Data.Gold)
                 {
-                    lastScoreValue = Data.Score
+                    lastScoreValue = Data.Score;
                     lastGoldValue = Data.Gold;
                     SendScoreAndGoldUpdate();
                 }

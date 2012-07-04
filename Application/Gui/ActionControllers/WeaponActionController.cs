@@ -5,6 +5,8 @@ using System.Text;
 using Orbit.Core.Weapons;
 using Orbit.Core.Players;
 using Orbit.Core.Client;
+using Lidgren.Network;
+using Orbit.Core;
 
 namespace Orbit.Gui.ActionControllers
 {
@@ -28,8 +30,19 @@ namespace Orbit.Gui.ActionControllers
             {
                 player.AddGoldAndShow(-weapon.Cost);
                 AddWeapon();
+                SendPlayerBoughtUpgrade();
                 window.AttachNewController(new WeaponActionController(sceneMgr, weapon.Next(), player));
             }
+        }
+
+        private void SendPlayerBoughtUpgrade()
+        {
+            NetOutgoingMessage msg = sceneMgr.CreateNetMessage();
+            msg.Write((int)PacketType.PLAYER_BOUGHT_UPGRADE);
+            msg.Write(player.GetId());
+            msg.Write((byte)weapon.DeviceType);
+            msg.Write((byte)weapon.UpgradeLevel);
+            sceneMgr.SendMessage(msg);
         }
 
         private void AddWeapon()

@@ -157,5 +157,6 @@ namespace Orbit.Core
         SCORE_QUERY,
         SCORE_QUERY_RESPONSE,
         PLAYER_RECEIVED_POWERUP,
+        PLAYER_BOUGHT_UPGRADE,
     }    
 }

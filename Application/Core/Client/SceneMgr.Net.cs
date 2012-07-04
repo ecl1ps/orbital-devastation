@@ -185,6 +185,9 @@ namespace Orbit.Core.Client
                 case PacketType.PLAYER_RECEIVED_POWERUP:
                     ReceivedPlayerReceivedPowerUpMsg(msg);
                     break;
+                case PacketType.PLAYER_BOUGHT_UPGRADE:
+                    ReceivedPlayerBoughtUpgradeMsg(msg);
+                    break;
             }
 
         }

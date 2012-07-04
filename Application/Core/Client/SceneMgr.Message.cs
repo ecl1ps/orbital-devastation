@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Controls.Implementations;
 using System.Windows.Media;
+using Orbit.Core.Weapons;
 
 namespace Orbit.Core.Client
 {
@@ -507,6 +508,26 @@ namespace Orbit.Core.Client
                 SyncReceivedObject(s, msg);
             }
             isGameInitialized = true;
+        }
+
+        private void ReceivedPlayerBoughtUpgradeMsg(NetIncomingMessage msg)
+        {
+            Player p = GetPlayer(msg.ReadInt32());
+            switch ((DeviceType)msg.ReadByte())
+            {
+                case DeviceType.MINE:
+                    p.Mine = p.Mine.Next();
+                    break;
+                case DeviceType.CANNON:
+                    p.Canoon = p.Canoon.Next();
+                    break;
+                case DeviceType.HOOK:
+                    p.Hook = p.Hook.Next();
+                    break;
+                case DeviceType.HEALING_KIT:
+                    //p.HealingKit = p.HealingKit.Next();
+                    break;
+            }
         }
     }
 }
