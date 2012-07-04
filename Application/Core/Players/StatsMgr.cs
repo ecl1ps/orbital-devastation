@@ -14,26 +14,25 @@ namespace Orbit.Core.Players
         private SceneMgr sceneMgr;
         private Dictionary<PlayerStats, Stat> allStats = new Dictionary<PlayerStats, Stat>();
 
-
         public StatsMgr(SceneMgr mgr)
         {
             sceneMgr = mgr;
 
-            allStats.Add(PlayerStats.MINE_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_COOLDOWN, -0.1f, -0.3f));
-            allStats.Add(PlayerStats.MINE_1_FALLING_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_FALLING_SPEED, +10f, +30f));
-            allStats.Add(PlayerStats.MINE_1_GROWTH_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_GROWTH_SPEED, +0.1f, +0.3f));
-            allStats.Add(PlayerStats.MINE_1_STRENGTH, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_STRENGTH, +10f, +30f));
+            allStats.Add(PlayerStats.MINE_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_COOLDOWN, "Mine cooldown", -0.1f, -0.3f));
+            allStats.Add(PlayerStats.MINE_1_FALLING_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_FALLING_SPEED, "Mine falling speed", +10f, +30f));
+            allStats.Add(PlayerStats.MINE_1_GROWTH_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_GROWTH_SPEED, "Mine growth speed", +0.1f, +0.3f));
+            allStats.Add(PlayerStats.MINE_1_STRENGTH, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_STRENGTH, "Mine power", +10f, +30f));
 
-            allStats.Add(PlayerStats.BULLET_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.BULLET_1_COOLDOWN, -0.03f, -0.07f));
-            allStats.Add(PlayerStats.BULLET_1_DAMAGE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.BULLET_1_DAMAGE, +1f, +2f));
-            allStats.Add(PlayerStats.BULLET_1_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.BULLET_1_SPEED, +30f, +100f));
+            allStats.Add(PlayerStats.BULLET_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.BULLET_1_COOLDOWN, "Cannon cooldown", -0.03f, -0.07f));
+            allStats.Add(PlayerStats.BULLET_1_DAMAGE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.BULLET_1_DAMAGE, "Cannon damage", +1f, +2f));
+            allStats.Add(PlayerStats.BULLET_1_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.BULLET_1_SPEED, "Cannon bullet speed", +30f, +100f));
 
-            allStats.Add(PlayerStats.HOOK_1_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_SPEED, +20f, +40f));
-            allStats.Add(PlayerStats.HOOK_1_LENGTH, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_LENGTH, +40f, +80f));
-            allStats.Add(PlayerStats.HOOK_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_COOLDOWN, -0.1f, -0.3f));
+            allStats.Add(PlayerStats.HOOK_1_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_SPEED, "Hook speed", +20f, +40f));
+            allStats.Add(PlayerStats.HOOK_1_LENGTH, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_LENGTH, "Hook length", +40f, +80f));
+            allStats.Add(PlayerStats.HOOK_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_COOLDOWN, "Hook cooldown", -0.1f, -0.3f));
 
-            allStats.Add(PlayerStats.HEALING_KIT_1_REPAIR_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_REPAIR_BASE, +15f, +25f));
-            allStats.Add(PlayerStats.HEALING_KIT_1_FORTIFY_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_FORTIFY_BASE, +10f, +20f));
+            allStats.Add(PlayerStats.HEALING_KIT_1_REPAIR_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_REPAIR_BASE, "Base repair", +25f, +35f));
+            allStats.Add(PlayerStats.HEALING_KIT_1_FORTIFY_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_FORTIFY_BASE, "Base fortify", +15f, +25f));
         }
         
         public void OnPlayerCaughtPowerUp(Player plr, DeviceType type)
@@ -44,6 +43,10 @@ namespace Orbit.Core.Players
             Stat pickedStat = GetStatForDeviceTypeAndLevel(type, GetUpgradeLevel(plr, type));
 
             float addedValue = GenerateAndAddStatToPlayer(pickedStat, plr.Data);
+
+            Vector textPos = new Vector(plr.GetBaseLocation().X + (plr.GetBaseLocation().Width / 2), plr.GetBaseLocation().Y - 40);
+            sceneMgr.FloatingTextMgr.AddFloatingText(pickedStat.text + (addedValue > 0 ? " +" : " ") + addedValue.ToString("0.0"), textPos, FloatingTextManager.TIME_LENGTH_3,
+                FloatingTextType.SYSTEM, 14);
 
             NetOutgoingMessage msg = sceneMgr.CreateNetMessage();
             msg.Write((int)PacketType.PLAYER_RECEIVED_POWERUP);
@@ -194,13 +197,15 @@ namespace Orbit.Core.Players
     {
         public UpgradeLevel level;
         public PlayerStats type;
+        public string text;
         public float min;
         public float max;
 
-        public Stat(UpgradeLevel level, PlayerStats type, float min, float max)
+        public Stat(UpgradeLevel level, PlayerStats type, string text, float min, float max)
         {
             this.level = level;
             this.type = type;
+            this.text = text;
             this.min = min;
             this.max = max;
         }
