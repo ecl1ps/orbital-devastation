@@ -529,5 +529,10 @@ namespace Orbit.Core.Client
                     break;
             }
         }
+
+        private void ReceivedFloatingTextMsg(NetIncomingMessage msg)
+        {
+            FloatingTextMgr.AddFloatingText(msg.ReadString(), msg.ReadVector(), msg.ReadFloat(), (FloatingTextType)msg.ReadByte(), msg.ReadFloat(), true, false);
+        }
     }
 }

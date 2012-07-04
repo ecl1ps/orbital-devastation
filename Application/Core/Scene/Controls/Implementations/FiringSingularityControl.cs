@@ -74,12 +74,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (hitObjects.Contains((movable as ISceneObject).Id))
                 return;
 
-            if (meBullet.Owner.IsCurrentPlayerOrBot())
-            {
+            if (meBullet.Owner.IsCurrentPlayer())
                 me.SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.MINE_HIT, meBullet.Center, FloatingTextManager.TIME_LENGTH_1,
                     FloatingTextType.SCORE);
+
+            if (meBullet.Owner.IsCurrentPlayerOrBot())
                 meBullet.Owner.AddScoreAndShow(ScoreDefines.MINE_HIT);
-            }
 
             hitObjects.Add((movable as ISceneObject).Id);
 

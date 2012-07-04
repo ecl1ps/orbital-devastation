@@ -82,8 +82,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
             if (caught is IContainsGold)
             {
-                SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.HOOK_HIT, Center, FloatingTextManager.TIME_LENGTH_1,
-                    FloatingTextType.SCORE);
+                if (Owner.IsCurrentPlayer())
+                    SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.HOOK_HIT, Center, FloatingTextManager.TIME_LENGTH_1,
+                        FloatingTextType.SCORE);
                 Owner.AddScoreAndShow(ScoreDefines.HOOK_HIT);
             }
 
@@ -91,7 +92,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             if (control != null && control.GetDistanceFromOriginPct() > 0.9)
             {
                 SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.HOOK_CAUGHT_OBJECT_AFTER_90PCT_DISTANCE, Center, 
-                    FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG);
+                    FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG, false, true);
                 Owner.AddScoreAndShow(ScoreDefines.HOOK_CAUGHT_OBJECT_AFTER_90PCT_DISTANCE);
             }
 

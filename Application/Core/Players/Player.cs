@@ -146,7 +146,7 @@ namespace Orbit.Core.Players
             {
                 Vector textPos = new Vector(GetBaseLocation().X + (GetBaseLocation().Width / 2), GetBaseLocation().Y - 20);
                 SceneMgr.FloatingTextMgr.AddFloatingText("+ " + diff, textPos, FloatingTextManager.TIME_LENGTH_3,
-                    FloatingTextType.HEAL, FloatingTextManager.SIZE_BIG, true);
+                    FloatingTextType.HEAL, FloatingTextManager.SIZE_BIGGER, true);
             }
 
             SceneMgr.BeginInvoke(new Action(() =>

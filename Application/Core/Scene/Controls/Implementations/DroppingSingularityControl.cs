@@ -56,7 +56,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 if (meMine.Owner.IsCurrentPlayerOrBot() && hitObjects.Count > 2)
                 {
                     me.SceneMgr.FloatingTextMgr.AddFloatingText((int)Math.Pow(hitObjects.Count, ScoreDefines.MINE_HIT_MULTIPLE_EXPONENT),
-                        meMine.Center, FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG);
+                        meMine.Center, FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG, false, true);
                     meMine.Owner.AddScoreAndShow((int)Math.Pow(hitObjects.Count, ScoreDefines.MINE_HIT_MULTIPLE_EXPONENT));
                 }
                 meMine.DoRemoveMe();
@@ -79,12 +79,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (hitObjects.Contains((movable as ISceneObject).Id))
                 return;
 
-            if (meMine.Owner.IsCurrentPlayerOrBot())
-            {
+            if (meMine.Owner.IsCurrentPlayer())
                 me.SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.MINE_HIT, meMine.Center, FloatingTextManager.TIME_LENGTH_1, 
                     FloatingTextType.SCORE);
+
+            if (meMine.Owner.IsCurrentPlayerOrBot())
                 meMine.Owner.AddScoreAndShow(ScoreDefines.MINE_HIT);
-            }
 
             hitObjects.Add((movable as ISceneObject).Id);
 
