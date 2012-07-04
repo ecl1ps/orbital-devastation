@@ -97,6 +97,7 @@
     <Compile Include="Core\AI\HookerBot.cs" />
     <Compile Include="Core\AI\SimpleBot.cs" />
     <Compile Include="Core\Client\FloatingTextManager.cs" />
+    <Compile Include="Core\Client\LevelEnvironment.cs" />
     <Compile Include="Core\Client\SceneMgr.Message.cs" />
     <Compile Include="Core\Client\StaticMouse.cs" />
     <Compile Include="Core\GameProperties.cs" />

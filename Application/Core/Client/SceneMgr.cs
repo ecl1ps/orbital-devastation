@@ -441,10 +441,13 @@ namespace Orbit.Core.Client
                 ProcessStaticMouseActionBarClick(point);
                 return;
             }
-            
-            currentPlayer.Mine.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
-            currentPlayer.Hook.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
-            currentPlayer.Canoon.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
+
+            if (IsPointInViewPort(point))
+            {
+                currentPlayer.Mine.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
+                currentPlayer.Hook.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
+                currentPlayer.Canoon.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
+            }
         }
 
         private void ProcessStaticMouseActionBarClick(Point point)
