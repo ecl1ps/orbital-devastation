@@ -352,10 +352,11 @@ namespace Orbit.Core.Client
 
         private void UpdateGeomtricState()
         {
-            foreach (ISceneObject obj in objects)
+            Invoke(new Action(() =>
             {
-                obj.UpdateGeometric();
-            }
+                foreach (ISceneObject obj in objects)
+                    obj.UpdateGeometric();
+            }));
         }
 
         public void UpdateSceneObjects(float tpf)

@@ -26,7 +26,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         protected override void UpdateGeometricState()
         {
-
             ((geometryElement as Path).Data as EllipseGeometry).RadiusX = Radius;
             ((geometryElement as Path).Data as EllipseGeometry).RadiusY = Radius;
         }

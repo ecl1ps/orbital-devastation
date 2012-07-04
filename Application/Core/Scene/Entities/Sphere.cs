@@ -50,14 +50,11 @@ namespace Orbit.Core.Scene.Entities
         /// </summary>
         public override void UpdateGeometric()
         {
-            geometryElement.Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
-            {
-                Canvas.SetLeft(geometryElement, Position.X);
-                Canvas.SetTop(geometryElement, Position.Y);
-                if (geometryElement is Image)
-                    (geometryElement as Image).Width = Radius * 2;
-                UpdateGeometricState();
-            }));
+            Canvas.SetLeft(geometryElement, Position.X);
+            Canvas.SetTop(geometryElement, Position.Y);
+            if (geometryElement is Image)
+                (geometryElement as Image).Width = Radius * 2;
+            UpdateGeometricState();
         }
 
         /// <summary>
@@ -65,7 +62,6 @@ namespace Orbit.Core.Scene.Entities
         /// </summary>
         protected virtual void UpdateGeometricState() 
         {
-
         }
 
         public virtual bool CollideWith(ICollidable other)

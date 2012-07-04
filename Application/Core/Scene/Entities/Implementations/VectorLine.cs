@@ -29,13 +29,10 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void UpdateGeometric()
         {
-            geometryElement.Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
-            {
-                (geometryElement as Line).X1 = Position.X;
-                (geometryElement as Line).Y1 = Position.Y;
-                (geometryElement as Line).X2 = Position.X + Direction.X;
-                (geometryElement as Line).Y2 = Position.Y + Direction.Y;
-            }));
+            (geometryElement as Line).X1 = Position.X;
+            (geometryElement as Line).Y1 = Position.Y;
+            (geometryElement as Line).X2 = Position.X + Direction.X;
+            (geometryElement as Line).Y2 = Position.Y + Direction.Y;
         }
 
     }

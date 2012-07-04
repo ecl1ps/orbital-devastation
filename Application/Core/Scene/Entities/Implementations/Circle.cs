@@ -27,11 +27,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void UpdateGeometric()
         {
-            geometryElement.Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
-            {
-                Canvas.SetLeft(geometryElement, Position.X);
-                Canvas.SetTop(geometryElement, Position.Y);
-            }));
+            Canvas.SetLeft(geometryElement, Position.X);
+            Canvas.SetTop(geometryElement, Position.Y);
         }
 
         public override bool IsOnScreen(Size screenSize)

@@ -53,14 +53,11 @@ namespace Orbit.Core.Scene.Entities
 
         public override void UpdateGeometric()
         {
-            SceneMgr.Invoke(new Action(() =>
-            {
-                Line line = geometryElement as Line;
-                line.X1 = Start.X;
-                line.Y1 = Start.Y;
-                line.X2 = End.X;
-                line.Y2 = End.Y;
-            }));
+            Line line = geometryElement as Line;
+            line.X1 = Start.X;
+            line.Y1 = Start.Y;
+            line.X2 = End.X;
+            line.Y2 = End.Y;
         }
 
         public bool CollideWith(ICollidable other)

@@ -32,13 +32,10 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void UpdateGeometric()
         {
-            geometryElement.Dispatcher.Invoke(new Action(() =>
-            {
-                Canvas.SetLeft(geometryElement, Position.X);
-                Canvas.SetTop(geometryElement, Position.Y);
-                if (geometryElement is Image)
-                    (geometryElement as Image).RenderTransform = new RotateTransform(Rotation);
-            }));
+            Canvas.SetLeft(geometryElement, Position.X);
+            Canvas.SetTop(geometryElement, Position.Y);
+            if (geometryElement is Image)
+                (geometryElement as Image).RenderTransform = new RotateTransform(Rotation);
         }
 
         public void TakeDamage(int damage, ISceneObject from)
