@@ -45,10 +45,7 @@ namespace Orbit.Core.Scene.Entities
             return true;
         }
 
-        /// <summary>
-        /// tuto metodu neprepisovat - pouzit UpdateGeometricState()
-        /// </summary>
-        public override void UpdateGeometric()
+        public sealed override void UpdateGeometric()
         {
             Canvas.SetLeft(geometryElement, Position.X);
             Canvas.SetTop(geometryElement, Position.Y);

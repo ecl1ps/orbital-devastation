@@ -27,6 +27,20 @@ namespace Orbit.Core.Scene.Entities
         {
         }
 
+        public sealed override void UpdateGeometric()
+        {
+            Canvas.SetLeft(geometryElement, Position.X);
+            Canvas.SetTop(geometryElement, Position.Y);
+            UpdateGeometricState();
+        }
+
+        /// <summary>
+        /// tato metoda je volana ve vlaknu GUI -> NEPOSILAT PRES DISPATCHER
+        /// </summary>
+        protected virtual void UpdateGeometricState()
+        {
+        }
+
         public bool CollideWith(ICollidable other)
         {
             if (other is SpherePoint)
