@@ -292,7 +292,7 @@ namespace Orbit.Core.Client
             Vector position = msg.ReadVector();
             Vector hitVector = msg.ReadVector();
             Hook hook = null;
-            IContainsGold g = null;
+            ICatchable g = null;
             foreach (ISceneObject obj in objects)
             {
                 if (obj.Id == hookId)
@@ -314,9 +314,9 @@ namespace Orbit.Core.Client
 
                 if (obj.Id == asteroidId)
                 {
-                    if (obj is IContainsGold)
+                    if (obj is ICatchable)
                     {
-                        g = obj as IContainsGold;
+                        g = obj as ICatchable;
                         obj.Position = position;
                         if (hook != null)
                         {

@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace Orbit.Core.Scene.Entities
 {
-    public interface IMovable
+    public interface IMovable : ISceneObject
     {
         Vector Direction { get; set; }
     }

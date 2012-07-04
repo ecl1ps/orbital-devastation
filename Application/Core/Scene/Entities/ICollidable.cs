@@ -2,7 +2,7 @@ using System;
 
 namespace Orbit.Core.Scene.Entities
 {
-    public interface ICollidable
+    public interface ICollidable : ISceneObject
     {
         bool CollideWith(ICollidable other);
 

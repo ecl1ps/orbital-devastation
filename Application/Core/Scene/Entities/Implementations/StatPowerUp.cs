@@ -13,7 +13,7 @@ using System.Windows.Controls;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    public class StatPowerUp : Square, IMovable, IDestroyable, IRotable, ISendable
+    public class StatPowerUp : Square, IMovable, IDestroyable, IRotable, ISendable, ICatchable
     {
         public Vector Direction { get; set; }
         public float Rotation { get; set; }

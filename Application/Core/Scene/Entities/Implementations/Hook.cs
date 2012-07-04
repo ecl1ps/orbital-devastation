@@ -22,7 +22,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
     {
         public Player Owner { get; set; } // neposilano
         public float Rotation { get; set; }
-        public IContainsGold GoldObject { get; set; } // neposilano
+        public ICatchable CaughtObject { get; set; } // neposilano
         public Vector RopeContactPoint
         {
             get
@@ -68,21 +68,25 @@ namespace Orbit.Core.Scene.Entities.Implementations
             if (HasCaughtObject())
                 return;
 
-            if ((other is IContainsGold && !(GetControlOfType(typeof(HookControl)) as HookControl).Returning))
-                CatchObjectWithGold(other as IContainsGold);
+            if ((other is ICatchable && !(GetControlOfType(typeof(HookControl)) as HookControl).Returning))
+                CatchObject(other as ICatchable);
         }
 
-        private void CatchObjectWithGold(IContainsGold gold)
+        private void CatchObject(ICatchable caught)
         {
-            if (!gold.Enabled)
+            if (!caught.Enabled)
                 return;
 
             if (!Owner.IsCurrentPlayerOrBot())
                 return;
 
-            SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.HOOK_HIT, Center, FloatingTextManager.TIME_LENGTH_1, 
-                FloatingTextType.SCORE);
-            Owner.AddScoreAndShow(ScoreDefines.HOOK_HIT);
+            if (caught is IContainsGold)
+            {
+                SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.HOOK_HIT, Center, FloatingTextManager.TIME_LENGTH_1,
+                    FloatingTextType.SCORE);
+                Owner.AddScoreAndShow(ScoreDefines.HOOK_HIT);
+            }
+
             HookControl control = GetControlOfType(typeof(HookControl)) as HookControl;
             if (control != null && control.GetDistanceFromOriginPct() > 0.9)
             {
@@ -91,42 +95,51 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 Owner.AddScoreAndShow(ScoreDefines.HOOK_CAUGHT_OBJECT_AFTER_90PCT_DISTANCE);
             }
 
-            Vector hitVector = gold.Position - Position;
+            Vector hitVector = caught.Position - Position;
 
-            if (gold.Enabled)
+            if (caught.Enabled)
             {
-                Catch(gold, hitVector);
+                Catch(caught, hitVector);
 
                 NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
                 msg.Write((int)PacketType.HOOK_HIT);
                 msg.Write(Id);
-                msg.Write(gold.Id);
-                msg.Write(gold.Position);
+                msg.Write(caught.Id);
+                msg.Write(caught.Position);
                 msg.Write(hitVector);
                 SceneMgr.SendMessage(msg);
             }
         }
 
-        public void Catch(IContainsGold gold, Vector hitVector)
+        public void Catch(ICatchable caught, Vector hitVector)
         {
-            if (gold is IDestroyable)
-                (gold as IDestroyable).TakeDamage(0, this);
+            if (caught is IDestroyable)
+                (caught as IDestroyable).TakeDamage(0, this);
 
-            if (gold is UnstableAsteroid)
+            if (caught is UnstableAsteroid)
                 return;
 
-            GoldObject = gold;
-            gold.Enabled = false;
+            CaughtObject = caught;
+            caught.Enabled = false;
 
             (GetControlOfType(typeof(HookControl)) as HookControl).CaughtObject(hitVector);
         }
 
-        public void AddGoldToPlayer()
+        public void PulledCaughtObjectToBase()
         {
-            if (GoldObject != null && !GoldObject.Dead)
+            if (CaughtObject != null && !CaughtObject.Dead)
             {
-                Owner.AddGoldAndShow(GoldObject.Gold);
-                GoldObject.DoRemoveMe();
+                if (CaughtObject is IContainsGold)
+                {
+                    Owner.AddGoldAndShow((CaughtObject as IContainsGold).Gold);
+                    CaughtObject.DoRemoveMe();
+                }
+                else
+                {
+                    CaughtObject.Enabled = true;
+                    if (CaughtObject is IMovable)
+                        (CaughtObject as IMovable).Direction = new Vector(0, 100);
+                }
             }
             DoRemoveMe();
             SceneMgr.RemoveGraphicalObjectFromScene(line);
@@ -134,7 +147,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public Boolean HasCaughtObject()
         {
-            return GoldObject != null;
+            return CaughtObject != null;
         }
 
         public void WriteObject(NetOutgoingMessage msg)

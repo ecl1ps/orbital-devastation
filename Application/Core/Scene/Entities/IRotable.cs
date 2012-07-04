@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace Orbit.Core.Scene.Entities
 {
-    public interface IRotable
+    public interface IRotable : ISceneObject
     {
         float Rotation { get; set; }
     }

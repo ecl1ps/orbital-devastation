@@ -19,7 +19,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         SPAWNED
     }
 
-    public class Asteroid : Sphere, IRotable, ISendable, IContainsGold, IDestroyable
+    public class Asteroid : Sphere, IRotable, ISendable, IContainsGold, IDestroyable, ICatchable
     {
         public bool IsHeadingRight { get; set; }
         public float Rotation { get; set; }

@@ -33,10 +33,10 @@ namespace Orbit.Core.Scene.Controls.Implementations
             {
                 MoveBackwards(tpf);
                 if (hook.HasCaughtObject())
-                    MoveWithObject(hook.GoldObject);
+                    MoveWithObject(hook.CaughtObject);
 
                 if (IsAtStart())
-                    hook.AddGoldToPlayer();
+                    hook.PulledCaughtObjectToBase();
             }
             else
             {
@@ -46,7 +46,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             }
         }
 
-        private void MoveWithObject(IContainsGold obj)
+        private void MoveWithObject(ICatchable obj)
         {
             obj.Position = hook.Position + HitVector;
         }
@@ -77,7 +77,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         private bool IsAtStart()
         {
-            return GetDistanceFromOrigin() < 50;
+            return GetDistanceFromOrigin() < 15;
         }
 
         private double GetDistanceFromOrigin()
