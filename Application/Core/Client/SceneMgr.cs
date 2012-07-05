@@ -18,6 +18,7 @@ using Orbit.Gui;
 using Orbit.Core.Utils;
 using Orbit.Core.Weapons;
 using System.Windows.Media.Imaging;
+using Orbit.Core.Players.Input;
 
 namespace Orbit.Core.Client
 {
@@ -45,7 +46,8 @@ namespace Orbit.Core.Client
         private ConcurrentQueue<Action> synchronizedQueue;
         private bool gameEnded;
         private float statisticsTimer;
-        private PlayerActionManager actionMgr;
+        private ActionBarMgr actionBarMgr;
+        private IInputMgr inputMgr;
 
         public SceneMgr()
         {
@@ -429,32 +431,30 @@ namespace Orbit.Core.Client
 
         public void OnCanvasClick(Point point, MouseButtonEventArgs e)
         {
-            if (userActionsDisabled)
+            if (userActionsDisabled || !isGameInitialized)
                 return;
 
             if (StaticMouse.Instance != null && StaticMouse.ALLOWED)
                 point = StaticMouse.GetPosition();
 
-            if((e.ChangedButton == MouseButton.Left && e.ButtonState == MouseButtonState.Pressed) &&
-                (!IsPointInViewPort(point) && StaticMouse.Instance != null && StaticMouse.ALLOWED))
+            if(e.ChangedButton == MouseButton.Left && e.ButtonState == MouseButtonState.Pressed &&
+                !IsPointInViewPort(point) && StaticMouse.Instance != null && StaticMouse.ALLOWED)
             {
                 ProcessStaticMouseActionBarClick(point);
                 return;
             }
 
             if (IsPointInViewPort(point))
-            {
-                currentPlayer.Mine.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
-                currentPlayer.Hook.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
-                currentPlayer.Canoon.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
-            }
+                inputMgr.OnCanvasClick(point, e);
+            else
+                inputMgr.OnActionBarClick(point, e);
         }
 
         private void ProcessStaticMouseActionBarClick(Point point)
         {
             Invoke(new Action(() =>
             {
-                actionMgr.ActionBar.OnClick(canvas.PointToScreen(point));
+                actionBarMgr.ActionBar.OnClick(canvas.PointToScreen(point));
             }));
         }
 
@@ -765,6 +765,7 @@ namespace Orbit.Core.Client
                     break;
             }
 
+            inputMgr.OnKeyEvent(e);
         }
     }
 }

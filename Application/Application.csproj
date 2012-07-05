@@ -108,6 +108,9 @@
     <Compile Include="Core\Helpers\GuiObjectFactory.cs" />
     <Compile Include="Core\Helpers\NetDataHelper.cs" />
     <Compile Include="Core\NetSearcher.cs" />
+    <Compile Include="Core\Players\Input\SpectatorInputMgr.cs" />
+    <Compile Include="Core\Players\Input\IInputMgr.cs" />
+    <Compile Include="Core\Players\Input\PlayerInputMgr.cs" />
     <Compile Include="Core\Players\Player.cs" />
     <Compile Include="Core\Players\PlayerData.cs" />
     <Compile Include="Core\Players\ScoreDefines.cs" />
@@ -222,7 +225,7 @@
     <Compile Include="Gui\GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Core\Players\PlayerActionManager.cs" />
+    <Compile Include="Core\Players\ActionBarMgr.cs" />
     <Compile Include="Gui\MainUC.xaml.cs">
       <DependentUpon>MainUC.xaml</DependentUpon>
     </Compile>

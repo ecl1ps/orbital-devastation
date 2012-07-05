@@ -13,6 +13,7 @@ using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Controls.Implementations;
 using System.Windows.Media;
 using Orbit.Core.Weapons;
+using Orbit.Core.Players.Input;
 
 namespace Orbit.Core.Client
 {
@@ -188,14 +189,15 @@ namespace Orbit.Core.Client
             (Application.Current as App).SetGameStarted(true);
 
             foreach (Player p in players)
+            {
                 if (p.IsActivePlayer())
                 {
                     p.CreateWeapons();
                     if (p.IsCurrentPlayer())
                     {
-                        actionMgr = new PlayerActionManager(this);
-                        StateMgr.AddGameState(actionMgr);
-                        actionMgr.CreateActionBarItems();
+                        actionBarMgr = new ActionBarMgr(this);
+                        StateMgr.AddGameState(actionBarMgr);
+                        actionBarMgr.CreateActionBarItems();
                     }
 
                     // zobrazi aktualni integrity bazi
@@ -203,6 +205,15 @@ namespace Orbit.Core.Client
                     p.Baze = SceneObjectFactory.CreateBase(this, p);
                     DelayedAttachToScene(p.Baze);
                 }
+
+                if (p.IsCurrentPlayer())
+                {
+                    if (p.IsActivePlayer())
+                        inputMgr = new PlayerInputMgr(p, this);
+                    else
+                        inputMgr = new SpectatorInputMgr(p, this);
+                }
+            }
 
             Invoke(new Action(() =>
             {
