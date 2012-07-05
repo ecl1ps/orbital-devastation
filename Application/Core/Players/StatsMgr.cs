@@ -37,7 +37,7 @@ namespace Orbit.Core.Players
         
         public void OnPlayerCaughtPowerUp(Player plr, DeviceType type)
         {
-            if (!plr.IsCurrentPlayer() && !plr.IsBot())
+            if (!plr.IsCurrentPlayerOrBot())
                 return;
 
             Stat pickedStat = GetStatForDeviceTypeAndLevel(type, GetUpgradeLevel(plr, type));
@@ -46,7 +46,7 @@ namespace Orbit.Core.Players
 
             Vector textPos = new Vector(plr.GetBaseLocation().X + (plr.GetBaseLocation().Width / 2), plr.GetBaseLocation().Y - 40);
             sceneMgr.FloatingTextMgr.AddFloatingText(pickedStat.text + (addedValue > 0 ? " +" : " ") + addedValue.ToString("0.0"), textPos, FloatingTextManager.TIME_LENGTH_3,
-                FloatingTextType.SYSTEM, 14);
+                FloatingTextType.SYSTEM, 14, true, true);
 
             NetOutgoingMessage msg = sceneMgr.CreateNetMessage();
             msg.Write((int)PacketType.PLAYER_RECEIVED_POWERUP);
@@ -54,7 +54,6 @@ namespace Orbit.Core.Players
             msg.Write((byte)pickedStat.type);
             msg.Write(addedValue);
             sceneMgr.SendMessage(msg);
-
         }
 
         private float GenerateAndAddStatToPlayer(Stat stat, PlayerData data)
@@ -117,12 +116,13 @@ namespace Orbit.Core.Players
                     }
                     break;
                 case PlayerStats.HEALING_KIT_1_FORTIFY_BASE:
+                    int healVal = data.BaseIntegrity * (data.MaxBaseIntegrity + (int)val) / data.MaxBaseIntegrity - data.BaseIntegrity;
                     data.MaxBaseIntegrity += (int)val;
                     if (sceneMgr != null)
-                        sceneMgr.GetPlayer(data.Id).ChangeBaseIntegrity((int)val, true);
+                        sceneMgr.GetPlayer(data.Id).ChangeBaseIntegrity(healVal, true);
                     else
                     {
-                        data.BaseIntegrity += (int)val;
+                        data.BaseIntegrity += healVal;
                         if (data.BaseIntegrity > data.MaxBaseIntegrity)
                             data.BaseIntegrity = data.MaxBaseIntegrity;
                     }

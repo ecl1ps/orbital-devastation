@@ -67,7 +67,7 @@ namespace Orbit.Core
         public const int LASER_DMG                          = 5;
         public const float LASER_DMG_INTERVAL               = 0.25f;
 
-        public const int HOOK_LENGHT                        = 400;
+        public const int HOOK_LENGHT                        = 420;
         public const int HOOK_SPEED                         = 150;
         public const float HOOK_COOLDOWN                    = MINE_COOLDOWN;
 
@@ -158,5 +158,6 @@ namespace Orbit.Core
         SCORE_QUERY_RESPONSE,
         PLAYER_RECEIVED_POWERUP,
         PLAYER_BOUGHT_UPGRADE,
+        FLOATING_TEXT,
     }    
 }

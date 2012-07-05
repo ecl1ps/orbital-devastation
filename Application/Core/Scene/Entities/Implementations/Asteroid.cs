@@ -19,7 +19,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         SPAWNED
     }
 
-    public class Asteroid : Sphere, IRotable, ISendable, IContainsGold, IDestroyable
+    public class Asteroid : Sphere, IRotable, ISendable, IContainsGold, IDestroyable, ICatchable
     {
         public bool IsHeadingRight { get; set; }
         public float Rotation { get; set; }
@@ -65,7 +65,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public virtual void TakeDamage(int damage, ISceneObject from)
         {
-            SceneMgr.FloatingTextMgr.AddFloatingText(damage, Center, FloatingTextManager.TIME_LENGTH_1, FloatingTextType.DAMAGE);
+            if (from is IProjectile && (from as IProjectile).Owner.IsCurrentPlayer() && damage != 0)
+                SceneMgr.FloatingTextMgr.AddFloatingText(damage, Center, FloatingTextManager.TIME_LENGTH_1, FloatingTextType.DAMAGE);
 
             Radius -= damage;
             if (Radius < SharedDef.ASTEROID_THRESHOLD_RADIUS)

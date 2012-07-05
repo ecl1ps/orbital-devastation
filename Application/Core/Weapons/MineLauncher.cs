@@ -82,7 +82,7 @@ namespace Orbit.Core.Weapons
 
         virtual public void ProccessClickEvent(Point point, MouseButton button, MouseButtonState state)
         {
-            if (button == MouseButton.Left && state == MouseButtonState.Pressed)
+            if (state == MouseButtonState.Pressed)
                 Shoot(point);
         }
 

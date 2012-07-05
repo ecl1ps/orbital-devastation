@@ -22,7 +22,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             }
             set
             {
-                if (Owner.IsCurrentPlayer() || SceneMgr.GameType == Gametype.SOLO_GAME)
+                if (Owner.IsCurrentPlayerOrBot())
                 {
                     Owner.SetBaseIntegrity(value);
 
@@ -52,9 +52,12 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
                 // score
                 Player otherPlayer = SceneMgr.GetOtherActivePlayer(Owner.GetId());
-                Vector textPos = new Vector(otherPlayer.GetBaseLocation().X + (otherPlayer.GetBaseLocation().Width / 2), otherPlayer.GetBaseLocation().Y - 20);
-                SceneMgr.FloatingTextMgr.AddFloatingText(damage * ScoreDefines.DAMAGE_DEALT, textPos, FloatingTextManager.TIME_LENGTH_2,
-                    FloatingTextType.SCORE, FloatingTextManager.SIZE_MEDIUM);
+                if (otherPlayer.IsCurrentPlayer())
+                {
+                    Vector textPos = new Vector(otherPlayer.GetBaseLocation().X + (otherPlayer.GetBaseLocation().Width / 2), otherPlayer.GetBaseLocation().Y - 20);
+                    SceneMgr.FloatingTextMgr.AddFloatingText(damage * ScoreDefines.DAMAGE_DEALT, textPos, FloatingTextManager.TIME_LENGTH_2,
+                        FloatingTextType.SCORE, FloatingTextManager.SIZE_MEDIUM);
+                }
 
                 if (otherPlayer.IsCurrentPlayerOrBot())
                     otherPlayer.AddScoreAndShow(damage * ScoreDefines.DAMAGE_DEALT);

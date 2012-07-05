@@ -36,14 +36,14 @@ namespace Orbit.Core.Weapons
 
         public override void ProccessClickEvent(Point point, MouseButton button, MouseButtonState state)
         {
-            if (button == MouseButton.Left && state == MouseButtonState.Pressed && IsReady())
+            if (state == MouseButtonState.Pressed && IsReady())
             {
                 targeting = true;
                 startPoint = new Point(point.X, 0);
                 endPoint = point;
                 prepareLine();
             }
-            else if (button == MouseButton.Left && state == MouseButtonState.Released && targeting)
+            else if (state == MouseButtonState.Released && targeting)
             {
                 targeting = false;
                 endPoint = point;

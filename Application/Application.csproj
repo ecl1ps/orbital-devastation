@@ -97,6 +97,7 @@
     <Compile Include="Core\AI\HookerBot.cs" />
     <Compile Include="Core\AI\SimpleBot.cs" />
     <Compile Include="Core\Client\FloatingTextManager.cs" />
+    <Compile Include="Core\Client\LevelEnvironment.cs" />
     <Compile Include="Core\Client\SceneMgr.Message.cs" />
     <Compile Include="Core\Client\StaticMouse.cs" />
     <Compile Include="Core\GameProperties.cs" />
@@ -107,6 +108,9 @@
     <Compile Include="Core\Helpers\GuiObjectFactory.cs" />
     <Compile Include="Core\Helpers\NetDataHelper.cs" />
     <Compile Include="Core\NetSearcher.cs" />
+    <Compile Include="Core\Players\Input\SpectatorInputMgr.cs" />
+    <Compile Include="Core\Players\Input\IInputMgr.cs" />
+    <Compile Include="Core\Players\Input\PlayerInputMgr.cs" />
     <Compile Include="Core\Players\Player.cs" />
     <Compile Include="Core\Players\PlayerData.cs" />
     <Compile Include="Core\Players\ScoreDefines.cs" />
@@ -119,6 +123,7 @@
     <Compile Include="Core\Scene\Controls\Implementations\HookControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\NewtonianMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LinearRotationControl.cs" />
+    <Compile Include="Core\Scene\Entities\ICatchable.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Circle.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Laser.cs" />
     <Compile Include="Core\Scene\Entities\SolidLine.cs" />
@@ -220,7 +225,7 @@
     <Compile Include="Gui\GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Core\Players\PlayerActionManager.cs" />
+    <Compile Include="Core\Players\ActionBarMgr.cs" />
     <Compile Include="Gui\MainUC.xaml.cs">
       <DependentUpon>MainUC.xaml</DependentUpon>
     </Compile>

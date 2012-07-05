@@ -13,6 +13,7 @@ using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Controls.Implementations;
 using System.Windows.Media;
 using Orbit.Core.Weapons;
+using Orbit.Core.Players.Input;
 
 namespace Orbit.Core.Client
 {
@@ -101,7 +102,7 @@ namespace Orbit.Core.Client
                         CreateAndAddBot(plr);
                     else
                         FloatingTextMgr.AddFloatingText(plr.Data.Name + " has joined the game",
-                            new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
+                            new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50 + i * 30),
                             FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
                 }
                 else // hrace uz zname, ale mohl se zmenit jeho stav na active a take se mohly zmenit dalsi player data
@@ -188,14 +189,15 @@ namespace Orbit.Core.Client
             (Application.Current as App).SetGameStarted(true);
 
             foreach (Player p in players)
+            {
                 if (p.IsActivePlayer())
                 {
                     p.CreateWeapons();
                     if (p.IsCurrentPlayer())
                     {
-                        actionMgr = new PlayerActionManager(this);
-                        StateMgr.AddGameState(actionMgr);
-                        actionMgr.CreateActionBarItems();
+                        actionBarMgr = new ActionBarMgr(this);
+                        StateMgr.AddGameState(actionBarMgr);
+                        actionBarMgr.CreateActionBarItems();
                     }
 
                     // zobrazi aktualni integrity bazi
@@ -203,6 +205,15 @@ namespace Orbit.Core.Client
                     p.Baze = SceneObjectFactory.CreateBase(this, p);
                     DelayedAttachToScene(p.Baze);
                 }
+
+                if (p.IsCurrentPlayer())
+                {
+                    if (p.IsActivePlayer())
+                        inputMgr = new PlayerInputMgr(p, this);
+                    else
+                        inputMgr = new SpectatorInputMgr(p, this);
+                }
+            }
 
             Invoke(new Action(() =>
             {
@@ -292,7 +303,7 @@ namespace Orbit.Core.Client
             Vector position = msg.ReadVector();
             Vector hitVector = msg.ReadVector();
             Hook hook = null;
-            IContainsGold g = null;
+            ICatchable g = null;
             foreach (ISceneObject obj in objects)
             {
                 if (obj.Id == hookId)
@@ -314,9 +325,9 @@ namespace Orbit.Core.Client
 
                 if (obj.Id == asteroidId)
                 {
-                    if (obj is IContainsGold)
+                    if (obj is ICatchable)
                     {
-                        g = obj as IContainsGold;
+                        g = obj as ICatchable;
                         obj.Position = position;
                         if (hook != null)
                         {
@@ -528,6 +539,11 @@ namespace Orbit.Core.Client
                     //p.HealingKit = p.HealingKit.Next();
                     break;
             }
+        }
+
+        private void ReceivedFloatingTextMsg(NetIncomingMessage msg)
+        {
+            FloatingTextMgr.AddFloatingText(msg.ReadString(), msg.ReadVector(), msg.ReadFloat(), (FloatingTextType)msg.ReadByte(), msg.ReadFloat(), true, false);
         }
     }
 }

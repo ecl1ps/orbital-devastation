@@ -188,6 +188,9 @@ namespace Orbit.Core.Client
                 case PacketType.PLAYER_BOUGHT_UPGRADE:
                     ReceivedPlayerBoughtUpgradeMsg(msg);
                     break;
+                case PacketType.FLOATING_TEXT:
+                    ReceivedFloatingTextMsg(msg);
+                    break;
             }
 
         }

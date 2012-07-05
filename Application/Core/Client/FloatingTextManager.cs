@@ -5,6 +5,8 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Lidgren.Network;
+using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Client
 {
@@ -107,16 +109,28 @@ namespace Orbit.Core.Client
             floatingTexts.Remove(ft);
         }
 
-        public void AddFloatingText(int value, Vector position, float time, FloatingTextType type, float fontSize = SIZE_SMALL, bool disableRandomPos = false)
+        public void AddFloatingText(int value, Vector position, float time, FloatingTextType type, float fontSize = SIZE_SMALL, bool disableRandomPos = false, bool send = false)
         {
-            AddFloatingText(value.ToString(), position, time, type, fontSize, disableRandomPos);
+            AddFloatingText(value.ToString(), position, time, type, fontSize, disableRandomPos, send);
         }
 
-        public void AddFloatingText(string text, Vector position, float time, FloatingTextType type, float fontSize = SIZE_SMALL, bool disableRandomPos = false)
+        public void AddFloatingText(string text, Vector position, float time, FloatingTextType type, float fontSize = SIZE_SMALL, bool disableRandomPos = false, bool send = false)
         {
             if (!disableRandomPos)
                 position = new Vector(position.X + mgr.GetRandomGenerator().Next(-5, 5), position.Y + mgr.GetRandomGenerator().Next(-5, 5));
             newFloatingTexts.Add(new FloatingText(text, position, time, type, fontSize));
+
+            if (send)
+            {
+                NetOutgoingMessage msg = mgr.CreateNetMessage();
+                msg.Write((int)PacketType.FLOATING_TEXT);
+                msg.Write(text);
+                msg.Write(position);
+                msg.Write(time);
+                msg.Write((byte)type);
+                msg.Write(fontSize);
+                mgr.SendMessage(msg);
+            }
         }
 
         private Brush GetColorForType(FloatingTextType type)

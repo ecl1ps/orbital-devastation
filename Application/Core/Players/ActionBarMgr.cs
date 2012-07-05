@@ -16,7 +16,7 @@ using Orbit.Gui.ActionControllers;
 
 namespace Orbit.Core.Players
 {
-    public class PlayerActionManager : IGameState
+    public class ActionBarMgr : IGameState
     {
         private SceneMgr mgr;
 
@@ -27,7 +27,7 @@ namespace Orbit.Core.Players
         private BuyActionUC MineActionWindow;
         private BuyActionUC CannonActionWindow;
 
-        public PlayerActionManager(SceneMgr manager)
+        public ActionBarMgr(SceneMgr manager)
         {
             mgr = manager;
             CreateActionBar();
