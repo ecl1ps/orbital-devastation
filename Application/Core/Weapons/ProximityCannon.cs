@@ -85,9 +85,6 @@ namespace Orbit.Core.Weapons
 
         public void ProccessClickEvent(Point point, MouseButton button, MouseButtonState buttonState)
         {
-            if (button != MouseButton.Right)
-                return;
-
             shooting = buttonState == MouseButtonState.Pressed;
         }
 

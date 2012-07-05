@@ -21,9 +21,12 @@ namespace Orbit.Core.Players.Input
 
         public void OnCanvasClick(Point point, MouseButtonEventArgs e)
         {
-            plr.Mine.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
-            plr.Hook.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
-            plr.Canoon.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
+            if (e.ChangedButton == MouseButton.Left)
+                plr.Mine.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
+            else if (e.ChangedButton == MouseButton.Middle)
+                plr.Hook.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
+            else if (e.ChangedButton == MouseButton.Right)
+                plr.Canoon.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
         }
 
         public void OnActionBarClick(Point point, MouseButtonEventArgs e)
