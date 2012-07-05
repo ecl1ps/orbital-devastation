@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Input;
 using System.Windows;
 using Orbit.Core.Client;
+using Orbit.Core.SpecialActions;
 
 namespace Orbit.Core.Players.Input
 {
@@ -21,7 +22,9 @@ namespace Orbit.Core.Players.Input
 
         public void OnCanvasClick(Point point, MouseButtonEventArgs e)
         {
-
+            // TODO: akce budou vetsinou spousteny z action baru
+            if (e.ChangedButton == MouseButton.Middle && e.ButtonState == MouseButtonState.Pressed)
+                new BrutalGravity(mgr, plr).StartAction();
         }
 
         public void OnActionBarClick(Point point, MouseButtonEventArgs e)

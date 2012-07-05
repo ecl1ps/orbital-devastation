@@ -158,6 +158,9 @@
     <Compile Include="Core\Server\Match\OneToOneInfiniteMachMaker.cs" />
     <Compile Include="Core\Server\Match\PlayerMatchData.cs" />
     <Compile Include="Core\Server\ServerMgr.Message.cs" />
+    <Compile Include="Core\SpecialActions\BrutalGravity.cs" />
+    <Compile Include="Core\SpecialActions\SpecialAction.cs" />
+    <Compile Include="Core\SpecialActions\ISpecialAction.cs" />
     <Compile Include="Core\Utils\HealingKit.cs" />
     <Compile Include="Core\Utils\IHealingKit.cs" />
     <Compile Include="Core\Weapons\DoubleHookLauncher.cs" />

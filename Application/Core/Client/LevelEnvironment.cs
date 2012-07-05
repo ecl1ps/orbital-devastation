@@ -8,11 +8,13 @@ namespace Orbit.Core.Client
     public class LevelEnvironment : IGameState
     {
         public float CurrentGravity { get; set; }
+        public float StableOrbitRelative { get; set; }
         private float gravityChangeTimer = 0;
 
         public LevelEnvironment()
         {
             CurrentGravity = SharedDef.GRAVITY;
+            StableOrbitRelative = SharedDef.STABLE_ORBIT_RELATIVE;
         }
 
         public void Update(float tpf)
@@ -22,9 +24,10 @@ namespace Orbit.Core.Client
                 if (gravityChangeTimer < tpf)
                 {
                     CurrentGravity = SharedDef.GRAVITY;
+                    StableOrbitRelative = SharedDef.STABLE_ORBIT_RELATIVE;
                     gravityChangeTimer = 0;
                 }
-                else
+                else // TODO interpolace aby konec zvetsene gravitace nebyl prudky
                     gravityChangeTimer -= tpf;
             }
         }
@@ -32,6 +35,7 @@ namespace Orbit.Core.Client
         public void ChangeGravity(float newGravity, float forIntervalInSeconds)
         {
             CurrentGravity = newGravity;
+            StableOrbitRelative = 1.1f;
             gravityChangeTimer = forIntervalInSeconds;
         }
     }

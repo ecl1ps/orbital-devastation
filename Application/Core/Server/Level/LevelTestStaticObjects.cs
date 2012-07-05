@@ -43,7 +43,7 @@ namespace Orbit.Core.Server.Level
 
         private StatPowerUp CreateAndSendNewStatPowerup()
         {
-            StatPowerUp p = ServerSceneObjectFactory.CreateStatPowerUp(mgr,(DeviceType)mgr.GetRandomGenerator().Next((int)DeviceType.WEAPON_FIRST + 1, (int)DeviceType.WEAPON_LAST));
+            StatPowerUp p = ServerSceneObjectFactory.CreateStatPowerUp(mgr,(DeviceType)mgr.GetRandomGenerator().Next((int)DeviceType.DEVICE_FIRST + 1, (int)DeviceType.DEVICE_LAST));
             p.Direction = new Vector(0, 0);
             return p;
         }
