@@ -232,8 +232,7 @@ namespace Orbit.Core.Client
                 ShowStatusText(3, "You are Spectator");
 
             SetMainInfoText("");
-            if (currentPlayer.IsActivePlayer())
-                userActionsDisabled = false;
+            userActionsDisabled = false;
         }
 
         private void ReceivedPlayerAndGoldScoreMsg(NetIncomingMessage msg)

@@ -13,12 +13,12 @@ namespace Orbit.Core.Weapons
 {
     public enum DeviceType
     {
-        WEAPON_FIRST,
+        DEVICE_FIRST,
         HOOK,
         CANNON,
         MINE,
         HEALING_KIT,
-        WEAPON_LAST
+        DEVICE_LAST
     }
 
     public enum UpgradeLevel

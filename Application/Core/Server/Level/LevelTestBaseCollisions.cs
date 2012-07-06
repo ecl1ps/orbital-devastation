@@ -49,7 +49,7 @@ namespace Orbit.Core.Server.Level
         private StatPowerUp CreateAndSendNewStatPowerup(Vector pos, Vector dir)
         {
             StatPowerUp p = ServerSceneObjectFactory.CreateStatPowerUp(mgr,
-                (DeviceType)mgr.GetRandomGenerator().Next((int)DeviceType.WEAPON_FIRST + 1, (int)DeviceType.WEAPON_LAST));
+                (DeviceType)mgr.GetRandomGenerator().Next((int)DeviceType.DEVICE_FIRST + 1, (int)DeviceType.DEVICE_LAST));
             p.Position = pos;
             p.Direction = dir;
             return p;

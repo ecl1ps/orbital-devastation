@@ -36,7 +36,7 @@ namespace Orbit.Core.Server.Level
         public static void CreateAndSendNewStatPowerup(ServerMgr serverMgr)
         {
             StatPowerUp p = ServerSceneObjectFactory.CreateStatPowerUp(serverMgr,
-                (DeviceType)serverMgr.GetRandomGenerator().Next((int)DeviceType.WEAPON_FIRST + 1, (int)DeviceType.WEAPON_LAST));
+                (DeviceType)serverMgr.GetRandomGenerator().Next((int)DeviceType.DEVICE_FIRST + 1, (int)DeviceType.DEVICE_LAST));
             NetOutgoingMessage powerupMsg = serverMgr.CreateNetMessage();
             p.WriteObject(powerupMsg);
             serverMgr.BroadcastMessage(powerupMsg);
