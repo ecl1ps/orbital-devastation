@@ -11,6 +11,7 @@ using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Scene.Controls;
 using Orbit.Core.Weapons;
+using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Helpers
 {
@@ -30,6 +31,13 @@ namespace Orbit.Core.Helpers
             s.Id = msg.ReadInt64();
             s.Dead = msg.ReadBoolean();
             s.Position = msg.ReadVector();
+        }
+
+        public static void WriteObjectLine(this NetOutgoingMessage msg, SolidLine l)
+        {
+            msg.WriteObjectSceneObject(l);
+            msg.Write(l.Start);
+            msg.Write(l.End);
         }
 
         public static void WriteObjectSphere(this NetOutgoingMessage msg, Sphere s)
@@ -134,6 +142,38 @@ namespace Orbit.Core.Helpers
             msg.ReadObjectSceneObject(s);
 
             s.Size = new Size(msg.ReadDouble(), msg.ReadDouble());
+        }
+
+        public static void WriteObjectSolidLine(this NetOutgoingMessage msg, SolidLine l)
+        {
+            msg.WriteObjectSceneObject(l);
+
+            msg.Write(l.Start);
+            msg.Write(l.End);
+            msg.Write(l.Color);
+            msg.Write(l.Width);
+        }
+
+        public static void ReadObjectSolidLine(this NetIncomingMessage msg, SolidLine l)
+        {
+            msg.ReadObjectSceneObject(l);
+
+            l.Start = msg.ReadPoint();
+            l.End = msg.ReadPoint();
+            l.Color = msg.ReadColor();
+            l.Width = msg.ReadInt32();
+        }
+
+        public static void WriteObjectLaser(this NetOutgoingMessage msg, Laser l)
+        {
+            msg.WriteObjectSolidLine(l);
+        }
+
+        public static void ReadObjectLaser(this NetIncomingMessage msg, Laser l)
+        {
+            msg.ReadObjectSolidLine(l);
+
+            l.AddControl(new LaserDamageControl());
         }
 
         public static void WriteObjectStatPowerUp(this NetOutgoingMessage msg, StatPowerUp s)
@@ -466,6 +506,17 @@ namespace Orbit.Core.Helpers
         public static Size ReadSize(this NetIncomingMessage msg)
         {
             return new Size(msg.ReadDouble(), msg.ReadDouble());
+        }
+
+        public static void Write(this NetOutgoingMessage msg, Point p)
+        {
+            msg.Write(p.X);
+            msg.Write(p.Y);
+        }
+
+        public static Point ReadPoint(this NetIncomingMessage msg)
+        {
+            return new Point(msg.ReadDouble(), msg.ReadDouble());
         }
     }
 }

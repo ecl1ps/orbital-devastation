@@ -40,6 +40,7 @@ namespace Orbit.Core.Client
         private List<ISceneObject> objects;
         private List<ISceneObject> objectsToRemove;
         private List<ISceneObject> objectsToAdd;
+        private List<long> idsToRemove;
         private List<Player> players;
         private Player currentPlayer;
         private Random randomGenerator;
@@ -67,6 +68,7 @@ namespace Orbit.Core.Client
             objects = new List<ISceneObject>();
             objectsToRemove = new List<ISceneObject>();
             objectsToAdd = new List<ISceneObject>();
+            idsToRemove = new List<long>();
             randomGenerator = new Random(Environment.TickCount);
             players = new List<Player>(2);
             statisticsTimer = 0;
@@ -186,6 +188,15 @@ namespace Orbit.Core.Client
         /// </summary>
         private void DirectAttachToScene(ISceneObject obj)
         {
+            for (int i = idsToRemove.Count - 1; i >= 0; i--)
+            {
+                if (obj.Id == idsToRemove[i])
+                {
+                    idsToRemove.RemoveAt(i);
+                    return;
+                }
+            }
+
             objects.Add(obj);
             BeginInvoke(new Action(() =>
             {

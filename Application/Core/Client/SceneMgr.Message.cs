@@ -262,19 +262,18 @@ namespace Orbit.Core.Client
             long aId = msg.ReadInt64();
             int damage = msg.ReadInt32();
 
-            SingularityBullet bullet = null;
+            IProjectile bullet = null;
+            IDestroyable target = null;
 
             foreach (ISceneObject obj in objects)
             {
                 if (obj.Id == bulletId)
                 {
+                    if (obj is IProjectile)
+                        bullet = obj as IProjectile;
+
                     if (obj is SingularityBullet)
-                    {
-                        bullet = obj as SingularityBullet;
                         bullet.DoRemoveMe();
-                    }
-                    else
-                        Console.Error.WriteLine("Object id " + bulletId + " (" + obj.GetType().Name + ") is supposed to be a instance of SingularityBullet but it is not");
 
                     break;
                 }
@@ -286,14 +285,17 @@ namespace Orbit.Core.Client
                     continue;
 
                 if (obj is IDestroyable)
-                {
-                    (obj as IDestroyable).TakeDamage(damage, bullet);
-                }
+                    target =(obj as IDestroyable);
                 else
                     Console.Error.WriteLine("Object id " + bulletId + " (" + obj.GetType().Name + ") is supposed to be a instance of IDestroyable but it is not");
 
                 break;
             }
+
+            if (target != null)
+                target.TakeDamage(damage, bullet);
+            else
+                idsToRemove.Add(aId);
         }
 
         private void ReceivedHookHitMsg(NetIncomingMessage msg)
@@ -401,6 +403,15 @@ namespace Orbit.Core.Client
             h.PrepareLine();
             DelayedAttachToScene(h);
             SyncReceivedObject(h, msg);
+        }
+
+        private void ReceiveNewLaserMsg(NetIncomingMessage msg)
+        {
+            Laser laser = new Laser(GetOpponentPlayer(), this);
+            laser.ReadObject(msg);
+
+            DelayedAttachToScene(laser);
+            SyncReceivedObject(laser, msg);
         }
 
         private void ReceivedNewSingularityExplodingBulletMsg(NetIncomingMessage msg)
@@ -544,6 +555,39 @@ namespace Orbit.Core.Client
         private void ReceivedFloatingTextMsg(NetIncomingMessage msg)
         {
             FloatingTextMgr.AddFloatingText(msg.ReadString(), msg.ReadVector(), msg.ReadFloat(), (FloatingTextType)msg.ReadByte(), msg.ReadFloat(), true, false);
+        }
+
+        private void RecieveMoveLaserObject(NetIncomingMessage msg)
+        {
+            long id = msg.ReadInt64();
+            Point end = msg.ReadPoint();
+            foreach (ISceneObject obj in objects)
+            {
+                if (obj.Id == id && obj is Laser)
+                {
+                    (obj as Laser).End = end;
+                    break;
+                }
+            }
+        }
+
+        private void ReceiveRemoveObject(NetIncomingMessage msg)
+        {
+            long id = msg.ReadInt64();
+            ISceneObject toRemove = null;
+            foreach (ISceneObject obj in objects)
+            {
+                if (obj.Id == id)
+                {
+                    toRemove = obj;
+                    break;
+                }
+            }
+
+            if (toRemove != null)
+                RemoveFromSceneDelayed(toRemove);
+            else
+                idsToRemove.Add(id);
         }
     }
 }

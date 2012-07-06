@@ -6,6 +6,7 @@ using Orbit.Core.Players;
 using System.Windows.Media;
 using System.Windows;
 using Orbit.Core.Client;
+using Orbit.Core.Helpers;
 using Orbit.Core.Scene.Controls.Implementations;
 using Lidgren.Network;
 
@@ -17,8 +18,13 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public Player Owner { get; set; }
         private LaserDamageControl damageControl;
 
-        public Laser(Player owner, SceneMgr mgr, Point start, Point end, Color color, Brush brush, int width) 
-            : base(mgr, start, end, color, brush, width)
+        public Laser(Player owner, SceneMgr mgr) : base(mgr)
+        {
+            Owner = owner;
+        }
+
+        public Laser(Player owner, SceneMgr mgr, Point start, Point end, Color color, int width) 
+            : base(mgr, start, end, color, width)
         {
             Owner = owner;
         }
@@ -36,19 +42,26 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         private void DoDamage(IDestroyable enemy)
         {
-            if (damageControl == null)
-                throw new Exception("Laser must have LaserDamageControl attached");
+            if (Owner == SceneMgr.GetCurrentPlayer())
+            {
+                if (damageControl == null)
+                    throw new Exception("Laser must have LaserDamageControl attached");
 
-            damageControl.HitObject(enemy);
+                damageControl.HitObject(enemy);
+            }
         }
 
         public void WriteObject(NetOutgoingMessage msg)
         {
             msg.Write((int)PacketType.NEW_LASER);
+            msg.WriteObjectLaser(this);
         }
 
         public void ReadObject(NetIncomingMessage msg)
         {
+            msg.ReadObjectLaser(this);
+            
+            CreateLine();
         }
     }
 }

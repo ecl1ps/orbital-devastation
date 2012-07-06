@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using Orbit.Core.Client;
+using Orbit.Core.Helpers;
 using Orbit.Core.Players;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -15,23 +15,29 @@ namespace Orbit.Core.Scene.Entities
     {
         public Point Start {get; set; }
         public Point End { get; set; }
+        public Color Color { get; set; }
         public int Width { get; set; }
 
-        public SolidLine(SceneMgr mgr, Point start, Point end, Color color, Brush brush, int width) : base(mgr)
+        public SolidLine(SceneMgr mgr) : base(mgr)
+        {
+            //default constructor
+        }
+
+        public SolidLine(SceneMgr mgr, Point start, Point end, Color color, int width) : base(mgr)
         {
             SceneMgr = mgr;
             Start = start;
             End = end;
             Width = width;
-            CreateLine(color, brush);
+            Color = color;
+            CreateLine();
         }
 
-        private void CreateLine(Color color, Brush brush)
+        public void CreateLine()
         {
             SceneMgr.Invoke(new Action(() =>
             {
                 Line line = new Line();
-                line.Stroke = brush;
                 line.X1 = Start.X;
                 line.Y1 = Start.Y;
                 line.X2 = End.X;
@@ -39,7 +45,8 @@ namespace Orbit.Core.Scene.Entities
                 line.HorizontalAlignment = HorizontalAlignment.Left;
                 line.VerticalAlignment = VerticalAlignment.Center;
                 line.StrokeThickness = Width;
-                line.Fill = new SolidColorBrush(color);
+                line.Stroke = new SolidColorBrush(Colors.Blue);
+                line.Fill = new SolidColorBrush(Colors.Blue);
 
                 geometryElement = line;
             }));

@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Orbit.Core;
 using Orbit.Core.Players;
 using Orbit.Core.Client;
+using Orbit.Core.Helpers;
 using System.Windows.Shapes;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Controls.Implementations;
+using Lidgren.Network;
 
 namespace Orbit.Core.Weapons
 {
@@ -154,12 +157,30 @@ namespace Orbit.Core.Weapons
             v += origin;
 
             laser.End = v.ToPoint();
+
+            if (SceneMgr.GameType != Gametype.SOLO_GAME)
+            {
+                NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+                msg.Write((int)PacketType.LASER_MOVE);
+                msg.Write(laser.Id);
+                msg.Write(laser.End);
+
+                SceneMgr.SendMessage(msg);
+            }
         }
 
         private void stopShooting()
         {
             shooting = false;
             SceneMgr.RemoveFromSceneDelayed(laser);
+
+            if (SceneMgr.GameType != Gametype.SOLO_GAME)
+            {
+                NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+                msg.Write((int)PacketType.REMOVE_OBJECT);
+                msg.Write(laser.Id);
+                SceneMgr.SendMessage(msg);
+            }
         }
 
         private void UpdateCharging(float tpf)
@@ -221,17 +242,32 @@ namespace Orbit.Core.Weapons
             charging = false;
             chargingTime = 0;
 
-            Vector v = new Vector(0, -1);
+            Vector v = StaticMouse.GetPosition() - origin.ToPoint();
+            v.Normalize();
+
+            if (v.Y > Owner.GetBaseLocation().Y)
+                v.Y = Owner.GetBaseLocation().Y;
+
             v *= 1000;
             v.X += origin.X;
             v.Y += origin.Y;
 
-            laser = new Laser(Owner, SceneMgr, origin.ToPoint(), v.ToPoint(), Colors.Blue, Brushes.Blue, 3);
+            laser = new Laser(Owner, SceneMgr, origin.ToPoint(), v.ToPoint(), Colors.Blue, 3);
+            laser.Id = IdMgr.GetNewId(Owner.GetId());
+
             LaserDamageControl control = new LaserDamageControl();
             laser.AddControl(control);
 
             SceneMgr.DelayedAttachToScene(laser);
             removeLines();
+
+            if (SceneMgr.GameType != Gametype.SOLO_GAME)
+            {
+                NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+                laser.WriteObject(msg);
+
+                SceneMgr.SendMessage(msg);
+            }
         }
     }
 }

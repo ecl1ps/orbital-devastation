@@ -137,6 +137,9 @@ namespace Orbit.Core.Client
                 case PacketType.NEW_HOOK:
                     ReceivedNewHookMsg(msg);
                     break;
+                case PacketType.NEW_LASER:
+                    ReceiveNewLaserMsg(msg);
+                    break;
                 case PacketType.SCORE_QUERY:
                     ReceivedScoreQueryMsg(msg);
                     break;
@@ -151,6 +154,12 @@ namespace Orbit.Core.Client
                     break;
                 case PacketType.BULLET_HIT:
                     ReceivedBulletHitMsg(msg);
+                    break;
+                case PacketType.REMOVE_OBJECT:
+                    ReceiveRemoveObject(msg);
+                    break;
+                case PacketType.LASER_MOVE:
+                    RecieveMoveLaserObject(msg);
                     break;
                 case PacketType.BASE_INTEGRITY_CHANGE:
                     ReceivedBaseIntegrityChangeMsg(msg);

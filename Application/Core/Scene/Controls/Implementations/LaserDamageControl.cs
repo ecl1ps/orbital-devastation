@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Entities.Implementations;
+using Lidgren.Network;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -42,6 +43,16 @@ namespace Orbit.Core.Scene.Controls.Implementations
             {
                 enemy.TakeDamage(SharedDef.LASER_DMG, me);
                 datas.Add(new HitData(enemy, SharedDef.LASER_DMG_INTERVAL));
+
+                if (me.SceneMgr.GameType != Gametype.SOLO_GAME)
+                {
+                    NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();
+                    msg.Write((int)PacketType.BULLET_HIT);
+                    msg.Write(me.Id);
+                    msg.Write(enemy.Id);
+                    msg.Write(SharedDef.LASER_DMG);
+                    me.SceneMgr.SendMessage(msg);
+                }
             }
         }
 
