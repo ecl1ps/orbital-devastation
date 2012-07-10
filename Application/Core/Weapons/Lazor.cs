@@ -145,7 +145,7 @@ namespace Orbit.Core.Weapons
             else
             {
                 chargingTime += tpf;
-                changeShootingPosition();
+                //changeShootingPosition();
             }
         }
 
