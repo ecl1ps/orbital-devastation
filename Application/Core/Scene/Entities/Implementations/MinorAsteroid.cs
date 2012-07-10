@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Orbit.Core.Client;
 using Orbit.Core.Helpers;
 using Orbit.Core.Players;
+using Orbit.Core.Weapons;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -24,8 +25,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public override void TakeDamage(int damage, ISceneObject from)
         {
             base.TakeDamage(damage, from);
-            if (from is SingularityBullet)
-                lastHitTakenFrom = (from as SingularityBullet).Owner;
+            if (from is IProjectile)
+                lastHitTakenFrom = (from as IProjectile).Owner;
         }
 
         public override void OnRemove()
