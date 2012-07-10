@@ -70,6 +70,7 @@ namespace Orbit.Core
         public const int HOOK_LENGHT                        = 420;
         public const int HOOK_SPEED                         = 150;
         public const float HOOK_COOLDOWN                    = MINE_COOLDOWN;
+        public const int HOOK_MAX_OBJ_COUNT                 = 2;
 
         public const int HEAL_MULTIPLY_COEF                 = 2;
         public const int HEAL_AMOUNT                        = 25;

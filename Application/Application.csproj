@@ -126,6 +126,7 @@
     <Compile Include="Core\Scene\Entities\ICatchable.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Circle.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Laser.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\PowerHook.cs" />
     <Compile Include="Core\Scene\Entities\SolidLine.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\StatPowerUp.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\VectorLine.cs" />
@@ -165,6 +166,7 @@
     <Compile Include="Core\Utils\IHealingKit.cs" />
     <Compile Include="Core\Weapons\DoubleHookLauncher.cs" />
     <Compile Include="Core\Weapons\Lazor.cs" />
+    <Compile Include="Core\Weapons\PowerHookLauncher.cs" />
     <Compile Include="Core\Weapons\MineLauncher.cs" />
     <Compile Include="Core\Weapons\ProximityCannon.cs" />
     <Compile Include="Core\Weapons\HookLauncher.cs" />

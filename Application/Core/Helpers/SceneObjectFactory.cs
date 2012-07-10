@@ -136,6 +136,42 @@ namespace Orbit.Core.Helpers
             return hook;
         }
 
+        public static PowerHook CreatePowerHook(SceneMgr mgr, Point point, Player player)
+        {
+            Vector position = new Vector(player.GetBaseLocation().X + player.GetBaseLocation().Width / 2, player.GetBaseLocation().Y - 5);
+            Vector direction = point.ToVector() - position;
+            direction.Normalize();
+
+            PowerHook hook = new PowerHook(mgr);
+            hook.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
+            hook.Owner = player;
+            hook.Radius = 8;
+            position.X -= hook.Radius;
+            position.Y -= hook.Radius;
+            hook.Position = position;
+            hook.Rotation = (float)Vector.AngleBetween(new Vector(0, -1), direction);
+            hook.Direction = direction;
+            hook.Color = player.GetPlayerColor();
+
+            hook.SetGeometry(SceneGeometryFactory.CreateHookHead(hook));
+            mgr.BeginInvoke(new Action(() =>
+            {
+                Canvas.SetZIndex(hook.GetGeometry(), 99);
+            }));
+
+            HookControl hookControl = new HookControl();
+            hookControl.Origin = new Vector(hook.Center.X, hook.Center.Y);
+            hookControl.Speed = player.Data.HookSpeed;
+            hookControl.Lenght = player.Data.HookLenght;
+
+            hook.AddControl(hookControl);
+
+            hook.PrepareLine();
+
+            return hook;
+        }
+
+
         public static MinorAsteroid CreateSmallAsteroid(SceneMgr mgr, long id, Vector direction, Vector center, int rot, int textureId, int radius, double rotation)
         {
             MinorAsteroid asteroid = new MinorAsteroid(mgr);

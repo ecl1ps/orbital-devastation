@@ -38,6 +38,7 @@ namespace Orbit.Core.Players
         public int HookLenght { get; set; }
         public int HookSpeed { get; set; }
         public float HookCooldown { get; set; }
+        public int HookMaxCount { get; set; }
         public int BaseIntegrity { get; set; }
         public int MaxBaseIntegrity { get; set; }
         public int LaserDamage { get; set; }
@@ -72,6 +73,7 @@ namespace Orbit.Core.Players
             HookLenght = SharedDef.HOOK_LENGHT;
             HookSpeed = SharedDef.HOOK_SPEED;
             HookCooldown = SharedDef.HOOK_COOLDOWN;
+            HookMaxCount = SharedDef.HOOK_MAX_OBJ_COUNT;
             LaserDamage = SharedDef.LASER_DMG;
             LaserDamageInterval = SharedDef.LASER_DMG_INTERVAL;
             LaserChargingTime = SharedDef.LASER_CHARGING_TIME;

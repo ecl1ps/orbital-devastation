@@ -17,7 +17,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         public Vector HitVector { get; set; } //neposilano
         public bool Returning { get; set; } // neposilano
 
-        private Hook hook;
+        protected Hook hook;
 
         public override void InitControl(ISceneObject me)
         {
@@ -33,7 +33,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
             {
                 MoveBackwards(tpf);
                 if (hook.HasCaughtObject())
-                    MoveWithObject(hook.CaughtObject);
+                {
+                    if (hook is PowerHook)
+                        (hook as PowerHook).CaughtObjects.ForEach(obj => MoveWithObject(obj));
+                    else
+                        MoveWithObject(hook.CaughtObject);
+                }
 
                 if (IsAtStart())
                     hook.PulledCaughtObjectToBase();
@@ -46,17 +51,17 @@ namespace Orbit.Core.Scene.Controls.Implementations
             }
         }
 
-        private void MoveWithObject(ICatchable obj)
+        protected void MoveWithObject(ICatchable obj)
         {
             obj.Position = hook.Position + HitVector;
         }
 
-        private void MoveForward(float tpf)
+        protected void MoveForward(float tpf)
         {
             hook.Position += (hook.Direction * Speed * tpf);
         }
 
-        private void MoveBackwards(float tpf)
+        protected void MoveBackwards(float tpf)
         {
             // jinak se obcas neco bugne a on leti do nekonecna
             Vector dirToBase = Origin + new Vector(-hook.Radius, -hook.Radius) - hook.Position;
@@ -64,7 +69,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             hook.Position += (dirToBase * Speed * tpf);
         }
 
-        private bool IsAtEnd()
+        protected bool IsAtEnd()
         {
             return GetDistanceFromOrigin() > Lenght || OutOfScreen();
         }
@@ -75,7 +80,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 hook.Position.X > SharedDef.VIEW_PORT_SIZE.Width || hook.Position.Y > SharedDef.VIEW_PORT_SIZE.Height;
         }
 
-        private bool IsAtStart()
+        protected bool IsAtStart()
         {
             return GetDistanceFromOrigin() < 15;
         }

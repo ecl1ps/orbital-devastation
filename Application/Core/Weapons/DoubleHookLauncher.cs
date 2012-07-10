@@ -9,6 +9,7 @@ using Orbit.Core.Scene;
 using System.Windows;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Client;
+using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Weapons
 {
@@ -26,8 +27,8 @@ namespace Orbit.Core.Weapons
             }
         }
 
-        private List<HookData> hooks;
-        private int maxCount;
+        protected List<HookData> hooks;
+        protected int maxCount;
 
         public DoubleHookLauncher(SceneMgr mgr, Player owner) : base(mgr, owner)
         {
@@ -45,8 +46,8 @@ namespace Orbit.Core.Weapons
 
         protected override Hook CreateHook(Point point)
         {
-            Hook hook = base.CreateHook(point);
-            hooks.Add(new HookData(hook, SharedDef.HOOK_COOLDOWN));
+            Hook hook = SceneObjectFactory.CreateHook(SceneMgr, point, Owner);
+            hooks.Add(new HookData(hook, Owner.Data.HookCooldown));
             return hook;
         }
 

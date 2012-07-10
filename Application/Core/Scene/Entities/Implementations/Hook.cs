@@ -72,7 +72,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 CatchObject(other as ICatchable);
         }
 
-        private void CatchObject(ICatchable caught)
+        protected void CatchObject(ICatchable caught)
         {
             if (!caught.Enabled)
                 return;
@@ -80,21 +80,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             if (!Owner.IsCurrentPlayerOrBot())
                 return;
 
-            if (caught is IContainsGold)
-            {
-                if (Owner.IsCurrentPlayer())
-                    SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.HOOK_HIT, Center, FloatingTextManager.TIME_LENGTH_1,
-                        FloatingTextType.SCORE);
-                Owner.AddScoreAndShow(ScoreDefines.HOOK_HIT);
-            }
-
-            HookControl control = GetControlOfType(typeof(HookControl)) as HookControl;
-            if (control != null && control.GetDistanceFromOriginPct() > 0.9)
-            {
-                SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.HOOK_CAUGHT_OBJECT_AFTER_90PCT_DISTANCE, Center, 
-                    FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG, false, true);
-                Owner.AddScoreAndShow(ScoreDefines.HOOK_CAUGHT_OBJECT_AFTER_90PCT_DISTANCE);
-            }
+            processScore(caught);
 
             Vector hitVector = caught.Position - Position;
 
@@ -112,7 +98,26 @@ namespace Orbit.Core.Scene.Entities.Implementations
             }
         }
 
-        public void Catch(ICatchable caught, Vector hitVector)
+        protected virtual void processScore(ICatchable caught)
+        {
+            if (caught is IContainsGold)
+            {
+                if (Owner.IsCurrentPlayer())
+                    SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.HOOK_HIT, Center, FloatingTextManager.TIME_LENGTH_1,
+                        FloatingTextType.SCORE);
+                Owner.AddScoreAndShow(ScoreDefines.HOOK_HIT);
+            }
+
+            HookControl control = GetControlOfType(typeof(HookControl)) as HookControl;
+            if (control != null && control.GetDistanceFromOriginPct() > 0.9)
+            {
+                SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.HOOK_CAUGHT_OBJECT_AFTER_90PCT_DISTANCE, Center,
+                    FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG, false, true);
+                Owner.AddScoreAndShow(ScoreDefines.HOOK_CAUGHT_OBJECT_AFTER_90PCT_DISTANCE);
+            }
+        }
+
+        public virtual void Catch(ICatchable caught, Vector hitVector)
         {
             if (caught is IDestroyable)
                 (caught as IDestroyable).TakeDamage(0, this);
@@ -126,27 +131,39 @@ namespace Orbit.Core.Scene.Entities.Implementations
             (GetControlOfType(typeof(HookControl)) as HookControl).CaughtObject(hitVector);
         }
 
-        public void PulledCaughtObjectToBase()
+        public virtual void PulledCaughtObjectToBase()
         {
-            if (CaughtObject != null && !CaughtObject.Dead)
+            proccesCaughtObject(CaughtObject);
+        }
+
+        protected virtual void proccesCaughtObject(ICatchable caught) 
+        {
+            if (caught != null && !caught.Dead)
             {
-                if (CaughtObject is IContainsGold)
+                if (caught is IContainsGold)
                 {
-                    Owner.AddGoldAndShow((CaughtObject as IContainsGold).Gold);
-                    CaughtObject.DoRemoveMe();
+
+                    AddGoldToOwner((caught as IContainsGold).Gold);
+                    caught.DoRemoveMe();
                 }
                 else
                 {
-                    CaughtObject.Enabled = true;
-                    if (CaughtObject is IMovable)
-                        (CaughtObject as IMovable).Direction = new Vector(0, 100);
+                    caught.Enabled = true;
+                    if (caught is IMovable)
+                        (caught as IMovable).Direction = new Vector(0, 100);
                 }
             }
+
             DoRemoveMe();
             SceneMgr.RemoveGraphicalObjectFromScene(line);
         }
 
-        public Boolean HasCaughtObject()
+        protected virtual void AddGoldToOwner(int gold) 
+        {
+            Owner.AddGoldAndShow(gold);
+        }
+
+        public virtual Boolean HasCaughtObject()
         {
             return CaughtObject != null;
         }
