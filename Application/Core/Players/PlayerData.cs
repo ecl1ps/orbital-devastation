@@ -40,6 +40,9 @@ namespace Orbit.Core.Players
         public float HookCooldown { get; set; }
         public int BaseIntegrity { get; set; }
         public int MaxBaseIntegrity { get; set; }
+        public int LaserDamage { get; set; }
+        public float LaserChargingTime { get; set; }
+        public float LaserDamageInterval { get; set; }
         /// <summary>
         /// na klientovi pouzivat funkcni Player.SetGoldAndShow() nebo Player.AddGoldAndShow()
         /// </summary>
@@ -69,6 +72,9 @@ namespace Orbit.Core.Players
             HookLenght = SharedDef.HOOK_LENGHT;
             HookSpeed = SharedDef.HOOK_SPEED;
             HookCooldown = SharedDef.HOOK_COOLDOWN;
+            LaserDamage = SharedDef.LASER_DMG;
+            LaserDamageInterval = SharedDef.LASER_DMG_INTERVAL;
+            LaserChargingTime = SharedDef.LASER_CHARGING_TIME;
         }
     }
 

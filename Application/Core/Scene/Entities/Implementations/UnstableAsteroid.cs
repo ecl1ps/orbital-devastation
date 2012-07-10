@@ -68,6 +68,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
             if (from is IProjectile)
                 Destroyer = (from as IProjectile).Owner.GetId();
+
             base.TakeDamage(damage, from);
             DoRemoveMe();
             SpawnSmallMeteors((int)(Radius * 0.7f));

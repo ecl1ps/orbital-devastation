@@ -49,7 +49,7 @@ namespace Orbit.Core.Weapons
             Cost = 650;
             origin = Owner.Baze.Position;
             origin.X += Owner.Baze.Size.Width / 2;
-            chargingTime = SharedDef.LASER_CHARGING_TIME;
+            chargingTime = Owner.Data.LaserChargingTime;
         }
 
         public IWeapon Next()
@@ -140,7 +140,7 @@ namespace Orbit.Core.Weapons
 
         private void UpdateShooting(float tpf)
         {
-            if (chargingTime >= SharedDef.LASER_CHARGING_TIME)
+            if (chargingTime >= Owner.Data.LaserChargingTime)
                 stopShooting();
             else
             {
@@ -195,11 +195,11 @@ namespace Orbit.Core.Weapons
                     MoveLines();
                 }
             }
-            else if (chargingTime != SharedDef.LASER_CHARGING_TIME)
+            else if (chargingTime != Owner.Data.LaserChargingTime)
             {
-                if (chargingTime >= SharedDef.LASER_CHARGING_TIME)
+                if (chargingTime >= Owner.Data.LaserChargingTime)
                 {
-                    chargingTime = SharedDef.LASER_CHARGING_TIME;
+                    chargingTime = Owner.Data.LaserChargingTime;
                     removeLines();
                 }
                 else
@@ -223,7 +223,7 @@ namespace Orbit.Core.Weapons
         {
             SceneMgr.Invoke(new Action(() =>
             {
-                float angle = (float) FastMath.LinearInterpolate(0, Math.PI / 2, (SharedDef.LASER_CHARGING_TIME - chargingTime) / SharedDef.LASER_CHARGING_TIME);
+                float angle = (float)FastMath.LinearInterpolate(0, Math.PI / 2, (Owner.Data.LaserChargingTime - chargingTime) / Owner.Data.LaserChargingTime);
                 Vector lv = leftVector.Rotate(angle);
                 Vector rv = rightVector.Rotate(-angle);
 

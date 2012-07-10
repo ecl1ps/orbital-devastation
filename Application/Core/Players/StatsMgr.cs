@@ -87,12 +87,15 @@ namespace Orbit.Core.Players
 
                 case PlayerStats.BULLET_1_COOLDOWN:
                     data.BulletCooldown += val;
+                    data.LaserChargingTime += val;
                     break;
                 case PlayerStats.BULLET_1_DAMAGE:
                     data.BulletDamage += (int)val;
+                    data.LaserDamage += (int)val;
                     break;
                 case PlayerStats.BULLET_1_SPEED:
                     data.BulletSpeed += (int)val;
+                    data.LaserChargingTime -= (val / 10);
                     break;
 
                 case PlayerStats.HOOK_1_COOLDOWN:

@@ -5,6 +5,7 @@ using System.Text;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Entities.Implementations;
 using Lidgren.Network;
+using Orbit.Core.Players;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -22,6 +23,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             }
         }
 
+        private Player owner;
         private List<HitData> datas;
 
         public override void InitControl(ISceneObject me)
@@ -29,6 +31,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (me is Laser)
             {
                 this.me = me;
+                this.owner = (me as Laser).Owner;
                 (me as Laser).initControl(this);
             }
             else
@@ -41,8 +44,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
         {
             if (IsValidTarget(enemy)) 
             {
-                enemy.TakeDamage(SharedDef.LASER_DMG, me);
-                datas.Add(new HitData(enemy, SharedDef.LASER_DMG_INTERVAL));
+                enemy.TakeDamage(owner.Data.LaserDamage, me);
+                datas.Add(new HitData(enemy, owner.Data.LaserDamageInterval));
 
                 if (me.SceneMgr.GameType != Gametype.SOLO_GAME)
                 {
@@ -50,7 +53,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                     msg.Write((int)PacketType.BULLET_HIT);
                     msg.Write(me.Id);
                     msg.Write(enemy.Id);
-                    msg.Write(SharedDef.LASER_DMG);
+                    msg.Write(owner.Data.LaserDamage);
                     me.SceneMgr.SendMessage(msg);
                 }
             }
@@ -84,5 +87,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
                     datas.RemoveAt(i);
             }
         }
+       
     }
 }
