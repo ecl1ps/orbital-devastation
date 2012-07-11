@@ -15,6 +15,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             : base(mgr)
         {
             CaughtObjects = new List<ICatchable>();
+            HookType = HookType.HOOK_POWER;
         }
 
         public override void Catch(ICatchable caught, Vector hitVector)

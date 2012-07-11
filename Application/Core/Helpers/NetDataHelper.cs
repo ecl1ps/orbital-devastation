@@ -12,6 +12,7 @@ using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Scene.Controls;
 using Orbit.Core.Weapons;
 using Orbit.Core.Helpers;
+using Orbit.Core.Client;
 
 namespace Orbit.Core.Helpers
 {
@@ -119,8 +120,30 @@ namespace Orbit.Core.Helpers
 
         public static void WriteObjectHook(this NetOutgoingMessage msg, Hook h)
         {
+            //TYPE prvni
+            msg.Write((int)h.HookType);
             msg.WriteObjectSphere(h);
             msg.Write(h.Rotation);
+        }
+
+        public static Hook ReadObjectHook(this NetIncomingMessage msg, SceneMgr mgr)
+        {
+            Hook h = null;
+            HookType type = (HookType) msg.ReadInt32();
+            switch (type)
+            {
+                case HookType.HOOK_NORMAL:
+                    h = new Hook(mgr);
+                    break;
+                case HookType.HOOK_POWER:
+                    h = new PowerHook(mgr);
+                    break;
+
+                default:
+                    throw new Exception("Unrecognized hook type");
+            }
+
+            return h;
         }
 
         public static void ReadObjectHook(this NetIncomingMessage msg, Hook h)

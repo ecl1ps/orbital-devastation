@@ -391,7 +391,7 @@ namespace Orbit.Core.Client
 
         private void ReceivedNewHookMsg(NetIncomingMessage msg)
         {
-            Hook h = new Hook(this);
+            Hook h = msg.ReadObjectHook(this);
             h.ReadObject(msg);
             h.Owner = GetOpponentPlayer();
             h.SetGeometry(SceneGeometryFactory.CreateHookHead(h));

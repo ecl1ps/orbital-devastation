@@ -46,7 +46,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void DoCollideWith(ICollidable other, float tpf)
         {
-            if (other is Asteroid)
+            if (other is Asteroid && (other as Asteroid).Enabled)
             {
                 int damage = (other as Asteroid).Radius / 2;
 

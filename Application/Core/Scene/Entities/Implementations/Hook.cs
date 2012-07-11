@@ -18,11 +18,18 @@ using System.Diagnostics;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
+    public enum HookType
+    {
+        HOOK_NORMAL,
+        HOOK_POWER
+    }
+
     public class Hook : SpherePoint, ISendable, IRotable, IProjectile
     {
         public Player Owner { get; set; } // neposilano
         public float Rotation { get; set; }
         public ICatchable CaughtObject { get; set; } // neposilano
+        public HookType HookType { get; set; }
         public Vector RopeContactPoint
         {
             get
@@ -35,6 +42,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         
         public Hook(SceneMgr mgr) : base(mgr)
         {
+            HookType = HookType.HOOK_NORMAL;
         }
 
         public void PrepareLine()
