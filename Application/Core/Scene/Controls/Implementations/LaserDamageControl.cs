@@ -24,7 +24,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         }
 
         private Player owner;
-        private List<HitData> datas;
+        private List<HitData> dataList;
 
         public override void InitControl(ISceneObject me)
         {
@@ -37,7 +37,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             else
                 throw new Exception("LaserDamageControl must be attached to Laser class");
 
-            datas = new List<HitData>();
+            dataList = new List<HitData>();
         }
 
         public void HitObject(IDestroyable enemy) 
@@ -45,7 +45,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (IsValidTarget(enemy)) 
             {
                 enemy.TakeDamage(owner.Data.LaserDamage, me);
-                datas.Add(new HitData(enemy, owner.Data.LaserDamageInterval));
+                dataList.Add(new HitData(enemy, owner.Data.LaserDamageInterval));
 
                 if (me.SceneMgr.GameType != Gametype.SOLO_GAME)
                 {
@@ -61,7 +61,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         private bool IsValidTarget(IDestroyable enemy)
         {
-            foreach (HitData data in datas)
+            foreach (HitData data in dataList)
             {
                 if (data.Obj == enemy)
                     return false;
@@ -78,13 +78,13 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private void UpdateHitData(float tpf)
         {
             HitData data;
-            for (int i = datas.Count - 1; i >= 0; i--)
+            for (int i = dataList.Count - 1; i >= 0; i--)
             {
-                data = datas[i];
+                data = dataList[i];
                 data.Time -= tpf;
 
                 if (data.Time <= 0)
-                    datas.RemoveAt(i);
+                    dataList.RemoveAt(i);
             }
         }
        

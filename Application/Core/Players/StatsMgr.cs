@@ -23,9 +23,13 @@ namespace Orbit.Core.Players
             allStats.Add(PlayerStats.MINE_1_GROWTH_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_GROWTH_SPEED, "Mine growth speed", +0.1f, +0.3f));
             allStats.Add(PlayerStats.MINE_1_STRENGTH, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_STRENGTH, "Mine power", +10f, +30f));
 
-            allStats.Add(PlayerStats.BULLET_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.BULLET_1_COOLDOWN, "Cannon cooldown", -0.03f, -0.07f));
-            allStats.Add(PlayerStats.BULLET_1_DAMAGE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.BULLET_1_DAMAGE, "Cannon damage", +1f, +2f));
-            allStats.Add(PlayerStats.BULLET_1_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.BULLET_1_SPEED, "Cannon bullet speed", +30f, +100f));
+            allStats.Add(PlayerStats.CANNON_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.CANNON_1_COOLDOWN, "Cannon cooldown", -0.03f, -0.07f));
+            allStats.Add(PlayerStats.CANNON_1_DAMAGE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.CANNON_1_DAMAGE, "Cannon damage", +1f, +2f));
+            allStats.Add(PlayerStats.CANNON_1_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.CANNON_1_SPEED, "Cannon bullet speed", +30f, +100f));
+
+            allStats.Add(PlayerStats.CANNON_3_CHARGE_TIME, new Stat(UpgradeLevel.LEVEL3, PlayerStats.CANNON_3_CHARGE_TIME, "Laser charging time", -0.03f, -0.05f));
+            allStats.Add(PlayerStats.CANNON_3_DAMAGE, new Stat(UpgradeLevel.LEVEL3, PlayerStats.CANNON_3_DAMAGE, "Laser damage", +1f, +2f));
+            allStats.Add(PlayerStats.CANNON_3_DAMAGE_INTERVAL, new Stat(UpgradeLevel.LEVEL3, PlayerStats.CANNON_3_DAMAGE_INTERVAL, "Laser damage interval", -0.01f, -0.03f));
 
             allStats.Add(PlayerStats.HOOK_1_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_SPEED, "Hook speed", +20f, +40f));
             allStats.Add(PlayerStats.HOOK_1_LENGTH, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_LENGTH, "Hook length", +40f, +80f));
@@ -85,17 +89,23 @@ namespace Orbit.Core.Players
                     data.MineStrength += val;
                     break;
 
-                case PlayerStats.BULLET_1_COOLDOWN:
+                case PlayerStats.CANNON_1_COOLDOWN:
                     data.BulletCooldown += val;
+                    break;
+                case PlayerStats.CANNON_1_DAMAGE:
+                    data.BulletDamage += (int)val;
+                    break;
+                case PlayerStats.CANNON_1_SPEED:
+                    data.BulletSpeed += (int)val;
+                    break;
+                case PlayerStats.CANNON_3_CHARGE_TIME:
                     data.LaserChargingTime += val;
                     break;
-                case PlayerStats.BULLET_1_DAMAGE:
-                    data.BulletDamage += (int)val;
+                case PlayerStats.CANNON_3_DAMAGE:
                     data.LaserDamage += (int)val;
                     break;
-                case PlayerStats.BULLET_1_SPEED:
-                    data.BulletSpeed += (int)val;
-                    data.LaserChargingTime -= (val / 10);
+                case PlayerStats.CANNON_3_DAMAGE_INTERVAL:
+                    data.LaserDamageInterval += val;
                     break;
 
                 case PlayerStats.HOOK_1_COOLDOWN:
@@ -149,11 +159,12 @@ namespace Orbit.Core.Players
                 case DeviceType.CANNON:
                     switch (upgradeLevel)
                     {
+                        case UpgradeLevel.LEVEL3:
+                            return allStats[(PlayerStats)sceneMgr.GetRandomGenerator().Next((int)PlayerStats.CANNON_3_MIN + 1, (int)PlayerStats.CANNON_3_MAX)];
                         case UpgradeLevel.LEVEL1:
                         case UpgradeLevel.LEVEL2:
-                        case UpgradeLevel.LEVEL3:
                         default:
-                            return allStats[(PlayerStats)sceneMgr.GetRandomGenerator().Next((int)PlayerStats.BULLET_1_MIN + 1, (int)PlayerStats.BULLET_1_MAX)];
+                            return allStats[(PlayerStats)sceneMgr.GetRandomGenerator().Next((int)PlayerStats.CANNON_1_MIN + 1, (int)PlayerStats.CANNON_1_MAX)];
                     }
                 case DeviceType.HOOK:
                     switch (upgradeLevel)
@@ -223,11 +234,26 @@ namespace Orbit.Core.Players
         MINE_1_FALLING_SPEED,
         MINE_1_MAX,
 
-        BULLET_1_MIN,
-        BULLET_1_SPEED,
-        BULLET_1_COOLDOWN,
-        BULLET_1_DAMAGE,
-        BULLET_1_MAX,
+        MINE_2_MIN,
+        MINE_2_MAX,
+
+        MINE_3_MIN,
+        MINE_3_MAX,
+
+        CANNON_1_MIN,
+        CANNON_1_SPEED,
+        CANNON_1_COOLDOWN,
+        CANNON_1_DAMAGE,
+        CANNON_1_MAX,
+
+        CANNON_2_MIN,
+        CANNON_2_MAX,
+
+        CANNON_3_MIN,
+        CANNON_3_CHARGE_TIME,
+        CANNON_3_DAMAGE,
+        CANNON_3_DAMAGE_INTERVAL,
+        CANNON_3_MAX,
 
         HOOK_1_MIN,
         HOOK_1_LENGTH,
@@ -235,9 +261,15 @@ namespace Orbit.Core.Players
         HOOK_1_COOLDOWN,
         HOOK_1_MAX,
 
+        HOOK_2_MIN,
+        HOOK_2_MAX,
+
+        HOOK_3_MIN,
+        HOOK_3_MAX,
+
         HEALING_KIT_1_MIN,
         HEALING_KIT_1_REPAIR_BASE,
         HEALING_KIT_1_FORTIFY_BASE,
-        HEALING_KIT_1_MAX
+        HEALING_KIT_1_MAX,
     }
 }
