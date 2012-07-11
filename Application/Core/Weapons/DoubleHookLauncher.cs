@@ -41,7 +41,10 @@ namespace Orbit.Core.Weapons
 
         public override IWeapon Next()
         {
-            return null;
+            if (next == null)
+                next = new PowerHookLauncher(SceneMgr, Owner);
+
+            return next;
         }
 
         protected override Hook CreateHook(Point point)

@@ -32,13 +32,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (hook.HasCaughtObject() || Returning)
             {
                 MoveBackwards(tpf);
-                if (hook.HasCaughtObject())
-                {
-                    if (hook is PowerHook)
-                        (hook as PowerHook).CaughtObjects.ForEach(obj => MoveWithObject(obj));
-                    else
-                        MoveWithObject(hook.CaughtObject);
-                }
 
                 if (IsAtStart())
                     hook.PulledCaughtObjectToBase();
@@ -49,6 +42,11 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 if (IsAtEnd())
                     Returning = true;
             }
+
+            if (hook is PowerHook)
+                (hook as PowerHook).CaughtObjects.ForEach(obj => MoveWithObject(obj));
+            else if(hook.CaughtObject != null)
+                MoveWithObject(hook.CaughtObject);
         }
 
         protected void MoveWithObject(ICatchable obj)

@@ -74,6 +74,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         protected void CatchObject(ICatchable caught)
         {
+            if (caught == null)
+                return;
+
             if (!caught.Enabled)
                 return;
 
@@ -142,7 +145,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
             {
                 if (caught is IContainsGold)
                 {
-
                     AddGoldToOwner((caught as IContainsGold).Gold);
                     caught.DoRemoveMe();
                 }

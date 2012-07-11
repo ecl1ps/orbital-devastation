@@ -25,13 +25,14 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void DoCollideWith(ICollidable other, float tpf)
         {
-                if(CaughtObjects.Count <= Owner.Data.HookMaxCount)
+                if(CaughtObjects.Count <= Owner.Data.HookMaxCatchedObjCount)
                     CatchObject(other as ICatchable);
         }
 
         public override void PulledCaughtObjectToBase()
         {
             CaughtObjects.ForEach(obj => proccesCaughtObject(obj));
+            DoRemoveMe();
         }
 
         protected override void AddGoldToOwner(int gold)
@@ -41,7 +42,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override bool HasCaughtObject()
         {
-            return CaughtObjects.Count != 0;
+            return CaughtObjects.Count == Owner.Data.HookMaxCatchedObjCount;
         }
     }
 }
