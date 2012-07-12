@@ -134,6 +134,8 @@ namespace Orbit.Core.Client
         private void ReceivedPlayerDisconnectedMsg(NetIncomingMessage msg)
         {
             Player disconnected = GetPlayer(msg.ReadInt32());
+            if (disconnected == null)
+                return;
 
             FloatingTextMgr.AddFloatingText(disconnected.Data.Name + " has disconnected",
                 new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
