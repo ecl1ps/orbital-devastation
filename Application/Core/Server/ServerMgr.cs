@@ -117,6 +117,7 @@ namespace Orbit.Core.Server
 
             if (server != null && server.Status != NetPeerStatus.NotRunning)
             {
+                server.FlushSendQueue();
                 server.Shutdown("Peer closed connection");
                 Thread.Sleep(10); // networking threadu chvili trva ukonceni
             }

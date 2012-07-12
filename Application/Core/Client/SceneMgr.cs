@@ -154,11 +154,20 @@ namespace Orbit.Core.Client
         private void CleanUp()
         {
             shouldQuit = false;
+            currentPlayer.Data.StartReady = false;
 
             if (client != null && client.Status != NetPeerStatus.NotRunning)
             {
-                client.Shutdown("Peer closed connection");
-                Thread.Sleep(10); // networking threadu chvili trva ukonceni
+                NetOutgoingMessage msg = CreateNetMessage();
+                msg.Write((int)PacketType.PLAYER_DISCONNECTED);
+                msg.Write(currentPlayer.GetId());
+                SendMessage(msg);
+
+                client.FlushSendQueue();
+                client.Disconnect("Client closed connection");
+                // bussy wait for shutdown
+                while (client.ConnectionStatus != NetConnectionStatus.Disconnected && client.ConnectionStatus != NetConnectionStatus.None)
+                    ;
             }
 
             objectsToRemove.Clear();
@@ -290,10 +299,10 @@ namespace Orbit.Core.Client
 
                 ProcessMessages();
 
-                if (Application.Current == null)
-                    return;
-
                 ProcessActionQueue();
+
+                if (Application.Current == null)
+                    continue;
 
                 if (tpf >= 0.001 && isGameInitialized)
                     Update(tpf);

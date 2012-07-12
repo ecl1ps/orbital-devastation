@@ -75,6 +75,7 @@ namespace Orbit
             server.Init(type);
 
             Thread serverThread = new Thread(new ThreadStart(server.Run));
+            serverThread.IsBackground = false;
             serverThread.Name = "Server Thread";
             serverThread.Start();
         }
@@ -157,6 +158,7 @@ namespace Orbit
         private void StartGameThread()
         {
             Thread gameThread = new Thread(new ThreadStart(sceneMgr.Run));
+            gameThread.IsBackground = false;
             gameThread.Name = "Game Thread";
             gameThread.Start();
         }
