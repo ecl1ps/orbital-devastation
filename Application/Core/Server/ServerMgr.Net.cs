@@ -40,8 +40,10 @@ namespace Orbit.Core.Server
             conf.EnableMessageType(NetIncomingMessageType.ErrorMessage);
             conf.EnableMessageType(NetIncomingMessageType.Receipt);
             conf.EnableMessageType(NetIncomingMessageType.UnconnectedData);
-            conf.EnableMessageType(NetIncomingMessageType.VerboseDebugMessage);
             conf.EnableMessageType(NetIncomingMessageType.WarningMessage);
+#endif
+#if VERBOSE
+            conf.EnableMessageType(NetIncomingMessageType.VerboseDebugMessage);
 #endif
 
             server = new NetServer(conf);
@@ -120,7 +122,7 @@ namespace Orbit.Core.Server
         private void ProcessIncomingDataMessage(NetIncomingMessage msg)
         {
             PacketType type = (PacketType)msg.ReadInt32();
-#if DEBUG
+#if VERBOSE
             Console.WriteLine("Server " + GetPlayer(msg.SenderConnection).GetId() + ": received msg " + type.ToString());
 #endif
             switch (type)
