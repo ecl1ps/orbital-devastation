@@ -100,6 +100,7 @@ namespace Orbit.Core.Server
                                 Player disconnected = GetPlayer(msg.SenderConnection);
                                 if (disconnected == null)
                                     return;
+                                disconnected.Data.StartReady = false;
                                 SendPlayerLeftMessage(disconnected);
                                 if (disconnected.IsActivePlayer())
                                     EndGame(disconnected, GameEnd.LEFT_GAME);
@@ -157,6 +158,9 @@ namespace Orbit.Core.Server
                 case PacketType.PLAYER_RECEIVED_POWERUP:
                     statsMgr.AddStatToPlayer(GetPlayer(msg.ReadInt32()).Data, (PlayerStats)msg.ReadByte(), msg.ReadFloat());
                     ForwardMessage(msg);
+                    break;
+                case PacketType.PLAYER_DISCONNECTED:
+                    ReceivedPlayerDisconnectedMsg(msg);
                     break;
                 default:
                     ForwardMessage(msg);

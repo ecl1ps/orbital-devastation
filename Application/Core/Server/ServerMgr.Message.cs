@@ -135,5 +135,14 @@ namespace Orbit.Core.Server
             p.Data.Gold = msg.ReadInt32();
             ForwardMessage(msg);
         }
+
+        private void ReceivedPlayerDisconnectedMsg(NetIncomingMessage msg)
+        {
+            Player disconnected = GetPlayer(msg.ReadInt32());
+            if (disconnected == null)
+                return;
+            disconnected.Data.StartReady = false;
+            ForwardMessage(msg);
+        }
     }
 }
