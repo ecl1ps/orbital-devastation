@@ -232,6 +232,9 @@
     <Compile Include="Gui\ScoreboardUC.xaml.cs">
       <DependentUpon>ScoreboardUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\SoundOptions.xaml.cs">
+      <DependentUpon>SoundOptions.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\StatisticsUC.xaml.cs">
       <DependentUpon>StatisticsUC.xaml</DependentUpon>
     </Compile>
@@ -345,6 +348,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\ScoreboardUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\SoundOptions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -20,12 +20,14 @@ namespace Orbit.Core.Client
         private bool enabled;
         public bool Enabled { get { return enabled; } set {disable(value); } }
         private List<FileSound> sounds;
+        private List<FileSound> stoppedSounds;
         
  
         public SoundManager()
         {
             SoundEngine = new ISoundEngine();
             sounds = new List<FileSound>();
+            stoppedSounds = new List<FileSound>();
             enabled = true;
 
             PrepareDefaultSounds();
@@ -33,8 +35,8 @@ namespace Orbit.Core.Client
 
         private void PrepareDefaultSounds()
         {
-            sounds.Add(new FileSound(SharedDef.MUSIC_BACKGROUND_ACTION, "background/action.wav"));
-            sounds.Add(new FileSound(SharedDef.MUSIC_BACKGROUND_CALM, "background/stanza-poem.ogg"));
+            sounds.Add(new FileSound(SharedDef.MUSIC_BACKGROUND_ACTION, "background/action.wav", SoundType.MUSIC));
+            sounds.Add(new FileSound(SharedDef.MUSIC_BACKGROUND_CALM, "background/stanza-poem.ogg", SoundType.MUSIC));
             sounds.Add(new FileSound(SharedDef.MUSIC_EXPLOSION, "weapons/mine-explosion.wav"));
             sounds.Add(new FileSound(SharedDef.MUSIC_SHOOT, "weapons/shot.wav"));
             sounds.Add(new FileSound(SharedDef.MUSIC_DAMAGE_TO_BASE, "misc/crash.wav"));
@@ -44,9 +46,32 @@ namespace Orbit.Core.Client
 
         private void disable(bool value) {
             enabled = value;
-            
+
             if (!Enabled)
+            {
+                foreach (FileSound sound in sounds)
+                    if (sound.Sound != null && sound.Sound.Looped == true && SoundEngine.IsCurrentlyPlaying(sound.SoundName))
+                        stoppedSounds.Add(sound);
+
                 StopAllSounds();
+            }
+            else
+            {
+                stoppedSounds.ForEach(sound => SoundEngine.Play2D(sound.SoundName));
+                stoppedSounds.Clear();
+            }
+        }
+
+        public List<FileSound> SoundsByType(SoundType type)
+        {
+            List<FileSound> temp = new List<FileSound>();
+
+            foreach(FileSound sound in sounds) {
+                if (sound.SoundType == type)
+                    temp.Add(sound);
+            }
+
+            return temp;
         }
 
         public FileSound SoundByName(String soundName)
@@ -68,7 +93,9 @@ namespace Orbit.Core.Client
             if (!Enabled)
                 return null;
 
-            sound.Sound = SoundEngine.Play2D(sound.SoundName, true);
+            if(sound.Volume > 0)
+                sound.Sound = SoundEngine.Play2D(sound.SoundName, true);
+            
             return sound;
         }
 
@@ -82,7 +109,9 @@ namespace Orbit.Core.Client
             if (!Enabled)
                 return null;
 
-            sound.Sound = SoundEngine.Play2D(sound.SoundName);
+            if(sound.Volume > 0)
+                sound.Sound = SoundEngine.Play2D(sound.SoundName);
+            
             return sound;
         }
 
@@ -91,10 +120,14 @@ namespace Orbit.Core.Client
             if (!Enabled)
                 return null;
 
-            sound.Sound = SoundEngine.Play2D(sound.SoundName, true);
-            Timer timer = new Timer(howLong);
-            timer.Elapsed += new ElapsedEventHandler((sender, e) => StopSound(sound));
-            timer.Start();
+            if(sound.Volume > 0) 
+            {
+                sound.Sound = SoundEngine.Play2D(sound.SoundName, true);
+                Timer timer = new Timer(howLong);
+                timer.Elapsed += new ElapsedEventHandler((sender, e) => StopSound(sound));
+                timer.Start();
+            }
+
             return sound;
         }
 

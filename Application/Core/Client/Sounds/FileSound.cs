@@ -31,6 +31,14 @@ namespace Orbit.Core.Client.Sounds
         {
             this.soundName = soundName;
             this.FileName = fileName;
+            SoundType = SoundType.EFFECTS;
+        }
+
+        public FileSound(String soundName, String fileName, SoundType type)
+        {
+            this.soundName = soundName;
+            this.FileName = fileName;
+            SoundType = type;
         }
 
         private void UpdateVolume(float value)

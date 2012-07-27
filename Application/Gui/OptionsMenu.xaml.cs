@@ -30,13 +30,23 @@ namespace Orbit.Gui
 
         private void btnPlayer_Click(object sender, RoutedEventArgs e)
         {
-            (Parent as Panel).Children.Remove(this);
-            (Application.Current.MainWindow as GameWindow).mainGrid.Children.Add(new PlayerSettings());
+            ShowAnotherWindow(new PlayerSettings());
         }
 
         private void btnMouse_Click(object sender, RoutedEventArgs e)
         {
             Allow(!StaticMouse.ALLOWED);
+        }
+
+        private void btnSound_Click(object sender, RoutedEventArgs e)
+        {
+            ShowAnotherWindow(new SoundOptions());
+        }
+
+        private void ShowAnotherWindow(UserControl window)
+        {
+            (Parent as Panel).Children.Remove(this);
+            (Application.Current.MainWindow as GameWindow).mainGrid.Children.Add(window);
         }
 
         private void Allow(bool allow)
