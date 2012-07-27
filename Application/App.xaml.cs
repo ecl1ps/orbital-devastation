@@ -53,6 +53,7 @@ namespace Orbit
             Boolean.TryParse(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_ENABLED), out StaticMouse.ALLOWED);
 
             sceneMgr = new SceneMgr();
+            SoundManager.Instance.StartPlayingInfinite(SharedDef.MUSIC_BACKGROUND_CALM);
         }
 
         protected override void OnExit(ExitEventArgs e)
@@ -82,6 +83,9 @@ namespace Orbit
 
         private void StartGame(Gametype type)
         {
+            SoundManager.Instance.StopAllSounds();
+            SoundManager.Instance.StartPlayingInfinite(SharedDef.MUSIC_BACKGROUND_ACTION);
+
             StartGameThread();
 
             lastGameType = type;
@@ -182,6 +186,9 @@ namespace Orbit
 
         public void ShowStartScreen()
         {
+            SoundManager.Instance.StopAllSounds();
+            SoundManager.Instance.StartPlayingInfinite(SharedDef.MUSIC_BACKGROUND_CALM);
+
             mainWindow.mainGrid.Children.Clear();
             mainWindow.mainGrid.Children.Add(new MainUC());
         }

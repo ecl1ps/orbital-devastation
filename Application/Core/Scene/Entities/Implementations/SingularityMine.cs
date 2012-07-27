@@ -20,6 +20,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public Player Owner { get; set; } // neposilan
         public Brush BorderBrush { get; set; } // neposilan
         public Brush FillBrush { get; set; } // neposilan
+
+        private bool exploded = false; // neposilan
         
         public SingularityMine(SceneMgr mgr) : base(mgr)
         {
@@ -31,6 +33,12 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
             if (other is IMovable)
             {
+                if (!exploded)
+                {
+                    SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_EXPLOSION);
+                    exploded = true;
+                }
+
                 DroppingSingularityControl c = GetControlOfType(typeof(DroppingSingularityControl)) as DroppingSingularityControl;
                 if (c != null)
                     c.CollidedWith(other as IMovable);

@@ -40,6 +40,7 @@ namespace Orbit.Core.Weapons
         {
             if (next == null)
                 next = new ProximityCannonII(SceneMgr, Owner);
+
             return next;
         }
 
@@ -49,6 +50,7 @@ namespace Orbit.Core.Weapons
             {
                 SpawnBullet(point);
                 ReloadTime = Owner.Data.BulletCooldown;
+                SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_SHOOT);
             }
         }
 

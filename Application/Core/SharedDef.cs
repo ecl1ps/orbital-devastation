@@ -100,6 +100,16 @@ namespace Orbit.Core
         public const string CONFIG_FILE                     = "player";
         public const GameLevel STARTING_LEVEL               = GameLevel.NORMAL1;
         public const BotType DEFAULT_BOT                    = BotType.LEVEL2;
+
+        //Jmena zvuku
+        public const string MUSIC_METEOR_HIT                      = "meteor_hit";
+        public const string MUSIC_DAMAGE_TO_BASE                  = "base_dmg";
+        public const string MUSIC_SHOOT                           = "shoot";
+        public const string MUSIC_EXPLOSION                       = "explosion";
+        public const string MUSIC_VICTORY                         = "victory";
+        public const string MUSIC_LOSE                            = "lose";
+        public const string MUSIC_BACKGROUND_CALM                 = "bg_calm";
+        public const string MUSIC_BACKGROUND_ACTION               = "bg_action";
     }
 
     public enum Gametype

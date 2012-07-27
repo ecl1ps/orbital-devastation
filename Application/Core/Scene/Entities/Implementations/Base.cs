@@ -66,6 +66,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 SceneMgr.FloatingTextMgr.AddFloatingText(damage, new Vector((other as Asteroid).Center.X, (other as Asteroid).Center.Y - 10), 
                     FloatingTextManager.TIME_LENGTH_1, FloatingTextType.DAMAGE, FloatingTextManager.SIZE_MEDIUM);
 
+                SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_DAMAGE_TO_BASE);
+
                 Integrity -= damage;
                 if (Integrity < 0)
                     Integrity = 0;
