@@ -15,6 +15,7 @@ using Orbit.Core.Client;
 using System.Windows.Controls.Primitives;
 using Orbit.Core;
 using System.Collections;
+using System.Globalization;
 
 namespace Orbit.Gui
 {
@@ -35,7 +36,7 @@ namespace Orbit.Gui
             double sensitivity = Double.Parse(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_SENSITIVITY));
             double val = 50 - ((1 - sensitivity) * 100);
             SensitivitySlider.Value = 50 - ((1 - sensitivity) * 100);
-            SensitivityLabel.Text = sensitivity.ToString();
+            SensitivityLabel.Text = sensitivity.ToString("0.00", CultureInfo.InvariantCulture);
 
             ParseSelectedIcon();
         }
@@ -55,7 +56,7 @@ namespace Orbit.Gui
         private void SensitivityChange(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             double val = 1 - ((50 - e.NewValue) / 100);
-            SensitivityLabel.Text = val.ToString();
+            SensitivityLabel.Text = val.ToString("0.00", CultureInfo.InvariantCulture);
             StaticMouse.SENSITIVITY = (float) val;
 
             GameProperties.Props.SetAndSave(PropertyKey.STATIC_MOUSE_SENSITIVITY, val.ToString());
