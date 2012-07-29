@@ -31,6 +31,22 @@ namespace Orbit.Core.Client
             enabled = true;
 
             PrepareDefaultSounds();
+            LoadSettings();
+        }
+
+        private void LoadSettings()
+        {
+            bool loaded = bool.Parse(GameProperties.Props.Get(PropertyKey.MUSIC_ENABLED));
+            Enabled = loaded;
+
+            if (loaded)
+            {
+                float soundValue = float.Parse(GameProperties.Props.Get(PropertyKey.SOUNDS_VOLUME));
+                SoundsByType(SoundType.EFFECTS).ForEach(sound => sound.Volume = soundValue);
+
+                float musicValue = float.Parse(GameProperties.Props.Get(PropertyKey.MUSIC_VOLUME));
+                SoundsByType(SoundType.MUSIC).ForEach(sound => sound.Volume = musicValue);
+            }
         }
 
         private void PrepareDefaultSounds()
@@ -45,9 +61,8 @@ namespace Orbit.Core.Client
         }
 
         private void disable(bool value) {
-            enabled = value;
 
-            if (!Enabled)
+            if (!value)
             {
                 foreach (FileSound sound in sounds)
                     if (sound.Sound != null && sound.Sound.Looped == true && SoundEngine.IsCurrentlyPlaying(sound.SoundName))
@@ -60,6 +75,8 @@ namespace Orbit.Core.Client
                 stoppedSounds.ForEach(sound => SoundEngine.Play2D(sound.SoundName));
                 stoppedSounds.Clear();
             }
+
+            enabled = value;
         }
 
         public List<FileSound> SoundsByType(SoundType type)
@@ -91,10 +108,12 @@ namespace Orbit.Core.Client
         public FileSound StartPlayingInfinite(FileSound sound)
         {
             if (!Enabled)
+            {
+                stoppedSounds.Add(sound);
                 return null;
+            }
 
-            if(sound.Volume > 0)
-                sound.Sound = SoundEngine.Play2D(sound.SoundName, true);
+            sound.Sound = SoundEngine.Play2D(sound.SoundName, true);
             
             return sound;
         }
@@ -138,13 +157,20 @@ namespace Orbit.Core.Client
 
         public void StopSound(FileSound sound)
         {
-            if(sound.Sound != null)
+            if (sound.Sound != null)
+            {
                 sound.Sound.Stop();
+                if (!enabled)
+                    stoppedSounds.Remove(sound);
+            }
         }
 
         public void StopAllSounds()
         {
             SoundEngine.StopAllSounds();
+
+            if (!enabled)
+                stoppedSounds.Clear();
         }
 
         private static SoundManager instance;
