@@ -113,19 +113,17 @@ namespace Orbit.Gui
             {
                 case Key.Escape:
                     UIElement uc;
-                    if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "soundMenu") as UIElement) != null)
+                    if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "mouseMenu") as UIElement) != null)
                     {
-                        mainGrid.Children.Remove(uc);
-                        mainGrid.Children.Add(new OptionsMenu());
-                        if (GameRunning)
-                            StaticMouse.Enable(false);
+                        showOptions(uc);
+                    }
+                    else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "soundMenu") as UIElement) != null)
+                    {
+                        showOptions(uc);
                     }
                     else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "playerSettings") as UIElement) != null)
                     {
-                        mainGrid.Children.Remove(uc);
-                        mainGrid.Children.Add(new OptionsMenu());
-                        if (GameRunning)
-                            StaticMouse.Enable(false);
+                        showOptions(uc);
                     }
                     else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "optionsMenu") as UIElement) != null)
                     {
@@ -156,6 +154,14 @@ namespace Orbit.Gui
             }
 
             (Application.Current as App).OnKeyEvent(e);
+        }
+
+        private void showOptions(UIElement elem)
+        {
+            mainGrid.Children.Remove(elem);
+            mainGrid.Children.Add(new OptionsMenu());
+            if (GameRunning)
+                StaticMouse.Enable(false);
         }
 
         private void OnKeyUp(object sender, KeyEventArgs e)

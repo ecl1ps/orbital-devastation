@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="Orbit.Gui.MouseOptions"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             d:DesignHeight="350" d:DesignWidth="350"
+             mc:Ignorable="d"
+             x:Name="mouseMenu"  Width="350" Height="350" BorderBrush="Black" BorderThickness="1">
+    <Grid Width="350" Height="350" Background="#dd655D5D">
+        <Button Name="MouseButton" Height="31" Width="84" Content="Disable Mouse" FontFamily="Bauhaus 93" Margin="12,12,254,308" Click="MouseEnabledChanged" />
+        <Label Height="25" Width="100" FontFamily="Bauhaus 93" Content="Cursor icon" Margin="12,57,238,267" />
+        <ToggleButton Name="MouseIcon1" Height="30" Width="30" Margin="0,89,218,231" HorizontalAlignment="Right" Click="MouseIcon1_Click">
+            <Image Source="pack://application:,,,/resources/images/mouse/targeting_icon2.png" /> 
+        </ToggleButton>
+        <ToggleButton Name="MouseIcon2" Height="30" Width="30" Margin="66,89,0,231" HorizontalAlignment="Left" Click="MouseIcon2_Click">
+            <Image Source="pack://application:,,,/resources/images/mouse/targeting_icon.png" />
+        </ToggleButton>
+        <ToggleButton Name="MouseIcon3" Height="30" Width="30" Margin="30,89,0,231" HorizontalAlignment="Left" Click="MouseIcon3_Click" >
+            <Image Source="pack://application:,,,/resources/images/mouse/targeting_icon3.png" />
+        </ToggleButton>
+        <Label Height="25" Width="100" FontFamily="Bauhaus 93" Content="Mouse Sensitivity" Margin="12,124,238,200" />
+        <TextBlock Name="SensitivityLabel" Height="20" Width="55" FontFamily="Bauhaus 93" TextAlignment="Right" VerticalAlignment="Bottom" Text="1" Margin="22,152,274,172" />
+        <Slider Name="SensitivitySlider" Height="25" Maximum="100" Value="50" Margin="83,153,4,171" ValueChanged="SensitivityChange" />
+    </Grid>
+</UserControl>

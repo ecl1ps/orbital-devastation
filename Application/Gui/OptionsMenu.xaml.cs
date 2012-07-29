@@ -25,7 +25,6 @@ namespace Orbit.Gui
         public OptionsMenu()
         {
             InitializeComponent();
-            btnMouse.IsChecked = StaticMouse.ALLOWED;
         }
 
         private void btnPlayer_Click(object sender, RoutedEventArgs e)
@@ -35,7 +34,7 @@ namespace Orbit.Gui
 
         private void btnMouse_Click(object sender, RoutedEventArgs e)
         {
-            Allow(!StaticMouse.ALLOWED);
+            ShowAnotherWindow(new MouseOptions());
         }
 
         private void btnSound_Click(object sender, RoutedEventArgs e)
@@ -47,17 +46,6 @@ namespace Orbit.Gui
         {
             (Parent as Panel).Children.Remove(this);
             (Application.Current.MainWindow as GameWindow).mainGrid.Children.Add(window);
-        }
-
-        private void Allow(bool allow)
-        {
-            StaticMouse.ALLOWED = allow;
-            btnMouse.IsChecked = allow;
-
-            if (StaticMouse.Instance != null)
-                StaticMouse.Enable(allow);
-
-            GameProperties.Props.SetAndSave(PropertyKey.STATIC_MOUSE_ENABLED, allow);
         }
     }
 }

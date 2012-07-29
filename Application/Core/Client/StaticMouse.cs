@@ -16,6 +16,7 @@ namespace Orbit.Core.Client
         private static StaticMouse instance;
         public static StaticMouse Instance { get { return instance; } }
         public static bool ALLOWED = true;
+        public static float SENSITIVITY = 1;
 
         private Point position;
         private Point center;
@@ -26,8 +27,6 @@ namespace Orbit.Core.Client
         private Canvas canvas;
         private SceneMgr sceneMgr;
 
-        public float Sensitivity { get; set; }
-
         public static void Init(SceneMgr mgr)
         {
             if (instance == null)
@@ -36,12 +35,20 @@ namespace Orbit.Core.Client
 
         private StaticMouse(SceneMgr mgr)
         {
+            sceneMgr = mgr;
+            SENSITIVITY = float.Parse(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_SENSITIVITY));
+            cursor = initCursorImage(new Uri(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_CURSOR)));
+            this.canvas = mgr.GetCanvas();
+        }
+
+        private Image initCursorImage(Uri url)
+        {
             Image img = null;
-            mgr.Invoke(new Action(() =>
+            sceneMgr.Invoke(new Action(() =>
             {
                 BitmapImage image = new BitmapImage();
                 image.BeginInit();
-                image.UriSource = new Uri("pack://application:,,,/resources/images/mouse/targeting_icon2.png");
+                image.UriSource = url;
                 image.EndInit();
 
                 img = new Image();
@@ -50,9 +57,12 @@ namespace Orbit.Core.Client
                 img.Source = image;
             }));
 
-            cursor = img;
-            sceneMgr = mgr;
-            this.canvas = mgr.GetCanvas();
+            return img;
+        }
+
+        public void InitCursorImage(Uri url)
+        {
+            cursor = initCursorImage(url);
         }
 
         public static void Enable(bool enable)
@@ -158,8 +168,8 @@ namespace Orbit.Core.Client
                 if (!enabled)
                     return;
 
-                position.X += Cursor.Position.X - center.X;
-                position.Y += Cursor.Position.Y - center.Y;
+                position.X += (Cursor.Position.X - center.X) * SENSITIVITY;
+                position.Y += (Cursor.Position.Y - center.Y) * SENSITIVITY;
                 CenterNativeCursor();
 
                 if (position.X > SharedDef.CANVAS_SIZE.Width)
