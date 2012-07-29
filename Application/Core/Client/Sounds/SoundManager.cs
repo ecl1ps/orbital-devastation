@@ -5,9 +5,17 @@ using System.Text;
 using Orbit.Core.Client.Sounds;
 using System.Timers;
 using IrrKlang;
+using Lidgren.Network;
 
 namespace Orbit.Core.Client
 {
+    public enum PlayType
+    {
+        ONCE,
+        INFINITY,
+        FIXED_TIME
+    }
+
     public class SoundTime
     {
         public float Time { get; set; }
@@ -134,7 +142,12 @@ namespace Orbit.Core.Client
             return sound;
         }
 
-        public FileSound StartPlayingMoreThenOnce(FileSound sound, long howLong)
+        public FileSound StartPlayingForSpecifiedTime(String soundName, long howLong)
+        {
+            return StartPlayingForSpecifiedTime(SoundByName(soundName), howLong);
+        }
+
+        public FileSound StartPlayingForSpecifiedTime(FileSound sound, long howLong)
         {
             if (!Enabled)
                 return null;
@@ -171,6 +184,57 @@ namespace Orbit.Core.Client
 
             if (!enabled)
                 stoppedSounds.Clear();
+        }
+
+        public void BroadcastSoundMessage(SceneMgr mgr, PlayType playType, String sound)
+        {
+            if (playType == PlayType.FIXED_TIME)
+                throw new Exception("U must specify time.");
+
+            NetOutgoingMessage message = mgr.CreateNetMessage();
+            message = PrepareSoundMessage(message, playType, sound);
+
+            mgr.SendMessage(message);
+        }
+
+        public void BroadcastSoundMessage(SceneMgr mgr, PlayType playType, String sound, float time)
+        {
+            NetOutgoingMessage message = mgr.CreateNetMessage();
+            message = PrepareSoundMessage(message, playType, sound);
+            message.Write(time);
+
+            mgr.SendMessage(message);
+        }
+
+        public void ReadSoundMessage(NetIncomingMessage message)
+        {
+            PlayType type = (PlayType) message.ReadInt32();
+            String sound = message.ReadString();
+
+            switch (type)
+            {
+                case PlayType.ONCE:
+                    StartPlayingOnce(sound);
+                    break;
+
+                case PlayType.INFINITY:
+                    StartPlayingInfinite(sound);
+                    break;
+
+                case PlayType.FIXED_TIME:
+                    long time = message.ReadInt64();
+                    StartPlayingForSpecifiedTime(sound, time);
+                    break;
+            }
+        }
+
+        private NetOutgoingMessage PrepareSoundMessage(NetOutgoingMessage message, PlayType playType, String sound)
+        {
+            message.Write((int)PacketType.PLAY_SOUND);
+            message.Write((int)playType);
+            message.Write(sound);
+
+            return message;
         }
 
         private static SoundManager instance;

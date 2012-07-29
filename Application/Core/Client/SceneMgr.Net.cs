@@ -202,6 +202,9 @@ namespace Orbit.Core.Client
                 case PacketType.FLOATING_TEXT:
                     ReceivedFloatingTextMsg(msg);
                     break;
+                case PacketType.PLAY_SOUND:
+                    SoundManager.Instance.ReadSoundMessage(msg);
+                    break;
             }
 
         }

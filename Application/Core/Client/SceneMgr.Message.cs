@@ -369,6 +369,8 @@ namespace Orbit.Core.Client
                 obj.Position = pos;
                 (obj as IMovable).Direction += dir;
             }
+
+            SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_EXPLOSION);
         }
 
         private void ReceivedPlayerWonMsg(NetIncomingMessage msg)
@@ -433,6 +435,8 @@ namespace Orbit.Core.Client
             s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
             DelayedAttachToScene(s);
             SyncReceivedObject(s, msg);
+
+            SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_SHOOT);
         }
 
         private void ReceivedNewSingularityMineMsg(NetIncomingMessage msg)

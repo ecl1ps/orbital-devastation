@@ -174,5 +174,6 @@ namespace Orbit.Core
         PLAYER_RECEIVED_POWERUP,
         PLAYER_BOUGHT_UPGRADE,
         FLOATING_TEXT,
+        PLAY_SOUND,
     }    
 }
