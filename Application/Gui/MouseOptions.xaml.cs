@@ -34,7 +34,6 @@ namespace Orbit.Gui
         {
             ChangeMouseButton(Boolean.Parse(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_ENABLED)));
             double sensitivity = Double.Parse(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_SENSITIVITY));
-            double val = 50 - ((1 - sensitivity) * 100);
             SensitivitySlider.Value = 50 - ((1 - sensitivity) * 100);
             SensitivityLabel.Text = sensitivity.ToString("0.00", CultureInfo.InvariantCulture);
 

@@ -20,6 +20,6 @@
         </ToggleButton>
         <Label Height="25" Width="100" FontFamily="Bauhaus 93" Content="Mouse Sensitivity" Margin="12,124,238,200" />
         <TextBlock Name="SensitivityLabel" Height="20" Width="55" FontFamily="Bauhaus 93" TextAlignment="Right" VerticalAlignment="Bottom" Text="1" Margin="22,152,274,172" />
-        <Slider Name="SensitivitySlider" Height="25" Maximum="100" Value="50" Margin="83,153,4,171" ValueChanged="SensitivityChange" />
+        <Slider Name="SensitivitySlider" Height="25" Maximum="100" Margin="83,153,4,171" ValueChanged="SensitivityChange" />
     </Grid>
 </UserControl>

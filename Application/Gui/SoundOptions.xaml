@@ -11,8 +11,8 @@
         <TextBlock Name="BackgroundValue" Height="20" FontFamily="Bauhaus 93" Text="100" TextAlignment="Right" Margin="12,81,281,0" VerticalAlignment="Top" />
         <Button Name="SoundButton" Content="Enable sounds" FontFamily="Bauhaus 93" Height="31" Width="84" Margin="12,12,254,307" Click="EnabledChanged" />
         <Label Height="25" Width="100" FontFamily="Bauhaus 93" Margin="12,50,238,274">Background</Label>
-        <Slider Name="BackgroundSlider"  Height="25" Margin="75,81,12,244" Maximum="100" Value="100" ValueChanged="BackgroundVolumeChanged" />
+        <Slider Name="BackgroundSlider"  Height="25" Margin="75,81,12,244" Maximum="100" ValueChanged="BackgroundVolumeChanged" />
         <Label Content="Sound" FontFamily="Bauhaus 93" Height="25" Margin="12,112,238,213" Width="100" />
-        <Slider Name="SoundSlider" Height="25" Margin="75,143,12,182" Maximum="100" Value="100"  ValueChanged="SoundVolumeChanged" />
+        <Slider Name="SoundSlider" Height="25" Margin="75,143,12,182" Maximum="100" ValueChanged="SoundVolumeChanged" />
     </Grid>
 </UserControl>
