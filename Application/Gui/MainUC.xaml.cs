@@ -30,8 +30,7 @@ namespace Orbit.Gui
 
         private void btnSinglePlayer_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).CreateGameGui();
-            (Application.Current as App).StartSoloGame();
+            (Application.Current as App).ShowBotSelectionGui();
         }
 
         private void btnQuickGame_Click(object sender, RoutedEventArgs e)

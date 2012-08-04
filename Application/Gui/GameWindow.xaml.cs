@@ -113,7 +113,13 @@ namespace Orbit.Gui
             {
                 case Key.Escape:
                     UIElement uc;
-                    if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "mouseMenu") as UIElement) != null)
+                    if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "botSelection") as UIElement) != null)
+                    {
+                        mainGrid.Children.Remove(uc);
+                        if (GameRunning)
+                            StaticMouse.Enable(true);
+                    }
+                    else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "mouseMenu") as UIElement) != null)
                     {
                         showOptions(uc);
                     }

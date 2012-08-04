@@ -283,6 +283,11 @@ namespace Orbit
             mainWindow.mainGrid.Children.Add(new StatisticsUC());
         }
 
+        public void ShowBotSelectionGui()
+        {
+            mainWindow.mainGrid.Children.Add(new BotSelection());
+        }
+
         public void OnKeyEvent(System.Windows.Input.KeyEventArgs e)
         {
             sceneMgr.Enqueue(new Action(() =>

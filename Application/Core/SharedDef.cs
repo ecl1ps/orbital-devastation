@@ -99,7 +99,7 @@ namespace Orbit.Core
 
         public const string CONFIG_FILE                     = "player";
         public const GameLevel STARTING_LEVEL               = GameLevel.NORMAL1;
-        public const BotType DEFAULT_BOT                    = BotType.LEVEL2;
+        public static BotType DEFAULT_BOT                    = BotType.LEVEL2;
 
         //Jmena zvuku
         public const string MUSIC_METEOR_HIT                      = "meteor_hit";
@@ -110,6 +110,10 @@ namespace Orbit.Core
         public const string MUSIC_LOSE                            = "lose";
         public const string MUSIC_BACKGROUND_CALM                 = "bg_calm";
         public const string MUSIC_BACKGROUND_ACTION               = "bg_action";
+
+        //Texty pro boty
+        public const string BOT_LEVEL_1_TEXT = "The easiest bot in this game, recomended for those who just started or for those who seek simple fun with not so much challenge. This bot will never upgrade its weapons and refuse to use hooks.";
+        public const string BOL_LEVEL_2_TEXT = "Easier bot then rest of others, recomended for those who just got a little experience and want to train some more before challenging real players. This bot will never upgrade its weapons but he will use hook as best as he can.";
     }
 
     public enum Gametype

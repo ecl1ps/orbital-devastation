@@ -202,6 +202,9 @@
     <Compile Include="Gui\ActionControllers\ActionController.cs" />
     <Compile Include="Gui\ActionControllers\HealActionController.cs" />
     <Compile Include="Gui\ActionControllers\WeaponActionController.cs" />
+    <Compile Include="Gui\BotSelection.xaml.cs">
+      <DependentUpon>BotSelection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\EscMenu.xaml.cs">
       <DependentUpon>EscMenu.xaml</DependentUpon>
     </Compile>
@@ -299,6 +302,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Gui\ActionBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\BotSelection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
