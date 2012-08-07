@@ -80,7 +80,7 @@ namespace Orbit.Core
 
         public const bool ALLOW_SPECTATORS_IN_DUO_MATCH     = true;
 
-        public const int START_GOLD                         = 600;
+        public const int START_GOLD                         = 6000;
 
         /// <summary>
         /// velikost canvasu je zaroven velikost celeho okna
@@ -150,6 +150,7 @@ namespace Orbit.Core
         NEW_SINGULARITY_MINE,
         NEW_SINGULARITY_BULLET,
         NEW_SINGULARITY_EXPLODING_BULLET,
+        NEW_SINGULARITY_BOUNCING_BULLET,
         NEW_HOOK,
         NEW_STAT_POWERUP,
 

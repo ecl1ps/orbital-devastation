@@ -136,6 +136,9 @@ namespace Orbit.Core.Client
                 case PacketType.NEW_SINGULARITY_EXPLODING_BULLET:
                     ReceivedNewSingularityExplodingBulletMsg(msg);
                     break;
+                case PacketType.NEW_SINGULARITY_BOUNCING_BULLET:
+                    ReceivedNewSingularityBouncingBulletMsg(msg);
+                    break;
                 case PacketType.NEW_HOOK:
                     ReceivedNewHookMsg(msg);
                     break;

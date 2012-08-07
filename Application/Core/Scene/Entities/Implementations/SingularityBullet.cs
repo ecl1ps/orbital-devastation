@@ -38,7 +38,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             }
         }
 
-        public void HitAsteroid(IDestroyable asteroid)
+        public virtual void HitAsteroid(IDestroyable asteroid)
         {
             if (hit)
                 return;

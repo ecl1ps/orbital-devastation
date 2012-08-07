@@ -241,6 +241,8 @@ namespace Orbit
                     break;
                 case Gametype.NONE:
                 default:
+                    CreateGameGui();
+                    StartSoloGame();
                     break;
             }
         }

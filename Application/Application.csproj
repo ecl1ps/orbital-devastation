@@ -147,9 +147,11 @@
     <Compile Include="Core\Scene\Controls\Implementations\NewtonianMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LinearRotationControl.cs" />
     <Compile Include="Core\Scene\Entities\ICatchable.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\SingularityBouncingBullet.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Circle.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Laser.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\PowerHook.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\SingularityExplodingExcludingBullet.cs" />
     <Compile Include="Core\Scene\Entities\SolidLine.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\StatPowerUp.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\VectorLine.cs" />
@@ -194,6 +196,7 @@
     <Compile Include="Core\Weapons\ProximityCannon.cs" />
     <Compile Include="Core\Weapons\HookLauncher.cs" />
     <Compile Include="Core\Weapons\IWeapon.cs" />
+    <Compile Include="Core\Weapons\ProximityCannonIII.cs" />
     <Compile Include="Core\Weapons\TargetingMineLauncher.cs" />
     <Compile Include="Core\Weapons\ProximityCannonII.cs" />
     <Compile Include="Gui\ActionBar.xaml.cs">

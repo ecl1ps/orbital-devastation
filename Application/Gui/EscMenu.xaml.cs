@@ -35,6 +35,7 @@ namespace Orbit.Gui
             (Application.Current.MainWindow as GameWindow).mainGrid.Children.Remove(this);
             (Application.Current as App).ShowStartScreen();
             (Application.Current as App).ExitGame();
+            (Application.Current as App).GameEnded();
         }
 
         private void btnOptions_Click(object sender, RoutedEventArgs e)

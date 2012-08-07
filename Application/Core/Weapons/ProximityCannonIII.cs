@@ -2,33 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Orbit.Core.Weapons;
-using Orbit.Core.Scene.Entities;
+using Orbit.Core.Client;
 using Orbit.Core.Players;
-using Orbit.Core.Scene;
 using System.Windows;
 using Orbit.Core.Scene.Entities.Implementations;
-using Orbit.Core.Client;
 using Orbit.Core.Helpers;
 using Lidgren.Network;
+using Orbit.Core.Scene.Entities;
 
 namespace Orbit.Core.Weapons
 {
-    public class ProximityCannonII : ProximityCannon
+    public class ProximityCannonIII : ProximityCannonII
     {
-        public ProximityCannonII(SceneMgr mgr, Player owner) : base(mgr, owner)
+        public ProximityCannonIII(SceneMgr mgr, Player owner)
+            : base(mgr, owner)
         {
-            Cost = 300;
-            Name = "Proximity Cannon II";
-            UpgradeLevel = UpgradeLevel.LEVEL2;
+            Cost = 700;
+            Name = "Cannon Mark 3";
+            UpgradeLevel = UpgradeLevel.LEVEL3;
         }
 
         public override IWeapon Next()
         {
-            if (next == null)
-                next = new ProximityCannonIII(SceneMgr, Owner);
-
-            return next;
+            //i dont have next
+            return null;
         }
 
         protected override void SpawnBullet(Point point)
@@ -36,10 +33,10 @@ namespace Orbit.Core.Weapons
             if (point.Y > Owner.GetBaseLocation().Y)
                 point.Y = Owner.GetBaseLocation().Y;
 
-            SingularityExplodingBullet bullet = SceneObjectFactory.CreateSingularityExploadingBullet(SceneMgr, point, Owner);
+            SingularityBouncingBullet bullet = SceneObjectFactory.CreateSingularityBouncingBullet(SceneMgr, point, Owner);
 
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-            (bullet as ISendable).WriteObject(msg);
+            bullet.WriteObject(msg);
             SceneMgr.SendMessage(msg);
 
             SceneMgr.DelayedAttachToScene(bullet);

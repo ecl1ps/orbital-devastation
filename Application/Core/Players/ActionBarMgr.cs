@@ -30,22 +30,17 @@ namespace Orbit.Core.Players
         public ActionBarMgr(SceneMgr manager)
         {
             mgr = manager;
-            CreateActionBar();
         }
 
         public void CreateActionBarItems()
         {
-            HookActionWindow = GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, new WeaponActionController(mgr, mgr.GetCurrentPlayer().Hook.Next(), mgr.GetCurrentPlayer()));
-            MineActionWindow = GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, new WeaponActionController(mgr, mgr.GetCurrentPlayer().Mine.Next(), mgr.GetCurrentPlayer()));
-            CannonActionWindow = GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, new WeaponActionController(mgr, mgr.GetCurrentPlayer().Canoon.Next(), mgr.GetCurrentPlayer()));
-            HealActionWindow = GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, new HealActionController(mgr, mgr.GetCurrentPlayer().HealingKit));
-        }
-
-        private void CreateActionBar()
-        {
             mgr.Invoke(new Action(() =>
             {
                 ActionBar = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "ActionBarUC") as ActionBar;
+                HookActionWindow = GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, new WeaponActionController(mgr, mgr.GetCurrentPlayer().Hook.Next(), mgr.GetCurrentPlayer()));
+                MineActionWindow = GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, new WeaponActionController(mgr, mgr.GetCurrentPlayer().Mine.Next(), mgr.GetCurrentPlayer()));
+                CannonActionWindow = GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, new WeaponActionController(mgr, mgr.GetCurrentPlayer().Canoon.Next(), mgr.GetCurrentPlayer()));
+                HealActionWindow = GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, new HealActionController(mgr, mgr.GetCurrentPlayer().HealingKit));
             }));
         }
 

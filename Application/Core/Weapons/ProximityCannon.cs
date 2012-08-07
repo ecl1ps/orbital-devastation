@@ -15,7 +15,7 @@ using System.Windows.Input;
 
 namespace Orbit.Core.Weapons
 {
-    class ProximityCannon : IWeapon
+    public class ProximityCannon : IWeapon
     {
         public Player Owner { get; set; }
         public SceneMgr SceneMgr { get; set; }
