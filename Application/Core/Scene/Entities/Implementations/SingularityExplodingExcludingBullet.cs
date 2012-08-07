@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Orbit.Core.Client;
+using Orbit.Core.Helpers;
+using Lidgren.Network;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -32,6 +34,20 @@ namespace Orbit.Core.Scene.Entities.Implementations
             }
 
  	        return base.CollideWith(other);
+        }
+
+        public override void WriteObject(NetOutgoingMessage msg)
+        {
+            msg.Write((int)PacketType.NEW_SINGULARITY_EXCLUDING_BULLET);
+            msg.Write((int)ignored.Count);
+
+            foreach (ISceneObject obj in ignored)
+            {
+                msg.Write(obj.Id);
+            }
+
+            msg.WriteObjectSingularityBullet(this);
+            msg.WriteControls(GetControlsCopy());
         }
     }
 }

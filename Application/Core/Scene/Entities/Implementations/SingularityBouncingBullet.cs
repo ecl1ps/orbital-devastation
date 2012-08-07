@@ -101,7 +101,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
             foreach (ISceneObject obj in objects)
             {
-                if (!(obj is Asteroid))
+                if (!(obj is Asteroid) || !SceneMgr.IsPointInViewPort(obj.Position.ToPoint()))
                     continue;
 
                 objDistantSqr = (obj.Position - Position).LengthSquared;

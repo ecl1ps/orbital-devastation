@@ -417,6 +417,24 @@ namespace Orbit.Core.Client
             SyncReceivedObject(laser, msg);
         }
 
+        private void ReceivedNewSingularityExcludingBulletMsg(NetIncomingMessage msg)
+        {
+            int max = msg.ReadInt32();
+            List<ISceneObject> objects = new List<ISceneObject>();
+
+            for (int i = 0; i < max; i++)
+            {
+                objects.Add(GetSceneObject(msg.ReadInt64()));
+            }
+
+            SingularityExplodingExcludingBullet s = new SingularityExplodingExcludingBullet(objects, this);
+            s.ReadObject(msg);
+            s.Owner = GetOpponentPlayer();
+            s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
+            DelayedAttachToScene(s);
+            SyncReceivedObject(s, msg);
+        }
+
         private void ReceivedNewSingularityBouncingBulletMsg(NetIncomingMessage msg)
         {
             SingularityBouncingBullet s = new SingularityBouncingBullet(this);

@@ -725,6 +725,17 @@ namespace Orbit.Core.Client
             }));
         }
 
+        public ISceneObject GetSceneObject(long id)
+        {
+            foreach (ISceneObject obj in objects)
+            {
+                if (obj.Id == id)
+                    return obj;
+            }
+
+            return null;
+        }
+
         public List<ISceneObject> GetSceneObjects()
         {
             return objects;
