@@ -738,7 +738,11 @@ namespace Orbit.Core.Client
 
         public List<ISceneObject> GetSceneObjects()
         {
-            return objects;
+            List<ISceneObject> temp = new List<ISceneObject>(objects);
+
+            objectsToAdd.ForEach(obj => temp.Add(obj));
+
+            return temp;
         }
 
         public List<ISceneObject> GetSceneObjects(Type clazz)
