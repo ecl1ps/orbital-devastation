@@ -140,6 +140,7 @@
     <Compile Include="Core\Players\StatsMgr.cs" />
     <Compile Include="Core\Properties.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LaserDamageControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\MiningBotControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\VectorLineObjectMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DroppingSingularityControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\FiringSingularityControl.cs" />
