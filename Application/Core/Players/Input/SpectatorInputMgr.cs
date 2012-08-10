@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows;
 using Orbit.Core.Client;
 using Orbit.Core.SpecialActions;
+using Orbit.Core.Scene.Entities;
 
 namespace Orbit.Core.Players.Input
 {
@@ -13,11 +14,13 @@ namespace Orbit.Core.Players.Input
     {
         private Player plr;
         private SceneMgr mgr;
+        private IControledDevice device;
 
-        public SpectatorInputMgr(Player p, SceneMgr sceneMgr)
+        public SpectatorInputMgr(Player p, SceneMgr sceneMgr, IControledDevice d)
         {
             plr = p;
             mgr = sceneMgr;
+            device = d;
         }
 
         public void OnCanvasClick(Point point, MouseButtonEventArgs e)
@@ -34,7 +37,15 @@ namespace Orbit.Core.Players.Input
 
         public void OnKeyEvent(KeyEventArgs e)
         {
-
+            bool down = e.IsDown;
+            if (e.Key == Key.W)
+                device.IsMovingTop = down;
+            else if (e.Key == Key.S)
+                device.IsMovingDown = down;
+            else if (e.Key == Key.A)
+                device.IsMovingLeft = down;
+            else if (e.Key == Key.D)
+                device.IsMovingRight = down;
         }
     }
 }

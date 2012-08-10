@@ -12,13 +12,13 @@ namespace Orbit.Core.Scene.Controls.Implementations
 {
     struct MiningObject
     {
-        public ISceneObject obj { get; set; }
-        public SolidLine miningLine { get; set; }
+        public ISceneObject Obj { get; set; }
+        public SolidLine MiningLine { get; set; }
 
-        public MiningObject(ISceneObject obj, SolidLine line)
+        public MiningObject(ISceneObject obj, SolidLine line) : this()
         {
-            this.obj = obj;
-            this.miningLine = line;
+            Obj = obj;
+            MiningLine = line;
         }
     }
 
@@ -67,7 +67,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         {
             foreach (ISceneObject obj in objects)
             {
-                if (mined.obj.Equals(obj))
+                if (mined.Obj.Equals(obj))
                     return true;
             }
 
@@ -78,7 +78,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         {
             foreach (MiningObject mined in currentlyMining)
             {
-                if (mined.obj.Equals(obj))
+                if (mined.Obj.Equals(obj))
                     return true;
             }
 
@@ -101,7 +101,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private void StopMining(MiningObject obj)
         {
             currentlyMining.Remove(obj);
-            obj.miningLine.DoRemoveMe();
+            obj.MiningLine.DoRemoveMe();
         }
     }
 }

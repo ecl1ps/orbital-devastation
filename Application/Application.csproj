@@ -141,6 +141,7 @@
     <Compile Include="Core\Properties.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LaserDamageControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\MiningBotControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\StretchingLineControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\VectorLineObjectMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DroppingSingularityControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\FiringSingularityControl.cs" />
@@ -148,6 +149,8 @@
     <Compile Include="Core\Scene\Controls\Implementations\NewtonianMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LinearRotationControl.cs" />
     <Compile Include="Core\Scene\Entities\ICatchable.cs" />
+    <Compile Include="Core\Scene\Entities\IControledDevice.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\SimpleLine.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\SingularityBouncingBullet.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Circle.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Laser.cs" />
