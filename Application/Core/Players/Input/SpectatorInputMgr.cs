@@ -16,6 +16,17 @@ namespace Orbit.Core.Players.Input
         private SceneMgr mgr;
         private IControledDevice device;
 
+        public SpectatorInputMgr(Player p, SceneMgr sceneMgr, ISceneObject obj)
+        {
+            IControledDevice d = obj.GetControlOfType(typeof(IControledDevice)) as IControledDevice;
+            if (device == null)
+                throw new Exception("U must inicialize SpectatorInputManager with object containg IControledDevice control");
+            
+            plr = p;
+            mgr = sceneMgr;
+            device = d;
+        }
+
         public SpectatorInputMgr(Player p, SceneMgr sceneMgr, IControledDevice d)
         {
             plr = p;

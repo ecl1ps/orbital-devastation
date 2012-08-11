@@ -213,7 +213,11 @@ namespace Orbit.Core.Client
                     if (p.IsActivePlayer())
                         inputMgr = new PlayerInputMgr(p, this);
                     else
-                        inputMgr = new SpectatorInputMgr(p, this);
+                    {   
+                        ISceneObject obj = SceneObjectFactory.CreateMiningModule(this, new Vector(10, 10));
+                        DelayedAttachToScene(obj);
+                        inputMgr = new SpectatorInputMgr(p, this, obj);
+                    }
                 }
             }
 

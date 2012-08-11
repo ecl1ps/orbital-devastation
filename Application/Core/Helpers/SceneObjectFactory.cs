@@ -322,5 +322,22 @@ namespace Orbit.Core.Helpers
             return bullet;
         }
 
+        public static MiningModule CreateMiningModule(SceneMgr mgr, Vector position)
+        {
+            MiningModule module = new MiningModule(mgr);
+            module.Position = position;
+            module.Radius = 10;
+            module.Color = Colors.Crimson;
+
+            MiningModuleControl mc = new MiningModuleControl();
+            module.AddControl(mc);
+
+            ControlableDeviceControl dc = new ControlableDeviceControl();
+            module.AddControl(mc);
+
+            module.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(module));
+
+            return module;
+        }
     }
 }

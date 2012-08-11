@@ -22,7 +22,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         }
     }
 
-    public class MiningBotControl : Control
+    public class MiningModuleControl : Control
     {
         private SceneMgr sceneMgr;
         private List<MiningObject> currentlyMining;
@@ -47,7 +47,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         {
             List<ISceneObject> colliding = new List<ISceneObject>();
 
-            foreach (ISceneObject obj in sceneMgr.GetSceneObjects())
+            foreach (ISceneObject obj in sceneMgr.GetSceneObjects(typeof(Asteroid)))
             {
                 if ((obj.Position - me.Position).LengthSquared < SharedDef.SPECTATOR_MINING_RADIUS)
                 {
