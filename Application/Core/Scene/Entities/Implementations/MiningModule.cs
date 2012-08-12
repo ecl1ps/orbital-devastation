@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Orbit.Core.Client;
+using Orbit.Core.Scene.Controls.Implementations;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -21,7 +22,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void DoCollideWith(ICollidable other, float tpf)
         {
-            //i dont collide with anything
+            (GetControlOfType(typeof(MiningModuleControl)) as MiningModuleControl).Collide(other);
         }
     }
 }

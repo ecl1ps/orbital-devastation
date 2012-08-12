@@ -86,6 +86,7 @@ namespace Orbit.Core
         public const float SPECTATOR_MINING_RADIUS          = 200;
         public const float SPECTATOR_MODULE_SPEED           = 150;
         public const float SPECTATOR_GOLD_MULTIPLY          = 0.5f;
+        public const float SPECTATOR_COLLISION_INTERVAL     = 0.5f;
 
         /// <summary>
         /// velikost canvasu je zaroven velikost celeho okna
