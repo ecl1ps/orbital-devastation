@@ -104,8 +104,9 @@ namespace Orbit.Core.Scene.Entities
 
         public void DoRemove(ISceneObject obj)
         {
-            OnRemove();
             SceneMgr.RemoveFromSceneDelayed(obj);
+
+            controls.ForEach(control => control.OnControlDestroy());
         }
 
         public virtual void OnRemove() { }

@@ -22,6 +22,10 @@ namespace Orbit.Core.Scene.Controls
                 UpdateControl(tpf);
         }
 
+        public virtual void OnControlDestroy()
+        {
+        }
+
         public abstract void InitControl(ISceneObject me);
 
         public abstract void UpdateControl(float tpf);
