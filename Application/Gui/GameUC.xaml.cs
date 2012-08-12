@@ -44,8 +44,10 @@ namespace Orbit.Gui
 
         private void OnCanvasMouseMove(object sender, MouseEventArgs e)
         {
-            Point p = e.GetPosition(mainCanvas);
+            if (Application.Current == null)
+                return;
 
+            Point p = e.GetPosition(mainCanvas);
             (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
             {
                 (Application.Current as App).GetSceneMgr().OnCanvasMouseMove(p);

@@ -45,8 +45,8 @@ namespace Orbit.Core.Scene.Entities
                 line.HorizontalAlignment = HorizontalAlignment.Left;
                 line.VerticalAlignment = VerticalAlignment.Center;
                 line.StrokeThickness = Width;
-                line.Stroke = new SolidColorBrush(Colors.Blue);
-                line.Fill = new SolidColorBrush(Colors.Blue);
+                line.Stroke = new SolidColorBrush(Color);
+                line.Fill = new SolidColorBrush(Color);
 
                 geometryElement = line;
             }));

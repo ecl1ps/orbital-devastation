@@ -26,6 +26,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
     {
         private SceneMgr sceneMgr;
         private List<MiningObject> currentlyMining;
+        private float farmedGold;
+
+        public Players.Player Owner { get; set; }
 
         public override void InitControl(ISceneObject me)
         {
@@ -41,6 +44,15 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         private void MineObjects(float tpf)
         {
+            farmedGold += currentlyMining.Count * tpf;
+
+            while (farmedGold > 1)
+            {
+                farmedGold -= 1;
+                Owner.Data.Gold += 1;
+            }
+            
+            me.SceneMgr.ShowStatusText(3, Owner.Data.Gold.ToString("0.##"));
         }
 
         private void CheckCollisions()
@@ -49,17 +61,19 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             foreach (ISceneObject obj in sceneMgr.GetSceneObjects(typeof(Asteroid)))
             {
-                if ((obj.Position - me.Position).LengthSquared < SharedDef.SPECTATOR_MINING_RADIUS)
+                if (((obj as Asteroid).Center - me.Position).Length < SharedDef.SPECTATOR_MINING_RADIUS)
                 {
+                    colliding.Add(obj);
+
                     if (!IsPresent(obj))
                         InitNewMining(obj);
                 }
             }
 
-            foreach (MiningObject obj in currentlyMining)
+            for (int i = currentlyMining.Count - 1; i >= 0; i--)
             {
-                if (!IsPresent(obj, colliding))
-                    StopMining(obj);
+                if (!IsPresent(currentlyMining[i], colliding))
+                    StopMining(currentlyMining[i]);
             }
         }
 
@@ -67,7 +81,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         {
             foreach (ISceneObject obj in objects)
             {
-                if (mined.Obj.Equals(obj))
+                if (mined.Obj.Id == obj.Id)
                     return true;
             }
 
@@ -78,7 +92,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         {
             foreach (MiningObject mined in currentlyMining)
             {
-                if (mined.Obj.Equals(obj))
+                if (mined.Obj.Id == obj.Id)
                     return true;
             }
 
@@ -91,7 +105,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             control.FirstObj = me;
             control.SecondObj = obj;
 
-            SolidLine line = new SimpleLine(sceneMgr, me.Position.ToPoint(), obj.Position.ToPoint(), Colors.CadetBlue, 2);
+            SolidLine line = new SimpleLine(sceneMgr, me.Position.ToPoint(), obj.Position.ToPoint(), Colors.Black, 1);
             line.AddControl(control);
 
             sceneMgr.DelayedAttachToScene(line);
@@ -100,8 +114,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         private void StopMining(MiningObject obj)
         {
-            currentlyMining.Remove(obj);
             obj.MiningLine.DoRemoveMe();
+            obj.MiningLine.Dead = true;
+            currentlyMining.Remove(obj);
         }
     }
 }

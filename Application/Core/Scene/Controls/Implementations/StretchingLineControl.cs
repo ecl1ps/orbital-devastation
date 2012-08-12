@@ -52,8 +52,23 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 return;
             }
 
-            line.Start = FirstObj.Position.ToPoint();
-            line.End = secondObj.Position.ToPoint();
+            if (FirstObj.Dead || SecondObj.Dead)
+                me.DoRemoveMe();
+
+            UpdateLine();
+        }
+
+        private void UpdateLine()
+        {
+            if (firstObj is Sphere)
+                line.Start = (FirstObj as Sphere).Center.ToPoint();
+            else
+                line.Start = FirstObj.Position.ToPoint();
+
+            if (SecondObj is Sphere)
+                line.End = (SecondObj as Sphere).Center.ToPoint();
+            else
+                line.End = secondObj.Position.ToPoint();
         }
     }
 }

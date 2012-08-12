@@ -13,6 +13,12 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
         }
 
+        public override bool IsOnScreen(System.Windows.Size screenSize)
+        {
+            //i dont want to be destroyed when moving off screen
+            return true;
+        }
+
         public override void DoCollideWith(ICollidable other, float tpf)
         {
             //i dont collide with anything

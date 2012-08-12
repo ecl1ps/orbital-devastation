@@ -84,7 +84,7 @@ namespace Orbit.Core
 
         //konstanty pro spectatory
         public const float SPECTATOR_MINING_RADIUS          = 200;
-        public const float SPECTATOR_MODULE_SPEED           = 5;        
+        public const float SPECTATOR_MODULE_SPEED           = 150;        
 
         /// <summary>
         /// velikost canvasu je zaroven velikost celeho okna

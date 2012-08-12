@@ -322,7 +322,7 @@ namespace Orbit.Core.Helpers
             return bullet;
         }
 
-        public static MiningModule CreateMiningModule(SceneMgr mgr, Vector position)
+        public static MiningModule CreateMiningModule(SceneMgr mgr, Vector position, Player owner)
         {
             MiningModule module = new MiningModule(mgr);
             module.Position = position;
@@ -330,10 +330,11 @@ namespace Orbit.Core.Helpers
             module.Color = Colors.Crimson;
 
             MiningModuleControl mc = new MiningModuleControl();
+            mc.Owner = owner;
             module.AddControl(mc);
 
             ControlableDeviceControl dc = new ControlableDeviceControl();
-            module.AddControl(mc);
+            module.AddControl(dc);
 
             module.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(module));
 

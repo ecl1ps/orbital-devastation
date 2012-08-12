@@ -26,8 +26,9 @@ namespace Orbit.Core.Server
             Player p = players.Find(plr => plr.Data.HashId == plrHash);
             if (p == null)
                 p = CreateAndAddPlayer(plrName, plrHash);
-            else if (p.IsOnlineOrBot())
-                return;
+            //player je connected kdyz se snazi pripojit
+            //else if (p.IsOnlineOrBot())
+                // return;
 
             p.Connection = msg.SenderConnection;
 

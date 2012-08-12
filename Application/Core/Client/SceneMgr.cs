@@ -746,9 +746,6 @@ namespace Orbit.Core.Client
 
         public List<ISceneObject> GetSceneObjects(Type clazz)
         {
-            if(!(clazz is ISceneObject))
-                return null;
-
             List<ISceneObject> temp = new List<ISceneObject>();
 
             foreach (ISceneObject obj in objects) 
