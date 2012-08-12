@@ -7,15 +7,16 @@ using Orbit.Core.Client;
 using Orbit.Core.Helpers;
 using System.Windows.Media;
 using Orbit.Core.Scene.Entities.Implementations;
+using System.Windows;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
     struct MiningObject
     {
-        public ISceneObject Obj { get; set; }
+        public IContainsGold Obj { get; set; }
         public SolidLine MiningLine { get; set; }
 
-        public MiningObject(ISceneObject obj, SolidLine line) : this()
+        public MiningObject(IContainsGold obj, SolidLine line) : this()
         {
             Obj = obj;
             MiningLine = line;
@@ -27,6 +28,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private SceneMgr sceneMgr;
         private List<MiningObject> currentlyMining;
         private float farmedGold;
+        private float lastGoldPerSec = -1;
 
         public Players.Player Owner { get; set; }
 
@@ -44,15 +46,19 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         private void MineObjects(float tpf)
         {
-            farmedGold += currentlyMining.Count * tpf;
+            float goldPerSec = 0;
+            foreach (MiningObject mined in currentlyMining)
+                goldPerSec += mined.Obj.Gold;
+
+            farmedGold += goldPerSec * SharedDef.SPECTATOR_GOLD_MULTIPLY * tpf;
 
             while (farmedGold > 1)
             {
                 farmedGold -= 1;
                 Owner.Data.Gold += 1;
             }
-            
-            me.SceneMgr.ShowStatusText(3, Owner.Data.Gold.ToString("0.##"));
+
+            me.SceneMgr.ShowStatusText(3, Owner.Data.Gold.ToString() + " + " + goldPerSec.ToString("0.##") + "/s");
         }
 
         private void CheckCollisions()
@@ -61,12 +67,17 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             foreach (ISceneObject obj in sceneMgr.GetSceneObjects(typeof(Asteroid)))
             {
-                if (((obj as Asteroid).Center - me.Position).Length < SharedDef.SPECTATOR_MINING_RADIUS)
+                if (!(obj is IContainsGold))
+                    continue;
+
+                Vector center = (obj is Sphere) ? (obj as Sphere).Center : obj.Position;
+
+                if ((center - me.Position).Length < SharedDef.SPECTATOR_MINING_RADIUS)
                 {
                     colliding.Add(obj);
 
                     if (!IsPresent(obj))
-                        InitNewMining(obj);
+                        InitNewMining(obj as IContainsGold);
                 }
             }
 
@@ -99,7 +110,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             return false;
         }
 
-        private void InitNewMining(ISceneObject obj) 
+        private void InitNewMining(IContainsGold obj) 
         {
             StretchingLineControl control = new StretchingLineControl();
             control.FirstObj = me;
