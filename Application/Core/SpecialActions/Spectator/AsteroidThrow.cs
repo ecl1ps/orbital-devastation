@@ -20,10 +20,13 @@ namespace Orbit.Core.SpecialActions
             Name = "Asteroid throw";
             Type = SpecialActionType.ASTEROID_THROW;
             Control = control;
+            Cost = 500;
         }
 
         public override void StartAction()
         {
+            base.StartAction();
+
             Vector v = new Vector();
             v = new Vector(Control.Position.X, SharedDef.CANVAS_SIZE.Height) - Control.Position;
             v = v.NormalizeV();
@@ -37,7 +40,7 @@ namespace Orbit.Core.SpecialActions
 
         public override bool IsReady()
         {
-            return true;
+            return Owner.Data.Gold >= Cost && Control.currentlyMining.Count != 0;
         }
     }
 }

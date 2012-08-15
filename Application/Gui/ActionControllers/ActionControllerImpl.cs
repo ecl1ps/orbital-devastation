@@ -18,6 +18,8 @@ namespace Orbit.Gui.ActionControllers
         {
             if (Action.IsReady())
                 Action.StartAction();
+
+            window.Refresh();
         }
 
         public override void CreateHeaderText(BuyActionUC window)

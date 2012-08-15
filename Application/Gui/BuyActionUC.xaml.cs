@@ -154,5 +154,12 @@ namespace Orbit.Gui
                 }
             }));
         }
+
+        public void Refresh()
+        {
+            controller.CreateHeaderText(this);
+            controller.CreatePriceText(this);
+            controller.CreateImageUriString(this);
+        }
     }
 }

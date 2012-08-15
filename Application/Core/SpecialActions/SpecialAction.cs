@@ -23,7 +23,10 @@ namespace Orbit.Core.SpecialActions
             SceneMgr = mgr;
         }
 
-        public abstract void StartAction();
+        public virtual void StartAction()
+        {
+            Owner.AddGoldAndShow((int) -Cost);
+        }
 
         public abstract bool IsReady();
 

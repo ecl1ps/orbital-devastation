@@ -34,11 +34,6 @@ namespace Orbit.Core.Players
 
         public ActionBar ActionBar { get; set; }
 
-        private BuyActionUC HealActionWindow;
-        private BuyActionUC HookActionWindow;
-        private BuyActionUC MineActionWindow;
-        private BuyActionUC CannonActionWindow;
-
         public ActionBarMgr(SceneMgr manager)
         {
             mgr = manager;
@@ -64,6 +59,8 @@ namespace Orbit.Core.Players
 
         public void Update(float tpf)
         {
+            mgr.GetCurrentPlayer().ShowGold();
+
             foreach (WindowController windowController in windows)
             {
                 if (windowController.Controller.Action.IsReady())

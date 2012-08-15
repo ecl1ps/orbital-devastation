@@ -23,13 +23,14 @@ namespace Orbit.Core.SpecialActions.Gamer
 
         public override void StartAction()
         {
+            base.StartAction();
             healingKit.Heal();
             Cost = healingKit.Cost;
         }
 
         public override bool IsReady()
         {
-            return healingKit.Cost >= Owner.Data.Gold && (SharedDef.BASE_MAX_INGERITY - Owner.GetBaseIntegrity()) >= SharedDef.HEAL_AMOUNT;
+            return healingKit.Cost <= Owner.Data.Gold && (SharedDef.BASE_MAX_INGERITY - Owner.GetBaseIntegrity()) >= SharedDef.HEAL_AMOUNT;
         }
     }
 }
