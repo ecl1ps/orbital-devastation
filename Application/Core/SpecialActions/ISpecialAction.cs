@@ -18,6 +18,7 @@ namespace Orbit.Core.SpecialActions
         Player Owner { get; set; }
         SceneMgr SceneMgr { get; set; }
         String Name { get; set; }
+        String ImageSource { get; set; }
         SpecialActionType Type { get; set; }
         float Cost { get; set; }
 
