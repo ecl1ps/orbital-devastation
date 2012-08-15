@@ -9,10 +9,8 @@ namespace Orbit.Core.SpecialActions
 {
     public class BrutalGravity : SpecialAction
     {
-        public BrutalGravity(SceneMgr mgr, Player owner)
+        public BrutalGravity(SceneMgr mgr, Player owner) : base(mgr, owner)
         {
-            SceneMgr = mgr;
-            Owner = owner;
             Name = "Brutal Gravity";
             Type = SpecialActionType.BRUTAL_GRAVITY;
         }

@@ -9,8 +9,8 @@ namespace Orbit.Core.SpecialActions
 {
     public enum SpecialActionType
     {
-        BRUTAL_GRAVITY
-
+        BRUTAL_GRAVITY,
+        ASTEROID_THROW
     }
 
     public interface ISpecialAction
@@ -19,6 +19,7 @@ namespace Orbit.Core.SpecialActions
         SceneMgr SceneMgr { get; set; }
         String Name { get; set; }
         SpecialActionType Type { get; set; }
+        float Cost { get; set; }
 
         void StartAction();
 

@@ -14,6 +14,13 @@ namespace Orbit.Core.SpecialActions
         public SceneMgr SceneMgr { get; set; }
         public String Name { get; set; }
         public SpecialActionType Type { get; set; }
+        public float Cost { get; set; }
+
+        public SpecialAction(SceneMgr mgr, Player owner)
+        {
+            Owner = owner;
+            SceneMgr = mgr;
+        }
 
         public abstract void StartAction();
 
