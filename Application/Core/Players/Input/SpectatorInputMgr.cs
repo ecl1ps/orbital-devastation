@@ -7,6 +7,7 @@ using System.Windows;
 using Orbit.Core.Client;
 using Orbit.Core.SpecialActions;
 using Orbit.Core.Scene.Entities;
+using Orbit.Core.Scene.Controls.Implementations;
 
 namespace Orbit.Core.Players.Input
 {
@@ -15,23 +16,22 @@ namespace Orbit.Core.Players.Input
         private Player plr;
         private SceneMgr mgr;
         private IControledDevice device;
+        private MiningModuleControl miningControl;
 
         public SpectatorInputMgr(Player p, SceneMgr sceneMgr, ISceneObject obj)
         {
             IControledDevice d = obj.GetControlOfType(typeof(IControledDevice)) as IControledDevice;
+            MiningModuleControl mc = obj.GetControlOfType(typeof(MiningModuleControl)) as MiningModuleControl;
+
+            if (mc == null)
+                throw new Exception("U must inicialize SpectatorInputManager with object containg MiningModuleControl");
             if (d == null)
                 throw new Exception("U must inicialize SpectatorInputManager with object containg IControledDevice control");
             
             plr = p;
             mgr = sceneMgr;
             device = d;
-        }
-
-        public SpectatorInputMgr(Player p, SceneMgr sceneMgr, IControledDevice d)
-        {
-            plr = p;
-            mgr = sceneMgr;
-            device = d;
+            miningControl = mc;
         }
 
         public void OnCanvasClick(Point point, MouseButtonEventArgs e)
@@ -57,6 +57,8 @@ namespace Orbit.Core.Players.Input
                 device.IsMovingLeft = down;
             else if (e.Key == Key.D)
                 device.IsMovingRight = down;
+            else if (e.Key == Key.Space)
+                new AsteroidThrow(miningControl, mgr, plr).StartAction();
         }
     }
 }

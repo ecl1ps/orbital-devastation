@@ -85,10 +85,13 @@ namespace Orbit.Core
         //konstanty pro spectatory
         public const float SPECTATOR_MINING_RADIUS          = 200;
         public const float SPECTATOR_MODULE_SPEED           = 150;
-        public const float SPECTATOR_GOLD_MULTIPLY          = 0.5f;
+        public const float SPECTATOR_GOLD_MULTIPLY          = 0.1f;
         public const float SPECTATOR_COLLISION_INTERVAL     = 0.5f;
         public const float SPECTATOR_ORBITS_TRAVELLING_TIME = 1.2f;
         public const float SPECTATOR_ORBITS_SPAWN_TIME      = 0.6f;
+
+        //Konstanty pro spectator akce
+        public const float SPECTATOR_ASTEROID_THROW_SPEED   = 100;
 
         /// <summary>
         /// velikost canvasu je zaroven velikost celeho okna
