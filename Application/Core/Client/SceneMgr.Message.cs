@@ -195,12 +195,6 @@ namespace Orbit.Core.Client
                 if (p.IsActivePlayer())
                 {
                     p.CreateWeapons();
-                    if (p.IsCurrentPlayer())
-                    {
-                        actionBarMgr = new ActionBarMgr(this);
-                        StateMgr.AddGameState(actionBarMgr);
-                        actionBarMgr.CreateActionBarItems();
-                    }
 
                     // zobrazi aktualni integrity bazi
                     p.SetBaseIntegrity(p.GetBaseIntegrity());
@@ -210,13 +204,20 @@ namespace Orbit.Core.Client
 
                 if (p.IsCurrentPlayer())
                 {
+                    actionBarMgr = new ActionBarMgr(this);
+                    StateMgr.AddGameState(actionBarMgr);
+                    
                     if (p.IsActivePlayer())
+                    {
                         inputMgr = new PlayerInputMgr(p, this);
+                        actionBarMgr.CreateActionBarItems(p.generatePlayerActions(this));
+                    }
                     else
-                    {   
+                    {
                         ISceneObject obj = SceneObjectFactory.CreateMiningModule(this, new Vector(10, 10), p);
                         DelayedAttachToScene(obj);
                         inputMgr = new SpectatorInputMgr(p, this, obj);
+                        actionBarMgr.CreateActionBarItems(p.generateSpectatorActions(this, obj));
                     }
                 }
             }

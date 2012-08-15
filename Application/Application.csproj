@@ -193,8 +193,10 @@
     <Compile Include="Core\Server\Match\OneToOneInfiniteMachMaker.cs" />
     <Compile Include="Core\Server\Match\PlayerMatchData.cs" />
     <Compile Include="Core\Server\ServerMgr.Message.cs" />
-    <Compile Include="Core\SpecialActions\AsteroidThrow.cs" />
-    <Compile Include="Core\SpecialActions\BrutalGravity.cs" />
+    <Compile Include="Core\SpecialActions\Gamer\HealAction.cs" />
+    <Compile Include="Core\SpecialActions\Gamer\WeaponUpgrade.cs" />
+    <Compile Include="Core\SpecialActions\Spectator\AsteroidThrow.cs" />
+    <Compile Include="Core\SpecialActions\Spectator\BrutalGravity.cs" />
     <Compile Include="Core\SpecialActions\SpecialAction.cs" />
     <Compile Include="Core\SpecialActions\ISpecialAction.cs" />
     <Compile Include="Core\Utils\HealingKit.cs" />
@@ -213,8 +215,7 @@
       <DependentUpon>ActionBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\ActionControllers\ActionController.cs" />
-    <Compile Include="Gui\ActionControllers\HealActionController.cs" />
-    <Compile Include="Gui\ActionControllers\WeaponActionController.cs" />
+    <Compile Include="Gui\ActionControllers\ActionControllerImpl.cs" />
     <Compile Include="Gui\BotSelection.xaml.cs">
       <DependentUpon>BotSelection.xaml</DependentUpon>
     </Compile>

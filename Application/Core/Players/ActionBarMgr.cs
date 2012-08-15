@@ -13,12 +13,24 @@ using Orbit.Gui;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Orbit.Gui.ActionControllers;
+using Orbit.Core.SpecialActions;
 
 namespace Orbit.Core.Players
 {
+    struct WindowController {
+        public BuyActionUC Window { get; set; }
+        public ActionController Controller { get; set; }
+
+        public WindowController(BuyActionUC window, ActionController controller) : this() {
+            Window = window;
+            Controller = controller;
+        }
+    }
+
     public class ActionBarMgr : IGameState
     {
         private SceneMgr mgr;
+        private List<WindowController> windows;
 
         public ActionBar ActionBar { get; set; }
 
@@ -30,53 +42,35 @@ namespace Orbit.Core.Players
         public ActionBarMgr(SceneMgr manager)
         {
             mgr = manager;
+            windows = new List<WindowController>();
         }
 
-        public void CreateActionBarItems()
+        public void CreateActionBarItems(List<ISpecialAction> actions)
         {
             mgr.Invoke(new Action(() =>
             {
                 ActionBar = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "ActionBarUC") as ActionBar;
-                HookActionWindow = GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, new WeaponActionController(mgr, mgr.GetCurrentPlayer().Hook.Next(), mgr.GetCurrentPlayer()));
-                MineActionWindow = GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, new WeaponActionController(mgr, mgr.GetCurrentPlayer().Mine.Next(), mgr.GetCurrentPlayer()));
-                CannonActionWindow = GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, new WeaponActionController(mgr, mgr.GetCurrentPlayer().Canoon.Next(), mgr.GetCurrentPlayer()));
-                HealActionWindow = GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, new HealActionController(mgr, mgr.GetCurrentPlayer().HealingKit));
+                BuyActionUC window;
+                ActionController controller;
+
+                foreach (ISpecialAction action in actions)
+                {
+                    controller = new ActionControllerImpl(mgr, action);
+                    window = GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, controller);
+                    windows.Add(new WindowController(window, controller));
+                }
             }));
         }
 
         public void Update(float tpf)
         {
-            // zatim ne pro spectatory
-            if (!mgr.GetCurrentPlayer().IsActivePlayer())
-                return;
-
-            CheckForUpgrades();
-        }
-
-        private void CheckForUpgrades()
-        {
-            mgr.GetCurrentPlayer().ShowGold();
-
-            if (mgr.GetCurrentPlayer().HealingKit.Cost <= mgr.GetCurrentPlayer().Data.Gold &&
-                (SharedDef.BASE_MAX_INGERITY - mgr.GetCurrentPlayer().GetBaseIntegrity()) >= SharedDef.HEAL_AMOUNT)
-                HealActionWindow.Activate();
-            else
-                HealActionWindow.Deactivate();
-
-            if (mgr.GetCurrentPlayer().Hook.Next() != null && (mgr.GetCurrentPlayer().Hook.Next().Cost <= mgr.GetCurrentPlayer().Data.Gold))
-                HookActionWindow.Activate();
-            else
-                HookActionWindow.Deactivate();
-
-            if (mgr.GetCurrentPlayer().Canoon.Next() != null && (mgr.GetCurrentPlayer().Canoon.Next().Cost <= mgr.GetCurrentPlayer().Data.Gold))
-                CannonActionWindow.Activate();
-            else
-                CannonActionWindow.Deactivate();
-
-            if (mgr.GetCurrentPlayer().Mine.Next() != null && (mgr.GetCurrentPlayer().Mine.Next().Cost <= mgr.GetCurrentPlayer().Data.Gold))
-                MineActionWindow.Activate();
-            else
-                MineActionWindow.Deactivate();
+            foreach (WindowController windowController in windows)
+            {
+                if (windowController.Controller.Action.IsReady())
+                    windowController.Window.Activate();
+                else
+                    windowController.Window.Deactivate();
+            }
         }
     }
 

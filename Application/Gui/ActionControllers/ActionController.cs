@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Orbit.Core.Client;
+using Orbit.Core.SpecialActions;
 
 namespace Orbit.Gui.ActionControllers
 {
@@ -12,11 +13,13 @@ namespace Orbit.Gui.ActionControllers
     /// </summary>
     public abstract class ActionController
     {
+        public ISpecialAction Action { get; set; }
         protected SceneMgr sceneMgr;
 
-        public ActionController(SceneMgr mgr)
+        public ActionController(ISpecialAction action, SceneMgr mgr)
         {
             sceneMgr = mgr;
+            Action = action;
         }
 
         public void Enqueue(Action act)

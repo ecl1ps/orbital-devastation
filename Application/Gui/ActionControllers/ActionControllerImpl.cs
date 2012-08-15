@@ -9,12 +9,9 @@ namespace Orbit.Gui.ActionControllers
 {
     class ActionControllerImpl : ActionController
     {
-        public ISpecialAction Action { get; set; }
-
         public ActionControllerImpl(SceneMgr mgr, ISpecialAction action)
-            : base(mgr)
+            : base(action, mgr)
         {
-            Action = action;
         }
 
         public override void ActionClicked(BuyActionUC window)

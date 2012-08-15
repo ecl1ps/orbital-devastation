@@ -13,6 +13,10 @@ using Orbit.Core.Scene.Entities.Implementations;
 using System.Security.Cryptography;
 using System.Text;
 using System.IO;
+using System.Collections.Generic;
+using Orbit.Core.SpecialActions;
+using Orbit.Core.SpecialActions.Gamer;
+using Orbit.Core.Scene.Controls.Implementations;
 
 namespace Orbit.Core.Players
 {
@@ -250,6 +254,30 @@ namespace Orbit.Core.Players
         public bool IsCurrentPlayerOrBot()
         {
             return GetId() == SceneMgr.GetCurrentPlayer().GetId() || Data.PlayerType == PlayerType.BOT;
+        }
+
+        public List<ISpecialAction> generatePlayerActions(SceneMgr mgr)
+        {
+            List<ISpecialAction> actions = new List<ISpecialAction>();
+            actions.Add(new HealAction(HealingKit, mgr, this));
+            actions.Add(new WeaponUpgrade(Hook, mgr, this));
+            actions.Add(new WeaponUpgrade(Mine, mgr, this));
+            actions.Add(new WeaponUpgrade(Canoon, mgr, this));
+
+            return actions;
+        }
+
+        public List<ISpecialAction> generateSpectatorActions(SceneMgr mgr, ISceneObject miningModule)
+        {
+            MiningModuleControl miningControl = miningModule.GetControlOfType(typeof(MiningModuleControl)) as MiningModuleControl;
+
+            if(miningControl == null)
+                throw new Exception("Non mining object provided");
+
+            List<ISpecialAction> actions = new List<ISpecialAction>();
+            actions.Add(new AsteroidThrow(miningControl, mgr, this));
+
+            return actions;
         }
     }
 
