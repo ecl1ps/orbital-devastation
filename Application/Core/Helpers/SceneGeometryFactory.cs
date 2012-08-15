@@ -247,5 +247,21 @@ namespace Orbit.Core.Helpers
 
             return img;
         }
+
+        public static Path CreateEllipseGeometry(OrbitEllipse e)
+        {
+            Path path = null;
+            e.SceneMgr.Invoke(new Action(() =>
+            {
+                EllipseGeometry geom = new EllipseGeometry(new Point(), e.RadiusX, e.RadiusY);
+                path = new Path();
+                path.Data = geom;
+                path.Fill = new SolidColorBrush(Colors.Black);
+                Canvas.SetLeft(path, e.Position.X);
+                Canvas.SetTop(path, e.Position.Y);
+            }));
+
+            return path;
+        }    
     }
 }

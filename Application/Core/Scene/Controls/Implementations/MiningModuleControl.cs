@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    struct MiningObject
+    public struct MiningObject
     {
         public IContainsGold Obj { get; set; }
         public SolidLine MiningLine { get; set; }
@@ -39,10 +39,11 @@ namespace Orbit.Core.Scene.Controls.Implementations
     {
         private SceneMgr sceneMgr;
         private float farmedGold;
-        private List<MiningObject> currentlyMining;
         private List<CollisionData> recentlyCollided;
 
+        public List<MiningObject> currentlyMining;
         public Players.Player Owner { get; set; }
+        public Vector Position { get { return me.Position; } }
 
         public override void InitControl(ISceneObject me)
         {
@@ -137,12 +138,13 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         private void InitNewMining(IContainsGold obj) 
         {
-            StretchingLineControl control = new StretchingLineControl();
-            control.FirstObj = me;
-            control.SecondObj = obj;
+            StretchingLineControl stretchingControl = new StretchingLineControl();
+            stretchingControl.FirstObj = me;
+            stretchingControl.SecondObj = obj;
 
             SolidLine line = new SimpleLine(sceneMgr, me.Position.ToPoint(), obj.Position.ToPoint(), Colors.Black, 1);
-            line.AddControl(control);
+            line.AddControl(stretchingControl);
+            line.AddControl(new MiningLineControl());
 
             sceneMgr.DelayedAttachToScene(line);
             currentlyMining.Add(new MiningObject(obj, line));
@@ -169,6 +171,11 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
                 recentlyCollided.Add(new CollisionData(obj));
             }
+        }
+
+        public override void OnControlDestroy()
+        {
+            currentlyMining.ForEach(mineObj => mineObj.Obj.DoRemoveMe());
         }
     }
 }

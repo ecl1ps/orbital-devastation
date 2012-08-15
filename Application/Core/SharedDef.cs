@@ -87,6 +87,8 @@ namespace Orbit.Core
         public const float SPECTATOR_MODULE_SPEED           = 150;
         public const float SPECTATOR_GOLD_MULTIPLY          = 0.5f;
         public const float SPECTATOR_COLLISION_INTERVAL     = 0.5f;
+        public const float SPECTATOR_ORBITS_TRAVELLING_TIME = 1.2f;
+        public const float SPECTATOR_ORBITS_SPAWN_TIME      = 0.6f;
 
         /// <summary>
         /// velikost canvasu je zaroven velikost celeho okna

@@ -340,5 +340,14 @@ namespace Orbit.Core.Helpers
 
             return module;
         }
+
+        public static OrbitEllipse CreateOrbitEllipse(SceneMgr mgr, Vector position, float radiusX, float radiusY)
+        {
+            OrbitEllipse ellipse = new OrbitEllipse(mgr, radiusX, radiusY);
+            ellipse.Position = position;
+            ellipse.SetGeometry(SceneGeometryFactory.CreateEllipseGeometry(ellipse));
+
+            return ellipse;
+        }
     }
 }
