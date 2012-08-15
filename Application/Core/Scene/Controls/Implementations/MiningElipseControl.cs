@@ -30,12 +30,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         private void UpdateMinePosition()
         {
-            Vector travellingDirection = LineToFollow.End - LineToFollow.Start;
+            Vector travellingDirection = LineToFollow.Start - LineToFollow.End;
             double travellingLenght = travellingDirection.Length;
             travellingDirection = travellingDirection.NormalizeV();
             float timeProgress = time / SharedDef.SPECTATOR_ORBITS_TRAVELLING_TIME;
 
-            me.Position = (LineToFollow.Start + (travellingDirection * (travellingLenght * timeProgress))).ToVector();
+            me.Position = (LineToFollow.End + (travellingDirection * (travellingLenght * timeProgress))).ToVector();
         }
     }
 }
