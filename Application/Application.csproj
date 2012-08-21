@@ -141,9 +141,11 @@
     <Compile Include="Core\Properties.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ControlableDeviceControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LaserDamageControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\LimitedLifeControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\MiningElipseControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\MiningLineControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\MiningModuleControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\PositionCloneControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\StretchingLineControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\VectorLineObjectMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DroppingSingularityControl.cs" />
@@ -161,6 +163,7 @@
     <Compile Include="Core\Scene\Entities\Implementations\Laser.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\PowerHook.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\SingularityExplodingExcludingBullet.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\StaticShield.cs" />
     <Compile Include="Core\Scene\Entities\SolidLine.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\StatPowerUp.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\VectorLine.cs" />
@@ -195,10 +198,12 @@
     <Compile Include="Core\Server\ServerMgr.Message.cs" />
     <Compile Include="Core\SpecialActions\Gamer\HealAction.cs" />
     <Compile Include="Core\SpecialActions\Gamer\WeaponUpgrade.cs" />
+    <Compile Include="Core\SpecialActions\Spectator\AsteroidDamage.cs" />
     <Compile Include="Core\SpecialActions\Spectator\AsteroidThrow.cs" />
     <Compile Include="Core\SpecialActions\Spectator\BrutalGravity.cs" />
     <Compile Include="Core\SpecialActions\SpecialAction.cs" />
     <Compile Include="Core\SpecialActions\ISpecialAction.cs" />
+    <Compile Include="Core\SpecialActions\Spectator\Shielding.cs" />
     <Compile Include="Core\Utils\HealingKit.cs" />
     <Compile Include="Core\Utils\IHealingKit.cs" />
     <Compile Include="Core\Weapons\DoubleHookLauncher.cs" />

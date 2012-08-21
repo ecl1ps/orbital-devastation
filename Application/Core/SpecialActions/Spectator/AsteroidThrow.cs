@@ -8,7 +8,7 @@ using Orbit.Core.Scene.Entities;
 using System.Windows;
 using Orbit.Core.Scene.Entities.Implementations;
 
-namespace Orbit.Core.SpecialActions
+namespace Orbit.Core.SpecialActions.Spectator
 {
     public class AsteroidThrow : SpecialAction
     {

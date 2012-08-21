@@ -8,6 +8,7 @@ using Orbit.Core.Client;
 using Orbit.Core.SpecialActions;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Controls.Implementations;
+using Orbit.Core.SpecialActions.Spectator;
 
 namespace Orbit.Core.Players.Input
 {
@@ -57,8 +58,6 @@ namespace Orbit.Core.Players.Input
                 device.IsMovingLeft = down;
             else if (e.Key == Key.D)
                 device.IsMovingRight = down;
-            else if (e.Key == Key.Space)
-                new AsteroidThrow(miningControl, mgr, plr).StartAction();
         }
     }
 }

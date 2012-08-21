@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using Orbit.Core.SpecialActions;
 using Orbit.Core.SpecialActions.Gamer;
 using Orbit.Core.Scene.Controls.Implementations;
+using Orbit.Core.SpecialActions.Spectator;
 
 namespace Orbit.Core.Players
 {
@@ -276,6 +277,8 @@ namespace Orbit.Core.Players
 
             List<ISpecialAction> actions = new List<ISpecialAction>();
             actions.Add(new AsteroidThrow(miningControl, mgr, this));
+            actions.Add(new AsteroidDamage(miningControl, mgr, this));
+            actions.Add(new Shielding(miningModule, mgr, this));
 
             return actions;
         }

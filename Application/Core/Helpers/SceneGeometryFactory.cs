@@ -145,7 +145,33 @@ namespace Orbit.Core.Helpers
             }));
 
             return path;
-        }    
+        }
+
+        public static Path CreateLinearGradientRectangleGeometry(StaticShield shield)
+        {
+            Path path = null;
+            shield.SceneMgr.Invoke(new Action(() =>
+            {
+                double h = shield.Size.Height / 2;
+                double w = shield.Size.Width / 2;
+
+                RectangleGeometry geom = new RectangleGeometry(new Rect(-h, -w, h, w));
+                path = new Path();
+                path.Data = geom;
+                path.Fill = new LinearGradientBrush(shield.Color, Colors.Black, 90.0);
+                path.Stroke = Brushes.Black;
+                Canvas.SetLeft(path, shield.Position.X);
+                Canvas.SetTop(path, shield.Position.Y);
+                GrowablePoissonDiskEffect eff = new GrowablePoissonDiskEffect();
+                eff.Radius = 0.8;
+                eff.Height = 30;
+                eff.Width = 10;
+                path.Effect = eff;
+                shield.SetGeometry(path);
+            }));
+
+            return path;
+        }
 
         public static Path CreateLinearGradientRectangleGeometry(Base baze)
         {

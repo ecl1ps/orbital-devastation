@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Orbit.Core.Players;
+using System.Windows.Input;
 
 namespace Orbit.Core
 {
@@ -35,6 +36,11 @@ namespace Orbit.Core
             defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO4, "0");
             defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO5, "0");
             defaults.Add(PropertyKey.PLAYER_HIGHSCORE_QUICK_GAME, "0");
+            defaults.Add(PropertyKey.PLAYER_ACTION_1, ((int)Key.D1).ToString());
+            defaults.Add(PropertyKey.PLAYER_ACTION_2, ((int)Key.D2).ToString());
+            defaults.Add(PropertyKey.PLAYER_ACTION_3, ((int)Key.D3).ToString());
+            defaults.Add(PropertyKey.PLAYER_ACTION_4, ((int)Key.D4).ToString());
+            defaults.Add(PropertyKey.PLAYER_ACTION_5, ((int)Key.D5).ToString());
             return defaults;
         }
     }
@@ -55,6 +61,11 @@ namespace Orbit.Core
         PLAYER_HIGHSCORE_SOLO3,
         PLAYER_HIGHSCORE_SOLO4,
         PLAYER_HIGHSCORE_SOLO5,
-        PLAYER_HIGHSCORE_QUICK_GAME
+        PLAYER_HIGHSCORE_QUICK_GAME,
+        PLAYER_ACTION_1,
+        PLAYER_ACTION_2,
+        PLAYER_ACTION_3,
+        PLAYER_ACTION_4,
+        PLAYER_ACTION_5
     }
 }

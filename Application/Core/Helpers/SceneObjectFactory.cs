@@ -35,6 +35,20 @@ namespace Orbit.Core.Helpers
             return baze;
         }
 
+        public static StaticShield CreateShield(SceneMgr mgr, Player plr, ISceneObject toFollow)
+        {
+
+            StaticShield shield = new StaticShield(mgr);
+            shield.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
+            shield.Position = toFollow.Position;
+            shield.Color = Colors.AliceBlue;
+            shield.Size = new Size(20, 200);
+
+            shield.SetGeometry(SceneGeometryFactory.CreateLinearGradientRectangleGeometry(shield));
+
+            return shield;
+        }
+
         public static SingularityMine CreateSingularityMine(SceneMgr mgr, Point point, Player plr)
         {
             SingularityMine mine = new SingularityMine(mgr);

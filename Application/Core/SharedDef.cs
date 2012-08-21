@@ -92,6 +92,8 @@ namespace Orbit.Core
 
         //Konstanty pro spectator akce
         public const float SPECTATOR_ASTEROID_THROW_SPEED   = 100;
+        public const float SPECTATOR_SHIELDING_TIME         = 5;
+        public const int SPECTATOR_DAMAGE                   = 3;
 
         /// <summary>
         /// velikost canvasu je zaroven velikost celeho okna
