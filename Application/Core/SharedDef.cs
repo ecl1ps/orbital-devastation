@@ -89,6 +89,7 @@ namespace Orbit.Core
         public const float SPECTATOR_COLLISION_INTERVAL     = 0.5f;
         public const float SPECTATOR_ORBITS_TRAVELLING_TIME = 1.2f;
         public const float SPECTATOR_ORBITS_SPAWN_TIME      = 0.6f;
+        public const float SPECTATOR_MODULE_ROTATION_SPEED  = (float) System.Math.PI;
 
         //Konstanty pro spectator akce
         public const float SPECTATOR_ASTEROID_THROW_SPEED   = 100;

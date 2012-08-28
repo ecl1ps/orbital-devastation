@@ -17,6 +17,7 @@ namespace Orbit.Core.SpecialActions.Spectator
         {
             Name = "Asteroid damage";
             Type = SpecialActionType.ASTEROID_THROW;
+            ImageSource = "pack://application:,,,/resources/images/icons/asteroid-damage-icon.png";
             this.control = control;
             Cost = 250;
         }

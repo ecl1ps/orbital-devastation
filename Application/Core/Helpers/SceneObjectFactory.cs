@@ -350,7 +350,11 @@ namespace Orbit.Core.Helpers
             ControlableDeviceControl dc = new ControlableDeviceControl();
             module.AddControl(dc);
 
-            module.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(module));
+            LinearRotationControl rc = new LinearRotationControl();
+            rc.RotationSpeed = SharedDef.SPECTATOR_MODULE_ROTATION_SPEED;
+            module.AddControl(rc);
+
+            module.SetGeometry(SceneGeometryFactory.CrateMiningModule(module));
 
             return module;
         }

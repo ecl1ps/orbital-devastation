@@ -18,6 +18,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             : base(mgr, owner)
         {
             Name = "Asteroid throw";
+            ImageSource = "pack://application:,,,/resources/images/icons/asteroid-throw-icon.png";
             Type = SpecialActionType.ASTEROID_THROW;
             Control = control;
             Cost = 500;

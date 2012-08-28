@@ -288,6 +288,30 @@ namespace Orbit.Core.Helpers
             }));
 
             return path;
-        }    
+        }
+
+        public static Image CrateMiningModule(MiningModule m)
+        {
+            Image img = null;
+            m.SceneMgr.Invoke(new Action(() =>
+            {
+                BitmapImage bi = new BitmapImage();
+                bi.BeginInit();
+                bi.UriSource = new Uri("pack://application:,,,/resources/images/mining-module/module.png");
+                bi.DecodePixelWidth = m.Radius * 4;
+                bi.EndInit();
+
+                img = new Image();
+                img.Source = bi;
+                img.Width = m.Radius * 2;
+                img.RenderTransform = new RotateTransform(m.Rotation);
+                img.RenderTransformOrigin = new Point(0.5, 0.5);
+
+                Canvas.SetLeft(img, m.Position.X);
+                Canvas.SetTop(img, m.Position.Y);
+            }));
+
+            return img;
+        }
     }
 }

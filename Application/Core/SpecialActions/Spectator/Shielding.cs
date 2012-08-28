@@ -19,6 +19,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             base(mgr, plr) {
 
                 Name = "Static Shield";
+                ImageSource = "pack://application:,,,/resources/images/icons/shield-icon.png";
                 Cost = 1500;
                 this.toFollow = toFollow;
         }
