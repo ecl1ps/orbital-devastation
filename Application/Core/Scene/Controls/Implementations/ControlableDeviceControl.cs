@@ -27,13 +27,13 @@ namespace Orbit.Core.Scene.Controls.Implementations
             Vector botVector = new Vector(0, SharedDef.SPECTATOR_MODULE_SPEED * tpf);
             Vector rightVector = new Vector(SharedDef.SPECTATOR_MODULE_SPEED * tpf, 0);
 
-            if(IsMovingTop)
+            if(IsMovingTop && me.Position.Y > 0)
                 me.Position -= botVector;
-            if (IsMovingDown)
+            if (IsMovingDown && me.Position.Y < SharedDef.VIEW_PORT_SIZE.Height)
                 me.Position += botVector;
-            if (IsMovingLeft)
+            if (IsMovingLeft && me.Position.X > 0)
                 me.Position -= rightVector;
-            if (IsMovingRight)
+            if (IsMovingRight && me.Position.Y < SharedDef.VIEW_PORT_SIZE.Width)
                 me.Position += rightVector;
         }
     }
