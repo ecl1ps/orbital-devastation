@@ -12,14 +12,14 @@ using Orbit.Core.SpecialActions.Spectator;
 
 namespace Orbit.Core.Players.Input
 {
-    public class SpectatorInputMgr : IInputMgr
+    public class SpectatorInputMgr : AbstractInputMgr
     {
         private Player plr;
         private SceneMgr mgr;
         private IControledDevice device;
         private MiningModuleControl miningControl;
 
-        public SpectatorInputMgr(Player p, SceneMgr sceneMgr, ISceneObject obj)
+        public SpectatorInputMgr(Player p, SceneMgr sceneMgr, ISceneObject obj, ActionBarMgr actionMgr) : base(actionMgr)
         {
             IControledDevice d = obj.GetControlOfType(typeof(IControledDevice)) as IControledDevice;
             MiningModuleControl mc = obj.GetControlOfType(typeof(MiningModuleControl)) as MiningModuleControl;
@@ -35,20 +35,18 @@ namespace Orbit.Core.Players.Input
             miningControl = mc;
         }
 
-        public void OnCanvasClick(Point point, MouseButtonEventArgs e)
+        public override void OnCanvasClick(Point point, MouseButtonEventArgs e)
         {
+            base.OnCanvasClick(point, e);
             // TODO: akce budou vetsinou spousteny z action baru
             if (e.ChangedButton == MouseButton.Middle && e.ButtonState == MouseButtonState.Pressed)
                 new BrutalGravity(mgr, plr).StartAction();
         }
 
-        public void OnActionBarClick(Point point, MouseButtonEventArgs e)
-        {
 
-        }
-
-        public void OnKeyEvent(KeyEventArgs e)
+        public override void OnKeyEvent(KeyEventArgs e)
         {
+            base.OnKeyEvent(e);
             bool down = e.IsDown;
             if (e.Key == Key.W)
                 device.IsMovingTop = down;

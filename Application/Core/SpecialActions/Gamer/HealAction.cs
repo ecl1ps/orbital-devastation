@@ -23,6 +23,9 @@ namespace Orbit.Core.SpecialActions.Gamer
 
         public override void StartAction()
         {
+            if (!IsReady())
+                return;
+
             base.StartAction();
             healingKit.Heal();
             Cost = healingKit.Cost;

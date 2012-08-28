@@ -131,6 +131,7 @@
     <Compile Include="Core\Helpers\GuiObjectFactory.cs" />
     <Compile Include="Core\Helpers\NetDataHelper.cs" />
     <Compile Include="Core\NetSearcher.cs" />
+    <Compile Include="Core\Players\Input\AbstractInputMgr.cs" />
     <Compile Include="Core\Players\Input\SpectatorInputMgr.cs" />
     <Compile Include="Core\Players\Input\IInputMgr.cs" />
     <Compile Include="Core\Players\Input\PlayerInputMgr.cs" />

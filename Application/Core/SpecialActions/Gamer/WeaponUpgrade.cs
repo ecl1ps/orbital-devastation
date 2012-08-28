@@ -21,16 +21,27 @@ namespace Orbit.Core.SpecialActions.Gamer
         private void LoadWeapon(IWeapon weapon)
         {
             this.currentWeapon = weapon;
-            Name = weapon.Next().Name;
-            Cost = weapon.Next().Cost;
+
+            if (weapon == null || weapon.Next() == null)
+            {
+                Name = "Unavailable";
+                Cost = 0;
+            }
+            else
+            {
+                Name = weapon.Next().Name;
+                Cost = weapon.Next().Cost;
+            }
         }
 
         public override void StartAction()
         {
-            base.StartAction();
-
             if (IsReady())
+            {
+                base.StartAction();
                 UpgradeWeapon();
+            }
+
         }
 
         private void UpgradeWeapon()

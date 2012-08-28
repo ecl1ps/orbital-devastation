@@ -69,6 +69,12 @@ namespace Orbit.Core.Players
                     windowController.Window.Deactivate();
             }
         }
+
+        public void Click(int index)
+        {
+            if (index < windows.Count)
+                windows[index].Controller.ActionClicked(windows[index].Window);
+        }
     }
 
 }

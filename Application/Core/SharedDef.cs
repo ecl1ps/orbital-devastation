@@ -30,7 +30,7 @@ namespace Orbit.Core
         public const int GOLD_ASTEROID_BONUS_MULTIPLY       = 10;
 
         public const int ASTEROID_GOLD_CHANCE               = 25; // (0 - 100)
-        public const int ASTEROID_UNSTABLE_CHANCE           = 80; // 10 procent, musi se brat ohled na chance ostatnich typu
+        public const int ASTEROID_UNSTABLE_CHANCE           = 50; // 25 procent musi se brat ohled na sance ostatnich mozna dodelat nejaky dopocitani. Ale co s normalnima potom?
 
         public const int BASE_MAX_INGERITY                  = 100;
 
@@ -80,7 +80,7 @@ namespace Orbit.Core
 
         public const bool ALLOW_SPECTATORS_IN_DUO_MATCH     = true;
 
-        public const int START_GOLD                         = 600;
+        public const int START_GOLD                         = 60000;
 
         //konstanty pro spectatory
         public const float SPECTATOR_MINING_RADIUS          = 200;

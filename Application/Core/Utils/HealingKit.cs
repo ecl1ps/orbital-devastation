@@ -32,7 +32,6 @@ namespace Orbit.Core.Utils
         {
             if (owner.Data.Gold >= Cost)
             {
-                owner.AddGoldAndShow(-Cost);
                 owner.ChangeBaseIntegrity(SharedDef.HEAL_AMOUNT, true);
 
                 Cost *= SharedDef.HEAL_MULTIPLY_COEF;

@@ -209,14 +209,14 @@ namespace Orbit.Core.Client
                     
                     if (p.IsActivePlayer())
                     {
-                        inputMgr = new PlayerInputMgr(p, this);
+                        inputMgr = new PlayerInputMgr(p, this, actionBarMgr);
                         actionBarMgr.CreateActionBarItems(p.generatePlayerActions(this));
                     }
                     else
                     {
                         ISceneObject obj = SceneObjectFactory.CreateMiningModule(this, new Vector(10, 10), p);
                         DelayedAttachToScene(obj);
-                        inputMgr = new SpectatorInputMgr(p, this, obj);
+                        inputMgr = new SpectatorInputMgr(p, this, obj, actionBarMgr);
                         actionBarMgr.CreateActionBarItems(p.generateSpectatorActions(this, obj));
                     }
                 }

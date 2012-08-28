@@ -99,7 +99,7 @@ namespace Orbit.Core.Players
 
         public void ShowGold()
         {
-            if (Data.Gold <= 0)
+            if (Data.Gold < 0)
                 return;
 
             if (IsCurrentPlayer())
