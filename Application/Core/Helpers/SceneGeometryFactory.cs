@@ -152,10 +152,7 @@ namespace Orbit.Core.Helpers
             Path path = null;
             shield.SceneMgr.Invoke(new Action(() =>
             {
-                double h = shield.Size.Height / 2;
-                double w = shield.Size.Width / 2;
-
-                RectangleGeometry geom = new RectangleGeometry(new Rect(-h, -w, h, w));
+                RectangleGeometry geom = new RectangleGeometry(new Rect(shield.Size));
                 path = new Path();
                 path.Data = geom;
                 path.Fill = new LinearGradientBrush(shield.Color, Colors.Black, 90.0);
