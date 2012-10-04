@@ -42,7 +42,7 @@ namespace Orbit.Core.Helpers
             shield.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
             shield.Position = toFollow.Position;
             shield.Color = Colors.AliceBlue;
-            shield.Size = new Size(200, 20);
+            shield.Size = new Size(20, 20);
 
             shield.SetGeometry(SceneGeometryFactory.CreateShield(shield));
 
