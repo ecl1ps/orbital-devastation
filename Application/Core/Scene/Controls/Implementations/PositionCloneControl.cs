@@ -27,7 +27,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if(Offset == null)
                 Offset = new Vector(0, 0);
 
-            me.Position = toFollow.Position + Offset;
+            Vector position = toFollow.Position - Offset;
+            me.Position = position;
         }
     }
 }

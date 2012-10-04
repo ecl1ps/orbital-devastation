@@ -10,10 +10,10 @@ namespace Orbit.Core.Server.Level
 {
     public class LevelNormal1 : IGameLevel
     {
-        private ServerMgr mgr;
-        private List<ISceneObject> objects;
-        private float newStatPowerupTimer;
-        private float newAsteroidTimer;
+        protected ServerMgr mgr;
+        protected List<ISceneObject> objects;
+        protected float newStatPowerupTimer;
+        protected float newAsteroidTimer;
 
         public LevelNormal1(ServerMgr serverMgr, List<ISceneObject> objs)
         {
@@ -53,7 +53,7 @@ namespace Orbit.Core.Server.Level
                 newStatPowerupTimer -= tpf;
         }
 
-        public void OnStart()
+        public virtual void OnStart()
         {
 
         }

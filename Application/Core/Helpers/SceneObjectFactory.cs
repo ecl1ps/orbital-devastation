@@ -42,9 +42,16 @@ namespace Orbit.Core.Helpers
             shield.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
             shield.Position = toFollow.Position;
             shield.Color = Colors.AliceBlue;
-            shield.Size = new Size(20, 200);
+            shield.Size = new Size(200, 20);
 
-            shield.SetGeometry(SceneGeometryFactory.CreateLinearGradientRectangleGeometry(shield));
+            shield.SetGeometry(SceneGeometryFactory.CreateShield(shield));
+
+
+            shield.AddControl(new LimitedLifeControl(SharedDef.SPECTATOR_SHIELDING_TIME));
+
+            PositionCloneControl pc = new PositionCloneControl(toFollow);
+            pc.Offset = new Vector(80, 10);
+            shield.AddControl(new PositionCloneControl(toFollow));
 
             return shield;
         }

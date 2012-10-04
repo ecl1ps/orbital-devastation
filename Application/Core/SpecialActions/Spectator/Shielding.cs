@@ -7,6 +7,7 @@ using Orbit.Core.Players;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.Controls.Implementations;
+using System.Windows;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
@@ -29,9 +30,6 @@ namespace Orbit.Core.SpecialActions.Spectator
             base.StartAction();
 
             shield = SceneObjectFactory.CreateShield(SceneMgr, Owner, toFollow);
-
-            shield.AddControl(new LimitedLifeControl(SharedDef.SPECTATOR_SHIELDING_TIME));
-            shield.AddControl(new PositionCloneControl(toFollow));
 
             SceneMgr.DelayedAttachToScene(shield);
         }

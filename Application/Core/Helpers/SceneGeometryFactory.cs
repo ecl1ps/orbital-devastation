@@ -313,5 +313,27 @@ namespace Orbit.Core.Helpers
 
             return img;
         }
+
+        public static Image CreateShield(StaticShield m)
+        {
+            Image img = null;
+            m.SceneMgr.Invoke(new Action(() =>
+            {
+                BitmapImage bi = new BitmapImage();
+                bi.BeginInit();
+                bi.UriSource = new Uri("pack://application:,,,/resources/images/actions/shield.png");
+                bi.EndInit();
+
+                img = new Image();
+                img.Source = bi;
+                img.Width = m.Size.Width;
+                img.Height = m.Size.Height;
+
+                Canvas.SetLeft(img, m.Position.X);
+                Canvas.SetTop(img, m.Position.Y);
+            }));
+
+            return img;
+        }
     }
 }
