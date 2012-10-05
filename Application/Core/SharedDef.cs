@@ -195,5 +195,7 @@ namespace Orbit.Core
         PLAYER_BOUGHT_UPGRADE,
         FLOATING_TEXT,
         PLAY_SOUND,
+
+        MOVE_STATE_CHANGED,
     }    
 }

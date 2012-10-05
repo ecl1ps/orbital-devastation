@@ -211,8 +211,16 @@ namespace Orbit.Core.Client
                 case PacketType.PLAY_SOUND:
                     SoundManager.Instance.ReadSoundMessage(msg);
                     break;
+                case PacketType.MOVE_STATE_CHANGED:
+                    ChangeMoveState(msg);
+                    break;
             }
+        }
 
+        private void ChangeMoveState(NetIncomingMessage msg)
+        {
+            Player player = GetPlayer(msg.ReadInt32());
+            (player.Device.GetControlOfType(typeof(ControlableDeviceControl)) as ControlableDeviceControl).receiveMovingTypeChanged(msg);
         }
 
         private void CreateAndAddBot(Player plr)

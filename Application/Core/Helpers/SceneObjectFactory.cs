@@ -350,10 +350,6 @@ namespace Orbit.Core.Helpers
             module.Radius = 10;
             module.Color = Colors.Crimson;
 
-            MiningModuleControl mc = new MiningModuleControl();
-            mc.Owner = owner;
-            module.AddControl(mc);
-
             ControlableDeviceControl dc = new ControlableDeviceControl();
             module.AddControl(dc);
 

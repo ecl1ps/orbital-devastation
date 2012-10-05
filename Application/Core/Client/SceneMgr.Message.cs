@@ -201,6 +201,12 @@ namespace Orbit.Core.Client
                     p.Baze = SceneObjectFactory.CreateBase(this, p);
                     DelayedAttachToScene(p.Baze);
                 }
+                else
+                {
+                    ISceneObject obj = SceneObjectFactory.CreateMiningModule(this, new Vector(10, 10), p);
+                    DelayedAttachToScene(obj);
+                    p.Device = obj;
+                }
 
                 if (p.IsCurrentPlayer())
                 {
@@ -214,10 +220,12 @@ namespace Orbit.Core.Client
                     }
                     else
                     {
-                        ISceneObject obj = SceneObjectFactory.CreateMiningModule(this, new Vector(10, 10), p);
-                        DelayedAttachToScene(obj);
-                        inputMgr = new SpectatorInputMgr(p, this, obj, actionBarMgr);
-                        actionBarMgr.CreateActionBarItems(p.generateSpectatorActions(this, obj));
+                        MiningModuleControl mc = new MiningModuleControl();
+                        mc.Owner = p;
+                        p.Device.AddControl(mc);
+
+                        inputMgr = new SpectatorInputMgr(p, this, p.Device, actionBarMgr);
+                        actionBarMgr.CreateActionBarItems(p.generateSpectatorActions(this, p.Device));
                     }
                 }
             }

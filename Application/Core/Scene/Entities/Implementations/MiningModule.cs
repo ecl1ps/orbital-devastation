@@ -31,7 +31,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void DoCollideWith(ICollidable other, float tpf)
         {
-            (GetControlOfType(typeof(MiningModuleControl)) as MiningModuleControl).Collide(other);
+            MiningModuleControl control = (GetControlOfType(typeof(MiningModuleControl)) as MiningModuleControl);
+            if (control != null)
+                control.Collide(other);
         }
     }
 }
