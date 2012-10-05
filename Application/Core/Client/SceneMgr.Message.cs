@@ -146,7 +146,8 @@ namespace Orbit.Core.Client
 
             if (disconnected.IsActivePlayer())
                 EndGame(disconnected, GameEnd.LEFT_GAME);
-
+            else if (disconnected.Device != null)
+                disconnected.Device.DoRemoveMe();
             if (GameType == Gametype.TOURNAMENT_GAME)
             {
                 UpdateLobbyPlayers();

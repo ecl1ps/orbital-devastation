@@ -112,6 +112,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         public void receiveMovingTypeChanged(NetIncomingMessage msg)
         {
+            //TODO dodelat interpolaci na zaklade cas odeslani / cas prijmuti
             isMovingDown = msg.ReadBoolean();
             isMovingTop = msg.ReadBoolean();
             isMovingLeft = msg.ReadBoolean();
