@@ -131,6 +131,10 @@ namespace Orbit.Gui
                     {
                         showOptions(uc);
                     }
+                    else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "keyBindingsMenu") as UIElement) != null)
+                    {
+                        showOptions(uc);
+                    }
                     else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "optionsMenu") as UIElement) != null)
                     {
                         mainGrid.Children.Remove(uc);

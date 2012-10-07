@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="Orbit.Gui.KeyBindingsOptions"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             d:DesignHeight="350" d:DesignWidth="350"
+             mc:Ignorable="d"
+             x:Name="keyBindingsMenu"  Width="350" Height="350" BorderBrush="Black" BorderThickness="1" KeyDown="Grid_KeyDown">
+            
+            <Grid Width="350" Height="350" Background="#dd655D5D" KeyDown="Grid_KeyDown">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="91" />
+            <ColumnDefinition Width="189" />
+            <ColumnDefinition Width="70" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock FontFamily="Bauhaus 93" Grid.Row="0" Grid.Column="0">Action 1</TextBlock>
+        <TextBlock FontFamily="Bauhaus 93" Grid.Row="1" Grid.Column="0">Action 2</TextBlock>
+        <TextBlock FontFamily="Bauhaus 93" Grid.Row="2" Grid.Column="0">Action 3</TextBlock>
+        <TextBlock FontFamily="Bauhaus 93" Grid.Row="3" Grid.Column="0">Action 4</TextBlock>
+        <TextBlock FontFamily="Bauhaus 93" Grid.Row="4" Grid.Column="0">Action 5</TextBlock>
+        <TextBlock FontFamily="Bauhaus 93" Grid.Row="5" Grid.Column="0">Move top</TextBlock>
+        <TextBlock FontFamily="Bauhaus 93" Grid.Row="6" Grid.Column="0">Move bottom</TextBlock>
+        <TextBlock FontFamily="Bauhaus 93" Grid.Row="7" Grid.Column="0">Move left</TextBlock>
+        <TextBlock FontFamily="Bauhaus 93" Grid.Row="8" Grid.Column="0">Move right</TextBlock>
+
+
+        <TextBlock Name="Action1" Grid.Row="0" Grid.Column="2" KeyDown="Grid_KeyDown" MouseDown="Action1_MouseDoubleClick">1</TextBlock>
+        <TextBlock Name="Action2" Grid.Row="1" Grid.Column="2" MouseDown="Action2_MouseDoubleClick">2</TextBlock>
+        <TextBlock Name="Action3" Grid.Row="2" Grid.Column="2" MouseDown="Action3_MouseDoubleClick">3</TextBlock>
+        <TextBlock Name="Action4" Grid.Row="3" Grid.Column="2" MouseDown="Action4_MouseDoubleClick">4</TextBlock>
+        <TextBlock Name="Action5" Grid.Row="4" Grid.Column="2" MouseDown="Action5_MouseDoubleClick">5</TextBlock>
+        <TextBlock Name="MoveTop" Grid.Row="5" Grid.Column="2" MouseDown="MoveTop_MouseDoubleClick">w</TextBlock>
+        <TextBlock Name="MoveBot" Grid.Row="6" Grid.Column="2" MouseDown="MoveBot_MouseDoubleClick">s</TextBlock>
+        <TextBlock Name="MoveLeft" Grid.Row="7" Grid.Column="2" MouseDown="MoveLeft_MouseDoubleClick">a</TextBlock>
+        <TextBlock Name="MoveRight" Grid.Row="8" Grid.Column="2" MouseDown="MoveRight_MouseDoubleClick">d</TextBlock>
+    </Grid>
+</UserControl>

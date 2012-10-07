@@ -41,6 +41,10 @@ namespace Orbit.Core
             defaults.Add(PropertyKey.PLAYER_ACTION_3, ((int)Key.D3).ToString());
             defaults.Add(PropertyKey.PLAYER_ACTION_4, ((int)Key.D4).ToString());
             defaults.Add(PropertyKey.PLAYER_ACTION_5, ((int)Key.D5).ToString());
+            defaults.Add(PropertyKey.PLAYER_ACTION_MOVE_TOP, ((int)Key.W).ToString());
+            defaults.Add(PropertyKey.PLAYER_ACTION_MOVE_BOT, ((int)Key.S).ToString());
+            defaults.Add(PropertyKey.PLAYER_ACTION_MOVE_RIGHT, ((int)Key.D).ToString());
+            defaults.Add(PropertyKey.PLAYER_ACTION_MOVE_LEFT, ((int)Key.A).ToString());
             return defaults;
         }
     }
@@ -66,6 +70,10 @@ namespace Orbit.Core
         PLAYER_ACTION_2,
         PLAYER_ACTION_3,
         PLAYER_ACTION_4,
-        PLAYER_ACTION_5
+        PLAYER_ACTION_5,
+        PLAYER_ACTION_MOVE_TOP,
+        PLAYER_ACTION_MOVE_BOT,
+        PLAYER_ACTION_MOVE_RIGHT,
+        PLAYER_ACTION_MOVE_LEFT
     }
 }

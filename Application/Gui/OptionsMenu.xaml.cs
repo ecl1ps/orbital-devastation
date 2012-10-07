@@ -47,5 +47,10 @@ namespace Orbit.Gui
             (Parent as Panel).Children.Remove(this);
             (Application.Current.MainWindow as GameWindow).mainGrid.Children.Add(window);
         }
+
+        private void btnKeys_Click(object sender, RoutedEventArgs e)
+        {
+            ShowAnotherWindow(new KeyBindingsOptions());
+        }
     }
 }

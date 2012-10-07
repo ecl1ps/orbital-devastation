@@ -8,5 +8,6 @@
         <Button Content="Player" Height="31" HorizontalAlignment="Center" Margin="135,12,131,0" Name="btnPlayer" VerticalAlignment="Top" Width="84" FontFamily="Bauhaus 93" Click="btnPlayer_Click" />
         <Button Content="Mouse" Height="31" HorizontalAlignment="Center" Margin="135,49,131,0" Name="btnMouse" VerticalAlignment="Top" Width="84" FontFamily="Bauhaus 93" Click="btnMouse_Click" />
         <Button Content="Sounds" FontFamily="Bauhaus 93" Height="31" HorizontalAlignment="Center" Margin="135,86,131,0" Name="btnSound" VerticalAlignment="Top" Width="84" Click="btnSound_Click" />
+        <Button Content="Key bindings" FontFamily="Bauhaus 93" Height="31" HorizontalAlignment="Center" Margin="135,123,131,0" Name="btnKeys" VerticalAlignment="Top" Width="84" Click="btnKeys_Click" />
     </Grid>
 </UserControl>
