@@ -48,13 +48,13 @@ namespace Orbit.Core.Players.Input
         {
             base.OnKeyEvent(e);
             bool down = e.IsDown;
-            if (e.Key == Key.W)
+            if (e.Key == (Key) int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_TOP)))
                 device.IsMovingTop = down;
-            else if (e.Key == Key.S)
+            else if (e.Key == (Key) int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_BOT)))
                 device.IsMovingDown = down;
-            else if (e.Key == Key.A)
+            else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_LEFT)))
                 device.IsMovingLeft = down;
-            else if (e.Key == Key.D)
+            else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_RIGHT)))
                 device.IsMovingRight = down;
         }
     }
