@@ -32,16 +32,16 @@ namespace Orbit.Gui
         
         private void LoadKeys()
         {
-            Action1.Text = parseKey(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_1)).ToString();
-            Action2.Text = parseKey(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_2)).ToString();
-            Action3.Text = parseKey(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_3)).ToString();
-            Action4.Text = parseKey(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_4)).ToString();
-            Action5.Text = parseKey(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_5)).ToString();
+            Action1.Text = parseString(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_1)).ToString();
+            Action2.Text = parseString(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_2)).ToString();
+            Action3.Text = parseString(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_3)).ToString();
+            Action4.Text = parseString(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_4)).ToString();
+            Action5.Text = parseString(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_5)).ToString();
 
-            MoveTop.Text = parseKey(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_TOP)).ToString();
-            MoveBot.Text = parseKey(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_BOT)).ToString();
-            MoveLeft.Text = parseKey(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_LEFT)).ToString();
-            MoveRight.Text = parseKey(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_RIGHT)).ToString();
+            MoveTop.Text = parseString(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_TOP)).ToString();
+            MoveBot.Text = parseString(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_BOT)).ToString();
+            MoveLeft.Text = parseString(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_LEFT)).ToString();
+            MoveRight.Text = parseString(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_RIGHT)).ToString();
 
             keyBindingsMenu.Focusable = true;
         }
@@ -49,6 +49,19 @@ namespace Orbit.Gui
         private Key parseKey(String key)
         {
             return (Key) Int32.Parse(key);
+        }
+
+        private String parseString(String key)
+        {
+            String result = parseKey(key).ToString();
+
+            if(result.Equals("D0") || result.Equals("D1") || result.Equals("D2") || result.Equals("D3") || result.Equals("D4") || result.Equals("D5") 
+                || result.Equals("D6") || result.Equals("D7") || result.Equals("D8") || result.Equals("D9")) {
+
+                    result = result.Substring(1);
+            }
+
+            return result;
         }
 
         private void Action1_MouseDoubleClick(object sender, MouseButtonEventArgs e)
