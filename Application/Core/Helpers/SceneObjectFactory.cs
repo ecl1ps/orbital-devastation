@@ -357,9 +357,29 @@ namespace Orbit.Core.Helpers
             rc.RotationSpeed = SharedDef.SPECTATOR_MODULE_ROTATION_SPEED;
             module.AddControl(rc);
 
+            module.AddControl(new HpRegenControl());
+            module.AddControl(new RespawningObjectControl());
+
             module.SetGeometry(SceneGeometryFactory.CrateMiningModule(module));
 
             return module;
+        }
+
+        public static PercentageArc CreatePercentageArc(SceneMgr mgr, MiningModule module, Player owner)
+        {
+            PercentageArc arc = new PercentageArc(mgr);
+            arc.Color = owner.GetPlayerColor();
+            arc.Radius = module.Radius + 5;
+
+            PositionCloneControl pControl = new PositionCloneControl(module);
+            arc.AddControl(pControl);
+
+            HpBarControl hControl = new HpBarControl(arc);
+            module.AddControl(hControl);
+
+            arc.SetGeometry(SceneGeometryFactory.CreateArcSegments(arc));
+
+            return arc;
         }
 
         public static OrbitEllipse CreateOrbitEllipse(SceneMgr mgr, Vector position, float radiusX, float radiusY)

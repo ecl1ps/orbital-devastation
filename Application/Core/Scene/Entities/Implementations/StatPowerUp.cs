@@ -13,7 +13,7 @@ using System.Windows.Controls;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    public class StatPowerUp : Square, IMovable, IDestroyable, IRotable, ISendable, ICatchable
+    public class StatPowerUp : Square, IMovable, IRotable, ISendable, ICatchable
     {
         public Vector Direction { get; set; }
         public float Rotation { get; set; }
@@ -33,11 +33,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
         protected override void UpdateGeometricState()
         {
             geometryElement.RenderTransform = new RotateTransform(Rotation);
-        }
-
-        public void TakeDamage(int damage, ISceneObject from)
-        {
-            
         }
 
         public void WriteObject(NetOutgoingMessage msg)

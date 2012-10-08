@@ -15,6 +15,18 @@ namespace Orbit.Core.Scene.Entities
         public Vector Position { get; set; }
         public bool Dead { get; set; }
         public SceneMgr SceneMgr { get; set; }
+        public bool Visible { get { return geometryElement.Visibility != Visibility.Hidden; } 
+            set 
+            {
+                if (geometryElement == null)
+                    return;
+
+                if (value)
+                    geometryElement.Visibility = Visibility.Visible;
+                else
+                    geometryElement.Visibility = Visibility.Hidden;
+            } 
+        }
         private bool enabled = true;
         public bool Enabled {
             get

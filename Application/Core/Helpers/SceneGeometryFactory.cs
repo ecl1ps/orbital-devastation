@@ -287,6 +287,49 @@ namespace Orbit.Core.Helpers
             return path;
         }
 
+        public static Path CreateArcSegments(PercentageArc arc)
+        {
+            Path path = null;
+
+            arc.SceneMgr.Invoke(new Action(() => {
+                path = new Path();
+                path.Data = createArc(arc);
+                path.Stroke = new SolidColorBrush(arc.Color);
+                path.StrokeThickness = 2;
+
+                Canvas.SetLeft(path, arc.Position.X);
+                Canvas.SetTop(path, arc.Position.Y);
+            }));
+
+            return path;
+        }
+
+        private static PathGeometry createArc(PercentageArc a)
+        {
+            ArcSegment arc = new ArcSegment();
+            Point point = new Point(a.Radius, 0);
+            a.Center = new Point(0, 0);
+
+            PathFigure figure = new PathFigure();
+            figure.StartPoint = point;
+
+
+            arc = new ArcSegment();
+            arc.SweepDirection = SweepDirection.Clockwise;
+            arc.IsLargeArc = true;
+            arc.Size = new Size(a.Radius, a.Radius);
+            arc.Point = a.computePointOnCircle(Math.PI * 2);
+
+            a.SetArc(arc);
+
+            figure.Segments.Add(arc);
+
+            PathGeometry geom = new PathGeometry();
+            geom.Figures.Add(figure);
+
+            return geom;
+        }
+
         public static Image CrateMiningModule(MiningModule m)
         {
             Image img = null;
@@ -301,8 +344,8 @@ namespace Orbit.Core.Helpers
                 img = new Image();
                 img.Source = bi;
                 img.Width = m.Radius * 2;
-                img.RenderTransform = new RotateTransform(m.Rotation);
                 img.RenderTransformOrigin = new Point(0.5, 0.5);
+                img.RenderTransform = new RotateTransform(m.Rotation);
 
                 Canvas.SetLeft(img, m.Position.X);
                 Canvas.SetTop(img, m.Position.Y);

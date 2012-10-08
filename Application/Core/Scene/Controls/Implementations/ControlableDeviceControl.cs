@@ -77,6 +77,28 @@ namespace Orbit.Core.Scene.Controls.Implementations
             }
         }
 
+        public override bool Enabled
+        {
+            get
+            {
+                return base.Enabled;
+            }
+            set
+            {
+                if (!value)
+                {
+                    isMovingDown = false;
+                    isMovingLeft = false;
+                    isMovingRight = false;
+                    isMovingTop = false;
+
+                    sendMovingTypeChanged();
+                }
+
+                base.Enabled = value;
+            }
+        }
+
         public override void InitControl(ISceneObject me)
         {
         }
@@ -98,6 +120,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         private void sendMovingTypeChanged()
         {
+            if (!Enabled)
+                return;
+
             NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();
             msg.Write((int) PacketType.MOVE_STATE_CHANGED);
             msg.Write(me.SceneMgr.GetCurrentPlayer().GetId());

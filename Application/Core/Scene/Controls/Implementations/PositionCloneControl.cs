@@ -27,7 +27,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if(Offset == null)
                 Offset = new Vector(0, 0);
 
-            Vector position = toFollow.Position - Offset;
+            Vector position = toFollow is Sphere ? (toFollow as Sphere).Center - Offset : toFollow.Position - Offset;
             me.Position = position;
         }
     }

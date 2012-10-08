@@ -141,12 +141,15 @@
     <Compile Include="Core\Players\StatsMgr.cs" />
     <Compile Include="Core\Properties.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ControlableDeviceControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\HpBarControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\HpRegenControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LaserDamageControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LimitedLifeControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\MiningElipseControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\MiningLineControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\MiningModuleControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\PositionCloneControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\RespawningObjectControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\StretchingLineControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\VectorLineObjectMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DroppingSingularityControl.cs" />
@@ -156,6 +159,7 @@
     <Compile Include="Core\Scene\Controls\Implementations\LinearRotationControl.cs" />
     <Compile Include="Core\Scene\Entities\ICatchable.cs" />
     <Compile Include="Core\Scene\Entities\IControledDevice.cs" />
+    <Compile Include="Core\Scene\Entities\IHasHp.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\OrbitEllipse.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\MiningModule.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\SimpleLine.cs" />
@@ -165,6 +169,7 @@
     <Compile Include="Core\Scene\Entities\Implementations\PowerHook.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\SingularityExplodingExcludingBullet.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\StaticShield.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\PercentageArc.cs" />
     <Compile Include="Core\Scene\Entities\SolidLine.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\StatPowerUp.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\VectorLine.cs" />

@@ -45,6 +45,20 @@ namespace Orbit.Core.Scene.Controls.Implementations
         public Players.Player Owner { get; set; }
         public Vector Position { get { return me.Position; } }
 
+        public override bool Enabled
+        {
+            get 
+            { 
+                return base.Enabled; 
+            }
+	        set 
+	        { 
+		        base.Enabled = value;
+                if (!value)
+                    removeMiningLines();
+	        }
+}
+
         public override void InitControl(ISceneObject me)
         {
             sceneMgr = me.SceneMgr;
@@ -159,6 +173,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         public void Collide(ISceneObject obj)
         {
+            if (!Enabled || !(me is IDestroyable))
+                return;
+
             if (obj is Asteroid)
             {
                 foreach (CollisionData data in recentlyCollided)
@@ -166,16 +183,16 @@ namespace Orbit.Core.Scene.Controls.Implementations
                         return;
 
                 int damage = (obj as Asteroid).Radius;
-                Owner.Data.Gold -= damage;
+                (me as IDestroyable).TakeDamage(damage, null);
                 me.SceneMgr.FloatingTextMgr.AddFloatingText(damage, me.Position, FloatingTextManager.TIME_LENGTH_4, FloatingTextType.DAMAGE);
 
                 recentlyCollided.Add(new CollisionData(obj));
             }
         }
 
-        public override void OnControlDestroy()
+        private void removeMiningLines()
         {
-            currentlyMining.ForEach(mineObj => mineObj.Obj.DoRemoveMe());
+            currentlyMining.ForEach(mineObj => mineObj.MiningLine.DoRemoveMe());
         }
     }
 }

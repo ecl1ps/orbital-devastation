@@ -7,7 +7,7 @@ namespace Orbit.Core.Scene.Controls
     {
         protected ISceneObject me;
 
-        public bool Enabled { get; set; }
+        public virtual bool Enabled { get; set; }
 
         public void Init(ISceneObject me)
         {

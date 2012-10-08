@@ -26,7 +26,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public int TextureId { get; set; }
         public int Gold { get; set; }
         public AsteroidType AsteroidType { get; set; }
-        
+
         public Asteroid(SceneMgr mgr) : base(mgr)
         {
         }
@@ -77,6 +77,11 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 Radius = 0;
                 DoRemoveMe();
             }
+        }
+
+        public virtual float getHp()
+        {
+            return Radius;
         }
     }
 

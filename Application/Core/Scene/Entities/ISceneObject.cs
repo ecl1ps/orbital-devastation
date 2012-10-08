@@ -19,6 +19,8 @@ namespace Orbit.Core.Scene.Entities
         
         bool Enabled { get; set; }
 
+        bool Visible { get; set; }
+
         void Update(float tpf);
 
         void AddControl(Control control);
