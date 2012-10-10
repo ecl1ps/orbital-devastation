@@ -7,6 +7,8 @@ using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Scene.Entities;
 using System.Windows;
 using Orbit.Core.Scene.Entities.Implementations;
+using Lidgren.Network;
+using Orbit.Core.Helpers;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
@@ -32,11 +34,32 @@ namespace Orbit.Core.SpecialActions.Spectator
             v = new Vector(Control.Position.X, SharedDef.CANVAS_SIZE.Height) - Control.Position;
             v = v.NormalizeV();
 
+            int count = 0;
+
             foreach (MiningObject afflicted in Control.currentlyMining)
             {
                 if (afflicted.Obj is Asteroid)
+                {
                     (afflicted.Obj as Asteroid).Direction = v * SharedDef.SPECTATOR_ASTEROID_THROW_SPEED;
+                    count++;
+                }
             }
+
+            NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+            msg.Write((int) PacketType.ASTEROIDS_DIRECTIONS_CHANGE);
+            msg.Write(count);
+
+            foreach (MiningObject afflicted in Control.currentlyMining)
+            {
+                if (afflicted.Obj is Asteroid)
+                {
+                    msg.Write((afflicted.Obj as Asteroid).Id);
+                    msg.Write((afflicted.Obj as Asteroid).Direction);
+                }
+            }
+
+            SceneMgr.SendMessage(msg);
+            
         }
 
         public override bool IsReady()

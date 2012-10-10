@@ -6,6 +6,8 @@ using Orbit.Core.Client;
 using Orbit.Core.Scene.Controls.Implementations;
 using System.Windows.Media;
 using System.Windows.Controls;
+using Lidgren.Network;
+using Orbit.Core.Players;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -14,9 +16,13 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public float Rotation { get; set; }
         public float Hp { get; set; }
 
-        public MiningModule(SceneMgr mgr)
+        private Player owner;
+
+        public MiningModule(SceneMgr mgr, Player owner)
             : base(mgr)
         {
+            this.owner = owner;
+
             Hp = SharedDef.SPECTATOR_MAX_HP;
             HasPositionInCenter = false;
         }
@@ -48,6 +54,16 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
             if (Hp <= 0)
                 (GetControlOfType(typeof(RespawningObjectControl)) as RespawningObjectControl).die(SharedDef.SPECTATOR_RESPAWN_TIME);
+
+            if(owner.IsCurrentPlayer()) {
+                NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+                msg.Write((int) PacketType.MINING_MODULE_DMG_TAKEN);
+                msg.Write(owner.GetId());
+                msg.Write(damage);
+                msg.Write(Hp);
+
+                SceneMgr.SendMessage(msg);
+            }
         }
 
         public void refillHp()

@@ -92,7 +92,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                     isMovingRight = false;
                     isMovingTop = false;
 
-                    sendMovingTypeChanged();
+                    //sendMovingTypeChanged();
                 }
 
                 base.Enabled = value;

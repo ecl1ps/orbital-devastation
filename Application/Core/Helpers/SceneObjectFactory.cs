@@ -345,7 +345,7 @@ namespace Orbit.Core.Helpers
 
         public static MiningModule CreateMiningModule(SceneMgr mgr, Vector position, Player owner)
         {
-            MiningModule module = new MiningModule(mgr);
+            MiningModule module = new MiningModule(mgr, owner);
             module.Position = position;
             module.Radius = 10;
             module.Color = Colors.Crimson;

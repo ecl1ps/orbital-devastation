@@ -9,12 +9,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
     public class HpRegenControl : Control
     {
         private float regenTimer;
-        private MiningModule me;
+        private MiningModule module;
 
         public override void InitControl(Entities.ISceneObject me)
         {
             regenTimer = SharedDef.SPECTATOR_HP_REGEN_CD;
-            this.me = me as MiningModule;
+            module = me as MiningModule;
         }
 
         public override void UpdateControl(float tpf)
@@ -23,8 +23,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 regenTimer += tpf;
             else
             {
-                if(me.Hp < SharedDef.SPECTATOR_MAX_HP)
-                    me.Hp += (SharedDef.SPECTATOR_MAX_HP / SharedDef.SPECTATOR_REGEN_SPEED) * tpf;
+                if (module.Hp < SharedDef.SPECTATOR_MAX_HP)
+                    module.Hp += (SharedDef.SPECTATOR_MAX_HP / SharedDef.SPECTATOR_REGEN_SPEED) * tpf;
             }
         }
 

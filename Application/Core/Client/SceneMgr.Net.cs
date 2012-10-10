@@ -214,7 +214,83 @@ namespace Orbit.Core.Client
                 case PacketType.MOVE_STATE_CHANGED:
                     ChangeMoveState(msg);
                     break;
+                case PacketType.MINING_MODULE_DMG_TAKEN:
+                    ReceiveModuleDamage(msg);
+                    break;
+                case PacketType.ASTEROIDS_DIRECTIONS_CHANGE:
+                    ReceiveAsteroidsDirectionChange(msg);
+                    break;
+
             }
+        }
+
+        private void ReceiveObjectsDamage(NetIncomingMessage msg)
+        {
+            int count = msg.ReadInt32();
+            int dmg = msg.ReadInt32();
+
+            IDestroyable obj;
+
+            for (int i = 0; i < count; i++)
+            {
+                obj = findObject(msg.ReadInt64(), typeof(IDestroyable)) as IDestroyable;
+                if (obj != null)
+                    obj.TakeDamage(dmg, null);
+            }
+        }
+
+        private void ReceiveAsteroidsDirectionChange(NetIncomingMessage msg)
+        {
+            int count = msg.ReadInt32();
+            Asteroid ast = null;
+            Vector dir;
+            for (int i = 0; i < count; i++)
+            {
+                ast = findObject(msg.ReadInt64(), typeof(Asteroid)) as Asteroid;
+                dir = msg.ReadVector();
+
+                if (ast != null)
+                    ast.Direction = dir;
+            }
+        }
+
+        private ISceneObject findObject(long id, Type type)
+        {
+            ISceneObject found = null;
+
+            foreach (ISceneObject obj in GetSceneObjects(type)) 
+            {
+                if (obj.Id == id)
+                {
+                    found = obj;
+                    break;
+                }
+            }
+
+            return found;
+        }
+
+        private ISceneObject findObject(long id)
+        {
+            ISceneObject found = null;
+
+            foreach (ISceneObject obj in GetSceneObjects())
+            {
+                if (obj.Id == id)
+                {
+                    found = obj;
+                    break;
+                }
+            }
+
+            return found;
+        }
+
+        private void ReceiveModuleDamage(NetIncomingMessage msg)
+        {
+            Player player = GetPlayer(msg.ReadInt32());
+            player.Device.TakeDamage(msg.ReadInt32(), null);
+            player.Device.Hp = msg.ReadFloat();
         }
 
         private void ChangeMoveState(NetIncomingMessage msg)

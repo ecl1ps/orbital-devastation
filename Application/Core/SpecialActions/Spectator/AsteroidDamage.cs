@@ -5,6 +5,7 @@ using System.Text;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Client;
 using Orbit.Core.Scene.Entities;
+using Lidgren.Network;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
@@ -26,14 +27,24 @@ namespace Orbit.Core.SpecialActions.Spectator
         {
             base.StartAction();
 
+            List<IDestroyable> temp = new List<IDestroyable>();
+
+            NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+            msg.Write((int)PacketType.OBJECTS_TAKE_DAMAGE);
+
             foreach (MiningObject afflicted in control.currentlyMining)
             {
                 if (afflicted.Obj is IDestroyable)
                 {
+                    temp.Add(afflicted.Obj as IDestroyable);
                     (afflicted.Obj as IDestroyable).TakeDamage(SharedDef.SPECTATOR_DAMAGE, null);
                     SceneMgr.FloatingTextMgr.AddFloatingText(SharedDef.SPECTATOR_DAMAGE, afflicted.Obj.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE); 
                 }
             }
+
+            msg.Write(temp.Count);
+            msg.Write(SharedDef.SPECTATOR_DAMAGE);
+            temp.ForEach(obj => msg.Write(obj.Id));
         }
 
         public override bool IsReady()

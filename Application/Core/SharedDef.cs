@@ -201,5 +201,8 @@ namespace Orbit.Core
         PLAY_SOUND,
 
         MOVE_STATE_CHANGED,
+        MINING_MODULE_DMG_TAKEN,
+        ASTEROIDS_DIRECTIONS_CHANGE,
+        OBJECTS_TAKE_DAMAGE,
     }    
 }
