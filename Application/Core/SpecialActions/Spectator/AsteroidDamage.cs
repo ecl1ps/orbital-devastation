@@ -42,9 +42,12 @@ namespace Orbit.Core.SpecialActions.Spectator
                 }
             }
 
+            msg.Write(Owner.GetId());
             msg.Write(temp.Count);
             msg.Write(SharedDef.SPECTATOR_DAMAGE);
             temp.ForEach(obj => msg.Write(obj.Id));
+
+            SceneMgr.SendMessage(msg);
         }
 
         public override bool IsReady()
