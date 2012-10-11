@@ -238,11 +238,12 @@ namespace Orbit.Core.Client
             for (int i = 0; i < count; i++)
             {
                 obj = findObject(msg.ReadInt64()) as IDestroyable;
-                
-                if (obj != null)
-                    obj.TakeDamage(dmg, owner.Device);
 
-                FloatingTextMgr.AddFloatingText(dmg, obj.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE); 
+                if (obj != null)
+                {
+                    obj.TakeDamage(dmg, owner.Device);
+                    FloatingTextMgr.AddFloatingText(dmg, obj.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE);
+                }
             }
         }
 

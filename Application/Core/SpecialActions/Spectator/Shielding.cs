@@ -8,12 +8,13 @@ using Orbit.Core.Scene.Entities;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.Controls.Implementations;
 using System.Windows;
+using Orbit.Core.Scene.Entities.Implementations;
+using System.Windows.Media;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
     class Shielding : SpecialAction
     {
-        private ISceneObject shield;
         private ISceneObject toFollow;
 
         public Shielding(ISceneObject toFollow,SceneMgr mgr, Player plr) : 
@@ -29,14 +30,17 @@ namespace Orbit.Core.SpecialActions.Spectator
         {
             base.StartAction();
 
-            shield = SceneObjectFactory.CreateShield(SceneMgr, Owner, toFollow);
+            PercentageArc arc = (Owner.Device.GetControlOfType(typeof(HpBarControl)) as HpBarControl).Bar;
+            arc.Color = Colors.RoyalBlue;
 
-            SceneMgr.DelayedAttachToScene(shield);
+            LimitedReverseDamageControl c = new LimitedReverseDamageControl(SharedDef.SPECTATOR_SHIELDING_TIME);
+            c.addControlDestroyAction(new Action(() => { arc.Color = Owner.GetPlayerColor(); }));
+            toFollow.AddControl(c);
         }
 
         public override bool IsReady()
         {
-            return Owner.Data.Gold >= Cost && (shield == null || shield.Dead);
+            return Owner.Data.Gold >= Cost && (toFollow.GetControlOfType(typeof(LimitedReverseDamageControl)) == null);
         }
     }
 }

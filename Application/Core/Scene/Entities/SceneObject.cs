@@ -93,6 +93,19 @@ namespace Orbit.Core.Scene.Entities
             return null;
         }
 
+        public List<IControl> GetControlsOfType(Type type)
+        {
+            List<IControl> temp = new List<IControl>();
+
+            foreach (IControl control in controls)
+            {
+                if (type.IsAssignableFrom(control.GetType()))
+                    temp.Add(control);
+            }
+
+            return temp;
+        }
+
         public IList<IControl> GetControlsCopy()
         {
             IControl[] copyOfControls = new IControl[controls.Count];
@@ -127,6 +140,12 @@ namespace Orbit.Core.Scene.Entities
         public void DoRemoveMe()
         {
             DoRemove(this);
+        }
+
+
+        public void RemoveControl(Control control)
+        {
+            controls.Remove(control);
         }
     }
 

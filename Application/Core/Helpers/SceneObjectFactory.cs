@@ -50,7 +50,6 @@ namespace Orbit.Core.Helpers
             shield.AddControl(new LimitedLifeControl(SharedDef.SPECTATOR_SHIELDING_TIME));
 
             PositionCloneControl pc = new PositionCloneControl(toFollow);
-            pc.Offset = new Vector(80, 10);
             shield.AddControl(new PositionCloneControl(toFollow));
 
             return shield;
@@ -359,6 +358,7 @@ namespace Orbit.Core.Helpers
 
             module.AddControl(new HpRegenControl());
             module.AddControl(new RespawningObjectControl());
+            module.AddControl(new ModuleDamageControl());
 
             module.SetGeometry(SceneGeometryFactory.CrateMiningModule(module));
 

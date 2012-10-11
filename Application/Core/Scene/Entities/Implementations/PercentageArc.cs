@@ -14,8 +14,11 @@ namespace Orbit.Core.Scene.Entities.Implementations
     {
         public int Radius { get; set; }
         public float Percentage { get; set; }
-        public Color Color { get; set; }
         public Point Center { get; set; }
+
+        private bool colorChanged = false;
+        private Color color;
+        public Color Color { get { return color; } set { color = value; colorChanged = true; } }
 
         private ArcSegment arc;
 
@@ -45,6 +48,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 arc.IsLargeArc = false;
             else if (!arc.IsLargeArc && Percentage > 0.5)
                 arc.IsLargeArc = true;
+
+            if (colorChanged)
+                (geometryElement as Path).Stroke = new SolidColorBrush(Color);
 
             arc.Point = computePointOnCircle((Math.PI * 2) * Percentage);
             Canvas.SetLeft(geometryElement, Position.X);

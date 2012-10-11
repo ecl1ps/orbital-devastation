@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Controls;
 using Lidgren.Network;
 using Orbit.Core.Players;
+using Orbit.Core.Scene.Controls;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -16,12 +17,12 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public float Rotation { get; set; }
         public float Hp { get; set; }
 
-        private Player owner;
+        public Player Owner { get; set; }
 
         public MiningModule(SceneMgr mgr, Player owner)
             : base(mgr)
         {
-            this.owner = owner;
+            this.Owner = owner;
 
             Hp = SharedDef.SPECTATOR_MAX_HP;
             HasPositionInCenter = false;
@@ -49,21 +50,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public void TakeDamage(int damage, ISceneObject from)
         {
-            Hp -= damage;
-            (GetControlOfType(typeof(HpRegenControl)) as HpRegenControl).TakeHit();
-
-            if (Hp <= 0)
-                (GetControlOfType(typeof(RespawningObjectControl)) as RespawningObjectControl).die(SharedDef.SPECTATOR_RESPAWN_TIME);
-
-            if(owner.IsCurrentPlayer()) {
-                NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-                msg.Write((int) PacketType.MINING_MODULE_DMG_TAKEN);
-                msg.Write(owner.GetId());
-                msg.Write(damage);
-                msg.Write(Hp);
-
-                SceneMgr.SendMessage(msg);
-            }
+            GetControlsOfType(typeof(IDamageControl)).ForEach(control => 
+                { (control as IDamageControl).proccessDamage(damage, from); });
         }
 
         public void refillHp()

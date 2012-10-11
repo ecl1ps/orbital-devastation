@@ -8,7 +8,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 {
     class HpBarControl : Control
     {
-        private PercentageArc bar;
+        public PercentageArc Bar { get; set;}
         private MiningModule module;
 
         public override bool Enabled
@@ -24,7 +24,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 {
                     me.SceneMgr.Invoke(new Action(() =>
                     {
-                        bar.Visible = value;
+                        Bar.Visible = value;
                     }));
                 }
             }
@@ -32,7 +32,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         public HpBarControl(PercentageArc bar)
         {
-            this.bar = bar;
+            this.Bar = bar;
         }
 
         public override void InitControl(Entities.ISceneObject me)
@@ -49,7 +49,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             else if (p < 0)
                 p = 0;
 
-            bar.Percentage = p;
+            Bar.Percentage = p;
         }
     }
 }

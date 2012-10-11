@@ -27,7 +27,11 @@ namespace Orbit.Core.Scene.Entities
 
         void RemoveControl(Type type);
 
+        void RemoveControl(Control control);
+
         IControl GetControlOfType(Type type);
+
+        List<IControl> GetControlsOfType(Type type);
 
         IList<IControl> GetControlsCopy();
 

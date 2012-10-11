@@ -183,9 +183,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                         return;
 
                 int damage = (obj as Asteroid).Radius;
-                (me as IDestroyable).TakeDamage(damage, null);
-                me.SceneMgr.FloatingTextMgr.AddFloatingText(damage, me.Position, FloatingTextManager.TIME_LENGTH_4, FloatingTextType.DAMAGE);
-
+                (me as IDestroyable).TakeDamage(damage, obj);
                 recentlyCollided.Add(new CollisionData(obj));
             }
         }
