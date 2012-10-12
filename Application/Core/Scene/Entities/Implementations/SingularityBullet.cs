@@ -36,6 +36,12 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 HitAsteroid(other as IDestroyable);
                 DoRemoveMe();
             }
+            else if (other is IDestroyable)
+            {
+                (other as IDestroyable).TakeDamage(Damage, this);
+                Owner.AddScoreAndShow(ScoreDefines.CANNON_HIT);
+                DoRemoveMe();
+            }
         }
 
         public virtual void HitAsteroid(IDestroyable asteroid)
