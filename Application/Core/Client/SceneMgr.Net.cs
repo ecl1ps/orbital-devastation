@@ -223,8 +223,19 @@ namespace Orbit.Core.Client
                 case PacketType.OBJECTS_TAKE_DAMAGE:
                     ReceiveObjectsDamage(msg);
                     break;
+                case PacketType.MODULE_COLOR_CHANGE:
+                    ReceiveModuleColorChange(msg);
+                    break;
 
             }
+        }
+
+        private void ReceiveModuleColorChange(NetIncomingMessage msg)
+        {
+            Player owner = GetPlayer(msg.ReadInt32());
+            HpBarControl control = owner.Device.GetControlOfType(typeof(HpBarControl)) as HpBarControl;
+
+            control.Bar.Color = msg.ReadColor();
         }
 
         private void ReceiveObjectsDamage(NetIncomingMessage msg)

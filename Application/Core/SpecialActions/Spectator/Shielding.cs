@@ -10,6 +10,7 @@ using Orbit.Core.Scene.Controls.Implementations;
 using System.Windows;
 using Orbit.Core.Scene.Entities.Implementations;
 using System.Windows.Media;
+using Lidgren.Network;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
@@ -22,7 +23,7 @@ namespace Orbit.Core.SpecialActions.Spectator
 
                 Name = "Static Shield";
                 ImageSource = "pack://application:,,,/resources/images/icons/shield-icon.png";
-                Cost = 1500;
+                Cost = 750;
                 this.toFollow = toFollow;
         }
 
@@ -36,6 +37,13 @@ namespace Orbit.Core.SpecialActions.Spectator
             LimitedReverseDamageControl c = new LimitedReverseDamageControl(SharedDef.SPECTATOR_SHIELDING_TIME);
             c.addControlDestroyAction(new Action(() => { arc.Color = Owner.GetPlayerColor(); }));
             toFollow.AddControl(c);
+
+            NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+            msg.Write((int)PacketType.MODULE_COLOR_CHANGE);
+            msg.Write(Owner.GetId());
+            msg.Write(arc.Color);
+
+            SceneMgr.SendMessage(msg);
         }
 
         public override bool IsReady()

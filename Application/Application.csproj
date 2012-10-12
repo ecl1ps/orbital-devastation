@@ -152,7 +152,7 @@
     <Compile Include="Core\Scene\Controls\Implementations\ModuleDamageControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\PositionCloneControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\RespawningObjectControl.cs" />
-    <Compile Include="Core\Scene\Controls\Implementations\ReverseDamageControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\LimitedReverseDamageControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\StretchingLineControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\VectorLineObjectMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DroppingSingularityControl.cs" />

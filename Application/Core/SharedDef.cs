@@ -204,5 +204,6 @@ namespace Orbit.Core
         MINING_MODULE_DMG_TAKEN,
         ASTEROIDS_DIRECTIONS_CHANGE,
         OBJECTS_TAKE_DAMAGE,
+        MODULE_COLOR_CHANGE,
     }    
 }
