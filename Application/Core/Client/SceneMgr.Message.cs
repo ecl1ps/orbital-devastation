@@ -495,6 +495,7 @@ namespace Orbit.Core.Client
 
         private void ReceivedMinorAsteroidSpawnMsg(NetIncomingMessage msg)
         {
+            float speed = msg.ReadInt64();
             int radius = msg.ReadInt32();
             Vector direction = msg.ReadVector();
             Vector center = msg.ReadVector();
@@ -505,9 +506,9 @@ namespace Orbit.Core.Client
             long id2 = msg.ReadInt64();
             long id3 = msg.ReadInt64();
 
-            MinorAsteroid a1 = SceneObjectFactory.CreateSmallAsteroid(this, id1, direction, center, rot, textureId, radius, Math.PI / 12);
-            MinorAsteroid a2 = SceneObjectFactory.CreateSmallAsteroid(this, id2, direction, center, rot, textureId, radius, 0);
-            MinorAsteroid a3 = SceneObjectFactory.CreateSmallAsteroid(this, id3, direction, center, rot, textureId, radius, -Math.PI / 12);
+            MinorAsteroid a1 = SceneObjectFactory.CreateSmallAsteroid(this, id1, direction, center, rot, textureId, radius, speed, Math.PI / 12);
+            MinorAsteroid a2 = SceneObjectFactory.CreateSmallAsteroid(this, id2, direction, center, rot, textureId, radius, speed, 0);
+            MinorAsteroid a3 = SceneObjectFactory.CreateSmallAsteroid(this, id3, direction, center, rot, textureId, radius, speed, -Math.PI / 12);
 
             UnstableAsteroid p = new UnstableAsteroid(this);
             p.Destroyer = destoryerId;

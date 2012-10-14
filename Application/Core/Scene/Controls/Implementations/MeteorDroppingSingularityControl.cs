@@ -52,8 +52,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
             collided.Add(ast);
             detonated = true;
 
+
             NewtonianMovementControl nmc = new NewtonianMovementControl();
-            nmc.Speed = 1;
+            nmc.Speed = me.SceneMgr.GetCurrentPlayer().Data.MineFallingSpeed;
             ast.AddControl(nmc);
 
             NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();

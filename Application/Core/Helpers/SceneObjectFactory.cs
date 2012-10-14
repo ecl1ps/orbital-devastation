@@ -215,7 +215,7 @@ namespace Orbit.Core.Helpers
         }
 
 
-        public static MinorAsteroid CreateSmallAsteroid(SceneMgr mgr, long id, Vector direction, Vector center, int rot, int textureId, int radius, double rotation)
+        public static MinorAsteroid CreateSmallAsteroid(SceneMgr mgr, long id, Vector direction, Vector center, int rot, int textureId, int radius,float speed, double rotation)
         {
             MinorAsteroid asteroid = new MinorAsteroid(mgr);
             asteroid.AsteroidType = AsteroidType.SPAWNED;
@@ -230,7 +230,7 @@ namespace Orbit.Core.Helpers
             asteroid.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(asteroid));
 
             NewtonianMovementControl nmc = new NewtonianMovementControl();
-            nmc.Speed = 1;
+            nmc.Speed = speed;
             asteroid.AddControl(nmc);
 
             LinearRotationControl lrc = new LinearRotationControl();

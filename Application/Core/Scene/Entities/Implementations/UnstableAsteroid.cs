@@ -32,14 +32,15 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
             int rotation = SceneMgr.GetRandomGenerator().Next(360);
             int textureId = SceneMgr.GetRandomGenerator().Next(1, 18);
+            float speed = (GetControlOfType(typeof(NewtonianMovementControl)) as NewtonianMovementControl).Speed / 2;
 
             long id1 = IdMgr.GetNewId(SceneMgr.GetCurrentPlayer().GetId());
             long id2 = IdMgr.GetNewId(SceneMgr.GetCurrentPlayer().GetId());
             long id3 = IdMgr.GetNewId(SceneMgr.GetCurrentPlayer().GetId());
 
-            MinorAsteroid a1 = SceneObjectFactory.CreateSmallAsteroid(SceneMgr, id1, Direction, Center, rotation, textureId, radius, Math.PI / 12);
-            MinorAsteroid a2 = SceneObjectFactory.CreateSmallAsteroid(SceneMgr, id2, Direction, Center, rotation, textureId, radius, 0);
-            MinorAsteroid a3 = SceneObjectFactory.CreateSmallAsteroid(SceneMgr, id3, Direction, Center, rotation, textureId, radius, -Math.PI / 12);
+            MinorAsteroid a1 = SceneObjectFactory.CreateSmallAsteroid(SceneMgr, id1, Direction, Center, rotation, textureId, radius, speed, Math.PI / 12);
+            MinorAsteroid a2 = SceneObjectFactory.CreateSmallAsteroid(SceneMgr, id2, Direction, Center, rotation, textureId, radius, speed, 0);
+            MinorAsteroid a3 = SceneObjectFactory.CreateSmallAsteroid(SceneMgr, id3, Direction, Center, rotation, textureId, radius, speed, -Math.PI / 12);
 
             a1.Parent = this;
             a2.Parent = this;
@@ -51,6 +52,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
             NetOutgoingMessage message = SceneMgr.CreateNetMessage();
             message.Write((int)PacketType.MINOR_ASTEROID_SPAWN);
+            message.Write(speed);
             message.Write(radius);
             message.Write(Direction);
             message.Write(Center);
