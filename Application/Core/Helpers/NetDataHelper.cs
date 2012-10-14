@@ -99,11 +99,13 @@ namespace Orbit.Core.Helpers
         public static void WriteObjectSingularityMine(this NetOutgoingMessage msg, SingularityMine s)
         {
             msg.WriteObjectSphere(s);
+            msg.Write(s.Direction);
         }
 
         public static void ReadObjectSingularityMine(this NetIncomingMessage msg, SingularityMine s)
         {
             msg.ReadObjectSphere(s);
+            s.Direction = msg.ReadVector();
         }
 
         public static void WriteObjectSingularityBullet(this NetOutgoingMessage msg, SingularityBullet s)
@@ -259,6 +261,11 @@ namespace Orbit.Core.Helpers
                     msg.Write(typeof(FiringSingularityControl).GUID.GetHashCode());
                     msg.WriteObjectFiringSingularityControl(c as FiringSingularityControl);
                 }
+                else if (c is MeteorDroppingSingularityControl)
+                {
+                    msg.Write(typeof(MeteorDroppingSingularityControl).GUID.GetHashCode());
+                    msg.WriteObjectDroppingSingularityControl(c as DroppingSingularityControl);
+                }
                 else
                     Console.Error.WriteLine("Sending unspported control (" + c.GetType().Name + ")!");
             }
@@ -313,9 +320,16 @@ namespace Orbit.Core.Helpers
                     msg.ReadObjectFiringSingularityControl(c);
                     controls.Add(c);
                 }
+                else if (hash == typeof(MeteorDroppingSingularityControl).GUID.GetHashCode())
+                {
+                    MeteorDroppingSingularityControl c = new MeteorDroppingSingularityControl();
+                    msg.ReadObjectDroppingSingularityControl(c);
+                    controls.Add(c);
+                }
                 else
                     Console.Error.WriteLine("Received unspported control (" + hash + ")!");
             }
+
             return controls;
         }
 

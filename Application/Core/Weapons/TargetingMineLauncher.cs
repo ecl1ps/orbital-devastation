@@ -31,7 +31,10 @@ namespace Orbit.Core.Weapons
 
         public override IWeapon Next()
         {
-            return null;
+            if (next == null)
+                next = new AsteroidMineLauncher(SceneMgr, Owner);
+
+            return next;
         }
 
         public override void ProccessClickEvent(Point point, MouseButton button, MouseButtonState state)

@@ -146,6 +146,7 @@
     <Compile Include="Core\Scene\Controls\Implementations\HpRegenControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LaserDamageControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LimitedLifeControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\MeteorDroppingSingularityControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\MiningElipseControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\MiningLineControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\MiningModuleControl.cs" />
@@ -215,6 +216,7 @@
     <Compile Include="Core\SpecialActions\Spectator\Shielding.cs" />
     <Compile Include="Core\Utils\HealingKit.cs" />
     <Compile Include="Core\Utils\IHealingKit.cs" />
+    <Compile Include="Core\Weapons\AsteroidMineLauncher.cs" />
     <Compile Include="Core\Weapons\DoubleHookLauncher.cs" />
     <Compile Include="Core\Weapons\Lazor.cs" />
     <Compile Include="Core\Weapons\PowerHookLauncher.cs" />

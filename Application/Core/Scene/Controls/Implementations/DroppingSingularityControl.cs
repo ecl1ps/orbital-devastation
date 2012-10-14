@@ -66,7 +66,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             Grow(tpf);                
         }
 
-        public void CollidedWith(IMovable movable)
+        public virtual void CollidedWith(IMovable movable)
         {
             if (!(movable is Asteroid) && !(movable is StatPowerUp))
                 return;
@@ -123,7 +123,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             return newDir;
         }
 
-        public void StartDetonation()
+        public virtual void StartDetonation()
         {
             // nevybuchne vickrat
             if (hitSomething)
@@ -153,12 +153,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
             }));
         }
 
-        private float GetDistFromStartPct()
+        protected float GetDistFromStartPct()
         {
             return (float)(meMine.Center.Y / (SharedDef.VIEW_PORT_SIZE.Height * 0.5));
         }
 
-        private float GetDistToExplosionPct()
+        protected float GetDistToExplosionPct()
         {
             return -1 * (GetDistFromStartPct() - 1);
         }

@@ -207,7 +207,7 @@ namespace Orbit.Core.Client
                     MiningModule obj = SceneObjectFactory.CreateMiningModule(this, new Vector(10, 10), p);
                     DelayedAttachToScene(obj);
                     DelayedAttachToScene(SceneObjectFactory.CreatePercentageArc(this, obj, p));
-                    
+
                     p.Device = obj;
                 }
 
@@ -215,7 +215,7 @@ namespace Orbit.Core.Client
                 {
                     actionBarMgr = new ActionBarMgr(this);
                     StateMgr.AddGameState(actionBarMgr);
-                    
+
                     if (p.IsActivePlayer())
                     {
                         inputMgr = new PlayerInputMgr(p, this, actionBarMgr);
@@ -302,7 +302,7 @@ namespace Orbit.Core.Client
                     continue;
 
                 if (obj is IDestroyable)
-                    target =(obj as IDestroyable);
+                    target = (obj as IDestroyable);
                 else
                     Console.Error.WriteLine("Object id " + bulletId + " (" + obj.GetType().Name + ") is supposed to be a instance of IDestroyable but it is not");
 

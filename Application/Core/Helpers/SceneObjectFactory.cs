@@ -96,6 +96,29 @@ namespace Orbit.Core.Helpers
             return mine;
         }
 
+        public static SingularityMine CreateAsteroidDroppingSingularityMine(SceneMgr mgr, Point point, Player plr)
+        {
+            SingularityMine mine = new SingularityMine(mgr);
+            mine.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
+            mine.Position = new Vector(point.X, 0);
+            mine.Owner = plr;
+            mine.Radius = 2;
+            mine.Direction = new Vector(0, 1);
+
+            MeteorDroppingSingularityControl sc = new MeteorDroppingSingularityControl();
+            sc.Speed = plr.Data.MineGrowthSpeed;
+            sc.Strength = plr.Data.MineStrength;
+            mine.AddControl(sc);
+
+            LinearMovementControl lmc = new LinearMovementControl();
+            lmc.InitialSpeed = plr.Data.MineFallingSpeed;
+            mine.AddControl(lmc);
+
+            mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
+
+            return mine;
+        }
+
         public static SingularityBullet CreateSingularityBullet(SceneMgr mgr, Point point, Player plr)
         {
             Vector position = new Vector(plr.GetBaseLocation().X + plr.GetBaseLocation().Width / 2, plr.GetBaseLocation().Y);
