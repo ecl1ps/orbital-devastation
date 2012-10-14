@@ -105,7 +105,7 @@ namespace Orbit.Core.Helpers
             mine.Radius = 2;
             mine.Direction = new Vector(0, 1);
 
-            MeteorDroppingSingularityControl sc = new MeteorDroppingSingularityControl();
+            AsteroidDroppingSingularityControl sc = new AsteroidDroppingSingularityControl();
             sc.Speed = plr.Data.MineGrowthSpeed;
             sc.Strength = plr.Data.MineStrength;
             mine.AddControl(sc);

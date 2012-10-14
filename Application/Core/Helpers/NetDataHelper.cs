@@ -99,13 +99,11 @@ namespace Orbit.Core.Helpers
         public static void WriteObjectSingularityMine(this NetOutgoingMessage msg, SingularityMine s)
         {
             msg.WriteObjectSphere(s);
-            msg.Write(s.Direction);
         }
 
         public static void ReadObjectSingularityMine(this NetIncomingMessage msg, SingularityMine s)
         {
             msg.ReadObjectSphere(s);
-            s.Direction = msg.ReadVector();
         }
 
         public static void WriteObjectSingularityBullet(this NetOutgoingMessage msg, SingularityBullet s)
@@ -131,7 +129,7 @@ namespace Orbit.Core.Helpers
         public static Hook ReadObjectHook(this NetIncomingMessage msg, SceneMgr mgr)
         {
             Hook h = null;
-            HookType type = (HookType) msg.ReadInt32();
+            HookType type = (HookType)msg.ReadInt32();
             switch (type)
             {
                 case HookType.HOOK_NORMAL:
@@ -226,14 +224,19 @@ namespace Orbit.Core.Helpers
             msg.Write(controls.Count);
             foreach (IControl c in controls)
             {
-                if (c is SingularityControl)
+                if (c.GetType() == typeof(SingularityControl))
                 {
                     msg.Write(typeof(SingularityControl).GUID.GetHashCode());
                     msg.WriteObjectSingularityControl(c as SingularityControl);
                 }
-                else if (c is DroppingSingularityControl)
+                else if (c.GetType() == typeof(DroppingSingularityControl))
                 {
                     msg.Write(typeof(DroppingSingularityControl).GUID.GetHashCode());
+                    msg.WriteObjectDroppingSingularityControl(c as DroppingSingularityControl);
+                }
+                else if (c.GetType() == typeof(AsteroidDroppingSingularityControl))
+                {
+                    msg.Write(typeof(AsteroidDroppingSingularityControl).GUID.GetHashCode());
                     msg.WriteObjectDroppingSingularityControl(c as DroppingSingularityControl);
                 }
                 if (c is NewtonianMovementControl)
@@ -261,11 +264,6 @@ namespace Orbit.Core.Helpers
                     msg.Write(typeof(FiringSingularityControl).GUID.GetHashCode());
                     msg.WriteObjectFiringSingularityControl(c as FiringSingularityControl);
                 }
-                else if (c is MeteorDroppingSingularityControl)
-                {
-                    msg.Write(typeof(MeteorDroppingSingularityControl).GUID.GetHashCode());
-                    msg.WriteObjectDroppingSingularityControl(c as DroppingSingularityControl);
-                }
                 else
                     Console.Error.WriteLine("Sending unspported control (" + c.GetType().Name + ")!");
             }
@@ -283,10 +281,16 @@ namespace Orbit.Core.Helpers
                     SingularityControl c = new SingularityControl();
                     msg.ReadObjectSingularityControl(c);
                     controls.Add(c);
-                }
+                } 
                 else if (hash == typeof(DroppingSingularityControl).GUID.GetHashCode())
                 {
                     DroppingSingularityControl c = new DroppingSingularityControl();
+                    msg.ReadObjectDroppingSingularityControl(c);
+                    controls.Add(c);
+                }
+                else if (hash == typeof(AsteroidDroppingSingularityControl).GUID.GetHashCode())
+                {
+                    AsteroidDroppingSingularityControl c = new AsteroidDroppingSingularityControl();
                     msg.ReadObjectDroppingSingularityControl(c);
                     controls.Add(c);
                 }
@@ -320,16 +324,9 @@ namespace Orbit.Core.Helpers
                     msg.ReadObjectFiringSingularityControl(c);
                     controls.Add(c);
                 }
-                else if (hash == typeof(MeteorDroppingSingularityControl).GUID.GetHashCode())
-                {
-                    MeteorDroppingSingularityControl c = new MeteorDroppingSingularityControl();
-                    msg.ReadObjectDroppingSingularityControl(c);
-                    controls.Add(c);
-                }
                 else
                     Console.Error.WriteLine("Received unspported control (" + hash + ")!");
             }
-
             return controls;
         }
 

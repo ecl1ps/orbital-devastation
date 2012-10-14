@@ -9,7 +9,7 @@ using Lidgren.Network;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    class MeteorDroppingSingularityControl : DroppingSingularityControl
+    class AsteroidDroppingSingularityControl : DroppingSingularityControl
     {
         private IList<IMovable> collided = new List<IMovable>();
         private bool detonated = false;
