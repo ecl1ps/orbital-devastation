@@ -53,7 +53,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             detonated = true;
 
             NewtonianMovementControl nmc = new NewtonianMovementControl();
-            nmc.InitialSpeed = 1;
+            nmc.Speed = 1;
             ast.AddControl(nmc);
 
             NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();

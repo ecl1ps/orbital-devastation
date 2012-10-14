@@ -15,7 +15,8 @@ namespace Orbit.Core.Scene.Entities
     public abstract class Sphere : SceneObject, IMovable, ICollidable
     {
         public Color Color { get; set; }
-        public Vector Direction { get; set; }
+        private Vector direction;
+        public Vector Direction { get { return direction.NormalizeV(); } set { direction = value.NormalizeV(); } }
         public int Radius { get; set; }
         public bool HasPositionInCenter { get; set; }
         public Vector Center

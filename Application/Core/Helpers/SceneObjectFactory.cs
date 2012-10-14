@@ -230,7 +230,7 @@ namespace Orbit.Core.Helpers
             asteroid.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(asteroid));
 
             NewtonianMovementControl nmc = new NewtonianMovementControl();
-            nmc.InitialSpeed = 1;
+            nmc.Speed = 1;
             asteroid.AddControl(nmc);
 
             LinearRotationControl lrc = new LinearRotationControl();

@@ -8,18 +8,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
     {
         private IMovable meMovable;
         private float earthSurface;
-        public float InitialSpeed { get; set; }
-        public float Speed {
-            get
-            {
-                return (float)meMovable.Direction.Length;
-            }
-        }
+        public float Speed { get; set; }
         public float HorizontalSpeed
         {
             get
             {
-                return (float)meMovable.Direction.GetHorizontalLenght();
+                return (meMovable.Direction * Speed).GetHorizontalLenght();
             }
         }
         public float TimeAlive { get; set; }
@@ -36,8 +30,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
             // povrch je az pod povrchem - aby se sfery nezastavily na rozhrani
             if (me.SceneMgr != null) // hack kvuli serveru :(
                 earthSurface = (float)SharedDef.VIEW_PORT_SIZE.Height * 2; 
+
             meMovable = obj as IMovable;
-            meMovable.Direction *= InitialSpeed;
         }
 
         public override void UpdateControl(float tpf)
@@ -45,9 +39,10 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (meMovable == null || double.IsNaN(meMovable.Direction.Length))
                 return;
 
+
             Vector dirToSurf = new Vector(0, -1);
 
-            me.Position += (meMovable.Direction * tpf) +
+            me.Position += (meMovable.Direction * Speed * tpf) +
                 (dirToSurf * 
                     (
                         (me.SceneMgr.LevelEnv.CurrentGravity - me.SceneMgr.LevelEnv.CurrentGravity * 

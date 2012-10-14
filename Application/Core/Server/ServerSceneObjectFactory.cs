@@ -108,7 +108,7 @@ namespace Orbit.Core.Server
         private static Asteroid CreateAsteroidControls(ServerMgr mgr, Asteroid s)
         {
             NewtonianMovementControl nmc = new NewtonianMovementControl();
-            nmc.InitialSpeed = mgr.GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_SPEED * 10, SharedDef.MAX_ASTEROID_SPEED * 10) / 10.0f;
+            nmc.Speed = mgr.GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_SPEED * 10, SharedDef.MAX_ASTEROID_SPEED * 10) / 10.0f;
             s.AddControl(nmc);
 
             LinearRotationControl lrc = new LinearRotationControl();
@@ -133,7 +133,7 @@ namespace Orbit.Core.Server
             s.PowerUpType = type;
 
             NewtonianMovementControl nmc = new NewtonianMovementControl();
-            nmc.InitialSpeed = mgr.GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_SPEED * 10, SharedDef.MAX_ASTEROID_SPEED * 10) / 10.0f;
+            nmc.Speed = mgr.GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_SPEED * 10, SharedDef.MAX_ASTEROID_SPEED * 10) / 10.0f;
             s.AddControl(nmc);
 
             LinearRotationControl lrc = new LinearRotationControl();
