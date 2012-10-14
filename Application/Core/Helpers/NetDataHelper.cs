@@ -332,12 +332,12 @@ namespace Orbit.Core.Helpers
 
         public static void WriteObjectLinearMovementControl(this NetOutgoingMessage msg, LinearMovementControl c)
         {
-            msg.Write(c.InitialSpeed);
+            msg.Write(c.Speed);
         }
 
         public static void ReadObjectLinearMovementControl(this NetIncomingMessage msg, LinearMovementControl c)
         {
-            c.InitialSpeed = msg.ReadFloat();
+            c.Speed = msg.ReadFloat();
         }
 
         public static void WriteObjectNewtonianMovementControl(this NetOutgoingMessage msg, NewtonianMovementControl c)

@@ -63,7 +63,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             smallBullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(smallBullet));
 
             LinearMovementControl nmc = new LinearMovementControl();
-            nmc.InitialSpeed = (GetControlOfType(typeof(LinearMovementControl)) as LinearMovementControl).InitialSpeed;
+            nmc.Speed = (GetControlOfType(typeof(LinearMovementControl)) as LinearMovementControl).Speed;
             smallBullet.AddControl(nmc);
 
             SceneMgr.DelayedAttachToScene(smallBullet);

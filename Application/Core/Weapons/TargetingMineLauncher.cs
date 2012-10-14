@@ -12,6 +12,7 @@ using Orbit.Core.Helpers;
 using Lidgren.Network;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Players;
+using Orbit.Core.Scene.Controls.Implementations;
 
 namespace Orbit.Core.Weapons
 {
@@ -88,11 +89,16 @@ namespace Orbit.Core.Weapons
             Vector dir = new Vector(endPoint.X - startPoint.X, endPoint.Y - startPoint.Y);
             dir.Normalize();
             mine.Direction = dir;
-            mine.Direction *= SharedDef.MINE_LAUNCHER_SPEED_MODIFIER * SharedDef.MINE_FALLING_SPEED;
 
-            NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-            (mine as ISendable).WriteObject(msg);
-            SceneMgr.SendMessage(msg);
+            LinearMovementControl c = mine.GetControlOfType(typeof(LinearMovementControl)) as LinearMovementControl;
+            c.Speed = Owner.Data.MineFallingSpeed * SharedDef.MINE_LAUNCHER_SPEED_MODIFIER;
+
+            if (SceneMgr.GameType != Gametype.SOLO_GAME)
+            {
+                NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+                (mine as ISendable).WriteObject(msg);
+                SceneMgr.SendMessage(msg);
+            }
 
             SceneMgr.DelayedAttachToScene(mine);
         }

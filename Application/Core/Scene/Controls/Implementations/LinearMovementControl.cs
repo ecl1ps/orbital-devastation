@@ -7,14 +7,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
     public class LinearMovementControl : Control
     {
         private IMovable meMovable;
-        public float InitialSpeed { get; set; }
-        public float Speed
-        {
-            get
-            {
-                return (float)meMovable.Direction.Length;
-            }
-        }
+        public float Speed { get; set; }
 
         public override void InitControl(ISceneObject obj)
         {
@@ -25,7 +18,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
             }
 
             meMovable = obj as IMovable;
-            meMovable.Direction *= InitialSpeed;
         }
 
         public override void UpdateControl(float tpf)
@@ -33,7 +25,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (meMovable == null)
                 return;
 
-            me.Position += (meMovable.Direction * tpf);
+            me.Position += (meMovable.Direction * Speed * tpf);
         }
     }
 }

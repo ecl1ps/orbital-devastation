@@ -88,7 +88,7 @@ namespace Orbit.Core.Helpers
             mine.AddControl(sc);
 
             LinearMovementControl lmc = new LinearMovementControl();
-            lmc.InitialSpeed = plr.Data.MineFallingSpeed;
+            lmc.Speed = plr.Data.MineFallingSpeed;
             mine.AddControl(lmc);
 
             mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
@@ -111,7 +111,7 @@ namespace Orbit.Core.Helpers
             mine.AddControl(sc);
 
             LinearMovementControl lmc = new LinearMovementControl();
-            lmc.InitialSpeed = plr.Data.MineFallingSpeed;
+            lmc.Speed = plr.Data.MineFallingSpeed;
             mine.AddControl(lmc);
 
             mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
@@ -136,7 +136,7 @@ namespace Orbit.Core.Helpers
             bullet.Color = plr.Data.PlayerColor;
 
             LinearMovementControl lmc = new LinearMovementControl();
-            lmc.InitialSpeed = plr.Data.BulletSpeed;
+            lmc.Speed = plr.Data.BulletSpeed;
             bullet.AddControl(lmc);
 
             bullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(bullet));
@@ -301,7 +301,7 @@ namespace Orbit.Core.Helpers
             bullet.Color = plr.Data.PlayerColor;
 
             LinearMovementControl lmc = new LinearMovementControl();
-            lmc.InitialSpeed = plr.Data.BulletSpeed;
+            lmc.Speed = plr.Data.BulletSpeed;
             bullet.AddControl(lmc);
 
             FiringSingularityControl c = new FiringSingularityControl();
@@ -329,7 +329,7 @@ namespace Orbit.Core.Helpers
             bullet.Color = plr.Data.PlayerColor;
 
             LinearMovementControl lmc = new LinearMovementControl();
-            lmc.InitialSpeed = plr.Data.BulletSpeed;
+            lmc.Speed = plr.Data.BulletSpeed;
             bullet.AddControl(lmc);
 
             bullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(bullet));
@@ -352,7 +352,7 @@ namespace Orbit.Core.Helpers
             bullet.Color = plr.Data.PlayerColor;
 
             LinearMovementControl lmc = new LinearMovementControl();
-            lmc.InitialSpeed = plr.Data.BulletSpeed;
+            lmc.Speed = plr.Data.BulletSpeed;
             bullet.AddControl(lmc);
 
             FiringSingularityControl c = new FiringSingularityControl();
