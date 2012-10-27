@@ -6,6 +6,8 @@ using System.Windows.Threading;
 using System.Windows.Controls;
 using Lidgren.Network;
 using Orbit.Core.Client;
+using System.Windows.Media.Imaging;
+using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -34,9 +36,28 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 }
             }
         }
+
+        private UIElement image100;
+        public UIElement Image100 { get { return image100; } }
+        private UIElement image75; 
+        public UIElement Image75 { get { return image75; } }
+        private UIElement image50;
+        public UIElement Image50 { get { return image50; } }
+        private UIElement image25;
+        public UIElement Image25 { get { return image25; } }
         
         public Base(SceneMgr mgr) : base(mgr)
         {
+        }
+
+        public void loadImages()
+        {
+
+            String color = Color == Colors.Blue ? "base-blue" : "base-red";
+            image100 = SceneGeometryFactory.CreateBaseImage(this, "pack://application:,,,/resources/images/base/" + color +".png");
+            image75 = SceneGeometryFactory.CreateBaseImage(this, "pack://application:,,,/resources/images/base/" + color +"-75.png");
+            image50 = SceneGeometryFactory.CreateBaseImage(this, "pack://application:,,,/resources/images/base/" + color +"-75.png");
+            image25 = SceneGeometryFactory.CreateBaseImage(this, "pack://application:,,,/resources/images/base/" + color +"-25.png");
         }
 
         public override bool IsOnScreen(Size screenSize)
@@ -68,12 +89,32 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
                 SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_DAMAGE_TO_BASE);
 
-                Integrity -= damage;
-                if (Integrity < 0)
-                    Integrity = 0;
-
+                takeDamage(damage);
                 (other as Asteroid).DoRemoveMe();
             }
+        }
+
+        private void takeDamage(int damage)
+        {
+            Integrity -= damage;
+            if (Integrity < 0)
+                Integrity = 0;
+            else if (Integrity <= 75)
+                changeGeometry(Image75);
+            else if (Integrity <= 50)
+                changeGeometry(Image50);
+            else if (Integrity <= 25)
+                changeGeometry(Image25);
+            else
+                changeGeometry(Image100);
+
+        }
+
+        private void changeGeometry(UIElement geometry)
+        {
+            SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry());
+            SceneMgr.AttachGraphicalObjectToScene(geometry);
+            SetGeometry(geometry);
         }
     }
 

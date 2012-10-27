@@ -193,6 +193,30 @@ namespace Orbit.Core.Helpers
             return path;
         }
 
+        public static UIElement CreateBaseImage(Base baze, String url)
+        {
+            Image img = null;
+            baze.SceneMgr.Invoke(new Action(() =>
+            {
+                BitmapImage bi = new BitmapImage();
+                bi.BeginInit();
+                bi.UriSource = new Uri(url);
+                bi.EndInit();
+
+                img = new Image();
+                img.Source = bi;
+                img.Source = bi;
+                img.Width = baze.Size.Width;
+                img.Height = baze.Size.Height;
+                img.RenderTransformOrigin = new Point(0.5, 0.5);
+
+                Canvas.SetLeft(img, baze.Position.X);
+                Canvas.SetTop(img, baze.Position.Y);
+            }));
+
+            return img;
+        }
+
         public static UIElement CreateHookHead(Hook hook)
         {
             hook.HasPositionInCenter = false;
