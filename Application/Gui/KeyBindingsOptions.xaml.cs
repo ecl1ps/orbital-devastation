@@ -15,34 +15,49 @@ using Orbit.Core;
 
 namespace Orbit.Gui
 {
+
+    public class KeyLabel
+    {
+        public TextBlock Label { get; set; }
+        public PropertyKey Key { get; set; }
+
+        public KeyLabel(PropertyKey key, TextBlock label)
+        {
+            Key = key;
+            Label = label;
+        }
+    }
     /// <summary>
     /// Interaction logic for KeyBindingsOptions.xaml
     /// </summary>
     public partial class KeyBindingsOptions : UserControl
     {
         private bool waitingForInput = false;
-        PropertyKey keyToFill;
-        TextBlock labelToFill;
+        private KeyLabel toFill;
+
+        private List<KeyLabel> bindings = new List<KeyLabel>();
 
         public KeyBindingsOptions()
         {
             InitializeComponent();
+
+            bindings.Add(new KeyLabel(PropertyKey.PLAYER_ACTION_1, Action1));
+            bindings.Add(new KeyLabel(PropertyKey.PLAYER_ACTION_2, Action2));
+            bindings.Add(new KeyLabel(PropertyKey.PLAYER_ACTION_3, Action3));
+            bindings.Add(new KeyLabel(PropertyKey.PLAYER_ACTION_4, Action4));
+            bindings.Add(new KeyLabel(PropertyKey.PLAYER_ACTION_5, Action5));
+            bindings.Add(new KeyLabel(PropertyKey.PLAYER_ACTION_MOVE_BOT, MoveBot));
+            bindings.Add(new KeyLabel(PropertyKey.PLAYER_ACTION_MOVE_LEFT, MoveLeft));
+            bindings.Add(new KeyLabel(PropertyKey.PLAYER_ACTION_MOVE_RIGHT, MoveRight));
+            bindings.Add(new KeyLabel(PropertyKey.PLAYER_ACTION_MOVE_TOP, MoveTop));
             LoadKeys();
         }
         
         private void LoadKeys()
         {
-            Action1.Text = parseString(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_1)).ToString();
-            Action2.Text = parseString(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_2)).ToString();
-            Action3.Text = parseString(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_3)).ToString();
-            Action4.Text = parseString(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_4)).ToString();
-            Action5.Text = parseString(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_5)).ToString();
-
-            MoveTop.Text = parseString(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_TOP)).ToString();
-            MoveBot.Text = parseString(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_BOT)).ToString();
-            MoveLeft.Text = parseString(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_LEFT)).ToString();
-            MoveRight.Text = parseString(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_RIGHT)).ToString();
-
+            foreach (KeyLabel item in bindings)
+                item.Label.Text = parseString(GameProperties.Props.Get(item.Key)).ToString();
+            
             keyBindingsMenu.Focusable = true;
         }
 
@@ -117,20 +132,31 @@ namespace Orbit.Gui
 
         private void ProccessInput(Key key)
         {
-            labelToFill.Text = key.ToString();
+            int k = (int)key;
+            toFill.Label.Text = parseString(k.ToString());
 
-            GameProperties.Props.SetAndSave(keyToFill, ((int) key));
+            GameProperties.Props.SetAndSave(toFill.Key, (int) key);
             waitingForInput = false;
+
+            foreach (KeyLabel actual in bindings) {
+                if (toFill.Key != actual.Key
+                        && k == int.Parse(GameProperties.Props.Get(actual.Key)))
+                {
+                    GameProperties.Props.SetAndSave(actual.Key, (int) Key.None);
+                    actual.Label.Text = parseString(GameProperties.Props.Get(actual.Key));
+                }
+            }
+            
         }
 
         private void WaitForInput(TextBlock label, PropertyKey key)
         {
             if (waitingForInput)
-                labelToFill.Text = parseKey(GameProperties.Props.Get(keyToFill)).ToString();
+                toFill.Label.Text = parseKey(GameProperties.Props.Get(toFill.Key)).ToString();
 
             label.Text = "Press any key";
-            labelToFill = label;
-            keyToFill = key;
+
+            toFill = new KeyLabel(key, label);
 
             waitingForInput = true;
             keyBindingsMenu.Focus();
