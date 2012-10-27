@@ -144,6 +144,8 @@ namespace Orbit.Core.Players
             int diff = amount - Data.BaseIntegrity;
 
             Data.BaseIntegrity = amount;
+            if (Baze != null)
+                Baze.checkBaseImage();
 
             if (SceneMgr.GetCanvas() == null)
                 return;

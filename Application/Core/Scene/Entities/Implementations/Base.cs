@@ -28,6 +28,10 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 {
                     Owner.SetBaseIntegrity(value);
 
+                    checkBaseImage();
+                    if (value < 0)
+                        Integrity = 0;
+
                     NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
                     msg.Write((int)PacketType.BASE_INTEGRITY_CHANGE);
                     msg.Write(Owner.GetId());
@@ -56,7 +60,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             String color = Color == Colors.Blue ? "base-blue" : "base-red";
             image100 = SceneGeometryFactory.CreateBaseImage(this, "pack://application:,,,/resources/images/base/" + color +".png");
             image75 = SceneGeometryFactory.CreateBaseImage(this, "pack://application:,,,/resources/images/base/" + color +"-75.png");
-            image50 = SceneGeometryFactory.CreateBaseImage(this, "pack://application:,,,/resources/images/base/" + color +"-75.png");
+            image50 = SceneGeometryFactory.CreateBaseImage(this, "pack://application:,,,/resources/images/base/" + color +"-50.png");
             image25 = SceneGeometryFactory.CreateBaseImage(this, "pack://application:,,,/resources/images/base/" + color +"-25.png");
         }
 
@@ -89,25 +93,21 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
                 SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_DAMAGE_TO_BASE);
 
-                takeDamage(damage);
+                Integrity -= damage;
                 (other as Asteroid).DoRemoveMe();
             }
         }
 
-        private void takeDamage(int damage)
+        public void checkBaseImage()
         {
-            Integrity -= damage;
-            if (Integrity < 0)
-                Integrity = 0;
-            else if (Integrity <= 75)
-                changeGeometry(Image75);
+            if (Integrity <= 25)
+                changeGeometry(Image25);
             else if (Integrity <= 50)
                 changeGeometry(Image50);
-            else if (Integrity <= 25)
-                changeGeometry(Image25);
+            else if (Integrity <= 75)
+                changeGeometry(Image75);
             else
                 changeGeometry(Image100);
-
         }
 
         private void changeGeometry(UIElement geometry)
