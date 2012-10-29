@@ -120,6 +120,9 @@
     <Compile Include="Core\Client\FloatingTextManager.cs" />
     <Compile Include="Core\Client\LevelEnvironment.cs" />
     <Compile Include="Core\Client\SceneMgr.Message.cs" />
+    <Compile Include="Core\Client\Shaders\ConstantColorEffect.cs" />
+    <Compile Include="Core\Client\Shaders\CustomColorEffect.cs" />
+    <Compile Include="Core\Client\Shaders\InvertColorEffect.cs" />
     <Compile Include="Core\Client\Sounds\FileSound.cs" />
     <Compile Include="Core\Client\Sounds\SoundManager.cs" />
     <Compile Include="Core\Client\StaticMouse.cs" />
@@ -606,10 +609,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Core\Client\Shaders\colorReplaceEffect.fx">
+    <Resource Include="resources\shaders\InvertColors.ps">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Core\Client\Shaders\colorReplaceEffect.ps" />
+    </Resource>
+    <Resource Include="resources\shaders\InvertColor.ps">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\shaders\colorReplaceEffect.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\shaders\colorReplaceEffect.ps">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\shaders\constantColorEffect.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\shaders\constantColorEffect.ps">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\shaders\customColorEffect.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\shaders\customColorEffect.ps">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="resources\sounds\background\stanza-poem.ogg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

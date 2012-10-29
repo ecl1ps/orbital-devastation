@@ -11,7 +11,7 @@ namespace Orbit
 
         static ColorReplaceEffect()
         {
-            _pixelShader.UriSource = new Uri("/colorReplaceEffect.ps");
+            _pixelShader.UriSource = new Uri("pack://application:,,,/resources/shaders/colorReplaceEffect.ps");
         }
 
         public ColorReplaceEffect()
@@ -65,7 +65,7 @@ namespace Orbit
         // number sent into PixelShaderConstantCallback().
         public static readonly DependencyProperty ColorReplaceProperty =
             DependencyProperty.Register("colorToWrite", typeof(Color), typeof(ColorReplaceEffect),
-                    new UIPropertyMetadata(Colors.Yellow, PixelShaderConstantCallback(0)));
+                    new UIPropertyMetadata(Colors.Yellow, PixelShaderConstantCallback(1)));
 
         #endregion
 

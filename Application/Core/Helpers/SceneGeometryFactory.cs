@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using ShaderEffectLibrary;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Weapons;
+using Orbit.Core.Client.Shaders;
 
 namespace Orbit.Core.Helpers
 {
@@ -209,6 +210,17 @@ namespace Orbit.Core.Helpers
                 img.Width = baze.Size.Width;
                 img.Height = baze.Size.Height;
                 img.RenderTransformOrigin = new Point(0.5, 0.5);
+
+                //img.Effect = new Orbit.Core.Client.Shaders.InvertColorEffect();
+
+                //CustomColorEffect effect = new CustomColorEffect();
+                //effect.Color = Colors.Green;
+
+                ColorReplaceEffect effect = new ColorReplaceEffect();
+                effect.ColorReplace = Colors.Red;
+                effect.ColorToOverride = Colors.White;
+
+                img.Effect = effect;
 
                 Canvas.SetLeft(img, baze.Position.X);
                 Canvas.SetTop(img, baze.Position.Y);
