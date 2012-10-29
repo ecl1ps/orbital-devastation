@@ -19,6 +19,10 @@ namespace Orbit.Core.Server
             if (players.Exists(plr => plr.Connection == null || plr.Connection.RemoteUniqueIdentifier == msg.SenderConnection.RemoteUniqueIdentifier))
                 return;
 
+            // don't allow spectators to join quick game
+            if (GameType == Gametype.MULTIPLAYER_GAME && players.Count >= 2)
+                return;
+
             string plrName = msg.ReadString();
             string plrHash = msg.ReadString();
 
