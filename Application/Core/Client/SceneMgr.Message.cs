@@ -495,7 +495,7 @@ namespace Orbit.Core.Client
 
         private void ReceivedMinorAsteroidSpawnMsg(NetIncomingMessage msg)
         {
-            float speed = msg.ReadInt64();
+            float speed = msg.ReadFloat();
             int radius = msg.ReadInt32();
             Vector direction = msg.ReadVector();
             Vector center = msg.ReadVector();
