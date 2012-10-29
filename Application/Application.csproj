@@ -306,6 +306,7 @@
     <Compile Include="Gui\BuyActionUC.xaml.cs">
       <DependentUpon>BuyActionUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Core\Client\Shaders\ColorReplaceEffect.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
@@ -605,10 +606,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Core\Client\Shaders\colorReplaceEffect.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Core\Client\Shaders\colorReplaceEffect.ps" />
     <Resource Include="resources\sounds\background\stanza-poem.ogg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>rd "$(ProjectDir)obj" /S /Q
