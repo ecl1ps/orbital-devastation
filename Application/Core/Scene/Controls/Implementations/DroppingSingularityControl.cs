@@ -108,7 +108,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
             Vector newDir = square.Center - me.Position;
             newDir.Normalize();
             newDir *= Strength;
-            (square as IMovable).Direction += newDir;
+            newDir += (square as IMovable).Direction;
+            newDir.Normalize();
+            (square as IMovable).Direction = newDir;
 
             return newDir;
         }
@@ -118,7 +120,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
             Vector newDir = sphere.Center - me.Position;
             newDir.Normalize();
             newDir *= Strength;
-            sphere.Direction += newDir;
+            newDir += sphere.Direction;
+            newDir.Normalize();
+            sphere.Direction = newDir;
 
             return newDir;
         }

@@ -383,7 +383,7 @@ namespace Orbit.Core.Client
                     continue;
 
                 obj.Position = pos;
-                (obj as IMovable).Direction += dir;
+                (obj as IMovable).Direction = dir;
             }
 
             SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_EXPLOSION);
