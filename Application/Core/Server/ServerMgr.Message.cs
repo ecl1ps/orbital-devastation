@@ -16,7 +16,11 @@ namespace Orbit.Core.Server
             Console.WriteLine("Incoming LOGIN");
 
             // nepridavat hrace, pokud uz existuje
-            if (players.Exists(plr => plr.Connection.RemoteUniqueIdentifier == msg.SenderConnection.RemoteUniqueIdentifier))
+            if (players.Exists(plr => plr.Connection == null || plr.Connection.RemoteUniqueIdentifier == msg.SenderConnection.RemoteUniqueIdentifier))
+                return;
+
+            // don't allow spectators to join quick game
+            if (GameType == Gametype.MULTIPLAYER_GAME && players.Count >= 2)
                 return;
 
             string plrName = msg.ReadString();

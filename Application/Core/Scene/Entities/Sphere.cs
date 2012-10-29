@@ -16,7 +16,7 @@ namespace Orbit.Core.Scene.Entities
     {
         public Color Color { get; set; }
         private Vector direction;
-        public Vector Direction { get { return direction.NormalizeV(); } set { direction = value.NormalizeV(); } }
+        public Vector Direction { get; set; }
         public int Radius { get; set; }
         public bool HasPositionInCenter { get; set; }
         public Vector Center

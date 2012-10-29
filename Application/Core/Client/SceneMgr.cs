@@ -624,7 +624,8 @@ namespace Orbit.Core.Client
         {
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                (Application.Current as App).ExitGame();
+                (Application.Current as App).GameEnded();
+                //(Application.Current as App).ExitGame();
             }));
         }
 

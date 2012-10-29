@@ -383,7 +383,7 @@ namespace Orbit.Core.Client
                     continue;
 
                 obj.Position = pos;
-                (obj as IMovable).Direction += dir;
+                (obj as IMovable).Direction = dir;
             }
 
             SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_EXPLOSION);
@@ -495,7 +495,7 @@ namespace Orbit.Core.Client
 
         private void ReceivedMinorAsteroidSpawnMsg(NetIncomingMessage msg)
         {
-            float speed = msg.ReadInt64();
+            float speed = msg.ReadFloat();
             int radius = msg.ReadInt32();
             Vector direction = msg.ReadVector();
             Vector center = msg.ReadVector();
