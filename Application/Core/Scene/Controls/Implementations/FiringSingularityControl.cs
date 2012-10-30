@@ -85,17 +85,27 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             if (!(movable is UnstableAsteroid))
             {
-                Vector newDir = (movable as Sphere).Center - me.Position;
-                newDir.Normalize();
-                newDir *= Strength;
-                movable.Direction += newDir;
+                float speed = 0;
+                IMovementControl control = movable.GetControlOfType(typeof(IMovementControl)) as IMovementControl;
+                
+                if(control != null) {
+                    Vector newDir = (movable as Sphere).Center - me.Position;
+                    newDir.Normalize();
+                    newDir *= Strength;
+                    newDir += newDir + (movable.Direction * control.Speed);
+
+                    speed = (float) newDir.Length;
+                    control.Speed = speed;
+                    movable.Direction = newDir.NormalizeV();
+                }
 
                 NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();
                 msg.Write((int)PacketType.SINGULARITY_MINE_HIT);
                 msg.Write(me.Id);
                 msg.Write((movable as ISceneObject).Id);
                 msg.Write((movable as ISceneObject).Position);
-                msg.Write(newDir);
+                msg.Write(movable.Direction);
+                msg.Write(speed);
                 me.SceneMgr.SendMessage(msg);
             }
 

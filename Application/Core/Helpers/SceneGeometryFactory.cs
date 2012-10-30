@@ -214,7 +214,7 @@ namespace Orbit.Core.Helpers
                 ColorReplaceEffect effect = new ColorReplaceEffect();
                 effect.ColorToOverride = Colors.White;
                 effect.ColorReplace = baze.Owner.GetPlayerColor();
-                effect.Treshold = 0.05f; //urcuje toleranci rozdilu 0 = zadna tolerance
+                effect.Treshold = 0.25f; //urcuje toleranci rozdilu 0 = zadna tolerance
 
                 img.Effect = effect;
 

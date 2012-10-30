@@ -14,6 +14,7 @@ using Orbit.Core.Scene.Controls.Implementations;
 using System.Windows.Media;
 using Orbit.Core.Weapons;
 using Orbit.Core.Players.Input;
+using Orbit.Core.Scene.Controls;
 
 namespace Orbit.Core.Client
 {
@@ -367,6 +368,7 @@ namespace Orbit.Core.Client
             long id = msg.ReadInt64();
             Vector pos = msg.ReadVector();
             Vector dir = msg.ReadVector();
+            float speed = msg.ReadFloat();
             foreach (ISceneObject obj in objects)
             {
                 if (obj.Id == mineId)
@@ -384,6 +386,10 @@ namespace Orbit.Core.Client
 
                 obj.Position = pos;
                 (obj as IMovable).Direction = dir;
+
+                IMovementControl control = obj.GetControlOfType(typeof(IMovementControl)) as IMovementControl;
+                if (control != null)
+                    control.Speed = speed;
             }
 
             SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_EXPLOSION);
