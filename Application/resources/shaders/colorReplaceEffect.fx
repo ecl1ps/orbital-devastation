@@ -11,7 +11,9 @@ float4 main(float2 uv : TEXCOORD) : COLOR
 	float3 delta = color.rgb - colorToOverride.rgb;
    
 	if(dot(delta, delta) < treshold) {
+		float4 diff = 1 - color;
                 float4 res = colorToWrite;
+		res = lerp(res, color, 0.5);
 		res.a = color.a;
 		return res;	
 	} else
