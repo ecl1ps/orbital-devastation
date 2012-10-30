@@ -122,7 +122,6 @@
     <Compile Include="Core\Client\SceneMgr.Message.cs" />
     <Compile Include="Core\Client\Shaders\ConstantColorEffect.cs" />
     <Compile Include="Core\Client\Shaders\CustomColorEffect.cs" />
-    <Compile Include="Core\Client\Shaders\InvertColorEffect.cs" />
     <Compile Include="Core\Client\Sounds\FileSound.cs" />
     <Compile Include="Core\Client\Sounds\SoundManager.cs" />
     <Compile Include="Core\Client\StaticMouse.cs" />
@@ -615,12 +614,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <Resource Include="resources\shaders\InvertColors.ps">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\shaders\InvertColor.ps">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="resources\shaders\colorReplaceEffect.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

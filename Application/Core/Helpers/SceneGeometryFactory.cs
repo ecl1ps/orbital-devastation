@@ -211,14 +211,10 @@ namespace Orbit.Core.Helpers
                 img.Height = baze.Size.Height;
                 img.RenderTransformOrigin = new Point(0.5, 0.5);
 
-                //img.Effect = new Orbit.Core.Client.Shaders.InvertColorEffect();
-
-                //CustomColorEffect effect = new CustomColorEffect();
-                //effect.Color = Colors.Green;
-
                 ColorReplaceEffect effect = new ColorReplaceEffect();
-                effect.ColorReplace = Colors.Red;
                 effect.ColorToOverride = Colors.White;
+                effect.ColorReplace = baze.Owner.GetPlayerColor();
+                effect.Treshold = 0.05f; //urcuje toleranci rozdilu 0 = zadna tolerance
 
                 img.Effect = effect;
 

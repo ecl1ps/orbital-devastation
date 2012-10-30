@@ -23,6 +23,7 @@ namespace Orbit
             UpdateShaderValue(InputProperty);
             UpdateShaderValue(ColorOverrideProperty);
             UpdateShaderValue(ColorReplaceProperty);
+            UpdateShaderValue(TresholdProperty);
         }
 
         #endregion
@@ -53,7 +54,7 @@ namespace Orbit
         // number sent into PixelShaderConstantCallback().
         public static readonly DependencyProperty ColorOverrideProperty =
             DependencyProperty.Register("colorToOverride", typeof(Color), typeof(ColorReplaceEffect),
-                    new UIPropertyMetadata(Colors.Yellow, PixelShaderConstantCallback(0)));
+                    new UIPropertyMetadata(Colors.White, PixelShaderConstantCallback(1)));
 
         public Color ColorReplace
         {
@@ -65,7 +66,19 @@ namespace Orbit
         // number sent into PixelShaderConstantCallback().
         public static readonly DependencyProperty ColorReplaceProperty =
             DependencyProperty.Register("colorToWrite", typeof(Color), typeof(ColorReplaceEffect),
-                    new UIPropertyMetadata(Colors.Yellow, PixelShaderConstantCallback(1)));
+                    new UIPropertyMetadata(Colors.White, PixelShaderConstantCallback(0)));
+
+        public float Treshold
+        {
+            get { return (float)GetValue(TresholdProperty); }
+            set { SetValue(TresholdProperty, value); }
+        }
+
+        // Scalar-valued properties turn into shader constants with the register
+        // number sent into PixelShaderConstantCallback().
+        public static readonly DependencyProperty TresholdProperty =
+            DependencyProperty.Register("treshold", typeof(float), typeof(ColorReplaceEffect),
+                    new UIPropertyMetadata(0.25f, PixelShaderConstantCallback(2)));
 
         #endregion
 
