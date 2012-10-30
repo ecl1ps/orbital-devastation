@@ -4,7 +4,7 @@ using Orbit.Core.Scene.Entities;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    public class LinearMovementControl : Control
+    public class LinearMovementControl : Control, IMovementControl
     {
         private IMovable meMovable;
         public float Speed { get; set; }

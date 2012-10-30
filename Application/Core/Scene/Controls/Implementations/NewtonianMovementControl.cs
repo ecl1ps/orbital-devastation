@@ -4,7 +4,7 @@ using Orbit.Core.Scene.Entities;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    public class NewtonianMovementControl : Control
+    public class NewtonianMovementControl : Control, IMovementControl
     {
         private IMovable meMovable;
         private float earthSurface;
