@@ -16,6 +16,7 @@ using System.Windows.Controls.Primitives;
 using Orbit.Core;
 using System.Collections;
 using System.Globalization;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Gui
 {

@@ -13,6 +13,7 @@ using System.Windows.Media;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Controls.Implementations;
 using Lidgren.Network;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.Weapons
 {

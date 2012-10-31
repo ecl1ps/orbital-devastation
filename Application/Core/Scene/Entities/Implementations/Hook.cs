@@ -15,6 +15,7 @@ using Orbit.Core.Helpers;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Controls.Implementations;
 using System.Diagnostics;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {

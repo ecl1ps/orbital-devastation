@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 
-namespace Orbit.Core.Client
+namespace Orbit.Core.Client.GameStates
 {
     public class StaticMouse : IGameState
     {

@@ -6,6 +6,7 @@ using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Client;
 using Orbit.Core.Scene.Entities;
 using Lidgren.Network;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {

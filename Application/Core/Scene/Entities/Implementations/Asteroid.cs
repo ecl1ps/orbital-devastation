@@ -8,6 +8,7 @@ using Orbit.Core.Scene.Controls;
 using System.Collections.Generic;
 using Orbit.Core.Client;
 using Orbit.Core.Helpers;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {

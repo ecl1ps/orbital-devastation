@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Orbit.Core.Client;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Gui
 {

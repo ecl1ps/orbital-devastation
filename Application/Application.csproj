@@ -117,14 +117,14 @@
     <Compile Include="Core\AI\BotNameAccessor.cs" />
     <Compile Include="Core\AI\HookerBot.cs" />
     <Compile Include="Core\AI\SimpleBot.cs" />
-    <Compile Include="Core\Client\FloatingTextManager.cs" />
-    <Compile Include="Core\Client\LevelEnvironment.cs" />
+    <Compile Include="Core\Client\GameStates\FloatingTextManager.cs" />
+    <Compile Include="Core\Client\GameStates\LevelEnvironment.cs" />
     <Compile Include="Core\Client\SceneMgr.Message.cs" />
     <Compile Include="Core\Client\Shaders\ConstantColorEffect.cs" />
     <Compile Include="Core\Client\Shaders\CustomColorEffect.cs" />
     <Compile Include="Core\Client\Sounds\FileSound.cs" />
     <Compile Include="Core\Client\Sounds\SoundManager.cs" />
-    <Compile Include="Core\Client\StaticMouse.cs" />
+    <Compile Include="Core\Client\GameStates\StaticMouse.cs" />
     <Compile Include="Core\GameProperties.cs" />
     <Compile Include="Core\GameStateManager.cs" />
     <Compile Include="Core\Helpers\CollisionHelper.cs" />

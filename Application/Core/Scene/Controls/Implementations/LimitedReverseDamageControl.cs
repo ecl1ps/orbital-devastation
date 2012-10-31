@@ -7,6 +7,7 @@ using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Helpers;
 using Lidgren.Network;
 using Orbit.Core.Client;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {

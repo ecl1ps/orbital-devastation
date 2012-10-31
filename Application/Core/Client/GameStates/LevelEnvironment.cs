@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Orbit.Core.Client
+namespace Orbit.Core.Client.GameStates
 {
     public class LevelEnvironment : IGameState
     {

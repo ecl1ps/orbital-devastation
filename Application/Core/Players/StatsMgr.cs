@@ -6,6 +6,7 @@ using Orbit.Core.Weapons;
 using Orbit.Core.Client;
 using Lidgren.Network;
 using System.Windows;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.Players
 { 

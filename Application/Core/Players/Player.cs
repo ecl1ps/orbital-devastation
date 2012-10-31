@@ -18,6 +18,7 @@ using Orbit.Core.SpecialActions;
 using Orbit.Core.SpecialActions.Gamer;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.SpecialActions.Spectator;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.Players
 {

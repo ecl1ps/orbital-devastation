@@ -10,6 +10,7 @@ using Orbit.Core;
 using Orbit.Core.Client;
 using Orbit.Core.Helpers;
 using System.Windows;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {

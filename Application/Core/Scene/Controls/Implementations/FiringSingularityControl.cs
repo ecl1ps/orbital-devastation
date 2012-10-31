@@ -11,6 +11,7 @@ using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Players;
 using Orbit.Core.Client;
 using System.Windows.Shapes;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {

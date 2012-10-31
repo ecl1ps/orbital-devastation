@@ -8,6 +8,7 @@ using Lidgren.Network;
 using Orbit.Core.Client;
 using System.Windows.Media.Imaging;
 using Orbit.Core.Helpers;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {

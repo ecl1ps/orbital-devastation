@@ -8,7 +8,7 @@ using System.Windows.Media;
 using Lidgren.Network;
 using Orbit.Core.Helpers;
 
-namespace Orbit.Core.Client
+namespace Orbit.Core.Client.GameStates
 {
     public class FloatingTextManager : IGameState
     {

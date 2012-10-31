@@ -12,6 +12,7 @@ using Orbit.Core.Client;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Helpers;
 using System.Windows.Input;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.Weapons
 {

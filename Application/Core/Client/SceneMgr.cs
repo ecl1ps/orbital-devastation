@@ -19,6 +19,7 @@ using Orbit.Core.Utils;
 using Orbit.Core.Weapons;
 using System.Windows.Media.Imaging;
 using Orbit.Core.Players.Input;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.Client
 {
