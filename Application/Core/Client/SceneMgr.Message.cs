@@ -140,9 +140,10 @@ namespace Orbit.Core.Client
             if (disconnected == null)
                 return;
 
-            FloatingTextMgr.AddFloatingText(disconnected.Data.Name + " has disconnected",
-                new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
-                FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
+            if (GameType != Gametype.MULTIPLAYER_GAME)
+                FloatingTextMgr.AddFloatingText(disconnected.Data.Name + " has disconnected",
+                    new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
+                    FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
 
             players.Remove(disconnected);
             (Application.Current as App).SetGameStarted(false);

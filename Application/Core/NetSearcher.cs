@@ -24,13 +24,7 @@ namespace Orbit.Core
             {
                 ReadMessages();
 
-                try
-                {
-                    Thread.Sleep(10);
-                }
-                catch (Exception /*e*/)
-                {
-                }
+                Thread.Sleep(10);
             }
         }
 

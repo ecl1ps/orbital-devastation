@@ -119,6 +119,7 @@ namespace Orbit.Core.Server
             {
                 server.FlushSendQueue();
                 server.Shutdown("Peer closed connection");
+                server = null;
                 Thread.Sleep(10); // networking threadu chvili trva ukonceni
             }
         }
@@ -173,7 +174,7 @@ namespace Orbit.Core.Server
         private void RequestStop()
         {
             shouldQuit = true;
-            Thread.Sleep(500);
+            Thread.Sleep(10);
         }
 
         public void Enqueue(Action act)

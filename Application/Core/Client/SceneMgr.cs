@@ -50,6 +50,7 @@ namespace Orbit.Core.Client
         private float statisticsTimer;
         private ActionBarMgr actionBarMgr;
         private IInputMgr inputMgr;
+        private bool playerQuit;
 
         public SceneMgr()
         {
@@ -66,6 +67,7 @@ namespace Orbit.Core.Client
             isGameInitialized = false;
             userActionsDisabled = true;
             shouldQuit = false;
+            playerQuit = false;
             objects = new List<ISceneObject>();
             objectsToRemove = new List<ISceneObject>();
             objectsToAdd = new List<ISceneObject>();
@@ -506,6 +508,8 @@ namespace Orbit.Core.Client
 
             isGameInitialized = true;
             gameEnded = true;
+            userActionsDisabled = true;
+
             if (endType == GameEnd.WIN_GAME)
                 PlayerWon(plr);
             else if (endType == GameEnd.LEFT_GAME)
@@ -515,12 +519,16 @@ namespace Orbit.Core.Client
             else if (endType == GameEnd.TOURNAMENT_FINISHED)
                 TournamenFinished(plr);
 
+            // po urcitem case zavola metodu CloseGameWindowAndCleanup()
+            StateMgr.AddGameState(new TimedGameWindowClose(this, endType));
+        }
+
+        public void CloseGameWindowAndCleanup(GameEnd endType)
+        {
             if (GameType != Gametype.TOURNAMENT_GAME || endType == GameEnd.SERVER_DISCONNECTED || endType == GameEnd.TOURNAMENT_FINISHED)
                 RequestStop();
 
             StaticMouse.Enable(false);
-
-            Thread.Sleep(3000);
 
             if (Application.Current == null)
                 return;
@@ -529,6 +537,12 @@ namespace Orbit.Core.Client
                 TournamentGameEnded();
             else if (endType != GameEnd.TOURNAMENT_FINISHED)
                 NormalGameEnded();
+        }
+
+        public void PlayerQuitGame()
+        {
+            playerQuit = true;
+            serverConnection.Disconnect("Quit");
         }
 
         private void CheckHighScore()
@@ -626,17 +640,21 @@ namespace Orbit.Core.Client
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 (Application.Current as App).GameEnded();
-                //(Application.Current as App).ExitGame();
             }));
         }
 
         private void Disconnected()
         {
+            string msg;
+            if (!playerQuit)
+                msg = "Disconnected from the server";
+            else
+                msg = "End of Game";
             Invoke(new Action(() =>
             {
                 Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
                 if (lbl != null)
-                    lbl.Content = "Disconnected from the server";
+                    lbl.Content = msg;
             }));
         }
 

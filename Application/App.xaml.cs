@@ -59,7 +59,7 @@ namespace Orbit
 
         protected override void OnExit(ExitEventArgs e)
         {
-            ExitGame();
+            ShutdownServerIfExists();
         }
 
         public void StartSoloGame()
@@ -194,23 +194,35 @@ namespace Orbit
             mainWindow.mainGrid.Children.Add(new MainUC());
         }
 
-        public void ExitGame()
+        public void ShutdownServerIfExists()
         {
-            if (sceneMgr != null)
-                sceneMgr.Enqueue(new Action(() =>
-                {
-                    sceneMgr.CloseGame();
-                }));
-
             if (server != null)
             {
                 server.Enqueue(new Action(() =>
                 {
-                    server.Shutdown();
-                    server = null;
+                    if (server != null)
+                    {
+                        server.Shutdown();
+                        server = null;
+                    }
                 }));
             }
             mainWindow.GameRunning = false;
+        }
+
+        public void ShutdownSceneMgr()
+        {
+            if (sceneMgr != null)
+            {
+                sceneMgr.Enqueue(new Action(() =>
+                {
+                    if (sceneMgr != null)
+                    {
+                        sceneMgr.CloseGame();
+                        sceneMgr = null;
+                    }
+                }));
+            }
         }
 
         public void LookForGame()
