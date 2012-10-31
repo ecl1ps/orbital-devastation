@@ -105,6 +105,7 @@ namespace Orbit.Gui
 
         private void OnClose(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            (Application.Current as App).ShutdownSceneMgr();
             Application.Current.Shutdown();
         }
 
