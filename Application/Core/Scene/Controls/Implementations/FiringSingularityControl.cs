@@ -89,7 +89,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 float speed = 0;
                 IMovementControl control = movable.GetControlOfType(typeof(IMovementControl)) as IMovementControl;
                 
-                if(control != null) {
+                if (control != null) {
                     Vector newDir = (movable as Sphere).Center - me.Position;
                     newDir.Normalize();
                     newDir *= Strength;
@@ -97,7 +97,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
                     speed = (float) newDir.Length;
                     control.Speed = speed;
-                    movable.Direction = newDir.NormalizeV();
+                    newDir.Normalize();
+                    movable.Direction = newDir;
                 }
 
                 NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();

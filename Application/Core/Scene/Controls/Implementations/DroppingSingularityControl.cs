@@ -101,6 +101,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             msg.Write((movable as ISceneObject).Id);
             msg.Write((movable as ISceneObject).Position);
             msg.Write(newDir);
+            msg.Write(0.0f); //speed
             me.SceneMgr.SendMessage(msg);
         }
 
