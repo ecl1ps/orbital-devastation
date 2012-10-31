@@ -14,7 +14,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
     {
         public int Radius { get; set; }
         public float Percentage { get; set; }
-        public Point Center { get; set; }
+        public Point CenterOfArc { get; set; }
 
         private bool colorChanged = false;
         private Color color;
@@ -31,8 +31,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public Point computePointOnCircle(double angle)
         {
             Point p = new Point();
-            p.X = Radius * Math.Cos(angle) + Center.X;
-            p.Y = Radius * Math.Sin(angle) + Center.Y - 1;
+            p.X = Radius * Math.Cos(angle) + CenterOfArc.X;
+            p.Y = Radius * Math.Sin(angle) + CenterOfArc.Y - 1;
 
             return p;
         }

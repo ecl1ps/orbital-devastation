@@ -13,6 +13,8 @@ namespace Orbit.Core.Scene.Entities
 
         Vector Position { get; set; }
 
+        Vector Center { get; }
+
         bool Dead { get; set; }
 
         SceneMgr SceneMgr { get; set; }

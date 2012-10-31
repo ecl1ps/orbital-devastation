@@ -89,44 +89,30 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             hitObjects.Add((movable as ISceneObject).Id);
 
-            Vector newDir = new Vector();
-            if (movable is Sphere)
-                newDir = CollideWithSphere(movable as Sphere);
-            else if (movable is Square)
-                newDir = CollideWithSquare(movable as Square);
+            float speed = 0;
+            IMovementControl control = movable.GetControlOfType(typeof(IMovementControl)) as IMovementControl;
+
+            if (control != null)
+            {
+                Vector newDir = (movable as ISceneObject).Center - me.Position;
+                newDir.Normalize();
+                newDir *= Strength;
+                newDir += newDir + (movable.Direction * control.Speed);
+
+                speed = (float)newDir.Length;
+                control.Speed = speed;
+                newDir.Normalize();
+                movable.Direction = newDir;
+            }
 
             NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();
             msg.Write((int)PacketType.SINGULARITY_MINE_HIT);
             msg.Write(me.Id);
             msg.Write((movable as ISceneObject).Id);
             msg.Write((movable as ISceneObject).Position);
-            msg.Write(newDir);
-            msg.Write(0.0f); //speed
+            msg.Write(movable.Direction);
+            msg.Write(speed);
             me.SceneMgr.SendMessage(msg);
-        }
-
-        private Vector CollideWithSquare(Square square)
-        {
-            Vector newDir = square.Center - me.Position;
-            newDir.Normalize();
-            newDir *= Strength;
-            newDir += (square as IMovable).Direction;
-            newDir.Normalize();
-            (square as IMovable).Direction = newDir;
-
-            return newDir;
-        }
-
-        private Vector CollideWithSphere(Sphere sphere)
-        {
-            Vector newDir = sphere.Center - me.Position;
-            newDir.Normalize();
-            newDir *= Strength;
-            newDir += sphere.Direction;
-            newDir.Normalize();
-            sphere.Direction = newDir;
-
-            return newDir;
         }
 
         public virtual void StartDetonation()

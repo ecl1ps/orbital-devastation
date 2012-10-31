@@ -18,7 +18,7 @@ namespace Orbit.Core.Scene.Entities
         public Vector Direction { get; set; }
         public int Radius { get; set; }
         public bool HasPositionInCenter { get; set; }
-        public Vector Center
+        public override Vector Center
         {
             get
             {

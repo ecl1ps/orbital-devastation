@@ -13,6 +13,13 @@ namespace Orbit.Core.Scene.Entities
         public long Id { get; set; }
         protected UIElement geometryElement;
         public Vector Position { get; set; }
+        public virtual Vector Center
+        {
+            get
+            {
+                return Position;
+            }
+        }
         public bool Dead { get; set; }
         public SceneMgr SceneMgr { get; set; }
         public bool Visible { get { return geometryElement.Visibility != Visibility.Hidden; } 

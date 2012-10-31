@@ -338,7 +338,7 @@ namespace Orbit.Core.Helpers
         {
             ArcSegment arc = new ArcSegment();
             Point point = new Point(a.Radius, 0);
-            a.Center = new Point(0, 0);
+            a.CenterOfArc = new Point(0, 0);
 
             PathFigure figure = new PathFigure();
             figure.StartPoint = point;

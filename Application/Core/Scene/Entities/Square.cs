@@ -15,7 +15,7 @@ namespace Orbit.Core.Scene.Entities
     public abstract class Square : SceneObject, ICollidable
     {
         public Size Size { get; set; }
-        public Vector Center
+        public override Vector Center
         {
             get
             {
