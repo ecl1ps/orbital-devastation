@@ -56,9 +56,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public void loadImages()
         {
-
-            String color = Color == Colors.Blue ? "base-blue" : "base-red";
-            image100 = SceneGeometryFactory.CreateBaseImage(this, "pack://application:,,,/resources/images/base/" + color +"_ridsi_200x50.png");
+            image100 = SceneGeometryFactory.CreateBaseImage(this, "pack://application:,,,/resources/images/base/base_black_and_white.png");
             image75 = image100;
             image50 = image100;
             image25 = image100;

@@ -206,7 +206,6 @@ namespace Orbit.Core.Helpers
 
                 img = new Image();
                 img.Source = bi;
-                img.Source = bi;
                 img.Width = baze.Size.Width;
                 img.Height = baze.Size.Height;
                 img.RenderTransformOrigin = new Point(0.5, 0.5);
