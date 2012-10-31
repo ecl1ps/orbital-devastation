@@ -15,6 +15,7 @@ using System.Windows.Media;
 using Orbit.Core.Weapons;
 using Orbit.Core.Players.Input;
 using Orbit.Core.Scene.Controls;
+using System.Windows.Shapes;
 
 namespace Orbit.Core.Client
 {
@@ -252,6 +253,68 @@ namespace Orbit.Core.Client
 
             SetMainInfoText("");
             userActionsDisabled = false;
+
+
+            /// for shader testing only
+            Path path = null;
+            Invoke(new Action(() =>
+            {
+                RectangleGeometry geom = new RectangleGeometry(new Rect(0, 0, 300, 100));
+                path = new Path();
+                path.Data = geom;
+                path.Fill = new LinearGradientBrush(Colors.White, Colors.Black, 0.0);
+                path.Stroke = Brushes.Black;
+
+                ColorReplaceEffect effect = new ColorReplaceEffect();
+                effect.ColorToOverride = Colors.White;
+                effect.ColorReplace = Colors.Red;
+                effect.Treshold = 0.25f; //urcuje toleranci rozdilu 0 = zadna tolerance
+
+                path.Effect = effect;
+
+                Canvas.SetLeft(path, 300);
+                Canvas.SetTop(path, 100);
+            }));
+            AttachGraphicalObjectToScene(path);
+            Invoke(new Action(() =>
+            {
+                RectangleGeometry geom = new RectangleGeometry(new Rect(0, 0, 300, 100));
+                path = new Path();
+                path.Data = geom;
+                path.Fill = new LinearGradientBrush(Colors.White, Colors.Black, 0.0);
+                path.Stroke = Brushes.Black;
+
+                ColorReplaceEffect effect = new ColorReplaceEffect();
+                effect.ColorToOverride = Colors.White;
+                effect.ColorReplace = Colors.Red;
+                effect.Treshold = 0.8f; //urcuje toleranci rozdilu 0 = zadna tolerance
+
+                path.Effect = effect;
+
+                Canvas.SetLeft(path, 300);
+                Canvas.SetTop(path, 250);
+            }));
+            AttachGraphicalObjectToScene(path);
+            Invoke(new Action(() =>
+            {
+                RectangleGeometry geom = new RectangleGeometry(new Rect(0, 0, 300, 100));
+                path = new Path();
+                path.Data = geom;
+                path.Fill = new LinearGradientBrush(Colors.White, Colors.Black, 0.0);
+                path.Stroke = Brushes.Black;
+
+                ColorReplaceEffect effect = new ColorReplaceEffect();
+                effect.ColorToOverride = Colors.White;
+                effect.ColorReplace = Colors.Red;
+                effect.Treshold = 1f; //urcuje toleranci rozdilu 0 = zadna tolerance
+
+                path.Effect = effect;
+
+                Canvas.SetLeft(path, 300);
+                Canvas.SetTop(path, 400);
+            }));
+            AttachGraphicalObjectToScene(path);
+            /// for shader testing only
         }
 
         private void ReceivedPlayerAndGoldScoreMsg(NetIncomingMessage msg)
