@@ -97,7 +97,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 Vector newDir = (movable as ISceneObject).Center - me.Position;
                 newDir.Normalize();
                 newDir *= Strength;
-                newDir += newDir + (movable.Direction * control.Speed);
+                newDir = newDir + (movable.Direction * control.Speed);
 
                 speed = (float)newDir.Length;
                 control.Speed = speed;
