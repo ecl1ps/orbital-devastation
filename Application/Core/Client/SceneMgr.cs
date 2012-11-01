@@ -616,6 +616,16 @@ namespace Orbit.Core.Client
             gameEnded = false;
             isGameInitialized = false;
             userActionsDisabled = true;
+
+            if (canvas != null)
+            {
+                Invoke(new Action(() =>
+                {
+                    foreach (ISceneObject obj in objects)
+                        canvas.Children.Remove(obj.GetGeometry());
+                }));
+            }
+
             objects.Clear();
             objectsToRemove.Clear();
             objectsToAdd.Clear();
