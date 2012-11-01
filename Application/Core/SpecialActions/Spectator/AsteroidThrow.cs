@@ -9,6 +9,7 @@ using System.Windows;
 using Orbit.Core.Scene.Entities.Implementations;
 using Lidgren.Network;
 using Orbit.Core.Helpers;
+using Orbit.Core.Scene.Controls;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
@@ -32,15 +33,19 @@ namespace Orbit.Core.SpecialActions.Spectator
 
             Vector v = new Vector();
             v = new Vector(Control.Position.X, SharedDef.CANVAS_SIZE.Height) - Control.Position;
-            v = v.NormalizeV();
+            v.Normalize();
 
             int count = 0;
 
             foreach (MiningObject afflicted in Control.currentlyMining)
             {
                 if (afflicted.Obj is Asteroid)
-                {
-                    (afflicted.Obj as Asteroid).Direction = v * SharedDef.SPECTATOR_ASTEROID_THROW_SPEED;
+                {                
+                    IMovementControl control = afflicted.Obj.GetControlOfType(typeof(IMovementControl)) as IMovementControl;               
+                    if (control != null)
+                        control.Speed = SharedDef.SPECTATOR_ASTEROID_THROW_SPEED;
+
+                    (afflicted.Obj as Asteroid).Direction = v;
                     count++;
                 }
             }

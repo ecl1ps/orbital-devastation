@@ -270,7 +270,12 @@ namespace Orbit.Core.Client
                 dir = msg.ReadVector();
 
                 if (ast != null)
+                {
                     ast.Direction = dir;
+                    IMovementControl control = ast.GetControlOfType(typeof(IMovementControl)) as IMovementControl;
+                    if (control != null)
+                        control.Speed = SharedDef.SPECTATOR_ASTEROID_THROW_SPEED;
+                }
             }
         }
 
