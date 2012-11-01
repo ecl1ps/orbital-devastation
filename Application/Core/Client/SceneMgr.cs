@@ -646,6 +646,9 @@ namespace Orbit.Core.Client
 
         private void Disconnected()
         {
+            if (canvas == null)
+                return;
+
             string msg;
             if (!playerQuit)
                 msg = "Disconnected from the server";
