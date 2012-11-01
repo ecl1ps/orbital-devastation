@@ -28,6 +28,7 @@ namespace Orbit.Core.Scene.Entities
                 if (geometryElement == null)
                     return;
 
+                //TODO: ve vlaknu gui?
                 if (value)
                     geometryElement.Visibility = Visibility.Visible;
                 else
@@ -141,9 +142,6 @@ namespace Orbit.Core.Scene.Entities
             controls.ForEach(control => control.OnControlDestroy());
         }
 
-        public virtual void OnRemove() { }
-
-
         public void DoRemoveMe()
         {
             DoRemove(this);
@@ -154,6 +152,13 @@ namespace Orbit.Core.Scene.Entities
         {
             controls.Remove(control);
         }
+
+
+        /// hooks
+
+        public virtual void OnRemove() { }
+
+        public virtual void OnAttach() { }
     }
 
 }

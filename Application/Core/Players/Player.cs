@@ -146,7 +146,7 @@ namespace Orbit.Core.Players
 
             Data.BaseIntegrity = amount;
             if (Baze != null)
-                Baze.checkBaseImage();
+                Baze.OnIntegrityChange();
 
             if (SceneMgr.GetCanvas() == null)
                 return;

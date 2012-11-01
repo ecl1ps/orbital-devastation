@@ -29,7 +29,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 {
                     Owner.SetBaseIntegrity(value);
 
-                    checkBaseImage();
+                    OnIntegrityChange();
                     if (value < 0)
                         Integrity = 0;
 
@@ -57,7 +57,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
         }
 
-        public void loadImages()
+        public void LoadImages()
         {
             image100 = SceneGeometryFactory.CreateBaseImage(this, "pack://application:,,,/resources/images/base/base_bw_shaded.png");
             image75 = SceneGeometryFactory.CreateBaseImage(this, "pack://application:,,,/resources/images/base/base_bw_shaded_75.png");
@@ -100,23 +100,34 @@ namespace Orbit.Core.Scene.Entities.Implementations
             }
         }
 
-        public void checkBaseImage()
+        public void OnIntegrityChange()
         {
             if (Integrity <= 25)
-                changeGeometry(Image25);
+                ChangeGeometry(Image25);
             else if (Integrity <= 50)
-                changeGeometry(Image50);
+                ChangeGeometry(Image50);
             else if (Integrity <= 75)
-                changeGeometry(Image75);
+                ChangeGeometry(Image75);
             else
-                changeGeometry(Image100);
+                ChangeGeometry(Image100);
         }
 
-        private void changeGeometry(UIElement geometry)
+        private void ChangeGeometry(UIElement geometry)
         {
             SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry());
             SceneMgr.AttachGraphicalObjectToScene(geometry);
             SetGeometry(geometry);
+        }
+
+        public override void  OnRemove()
+        {
+            base.OnRemove();
+            SceneMgr.RemoveGraphicalObjectFromScene(background);
+        }
+
+        public override void OnAttach()
+        {
+            SceneMgr.AttachGraphicalObjectToScene(background);
         }
     }
 

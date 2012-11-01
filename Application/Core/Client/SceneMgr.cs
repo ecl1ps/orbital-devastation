@@ -209,6 +209,7 @@ namespace Orbit.Core.Client
                 }
             }
 
+            obj.OnAttach();
             objects.Add(obj);
             BeginInvoke(new Action(() =>
             {
@@ -220,7 +221,7 @@ namespace Orbit.Core.Client
         /// bezpecne prida objekt (SceneObject i gui objekt) v dalsim updatu
         /// </summary>
         public void DelayedAttachToScene(ISceneObject obj)
-        { 
+        {
             objectsToAdd.Add(obj);
         }
 

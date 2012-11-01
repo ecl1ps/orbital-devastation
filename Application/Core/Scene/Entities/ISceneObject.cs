@@ -50,5 +50,7 @@ namespace Orbit.Core.Scene.Entities
         void DoRemoveMe();
 
         void OnRemove();
+
+        void OnAttach();
     }
 }

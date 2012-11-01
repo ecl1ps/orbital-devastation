@@ -30,7 +30,7 @@ namespace Orbit.Core.Helpers
             baze.Position = new Vector(plr.GetBaseLocation().X, plr.GetBaseLocation().Y);
             baze.Size = new Size(plr.GetBaseLocation().Width, plr.GetBaseLocation().Height);
 
-            baze.loadImages();
+            baze.LoadImages();
             baze.SetGeometry(baze.Image100);
 
             return baze;
