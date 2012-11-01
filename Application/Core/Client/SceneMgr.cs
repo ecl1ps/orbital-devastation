@@ -173,16 +173,18 @@ namespace Orbit.Core.Client
                     ;
             }
 
-            objectsToRemove.Clear();
-            objects.Clear();
-            objectsToAdd.Clear();
-
             if (canvas != null)
+            {
                 Invoke(new Action(() =>
                 {
                     foreach (ISceneObject obj in objects)
                         canvas.Children.Remove(obj.GetGeometry());
                 }));
+            }
+
+            objectsToRemove.Clear();
+            objects.Clear();
+            objectsToAdd.Clear();
         }
 
         /************************************************************************/
