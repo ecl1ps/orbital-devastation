@@ -194,7 +194,7 @@ namespace Orbit.Core.Helpers
             return path;
         }
 
-        public static UIElement CreateBaseImage(Base baze, String url)
+        public static UIElement CreateBaseImage(Base baze, String url, bool withShader = true)
         {
             Image img = null;
             baze.SceneMgr.Invoke(new Action(() =>
@@ -210,11 +210,14 @@ namespace Orbit.Core.Helpers
                 img.Height = baze.Size.Height;
                 img.RenderTransformOrigin = new Point(0.5, 0.5);
 
-                ColorReplaceEffect effect = new ColorReplaceEffect();
-                effect.ColorToOverride = Colors.White;
-                effect.ColorReplace = baze.Owner.GetPlayerColor();
+                if (withShader)
+                {
+                    ColorReplaceEffect effect = new ColorReplaceEffect();
+                    effect.ColorToOverride = Colors.White;
+                    effect.ColorReplace = baze.Owner.GetPlayerColor();
 
-                img.Effect = effect;
+                    img.Effect = effect;
+                }
 
                 Canvas.SetLeft(img, baze.Position.X);
                 Canvas.SetTop(img, baze.Position.Y);

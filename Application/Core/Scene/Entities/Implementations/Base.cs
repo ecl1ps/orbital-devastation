@@ -50,6 +50,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public UIElement Image50 { get { return image50; } }
         private UIElement image25;
         public UIElement Image25 { get { return image25; } }
+        private UIElement background;
+        public UIElement BackgroundImage { get { return background; } }
         
         public Base(SceneMgr mgr) : base(mgr)
         {
@@ -57,15 +59,11 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public void loadImages()
         {
-            image100 = SceneGeometryFactory.CreateBaseImage(this, "pack://application:,,,/resources/images/base/base_black_and_white.png");
-            image75 = image100;
-            image50 = image100;
-            image25 = image100;
-
-            /*image100 = SceneGeometryFactory.CreateBaseImage(this, "pack://application:,,,/resources/images/base/" + color + ".png");
-            image75 = SceneGeometryFactory.CreateBaseImage(this, "pack://application:,,,/resources/images/base/" + color +"-75.png");
-            image50 = SceneGeometryFactory.CreateBaseImage(this, "pack://application:,,,/resources/images/base/" + color +"-50.png");
-            image25 = SceneGeometryFactory.CreateBaseImage(this, "pack://application:,,,/resources/images/base/" + color +"-25.png");*/
+            image100 = SceneGeometryFactory.CreateBaseImage(this, "pack://application:,,,/resources/images/base/base_bw_shaded.png");
+            image75 = SceneGeometryFactory.CreateBaseImage(this, "pack://application:,,,/resources/images/base/base_bw_shaded_75.png");
+            image50 = SceneGeometryFactory.CreateBaseImage(this, "pack://application:,,,/resources/images/base/base_bw_shaded_50.png");
+            image25 = SceneGeometryFactory.CreateBaseImage(this, "pack://application:,,,/resources/images/base/base_bw_shaded_25.png");
+            background = SceneGeometryFactory.CreateBaseImage(this, "pack://application:,,,/resources/images/base/base_background_city.png", false);
         }
 
         public override bool IsOnScreen(Size screenSize)

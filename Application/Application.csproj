@@ -418,38 +418,20 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
-    <Resource Include="resources\images\base\base_black_and_white.png">
+    <Resource Include="resources\images\base\base_background_city.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="resources\images\base\base-blue_ridsi_200x50.png">
+    <Resource Include="resources\images\base\base_bw_shaded.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="resources\images\base\base-red_ridsi_200x50.png">
+    <Resource Include="resources\images\base\base_bw_shaded_25.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="resources\images\base\base-blue-50.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Resource Include="resources\images\base\base_bw_shaded_50.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="resources\images\base\base-blue-25.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\images\base\base-blue-75.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\images\base\base-blue.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\images\base\base-red-25.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\images\base\base-red-50.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\images\base\base-red-75.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\images\base\base-red.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Resource Include="resources\images\base\base_bw_shaded_75.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="resources\images\actions\shield.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
