@@ -7,19 +7,10 @@ using System.Windows.Media;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    class StaticShield : Square
+    public class StaticShield : Sphere
     {
-        public Color Color { get; set; }
-
-        public StaticShield(SceneMgr mgr)
-            : base(mgr)
+        public StaticShield(SceneMgr mgr) : base(mgr)
         {
-        }
-
-        public override void DoCollideWith(ICollidable other, float tpf)
-        {
-            if (other is IDestroyable)
-                other.DoRemoveMe();
         }
     }
 }

@@ -22,13 +22,12 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         private ArcSegment arc;
 
-        public PercentageArc(SceneMgr mgr)
-            : base(mgr)
+        public PercentageArc(SceneMgr mgr) : base(mgr)
         {
             Percentage = 1;
         }
 
-        public Point computePointOnCircle(double angle)
+        public Point ComputePointOnCircle(double angle)
         {
             Point p = new Point();
             p.X = Radius * Math.Cos(angle) + CenterOfArc.X;
@@ -52,10 +51,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
             if (colorChanged)
                 (geometryElement as Path).Stroke = new SolidColorBrush(Color);
 
-            arc.Point = computePointOnCircle((Math.PI * 2) * Percentage);
+            arc.Point = ComputePointOnCircle((Math.PI * 2) * Percentage);
             Canvas.SetLeft(geometryElement, Position.X);
             Canvas.SetTop(geometryElement, Position.Y);
-
         }
 
         public void SetArc(ArcSegment arc)

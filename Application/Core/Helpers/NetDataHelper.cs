@@ -13,6 +13,7 @@ using Orbit.Core.Scene.Controls;
 using Orbit.Core.Weapons;
 using Orbit.Core.Helpers;
 using Orbit.Core.Client;
+using Orbit.Core.Scene.Controls.Collisions.Implementations;
 
 namespace Orbit.Core.Helpers
 {
@@ -32,13 +33,6 @@ namespace Orbit.Core.Helpers
             s.Id = msg.ReadInt64();
             s.Dead = msg.ReadBoolean();
             s.Position = msg.ReadVector();
-        }
-
-        public static void WriteObjectLine(this NetOutgoingMessage msg, SolidLine l)
-        {
-            msg.WriteObjectSceneObject(l);
-            msg.Write(l.Start);
-            msg.Write(l.End);
         }
 
         public static void WriteObjectSphere(this NetOutgoingMessage msg, Sphere s)
@@ -167,7 +161,7 @@ namespace Orbit.Core.Helpers
             s.Size = new Size(msg.ReadDouble(), msg.ReadDouble());
         }
 
-        public static void WriteObjectSolidLine(this NetOutgoingMessage msg, SolidLine l)
+        public static void WriteObjectLine(this NetOutgoingMessage msg, Line l)
         {
             msg.WriteObjectSceneObject(l);
 
@@ -177,24 +171,24 @@ namespace Orbit.Core.Helpers
             msg.Write(l.Width);
         }
 
-        public static void ReadObjectSolidLine(this NetIncomingMessage msg, SolidLine l)
+        public static void ReadObjectLine(this NetIncomingMessage msg, Line l)
         {
             msg.ReadObjectSceneObject(l);
 
-            l.Start = msg.ReadPoint();
-            l.End = msg.ReadPoint();
+            l.Start = msg.ReadVector();
+            l.End = msg.ReadVector();
             l.Color = msg.ReadColor();
             l.Width = msg.ReadInt32();
         }
 
         public static void WriteObjectLaser(this NetOutgoingMessage msg, Laser l)
         {
-            msg.WriteObjectSolidLine(l);
+            msg.WriteObjectLine(l);
         }
 
         public static void ReadObjectLaser(this NetIncomingMessage msg, Laser l)
         {
-            msg.ReadObjectSolidLine(l);
+            msg.ReadObjectLine(l);
 
             l.AddControl(new LaserDamageControl());
         }
@@ -224,7 +218,14 @@ namespace Orbit.Core.Helpers
             msg.Write(controls.Count);
             foreach (IControl c in controls)
             {
-                if (c.GetType() == typeof(SingularityControl))
+                if (c.GetType() == typeof(BaseCollisionControl))
+                    msg.Write(typeof(BaseCollisionControl).GUID.GetHashCode());
+                else if (c.GetType() == typeof(BouncingSingularityBulletControl))
+                {
+                    msg.Write(typeof(BouncingSingularityBulletControl).GUID.GetHashCode());
+                    msg.WriteObjectExplodingSingularityBulletControl(c as ExplodingSingularityBulletControl);
+                }
+                else if (c.GetType() == typeof(SingularityControl))
                 {
                     msg.Write(typeof(SingularityControl).GUID.GetHashCode());
                     msg.WriteObjectSingularityControl(c as SingularityControl);
@@ -259,11 +260,38 @@ namespace Orbit.Core.Helpers
                     msg.Write(typeof(HookControl).GUID.GetHashCode());
                     msg.WriteObjectHookControl(c as HookControl);
                 }
-                else if (c is FiringSingularityControl)
+                else if (c is PowerHookControl)
                 {
-                    msg.Write(typeof(FiringSingularityControl).GUID.GetHashCode());
-                    msg.WriteObjectFiringSingularityControl(c as FiringSingularityControl);
+                    msg.Write(typeof(PowerHookControl).GUID.GetHashCode());
+                    msg.WriteObjectHookControl(c as HookControl);
                 }
+                else if (c is ExplodingSingularityBulletControl)
+                {
+                    msg.Write(typeof(ExplodingSingularityBulletControl).GUID.GetHashCode());
+                    msg.WriteObjectExplodingSingularityBulletControl(c as ExplodingSingularityBulletControl);
+                }
+                else if (c is ExcludingExplodingSingularityBulletControl)
+                {
+                    msg.Write(typeof(ExcludingExplodingSingularityBulletControl).GUID.GetHashCode());
+                    msg.WriteObjectExcludingExplodingSingularityBulletControl(c as ExcludingExplodingSingularityBulletControl);
+                }
+
+                else if (c is MinorAsteroidCollisionReactionControl)
+                    msg.Write(typeof(MinorAsteroidCollisionReactionControl).GUID.GetHashCode());
+                else if (c is SingularityBulletCollisionReactionControl)
+                    msg.Write(typeof(SingularityBulletCollisionReactionControl).GUID.GetHashCode());
+                else if (c is StaticShieldCollisionReactionControl)
+                    msg.Write(typeof(StaticShieldCollisionReactionControl).GUID.GetHashCode());
+                else if (c is StatPowerUpCollisionReactionControl)
+                    msg.Write(typeof(StatPowerUpCollisionReactionControl).GUID.GetHashCode());
+
+                else if (c is StickyPointCollisionShapeControl)
+                    msg.Write(typeof(StickyPointCollisionShapeControl).GUID.GetHashCode());
+                else if (c is StickySphereCollisionShapeControl)
+                    msg.Write(typeof(StickySphereCollisionShapeControl).GUID.GetHashCode());
+                else if (c is StickySquareCollisionShapeControl)
+                    msg.Write(typeof(StickySquareCollisionShapeControl).GUID.GetHashCode());
+
                 else
                     Console.Error.WriteLine("Sending unspported control (" + c.GetType().Name + ")!");
             }
@@ -271,12 +299,22 @@ namespace Orbit.Core.Helpers
 
         public static IList<IControl> ReadControls(this NetIncomingMessage msg)
         {
-            IList<IControl> controls = new List<IControl>();
             int controlCount = msg.ReadInt32();
+            IList<IControl> controls = new List<IControl>(controlCount);
             for (int i = 0; i < controlCount; ++i)
             {
                 int hash = msg.ReadInt32();
-                if (hash == typeof(SingularityControl).GUID.GetHashCode())
+                if (hash == typeof(BaseCollisionControl).GUID.GetHashCode())
+                {
+                    controls.Add(new BaseCollisionControl());
+                }
+                else if (hash == typeof(BouncingSingularityBulletControl).GUID.GetHashCode())
+                {
+                    BouncingSingularityBulletControl c = new BouncingSingularityBulletControl();
+                    msg.ReadObjectExplodingSingularityBulletControl(c);
+                    controls.Add(c);
+                } 
+                else if (hash == typeof(SingularityControl).GUID.GetHashCode())
                 {
                     SingularityControl c = new SingularityControl();
                     msg.ReadObjectSingularityControl(c);
@@ -318,16 +356,66 @@ namespace Orbit.Core.Helpers
                     msg.ReadObjectHookControl(c);
                     controls.Add(c);
                 }
-                else if (hash == typeof(FiringSingularityControl).GUID.GetHashCode())
+                else if (hash == typeof(PowerHookControl).GUID.GetHashCode())
                 {
-                    FiringSingularityControl c = new FiringSingularityControl();
-                    msg.ReadObjectFiringSingularityControl(c);
+                    PowerHookControl c = new PowerHookControl();
+                    msg.ReadObjectHookControl(c);
                     controls.Add(c);
                 }
+                else if (hash == typeof(ExplodingSingularityBulletControl).GUID.GetHashCode())
+                {
+                    ExplodingSingularityBulletControl c = new ExplodingSingularityBulletControl();
+                    msg.ReadObjectExplodingSingularityBulletControl(c);
+                    controls.Add(c);
+                }
+                else if (hash == typeof(ExcludingExplodingSingularityBulletControl).GUID.GetHashCode())
+                {
+                    ExcludingExplodingSingularityBulletControl c = new ExcludingExplodingSingularityBulletControl();
+                    msg.ReadObjectExcludingExplodingSingularityBulletControl(c);
+                    controls.Add(c);
+                }
+                else if (hash == typeof(MinorAsteroidCollisionReactionControl).GUID.GetHashCode())
+                    controls.Add(new MinorAsteroidCollisionReactionControl());
+                else if (hash == typeof(SingularityBulletCollisionReactionControl).GUID.GetHashCode())
+                    controls.Add(new SingularityBulletCollisionReactionControl());
+                else if (hash == typeof(StaticShieldCollisionReactionControl).GUID.GetHashCode())
+                    controls.Add(new StaticShieldCollisionReactionControl());
+                else if (hash == typeof(StatPowerUpCollisionReactionControl).GUID.GetHashCode())
+                    controls.Add(new StatPowerUpCollisionReactionControl());
+
+                else if (hash == typeof(StickyPointCollisionShapeControl).GUID.GetHashCode())
+                    controls.Add(new StickyPointCollisionShapeControl());
+                else if (hash == typeof(StickySphereCollisionShapeControl).GUID.GetHashCode())
+                    controls.Add(new StickySphereCollisionShapeControl());
+                else if (hash == typeof(StickySquareCollisionShapeControl).GUID.GetHashCode())
+                    controls.Add(new StickySquareCollisionShapeControl());
+
                 else
                     Console.Error.WriteLine("Received unspported control (" + hash + ")!");
             }
             return controls;
+        }
+
+        public static void ReadObjectExcludingExplodingSingularityBulletControl(this NetIncomingMessage msg, ExcludingExplodingSingularityBulletControl c)
+        {
+            msg.ReadObjectExplodingSingularityBulletControl(c);
+
+            int max = msg.ReadInt32();
+
+            for (int i = 0; i < max; i++)
+                c.IgnoredObjects.Add(msg.ReadInt64());
+        }
+
+        public static void WriteObjectExcludingExplodingSingularityBulletControl(this NetOutgoingMessage msg, ExcludingExplodingSingularityBulletControl c)
+        {
+            msg.WriteObjectExplodingSingularityBulletControl(c);
+
+            msg.Write((int)c.IgnoredObjects.Count);
+
+            foreach (long id in c.IgnoredObjects)
+            {
+                msg.Write(id);
+            }
         }
 
         public static void WriteObjectLinearMovementControl(this NetOutgoingMessage msg, LinearMovementControl c)
@@ -398,13 +486,13 @@ namespace Orbit.Core.Helpers
             c.Speed = msg.ReadInt32();
         }
 
-        public static void WriteObjectFiringSingularityControl(this NetOutgoingMessage msg, FiringSingularityControl c)
+        public static void WriteObjectExplodingSingularityBulletControl(this NetOutgoingMessage msg, ExplodingSingularityBulletControl c)
         {
             msg.Write(c.Strength);
             msg.Write(c.Speed);
         }
 
-        public static void ReadObjectFiringSingularityControl(this NetIncomingMessage msg, FiringSingularityControl c)
+        public static void ReadObjectExplodingSingularityBulletControl(this NetIncomingMessage msg, ExplodingSingularityBulletControl c)
         {
             c.Strength = msg.ReadFloat();
             c.Speed = msg.ReadFloat();

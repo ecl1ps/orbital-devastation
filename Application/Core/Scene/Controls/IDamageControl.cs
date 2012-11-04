@@ -10,6 +10,6 @@ namespace Orbit.Core.Scene.Controls
     {
         bool Vulnerable { get; set; }
 
-        void proccessDamage(int damage, ISceneObject causedBy);
+        void ProccessDamage(int damage, ISceneObject causedBy);
     }
 }

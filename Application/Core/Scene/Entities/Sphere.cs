@@ -12,7 +12,7 @@ using Orbit.Core.Scene.Entities.Implementations;
 
 namespace Orbit.Core.Scene.Entities
 {
-    public abstract class Sphere : SceneObject, IMovable, ICollidable
+    public abstract class Sphere : SceneObject, IMovable
     {
         public Color Color { get; set; }
         public Vector Direction { get; set; }
@@ -60,24 +60,5 @@ namespace Orbit.Core.Scene.Entities
         protected virtual void UpdateGeometricState() 
         {
         }
-
-        public virtual bool CollideWith(ICollidable other)
-        {
-            if (other is SpherePoint)
-                return CollisionHelper.IntersectsCircleAndPoint(((SpherePoint)other).Center, Center, Radius);
-
-            if (other is Sphere)
-                return CollisionHelper.IntersectsCircleAndCircle(Center, Radius, (other as Sphere).Center, (other as Sphere).Radius);
-
-            if (other is Square)
-                return CollisionHelper.IntersectsCircleAndSquare(Center, Radius, (other as Square).Position, (other as Square).Size);
-
-            if (other is SolidLine)
-                return CollisionHelper.IntersectCircleAndLine((other as SolidLine).Start, (other as SolidLine).End, Center.ToPoint(), Radius);
-            
-            return false;
-        }
-
-        public abstract void DoCollideWith(ICollidable other, float tpf);
     }
 }

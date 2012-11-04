@@ -15,8 +15,7 @@ namespace Orbit.Core.Weapons
 {
     class AsteroidMineLauncher : TargetingMineLauncher
     {
-        public AsteroidMineLauncher(SceneMgr mgr, Player plr)
-            : base(mgr, plr)
+        public AsteroidMineLauncher(SceneMgr mgr, Player plr) : base(mgr, plr)
         {
             Name = "Asteroid Carrier";
             Cost = 750;
@@ -34,7 +33,7 @@ namespace Orbit.Core.Weapons
             dir.Normalize();
             mine.Direction = dir;
 
-            LinearMovementControl c = mine.GetControlOfType(typeof(LinearMovementControl)) as LinearMovementControl;
+            LinearMovementControl c = mine.GetControlOfType<LinearMovementControl>();
             c.Speed = Owner.Data.MineFallingSpeed * SharedDef.MINE_LAUNCHER_SPEED_MODIFIER;
 
             if (SceneMgr.GameType != Gametype.SOLO_GAME)

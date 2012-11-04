@@ -21,8 +21,8 @@ namespace Orbit.Core.Players.Input
 
         public SpectatorInputMgr(Player p, SceneMgr sceneMgr, ISceneObject obj, ActionBarMgr actionMgr) : base(actionMgr)
         {
-            IControledDevice d = obj.GetControlOfType(typeof(IControledDevice)) as IControledDevice;
-            MiningModuleControl mc = obj.GetControlOfType(typeof(MiningModuleControl)) as MiningModuleControl;
+            IControledDevice d = obj.GetControlOfType<IControledDevice>();
+            MiningModuleControl mc = obj.GetControlOfType<MiningModuleControl>();
 
             if (mc == null)
                 throw new Exception("U must inicialize SpectatorInputManager with object containg MiningModuleControl");

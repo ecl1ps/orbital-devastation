@@ -33,19 +33,19 @@ namespace Orbit.Core.Scene.Controls.Implementations
                     Enabled = true;
             }
         }
-        private SolidLine line;
+        private Line line;
 
-        public override void InitControl(ISceneObject me)
+        protected override void InitControl(ISceneObject me)
         {
-            if (me is SolidLine)
+            if (me is Line)
             {
-                line = me as SolidLine;
+                line = me as Line;
             }
             else
                 throw new Exception("Stretching line control must be attached to solid line object");
         }
 
-        public override void UpdateControl(float tpf)
+        protected override void UpdateControl(float tpf)
         {
             if(FirstObj == null || SecondObj == null) {
                 Enabled = false;
@@ -61,14 +61,14 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private void UpdateLine()
         {
             if (firstObj is Sphere)
-                line.Start = (FirstObj as Sphere).Center.ToPoint();
+                line.Start = (FirstObj as Sphere).Center;
             else
-                line.Start = FirstObj.Position.ToPoint();
+                line.Start = FirstObj.Position;
 
             if (SecondObj is Sphere)
-                line.End = (SecondObj as Sphere).Center.ToPoint();
+                line.End = (SecondObj as Sphere).Center;
             else
-                line.End = secondObj.Position.ToPoint();
+                line.End = secondObj.Position;
         }
     }
 }

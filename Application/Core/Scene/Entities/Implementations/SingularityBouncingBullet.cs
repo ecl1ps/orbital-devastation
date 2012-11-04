@@ -8,31 +8,25 @@ using Lidgren.Network;
 using System.Windows;
 using Orbit.Core.Scene.Controls;
 using Orbit.Core.Scene.Controls.Implementations;
+using Orbit.Core.Scene.CollisionShapes;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
     class SingularityBouncingBullet : SingularityExplodingBullet
     {
-
-        public SingularityBouncingBullet(SceneMgr mgr)
-            : base(mgr)
+        public SingularityBouncingBullet(SceneMgr mgr) : base(mgr)
         {
         }
 
-        public override void HitAsteroid(IDestroyable asteroid)
+        public void SpawnNewBullet(ISceneObject collidedWith)
         {
-            base.HitAsteroid(asteroid);
-            SpawnNewBullet(asteroid);
-        }
-
-        private void SpawnNewBullet(ISceneObject collidedWith)
-        {
-            SingularityExplodingExcludingBullet bullet = new SingularityExplodingExcludingBullet(collidedWith, SceneMgr);
+            SingularityExplodingBullet bullet = new SingularityExplodingBullet(SceneMgr);
             SceneObjectFactory.InitSingularityBullet(bullet, SceneMgr, GetComputedPoint(), Position, Owner);
 
-            FiringSingularityControl c = new FiringSingularityControl();
+            ExcludingExplodingSingularityBulletControl c = new ExcludingExplodingSingularityBulletControl();
             c.Speed = SharedDef.BULLET_EXPLOSION_SPEED;
             c.Strength = SharedDef.BULLET_EXPLOSION_STRENGTH;
+            c.IgnoredObjects.Add(collidedWith.Id);
             bullet.AddControl(c);
 
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
@@ -50,17 +44,17 @@ namespace Orbit.Core.Scene.Entities.Implementations
             return b == 0 ? d : -d;
         }
 
-        private Point GetComputedPoint() {
+        private Vector GetComputedPoint() {
             Asteroid nearest = GetNearestAsteroid();
-            Point random = Direction.Rotate(GetRandomRotation()).ToPoint();
+            Vector random = Direction.Rotate(GetRandomRotation());
 
             if (nearest == null)
                 return random;
 
-            // rychlost hooku
+            // rychlost bulletu
             double v1 = Owner.Data.BulletSpeed;
             // rychlost objektu
-            double v2 = nearest.Direction.Length;
+            double v2 = nearest.GetControlOfType<IMovementControl>().Speed;
             // vektor od objketu k launcheru hooku
             Vector cVec = Position - nearest.Center;
             // vektor smeru objektu
@@ -85,10 +79,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
             dVec.Normalize();
 
-            // bod do ktereho je potreba strelit
-            Vector contactPoint1 = nearest.Center + (dVec * x1);
-
-            return contactPoint1.ToPoint();
+            return nearest.Center + (dVec * x1);
         }
 
         private Asteroid GetNearestAsteroid()
@@ -124,6 +115,11 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public override void ReadObject(NetIncomingMessage msg)
         {
             msg.ReadObjectSingularityBullet(this);
+
+            PointCollisionShape cs = new PointCollisionShape();
+            cs.Center = Center;
+            CollisionShape = cs;
+
             IList<IControl> controls = msg.ReadControls();
             foreach (Control c in controls)
                 AddControl(c);

@@ -11,15 +11,16 @@ using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Players;
 using Orbit.Core.Client;
 using Orbit.Core.Client.GameStates;
+using Orbit.Core.Scene.Controls.Collisions;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    public class DroppingSingularityControl : Control
+    public class DroppingSingularityControl : Control, ICollisionReactionControl
     {
         public float Strength { get; set; }
         public float Speed { get; set; }
         private float lifeTime;
-        private SingularityMine meMine;
+        protected SingularityMine meMine;
         private IList<long> hitObjects;
         private bool hitSomething;
 
@@ -28,7 +29,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             meMine.Radius += (int)(Speed * tpf * 100);
         }
 
-        public override void InitControl(ISceneObject me)
+        protected override void InitControl(ISceneObject me)
         {
             if (!(me is SingularityMine))
                 throw new InvalidOperationException("Cannot attach SingularityControl to non SingularityMine object");
@@ -39,7 +40,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             hitSomething = false;
         }
 
-        public override void UpdateControl(float tpf)
+        protected override void UpdateControl(float tpf)
         {
             AdjustColorsDueToDistance();
 
@@ -67,9 +68,10 @@ namespace Orbit.Core.Scene.Controls.Implementations
             Grow(tpf);                
         }
 
-        public virtual void CollidedWith(IMovable movable)
+
+        public virtual void DoCollideWith(ISceneObject other, float tpf)
         {
-            if (!(movable is Asteroid) && !(movable is StatPowerUp))
+            if ((!(other is Asteroid) && !(other is StatPowerUp)) || !(other is IMovable))
                 return;
 
             StartDetonation();
@@ -77,7 +79,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (meMine.SceneMgr.GameType != Gametype.SOLO_GAME && !meMine.Owner.IsCurrentPlayer())
                 return;
 
-            if (hitObjects.Contains((movable as ISceneObject).Id))
+            if (hitObjects.Contains((other as ISceneObject).Id))
                 return;
 
             if (meMine.Owner.IsCurrentPlayer())
@@ -87,30 +89,30 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (meMine.Owner.IsCurrentPlayerOrBot())
                 meMine.Owner.AddScoreAndShow(ScoreDefines.MINE_HIT);
 
-            hitObjects.Add((movable as ISceneObject).Id);
+            hitObjects.Add(other.Id);
 
             float speed = 0;
-            IMovementControl control = movable.GetControlOfType(typeof(IMovementControl)) as IMovementControl;
+            IMovementControl control = other.GetControlOfType<IMovementControl>();
 
             if (control != null)
             {
-                Vector newDir = (movable as ISceneObject).Center - me.Position;
+                Vector newDir = other.Center - me.Position;
                 newDir.Normalize();
                 newDir *= Strength;
-                newDir = newDir + (movable.Direction * control.Speed);
+                newDir = newDir + ((other as IMovable).Direction * control.Speed);
 
                 speed = (float)newDir.Length;
                 control.Speed = speed;
                 newDir.Normalize();
-                movable.Direction = newDir;
+                (other as IMovable).Direction = newDir;
             }
 
             NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();
             msg.Write((int)PacketType.SINGULARITY_MINE_HIT);
             msg.Write(me.Id);
-            msg.Write((movable as ISceneObject).Id);
-            msg.Write((movable as ISceneObject).Position);
-            msg.Write(movable.Direction);
+            msg.Write(other.Id);
+            msg.Write(other.Position);
+            msg.Write((other as IMovable).Direction);
             msg.Write(speed);
             me.SceneMgr.SendMessage(msg);
         }
@@ -123,9 +125,11 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             hitSomething = true;
 
-            double speed = meMine.Direction.Length;
-            meMine.Direction = meMine.Direction.NormalizeV();
-            meMine.Direction *= (speed / 4);
+            SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_EXPLOSION);
+
+            IMovementControl c = me.GetControlOfType<IMovementControl>();
+            if (c != null)
+                c.Speed = c.Speed / 4;
 
             meMine.GetGeometry().Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
             {

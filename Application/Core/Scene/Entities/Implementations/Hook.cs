@@ -16,6 +16,8 @@ using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Controls.Implementations;
 using System.Diagnostics;
 using Orbit.Core.Client.GameStates;
+using Orbit.Core.Scene.Controls.Collisions.Implementations;
+using Orbit.Core.Scene.CollisionShapes;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -25,7 +27,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         HOOK_POWER
     }
 
-    public class Hook : SpherePoint, ISendable, IRotable, IProjectile
+    public class Hook : Sphere, ISendable, IRotable, IProjectile
     {
         public Player Owner { get; set; } // neposilano
         public float Rotation { get; set; }
@@ -39,7 +41,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             }
         }
 
-        private Line line; // neposilano
+        private System.Windows.Shapes.Line line; // neposilano
         
         public Hook(SceneMgr mgr) : base(mgr)
         {
@@ -50,8 +52,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
             SceneMgr.Invoke(new Action(() =>
             {
-                HookControl control = GetControlOfType(typeof(HookControl)) as HookControl;
-                line = new Line();
+                HookControl control = GetControlOfType<HookControl>();
+                line = new System.Windows.Shapes.Line();
                 line.Stroke = Brushes.LightSteelBlue;
                 line.X1 = control.Origin.X;
                 line.Y1 = control.Origin.Y;
@@ -72,83 +74,23 @@ namespace Orbit.Core.Scene.Entities.Implementations
             line.Y2 = RopeContactPoint.Y;
         }
 
-        public override void DoCollideWith(ICollidable other, float tpf)
+        public virtual void OnCatch()
         {
-            if (HasCaughtObject())
-                return;
-
-            if ((other is ICatchable && !(GetControlOfType(typeof(HookControl)) as HookControl).Returning))
-                CatchObject(other as ICatchable);
-        }
-
-        protected void CatchObject(ICatchable caught)
-        {
-            if (caught == null)
-                return;
-
-            if (!caught.Enabled)
-                return;
-
-            if (!Owner.IsCurrentPlayerOrBot())
-                return;
-
-            processScore(caught);
-
-            Vector hitVector = caught.Position - Position;
-
-            if (caught.Enabled)
-            {
-                Catch(caught, hitVector);
-
-                NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-                msg.Write((int)PacketType.HOOK_HIT);
-                msg.Write(Id);
-                msg.Write(caught.Id);
-                msg.Write(caught.Position);
-                msg.Write(hitVector);
-                SceneMgr.SendMessage(msg);
-            }
-        }
-
-        protected virtual void processScore(ICatchable caught)
-        {
-            if (caught is IContainsGold)
-            {
-                if (Owner.IsCurrentPlayer())
-                    SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.HOOK_HIT, Center, FloatingTextManager.TIME_LENGTH_1,
-                        FloatingTextType.SCORE);
-                Owner.AddScoreAndShow(ScoreDefines.HOOK_HIT);
-            }
-
-            HookControl control = GetControlOfType(typeof(HookControl)) as HookControl;
-            if (control != null && control.GetDistanceFromOriginPct() > 0.9)
-            {
-                SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.HOOK_CAUGHT_OBJECT_AFTER_90PCT_DISTANCE, Center,
-                    FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG, false, true);
-                Owner.AddScoreAndShow(ScoreDefines.HOOK_CAUGHT_OBJECT_AFTER_90PCT_DISTANCE);
-            }
-        }
-
-        public virtual void Catch(ICatchable caught, Vector hitVector)
-        {
-            if (caught is IDestroyable)
-                (caught as IDestroyable).TakeDamage(0, this);
-
-            if (caught is UnstableAsteroid)
-                return;
-
-            CaughtObject = caught;
-            caught.Enabled = false;
-
-            (GetControlOfType(typeof(HookControl)) as HookControl).CaughtObject(hitVector);
+            NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+            msg.Write((int)PacketType.HOOK_HIT);
+            msg.Write(Id);
+            msg.Write(CaughtObject.Id);
+            msg.Write(CaughtObject.Position);
+            msg.Write(GetControlOfType<HookControl>().HitVector);
+            SceneMgr.SendMessage(msg);
         }
 
         public virtual void PulledCaughtObjectToBase()
         {
-            proccesCaughtObject(CaughtObject);
+            ProccesCaughtObject(CaughtObject);
         }
 
-        protected virtual void proccesCaughtObject(ICatchable caught) 
+        protected virtual void ProccesCaughtObject(ICatchable caught) 
         {
             if (caught != null && !caught.Dead)
             {
@@ -174,7 +116,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             Owner.AddGoldAndShow(gold);
         }
 
-        public virtual Boolean HasCaughtObject()
+        public virtual bool HasCaughtObject()
         {
             return CaughtObject != null;
         }
@@ -189,6 +131,11 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public void ReadObject(NetIncomingMessage msg)
         {
             msg.ReadObjectHook(this);
+
+            PointCollisionShape cs = new PointCollisionShape();
+            cs.Center = Center;
+            CollisionShape = cs;
+
             IList<IControl> controls = msg.ReadControls();
             foreach (Control c in controls)
                 AddControl(c);

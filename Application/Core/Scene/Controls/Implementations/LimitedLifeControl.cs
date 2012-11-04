@@ -14,11 +14,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             timeLeft = timeToDie;
         }
 
-        public override void InitControl(Entities.ISceneObject me)
-        {
-        }
-
-        public override void UpdateControl(float tpf)
+        protected override void UpdateControl(float tpf)
         {
             timeLeft -= tpf;
             if (timeLeft <= 0)

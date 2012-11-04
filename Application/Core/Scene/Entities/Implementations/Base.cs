@@ -9,6 +9,7 @@ using Orbit.Core.Client;
 using System.Windows.Media.Imaging;
 using Orbit.Core.Helpers;
 using Orbit.Core.Client.GameStates;
+using Orbit.Core.Scene.CollisionShapes;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -71,35 +72,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
             return true;
         }
 
-        public override void DoCollideWith(ICollidable other, float tpf)
-        {
-            if (other is Asteroid && (other as Asteroid).Enabled)
-            {
-                int damage = (other as Asteroid).Radius / 2;
-
-                // score
-                Player otherPlayer = SceneMgr.GetOtherActivePlayer(Owner.GetId());
-                if (otherPlayer.IsCurrentPlayer())
-                {
-                    Vector textPos = new Vector(otherPlayer.GetBaseLocation().X + (otherPlayer.GetBaseLocation().Width / 2), otherPlayer.GetBaseLocation().Y - 20);
-                    SceneMgr.FloatingTextMgr.AddFloatingText(damage * ScoreDefines.DAMAGE_DEALT, textPos, FloatingTextManager.TIME_LENGTH_2,
-                        FloatingTextType.SCORE, FloatingTextManager.SIZE_MEDIUM);
-                }
-
-                if (otherPlayer.IsCurrentPlayerOrBot())
-                    otherPlayer.AddScoreAndShow(damage * ScoreDefines.DAMAGE_DEALT);
-
-                // damage
-                SceneMgr.FloatingTextMgr.AddFloatingText(damage, new Vector((other as Asteroid).Center.X, (other as Asteroid).Center.Y - 10), 
-                    FloatingTextManager.TIME_LENGTH_1, FloatingTextType.DAMAGE, FloatingTextManager.SIZE_MEDIUM);
-
-                SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_DAMAGE_TO_BASE);
-
-                Integrity -= damage;
-                (other as Asteroid).DoRemoveMe();
-            }
-        }
-
         public void OnIntegrityChange()
         {
             if (Integrity <= 25)
@@ -129,6 +101,14 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public override void OnAttach()
         {
             SceneMgr.AttachGraphicalObjectToScene(background);
+            /*Sphere s = new StaticShield(SceneMgr);
+            s.Position = new Vector(Center.X, Position.Y + 2.4 * Size.Height);
+            s.Radius = (int)(Size.Width / 1.9);
+            UIElement el = SceneGeometryFactory.CreateConstantColorEllipseGeometry(s);
+            SceneMgr.AttachGraphicalObjectToScene(el);
+            SceneMgr.Invoke(new Action(() => {
+                Canvas.SetZIndex(el, 1000);
+            }));*/
         }
     }
 

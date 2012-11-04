@@ -99,11 +99,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             }
         }
 
-        public override void InitControl(ISceneObject me)
-        {
-        }
-
-        public override void UpdateControl(float tpf)
+        protected override void UpdateControl(float tpf)
         {
             Vector botVector = new Vector(0, SharedDef.SPECTATOR_MODULE_SPEED * tpf);
             Vector rightVector = new Vector(SharedDef.SPECTATOR_MODULE_SPEED * tpf, 0);

@@ -35,12 +35,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
             this.Bar = bar;
         }
 
-        public override void InitControl(Entities.ISceneObject me)
+        protected override void InitControl(Entities.ISceneObject me)
         {
             this.module = me as MiningModule;
         }
 
-        public override void UpdateControl(float tpf)
+        protected override void UpdateControl(float tpf)
         {
             float p = module.Hp / SharedDef.SPECTATOR_MAX_HP;
 

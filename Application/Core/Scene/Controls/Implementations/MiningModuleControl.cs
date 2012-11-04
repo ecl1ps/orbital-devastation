@@ -8,15 +8,17 @@ using Orbit.Core.Helpers;
 using System.Windows.Media;
 using Orbit.Core.Scene.Entities.Implementations;
 using System.Windows;
+using Orbit.Core.Scene.Controls.Collisions;
+using Orbit.Core.Players;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
     public struct MiningObject
     {
         public IContainsGold Obj { get; set; }
-        public SolidLine MiningLine { get; set; }
+        public Line MiningLine { get; set; }
 
-        public MiningObject(IContainsGold obj, SolidLine line) : this()
+        public MiningObject(IContainsGold obj, Line line) : this()
         {
             Obj = obj;
             MiningLine = line;
@@ -35,14 +37,14 @@ namespace Orbit.Core.Scene.Controls.Implementations
         }
     }
 
-    public class MiningModuleControl : Control
+    public class MiningModuleControl : Control, ICollisionReactionControl
     {
         private SceneMgr sceneMgr;
         private float farmedGold;
         private List<CollisionData> recentlyCollided;
 
         public List<MiningObject> currentlyMining;
-        public Players.Player Owner { get; set; }
+        public Player Owner { get; set; }
         public Vector Position { get { return me.Position; } }
 
         public override bool Enabled
@@ -55,11 +57,11 @@ namespace Orbit.Core.Scene.Controls.Implementations
 	        { 
 		        base.Enabled = value;
                 if (!value)
-                    removeMiningLines();
+                    RemoveMiningLines();
 	        }
 }
 
-        public override void InitControl(ISceneObject me)
+        protected override void InitControl(ISceneObject me)
         {
             sceneMgr = me.SceneMgr;
             currentlyMining = new List<MiningObject>();
@@ -67,7 +69,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             farmedGold = 0;
         }
 
-        public override void UpdateControl(float tpf)
+        protected override void UpdateControl(float tpf)
         {
             CheckMining();
             MineObjects(tpf);
@@ -156,7 +158,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             stretchingControl.FirstObj = me;
             stretchingControl.SecondObj = obj;
 
-            SolidLine line = new SimpleLine(sceneMgr, me.Position.ToPoint(), obj.Position.ToPoint(), Colors.Black, 1);
+            Line line = new Line(sceneMgr, me.Position, obj.Position, Colors.Black, 1);
             line.AddControl(stretchingControl);
             line.AddControl(new MiningLineControl());
 
@@ -171,26 +173,27 @@ namespace Orbit.Core.Scene.Controls.Implementations
             currentlyMining.Remove(obj);
         }
 
-        public void Collide(ISceneObject obj)
+        private void RemoveMiningLines()
+        {
+            currentlyMining.ForEach(mineObj => mineObj.MiningLine.DoRemoveMe());
+        }
+
+        public void DoCollideWith(ISceneObject other, float tpf)
         {
             if (!Enabled || !(me is IDestroyable))
                 return;
 
-            if (obj is Asteroid)
+            if (other is Asteroid)
             {
                 foreach (CollisionData data in recentlyCollided)
-                    if (data.Obj.Id == obj.Id)
+                    if (data.Obj.Id == other.Id)
                         return;
 
-                int damage = (obj as Asteroid).Radius;
-                (me as IDestroyable).TakeDamage(damage, obj);
-                recentlyCollided.Add(new CollisionData(obj));
-            }
-        }
+                int damage = (other as Asteroid).Radius;
 
-        private void removeMiningLines()
-        {
-            currentlyMining.ForEach(mineObj => mineObj.MiningLine.DoRemoveMe());
+                (me as IDestroyable).TakeDamage(damage, other);
+                recentlyCollided.Add(new CollisionData(other));
+            }
         }
     }
 }

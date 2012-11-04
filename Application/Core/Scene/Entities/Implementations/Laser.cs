@@ -9,46 +9,23 @@ using Orbit.Core.Client;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.Controls.Implementations;
 using Lidgren.Network;
+using Orbit.Core.Scene.CollisionShapes;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    class Laser : SolidLine, IProjectile, ISendable
+    class Laser : Line, IProjectile, ISendable
     {
-
         public Player Owner { get; set; }
-        private LaserDamageControl damageControl;
 
         public Laser(Player owner, SceneMgr mgr) : base(mgr)
         {
             Owner = owner;
         }
 
-        public Laser(Player owner, SceneMgr mgr, Point start, Point end, Color color, int width) 
+        public Laser(Player owner, SceneMgr mgr, Vector start, Vector end, Color color, int width) 
             : base(mgr, start, end, color, width)
         {
             Owner = owner;
-        }
-
-        public void initControl(LaserDamageControl control)
-        {
-            damageControl = control;
-        }
-
-        public override void DoCollideWith(ICollidable other, float tpf)
-        {
-            if (other is IDestroyable)
-                DoDamage(other as IDestroyable);
-        }
-
-        private void DoDamage(IDestroyable enemy)
-        {
-            if (Owner == SceneMgr.GetCurrentPlayer())
-            {
-                if (damageControl == null)
-                    throw new Exception("Laser must have LaserDamageControl attached");
-
-                damageControl.HitObject(enemy);
-            }
         }
 
         public void WriteObject(NetOutgoingMessage msg)
@@ -60,6 +37,11 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public void ReadObject(NetIncomingMessage msg)
         {
             msg.ReadObjectLaser(this);
+
+            LineCollisionShape cs = new LineCollisionShape();
+            cs.Start = Start;
+            cs.End = End;
+            CollisionShape = cs;
             
             CreateLine();
         }

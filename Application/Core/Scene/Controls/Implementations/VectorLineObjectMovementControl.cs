@@ -10,12 +10,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private VectorLine meLine;
         public ISceneObject Parent { get; set; }
 
-        public override void InitControl(ISceneObject obj)
+        protected override void InitControl(ISceneObject obj)
         {
             meLine = obj as VectorLine;
         }
 
-        public override void UpdateControl(float tpf)
+        protected override void UpdateControl(float tpf)
         {
             if (meLine == null || Parent == null)
                 return;

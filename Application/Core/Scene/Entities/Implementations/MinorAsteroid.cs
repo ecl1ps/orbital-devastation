@@ -10,10 +10,11 @@ using Orbit.Core.Client;
 using Orbit.Core.Helpers;
 using Orbit.Core.Players;
 using Orbit.Core.Weapons;
+using Orbit.Core.Scene.CollisionShapes;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    class MinorAsteroid : Asteroid
+    public class MinorAsteroid : Asteroid
     {
         public UnstableAsteroid Parent { get; set; }
         private Player lastHitTakenFrom;
@@ -35,13 +36,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 Parent.NoticeChildAsteroidDestroyedBy(lastHitTakenFrom, this);
         }
 
-        public override void DoCollideWith(ICollidable other, float tpf)
-        {
-            base.DoCollideWith(other, tpf);
-            if (!(other is SingularityBullet))
-                lastHitTakenFrom = null;
-        }
-
         public new void WriteObject(NetOutgoingMessage msg)
         {
             msg.WriteObjectMinorAsteroid(this);
@@ -51,9 +45,20 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public new void ReadObject(NetIncomingMessage msg)
         {
             msg.ReadObjectMinorAsteroid(this);
+
+            SphereCollisionShape cs = new SphereCollisionShape();
+            cs.Center = Center;
+            cs.Radius = Radius;
+            CollisionShape = cs;
+
             IList<IControl> controls = msg.ReadControls();
             foreach (Control c in controls)
                 AddControl(c);
-        } 
+        }
+
+        public void ResetLastHit()
+        {
+            lastHitTakenFrom = null;
+        }
     }
 }

@@ -11,34 +11,33 @@ using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    class LimitedReverseDamageControl : Control, IDamageControl
+    public class LimitedReverseDamageControl : Control, IDamageControl
     {
         public bool Vulnerable { get; set; }
 
         private float remainingTime;
 
-        public LimitedReverseDamageControl(float time)
-            : base()
+        public LimitedReverseDamageControl(float time) : base()
         {
             remainingTime = time;
         }
 
-        public override void InitControl(Entities.ISceneObject me)
+        protected override void InitControl(Entities.ISceneObject me)
         {
-            me.GetControlsOfType(typeof(IDamageControl)).ForEach(control => (control as IDamageControl).Vulnerable = false);
+            me.GetControlsOfType<IDamageControl>().ForEach(control => control.Vulnerable = false);
 
             Vulnerable = true;
         }
 
-        public override void UpdateControl(float tpf)
+        protected override void UpdateControl(float tpf)
         {
             remainingTime -= tpf;
 
             if (remainingTime <= 0)
-                end();
+                End();
         }
 
-        public void proccessDamage(int damage, Entities.ISceneObject causedBy)
+        public void ProccessDamage(int damage, Entities.ISceneObject causedBy)
         {
             if (causedBy is IDestroyable)
             {
@@ -47,20 +46,20 @@ namespace Orbit.Core.Scene.Controls.Implementations
             }
 
             if (me is MiningModule)
-                sendDamage(damage / 4, causedBy, me as MiningModule);
+                SendDamage(damage / 4, causedBy, me as MiningModule);
         }
 
-        private void end()
+        private void End()
         {
             OnControlDestroy();
             me.RemoveControl(this);
-            me.GetControlsOfType(typeof(IDamageControl)).ForEach(control => (control as IDamageControl).Vulnerable = true);
+            me.GetControlsOfType<IDamageControl>().ForEach(control => control.Vulnerable = true);
 
             if (me is MiningModule)
-                sendColorChange(me as MiningModule);
+                SendColorChange(me as MiningModule);
         }
 
-        private void sendDamage(int damage, ISceneObject obj, MiningModule me)
+        private void SendDamage(int damage, ISceneObject obj, MiningModule me)
         {
             NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();
             msg.Write((int)PacketType.OBJECTS_TAKE_DAMAGE);
@@ -72,7 +71,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             me.SceneMgr.SendMessage(msg);
         }
 
-        private void sendColorChange(MiningModule module)
+        private void SendColorChange(MiningModule module)
         {
             NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();
             msg.Write((int)PacketType.MODULE_COLOR_CHANGE);

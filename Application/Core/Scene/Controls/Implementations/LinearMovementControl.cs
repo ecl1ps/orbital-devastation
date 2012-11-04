@@ -9,7 +9,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private IMovable meMovable;
         public float Speed { get; set; }
 
-        public override void InitControl(ISceneObject obj)
+        protected override void InitControl(ISceneObject obj)
         {
             if (!(obj is IMovable))
             {
@@ -20,7 +20,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             meMovable = obj as IMovable;
         }
 
-        public override void UpdateControl(float tpf)
+        protected override void UpdateControl(float tpf)
         {
             if (meMovable == null)
                 return;

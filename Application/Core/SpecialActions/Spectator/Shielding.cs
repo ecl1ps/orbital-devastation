@@ -31,7 +31,7 @@ namespace Orbit.Core.SpecialActions.Spectator
         {
             base.StartAction();
 
-            PercentageArc arc = (Owner.Device.GetControlOfType(typeof(HpBarControl)) as HpBarControl).Bar;
+            PercentageArc arc = Owner.Device.GetControlOfType<HpBarControl>().Bar;
             arc.Color = Colors.RoyalBlue;
 
             LimitedReverseDamageControl c = new LimitedReverseDamageControl(SharedDef.SPECTATOR_SHIELDING_TIME);
@@ -48,7 +48,7 @@ namespace Orbit.Core.SpecialActions.Spectator
 
         public override bool IsReady()
         {
-            return Owner.Data.Gold >= Cost && (toFollow.GetControlOfType(typeof(LimitedReverseDamageControl)) == null);
+            return Owner.Data.Gold >= Cost && toFollow.GetControlOfType<LimitedReverseDamageControl>() == null;
         }
     }
 }

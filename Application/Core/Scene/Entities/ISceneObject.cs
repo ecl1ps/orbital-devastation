@@ -4,6 +4,7 @@ using Orbit.Core.Scene.Controls;
 using System.Windows.Shapes;
 using System.Collections.Generic;
 using Orbit.Core.Client;
+using Orbit.Core.Scene.CollisionShapes;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -18,6 +19,8 @@ namespace Orbit.Core.Scene.Entities
         bool Dead { get; set; }
 
         SceneMgr SceneMgr { get; set; }
+
+        ICollisionShape CollisionShape { get; set; }
         
         bool Enabled { get; set; }
 
@@ -27,13 +30,13 @@ namespace Orbit.Core.Scene.Entities
 
         void AddControl(Control control);
 
-        void RemoveControl(Type type);
+        void RemoveControlsOfType<T>();
 
         void RemoveControl(Control control);
 
-        IControl GetControlOfType(Type type);
+        T GetControlOfType<T>();
 
-        List<IControl> GetControlsOfType(Type type);
+        List<T> GetControlsOfType<T>();
 
         IList<IControl> GetControlsCopy();
 
@@ -48,6 +51,9 @@ namespace Orbit.Core.Scene.Entities
         void DoRemove(ISceneObject obj);
 
         void DoRemoveMe();
+
+
+        /// hooks
 
         void OnRemove();
 

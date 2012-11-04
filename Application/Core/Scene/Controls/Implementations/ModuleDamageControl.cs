@@ -14,7 +14,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         private MiningModule module;
 
-        public override void InitControl(Entities.ISceneObject me)
+        protected override void InitControl(Entities.ISceneObject me)
         {
             Vulnerable = true;
 
@@ -24,22 +24,18 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 throw new Exception("ModuleDamageControl must be attached to MiningModule object");
         }
 
-        public override void UpdateControl(float tpf)
-        {
-        }
-
-        public void proccessDamage(int damage, ISceneObject causedBy)
+        public void ProccessDamage(int damage, ISceneObject causedBy)
         {
             if (!Vulnerable)
                 return;
 
             module.Hp -= damage;
-            HpRegenControl control = module.GetControlOfType(typeof(HpRegenControl)) as HpRegenControl;
+            HpRegenControl control = module.GetControlOfType<HpRegenControl>();
             if (control != null)
                 control.TakeHit();
 
             if (module.Hp <= 0)
-                (module.GetControlOfType(typeof(RespawningObjectControl)) as RespawningObjectControl).die(SharedDef.SPECTATOR_RESPAWN_TIME);
+                module.GetControlOfType<RespawningObjectControl>().die(SharedDef.SPECTATOR_RESPAWN_TIME);
 
             if (module.Owner.IsCurrentPlayer())
             {

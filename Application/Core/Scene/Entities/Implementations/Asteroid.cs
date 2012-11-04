@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using Orbit.Core.Client;
 using Orbit.Core.Helpers;
 using Orbit.Core.Client.GameStates;
+using Orbit.Core.Scene.CollisionShapes;
+using Orbit.Core.Scene.Controls.Collisions.Implementations;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -37,10 +39,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
             geometryElement.RenderTransform = new RotateTransform(Rotation);
         }
 
-        public override void DoCollideWith(ICollidable other, float tpf)
-        {
-        }
-
         public override void OnRemove()
         {
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
@@ -59,6 +57,12 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public void ReadObject(NetIncomingMessage msg)
         {
             msg.ReadObjectAsteroid(this);
+
+            SphereCollisionShape cs = new SphereCollisionShape();
+            cs.Center = Center;
+            cs.Radius = Radius;
+            CollisionShape = cs;
+
             IList<IControl> controls = msg.ReadControls();
             foreach (Control c in controls)
                 AddControl(c);

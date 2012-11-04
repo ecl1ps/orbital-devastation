@@ -274,7 +274,7 @@ namespace Orbit.Core.Players
 
         public List<ISpecialAction> generateSpectatorActions(SceneMgr mgr, ISceneObject miningModule)
         {
-            MiningModuleControl miningControl = miningModule.GetControlOfType(typeof(MiningModuleControl)) as MiningModuleControl;
+            MiningModuleControl miningControl = miningModule.GetControlOfType<MiningModuleControl>();
 
             if(miningControl == null)
                 throw new Exception("Non mining object provided");

@@ -9,14 +9,10 @@ namespace Orbit.Core.Scene.Controls.Implementations
 {
     class MiningEllipseControl : Control
     {
-        public SolidLine LineToFollow { get; set; }
+        public Line LineToFollow { get; set; }
         private float time = 0;
 
-        public override void InitControl(Entities.ISceneObject me)
-        {
-        }
-
-        public override void UpdateControl(float tpf)
+        protected override void UpdateControl(float tpf)
         {
             time += tpf;
             if (LineToFollow.Dead || time >= SharedDef.SPECTATOR_ORBITS_TRAVELLING_TIME)
@@ -35,7 +31,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             travellingDirection = travellingDirection.NormalizeV();
             float timeProgress = time / SharedDef.SPECTATOR_ORBITS_TRAVELLING_TIME;
 
-            me.Position = (LineToFollow.End + (travellingDirection * (travellingLenght * timeProgress))).ToVector();
+            me.Position = LineToFollow.End + (travellingDirection * (travellingLenght * timeProgress));
         }
     }
 }

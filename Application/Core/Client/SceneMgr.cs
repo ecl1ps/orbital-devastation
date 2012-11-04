@@ -20,6 +20,7 @@ using Orbit.Core.Weapons;
 using System.Windows.Media.Imaging;
 using Orbit.Core.Players.Input;
 using Orbit.Core.Client.GameStates;
+using Orbit.Core.Scene.Controls.Collisions;
 
 namespace Orbit.Core.Client
 {
@@ -404,7 +405,7 @@ namespace Orbit.Core.Client
         {
             foreach (ISceneObject obj1 in objects)
             {
-                if (!(obj1 is ICollidable))
+                if (obj1.CollisionShape == null)
                     continue;
 
                 foreach (ISceneObject obj2 in objects)
@@ -412,14 +413,12 @@ namespace Orbit.Core.Client
                     if (obj1.Id == obj2.Id)
                         continue;
 
-                    /*if (obj2.IsDead())
-                        continue;*/
-
-                    if (!(obj2 is ICollidable))
+                    if (obj2.CollisionShape == null)
                         continue;
 
-                    if (((ICollidable)obj1).CollideWith((ICollidable)obj2))
-                        ((ICollidable)obj1).DoCollideWith((ICollidable)obj2, tpf);
+                    if (obj1.CollisionShape.CollideWith(obj2.CollisionShape))
+                        obj1.GetControlsOfType<ICollisionReactionControl>().ForEach(c => c.DoCollideWith(obj2, tpf));
+
                 }
             }
         }

@@ -152,12 +152,12 @@ namespace Orbit.Core.Weapons
 
         private void changeShootingPosition()
         {
-            Vector v = StaticMouse.GetPosition() - origin.ToPoint();
+            Vector v = StaticMouse.GetPosition().ToVector() - origin;
             v.Normalize();
             v *= 1000;
             v += origin;
 
-            laser.End = v.ToPoint();
+            laser.End = v;
 
             if (SceneMgr.GameType != Gametype.SOLO_GAME)
             {
@@ -253,7 +253,7 @@ namespace Orbit.Core.Weapons
             v.X += origin.X;
             v.Y += origin.Y;
 
-            laser = new Laser(Owner, SceneMgr, origin.ToPoint(), v.ToPoint(), Colors.Blue, 3);
+            laser = new Laser(Owner, SceneMgr, origin, v, Colors.Blue, 3);
             laser.Id = IdMgr.GetNewId(Owner.GetId());
 
             LaserDamageControl control = new LaserDamageControl();

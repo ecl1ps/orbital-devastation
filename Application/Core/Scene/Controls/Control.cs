@@ -35,8 +35,8 @@ namespace Orbit.Core.Scene.Controls
             actions.Add(a);
         }
 
-        public abstract void InitControl(ISceneObject me);
+        protected virtual void InitControl(ISceneObject me) { }
 
-        public abstract void UpdateControl(float tpf);
+        protected virtual void UpdateControl(float tpf) { }
     }
 }

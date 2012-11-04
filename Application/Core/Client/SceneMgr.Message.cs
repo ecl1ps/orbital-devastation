@@ -376,7 +376,7 @@ namespace Orbit.Core.Client
             {
                 if (obj.Id == mineId)
                 {
-                    DroppingSingularityControl c = obj.GetControlOfType(typeof(DroppingSingularityControl)) as DroppingSingularityControl;
+                    DroppingSingularityControl c = obj.GetControlOfType<DroppingSingularityControl>();
                     if (c == null)
                         Console.Error.WriteLine("Object id " + mineId + " (" + obj.GetType().Name + ") is supposed to be a SingularityMine and have DroppingSingularityControl, but control is null");
                     else
@@ -390,7 +390,7 @@ namespace Orbit.Core.Client
                 obj.Position = pos;
                 (obj as IMovable).Direction = dir;
 
-                IMovementControl control = obj.GetControlOfType(typeof(IMovementControl)) as IMovementControl;
+                IMovementControl control = obj.GetControlOfType<IMovementControl>();
                 if (control != null)
                     control.Speed = speed;
             }
@@ -410,7 +410,6 @@ namespace Orbit.Core.Client
             if (!currentPlayer.IsActivePlayer())
                 return;
 
-            isGameInitialized = false;
             NetOutgoingMessage scoreMsg = CreateNetMessage();
             scoreMsg.Write((int)PacketType.SCORE_QUERY_RESPONSE);
             scoreMsg.Write(currentPlayer.GetId());
@@ -440,24 +439,6 @@ namespace Orbit.Core.Client
 
             DelayedAttachToScene(laser);
             SyncReceivedObject(laser, msg);
-        }
-
-        private void ReceivedNewSingularityExcludingBulletMsg(NetIncomingMessage msg)
-        {
-            int max = msg.ReadInt32();
-            List<ISceneObject> objects = new List<ISceneObject>();
-
-            for (int i = 0; i < max; i++)
-            {
-                objects.Add(GetSceneObject(msg.ReadInt64()));
-            }
-
-            SingularityExplodingExcludingBullet s = new SingularityExplodingExcludingBullet(objects, this);
-            s.ReadObject(msg);
-            s.Owner = GetOpponentPlayer();
-            s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
-            DelayedAttachToScene(s);
-            SyncReceivedObject(s, msg);
         }
 
         private void ReceivedNewSingularityBouncingBulletMsg(NetIncomingMessage msg)
@@ -619,7 +600,7 @@ namespace Orbit.Core.Client
         private void RecieveMoveLaserObject(NetIncomingMessage msg)
         {
             long id = msg.ReadInt64();
-            Point end = msg.ReadPoint();
+            Vector end = msg.ReadVector();
             foreach (ISceneObject obj in objects)
             {
                 if (obj.Id == id && obj is Laser)

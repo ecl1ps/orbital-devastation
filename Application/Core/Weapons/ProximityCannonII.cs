@@ -36,7 +36,7 @@ namespace Orbit.Core.Weapons
             if (point.Y > Owner.GetBaseLocation().Y)
                 point.Y = Owner.GetBaseLocation().Y;
 
-            SingularityExplodingBullet bullet = SceneObjectFactory.CreateSingularityExploadingBullet(SceneMgr, point, Owner);
+            SingularityExplodingBullet bullet = SceneObjectFactory.CreateSingularityExploadingBullet(SceneMgr, point.ToVector(), Owner);
 
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
             (bullet as ISendable).WriteObject(msg);

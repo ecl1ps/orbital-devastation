@@ -5,11 +5,15 @@ using System.Text;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Entities.Implementations;
 using System.Windows;
+using Orbit.Core.Scene.Controls.Collisions;
+using Orbit.Core.Client.GameStates;
+using Orbit.Core.Players;
+using Lidgren.Network;
 
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    public class HookControl : Control
+    public class HookControl : Control, ICollisionReactionControl
     {
         public int Speed { get; set; }
         public int Lenght { get; set; }
@@ -19,7 +23,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         protected Hook hook;
 
-        public override void InitControl(ISceneObject me)
+        protected override void InitControl(ISceneObject me)
         {
             Returning = false;
 
@@ -27,7 +31,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 hook = me as Hook;
         }
 
-        public override void UpdateControl(float tpf)
+        protected override void UpdateControl(float tpf)
         {
             if (hook.HasCaughtObject() || Returning)
             {
@@ -93,9 +97,66 @@ namespace Orbit.Core.Scene.Controls.Implementations
             return GetDistanceFromOrigin() / Lenght;
         }
 
-        public void CaughtObject(Vector hitVector)
+        public virtual void DoCollideWith(ISceneObject other, float tpf)
         {
+            if (hook.HasCaughtObject())
+                return;
+
+            if ((other is ICatchable && !Returning))
+                CatchObject(other as ICatchable);
+        }
+
+        protected void CatchObject(ICatchable caught)
+        {
+            if (caught == null)
+                return;
+
+            if (!caught.Enabled)
+                return;
+
+            if (!hook.Owner.IsCurrentPlayerOrBot())
+                return;
+
+            ProcessScore(caught);
+
+            Vector hitVector = caught.Position - hook.Position;
+
+            if (caught.Enabled)
+                Catch(caught, hitVector);
+        }
+
+        protected virtual void ProcessScore(ICatchable caught)
+        {
+            if (caught is IContainsGold)
+            {
+                if (hook.Owner.IsCurrentPlayer())
+                    hook.SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.HOOK_HIT, hook.Center, FloatingTextManager.TIME_LENGTH_1,
+                        FloatingTextType.SCORE);
+                hook.Owner.AddScoreAndShow(ScoreDefines.HOOK_HIT);
+            }
+
+            if (GetDistanceFromOriginPct() > 0.9)
+            {
+                hook.SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.HOOK_CAUGHT_OBJECT_AFTER_90PCT_DISTANCE, hook.Center,
+                    FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG, false, true);
+                hook.Owner.AddScoreAndShow(ScoreDefines.HOOK_CAUGHT_OBJECT_AFTER_90PCT_DISTANCE);
+            }
+        }
+
+        public virtual void Catch(ICatchable caught, Vector hitVector)
+        {
+            if (caught is IDestroyable)
+                (caught as IDestroyable).TakeDamage(0, hook);
+
+            if (caught is UnstableAsteroid)
+                return;
+
+            hook.CaughtObject = caught;
+            caught.Enabled = false;
+
             HitVector = hitVector;
+
+            hook.OnCatch();
         }
     }
 }

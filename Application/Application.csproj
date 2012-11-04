@@ -88,7 +88,7 @@
     </Reference>
     <Reference Include="Lidgren.Network, Version=2012.1.7.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\Lidgren - debug\Lidgren.Network.dll</HintPath>
+      <HintPath>lib\Lidgren.Network.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -143,8 +143,21 @@
     <Compile Include="Core\Players\ScoreDefines.cs" />
     <Compile Include="Core\Players\StatsMgr.cs" />
     <Compile Include="Core\Properties.cs" />
+    <Compile Include="Core\Scene\CollisionShapes\ICollisionShape.cs" />
+    <Compile Include="Core\Scene\CollisionShapes\LineCollisionShape.cs" />
+    <Compile Include="Core\Scene\CollisionShapes\PointCollisionShape.cs" />
+    <Compile Include="Core\Scene\CollisionShapes\SquareCollisionShape.cs" />
+    <Compile Include="Core\Scene\Controls\Collisions\ICollisionReactionControl.cs" />
+    <Compile Include="Core\Scene\Controls\Collisions\Implementations\StickySquareCollisionShapeControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\ExcludingExplodingSingularityBulletControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\MinorAsteroidCollisionReactionControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\SingularityBulletCollisionReactionControl.cs" />
+    <Compile Include="Core\Scene\Controls\Collisions\ICollisionShapeUpdater.cs" />
+    <Compile Include="Core\Scene\Controls\Collisions\Implementations\StickySphereCollisionShapeControl.cs" />
     <Compile Include="Core\Scene\Controls\IDamageControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\BaseCollisionControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ControlableDeviceControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\BouncingSingularityBulletControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\HpBarControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\HpRegenControl.cs" />
     <Compile Include="Core\Scene\Controls\IMovementControl.cs" />
@@ -156,12 +169,15 @@
     <Compile Include="Core\Scene\Controls\Implementations\MiningModuleControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ModuleDamageControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\PositionCloneControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\PowerHookControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\RespawningObjectControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LimitedReverseDamageControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\StaticShieldCollisionReactionControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\StatPowerUpCollisionReactionControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\StretchingLineControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\VectorLineObjectMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DroppingSingularityControl.cs" />
-    <Compile Include="Core\Scene\Controls\Implementations\FiringSingularityControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\ExplodingSingularityBulletControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\HookControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\NewtonianMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LinearRotationControl.cs" />
@@ -170,15 +186,15 @@
     <Compile Include="Core\Scene\Entities\IHasHp.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\OrbitEllipse.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\MiningModule.cs" />
-    <Compile Include="Core\Scene\Entities\Implementations\SimpleLine.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\SingularityBouncingBullet.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Circle.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Laser.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\PowerHook.cs" />
-    <Compile Include="Core\Scene\Entities\Implementations\SingularityExplodingExcludingBullet.cs" />
+    <Compile Include="Core\Scene\CollisionShapes\SphereCollisionShape.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\StaticShield.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\PercentageArc.cs" />
-    <Compile Include="Core\Scene\Entities\SolidLine.cs" />
+    <Compile Include="Core\Scene\Controls\Collisions\Implementations\StickyPointCollisionShapeControl.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\Line.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\StatPowerUp.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\VectorLine.cs" />
     <Compile Include="Core\Scene\Entities\IProjectile.cs" />
@@ -188,7 +204,6 @@
     <Compile Include="Core\Scene\Entities\Implementations\UnstableAsteroid.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Hook.cs" />
     <Compile Include="Core\Scene\Entities\IContainsGold.cs" />
-    <Compile Include="Core\Scene\Entities\SpherePoint.cs" />
     <Compile Include="Core\Scene\Entities\Square.cs" />
     <Compile Include="Core\Scene\Entities\Sphere.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\SingularityBullet.cs" />
@@ -198,6 +213,7 @@
     <Compile Include="Core\Helpers\SceneGeometryFactory.cs" />
     <Compile Include="Core\Helpers\SceneObjectFactory.cs" />
     <Compile Include="Core\IGameState.cs" />
+    <Compile Include="Core\Server\Level\LevelTestEmpty.cs" />
     <Compile Include="Core\Server\Level\LevelTestPowerUp.cs" />
     <Compile Include="Core\Server\Level\GameLevelManager.cs" />
     <Compile Include="Core\Server\Level\IGameLevel.cs" />
@@ -287,7 +303,6 @@
     <Compile Include="Core\Scene\Controls\Implementations\LinearMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\SingularityControl.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Base.cs" />
-    <Compile Include="Core\Scene\Entities\ICollidable.cs" />
     <Compile Include="Core\Scene\Entities\IMovable.cs" />
     <Compile Include="Core\Scene\Entities\ISceneObject.cs" />
     <Compile Include="Core\Scene\Entities\SceneObject.cs" />

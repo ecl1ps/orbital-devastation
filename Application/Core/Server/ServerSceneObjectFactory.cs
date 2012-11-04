@@ -15,6 +15,8 @@ using Orbit.Core;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Weapons;
+using Orbit.Core.Scene.CollisionShapes;
+using Orbit.Core.Scene.Controls.Collisions.Implementations;
 
 namespace Orbit.Core.Server
 {
@@ -59,6 +61,11 @@ namespace Orbit.Core.Server
             s.Color = Color.FromRgb((byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255));
             s.Rotation = mgr.GetRandomGenerator().Next(360);
 
+            SphereCollisionShape cs = new SphereCollisionShape();
+            cs.Center = s.Center;
+            cs.Radius = s.Radius;
+            s.CollisionShape = cs;
+
             CreateAsteroidControls(mgr, s);
 
             return s;
@@ -85,6 +92,11 @@ namespace Orbit.Core.Server
             s.Position = pos;
             s.Rotation = mgr.GetRandomGenerator().Next(360);
 
+            SphereCollisionShape cs = new SphereCollisionShape();
+            cs.Center = s.Center;
+            cs.Radius = s.Radius;
+            s.CollisionShape = cs;
+
             CreateAsteroidControls(mgr, s);
 
             return s;
@@ -95,6 +107,7 @@ namespace Orbit.Core.Server
             Asteroid s = CreateNewRandomAsteroid(mgr, headingRight);
 
             s.Position = GetPositionOnEdgeOfOrbitArea(mgr.GetRandomGenerator(), headingRight, s.Radius);
+            (s.CollisionShape as SphereCollisionShape).Center = s.Center;
 
             return s;
         }
@@ -115,6 +128,8 @@ namespace Orbit.Core.Server
             lrc.RotationSpeed = mgr.GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_ROTATION_SPEED, SharedDef.MAX_ASTEROID_ROTATION_SPEED) / 10.0f;
             s.AddControl(lrc);
 
+            s.AddControl(new StickySphereCollisionShapeControl());
+
             return s;
         }
 
@@ -132,6 +147,12 @@ namespace Orbit.Core.Server
 
             s.PowerUpType = type;
 
+            SquareCollisionShape cs = new SquareCollisionShape();
+            cs.Position = s.Position;
+            cs.Size = s.Size;
+            cs.Rotation = s.Rotation;
+            s.CollisionShape = cs;
+
             NewtonianMovementControl nmc = new NewtonianMovementControl();
             nmc.Speed = mgr.GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_SPEED * 10, SharedDef.MAX_ASTEROID_SPEED * 10) / 10.0f;
             s.AddControl(nmc);
@@ -139,6 +160,9 @@ namespace Orbit.Core.Server
             LinearRotationControl lrc = new LinearRotationControl();
             lrc.RotationSpeed = mgr.GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_ROTATION_SPEED, SharedDef.MAX_ASTEROID_ROTATION_SPEED) / 10.0f;
             s.AddControl(lrc);
+
+            s.AddControl(new StickySquareCollisionShapeControl());
+            s.AddControl(new StatPowerUpCollisionReactionControl());
 
             return s;
         }

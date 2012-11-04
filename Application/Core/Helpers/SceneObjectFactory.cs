@@ -14,6 +14,8 @@ using System.Windows.Controls;
 using Orbit.Core.Client;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Controls.Implementations;
+using Orbit.Core.Scene.CollisionShapes;
+using Orbit.Core.Scene.Controls.Collisions.Implementations;
 
 namespace Orbit.Core.Helpers
 {
@@ -30,6 +32,13 @@ namespace Orbit.Core.Helpers
             baze.Position = new Vector(plr.GetBaseLocation().X, plr.GetBaseLocation().Y);
             baze.Size = new Size(plr.GetBaseLocation().Width, plr.GetBaseLocation().Height);
 
+            SphereCollisionShape cs = new SphereCollisionShape();
+            cs.Center = new Vector(baze.Center.X, baze.Position.Y + 2.4 * baze.Size.Height);
+            cs.Radius = (int)(baze.Size.Width / 1.9);
+            baze.CollisionShape = cs;
+
+            baze.AddControl(new BaseCollisionControl());
+
             baze.LoadImages();
             baze.SetGeometry(baze.Image100);
 
@@ -38,15 +47,20 @@ namespace Orbit.Core.Helpers
 
         public static StaticShield CreateShield(SceneMgr mgr, Player plr, ISceneObject toFollow)
         {
-
             StaticShield shield = new StaticShield(mgr);
             shield.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
             shield.Position = toFollow.Position;
             shield.Color = Colors.AliceBlue;
-            shield.Size = new Size(20, 20);
+            shield.Radius = 10;
+
+            SphereCollisionShape cs = new SphereCollisionShape();
+            cs.Center = shield.Center;
+            cs.Radius = shield.Radius;
+            shield.CollisionShape = cs;
 
             shield.SetGeometry(SceneGeometryFactory.CreateShield(shield));
 
+            shield.AddControl(new StickySphereCollisionShapeControl());
 
             shield.AddControl(new LimitedLifeControl(SharedDef.SPECTATOR_SHIELDING_TIME));
 
@@ -64,10 +78,17 @@ namespace Orbit.Core.Helpers
             mine.Owner = plr;
             mine.FillBrush = new RadialGradientBrush(Colors.Black, Color.FromRgb(0x66, 0x00, 0x80));
 
+            SphereCollisionShape cs = new SphereCollisionShape();
+            cs.Center = mine.Center;
+            cs.Radius = mine.Radius;
+            mine.CollisionShape = cs;
+
             SingularityControl sc = new SingularityControl();
             sc.Speed = plr.Data.MineGrowthSpeed;
             sc.Strength = plr.Data.MineStrength;
             mine.AddControl(sc);
+
+            mine.AddControl(new StickySphereCollisionShapeControl());
 
             mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
 
@@ -83,6 +104,11 @@ namespace Orbit.Core.Helpers
             mine.Radius = 2;
             mine.Direction = new Vector(0, 1);
 
+            SphereCollisionShape cs = new SphereCollisionShape();
+            cs.Center = mine.Center;
+            cs.Radius = mine.Radius;
+            mine.CollisionShape = cs;
+
             DroppingSingularityControl sc = new DroppingSingularityControl();
             sc.Speed = plr.Data.MineGrowthSpeed;
             sc.Strength = plr.Data.MineStrength;
@@ -91,6 +117,8 @@ namespace Orbit.Core.Helpers
             LinearMovementControl lmc = new LinearMovementControl();
             lmc.Speed = plr.Data.MineFallingSpeed;
             mine.AddControl(lmc);
+
+            mine.AddControl(new StickySphereCollisionShapeControl());
 
             mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
 
@@ -106,6 +134,11 @@ namespace Orbit.Core.Helpers
             mine.Radius = 2;
             mine.Direction = new Vector(0, 1);
 
+            SphereCollisionShape cs = new SphereCollisionShape();
+            cs.Center = mine.Center;
+            cs.Radius = mine.Radius;
+            mine.CollisionShape = cs;
+
             AsteroidDroppingSingularityControl sc = new AsteroidDroppingSingularityControl();
             sc.Speed = plr.Data.MineGrowthSpeed;
             sc.Strength = plr.Data.MineStrength;
@@ -114,6 +147,8 @@ namespace Orbit.Core.Helpers
             LinearMovementControl lmc = new LinearMovementControl();
             lmc.Speed = plr.Data.MineFallingSpeed;
             mine.AddControl(lmc);
+
+            mine.AddControl(new StickySphereCollisionShapeControl());
 
             mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
 
@@ -136,9 +171,16 @@ namespace Orbit.Core.Helpers
             bullet.Direction.Normalize();
             bullet.Color = plr.Data.PlayerColor;
 
+            PointCollisionShape cs = new PointCollisionShape();
+            cs.Center = bullet.Center;
+            bullet.CollisionShape = cs;
+
             LinearMovementControl lmc = new LinearMovementControl();
             lmc.Speed = plr.Data.BulletSpeed;
             bullet.AddControl(lmc);
+
+            bullet.AddControl(new SingularityBulletCollisionReactionControl());
+            bullet.AddControl(new StickyPointCollisionShapeControl());
 
             bullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(bullet));
 
@@ -168,12 +210,17 @@ namespace Orbit.Core.Helpers
                 Canvas.SetZIndex(hook.GetGeometry(), 99);
             }));
 
+            PointCollisionShape cs = new PointCollisionShape();
+            cs.Center = hook.Center;
+            hook.CollisionShape = cs;
+
             HookControl hookControl = new HookControl();
             hookControl.Origin = new Vector(hook.Center.X, hook.Center.Y);
             hookControl.Speed = player.Data.HookSpeed;
             hookControl.Lenght = player.Data.HookLenght;
 
             hook.AddControl(hookControl);
+            hook.AddControl(new StickyPointCollisionShapeControl());
 
             hook.PrepareLine();
             
@@ -203,12 +250,17 @@ namespace Orbit.Core.Helpers
                 Canvas.SetZIndex(hook.GetGeometry(), 99);
             }));
 
-            HookControl hookControl = new HookControl();
+            PointCollisionShape cs = new PointCollisionShape();
+            cs.Center = hook.Center;
+            hook.CollisionShape = cs;
+
+            PowerHookControl hookControl = new PowerHookControl();
             hookControl.Origin = new Vector(hook.Center.X, hook.Center.Y);
             hookControl.Speed = player.Data.HookSpeed;
             hookControl.Lenght = player.Data.HookLenght;
 
             hook.AddControl(hookControl);
+            hook.AddControl(new StickyPointCollisionShapeControl());
 
             hook.PrepareLine();
 
@@ -230,6 +282,11 @@ namespace Orbit.Core.Helpers
             asteroid.Enabled = true;
             asteroid.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(asteroid));
 
+            SphereCollisionShape cs = new SphereCollisionShape();
+            cs.Center = asteroid.Center;
+            cs.Radius = asteroid.Radius;
+            asteroid.CollisionShape = cs;
+
             NewtonianMovementControl nmc = new NewtonianMovementControl();
             nmc.Speed = speed;
             asteroid.AddControl(nmc);
@@ -237,6 +294,9 @@ namespace Orbit.Core.Helpers
             LinearRotationControl lrc = new LinearRotationControl();
             lrc.RotationSpeed = mgr.GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_ROTATION_SPEED, SharedDef.MAX_ASTEROID_ROTATION_SPEED) / 10.0f;
             asteroid.AddControl(lrc);
+
+            asteroid.AddControl(new MinorAsteroidCollisionReactionControl());
+            asteroid.AddControl(new StickySphereCollisionShapeControl());
 
             return asteroid;
         }
@@ -279,45 +339,38 @@ namespace Orbit.Core.Helpers
             return c;
         }
 
-        public static SingularityExplodingBullet CreateSingularityExploadingBullet(SceneMgr mgr, Point point, Player plr)
+        public static SingularityExplodingBullet CreateSingularityExploadingBullet(SceneMgr mgr, Vector point, Player plr)
         {
             Vector position = new Vector(plr.GetBaseLocation().X + plr.GetBaseLocation().Width / 2, plr.GetBaseLocation().Y);
 
             return CreateSingularityExploadingBullet(mgr, point, position, plr);
         }
 
-        public static SingularityExplodingBullet CreateSingularityExploadingBullet(SceneMgr mgr, Point point, Vector position, Player plr)
+        public static SingularityExplodingBullet CreateSingularityExploadingBullet(SceneMgr mgr, Vector point, Vector position, Player plr)
         {
-            Vector direction = point.ToVector() - position;
+            Vector direction = point - position;
             direction.Normalize();
 
             SingularityExplodingBullet bullet = new SingularityExplodingBullet(mgr);
-            bullet.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
-            bullet.Position = position;
-            bullet.Owner = plr;
-            bullet.Radius = 2;
-            bullet.Damage = plr.Data.BulletDamage;
-            bullet.Direction = direction;
-            bullet.Direction.Normalize();
-            bullet.Color = plr.Data.PlayerColor;
+            InitSingularityBullet(bullet, mgr, point, position, plr);
 
-            LinearMovementControl lmc = new LinearMovementControl();
-            lmc.Speed = plr.Data.BulletSpeed;
-            bullet.AddControl(lmc);
+            PointCollisionShape cs = new PointCollisionShape();
+            cs.Center = bullet.Center;
+            bullet.CollisionShape = cs;
 
-            FiringSingularityControl c = new FiringSingularityControl();
+            ExplodingSingularityBulletControl c = new ExplodingSingularityBulletControl();
             c.Speed = SharedDef.BULLET_EXPLOSION_SPEED;
             c.Strength = SharedDef.BULLET_EXPLOSION_STRENGTH;
             bullet.AddControl(c);
 
-            bullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(bullet));
+            bullet.AddControl(new StickyPointCollisionShapeControl());
 
             return bullet;
         }
 
-        public static void InitSingularityBullet(SingularityBullet bullet, SceneMgr mgr, Point point, Vector position, Player plr)
+        public static void InitSingularityBullet(SingularityBullet bullet, SceneMgr mgr, Vector point, Vector position, Player plr)
         {
-            Vector direction = point.ToVector() - position;
+            Vector direction = point - position;
             direction.Normalize();
 
             bullet.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
@@ -352,14 +405,20 @@ namespace Orbit.Core.Helpers
             bullet.Direction.Normalize();
             bullet.Color = plr.Data.PlayerColor;
 
+            PointCollisionShape cs = new PointCollisionShape();
+            cs.Center = bullet.Center;
+            bullet.CollisionShape = cs;
+
             LinearMovementControl lmc = new LinearMovementControl();
             lmc.Speed = plr.Data.BulletSpeed;
             bullet.AddControl(lmc);
 
-            FiringSingularityControl c = new FiringSingularityControl();
+            BouncingSingularityBulletControl c = new BouncingSingularityBulletControl();
             c.Speed = SharedDef.BULLET_EXPLOSION_SPEED;
             c.Strength = SharedDef.BULLET_EXPLOSION_STRENGTH;
             bullet.AddControl(c);
+
+            bullet.AddControl(new StickyPointCollisionShapeControl());
 
             bullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(bullet));
 
@@ -373,6 +432,11 @@ namespace Orbit.Core.Helpers
             module.Radius = 10;
             module.Color = Colors.Crimson;
 
+            SphereCollisionShape cs = new SphereCollisionShape();
+            cs.Center = module.Center;
+            cs.Radius = module.Radius;
+            module.CollisionShape = cs;
+
             ControlableDeviceControl dc = new ControlableDeviceControl();
             module.AddControl(dc);
 
@@ -383,6 +447,7 @@ namespace Orbit.Core.Helpers
             module.AddControl(new HpRegenControl());
             module.AddControl(new RespawningObjectControl());
             module.AddControl(new ModuleDamageControl());
+            module.AddControl(new StickySphereCollisionShapeControl());
 
             module.SetGeometry(SceneGeometryFactory.CrateMiningModule(module));
 

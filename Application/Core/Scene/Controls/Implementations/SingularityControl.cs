@@ -6,10 +6,11 @@ using System.Collections.Generic;
 using Lidgren.Network;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Helpers;
+using Orbit.Core.Scene.Controls.Collisions;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    public class SingularityControl : Control
+    public class SingularityControl : Control, ICollisionReactionControl
     {
         public float Strength { get; set; }
         public float Speed { get; set; }
@@ -22,7 +23,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             meMine.Radius += (int)Math.Floor(Speed * tpf * 100);
         }
 
-        public override void InitControl(ISceneObject me)
+        protected override void InitControl(ISceneObject me)
         {
             if (!(me is SingularityMine))
                 throw new InvalidOperationException("Cannot attach SingularityControl to non SingularityMine object");
@@ -32,7 +33,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             lifeTime = 0;
         }
 
-        public override void UpdateControl(float tpf)
+        protected override void UpdateControl(float tpf)
         {
             lifeTime += tpf;
 
@@ -53,28 +54,30 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 Grow(tpf);
         }
 
-        public void CollidedWith(IMovable movable)
+        public void DoCollideWith(ISceneObject other, float tpf)
         {
+            if (!(other is IMovable))
+                return;
+
             if (!meMine.Owner.IsCurrentPlayerOrBot())
                 return;
 
-            if (hitObjects.Contains((movable as ISceneObject).Id))
+            if (hitObjects.Contains(other.Id))
                 return;
 
-            hitObjects.Add((movable as ISceneObject).Id);
+            hitObjects.Add((other as ISceneObject).Id);
 
-            Vector newDir = (movable as ISceneObject).Position - me.Position;
+            Vector newDir = (other as ISceneObject).Position - me.Position;
             newDir.Normalize();
             newDir *= Strength;
-            movable.Direction += newDir;
+            (other as IMovable).Direction += newDir;
 
             NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();
             msg.Write((int)PacketType.SINGULARITY_MINE_HIT);
-            msg.Write((movable as ISceneObject).Id);
-            msg.Write((movable as ISceneObject).Position);
+            msg.Write(other.Id);
+            msg.Write(other.Position);
             msg.Write(newDir);
             me.SceneMgr.SendMessage(msg);
         }
-
     }
 }

@@ -14,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using Orbit.Core.Scene.Controls.Implementations;
 using System.Windows;
+using Orbit.Core.Scene.CollisionShapes;
+using Orbit.Core.Scene.Controls.Collisions.Implementations;
 
 
 namespace Orbit.Core.Scene.Entities.Implementations
@@ -30,17 +32,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             ((geometryElement as Path).Data as EllipseGeometry).RadiusY = Radius;
         }
 
-        public override void DoCollideWith(ICollidable other, float tpf)
-        {
-            if (other is IMovable)
-            {
-                FiringSingularityControl c = GetControlOfType(typeof(FiringSingularityControl)) as FiringSingularityControl;
-                if (c != null)
-                    c.CollidedWith(other as IMovable);
-            }
-        }
-
-        public void SpawnMinions()
+        public void SpawnSmallBullets()
         {
             CreateSmallBullet(Math.PI / 12);
             CreateSmallBullet(0);
@@ -58,13 +50,21 @@ namespace Orbit.Core.Scene.Entities.Implementations
             smallBullet.Position = Center;
             smallBullet.Radius = 2;
             smallBullet.Damage = Damage/2;
+
+            PointCollisionShape cs = new PointCollisionShape();
+            cs.Center = smallBullet.Center;
+            smallBullet.CollisionShape = cs;
+
             smallBullet.Color = Color;
 
             smallBullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(smallBullet));
 
             LinearMovementControl nmc = new LinearMovementControl();
-            nmc.Speed = (GetControlOfType(typeof(LinearMovementControl)) as LinearMovementControl).Speed;
+            nmc.Speed = GetControlOfType<LinearMovementControl>().Speed;
             smallBullet.AddControl(nmc);
+
+            smallBullet.AddControl(new SingularityBulletCollisionReactionControl());
+            smallBullet.AddControl(new StickyPointCollisionShapeControl());
 
             SceneMgr.DelayedAttachToScene(smallBullet);
         }
@@ -79,6 +79,11 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public override void ReadObject(NetIncomingMessage msg)
         {
             msg.ReadObjectSingularityBullet(this);
+
+            PointCollisionShape cs = new PointCollisionShape();
+            cs.Center = Center;
+            CollisionShape = cs;
+
             IList<IControl> controls = msg.ReadControls();
             foreach (Control c in controls)
                 AddControl(c);

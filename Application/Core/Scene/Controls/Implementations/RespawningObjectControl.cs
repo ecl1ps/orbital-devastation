@@ -12,11 +12,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private float respawningTime = 0;
         private float visibilityTime = 0;
 
-        public override void InitControl(Entities.ISceneObject me)
-        {
-        }
-
-        public override void UpdateControl(float tpf)
+        protected override void UpdateControl(float tpf)
         {
             if (counting)
             {
@@ -26,7 +22,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                     counting = false;
                     toggleControls(true);
                     if (me is IHasHp)
-                        (me as IHasHp).refillHp();
+                        (me as IHasHp).RefillHp();
 
                     me.SceneMgr.Invoke(new Action(() =>
                     {

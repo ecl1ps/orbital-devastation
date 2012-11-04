@@ -22,7 +22,7 @@ namespace Orbit.Core.Weapons
         protected Point startPoint;
         protected Point endPoint;
         protected bool targeting = false;
-        private Line line;
+        private System.Windows.Shapes.Line line;
 
         public TargetingMineLauncher(SceneMgr mgr, Player player) : base(mgr, player)
         {
@@ -69,7 +69,7 @@ namespace Orbit.Core.Weapons
         {
             SceneMgr.Invoke(new Action(() =>
             {
-                line = new Line();
+                line = new System.Windows.Shapes.Line();
                 line.Stroke = Brushes.Crimson;
                 line.X1 = startPoint.X;
                 line.Y1 = startPoint.Y;
@@ -91,7 +91,7 @@ namespace Orbit.Core.Weapons
             dir.Normalize();
             mine.Direction = dir;
 
-            LinearMovementControl c = mine.GetControlOfType(typeof(LinearMovementControl)) as LinearMovementControl;
+            LinearMovementControl c = mine.GetControlOfType<LinearMovementControl>();
             c.Speed = Owner.Data.MineFallingSpeed * SharedDef.MINE_LAUNCHER_SPEED_MODIFIER;
 
             if (SceneMgr.GameType != Gametype.SOLO_GAME)

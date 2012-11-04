@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using Lidgren.Network;
 using Orbit.Core.Players;
 using Orbit.Core.Scene.Controls;
+using System.Windows;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -34,27 +35,18 @@ namespace Orbit.Core.Scene.Entities.Implementations
             geometryElement.RenderTransform = new RotateTransform(Rotation);
         }
 
-        public override bool IsOnScreen(System.Windows.Size screenSize)
+        public override bool IsOnScreen(Size screenSize)
         {
             //i dont want to be destroyed when moving off screen
             return true;
         }
 
-        public override void DoCollideWith(ICollidable other, float tpf)
-        {
-            MiningModuleControl control = (GetControlOfType(typeof(MiningModuleControl)) as MiningModuleControl);
-            
-            if (control != null)
-                control.Collide(other);
-        }
-
         public void TakeDamage(int damage, ISceneObject from)
         {
-            GetControlsOfType(typeof(IDamageControl)).ForEach(control => 
-                { (control as IDamageControl).proccessDamage(damage, from); });
+            GetControlsOfType<IDamageControl>().ForEach(control => control.ProccessDamage(damage, from));
         }
 
-        public void refillHp()
+        public void RefillHp()
         {
             Hp = SharedDef.SPECTATOR_MAX_HP;
         }

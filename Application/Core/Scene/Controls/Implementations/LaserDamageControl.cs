@@ -6,10 +6,11 @@ using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Entities.Implementations;
 using Lidgren.Network;
 using Orbit.Core.Players;
+using Orbit.Core.Scene.Controls.Collisions;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    public class LaserDamageControl : Control
+    public class LaserDamageControl : Control, ICollisionReactionControl
     {
         public class HitData
         {
@@ -26,13 +27,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private Player owner;
         private List<HitData> dataList;
 
-        public override void InitControl(ISceneObject me)
+        protected override void InitControl(ISceneObject me)
         {
             if (me is Laser)
             {
                 this.me = me;
                 this.owner = (me as Laser).Owner;
-                (me as Laser).initControl(this);
             }
             else
                 throw new Exception("LaserDamageControl must be attached to Laser class");
@@ -40,8 +40,17 @@ namespace Orbit.Core.Scene.Controls.Implementations
             dataList = new List<HitData>();
         }
 
+        public void DoCollideWith(ISceneObject other, float tpf)
+        {
+            if (other is IDestroyable)
+                HitObject(other as IDestroyable);
+        }
+
         public void HitObject(IDestroyable enemy) 
         {
+            if (owner != me.SceneMgr.GetCurrentPlayer())
+                return;
+
             if (IsValidTarget(enemy)) 
             {
                 enemy.TakeDamage(owner.Data.LaserDamage, me);
@@ -70,7 +79,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             return true;
         }
 
-        public override void UpdateControl(float tpf)
+        protected override void UpdateControl(float tpf)
         {
             UpdateHitData(tpf);
         }

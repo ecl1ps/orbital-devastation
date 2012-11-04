@@ -40,8 +40,8 @@ namespace Orbit.Core.SpecialActions.Spectator
             foreach (MiningObject afflicted in Control.currentlyMining)
             {
                 if (afflicted.Obj is Asteroid)
-                {                
-                    IMovementControl control = afflicted.Obj.GetControlOfType(typeof(IMovementControl)) as IMovementControl;               
+                {
+                    IMovementControl control = afflicted.Obj.GetControlOfType<IMovementControl>();
                     if (control != null)
                         control.Speed = SharedDef.SPECTATOR_ASTEROID_THROW_SPEED;
 

@@ -6,23 +6,26 @@ using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.Entities;
 using Lidgren.Network;
+using Orbit.Core.Scene.CollisionShapes;
+using Orbit.Core.Scene.Controls.Collisions.Implementations;
+using System.Windows;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
     class AsteroidDroppingSingularityControl : DroppingSingularityControl
     {
-        private IList<IMovable> collided = new List<IMovable>();
+        private IList<long> collided = new List<long>();
         private bool detonated = false;
 
-        public override void CollidedWith(IMovable movable)
+        public override void DoCollideWith(ISceneObject other, float tpf)
         {
-            foreach (IMovable obj in collided)
-                if (obj.Id == movable.Id)
+            foreach (long id in collided)
+                if (other.Id ==id)
                     return;
 
-            collided.Add(movable);
+            collided.Add(other.Id);
 
-            base.CollidedWith(movable);
+            base.DoCollideWith(other, tpf);
         }
 
         public override void StartDetonation()
@@ -32,26 +35,32 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             base.StartDetonation();
             if ((me as SingularityMine).Owner.IsCurrentPlayer())
-                spawnAsteroid();
+                SpawnAsteroid();
         }
 
-        private void spawnAsteroid()
+        private void SpawnAsteroid()
         {
             Asteroid ast = new Asteroid(me.SceneMgr);
             ast.Radius = 10;
-            ast.Position = me.Position;
+            ast.Position = new Vector(me.Position.X - ast.Radius, me.Position.Y - ast.Radius);
             ast.Direction = (me as IMovable).Direction;
 
             ast.AsteroidType = AsteroidType.NORMAL;
             ast.TextureId = 1;
 
+            SphereCollisionShape cs = new SphereCollisionShape();
+            cs.Center = ast.Center;
+            cs.Radius = ast.Radius;
+            ast.CollisionShape = cs;
+
             ast.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(ast));
 
             me.SceneMgr.DelayedAttachToScene(ast);
 
-            collided.Add(ast);
+            collided.Add(ast.Id);
             detonated = true;
 
+            ast.AddControl(new StickySphereCollisionShapeControl());
 
             NewtonianMovementControl nmc = new NewtonianMovementControl();
             nmc.Speed = me.SceneMgr.GetCurrentPlayer().Data.MineFallingSpeed;

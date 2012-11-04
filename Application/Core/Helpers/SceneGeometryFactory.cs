@@ -153,7 +153,7 @@ namespace Orbit.Core.Helpers
             Path path = null;
             shield.SceneMgr.Invoke(new Action(() =>
             {
-                RectangleGeometry geom = new RectangleGeometry(new Rect(shield.Size));
+                RectangleGeometry geom = new RectangleGeometry(new Rect(0, 0, shield.Radius * 2, shield.Radius * 2));
                 path = new Path();
                 path.Data = geom;
                 path.Fill = new LinearGradientBrush(shield.Color, Colors.Black, 90.0);
@@ -252,12 +252,12 @@ namespace Orbit.Core.Helpers
             return img;
         }
 
-        public static Line CreateLineGeometry(VectorLine l)
+        public static System.Windows.Shapes.Line CreateLineGeometry(VectorLine l)
         {
-            Line line = null;
+            System.Windows.Shapes.Line line = null;
             l.SceneMgr.Invoke(new Action(() =>
             {
-                line = new Line();
+                line = new System.Windows.Shapes.Line();
                 line.Stroke = new SolidColorBrush(l.Color);
                 line.X1 = l.Position.X;
                 line.Y1 = l.Position.Y;
@@ -351,7 +351,7 @@ namespace Orbit.Core.Helpers
             arc.SweepDirection = SweepDirection.Clockwise;
             arc.IsLargeArc = true;
             arc.Size = new Size(a.Radius, a.Radius);
-            arc.Point = a.computePointOnCircle(Math.PI * 2);
+            arc.Point = a.ComputePointOnCircle(Math.PI * 2);
 
             a.SetArc(arc);
 
@@ -399,8 +399,8 @@ namespace Orbit.Core.Helpers
 
                 img = new Image();
                 img.Source = bi;
-                img.Width = m.Size.Width;
-                img.Height = m.Size.Height;
+                img.Width = m.Radius * 2;
+                img.Height = m.Radius * 2;
 
                 Canvas.SetLeft(img, m.Position.X);
                 Canvas.SetTop(img, m.Position.Y);

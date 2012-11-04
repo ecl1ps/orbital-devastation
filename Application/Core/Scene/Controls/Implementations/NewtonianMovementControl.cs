@@ -18,7 +18,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         }
         public float TimeAlive { get; set; }
 
-        public override void InitControl(ISceneObject obj)
+        protected override void InitControl(ISceneObject obj)
         {
             if (!(obj is IMovable))
             {
@@ -34,11 +34,10 @@ namespace Orbit.Core.Scene.Controls.Implementations
             meMovable = obj as IMovable;
         }
 
-        public override void UpdateControl(float tpf)
+        protected override void UpdateControl(float tpf)
         {
             if (meMovable == null || double.IsNaN(meMovable.Direction.Length))
                 return;
-
 
             Vector dirToSurf = new Vector(0, -1);
 

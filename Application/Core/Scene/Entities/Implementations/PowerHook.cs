@@ -18,21 +18,15 @@ namespace Orbit.Core.Scene.Entities.Implementations
             HookType = HookType.HOOK_POWER;
         }
 
-        public override void Catch(ICatchable caught, Vector hitVector)
+        public override void OnCatch()
         {
-            base.Catch(caught, hitVector);
-            CaughtObjects.Add(caught);
-        }
-
-        public override void DoCollideWith(ICollidable other, float tpf)
-        {
-                if(CaughtObjects.Count <= Owner.Data.HookMaxCatchedObjCount)
-                    CatchObject(other as ICatchable);
+            base.OnCatch();
+            CaughtObjects.Add(CaughtObject);
         }
 
         public override void PulledCaughtObjectToBase()
         {
-            CaughtObjects.ForEach(obj => proccesCaughtObject(obj));
+            CaughtObjects.ForEach(obj => ProccesCaughtObject(obj));
             DoRemoveMe();
         }
 

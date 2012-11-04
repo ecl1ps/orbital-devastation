@@ -10,6 +10,7 @@ using Orbit.Core.Scene.Controls;
 using Orbit.Core.Helpers;
 using System.Windows.Media;
 using System.Windows.Controls;
+using Orbit.Core.Scene.CollisionShapes;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -20,15 +21,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public DeviceType PowerUpType { get; set; }
 
         public StatPowerUp(SceneMgr mgr) : base(mgr) { }
-
-        public override void DoCollideWith(ICollidable other, float tpf)
-        {
-            if (other is Base)
-            {
-                SceneMgr.StatsMgr.OnPlayerCaughtPowerUp((other as Base).Owner, PowerUpType);
-                DoRemoveMe();
-            }
-        }
 
         protected override void UpdateGeometricState()
         {
@@ -45,6 +37,13 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public void ReadObject(NetIncomingMessage msg)
         {
             msg.ReadObjectStatPowerUp(this);
+
+            SquareCollisionShape cs = new SquareCollisionShape();
+            cs.Position = Position;
+            cs.Size = Size;
+            cs.Rotation = Rotation;
+            CollisionShape = cs;
+
             IList<IControl> controls = msg.ReadControls();
             foreach (Orbit.Core.Scene.Controls.Control c in controls)
                 AddControl(c);

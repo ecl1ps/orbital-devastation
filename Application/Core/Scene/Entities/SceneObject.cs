@@ -4,6 +4,9 @@ using Orbit.Core.Scene.Controls;
 using System.Collections.Generic;
 using System.Windows.Shapes;
 using Orbit.Core.Client;
+using Orbit.Core.Scene.CollisionShapes;
+using System.Collections;
+using System.Linq;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -12,6 +15,7 @@ namespace Orbit.Core.Scene.Entities
         private List<IControl> controls;
         public long Id { get; set; }
         protected UIElement geometryElement;
+        public ICollisionShape CollisionShape { get; set; }
         public Vector Position { get; set; }
         public virtual Vector Center
         {
@@ -82,36 +86,34 @@ namespace Orbit.Core.Scene.Entities
             control.Init(this);
         }
 
-        public void RemoveControl(Type type)
+        public void RemoveControlsOfType<T>()
         {
             for (int i = 0; i < controls.Count; ++i)
             {
-                if (type.IsAssignableFrom(controls[i].GetType()))
+                if (typeof(T).IsAssignableFrom(controls[i].GetType()))
                     controls.Remove(controls[i]);
             }
         }
 
-        public IControl GetControlOfType(Type type)
+        public T GetControlOfType<T>()
         {
-            foreach (IControl control in controls)
+            for (int i = 0; i < controls.Count; ++i)
             {
-                if (type.IsAssignableFrom(control.GetType()))
-                    return control;
+                if (typeof(T).IsAssignableFrom(controls[i].GetType()))
+                    return (T)controls[i];
             }
-            return null;
+            return default(T);
         }
 
-        public List<IControl> GetControlsOfType(Type type)
+        public List<T> GetControlsOfType<T>()
         {
-            List<IControl> temp = new List<IControl>();
-
-            foreach (IControl control in controls)
+            List<T> res = new List<T>();
+            for (int i = 0; i < controls.Count; ++i)
             {
-                if (type.IsAssignableFrom(control.GetType()))
-                    temp.Add(control);
+                if (typeof(T).IsAssignableFrom(controls[i].GetType()))
+                    res.Add((T)controls[i]);
             }
-
-            return temp;
+            return res;
         }
 
         public IList<IControl> GetControlsCopy()

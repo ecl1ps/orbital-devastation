@@ -10,6 +10,7 @@ using Orbit.Core.Players;
 using Orbit.Core.Client;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Helpers;
+using Orbit.Core.Scene.CollisionShapes;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -20,29 +21,11 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public Player Owner { get; set; } // neposilan
         public Brush BorderBrush { get; set; } // neposilan
         public Brush FillBrush { get; set; } // neposilan
-
-        private bool exploded = false; // neposilan
         
         public SingularityMine(SceneMgr mgr) : base(mgr)
         {
             BorderBrush = Brushes.Black;
             FillBrush = Brushes.Black;
-        }
-
-        public override void DoCollideWith(ICollidable other, float tpf)
-        {
-            if (other is IMovable)
-            {
-                if (!exploded)
-                {
-                    SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_EXPLOSION);
-                    exploded = true;
-                }
-
-                DroppingSingularityControl c = GetControlOfType(typeof(DroppingSingularityControl)) as DroppingSingularityControl;
-                if (c != null)
-                    c.CollidedWith(other as IMovable);
-            }
         }
 
         protected override void UpdateGeometricState()
@@ -63,6 +46,12 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public void ReadObject(NetIncomingMessage msg)
         {
             msg.ReadObjectSingularityMine(this);
+
+            SphereCollisionShape cs = new SphereCollisionShape();
+            cs.Center = Center;
+            cs.Radius = Radius;
+            CollisionShape = cs;
+
             IList<IControl> controls = msg.ReadControls();
             foreach (Control c in controls)
                 AddControl(c);

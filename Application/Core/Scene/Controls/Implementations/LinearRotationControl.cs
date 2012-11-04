@@ -10,7 +10,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         public float RotationSpeed { get; set; }
 
-        public override void InitControl(ISceneObject obj)
+        protected override void InitControl(ISceneObject obj)
         {
             if (!(obj is IRotable))
             {
@@ -21,7 +21,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             meRotable = obj as IRotable;
         }
 
-        public override void UpdateControl(float tpf)
+        protected override void UpdateControl(float tpf)
         {
             if (meRotable == null)
                 return;

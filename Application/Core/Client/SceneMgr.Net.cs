@@ -140,9 +140,6 @@ namespace Orbit.Core.Client
                 case PacketType.NEW_SINGULARITY_BOUNCING_BULLET:
                     ReceivedNewSingularityBouncingBulletMsg(msg);
                     break;
-                case PacketType.NEW_SINGULARITY_EXCLUDING_BULLET:
-                    ReceivedNewSingularityExcludingBulletMsg(msg);
-                    break;
                 case PacketType.NEW_HOOK:
                     ReceivedNewHookMsg(msg);
                     break;
@@ -234,7 +231,7 @@ namespace Orbit.Core.Client
         private void ReceiveModuleColorChange(NetIncomingMessage msg)
         {
             Player owner = GetPlayer(msg.ReadInt32());
-            HpBarControl control = owner.Device.GetControlOfType(typeof(HpBarControl)) as HpBarControl;
+            HpBarControl control = owner.Device.GetControlOfType<HpBarControl>();
 
             control.Bar.Color = msg.ReadColor();
         }
@@ -272,7 +269,7 @@ namespace Orbit.Core.Client
                 if (ast != null)
                 {
                     ast.Direction = dir;
-                    IMovementControl control = ast.GetControlOfType(typeof(IMovementControl)) as IMovementControl;
+                    IMovementControl control = ast.GetControlOfType<IMovementControl>();
                     if (control != null)
                         control.Speed = SharedDef.SPECTATOR_ASTEROID_THROW_SPEED;
                 }
@@ -321,7 +318,7 @@ namespace Orbit.Core.Client
         private void ChangeMoveState(NetIncomingMessage msg)
         {
             Player player = GetPlayer(msg.ReadInt32());
-            (player.Device.GetControlOfType(typeof(ControlableDeviceControl)) as ControlableDeviceControl).receiveMovingTypeChanged(msg);
+            player.Device.GetControlOfType<ControlableDeviceControl>().receiveMovingTypeChanged(msg);
         }
 
         private void CreateAndAddBot(Player plr)

@@ -23,19 +23,19 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
     class MiningLineControl : Control
     {
-        private SolidLine line;
+        private Line line;
         private float spawnTime = 0;
 
-        public override void InitControl(Entities.ISceneObject me)
+        protected override void InitControl(Entities.ISceneObject me)
         {
-            if (me is SolidLine)
-                line = me as SolidLine;
+            if (me is Line)
+                line = me as Line;
             else
                 throw new Exception("MiningLineControl must be attached to SolidLine object");
 
         }
 
-        public override void UpdateControl(float tpf)
+        protected override void UpdateControl(float tpf)
         {
             spawnTime -= tpf;
             if (spawnTime < 0)
@@ -46,7 +46,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         {
             spawnTime = SharedDef.SPECTATOR_ORBITS_SPAWN_TIME;
 
-            OrbitEllipse ellipse = SceneObjectFactory.CreateOrbitEllipse(me.SceneMgr, line.End.ToVector(), 2.5f, 2.5f);
+            OrbitEllipse ellipse = SceneObjectFactory.CreateOrbitEllipse(me.SceneMgr, line.End, 2.5f, 2.5f);
 
             MiningEllipseControl control = new MiningEllipseControl();
             control.LineToFollow = line;

@@ -12,10 +12,11 @@ using Orbit.Core.Players;
 using Orbit.Core.Client;
 using System.Windows.Shapes;
 using Orbit.Core.Client.GameStates;
+using Orbit.Core.Scene.Controls.Collisions;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    public class FiringSingularityControl : Control
+    public class ExplodingSingularityBulletControl : SingularityBulletCollisionReactionControl
     {
         public float Strength { get; set; }
         public float Speed { get; set; }
@@ -35,8 +36,10 @@ namespace Orbit.Core.Scene.Controls.Implementations
             else
                 meBullet.DoRemoveMe();
         }
-        public override void InitControl(ISceneObject me)
+
+        protected override void InitControl(ISceneObject me)
         {
+            base.InitControl(me);
             if (!(me is SingularityExplodingBullet))
                 throw new InvalidOperationException("Cannot attach SingularityControl to non SingularityExploadingBullet object");
 
@@ -46,7 +49,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             hitSomething = false;
         }
 
-        public override void UpdateControl(float tpf)
+        protected override void UpdateControl(float tpf)
         {
             if (!hitSomething)
             {
@@ -54,70 +57,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
                 if (lifeTime >= SharedDef.BULLET_LIFE_TIME)
                 {
-                    meBullet.SpawnMinions();
+                    meBullet.SpawnSmallBullets();
                     meBullet.DoRemoveMe();
                 }
             }
             else
                 Grow(tpf);
-        }
-
-        public void CollidedWith(IMovable movable)
-        {
-            if (!(movable is Asteroid))
-                return;
-
-            StartDetonation();
-
-            if (meBullet.SceneMgr.GameType != Gametype.SOLO_GAME && !meBullet.Owner.IsCurrentPlayer())
-                return;
-
-            if (hitObjects.Contains((movable as ISceneObject).Id))
-                return;
-
-            if (meBullet.Owner.IsCurrentPlayer())
-                me.SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.MINE_HIT, meBullet.Center, FloatingTextManager.TIME_LENGTH_1,
-                    FloatingTextType.SCORE);
-
-            if (meBullet.Owner.IsCurrentPlayerOrBot())
-                meBullet.Owner.AddScoreAndShow(ScoreDefines.MINE_HIT);
-
-            hitObjects.Add((movable as ISceneObject).Id);
-
-            if (!(movable is UnstableAsteroid))
-            {
-                float speed = 0;
-                IMovementControl control = movable.GetControlOfType(typeof(IMovementControl)) as IMovementControl;
-                
-                if (control != null) {
-                    Vector newDir = (movable as Sphere).Center - me.Position;
-                    newDir.Normalize();
-                    newDir *= Strength;
-                    newDir = newDir + (movable.Direction * control.Speed);
-
-                    speed = (float) newDir.Length;
-                    control.Speed = speed;
-                    newDir.Normalize();
-                    movable.Direction = newDir;
-                }
-
-                NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();
-                msg.Write((int)PacketType.SINGULARITY_MINE_HIT);
-                msg.Write(me.Id);
-                msg.Write((movable as ISceneObject).Id);
-                msg.Write((movable as ISceneObject).Position);
-                msg.Write(movable.Direction);
-                msg.Write(speed);
-                me.SceneMgr.SendMessage(msg);
-            }
-
-            if (movable is IDestroyable)
-            {
-                if (!(me as SingularityBullet).Owner.IsCurrentPlayerOrBot())
-                    return;
-
-                (me as SingularityBullet).HitAsteroid(movable as IDestroyable);
-            }
         }
 
         public void StartDetonation()
@@ -127,12 +72,71 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 return;
 
             hitSomething = true;
-            me.RemoveControl(typeof(LinearMovementControl));
+            me.GetControlOfType<LinearMovementControl>().Enabled = false;
 
             me.GetGeometry().Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
             {
                 (meBullet.GetGeometry() as Path).Fill = new RadialGradientBrush(Colors.Black, Color.Add(Color.FromRgb(0xff, 0x0, 0x0), Color.FromRgb(0x66, 0x00, 0x30)));
             }));
+        }
+
+        public override void DoCollideWith(ISceneObject other, float tpf)
+        {
+            if (!(other is Asteroid))
+                return;
+
+            StartDetonation();
+
+            if (meBullet.SceneMgr.GameType != Gametype.SOLO_GAME && !meBullet.Owner.IsCurrentPlayer())
+                return;
+
+            if (hitObjects.Contains(other.Id))
+                return;
+
+            if (meBullet.Owner.IsCurrentPlayer())
+                me.SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.MINE_HIT, meBullet.Center, FloatingTextManager.TIME_LENGTH_1,
+                    FloatingTextType.SCORE);
+
+            if (meBullet.Owner.IsCurrentPlayerOrBot())
+                meBullet.Owner.AddScoreAndShow(ScoreDefines.MINE_HIT);
+
+            hitObjects.Add(other.Id);
+
+            if (!(other is UnstableAsteroid))
+            {
+                float speed = 0;
+                IMovementControl control = other.GetControlOfType<IMovementControl>();
+
+                if (control != null)
+                {
+                    Vector newDir = (other as Sphere).Center - me.Position;
+                    newDir.Normalize();
+                    newDir *= Strength;
+                    newDir = newDir + ((other as IMovable).Direction * control.Speed);
+
+                    speed = (float)newDir.Length;
+                    control.Speed = speed;
+                    newDir.Normalize();
+                    (other as IMovable).Direction = newDir;
+                }
+
+                NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();
+                msg.Write((int)PacketType.SINGULARITY_MINE_HIT);
+                msg.Write(me.Id);
+                msg.Write(other.Id);
+                msg.Write(other.Position);
+                msg.Write((other as IMovable).Direction);
+                msg.Write(speed);
+                me.SceneMgr.SendMessage(msg);
+            }
+
+            if (other is IDestroyable)
+            {
+                if (!(me as SingularityBullet).Owner.IsCurrentPlayerOrBot())
+                    return;
+
+                HitAsteroid(other as IDestroyable);
+            }
         }
     }
 }

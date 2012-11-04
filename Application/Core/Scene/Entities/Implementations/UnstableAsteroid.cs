@@ -15,7 +15,7 @@ using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    class UnstableAsteroid : Asteroid
+    public class UnstableAsteroid : Asteroid
     {
         public int Destroyer { get; set; }
         private int childsDestroyed = 0;
@@ -33,7 +33,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
             int rotation = SceneMgr.GetRandomGenerator().Next(360);
             int textureId = SceneMgr.GetRandomGenerator().Next(1, 18);
-            float speed = (GetControlOfType(typeof(NewtonianMovementControl)) as NewtonianMovementControl).Speed / 2;
+            float speed = GetControlOfType<NewtonianMovementControl>().Speed / 2;
 
             long id1 = IdMgr.GetNewId(SceneMgr.GetCurrentPlayer().GetId());
             long id2 = IdMgr.GetNewId(SceneMgr.GetCurrentPlayer().GetId());

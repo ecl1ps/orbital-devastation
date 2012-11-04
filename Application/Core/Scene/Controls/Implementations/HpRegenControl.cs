@@ -11,13 +11,13 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private float regenTimer;
         private MiningModule module;
 
-        public override void InitControl(Entities.ISceneObject me)
+        protected override void InitControl(Entities.ISceneObject me)
         {
             regenTimer = SharedDef.SPECTATOR_HP_REGEN_CD;
             module = me as MiningModule;
         }
 
-        public override void UpdateControl(float tpf)
+        protected override void UpdateControl(float tpf)
         {
             if (regenTimer < SharedDef.SPECTATOR_HP_REGEN_CD)
                 regenTimer += tpf;

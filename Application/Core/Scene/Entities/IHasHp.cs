@@ -9,6 +9,6 @@ namespace Orbit.Core.Scene.Entities
     {
         float Hp { get; set; }
 
-        void refillHp();
+        void RefillHp();
     }
 }
