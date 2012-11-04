@@ -19,6 +19,9 @@ namespace Orbit.Core.Server.Level
                 case GameLevel.NORMAL1:
                     newLvl = new LevelNormal1(mgr, objects);
                     break;
+                case GameLevel.TEST_EMPTY:
+                    newLvl = new LevelTestEmpty(mgr);
+                    break;
                 case GameLevel.TEST_BASE_COLLISIONS:
                     newLvl = new LevelTestBaseCollisions(mgr);
                     break;

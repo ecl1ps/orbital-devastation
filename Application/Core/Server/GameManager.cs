@@ -234,6 +234,7 @@ namespace Orbit.Core.Server
     public enum GameLevel
     {
         NORMAL1,
+        TEST_EMPTY,
         TEST_BASE_COLLISIONS,
         TEST_POWERUPS,
         TEST_STATIC_OBJ
