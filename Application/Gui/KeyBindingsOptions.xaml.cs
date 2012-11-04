@@ -132,6 +132,9 @@ namespace Orbit.Gui
 
         private void ProccessInput(Key key)
         {
+            if (key == Key.Escape)
+                return;
+
             int k = (int)key;
             toFill.Label.Text = parseString(k.ToString());
 
@@ -152,7 +155,7 @@ namespace Orbit.Gui
         private void WaitForInput(TextBlock label, PropertyKey key)
         {
             if (waitingForInput)
-                toFill.Label.Text = parseKey(GameProperties.Props.Get(toFill.Key)).ToString();
+                toFill.Label.Text = parseString(GameProperties.Props.Get(toFill.Key)).ToString();
 
             label.Text = "Press any key";
 
