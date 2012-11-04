@@ -293,8 +293,9 @@ namespace Orbit.Core.Client
                     if (obj is IProjectile)
                         bullet = obj as IProjectile;
 
-                    if (obj is SingularityBullet)
-                        bullet.DoRemoveMe();
+                    ExplodingSingularityBulletControl c = obj.GetControlOfType<ExplodingSingularityBulletControl>();
+                    if (c != null)
+                        c.StartDetonation();
 
                     break;
                 }
