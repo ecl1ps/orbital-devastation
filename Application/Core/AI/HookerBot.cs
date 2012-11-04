@@ -11,6 +11,7 @@ using Orbit.Core.Players;
 using Orbit.Core.Helpers;
 using System.Windows.Media;
 using Orbit.Core.Scene.Controls.Implementations;
+using Orbit.Core.Scene.Controls;
 
 namespace Orbit.Core.AI
 {
@@ -80,7 +81,7 @@ namespace Orbit.Core.AI
             // rychlost hooku
             v1 = me.Data.HookSpeed;
             // rychlost objektu
-            v2 = nearest.Direction.Length;
+            v2 = nearest.GetControlOfType<IMovementControl>().Speed;
             // vektor od objketu k launcheru hooku
             cVec = baseLauncherPosition - nearest.Center;
             // vektor smeru objektu

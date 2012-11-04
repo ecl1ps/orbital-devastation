@@ -117,7 +117,7 @@ namespace Orbit.Core
 
         public const string CONFIG_FILE                     = "player";
         public const GameLevel STARTING_LEVEL               = GameLevel.NORMAL1;
-        public static BotType DEFAULT_BOT                    = BotType.LEVEL2;
+        public static BotType DEFAULT_BOT                   = BotType.LEVEL2;
 
         //Jmena zvuku
         public const string MUSIC_METEOR_HIT                      = "meteor_hit";
