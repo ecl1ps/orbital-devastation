@@ -328,41 +328,24 @@ namespace Orbit.Core.Client
             Vector hitVector = msg.ReadVector();
             Hook hook = null;
             ICatchable g = null;
+
             foreach (ISceneObject obj in objects)
             {
                 if (obj.Id == hookId)
                 {
-                    if (obj is Hook)
-                    {
-                        hook = obj as Hook;
-                        if (g != null)
-                        {
-                            hook.Catch(g, hitVector);
-                            break;
-                        }
-                        else
-                            continue;
-                    }
-                    else
-                        Console.Error.WriteLine("Object id " + hookId + " (" + obj.GetType().Name + ") is supposed to be a Hook but it is not");
+                    hook = obj as Hook;
                 }
-
-                if (obj.Id == asteroidId)
+                else if (obj.Id == asteroidId)
                 {
-                    if (obj is ICatchable)
-                    {
-                        g = obj as ICatchable;
-                        obj.Position = position;
-                        if (hook != null)
-                        {
-                            hook.Catch(g, hitVector);
-                            break;
-                        }
-                    }
-                    else
-                        Console.Error.WriteLine("Object id " + asteroidId + " (" + obj.GetType().Name + ") is supposed to be a IContainsGold but it is not");
+                    g = obj as ICatchable;
+                    obj.Position = position;
                 }
 
+                if (g != null && hook != null && hook.Owner != currentPlayer)
+                {
+                    hook.GetControlOfType<HookControl>().Catch(g, hitVector);
+                    break;
+                }
             }
         }
 
