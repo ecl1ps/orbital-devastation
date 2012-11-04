@@ -35,8 +35,8 @@ namespace Orbit.Core.Client
             NetPeerConfiguration conf = new NetPeerConfiguration("Orbit");
 
 #if DEBUG
-            conf.SimulatedMinimumLatency = 0.1f; // 100ms
-            conf.SimulatedRandomLatency = 0.05f; // +- 50ms
+            /*conf.SimulatedMinimumLatency = 0.1f; // 100ms
+            conf.SimulatedRandomLatency = 0.05f; // +- 50ms*/
 
             conf.EnableMessageType(NetIncomingMessageType.DebugMessage);
             conf.EnableMessageType(NetIncomingMessageType.Error);
