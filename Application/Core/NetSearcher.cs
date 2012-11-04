@@ -79,8 +79,8 @@ namespace Orbit.Core
         {
             if (client != null)
                 client.Shutdown("");
-            if (current != null && current.IsAlive)
-                current.Interrupt();
+            /*if (current != null && current.IsAlive)
+                current.Interrupt();*/
             shouldQuit = true;
         }
 
