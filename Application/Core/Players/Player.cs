@@ -144,6 +144,9 @@ namespace Orbit.Core.Players
 
             int diff = amount - Data.BaseIntegrity;
 
+            if (amount < 0)
+                amount = 0;
+
             Data.BaseIntegrity = amount;
             if (Baze != null)
                 Baze.OnIntegrityChange();
