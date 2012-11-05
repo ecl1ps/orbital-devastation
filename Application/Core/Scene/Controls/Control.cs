@@ -12,9 +12,13 @@ namespace Orbit.Core.Scene.Controls
 
         private List<Action> actions = new List<Action>();
 
+        public Control() 
+        {
+            Enabled = true; 
+        }
+
         public void Init(ISceneObject me)
         {
-            Enabled = true;
             this.me = me;
             InitControl(me);
         }
