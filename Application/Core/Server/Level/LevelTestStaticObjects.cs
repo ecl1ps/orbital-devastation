@@ -6,6 +6,8 @@ using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Weapons;
 using System.Windows;
 using Orbit.Core.Players;
+using Orbit.Core.Scene.Entities;
+using Orbit.Core.Scene.Controls.Implementations;
 
 namespace Orbit.Core.Server.Level
 {
@@ -30,23 +32,32 @@ namespace Orbit.Core.Server.Level
         {
             Rect baseLoc = PlayerBaseLocation.GetBaseLocation(PlayerPosition.LEFT);
 
-            GameLevelManager.SendNewObject(mgr, ServerSceneObjectFactory.CreateCustomAsteroid(mgr, 10, new Vector(baseLoc.X - 10 * 2 - 1, 100), new Vector(0, 0)));
-            GameLevelManager.SendNewObject(mgr, ServerSceneObjectFactory.CreateCustomAsteroid(mgr, 20, new Vector(baseLoc.X - 20 * 2, 200), new Vector(0, 0)));
-            GameLevelManager.SendNewObject(mgr, ServerSceneObjectFactory.CreateCustomAsteroid(mgr, 10, new Vector(baseLoc.X + baseLoc.Width + 1, 100), new Vector(0, 0)));
-            GameLevelManager.SendNewObject(mgr, ServerSceneObjectFactory.CreateCustomAsteroid(mgr, 20, new Vector(baseLoc.X + baseLoc.Width, 200), new Vector(0, 0)));
+            GameLevelManager.SendNewObject(mgr, MakeObjectStatic(ServerSceneObjectFactory.CreateCustomAsteroid(mgr, 10, new Vector(baseLoc.X - 10 * 2 - 1, 100), new Vector(0, 0))));
+            GameLevelManager.SendNewObject(mgr, MakeObjectStatic(ServerSceneObjectFactory.CreateCustomAsteroid(mgr, 20, new Vector(baseLoc.X - 20 * 2, 200), new Vector(0, 0))));
+            GameLevelManager.SendNewObject(mgr, MakeObjectStatic(ServerSceneObjectFactory.CreateCustomAsteroid(mgr, 10, new Vector(baseLoc.X + baseLoc.Width + 1, 100), new Vector(0, 0))));
+            GameLevelManager.SendNewObject(mgr, MakeObjectStatic(ServerSceneObjectFactory.CreateCustomAsteroid(mgr, 20, new Vector(baseLoc.X + baseLoc.Width, 200), new Vector(0, 0))));
 
             StatPowerUp sp = CreateNewStatPowerup();
             sp.Position = new Vector(100, 100);
-            GameLevelManager.SendNewObject(mgr, sp);
+            GameLevelManager.SendNewObject(mgr, MakeObjectStatic(sp));
             sp = CreateNewStatPowerup();
             sp.Position = new Vector(100, 200);
-            GameLevelManager.SendNewObject(mgr, sp);
+            GameLevelManager.SendNewObject(mgr, MakeObjectStatic(sp));
             sp = CreateNewStatPowerup();
             sp.Position = new Vector(200, 100);
-            GameLevelManager.SendNewObject(mgr, sp);
+            GameLevelManager.SendNewObject(mgr, MakeObjectStatic(sp));
             sp = CreateNewStatPowerup();
             sp.Position = new Vector(200, 200);
-            GameLevelManager.SendNewObject(mgr, sp);
+            GameLevelManager.SendNewObject(mgr, MakeObjectStatic(sp));
+        }
+
+        private ISceneObject MakeObjectStatic(ISceneObject obj)
+        {
+            NewtonianMovementControl nmc = obj.GetControlOfType<NewtonianMovementControl>();
+            nmc.Speed = 0;
+            nmc.Enabled = false;
+
+            return obj;
         }
 
         private StatPowerUp CreateNewStatPowerup()
