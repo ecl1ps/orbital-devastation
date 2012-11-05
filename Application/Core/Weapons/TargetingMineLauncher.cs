@@ -120,7 +120,9 @@ namespace Orbit.Core.Weapons
             SceneMgr.Invoke(new Action(() => 
             {
                 Vector v = new Vector(endPoint.X - startPoint.X, endPoint.Y - startPoint.Y);
-                v.Normalize();
+                if(v.Length != 0)
+                    v.Normalize();
+
                 //FIXME chtelo by to vypocitat kolizi
                 v *= 1000;
                 v.X += startPoint.X;
