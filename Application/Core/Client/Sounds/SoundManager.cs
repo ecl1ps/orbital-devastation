@@ -24,12 +24,14 @@ namespace Orbit.Core.Client
 
     public class SoundManager
     {
+
         public ISoundEngine SoundEngine { get; set; }
+        
         private bool enabled;
         public bool Enabled { get { return enabled; } set {disable(value); } }
+
         private List<FileSound> sounds;
         private List<FileSound> stoppedSounds;
-        
  
         public SoundManager()
         {
@@ -59,10 +61,10 @@ namespace Orbit.Core.Client
 
         private void PrepareDefaultSounds()
         {
-            sounds.Add(new FileSound(SharedDef.MUSIC_BACKGROUND_ACTION, "background/action.wav", SoundType.MUSIC));
+            sounds.Add(new FileSound(SharedDef.MUSIC_BACKGROUND_ACTION, "background/action.ogg", SoundType.MUSIC));
             sounds.Add(new FileSound(SharedDef.MUSIC_BACKGROUND_CALM, "background/stanza-poem.ogg", SoundType.MUSIC));
-            sounds.Add(new FileSound(SharedDef.MUSIC_EXPLOSION, "weapons/mine-explosion.wav"));
-            sounds.Add(new FileSound(SharedDef.MUSIC_SHOOT, "weapons/shot.wav"));
+            sounds.Add(new FileSound(SharedDef.MUSIC_EXPLOSION, "weapons/mine-explosion.ogg"));
+            sounds.Add(new FileSound(SharedDef.MUSIC_SHOOT, "weapons/shot.ogg"));
             sounds.Add(new FileSound(SharedDef.MUSIC_DAMAGE_TO_BASE, "misc/crash.wav"));
 
             sounds.ForEach(sound => sound.LoadMusic(SoundEngine));
