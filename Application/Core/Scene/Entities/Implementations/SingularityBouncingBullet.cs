@@ -9,6 +9,7 @@ using System.Windows;
 using Orbit.Core.Scene.Controls;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Scene.CollisionShapes;
+using Orbit.Core.Scene.Controls.Collisions.Implementations;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -21,13 +22,19 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public void SpawnNewBullet(ISceneObject collidedWith)
         {
             SingularityExplodingBullet bullet = new SingularityExplodingBullet(SceneMgr);
-            SceneObjectFactory.InitSingularityBullet(bullet, SceneMgr, GetComputedPoint(), Position, Owner);
+            SceneObjectFactory.InitSingularityBullet(bullet, SceneMgr, GetComputedPoint(collidedWith), Position, Owner);
+
+            PointCollisionShape cs = new PointCollisionShape();
+            cs.Center = bullet.Center;
+            bullet.CollisionShape = cs;
 
             ExcludingExplodingSingularityBulletControl c = new ExcludingExplodingSingularityBulletControl();
             c.Speed = SharedDef.BULLET_EXPLOSION_SPEED;
             c.Strength = SharedDef.BULLET_EXPLOSION_STRENGTH;
             c.IgnoredObjects.Add(collidedWith.Id);
             bullet.AddControl(c);
+
+            bullet.AddControl(new StickyPointCollisionShapeControl());
 
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
             (bullet as ISendable).WriteObject(msg);
@@ -44,8 +51,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
             return b == 0 ? d : -d;
         }
 
-        private Vector GetComputedPoint() {
-            Asteroid nearest = GetNearestAsteroid();
+        private Vector GetComputedPoint(ISceneObject except)
+        {
+            Asteroid nearest = GetNearestAsteroid(except);
             Vector random = Direction.Rotate(GetRandomRotation());
 
             if (nearest == null)
@@ -82,7 +90,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             return nearest.Center + (dVec * x1);
         }
 
-        private Asteroid GetNearestAsteroid()
+        private Asteroid GetNearestAsteroid(ISceneObject except)
         {
             ISceneObject nearest = null;
             double nearestDistSqr = 10000000;
@@ -92,7 +100,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
             foreach (ISceneObject obj in objects)
             {
-                if (!(obj is Asteroid) || !SceneMgr.IsPointInViewPort(obj.Position.ToPoint()))
+                if (!(obj is Asteroid) || !SceneMgr.IsPointInViewPort(obj.Position.ToPoint()) || obj.Id == except.Id)
                     continue;
 
                 objDistantSqr = (obj.Position - Position).LengthSquared;
