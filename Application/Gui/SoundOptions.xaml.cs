@@ -47,7 +47,7 @@ namespace Orbit.Gui
         {
             SoundValue.Text = e.NewValue.ToString("0.##");
             float volume = (float)(e.NewValue / 100);
-            SoundManager.Instance.SoundsByType(SoundType.EFFECTS).ForEach(sound => sound.Volume = volume);
+            SoundManager.Instance.setSoundVolume(volume);
 
             GameProperties.Props.SetAndSave(PropertyKey.SOUNDS_VOLUME, volume.ToString());
         }
@@ -56,7 +56,7 @@ namespace Orbit.Gui
         {
             BackgroundValue.Text = e.NewValue.ToString("0.##");
             float volume = (float) (e.NewValue / 100);
-            SoundManager.Instance.SoundsByType(SoundType.MUSIC).ForEach(sound => sound.Volume = volume);
+            SoundManager.Instance.setMusicVolume(volume);
 
             GameProperties.Props.SetAndSave(PropertyKey.MUSIC_VOLUME, volume.ToString());
         }

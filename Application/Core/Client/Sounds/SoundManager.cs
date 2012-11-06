@@ -31,8 +31,8 @@ namespace Orbit.Core.Client
         private bool enabled;
         public bool Enabled { get { return enabled; } set {disable(value); } }
 
+        private List<FileSound> music;
         private List<FileSound> sounds;
-        private List<FileSound> stoppedSounds;
  
         public SoundManager()
         {
@@ -40,7 +40,7 @@ namespace Orbit.Core.Client
             musicEngine = new ISoundEngine();
 
             sounds = new List<FileSound>();
-            stoppedSounds = new List<FileSound>();
+            music = new List<FileSound>();
             enabled = true;
 
             PrepareDefaultSounds();
@@ -79,17 +79,11 @@ namespace Orbit.Core.Client
 
             if (!value)
             {
-                foreach (FileSound sound in sounds)
-                    if (sound.Sound != null && sound.Sound.Looped == true && musicEngine.IsCurrentlyPlaying(sound.SoundName))
-                        stoppedSounds.Add(sound);
-
-                StopAllSounds();
+                soundEngine.StopAllSounds();
+                musicEngine.StopAllSounds();
             }
             else
-            {
-                stoppedSounds.ForEach(sound => StartPlayingInfinite(sound));
-                stoppedSounds.Clear();
-            }
+                music.ForEach(sound => StartPlayingInfinite(sound));
 
             enabled = value;
         }
@@ -110,11 +104,8 @@ namespace Orbit.Core.Client
 
         public FileSound StartPlayingInfinite(FileSound sound)
         {
-            if (!Enabled)
-            {
-                stoppedSounds.Add(sound);
-                return null;
-            }
+            if (!music.Contains(sound))
+                music.Add(sound);
 
             sound.Sound = musicEngine.Play2D(sound.SoundName, true);
             
@@ -163,8 +154,8 @@ namespace Orbit.Core.Client
             if (sound.Sound != null)
             {
                 sound.Sound.Stop();
-                if (!enabled)
-                    stoppedSounds.Remove(sound);
+                if (music.Contains(sound))
+                    music.Remove(sound);
             }
         }
 
@@ -172,9 +163,7 @@ namespace Orbit.Core.Client
         {
             soundEngine.StopAllSounds();
             musicEngine.StopAllSounds();
-
-            if (!enabled)
-                stoppedSounds.Clear();
+            music.Clear();
         }
 
         public void setMusicVolume(float volume)
@@ -182,6 +171,7 @@ namespace Orbit.Core.Client
             if (volume < 0 || volume > 1)
                 throw new Exception("Volume must be value between 0 and 1");
 
+            music.ForEach(sound => sound.Sound.Volume = volume);
             musicEngine.SoundVolume = volume;
         }
 
