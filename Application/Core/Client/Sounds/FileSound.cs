@@ -20,10 +20,7 @@ namespace Orbit.Core.Client.Sounds
 
         private String soundName;
         public String SoundName { get { return soundName; } }
-        private float volume = 1;
-        public float Volume { get { return volume; } set { UpdateVolume(value); } }
-        private ISound sound;
-        public ISound Sound { get { return sound; } set { UpdateSound(value); } }
+        public ISound Sound { get; set; }
         public String FileName { get; set; }
         public SoundType SoundType { get; set; }
 
@@ -39,20 +36,6 @@ namespace Orbit.Core.Client.Sounds
             this.soundName = soundName;
             this.FileName = fileName;
             SoundType = type;
-        }
-
-        private void UpdateVolume(float value)
-        {
-            volume = value;
-            if (Sound != null)
-                Sound.Volume = value;
-        }
-
-        private void UpdateSound(ISound value)
-        {
-            sound = value;
-            if (Sound != null)
-                Sound.Volume = Volume;
         }
 
         public void LoadMusic(ISoundEngine engine)
