@@ -107,9 +107,12 @@ namespace Orbit.Core.Client
             if (!music.Contains(sound))
                 music.Add(sound);
 
-            sound.Sound = musicEngine.Play2D(sound.SoundName, true);
-            setMusicVolume(float.Parse(GameProperties.Props.Get(PropertyKey.MUSIC_VOLUME)));
-            
+            if (Enabled)
+            {
+                sound.Sound = musicEngine.Play2D(sound.SoundName, true);
+                setMusicVolume(float.Parse(GameProperties.Props.Get(PropertyKey.MUSIC_VOLUME)));
+            }
+
             return sound;
         }
 
