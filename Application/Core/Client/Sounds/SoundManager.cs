@@ -53,10 +53,10 @@ namespace Orbit.Core.Client
             enabled = loaded;
 
             float soundValue = float.Parse(GameProperties.Props.Get(PropertyKey.SOUNDS_VOLUME));
-            soundEngine.SoundVolume = soundValue;
+            setSoundVolume(soundValue);
 
             float musicValue = float.Parse(GameProperties.Props.Get(PropertyKey.MUSIC_VOLUME));
-            musicEngine.SoundVolume = soundValue;
+            setMusicVolume(musicValue);
         }
 
         private void PrepareDefaultSounds()
@@ -108,6 +108,7 @@ namespace Orbit.Core.Client
                 music.Add(sound);
 
             sound.Sound = musicEngine.Play2D(sound.SoundName, true);
+            setMusicVolume(float.Parse(GameProperties.Props.Get(PropertyKey.MUSIC_VOLUME)));
             
             return sound;
         }
