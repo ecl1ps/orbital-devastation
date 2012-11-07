@@ -19,13 +19,18 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         public override void DoCollideWith(ISceneObject other, float tpf)
         {
-            foreach (long id in collided)
-                if (other.Id ==id)
-                    return;
+            if (collided.Contains(other.Id))
+                return;
 
+            Console.WriteLine("colided with object :" + other.Id);
             collided.Add(other.Id);
 
             base.DoCollideWith(other, tpf);
+            me.SceneMgr.Invoke(new Action(() => {
+                SingularityMine mine = SceneObjectFactory.CreatePowerlessMine(me.SceneMgr, me.Position, meMine.Direction, meMine.Owner);
+                collided.Add(mine.Id);
+                me.SceneMgr.DelayedAttachToScene(mine);
+            }));
         }
 
         public override void StartDetonation()
@@ -33,9 +38,10 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (detonated || GetDistToExplosionPct() > 0)
                 return;
 
-            base.StartDetonation();
             if ((me as SingularityMine).Owner.IsCurrentPlayer())
                 SpawnAsteroid();
+
+            base.StartDetonation();
         }
 
         private void SpawnAsteroid()

@@ -70,6 +70,30 @@ namespace Orbit.Core.Helpers
             return shield;
         }
 
+        public static SingularityMine CreatePowerlessMine(SceneMgr mgr, Vector pos, Vector dir, Player plr)
+        {
+            SingularityMine mine = new SingularityMine(mgr);
+            mine.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
+            mine.Position = pos;
+            mine.Owner = plr;
+            mine.Radius = 2;
+            mine.Direction = dir;
+            mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
+                
+            SphereCollisionShape cs = new SphereCollisionShape();
+            cs.Center = mine.Center;
+            cs.Radius = mine.Radius;
+            mine.CollisionShape = cs;
+
+            PowerlessSingularityControl sc = new PowerlessSingularityControl();
+            sc.Speed = plr.Data.MineGrowthSpeed;
+            sc.Strength = plr.Data.MineStrength;
+            mine.AddControl(sc);
+
+            mine.AddControl(new StickySphereCollisionShapeControl());
+            return mine;
+        }
+
         public static SingularityMine CreateSingularityMine(SceneMgr mgr, Point point, Player plr)
         {
             SingularityMine mine = new SingularityMine(mgr);
