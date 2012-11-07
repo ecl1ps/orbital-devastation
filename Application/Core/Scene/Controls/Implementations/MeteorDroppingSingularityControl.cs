@@ -22,7 +22,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (collided.Contains(other.Id))
                 return;
 
-            Console.WriteLine("colided with object :" + other.Id);
             collided.Add(other.Id);
 
             base.DoCollideWith(other, tpf);

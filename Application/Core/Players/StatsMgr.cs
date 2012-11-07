@@ -38,6 +38,7 @@ namespace Orbit.Core.Players
 
             allStats.Add(PlayerStats.HEALING_KIT_1_REPAIR_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_REPAIR_BASE, "Base repair", +25f, +35f));
             allStats.Add(PlayerStats.HEALING_KIT_1_FORTIFY_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_FORTIFY_BASE, "Base fortify", +15f, +25f));
+            allStats.Add(PlayerStats.HEALING_KIT_1_BONUS_HEAL, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_FORTIFY_BASE, "Heal Bonus", +1, +5));
         }
         
         public void OnPlayerCaughtPowerUp(Player plr, DeviceType type)
@@ -118,7 +119,9 @@ namespace Orbit.Core.Players
                 case PlayerStats.HOOK_1_SPEED:
                     data.HookSpeed += (int)val;
                     break;
-
+                case PlayerStats.HEALING_KIT_1_BONUS_HEAL:
+                    data.BonusHeal += (int)val;
+                    break;
                 case PlayerStats.HEALING_KIT_1_REPAIR_BASE:
                     if (sceneMgr != null)
                         sceneMgr.GetPlayer(data.Id).ChangeBaseIntegrity((int)val, true);
@@ -271,6 +274,7 @@ namespace Orbit.Core.Players
         HEALING_KIT_1_MIN,
         HEALING_KIT_1_REPAIR_BASE,
         HEALING_KIT_1_FORTIFY_BASE,
+        HEALING_KIT_1_BONUS_HEAL,
         HEALING_KIT_1_MAX,
     }
 }

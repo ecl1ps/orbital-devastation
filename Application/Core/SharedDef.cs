@@ -73,8 +73,9 @@ namespace Orbit.Core
         public const int HOOK_MAX_OBJ_COUNT                 = 2;
 
         public const int HEAL_MULTIPLY_COEF                 = 2;
-        public const int HEAL_AMOUNT                        = 25;
+        public const float HEAL_AMOUNT                      = 0.25f; //procenta
         public const int HEAL_START_COST                    = 10;
+        public const int BONUS_HEAL                         = 0;
 
         public const float ACTION_BAR_TOP_MARGIN_PCT        = 0.3f;
 

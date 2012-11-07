@@ -41,6 +41,7 @@ namespace Orbit.Core.Players
         public int HookMaxCatchedObjCount { get; set; }
         public int BaseIntegrity { get; set; }
         public int MaxBaseIntegrity { get; set; }
+        public int BonusHeal { get; set; }
         public int LaserDamage { get; set; }
         public float LaserChargingTime { get; set; }
         public float LaserDamageInterval { get; set; }
@@ -77,6 +78,7 @@ namespace Orbit.Core.Players
             LaserDamage = SharedDef.LASER_DMG;
             LaserDamageInterval = SharedDef.LASER_DMG_INTERVAL;
             LaserChargingTime = SharedDef.LASER_CHARGING_TIME;
+            BonusHeal = SharedDef.BONUS_HEAL;
         }
     }
 
