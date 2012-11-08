@@ -44,7 +44,7 @@ namespace Orbit.Core.AI
 
         private void CheckHeal()
         {
-            if (me.Data.BaseIntegrity <= SharedDef.BASE_MAX_INGERITY - SharedDef.HEAL_AMOUNT)
+            if (me.Data.BaseIntegrity <= SharedDef.BASE_MAX_INGERITY - ((SharedDef.BASE_MAX_INGERITY * SharedDef.HEAL_AMOUNT) + SharedDef.BONUS_HEAL))
                 me.HealingKit.Heal();
         }
 
