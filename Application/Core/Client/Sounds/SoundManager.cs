@@ -76,6 +76,7 @@ namespace Orbit.Core.Client
         }
 
         private void disable(bool value) {
+            enabled = value;
 
             if (!value)
             {
@@ -83,9 +84,10 @@ namespace Orbit.Core.Client
                 musicEngine.StopAllSounds();
             }
             else
+            {
+                setMusicVolume(float.Parse(GameProperties.Props.Get(PropertyKey.MUSIC_VOLUME)));
                 music.ForEach(sound => StartPlayingInfinite(sound));
-
-            enabled = value;
+            }
         }
 
         public FileSound SoundByName(String soundName)
@@ -107,12 +109,10 @@ namespace Orbit.Core.Client
             if (!music.Contains(sound))
                 music.Add(sound);
 
-            if (Enabled)
-            {
-                sound.Sound = musicEngine.Play2D(sound.SoundName, true);
-                setMusicVolume(float.Parse(GameProperties.Props.Get(PropertyKey.MUSIC_VOLUME)));
-            }
+            if (!Enabled)
+                setMusicVolume(0);
 
+            sound.Sound = musicEngine.Play2D(sound.SoundName, true);
             return sound;
         }
 
@@ -175,7 +175,6 @@ namespace Orbit.Core.Client
             if (volume < 0 || volume > 1)
                 throw new Exception("Volume must be value between 0 and 1");
 
-            music.ForEach(sound => sound.Sound.Volume = volume);
             musicEngine.SoundVolume = volume;
         }
 
