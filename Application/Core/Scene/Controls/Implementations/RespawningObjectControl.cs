@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Orbit.Core.Scene.Entities;
+using Orbit.Core.Controls.Health;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -11,6 +12,13 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private bool counting = false;
         private float respawningTime = 0;
         private float visibilityTime = 0;
+
+        private IHpControl hpControl;
+
+        protected override void InitControl(ISceneObject me)
+        {
+            hpControl = me.GetControlOfType<IHpControl>();
+        }
 
         protected override void UpdateControl(float tpf)
         {
@@ -21,8 +29,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 {
                     counting = false;
                     toggleControls(true);
-                    if (me is IHasHp)
-                        (me as IHasHp).RefillHp();
+                    if (hpControl != null)
+                        hpControl.RefillHp();
 
                     me.SceneMgr.Invoke(new Action(() =>
                     {

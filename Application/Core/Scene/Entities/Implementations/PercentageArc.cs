@@ -10,7 +10,7 @@ using System.Windows.Shapes;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    public class PercentageArc : SceneObject
+    public class PercentageArc : SceneObject, IHpBar
     {
         public int Radius { get; set; }
         public float Percentage { get; set; }

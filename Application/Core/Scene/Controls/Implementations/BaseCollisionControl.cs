@@ -45,7 +45,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
                 SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_DAMAGE_TO_BASE);
 
-                baze.Integrity -= damage;
+                baze.Owner.ChangeBaseIntegrity(-damage);
                 other.DoRemoveMe();
             }
         }

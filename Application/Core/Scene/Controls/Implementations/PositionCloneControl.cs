@@ -18,6 +18,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
             this.toFollow = toFollow;
         }
 
+        protected override void InitControl(ISceneObject me)
+        {
+            base.InitControl(me);
+            me.Position = toFollow.Position;
+        }
+
         protected override void UpdateControl(float tpf)
         {
             if (Offset == null)

@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Orbit.Core.Scene.Entities.Implementations;
+using Orbit.Core.Controls.Health;
+using Orbit.Core.Scene.Entities;
 
-namespace Orbit.Core.Scene.Controls.Implementations
+namespace Orbit.Core.Scene.Controls.Health.Implementations
 {
     class HpBarControl : Control
     {
-        public PercentageArc Bar { get; set;}
-        private MiningModule module;
+        public IHpBar Bar { get; set;}
+        private IHpControl obj;
 
         public override bool Enabled
         {
@@ -30,19 +32,21 @@ namespace Orbit.Core.Scene.Controls.Implementations
             }
         }
 
-        public HpBarControl(PercentageArc bar)
+        public HpBarControl(IHpBar bar)
         {
             this.Bar = bar;
         }
 
         protected override void InitControl(Entities.ISceneObject me)
         {
-            this.module = me as MiningModule;
+            this.obj = me.GetControlOfType<IHpControl>();
+            if (this.obj == null)
+                throw new Exception("HpBarControl must be attached to object containing HpControl");
         }
 
         protected override void UpdateControl(float tpf)
         {
-            float p = module.Hp / SharedDef.SPECTATOR_MAX_HP;
+            float p = obj.Hp / (float) obj.MaxHp;
 
             if (p > 1)
                 p = 1;

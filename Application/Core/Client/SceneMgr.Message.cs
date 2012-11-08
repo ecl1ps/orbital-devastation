@@ -17,6 +17,7 @@ using Orbit.Core.Players.Input;
 using Orbit.Core.Scene.Controls;
 using System.Windows.Shapes;
 using Orbit.Core.Client.GameStates;
+using Orbit.Core.Scene.Controls.Health.Implementations;
 
 namespace Orbit.Core.Client
 {
@@ -207,6 +208,10 @@ namespace Orbit.Core.Client
                     DelayedAttachToScene(p.Baze);
 
                     PercentageEllipse ellipse = SceneObjectFactory.CreatePercentageEllipse(this, p);
+                    
+                    HpBarControl control = new HpBarControl(ellipse);
+                    p.Baze.AddControl(control);
+
                     DelayedAttachToScene(ellipse);
                 }
                 else

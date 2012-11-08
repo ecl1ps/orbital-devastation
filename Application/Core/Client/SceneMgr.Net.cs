@@ -18,6 +18,8 @@ using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Helpers;
 using Orbit.Core.AI;
 using Orbit.Core.Client.GameStates;
+using Orbit.Core.Scene.Controls.Health.Implementations;
+using Orbit.Core.Controls.Health;
 
 namespace Orbit.Core.Client
 {
@@ -312,7 +314,7 @@ namespace Orbit.Core.Client
         {
             Player player = GetPlayer(msg.ReadInt32());
             player.Device.TakeDamage(msg.ReadInt32(), null);
-            player.Device.Hp = msg.ReadFloat();
+            player.Device.GetControlOfType<IHpControl>().Hp = msg.ReadInt32();
         }
 
         private void ChangeMoveState(NetIncomingMessage msg)

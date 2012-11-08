@@ -43,7 +43,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void UpdateGeometric()
         {
-            float angle = FullAngle - (FullAngle * Percentage);
+            float angle = - (FullAngle - (FullAngle * Percentage));
 
             if (arc.IsLargeArc && angle < Math.PI)
                 arc.IsLargeArc = false;

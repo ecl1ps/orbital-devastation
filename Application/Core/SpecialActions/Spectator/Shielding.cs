@@ -11,6 +11,7 @@ using System.Windows;
 using Orbit.Core.Scene.Entities.Implementations;
 using System.Windows.Media;
 using Lidgren.Network;
+using Orbit.Core.Scene.Controls.Health.Implementations;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
@@ -31,17 +32,17 @@ namespace Orbit.Core.SpecialActions.Spectator
         {
             base.StartAction();
 
-            PercentageArc arc = Owner.Device.GetControlOfType<HpBarControl>().Bar;
-            arc.Color = Colors.RoyalBlue;
+            IHpBar bar = Owner.Device.GetControlOfType<HpBarControl>().Bar;
+            bar.Color = Colors.RoyalBlue;
 
             LimitedReverseDamageControl c = new LimitedReverseDamageControl(SharedDef.SPECTATOR_SHIELDING_TIME);
-            c.addControlDestroyAction(new Action(() => { arc.Color = Owner.GetPlayerColor(); }));
+            c.addControlDestroyAction(new Action(() => { bar.Color = Owner.GetPlayerColor(); }));
             toFollow.AddControl(c);
 
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
             msg.Write((int)PacketType.MODULE_COLOR_CHANGE);
             msg.Write(Owner.GetId());
-            msg.Write(arc.Color);
+            msg.Write(bar.Color);
 
             SceneMgr.SendMessage(msg);
         }

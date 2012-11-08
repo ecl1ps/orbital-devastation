@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Orbit.Core.Scene.Entities;
 
 namespace Orbit.Core.Scene.Controls
 {
-    interface IDamageControl : IControl
+    interface IDamageControl
     {
         bool Vulnerable { get; set; }
 
-        void ProccessDamage(int damage, ISceneObject causedBy);
+        void ProccessDamage(int damage, Entities.ISceneObject causedBy);
     }
 }

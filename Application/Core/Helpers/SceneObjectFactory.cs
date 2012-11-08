@@ -16,6 +16,7 @@ using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Scene.CollisionShapes;
 using Orbit.Core.Scene.Controls.Collisions.Implementations;
+using Orbit.Core.Scene.Controls.Health.Implementations;
 
 namespace Orbit.Core.Helpers
 {
@@ -36,6 +37,9 @@ namespace Orbit.Core.Helpers
             cs.Center = new Vector(baze.Center.X, baze.Position.Y + 2.4 * baze.Size.Height);
             cs.Radius = (int)(baze.Size.Width / 1.9);
             baze.CollisionShape = cs;
+
+            BaseHealthControl hc = new BaseHealthControl();
+            baze.AddControl(hc);
 
             baze.AddControl(new BaseCollisionControl());
 
@@ -468,9 +472,18 @@ namespace Orbit.Core.Helpers
             rc.RotationSpeed = SharedDef.SPECTATOR_MODULE_ROTATION_SPEED;
             module.AddControl(rc);
 
-            module.AddControl(new HpRegenControl());
+            HpRegenControl hc = new HpRegenControl();
+            hc.MaxRegenTime = SharedDef.SPECTATOR_HP_REGEN_CD;
+            hc.RegenTimer = SharedDef.SPECTATOR_HP_REGEN_CD;
+            hc.RegenSpeed = SharedDef.SPECTATOR_REGEN_SPEED;
+            module.AddControl(hc);
+
+
+            ModuleDamageControl mc = new ModuleDamageControl();
+            mc.MaxHp = SharedDef.SPECTATOR_MAX_HP;
+            module.AddControl(mc);
+
             module.AddControl(new RespawningObjectControl());
-            module.AddControl(new ModuleDamageControl());
             module.AddControl(new StickySphereCollisionShapeControl());
 
             module.SetGeometry(SceneGeometryFactory.CrateMiningModule(module));

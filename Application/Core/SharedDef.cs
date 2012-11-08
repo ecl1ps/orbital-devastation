@@ -91,7 +91,7 @@ namespace Orbit.Core
         public const float SPECTATOR_ORBITS_TRAVELLING_TIME = 1.2f;
         public const float SPECTATOR_ORBITS_SPAWN_TIME      = 0.6f;
         public const float SPECTATOR_MODULE_ROTATION_SPEED  = (float) System.Math.PI;
-        public const float SPECTATOR_MAX_HP                 = 100;
+        public const int SPECTATOR_MAX_HP                   = 100;
         public const float SPECTATOR_HP_REGEN_CD            = 3; // sekundy
         public const float SPECTATOR_REGEN_SPEED            = 2; //sekundy
         public const float SPECTATOR_RESPAWN_TIME           = 8; //sekundy

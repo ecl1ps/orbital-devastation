@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Media;
 
 namespace Orbit.Core.Scene.Entities
 {
-    interface IHasHp
+    interface IHpBar : ISceneObject
     {
-        float Hp { get; set; }
+        float Percentage { get; set; }
 
-        void RefillHp();
+        Color Color { get; set; }
     }
 }
