@@ -51,7 +51,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 arc.IsLargeArc = true;
 
             if (colorChanged)
-                (geometryElement as Path).Stroke = new SolidColorBrush(Color);
+                (geometryElement as Path).Fill = new SolidColorBrush(Color);
 
             arc.Point = ComputeEllipsePoint(angle);
             Canvas.SetLeft(geometryElement, Position.X);

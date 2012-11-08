@@ -216,7 +216,6 @@ namespace Orbit.Core.Server
         {
             foreach (Player plr in players)
             {
-                Console.WriteLine(plr.GetBaseIntegrity());
                 if (plr.IsActivePlayer() && plr.GetBaseIntegrity() <= 0)
                     foreach (Player winner in players)
                         if (winner.IsActivePlayer() && winner.GetId() != plr.GetId())

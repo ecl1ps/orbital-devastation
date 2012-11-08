@@ -494,10 +494,13 @@ namespace Orbit.Core.Helpers
         public static PercentageEllipse CreatePercentageEllipse(SceneMgr mgr, Player owner)
         {
             PercentageEllipse arc = new PercentageEllipse(mgr);
-            arc.Color = Color.FromArgb(0xff, 0x0, 0xaa, 0x0);
+            //arc.Color = Color.FromArgb(0xaa, 0x0, 0xaa, 0x0);
+            Color c = owner.GetPlayerColor();
+            c.A = 0x55;
+            arc.Color = c;
             arc.FullAngle = (float) Math.PI;
-            arc.A = (float) owner.Baze.Size.Width / 2;
-            arc.B = (float) owner.Baze.Size.Height + 15; //hack kvuli nespravnym rozmerum baze
+            arc.A = (float) owner.Baze.Size.Width / 2 - 17;
+            arc.B = (float) owner.Baze.Size.Height + 3; //hack kvuli nespravnym rozmerum baze
 
             arc.Position = owner.Baze.Position + (new Vector(owner.Baze.Size.Width / 2, owner.Baze.Size.Height));
 
