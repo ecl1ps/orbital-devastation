@@ -337,6 +337,47 @@ namespace Orbit.Core.Helpers
             return path;
         }
 
+        public static Path CreateArcSegments(PercentageEllipse arc)
+        {
+            Path path = null;
+
+            arc.SceneMgr.Invoke(new Action(() =>
+            {
+                path = new Path();
+                path.Data = createArc(arc);
+                path.Stroke = new SolidColorBrush(arc.Color);
+                path.StrokeThickness = 2;
+
+                Canvas.SetLeft(path, arc.Position.X);
+                Canvas.SetTop(path, arc.Position.Y);
+            }));
+
+            return path;
+        }
+
+        private static PathGeometry createArc(PercentageEllipse e)
+        {
+            ArcSegment arc = new ArcSegment();
+
+            PathFigure figure = new PathFigure();
+            figure.StartPoint = e.ComputeEllipsePoint(e.FullAngle);
+
+            arc = new ArcSegment();
+            arc.SweepDirection = SweepDirection.Clockwise;
+            arc.IsLargeArc = true;
+            arc.Size = new Size(e.A, e.B);
+            arc.Point = e.ComputeEllipsePoint(0);
+
+            e.SetArc(arc);
+
+            figure.Segments.Add(arc);
+
+            PathGeometry geom = new PathGeometry();
+            geom.Figures.Add(figure);
+
+            return geom;
+        }
+
         private static PathGeometry createArc(PercentageArc a)
         {
             ArcSegment arc = new ArcSegment();

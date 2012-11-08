@@ -478,6 +478,21 @@ namespace Orbit.Core.Helpers
             return module;
         }
 
+        public static PercentageEllipse CreatePercentageEllipse(SceneMgr mgr, Player owner)
+        {
+            PercentageEllipse arc = new PercentageEllipse(mgr);
+            arc.Color = owner.GetPlayerColor();
+            arc.FullAngle = (float) Math.PI;
+            arc.A = (float) owner.Baze.Size.Width / 2;
+            arc.B = (float) owner.Baze.Size.Height + 15; //hack kvuli nespravnym rozmerum baze
+
+            arc.Position = owner.Baze.Position + (new Vector(owner.Baze.Size.Width / 2, owner.Baze.Size.Height));
+
+            arc.SetGeometry(SceneGeometryFactory.CreateArcSegments(arc));
+
+            return arc;
+        }
+
         public static PercentageArc CreatePercentageArc(SceneMgr mgr, MiningModule module, Player owner)
         {
             PercentageArc arc = new PercentageArc(mgr);

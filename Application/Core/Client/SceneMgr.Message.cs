@@ -205,6 +205,9 @@ namespace Orbit.Core.Client
                     p.SetBaseIntegrity(p.GetBaseIntegrity());
                     p.Baze = SceneObjectFactory.CreateBase(this, p);
                     DelayedAttachToScene(p.Baze);
+
+                    PercentageEllipse ellipse = SceneObjectFactory.CreatePercentageEllipse(this, p);
+                    DelayedAttachToScene(ellipse);
                 }
                 else
                 {
