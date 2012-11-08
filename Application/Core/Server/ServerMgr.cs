@@ -215,6 +215,8 @@ namespace Orbit.Core.Server
         private void CheckPlayerStates()
         {
             foreach (Player plr in players)
+            {
+                Console.WriteLine(plr.GetBaseIntegrity());
                 if (plr.IsActivePlayer() && plr.GetBaseIntegrity() <= 0)
                     foreach (Player winner in players)
                         if (winner.IsActivePlayer() && winner.GetId() != plr.GetId())
@@ -225,6 +227,7 @@ namespace Orbit.Core.Server
                                 EndGame(winner, GameEnd.WIN_GAME);
                             return;
                         }
+            }
         }
 
         private void StopAndRequestScores(Action action)
