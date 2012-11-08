@@ -346,7 +346,7 @@ namespace Orbit.Core.Helpers
                 path = new Path();
                 path.Data = createArc(arc);
                 path.Stroke = new SolidColorBrush(arc.Color);
-                path.StrokeThickness = 2;
+                path.StrokeThickness = 1; 
 
                 Canvas.SetLeft(path, arc.Position.X);
                 Canvas.SetTop(path, arc.Position.Y);
