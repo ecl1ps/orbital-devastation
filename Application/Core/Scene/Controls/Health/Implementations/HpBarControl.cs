@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Orbit.Core.Scene.Entities.Implementations;
-using Orbit.Core.Controls.Health;
+using Orbit.Core.Scene.Controls.Health;
 using Orbit.Core.Scene.Entities;
 
 namespace Orbit.Core.Scene.Controls.Health.Implementations

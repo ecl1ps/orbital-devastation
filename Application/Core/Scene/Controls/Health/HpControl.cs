@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Orbit.Core.Controls.Health;
+using Orbit.Core.Scene.Controls.Health;
 
 namespace Orbit.Core.Scene.Controls.Health
 {

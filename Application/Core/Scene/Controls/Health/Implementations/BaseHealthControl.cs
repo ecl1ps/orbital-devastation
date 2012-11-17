@@ -8,7 +8,6 @@ using Orbit.Core.Scene.Controls.Collisions;
 using Orbit.Core.Scene.Controls.Health;
 using Lidgren.Network;
 using Orbit.Core.Client;
-using Orbit.Core.Controls.Health;
 
 namespace Orbit.Core.Scene.Controls.Health.Implementations
 {

@@ -14,6 +14,9 @@ using Orbit.Core.Weapons;
 using Orbit.Core.Helpers;
 using Orbit.Core.Client;
 using Orbit.Core.Scene.Controls.Collisions.Implementations;
+using Orbit.Core.Scene.Controls.Health.Implementations;
+using Orbit.Core.Scene.Controls.Health.implementations;
+using Orbit.Core.Scene.Controls.Health;
 
 namespace Orbit.Core.Helpers
 {
@@ -309,6 +312,27 @@ namespace Orbit.Core.Helpers
                     msg.Write(typeof(StickySquareCollisionShapeControl).GUID.GetHashCode());
                     msg.WriteControl(c);
                 }
+                else if (c is BaseHealthControl)
+                {
+                    msg.Write(typeof(BaseHealthControl).GUID.GetHashCode());
+                    msg.WriteControl(c);
+                }
+                else if (c is DestroyHpControl)
+                {
+                    msg.Write(typeof(DestroyHpControl).GUID.GetHashCode());
+                    msg.WriteControl(c);
+
+                }
+                else if (c is HpRegenControl)
+                {
+                    msg.Write(typeof(HpRegenControl).GUID.GetHashCode());
+                    msg.WriteControl(c);
+                }
+                else if (c is ModuleDamageControl)
+                {
+                    msg.Write(typeof(ModuleDamageControl).GUID.GetHashCode());
+                    msg.WriteControl(c);
+                }
                 else
                 {
                     msg.Write(0);
@@ -439,6 +463,30 @@ namespace Orbit.Core.Helpers
                     msg.ReadControl(c);
                     controls.Add(c);
                 }
+                else if (hash == typeof(BaseHealthControl).GUID.GetHashCode())
+                {
+                    BaseHealthControl c = new BaseHealthControl();
+                    msg.ReadHealthControl(c);
+                    controls.Add(c);
+                }
+                else if (hash == typeof(DestroyHpControl).GUID.GetHashCode())
+                {
+                    DestroyHpControl c = new DestroyHpControl();
+                    msg.ReadHealthControl(c);
+                    controls.Add(c);
+                }
+                else if (hash == typeof(HpRegenControl).GUID.GetHashCode())
+                {
+                    HpRegenControl c = new HpRegenControl();
+                    msg.ReadHealthRegenControl(c);
+                    controls.Add(c);
+                }
+                else if (hash == typeof(ModuleDamageControl).GUID.GetHashCode())
+                {
+                    ModuleDamageControl c = new ModuleDamageControl();
+                    msg.ReadModuleDamageControl(c);
+                    controls.Add(c);
+                }
                 else
                 {
                     msg.ReadInt32();
@@ -458,6 +506,50 @@ namespace Orbit.Core.Helpers
         public static void WriteControl(this NetOutgoingMessage msg, IControl c)
         {
             msg.Write(c.Enabled);
+        }
+
+        public static void ReadModuleDamageControl(this NetIncomingMessage msg, ModuleDamageControl c)
+        {
+            msg.ReadControl(c);
+            msg.ReadHealthControl(c);
+            c.Vulnerable = msg.ReadBoolean();
+        }
+
+        public static void WriteModuleDamageControl(this NetOutgoingMessage msg, ModuleDamageControl c)
+        {
+            msg.WriteControl(c);
+            msg.WriteHealthControl(c);
+            msg.Write(c.Vulnerable);
+        }
+
+        public static void ReadHealthRegenControl(this NetIncomingMessage msg, HpRegenControl c)
+        {
+            msg.ReadControl(c);
+            c.MaxRegenTime = msg.ReadFloat();
+            c.RegenSpeed = msg.ReadFloat();
+            c.RegenTimer = msg.ReadFloat();
+        }
+
+        public static void WriteHealthRegenControl(this NetOutgoingMessage msg, HpRegenControl c)
+        {
+            msg.WriteControl(c);
+            msg.Write(c.MaxRegenTime);
+            msg.Write(c.RegenSpeed);
+            msg.Write(c.RegenTimer);
+        }
+
+        public static void ReadHealthControl(this NetIncomingMessage msg, IHpControl c)
+        {
+            msg.ReadControl(c as Control);
+            c.Hp = msg.ReadInt32();
+            c.MaxHp = msg.ReadInt32();
+        }
+
+        public static void WriteHealthControl(this NetOutgoingMessage msg, IHpControl c) 
+        {
+            msg.WriteControl(c as Control);
+            msg.Write(c.Hp);
+            msg.Write(c.MaxHp);
         }
 
         public static void ReadObjectExcludingExplodingSingularityBulletControl(this NetIncomingMessage msg, ExcludingExplodingSingularityBulletControl c)

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Orbit.Core.Scene.Controls;
 
-namespace Orbit.Core.Controls.Health
+namespace Orbit.Core.Scene.Controls.Health
 {
     interface IHpControl : IControl
     {

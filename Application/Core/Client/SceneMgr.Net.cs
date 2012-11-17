@@ -19,7 +19,7 @@ using Orbit.Core.Helpers;
 using Orbit.Core.AI;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Controls.Health.Implementations;
-using Orbit.Core.Controls.Health;
+using Orbit.Core.Scene.Controls.Health;
 
 namespace Orbit.Core.Client
 {

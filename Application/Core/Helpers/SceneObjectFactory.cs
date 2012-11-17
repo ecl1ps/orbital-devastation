@@ -460,6 +460,11 @@ namespace Orbit.Core.Helpers
             module.Radius = 10;
             module.Color = Colors.Crimson;
 
+
+            ModuleDamageControl mc = new ModuleDamageControl();
+            mc.MaxHp = SharedDef.SPECTATOR_MAX_HP;
+            module.AddControl(mc);
+
             SphereCollisionShape cs = new SphereCollisionShape();
             cs.Center = module.Center;
             cs.Radius = module.Radius;
@@ -477,11 +482,6 @@ namespace Orbit.Core.Helpers
             hc.RegenTimer = SharedDef.SPECTATOR_HP_REGEN_CD;
             hc.RegenSpeed = SharedDef.SPECTATOR_REGEN_SPEED;
             module.AddControl(hc);
-
-
-            ModuleDamageControl mc = new ModuleDamageControl();
-            mc.MaxHp = SharedDef.SPECTATOR_MAX_HP;
-            module.AddControl(mc);
 
             module.AddControl(new RespawningObjectControl());
             module.AddControl(new StickySphereCollisionShapeControl());
