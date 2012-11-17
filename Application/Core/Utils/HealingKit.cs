@@ -30,16 +30,10 @@ namespace Orbit.Core.Utils
 
         public void Heal()
         {
-            if (owner.Data.Gold >= Cost)
-            {
                 int heal = (int) (owner.Data.MaxBaseIntegrity * SharedDef.HEAL_AMOUNT);
-
                 owner.ChangeBaseIntegrity(heal + owner.Data.BonusHeal, true);
-
                 Cost *= SharedDef.HEAL_MULTIPLY_COEF;
-
                 SendMessageWithHeal();
-            }
         }
 
         private void SendMessageWithHeal()
