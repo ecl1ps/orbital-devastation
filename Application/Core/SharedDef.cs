@@ -81,7 +81,7 @@ namespace Orbit.Core
 
         public const bool ALLOW_SPECTATORS_IN_DUO_MATCH     = true;
 
-        public const int START_GOLD                         = 60000;
+        public const int START_GOLD                         = 300;
 
         //konstanty pro spectatory
         public const float SPECTATOR_MINING_RADIUS          = 200;
@@ -97,9 +97,9 @@ namespace Orbit.Core
         public const float SPECTATOR_RESPAWN_TIME           = 8; //sekundy
 
         //Konstanty pro spectator akce
-        public const float SPECTATOR_ASTEROID_THROW_SPEED   = 100;
+        public const float SPECTATOR_ASTEROID_THROW_SPEED   = 60;
         public const float SPECTATOR_SHIELDING_TIME         = 5;
-        public const int SPECTATOR_DAMAGE                   = 3;
+        public const int SPECTATOR_DAMAGE                   = 6;
 
         /// <summary>
         /// velikost canvasu je zaroven velikost celeho okna
