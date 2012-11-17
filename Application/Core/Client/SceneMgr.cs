@@ -678,7 +678,8 @@ namespace Orbit.Core.Client
         {
             string text;
             // kdyz maji hraci stejna jmena, tak jsou rozliseni barvami
-            if (players.Find(p => p.IsActivePlayer() && p.GetId() != winner.GetId()).Data.Name.Equals(winner.Data.Name))
+            Player otherActivePlayer = players.Find(p => p.IsActivePlayer() && p.GetId() != winner.GetId());
+            if (otherActivePlayer != null && otherActivePlayer.Data.Name.Equals(winner.Data.Name))
                 text = (winner.Data.PlayerColor == Colors.Red ? "Red" : "Blue") + " player wins!";
             else
                 text = winner.Data.Name + " wins!";
@@ -697,7 +698,8 @@ namespace Orbit.Core.Client
 
             string text;
             // kdyz maji hraci stejna jmena, tak jsou rozliseni barvami
-            if (players.Find(p => p.IsActivePlayer() && p.GetId() != leaver.GetId()).Data.Name.Equals(leaver.Data.Name))
+            Player otherActivePlayer = players.Find(p => p.IsActivePlayer() && p.GetId() != leaver.GetId());
+            if (otherActivePlayer != null && otherActivePlayer.Data.Name.Equals(leaver.Data.Name))
                 text = (leaver.Data.PlayerColor == Colors.Red ? "Red" : "Blue") + " player left the game!";
             else
                 text = leaver.Data.Name + " left the game!";
