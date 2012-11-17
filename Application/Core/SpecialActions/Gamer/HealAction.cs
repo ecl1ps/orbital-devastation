@@ -12,8 +12,7 @@ namespace Orbit.Core.SpecialActions.Gamer
     {
         private IHealingKit healingKit;
 
-        public HealAction(IHealingKit healingKit, SceneMgr mgr, Player plr)
-            : base(mgr, plr)
+        public HealAction(IHealingKit healingKit, SceneMgr mgr, Player plr) : base(mgr, plr)
         {
             this.healingKit = healingKit;
             Name = "Repair base";
@@ -33,7 +32,9 @@ namespace Orbit.Core.SpecialActions.Gamer
 
         public override bool IsReady()
         {
-            return healingKit.Cost <= Owner.Data.Gold && (SharedDef.BASE_MAX_INGERITY - Owner.GetBaseIntegrity()) >= SharedDef.HEAL_AMOUNT;
+            int heal = (int)(Owner.Data.MaxBaseIntegrity * SharedDef.HEAL_AMOUNT) + Owner.Data.BonusHeal;
+
+            return healingKit.Cost <= Owner.Data.Gold && (Owner.Data.MaxBaseIntegrity - Owner.GetBaseIntegrity()) >= heal;
         }
     }
 }
