@@ -530,6 +530,7 @@ namespace Orbit.Core.Client
             if (GameType != Gametype.TOURNAMENT_GAME || endType == GameEnd.SERVER_DISCONNECTED || endType == GameEnd.TOURNAMENT_FINISHED)
                 RequestStop();
 
+            StateMgr.Clear();
             StaticMouse.Enable(false);
 
             if (Application.Current == null)

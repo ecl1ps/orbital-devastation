@@ -57,5 +57,10 @@ namespace Orbit.Core
             }
             return null;
         }
+
+        public void Clear()
+        {
+            gameStates.Clear();
+        }
     }
 }
