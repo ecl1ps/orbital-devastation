@@ -16,6 +16,7 @@ using Orbit.Core.Server;
 using System.IO;
 using Orbit.Core.Players;
 using Orbit.Core.Client.GameStates;
+using System.Net.Sockets;
 
 namespace Orbit
 {
@@ -64,22 +65,32 @@ namespace Orbit
 
         public void StartSoloGame()
         {
-            StartLocalServer(Gametype.SOLO_GAME);
+            if (!StartLocalServer(Gametype.SOLO_GAME))
+                return;
 
             sceneMgr.SetRemoteServerAddress("127.0.0.1");
 
             StartGame(Gametype.SOLO_GAME);
         }
 
-        private void StartLocalServer(Gametype type)
+        private bool StartLocalServer(Gametype type)
         {
             server = new ServerMgr();
-            server.Init(type);
+            try
+            {
+                server.Init(type);
+            }
+            catch (SocketException e)
+            {
+                ShowStartScreen();
+                return false;
+            }
 
             Thread serverThread = new Thread(new ThreadStart(server.Run));
             serverThread.IsBackground = false;
             serverThread.Name = "Server Thread";
             serverThread.Start();
+            return true;
         }
 
         private void StartGame(Gametype type)
@@ -102,9 +113,10 @@ namespace Orbit
 
         public void StartHostedGame()
         {
-            hostedLastgame = true;
+            if (!StartLocalServer(Gametype.MULTIPLAYER_GAME))
+                return;
 
-            StartLocalServer(Gametype.MULTIPLAYER_GAME);
+            hostedLastgame = true;
 
             sceneMgr.SetRemoteServerAddress("127.0.0.1");
 
@@ -113,11 +125,14 @@ namespace Orbit
 
         public void StartTournamentLobby()
         {
-            StartLocalServer(Gametype.TOURNAMENT_GAME);
+            if (!StartLocalServer(Gametype.TOURNAMENT_GAME))
+                return;
 
             sceneMgr.SetRemoteServerAddress("127.0.0.1");
 
             StartGame(Gametype.TOURNAMENT_GAME);
+
+            CreateLobbyGui(true);
         }
 
         public void SetGameStarted(bool started)
@@ -253,7 +268,6 @@ namespace Orbit
                     break;
                 case Gametype.TOURNAMENT_GAME:
                     StartTournamentLobby();
-                    CreateLobbyGui(true);
                     break;
                 case Gametype.NONE:
                 default:
@@ -317,6 +331,11 @@ namespace Orbit
         public void ShowGameOverview(List<PlayerOverviewData> data)
         {
             mainWindow.mainGrid.Children.Add(new GameOverviewUC(data));
+        }
+
+        public bool IsGameStarted() 
+        { 
+            return mainWindow.GameRunning; 
         }
     }
 }

@@ -42,7 +42,6 @@ namespace Orbit.Gui
         private void btnHostTournament_Click(object sender, RoutedEventArgs e)
         {
             (Application.Current as App).StartTournamentLobby();
-            (Application.Current as App).CreateLobbyGui(true);
         }
 
         private void btnFindHostedGame_Click(object sender, RoutedEventArgs e)

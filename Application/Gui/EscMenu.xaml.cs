@@ -33,10 +33,17 @@ namespace Orbit.Gui
         private void btnMainMenu_Click(object sender, RoutedEventArgs e)
         {
             (Application.Current.MainWindow as GameWindow).mainGrid.Children.Remove(this);
-            (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
+
+            if ((Application.Current.MainWindow as GameWindow).GameRunning)
             {
-                (Application.Current as App).GetSceneMgr().PlayerQuitGame();
-            }));
+                (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
+                {
+                    (Application.Current as App).GetSceneMgr().PlayerQuitGame();
+                }));
+            }
+            else
+                (Application.Current as App).ShowStartScreen();
+
             (Application.Current as App).ShutdownServerIfExists();
         }
 
