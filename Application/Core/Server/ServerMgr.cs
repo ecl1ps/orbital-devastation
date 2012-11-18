@@ -90,13 +90,14 @@ namespace Orbit.Core.Server
         private void TournamentGameEnded(Player plr, GameEnd endType)
         {
             isInitialized = false;
-            gameEnded = false;
 
             if (gameSession.CheckTournamentFinished(true))
             {
                 RequestStop();
                 return;
             }
+
+            gameEnded = false;
 
             players.ForEach(p => p.Data.LobbyReady = false);
             players.ForEach(p => p.Data.BaseIntegrity = SharedDef.BASE_MAX_INGERITY);

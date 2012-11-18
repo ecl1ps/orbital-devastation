@@ -119,7 +119,7 @@
     <Compile Include="Core\AI\SimpleBot.cs" />
     <Compile Include="Core\Client\GameStates\FloatingTextManager.cs" />
     <Compile Include="Core\Client\GameStates\LevelEnvironment.cs" />
-    <Compile Include="Core\Client\GameStates\TimedGameWindowClose.cs" />
+    <Compile Include="Core\Client\GameStates\DelayedActionInvoker.cs" />
     <Compile Include="Core\Client\SceneMgr.Message.cs" />
     <Compile Include="Core\Client\Shaders\ConstantColorEffect.cs" />
     <Compile Include="Core\Client\Shaders\CustomColorEffect.cs" />

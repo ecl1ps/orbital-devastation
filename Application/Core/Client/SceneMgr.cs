@@ -500,6 +500,9 @@ namespace Orbit.Core.Client
 
         private void EndGame(Player plr, GameEnd endType)
         {
+            if (endType == GameEnd.TOURNAMENT_FINISHED)
+                TournamenFinished(plr);
+
             if (gameEnded)
                 return;
 
@@ -524,8 +527,6 @@ namespace Orbit.Core.Client
                 Disconnected();
 
             lastGameEnd = endType;
-            else if (endType == GameEnd.TOURNAMENT_FINISHED)
-                TournamenFinished(plr);
 
             // po urcitem case zavola metodu CloseGameWindowAndCleanup()
             if (GameWindowState == WindowState.IN_GAME)
@@ -610,6 +611,8 @@ namespace Orbit.Core.Client
         {
             if (Application.Current == null)
                 return;
+
+            lastGameEnd = GameEnd.TOURNAMENT_FINISHED;
 
             List<LobbyPlayerData> data = new List<LobbyPlayerData>();
             players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score, p.Data.LobbyLeader, p.Data.PlayedMatches, p.Data.WonMatches)));
