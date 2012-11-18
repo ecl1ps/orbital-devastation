@@ -135,6 +135,13 @@ namespace Orbit.Core
         public const string BOL_LEVEL_2_TEXT = "Easier bot then rest of others, recomended for those who just got a little experience and want to train some more before challenging real players. This bot will never upgrade its weapons but he will use hook as best as he can.";
     }
 
+    public enum WindowState
+    {
+        IN_MAIN_MENU,
+        IN_LOBBY,
+        IN_GAME
+    }
+
     public enum Gametype
     {
         NONE,

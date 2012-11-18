@@ -130,6 +130,7 @@ namespace Orbit
             mainWindow.mainGrid.Children.Clear();
             GameUC gameW = new GameUC();
             mainWindow.mainGrid.Children.Add(gameW);
+            sceneMgr.GameWindowState = Orbit.Core.WindowState.IN_GAME;
             if (setCanvas)
                 sceneMgr.Enqueue(new Action(() =>
                 {
@@ -150,6 +151,7 @@ namespace Orbit
                 sceneMgr.GetCurrentPlayer().Data.LobbyLeader = asLeader;
             }));
             mainWindow.mainGrid.Children.Add(new LobbyUC(asLeader));
+            sceneMgr.GameWindowState = Orbit.Core.WindowState.IN_LOBBY;
         }
 
         public void ConnectToGame(string serverAddress)
@@ -192,6 +194,7 @@ namespace Orbit
 
             mainWindow.mainGrid.Children.Clear();
             mainWindow.mainGrid.Children.Add(new MainUC());
+            sceneMgr.GameWindowState = Orbit.Core.WindowState.IN_MAIN_MENU;
         }
 
         public void ShutdownServerIfExists()

@@ -31,6 +31,8 @@ namespace Orbit.Core.Client
         public StatsMgr StatsMgr { get; set; }
         public GameStateManager StateMgr { get; set; }
         public LevelEnvironment LevelEnv { get; set; }
+        private volatile WindowState gameWindowState;
+        public WindowState GameWindowState { get { return gameWindowState; } set { gameWindowState = value; } }
 
         /// <summary>
         /// canvas je velky 1000*700 - pres cele okno
@@ -59,6 +61,7 @@ namespace Orbit.Core.Client
             isGameInitialized = false;
             shouldQuit = false;
             synchronizedQueue = new ConcurrentQueue<Action>();
+            GameWindowState = WindowState.IN_MAIN_MENU;
         }
 
         public void Init(Gametype gameType)
@@ -135,7 +138,7 @@ namespace Orbit.Core.Client
             Invoke(new Action(() =>
             {
                 Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblWaiting");
-                if (lblw != null)
+                if (lblw != null && canvas != null)
                     lblw.Content = t;
             }));
         }
@@ -145,7 +148,7 @@ namespace Orbit.Core.Client
             Invoke(new Action(() =>
             {
                 Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "statusText" + index);
-                if (lbl != null)
+                if (lbl != null && canvas != null)
                     lbl.Content = text;
             }));
         }
@@ -522,7 +525,10 @@ namespace Orbit.Core.Client
                 TournamenFinished(plr);
 
             // po urcitem case zavola metodu CloseGameWindowAndCleanup()
-            StateMgr.AddGameState(new TimedGameWindowClose(this, endType));
+            if (GameWindowState == WindowState.IN_GAME)
+                StateMgr.AddGameState(new TimedGameWindowClose(this, endType));
+            else
+                CloseGameWindowAndCleanup(endType);
         }
 
         public void CloseGameWindowAndCleanup(GameEnd endType)

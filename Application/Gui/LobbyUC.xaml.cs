@@ -97,5 +97,14 @@ namespace Orbit.Gui
             else if (spPlayers2.Children.Count < 5)
                 spPlayers2.Children.Add(new LobbyPlayer(data));
         }
+
+        private void btnLeave_Click(object sender, RoutedEventArgs e)
+        {
+            (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
+            {
+                (Application.Current as App).GetSceneMgr().PlayerQuitGame();
+            }));
+            (Application.Current as App).ShutdownServerIfExists();
+        }
     }
 }
