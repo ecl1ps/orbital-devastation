@@ -54,6 +54,7 @@ namespace Orbit.Core.Client
         private ActionBarMgr actionBarMgr;
         private IInputMgr inputMgr;
         private bool playerQuit;
+        private GameEnd lastGameEnd;
 
         public SceneMgr()
         {
@@ -521,19 +522,21 @@ namespace Orbit.Core.Client
                 PlayerLeft(plr);
             else if (endType == GameEnd.SERVER_DISCONNECTED)
                 Disconnected();
+
+            lastGameEnd = endType;
             else if (endType == GameEnd.TOURNAMENT_FINISHED)
                 TournamenFinished(plr);
 
             // po urcitem case zavola metodu CloseGameWindowAndCleanup()
             if (GameWindowState == WindowState.IN_GAME)
-                StateMgr.AddGameState(new TimedGameWindowClose(this, endType));
+                StateMgr.AddGameState(new DelayedActionInvoker(3.0f, new Action(() => { CloseGameWindowAndCleanup(); })));
             else
-                CloseGameWindowAndCleanup(endType);
+                CloseGameWindowAndCleanup();
         }
 
-        public void CloseGameWindowAndCleanup(GameEnd endType)
+        public void CloseGameWindowAndCleanup()
         {
-            if (GameType != Gametype.TOURNAMENT_GAME || endType == GameEnd.SERVER_DISCONNECTED || endType == GameEnd.TOURNAMENT_FINISHED)
+            if (GameType != Gametype.TOURNAMENT_GAME || lastGameEnd == GameEnd.SERVER_DISCONNECTED || lastGameEnd == GameEnd.TOURNAMENT_FINISHED)
                 RequestStop();
 
             StateMgr.Clear();
@@ -542,9 +545,9 @@ namespace Orbit.Core.Client
             if (Application.Current == null)
                 return;
 
-            if (GameType == Gametype.TOURNAMENT_GAME && endType != GameEnd.SERVER_DISCONNECTED && endType != GameEnd.TOURNAMENT_FINISHED)
+            if (GameType == Gametype.TOURNAMENT_GAME && lastGameEnd != GameEnd.SERVER_DISCONNECTED && lastGameEnd != GameEnd.TOURNAMENT_FINISHED)
                 TournamentGameEnded();
-            else if (endType != GameEnd.TOURNAMENT_FINISHED)
+            else if (lastGameEnd != GameEnd.TOURNAMENT_FINISHED)
                 NormalGameEnded();
         }
 
