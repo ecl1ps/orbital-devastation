@@ -81,7 +81,7 @@ namespace Orbit.Core
 
         public const bool ALLOW_SPECTATORS_IN_DUO_MATCH     = true;
 
-        public const int START_GOLD                         = 300;
+        public const int START_GOLD                         = 250;
 
         //konstanty pro spectatory
         public const float SPECTATOR_MINING_RADIUS          = 200;
