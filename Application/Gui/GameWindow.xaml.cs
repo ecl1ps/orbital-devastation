@@ -27,6 +27,8 @@ namespace Orbit.Gui
         public GameWindow()
         {
             InitializeComponent();
+            if (WindowStyle == WindowStyle.None)
+                Height = 714;
         }
 
         #region ScaleValue Dependency Property
@@ -97,8 +99,14 @@ namespace Orbit.Gui
         {
             // event musi byt navazany na hodnoty velikosti okna (jinak scale stale preskakuje)
             // ale hodnoty, se kterymi se pocita, musi byt zmensene na velikost osahu okna (okno: 1020*740, obsah okna: 1000*700)
-            double xScale = (ActualWidth - 20) / 1000f;
-            double yScale = (ActualHeight - 40) / 700f;
+            // pokud nema okno listu s krizkem, tak je potreba okno nastavit mensim a misto 40 bodu listy pouzit 14
+            double xScale = (ActualWidth - 14) / 1000f;
+            double yScale;
+            if (WindowStyle != WindowStyle.None)
+                yScale = (ActualHeight - 40) / 700f;
+            else
+                yScale = (ActualHeight - 14) / 700f;
+
             ScaleValueX = (double)OnCoerceScaleValue(mainContainerGrid, xScale);
             ScaleValueY = (double)OnCoerceScaleValue(mainContainerGrid, yScale);
         }
