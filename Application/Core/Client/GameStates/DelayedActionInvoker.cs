@@ -9,7 +9,6 @@ namespace Orbit.Core.Client.GameStates
     {
         private float timer;
         private float elapsedTime = 0;
-        private SceneMgr sceneMgr;
         private Action action;
 
         public DelayedActionInvoker(float delay, Action action)

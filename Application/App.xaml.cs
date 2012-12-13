@@ -80,7 +80,7 @@ namespace Orbit
             {
                 server.Init(type);
             }
-            catch (SocketException e)
+            catch (SocketException)
             {
                 ShowStartScreen();
                 return false;
