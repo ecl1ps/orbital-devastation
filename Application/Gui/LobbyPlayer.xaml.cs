@@ -21,6 +21,11 @@ namespace Orbit.Gui
     {
         public int PlayerId { get; set; }
 
+        public LobbyPlayer()
+        {
+            InitializeComponent();
+        }
+
         public LobbyPlayer(LobbyPlayerData data)
         {
             InitializeComponent();

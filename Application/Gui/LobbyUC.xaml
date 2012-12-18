@@ -6,13 +6,23 @@
              xmlns:controls="clr-namespace:Orbit.Gui"
              mc:Ignorable="d" x:Name="lobbyWindow"
              d:DesignWidth="1000" d:DesignHeight="700" Width="1000" Height="700" Loaded="lobbyWindow_Loaded">
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="700">
-        <Label Name="lblTitle" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="419" Margin="0,36,0,507" FontFamily="Bauhaus 93" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" >Game Match Lobby</Label>
-        <StackPanel Name="spPlayers1"  Background="#7D91A0A3" Margin="12,167,401,269" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">      
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="700" Width="900">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="139*" />
+            <RowDefinition Height="561*" />
+        </Grid.RowDefinitions>
+        <Label Name="lblTitle" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="419" Margin="0,80,0,551" FontFamily="Bauhaus 93" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.RowSpan="2">Game Match Lobby</Label>
+        <StackPanel Name="spPlayers"  Background="#7D91A0A3" Margin="10,31,370,260" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">
+            <!--
+            <controls:LobbyPlayer Width="520" Height="45" />
+            <controls:LobbyPlayer Width="520" Height="45"/>
+            <controls:LobbyPlayer Width="520" Height="45"/>
+            <controls:LobbyPlayer Width="520" Height="45"/>
+            -->
         </StackPanel>
-        <StackPanel Name="spPlayers2" Background="#0D3D98AA" Margin="401,167,12,269" />
-        <ListView Height="148" HorizontalAlignment="Left" Margin="12,506,0,0" Name="lvChat" VerticalAlignment="Top" Width="776" />
-        <Button Content="Start Game" Height="28" HorizontalAlignment="Center" Margin="455,455,216,0" FontFamily="Bauhaus 93" FontSize="16" Name="btnStartGame" VerticalAlignment="Top" Width="129" Click="btnStartGame_Click" IsEnabled="False">
+        <StackPanel Name="spGameInfo" Background="#0D3D98AA" Margin="555,31,10,260" Grid.Row="1" />
+        <ListView Height="148" HorizontalAlignment="Left" Margin="12,367,0,0" Name="lvChat" VerticalAlignment="Top" Width="879" Grid.Row="1" />
+        <Button Content="Start Game" Height="28" HorizontalAlignment="Center" Margin="226,316,545,0" FontFamily="Bauhaus 93" FontSize="16" Name="btnStartGame" VerticalAlignment="Top" Width="129" Click="btnStartGame_Click" IsEnabled="False" Grid.Row="1">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="1" />
@@ -20,7 +30,7 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Button Content="Ready" Height="28" HorizontalAlignment="Center" Margin="455,455,216,0" FontFamily="Bauhaus 93" FontSize="16" Name="btnReady" VerticalAlignment="Top" Width="129" Click="btnReady_Click">
+        <Button Content="Ready" Height="28" HorizontalAlignment="Center" Margin="226,316,545,0" FontFamily="Bauhaus 93" FontSize="16" Name="btnReady" VerticalAlignment="Top" Width="129" Click="btnReady_Click" Grid.Row="1">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="1" />
@@ -28,7 +38,7 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Button Content="Leave room" Height="28" HorizontalAlignment="Center" Margin="616,455,55,0" FontFamily="Bauhaus 93" FontSize="16" Name="btnLeave" VerticalAlignment="Top" Width="129" Click="btnLeave_Click">
+        <Button Content="Leave room" Height="28" HorizontalAlignment="Center" Margin="660,316,110,0" FontFamily="Bauhaus 93" FontSize="16" Name="btnLeave" VerticalAlignment="Top" Width="129" Click="btnLeave_Click" Grid.Row="1">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="1" />
@@ -36,6 +46,14 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <TextBox Height="22" HorizontalAlignment="Left" Margin="12,662,0,0" Name="tbMessage" VerticalAlignment="Top" Width="776" KeyDown="tbMessage_KeyDown" />
+        <TextBox Height="22" HorizontalAlignment="Left" Margin="12,523,0,0" Name="tbMessage" VerticalAlignment="Top" Width="731" KeyDown="tbMessage_KeyDown" Grid.Row="1" />
+        <Button Content="Send Message" FontFamily="Bauhaus 93" FontSize="14" Height="24" HorizontalAlignment="Center" Margin="749,521,9,0" Name="btnSendMessage" VerticalAlignment="Top" Width="142" Grid.Row="1" Click="btnSendMessage_Click">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="1" />
+                    <GradientStop Color="#80FFFFFF" Offset="0" />
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
     </Grid>
 </UserControl>

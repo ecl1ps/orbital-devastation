@@ -39,13 +39,18 @@ namespace Orbit.Gui
         {
             if (e.Key == Key.Enter)
             {
-                if (tbMessage.Text == "")
-                    return;
-                (Application.Current as App).SendChatMessage(tbMessage.Text);
-                lvChat.Items.Add((Application.Current as App).PlayerName + ": " +tbMessage.Text);
-                lvChat.ScrollIntoView(lvChat.Items[lvChat.Items.Count - 1]);
-                tbMessage.Text = "";
+                SendMessage();
             }
+        }
+
+        private void SendMessage()
+        {
+            if (tbMessage.Text == "")
+                return;
+            (Application.Current as App).SendChatMessage(tbMessage.Text);
+            lvChat.Items.Add((Application.Current as App).PlayerName + ": " + tbMessage.Text);
+            lvChat.ScrollIntoView(lvChat.Items[lvChat.Items.Count - 1]);
+            tbMessage.Text = "";
         }
 
         private void btnStartGame_Click(object sender, RoutedEventArgs e)
@@ -92,10 +97,8 @@ namespace Orbit.Gui
         private void AddPlayer(LobbyPlayerData data)
         {
             // TODO: ted se jich vejde alespon 6
-            if (spPlayers1.Children.Count < 5)
-                spPlayers1.Children.Add(new LobbyPlayer(data));
-            else if (spPlayers2.Children.Count < 5)
-                spPlayers2.Children.Add(new LobbyPlayer(data));
+            if (spPlayers.Children.Count < 6)
+                spPlayers.Children.Add(new LobbyPlayer(data));
         }
 
         private void btnLeave_Click(object sender, RoutedEventArgs e)
@@ -105,6 +108,11 @@ namespace Orbit.Gui
                 (Application.Current as App).GetSceneMgr().PlayerQuitGame();
             }));
             (Application.Current as App).ShutdownServerIfExists();
+        }
+
+        private void btnSendMessage_Click(object sender, RoutedEventArgs e)
+        {
+            SendMessage();
         }
     }
 }
