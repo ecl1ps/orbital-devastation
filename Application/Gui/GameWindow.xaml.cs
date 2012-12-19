@@ -135,19 +135,19 @@ namespace Orbit.Gui
                     }
                     else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "mouseMenu") as UIElement) != null)
                     {
-                        showOptions(uc);
+                        ShowOptions(uc);
                     }
                     else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "soundMenu") as UIElement) != null)
                     {
-                        showOptions(uc);
+                        ShowOptions(uc);
                     }
                     else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "playerSettings") as UIElement) != null)
                     {
-                        showOptions(uc);
+                        ShowOptions(uc);
                     }
                     else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "keyBindingsMenu") as UIElement) != null)
                     {
-                        showOptions(uc);
+                        ShowOptions(uc);
                     }
                     else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "optionsMenu") as UIElement) != null)
                     {
@@ -180,7 +180,7 @@ namespace Orbit.Gui
             (Application.Current as App).OnKeyEvent(e);
         }
 
-        private void showOptions(UIElement elem)
+        internal void ShowOptions(UIElement elem)
         {
             mainGrid.Children.Remove(elem);
             mainGrid.Children.Add(new OptionsMenu());

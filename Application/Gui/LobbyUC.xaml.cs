@@ -80,8 +80,7 @@ namespace Orbit.Gui
 
         public void UpdateShownPlayers(List<LobbyPlayerData> updatedPlayers)
         {
-            spPlayers1.Children.Clear();
-            spPlayers2.Children.Clear();
+            spPlayers.Children.Clear();
 
             // pridat leadera jako prvniho
             LobbyPlayerData d = updatedPlayers.Find(p => p.Leader);

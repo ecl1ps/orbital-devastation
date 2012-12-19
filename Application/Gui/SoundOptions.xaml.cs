@@ -79,5 +79,10 @@ namespace Orbit.Gui
 
             GameProperties.Props.SetAndSave(PropertyKey.MUSIC_ENABLED, enabled.ToString());
         }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            (Application.Current.MainWindow as GameWindow).ShowOptions(this);
+        }
     }
 }

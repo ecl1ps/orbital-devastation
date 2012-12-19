@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Orbit.Core.Client;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Gui
 {
@@ -23,6 +24,15 @@ namespace Orbit.Gui
         public EscMenu()
         {
             InitializeComponent();
+            if ((Application.Current.MainWindow as GameWindow).GameRunning)
+            {
+                btnMainMenu.Content = "Exit Match";
+            }
+            if (LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "mainUC") != null)
+            {
+                btnExit.Margin = btnMainMenu.Margin;
+                btnMainMenu.Visibility = Visibility.Hidden;
+            }
         }
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
@@ -49,8 +59,14 @@ namespace Orbit.Gui
 
         private void btnOptions_Click(object sender, RoutedEventArgs e)
         {
+            (Application.Current.MainWindow as GameWindow).ShowOptions(this);
+        }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
             (Parent as Panel).Children.Remove(this);
-            (Application.Current.MainWindow as GameWindow).mainGrid.Children.Add(new OptionsMenu());
+            if ((Application.Current.MainWindow as GameWindow).GameRunning)
+                StaticMouse.Enable(true);
         }
     }
 }

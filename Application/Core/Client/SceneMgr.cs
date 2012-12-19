@@ -840,7 +840,7 @@ namespace Orbit.Core.Client
 
         public void OnKeyEvent(KeyEventArgs e)
         {
-            if (!isGameInitialized)
+            if (!isGameInitialized || inputMgr == null)
                 return;
 
             switch (e.Key)

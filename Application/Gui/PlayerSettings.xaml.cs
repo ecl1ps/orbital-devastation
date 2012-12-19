@@ -41,5 +41,10 @@ namespace Orbit.Gui
             GameProperties.Props.Set(PropertyKey.PLAYER_NAME, tbPlayerName.Text);
             GameProperties.Props.SetAndSave(PropertyKey.PLAYER_HASH_ID, (Application.Current as App).PlayerHashId);
         }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            (Application.Current.MainWindow as GameWindow).ShowOptions(this);
+        }
     }
 }

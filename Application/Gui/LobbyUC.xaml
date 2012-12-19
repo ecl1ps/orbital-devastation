@@ -13,12 +13,10 @@
         </Grid.RowDefinitions>
         <Label Name="lblTitle" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="419" Margin="0,80,0,551" FontFamily="Bauhaus 93" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.RowSpan="2">Game Match Lobby</Label>
         <StackPanel Name="spPlayers"  Background="#7D91A0A3" Margin="10,31,370,260" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">
-            <!--
             <controls:LobbyPlayer Width="520" Height="45" />
             <controls:LobbyPlayer Width="520" Height="45"/>
             <controls:LobbyPlayer Width="520" Height="45"/>
             <controls:LobbyPlayer Width="520" Height="45"/>
-            -->
         </StackPanel>
         <StackPanel Name="spGameInfo" Background="#0D3D98AA" Margin="555,31,10,260" Grid.Row="1" />
         <ListView Height="148" HorizontalAlignment="Left" Margin="12,367,0,0" Name="lvChat" VerticalAlignment="Top" Width="879" Grid.Row="1" />

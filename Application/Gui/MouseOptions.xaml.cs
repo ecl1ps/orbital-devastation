@@ -126,5 +126,10 @@ namespace Orbit.Gui
 
             GameProperties.Props.SetAndSave(PropertyKey.STATIC_MOUSE_CURSOR, uri.ToString());
         }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            (Application.Current.MainWindow as GameWindow).ShowOptions(this);
+        }
     }
 }
