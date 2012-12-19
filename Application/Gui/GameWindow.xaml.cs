@@ -27,6 +27,10 @@ namespace Orbit.Gui
         public GameWindow()
         {
             InitializeComponent();
+#if DEBUG 
+            WindowStyle = WindowStyle.ThreeDBorderWindow;
+#endif
+            
             if (WindowStyle == WindowStyle.None)
                 Height = 714;
         }
