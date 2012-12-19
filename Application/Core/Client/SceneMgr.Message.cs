@@ -536,6 +536,7 @@ namespace Orbit.Core.Client
         {
             Player pl = GetPlayer(msg.ReadInt32());
             pl.Data.LobbyReady = true;
+            UpdateLobbyPlayers();
             CheckAllPlayersReady();
         }
 

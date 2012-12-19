@@ -615,7 +615,8 @@ namespace Orbit.Core.Client
             lastGameEnd = GameEnd.TOURNAMENT_FINISHED;
 
             List<LobbyPlayerData> data = new List<LobbyPlayerData>();
-            players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score, p.Data.LobbyLeader, p.Data.PlayedMatches, p.Data.WonMatches)));
+            players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score, p.Data.LobbyLeader, 
+                p.Data.LobbyReady, p.Data.PlayedMatches, p.Data.WonMatches, p.Data.PlayerColor)));
 
             LobbyPlayerData winnerData = data.Find(d => d.Id == winner.Data.Id);
 
@@ -821,7 +822,8 @@ namespace Orbit.Core.Client
                 return;
 
             List<LobbyPlayerData> data = new List<LobbyPlayerData>();
-            players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score, p.Data.LobbyLeader, p.Data.PlayedMatches, p.Data.WonMatches)));
+            players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score, p.Data.LobbyLeader, 
+                p.Data.LobbyReady, p.Data.PlayedMatches, p.Data.WonMatches, p.Data.PlayerColor)));
 
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
