@@ -19,10 +19,11 @@
         </Border>
         <Border BorderBrush="Silver" BorderThickness="1" Height="698" HorizontalAlignment="Right" Name="borderRight" VerticalAlignment="Top" Width="395" Margin="0,5,5,0">
             <Grid  HorizontalAlignment="Center">
-                <Button Content="Connect to Server" Height="22" Margin="0,178,0,0" Name="btnDirectConnect" VerticalAlignment="Top" Width="132" Click="btnDirectConnect_Click" />
-                <TextBox Height="24" HorizontalAlignment="Left" Margin="0,140,0,0" Name="tbServerAddress" VerticalAlignment="Top" Width="132" Text="127.0.0.1" KeyDown="tbServerAddress_KeyDown" />
-                <Label Content="IP or Domain Address" Height="23" HorizontalAlignment="Left" Margin="0,111,0,0" Name="label1" VerticalAlignment="Top" Width="132" />
-                <Label Content="" Height="27" HorizontalAlignment="Left" Margin="0,83,0,0" Name="lblAddressStatus" VerticalAlignment="Top" Width="132" FontStyle="Normal" />
+                <Button Content="Connect to Server" Height="22" Margin="0,178,0,0" Name="btnDirectConnect" VerticalAlignment="Top" Width="132" Click="btnDirectConnect_Click" HorizontalAlignment="Center"/>
+                <TextBox Height="24" HorizontalAlignment="Center" Margin="0,140,0,0" Name="tbServerAddress" VerticalAlignment="Top" Width="132" Text="127.0.0.1" KeyDown="tbServerAddress_KeyDown" />
+                <Label Content="IP or Domain Address" Height="23" HorizontalAlignment="Center" Margin="0,111,0,0" Name="label1" VerticalAlignment="Top" Width="132" />
+                <Label Content="" Height="27" HorizontalAlignment="Center" Margin="0,83,0,0" Name="lblAddressStatus" VerticalAlignment="Top" Width="132" FontStyle="Normal" />
+                <Button Content="Back" Height="22" HorizontalAlignment="Center" Margin="0,664,0,0" Name="btnBack" VerticalAlignment="Top" Width="132" Click="btnBack_Click" />
             </Grid>
         </Border>
         
