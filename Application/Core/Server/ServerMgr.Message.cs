@@ -6,6 +6,7 @@ using Lidgren.Network;
 using Orbit.Core.Players;
 using Orbit.Core.Helpers;
 using Orbit.Core.Server.Match;
+using System.Windows.Media;
 
 namespace Orbit.Core.Server
 {
@@ -25,11 +26,12 @@ namespace Orbit.Core.Server
 
             string plrName = msg.ReadString();
             string plrHash = msg.ReadString();
+            Color plrColor = msg.ReadColor();
 
             // nepridavat ani hrace ze stejne instance hry (nejde je potom spolehlive rozlisit v tournamentu)
             Player p = players.Find(plr => plr.Data.HashId == plrHash);
             if (p == null)
-                p = CreateAndAddPlayer(plrName, plrHash);
+                p = CreateAndAddPlayer(plrName, plrHash, plrColor);
             //player je connected kdyz se snazi pripojit
             //else if (p.IsOnlineOrBot())
                 // return;

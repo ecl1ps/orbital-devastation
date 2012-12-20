@@ -29,6 +29,7 @@ namespace Orbit.Core.Client
             msg.Write((int)PacketType.PLAYER_CONNECT);
             msg.Write(GetCurrentPlayer().Data.Name);
             msg.Write(GetCurrentPlayer().Data.HashId);
+            msg.Write(GetCurrentPlayer().Data.PlayerColor);
 
             serverConnection = client.Connect(serverAddress, SharedDef.PORT_NUMBER, msg);
         }

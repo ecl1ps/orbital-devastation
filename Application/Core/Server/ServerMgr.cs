@@ -125,7 +125,7 @@ namespace Orbit.Core.Server
             }
         }
 
-        public Player CreateAndAddPlayer(String name, String hash)
+        public Player CreateAndAddPlayer(String name, String hash, Color clr)
         {
             Player plr = new Player(null);
             plr.Data = new PlayerData();
@@ -135,6 +135,7 @@ namespace Orbit.Core.Server
             else
                 plr.Data.Name = name;
             plr.Data.HashId = hash;
+            plr.Data.PlayerColor = clr;
             players.Add(plr);
             return plr;
         }

@@ -57,7 +57,7 @@ namespace Orbit.Core.Server
             // pri solo hre se vytvori jeden bot
             if (players.Count == 1)
             {
-                Player bot = serverMgr.CreateAndAddPlayer(BotNameAccessor.GetBotName(SharedDef.DEFAULT_BOT), "NullBotHash");
+                Player bot = serverMgr.CreateAndAddPlayer(BotNameAccessor.GetBotName(SharedDef.DEFAULT_BOT), "NullBotHash", Colors.White);
                 bot.Data.PlayerType = PlayerType.BOT;
                 if (gameLevel.IsBotAllowed())
                     bot.Data.BotType = SharedDef.DEFAULT_BOT;
