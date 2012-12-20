@@ -226,55 +226,12 @@ namespace Orbit.Core.Client
                 case PacketType.MODULE_COLOR_CHANGE:
                     ReceiveModuleColorChange(msg);
                     break;
-
-            }
-        }
-
-        private void ReceiveModuleColorChange(NetIncomingMessage msg)
-        {
-            Player owner = GetPlayer(msg.ReadInt32());
-            HpBarControl control = owner.Device.GetControlOfType<HpBarControl>();
-
-            control.Bar.Color = msg.ReadColor();
-        }
-
-        private void ReceiveObjectsDamage(NetIncomingMessage msg)
-        {
-            Player owner = GetPlayer(msg.ReadInt32());
-            int count = msg.ReadInt32();
-            int dmg = msg.ReadInt32();
-
-            IDestroyable obj;
-
-            for (int i = 0; i < count; i++)
-            {
-                obj = findObject(msg.ReadInt64()) as IDestroyable;
-
-                if (obj != null)
-                {
-                    obj.TakeDamage(dmg, owner.Device);
-                    FloatingTextMgr.AddFloatingText(dmg, obj.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE);
-                }
-            }
-        }
-
-        private void ReceiveAsteroidsDirectionChange(NetIncomingMessage msg)
-        {
-            int count = msg.ReadInt32();
-            Asteroid ast = null;
-            Vector dir;
-            for (int i = 0; i < count; i++)
-            {
-                ast = findObject(msg.ReadInt64(), typeof(Asteroid)) as Asteroid;
-                dir = msg.ReadVector();
-
-                if (ast != null)
-                {
-                    ast.Direction = dir;
-                    IMovementControl control = ast.GetControlOfType<IMovementControl>();
-                    if (control != null)
-                        control.Speed = SharedDef.SPECTATOR_ASTEROID_THROW_SPEED;
-                }
+                case PacketType.PLAYER_COLOR_CHANGED:
+                    ReceivePlayerColorChange(msg);
+                    break;
+                default:
+                    Console.WriteLine("Received unhandled packet type: " + type);
+                    break;
             }
         }
 
@@ -308,19 +265,6 @@ namespace Orbit.Core.Client
             }
 
             return found;
-        }
-
-        private void ReceiveModuleDamage(NetIncomingMessage msg)
-        {
-            Player player = GetPlayer(msg.ReadInt32());
-            player.Device.TakeDamage(msg.ReadInt32(), null);
-            player.Device.GetControlOfType<IHpControl>().Hp = msg.ReadInt32();
-        }
-
-        private void ChangeMoveState(NetIncomingMessage msg)
-        {
-            Player player = GetPlayer(msg.ReadInt32());
-            player.Device.GetControlOfType<ControlableDeviceControl>().receiveMovingTypeChanged(msg);
         }
 
         private void CreateAndAddBot(Player plr)

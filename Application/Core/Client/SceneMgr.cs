@@ -863,5 +863,16 @@ namespace Orbit.Core.Client
 
             inputMgr.OnKeyEvent(e);
         }
+
+        internal void PlayerColorChanged()
+        {
+            if (GetCurrentPlayer().GetPlayerColor() == Player.GetChosenColor())
+                return;
+
+            GetCurrentPlayer().Data.PlayerColor = Player.GetChosenColor();
+            //TODO: posilat a updatovat jen kdyz je hrac v lobby
+            SendPlayerColorChanged();
+            UpdateLobbyPlayers();
+        }
     }
 }

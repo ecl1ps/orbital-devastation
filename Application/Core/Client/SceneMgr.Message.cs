@@ -18,6 +18,7 @@ using Orbit.Core.Scene.Controls;
 using System.Windows.Shapes;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Controls.Health.Implementations;
+using Orbit.Core.Scene.Controls.Health;
 
 namespace Orbit.Core.Client
 {
@@ -84,6 +85,15 @@ namespace Orbit.Core.Client
             msg.Write((int)PacketType.PLAYER_READY);
             msg.Write(currentPlayer.GetId());
             msg.Write(currentPlayer.Data.LobbyLeader);
+            SendMessage(msg);
+        }
+
+        private void SendPlayerColorChanged()
+        {
+            NetOutgoingMessage msg = CreateNetMessage();
+            msg.Write((int)PacketType.PLAYER_COLOR_CHANGED);
+            msg.Write(currentPlayer.GetId());
+            msg.Write(currentPlayer.GetPlayerColor());
             SendMessage(msg);
         }
 
@@ -622,6 +632,77 @@ namespace Orbit.Core.Client
                 RemoveFromSceneDelayed(toRemove);
             else
                 idsToRemove.Add(id);
+        }
+
+        private void ReceiveModuleDamage(NetIncomingMessage msg)
+        {
+            Player player = GetPlayer(msg.ReadInt32());
+            player.Device.TakeDamage(msg.ReadInt32(), null);
+            player.Device.GetControlOfType<IHpControl>().Hp = msg.ReadInt32();
+        }
+
+        private void ChangeMoveState(NetIncomingMessage msg)
+        {
+            Player player = GetPlayer(msg.ReadInt32());
+            player.Device.GetControlOfType<ControlableDeviceControl>().receiveMovingTypeChanged(msg);
+        }
+
+        private void ReceiveModuleColorChange(NetIncomingMessage msg)
+        {
+            Player owner = GetPlayer(msg.ReadInt32());
+            HpBarControl control = owner.Device.GetControlOfType<HpBarControl>();
+
+            control.Bar.Color = msg.ReadColor();
+        }
+
+        private void ReceivePlayerColorChange(NetIncomingMessage msg)
+        {
+            Player plr = GetPlayer(msg.ReadInt32());
+            if (plr != null)
+            {
+                plr.Data.PlayerColor = msg.ReadColor();
+                UpdateLobbyPlayers();
+            }
+        }
+
+        private void ReceiveObjectsDamage(NetIncomingMessage msg)
+        {
+            Player owner = GetPlayer(msg.ReadInt32());
+            int count = msg.ReadInt32();
+            int dmg = msg.ReadInt32();
+
+            IDestroyable obj;
+
+            for (int i = 0; i < count; i++)
+            {
+                obj = findObject(msg.ReadInt64()) as IDestroyable;
+
+                if (obj != null)
+                {
+                    obj.TakeDamage(dmg, owner.Device);
+                    FloatingTextMgr.AddFloatingText(dmg, obj.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE);
+                }
+            }
+        }
+
+        private void ReceiveAsteroidsDirectionChange(NetIncomingMessage msg)
+        {
+            int count = msg.ReadInt32();
+            Asteroid ast = null;
+            Vector dir;
+            for (int i = 0; i < count; i++)
+            {
+                ast = findObject(msg.ReadInt64(), typeof(Asteroid)) as Asteroid;
+                dir = msg.ReadVector();
+
+                if (ast != null)
+                {
+                    ast.Direction = dir;
+                    IMovementControl control = ast.GetControlOfType<IMovementControl>();
+                    if (control != null)
+                        control.Speed = SharedDef.SPECTATOR_ASTEROID_THROW_SPEED;
+                }
+            }
         }
     }
 }

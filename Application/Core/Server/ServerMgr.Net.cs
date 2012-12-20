@@ -162,6 +162,10 @@ namespace Orbit.Core.Server
                 case PacketType.PLAYER_DISCONNECTED:
                     ReceivedPlayerDisconnectedMsg(msg);
                     break;
+                case PacketType.PLAYER_COLOR_CHANGED:
+                    GetPlayer(msg.ReadInt32()).Data.PlayerColor = msg.ReadColor();
+                    ForwardMessage(msg);
+                    break;
                 default:
                     ForwardMessage(msg);
                     break;

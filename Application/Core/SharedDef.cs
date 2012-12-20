@@ -193,6 +193,7 @@ namespace Orbit.Core
         ASTEROID_DESTROYED,
         BASE_INTEGRITY_CHANGE,
         PLAYER_HEAL,
+        PLAYER_COLOR_CHANGED,
 
         START_GAME_RESPONSE,
         START_GAME_REQUEST,
@@ -214,5 +215,6 @@ namespace Orbit.Core
         ASTEROIDS_DIRECTIONS_CHANGE,
         OBJECTS_TAKE_DAMAGE,
         MODULE_COLOR_CHANGE,
+
     }    
 }

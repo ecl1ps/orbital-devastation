@@ -44,7 +44,10 @@ namespace Orbit.Gui
             if (SelectedColor != null && SelectedColor != Colors.Transparent)
             {
                 GameProperties.Props.SetAndSave(PropertyKey.CHOSEN_COLOR, SelectedColor.ToString());
-                //TODO propagovat zmenu barvy do Playera
+                (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
+                {
+                    (Application.Current as App).GetSceneMgr().PlayerColorChanged();
+                }));
             }
             Close();
         }

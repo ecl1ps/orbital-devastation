@@ -113,5 +113,10 @@ namespace Orbit.Gui
         {
             SendMessage();
         }
+
+        private void btnColor_Click(object sender, RoutedEventArgs e)
+        {
+            (Application.Current.MainWindow as GameWindow).mainGrid.Children.Add(new ColorPickerUC());
+        }
     }
 }
