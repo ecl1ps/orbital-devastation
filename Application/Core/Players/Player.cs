@@ -264,7 +264,7 @@ namespace Orbit.Core.Players
             return GetId() == SceneMgr.GetCurrentPlayer().GetId() || Data.PlayerType == PlayerType.BOT;
         }
 
-        public List<ISpecialAction> generatePlayerActions(SceneMgr mgr)
+        public List<ISpecialAction> GeneratePlayerActions(SceneMgr mgr)
         {
             List<ISpecialAction> actions = new List<ISpecialAction>();
             actions.Add(new HealAction(HealingKit, mgr, this));
@@ -275,7 +275,7 @@ namespace Orbit.Core.Players
             return actions;
         }
 
-        public List<ISpecialAction> generateSpectatorActions(SceneMgr mgr, ISceneObject miningModule)
+        public List<ISpecialAction> GenerateSpectatorActions(SceneMgr mgr, ISceneObject miningModule)
         {
             MiningModuleControl miningControl = miningModule.GetControlOfType<MiningModuleControl>();
 

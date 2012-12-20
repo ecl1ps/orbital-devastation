@@ -614,9 +614,7 @@ namespace Orbit.Core.Client
 
             lastGameEnd = GameEnd.TOURNAMENT_FINISHED;
 
-            List<LobbyPlayerData> data = new List<LobbyPlayerData>();
-            players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score, p.Data.LobbyLeader, 
-                p.Data.LobbyReady, p.Data.PlayedMatches, p.Data.WonMatches, p.Data.PlayerColor)));
+            List<LobbyPlayerData> data = CreateLobbyPlayerData();
 
             LobbyPlayerData winnerData = data.Find(d => d.Id == winner.Data.Id);
 
@@ -689,13 +687,7 @@ namespace Orbit.Core.Client
 
         private void PlayerWon(Player winner)
         {
-            string text;
-            // kdyz maji hraci stejna jmena, tak jsou rozliseni barvami
-            Player otherActivePlayer = players.Find(p => p.IsActivePlayer() && p.GetId() != winner.GetId());
-            if (otherActivePlayer != null && otherActivePlayer.Data.Name.Equals(winner.Data.Name))
-                text = (winner.Data.PlayerColor == Colors.Red ? "Red" : "Blue") + " player wins!";
-            else
-                text = winner.Data.Name + " wins!";
+            string text = winner.Data.Name + " wins!";
             Invoke(new Action(() =>
             {
                 Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
@@ -709,14 +701,7 @@ namespace Orbit.Core.Client
             if (leaver == null)
                 return;
 
-            string text;
-            // kdyz maji hraci stejna jmena, tak jsou rozliseni barvami
-            Player otherActivePlayer = players.Find(p => p.IsActivePlayer() && p.GetId() != leaver.GetId());
-            if (otherActivePlayer != null && otherActivePlayer.Data.Name.Equals(leaver.Data.Name))
-                text = (leaver.Data.PlayerColor == Colors.Red ? "Red" : "Blue") + " player left the game!";
-            else
-                text = leaver.Data.Name + " left the game!";
-
+            string text = leaver.Data.Name + " left the game!";
             Invoke(new Action(() =>
             {
                 Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
@@ -821,9 +806,7 @@ namespace Orbit.Core.Client
             if (Application.Current == null)
                 return;
 
-            List<LobbyPlayerData> data = new List<LobbyPlayerData>();
-            players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score, p.Data.LobbyLeader, 
-                p.Data.LobbyReady, p.Data.PlayedMatches, p.Data.WonMatches, p.Data.PlayerColor)));
+            List<LobbyPlayerData> data = CreateLobbyPlayerData();
 
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
@@ -831,6 +814,14 @@ namespace Orbit.Core.Client
                 if (lobby != null)
                     lobby.UpdateShownPlayers(data);
             }));
+        }
+
+        private List<LobbyPlayerData> CreateLobbyPlayerData()
+        {
+            List<LobbyPlayerData> data = new List<LobbyPlayerData>();
+            players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score, p.Data.LobbyLeader,
+                p.Data.LobbyReady, p.Data.PlayedMatches, p.Data.WonMatches, p.Data.PlayerColor)));
+            return data;
         }
 
         public Player GetOtherActivePlayer(int firstPlayerId)

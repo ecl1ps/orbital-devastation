@@ -48,6 +48,14 @@
                     </LinearGradientBrush>
                 </Button.Background>
             </Button>
+            <Button Content="Options" Name="btnShowOptions" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="16" Click="btnShowOptions_Click">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black" Offset="1" />
+                        <GradientStop Color="#80FFFFFF" Offset="0" />
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>            
             <Button Content="Statistics" Name="btnShowStatistics" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="16" Click="btnShowStatistics_Click">
                 <Button.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

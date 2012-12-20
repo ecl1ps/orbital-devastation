@@ -231,7 +231,7 @@ namespace Orbit.Core.Client
                     if (p.IsActivePlayer())
                     {
                         inputMgr = new PlayerInputMgr(p, this, actionBarMgr);
-                        actionBarMgr.CreateActionBarItems(p.generatePlayerActions(this));
+                        actionBarMgr.CreateActionBarItems(p.GeneratePlayerActions(this));
                     }
                     else
                     {
@@ -240,7 +240,7 @@ namespace Orbit.Core.Client
                         p.Device.AddControl(mc);
 
                         inputMgr = new SpectatorInputMgr(p, this, p.Device, actionBarMgr);
-                        actionBarMgr.CreateActionBarItems(p.generateSpectatorActions(this, p.Device));
+                        actionBarMgr.CreateActionBarItems(p.GenerateSpectatorActions(this, p.Device));
                     }
                 }
             }
@@ -257,7 +257,7 @@ namespace Orbit.Core.Client
             }));
 
             if (currentPlayer.IsActivePlayer())
-                ShowStatusText(3, "You are " + (currentPlayer.GetPlayerColor() == Colors.Red ? "Red" : "Blue"));
+                ShowStatusText(3, "You are on the " + (currentPlayer.GetPosition() == PlayerPosition.LEFT ? "left" : "right"));
             else
                 ShowStatusText(3, "You are Spectator");
 

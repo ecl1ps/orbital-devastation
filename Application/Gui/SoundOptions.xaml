@@ -3,9 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="350" d:DesignWidth="350"
-             x:Name="soundMenu"  Width="350" Height="350" BorderBrush="Black" BorderThickness="1">
+             mc:Ignorable="d" Name="soundMenu" Width="350" Height="350" BorderBrush="Black" BorderThickness="1">
+    
     <Grid Width="350" Height="350" Background="#dd655D5D">
         <TextBlock Name="SoundValue" Height="20" FontFamily="Bauhaus 93" Text="100" TextAlignment="Right" Margin="12,143,281,0" VerticalAlignment="Top" />
         <TextBlock Name="BackgroundValue" Height="20" FontFamily="Bauhaus 93" Text="100" TextAlignment="Right" Margin="12,81,281,0" VerticalAlignment="Top" />
