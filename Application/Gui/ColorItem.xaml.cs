@@ -33,6 +33,20 @@ namespace Orbit.Gui
             ColorPickerUC cp = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "colorPicker") as ColorPickerUC;
             if (cp != null)
                 cp.SelectedColor = color;
+
+#if DEBUG
+            foreach (System.Reflection.PropertyInfo prop in typeof(Colors).GetProperties())
+            {
+                if (prop.PropertyType.FullName == "System.Windows.Media.Color")
+                {
+                    if ((Color)prop.GetGetMethod().Invoke(null, null) == color)
+                    {
+                        Console.WriteLine(prop.Name + " " + color.ToString());
+                        break;
+                    }
+                }
+            }
+#endif
         }
     }
 }

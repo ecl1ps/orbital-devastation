@@ -27,7 +27,10 @@ namespace Orbit.Core.Players
 
             IList<Color> colors = new List<Color>();
             colors.Add(Colors.CornflowerBlue);
+            colors.Add(Colors.Tan);
             colors.Add(Colors.PaleVioletRed);
+            colors.Add(Colors.PaleTurquoise);
+            colors.Add(Colors.LemonChiffon);
             allColors.Add(PlayerColorSet.BASIC, colors);
 
             colors = new List<Color>();
@@ -43,14 +46,29 @@ namespace Orbit.Core.Players
             colors = new List<Color>();
             colors.Add(Colors.Goldenrod);
             colors.Add(Colors.Green);
+            colors.Add(Colors.Orange);
+            colors.Add(Colors.DarkOrchid);
             allColors.Add(PlayerColorSet.REWARD_2, colors);
 
-            playerColors = new List<Color>();
+            colors = new List<Color>();
+            foreach (System.Reflection.PropertyInfo prop in typeof(Colors).GetProperties())
+            {
+                if (prop.PropertyType.FullName == "System.Windows.Media.Color")
+                    colors.Add((Color)prop.GetGetMethod().Invoke(null, null));
+            }
+            allColors.Add(PlayerColorSet.ALL, colors);
+
             LoadPlayerColors();
+        }
+
+        public static void RefreshPlayerColors()
+        {
+            GetInstance().LoadPlayerColors();
         }
 
         private void LoadPlayerColors()
         {
+            playerColors = new List<Color>();
             int plrMask = int.Parse(GameProperties.Props.Get(PropertyKey.AVAILABLE_COLORS));
             int mask = 1;
             do
@@ -94,7 +112,8 @@ namespace Orbit.Core.Players
         TUTORIAL_FINISHED = 2,
         REWARD_1 = 4,
         REWARD_2 = 8,
+        ALL = 16,
 
-        END = 16
+        END = 32
     }
 }

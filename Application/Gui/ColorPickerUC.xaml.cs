@@ -70,7 +70,7 @@ namespace Orbit.Gui
 
             Image img = new Image();
             img.Source = bi;
-            img.Width = 250;
+            img.Width = 240;
             img.Height = 60;
 
             ColorReplaceEffect effect = new ColorReplaceEffect();

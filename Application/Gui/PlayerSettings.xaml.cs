@@ -43,6 +43,7 @@ namespace Orbit.Gui
             GameProperties.Props.Set(PropertyKey.PLAYER_NAME, tbPlayerName.Text);
 #if DEBUG            
             GameProperties.Props.Set(PropertyKey.AVAILABLE_COLORS, ((int)PlayerColorSet.END - 1).ToString());
+            PlayerColorManager.RefreshPlayerColors();
 #endif
             GameProperties.Props.SetAndSave(PropertyKey.PLAYER_HASH_ID, (Application.Current as App).PlayerHashId);
         }
