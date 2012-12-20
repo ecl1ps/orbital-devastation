@@ -116,7 +116,7 @@ namespace Orbit.Core
         /// </summary>
         public static Rect ORBIT_AREA                       = new Rect(0, 0, CANVAS_SIZE.Width, 200);
 
-        public const string CONFIG_FILE                     = "player";
+        public const string CONFIG_FILE                     = "data";
         public const GameLevel STARTING_LEVEL               = GameLevel.NORMAL1;
         public static BotType DEFAULT_BOT                   = BotType.LEVEL2;
 
@@ -133,6 +133,8 @@ namespace Orbit.Core
         //Texty pro boty
         public const string BOT_LEVEL_1_TEXT = "The easiest bot in this game, recomended for those who just started or for those who seek simple fun with not so much challenge. This bot will never upgrade its weapons and refuse to use hooks.";
         public const string BOL_LEVEL_2_TEXT = "Easier bot then rest of others, recomended for those who just got a little experience and want to train some more before challenging real players. This bot will never upgrade its weapons but he will use hook as best as he can.";
+
+        public const string SALT = "Kj5dfO0OR";
     }
 
     public enum WindowState

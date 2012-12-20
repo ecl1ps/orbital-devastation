@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Orbit.Core.Players;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Orbit.Core
 {
@@ -18,7 +19,12 @@ namespace Orbit.Core
             }
         }
 
-        private static Dictionary<PropertyKey, string> GetDefaultConfigValues()
+        public static string Get(PropertyKey key)
+        {
+            return Props.Get(key);
+        }
+
+        internal static Dictionary<PropertyKey, string> GetDefaultConfigValues()
         {
             Dictionary<PropertyKey, string> defaults = new Dictionary<PropertyKey, string>();
             defaults.Add(PropertyKey.PLAYER_NAME, "Player");
@@ -45,6 +51,8 @@ namespace Orbit.Core
             defaults.Add(PropertyKey.PLAYER_ACTION_MOVE_BOT, ((int)Key.S).ToString());
             defaults.Add(PropertyKey.PLAYER_ACTION_MOVE_RIGHT, ((int)Key.D).ToString());
             defaults.Add(PropertyKey.PLAYER_ACTION_MOVE_LEFT, ((int)Key.A).ToString());
+            defaults.Add(PropertyKey.AVAILABLE_COLORS, "1");
+            defaults.Add(PropertyKey.CHOSEN_COLOR, Colors.CornflowerBlue.ToString());
             return defaults;
         }
     }
@@ -53,19 +61,24 @@ namespace Orbit.Core
     {
         PLAYER_NAME,
         PLAYER_HASH_ID,
+
         STATIC_MOUSE_ENABLED,
         STATIC_MOUSE_CURSOR,
         STATIC_MOUSE_SENSITIVITY,
+
         MUSIC_ENABLED,
         MUSIC_VOLUME,
         SOUNDS_VOLUME,
+
         USED_SERVERS,
+
         PLAYER_HIGHSCORE_SOLO1,
         PLAYER_HIGHSCORE_SOLO2,
         PLAYER_HIGHSCORE_SOLO3,
         PLAYER_HIGHSCORE_SOLO4,
         PLAYER_HIGHSCORE_SOLO5,
         PLAYER_HIGHSCORE_QUICK_GAME,
+
         PLAYER_ACTION_1,
         PLAYER_ACTION_2,
         PLAYER_ACTION_3,
@@ -74,6 +87,11 @@ namespace Orbit.Core
         PLAYER_ACTION_MOVE_TOP,
         PLAYER_ACTION_MOVE_BOT,
         PLAYER_ACTION_MOVE_RIGHT,
-        PLAYER_ACTION_MOVE_LEFT
+        PLAYER_ACTION_MOVE_LEFT,
+
+        AVAILABLE_COLORS,
+        CHOSEN_COLOR,
+
+        PROPERTY_CHECK,
     }
 }

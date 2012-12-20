@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Security.Policy;
+using System.Security.Cryptography;
 
 namespace Orbit.Core
 {
@@ -54,12 +56,31 @@ namespace Orbit.Core
         {
             this.filename = filename;
 
+            Set(PropertyKey.PROPERTY_CHECK, ComputeCRC());
+
             using (StreamWriter file = new StreamWriter(filename))
             {
                 foreach (PropertyKey prop in list.Keys.ToArray())
                     if (!String.IsNullOrWhiteSpace(list[prop]))
                         file.WriteLine(prop + "=" + list[prop]);
             }
+        }
+
+        private string ComputeCRC()
+        {
+            string hashString = Get(PropertyKey.PLAYER_NAME) + Get(PropertyKey.PLAYER_HASH_ID) + Get(PropertyKey.PLAYER_HIGHSCORE_QUICK_GAME) +
+                  Get(PropertyKey.PLAYER_HIGHSCORE_SOLO1) + Get(PropertyKey.PLAYER_HIGHSCORE_SOLO2) + Get(PropertyKey.PLAYER_HIGHSCORE_SOLO3) +
+                  Get(PropertyKey.PLAYER_HIGHSCORE_SOLO4) + Get(PropertyKey.PLAYER_HIGHSCORE_SOLO5) +
+                  Get(PropertyKey.AVAILABLE_COLORS) + Get(PropertyKey.CHOSEN_COLOR) + SharedDef.SALT;
+
+            SHA256 sha = SHA256.Create();
+            byte[] hash = sha.ComputeHash(Encoding.ASCII.GetBytes(hashString));
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hash.Length; i++)
+                sb.Append(hash[i].ToString("X2"));
+
+            return sb.ToString();
         }
 
         public void Reload()
@@ -75,6 +96,17 @@ namespace Orbit.Core
 
             if (File.Exists(filename))
                 LoadFromFile(filename);
+
+            if (!CheckCRC())
+            {
+                list = GameProperties.GetDefaultConfigValues();
+                Save();
+            }
+        }
+
+        private bool CheckCRC()
+        {
+            return ComputeCRC().Equals(Get(PropertyKey.PROPERTY_CHECK));
         }
 
         private void LoadFromFile(String file)
