@@ -17,7 +17,10 @@
 
         <Grid Canvas.Left="0" Canvas.Top="650" Panel.ZIndex="100" Height="50" VerticalAlignment="Bottom">
             <controls:ActionBar HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="0,0,0,20" Height="30" Background="DarkGray" MouseUp="OnActionBarClick" x:Name="ActionBarUC"/>
-            <StatusBar Height="20" Name="statusBar1" Width="1000" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" >
+            <Border Width="20" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" BorderThickness="2" CornerRadius="1" BorderBrush="#FF414141" Background="#FFE5E5E5" MouseDown="settings_MouseDown">
+                <Image Source="pack://application:,,,/resources/images/icons/settings.png" Height="14" />
+            </Border>
+            <StatusBar Height="20" Name="statusBar1" Width="980" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Padding="0" Margin="20,0,0,0" >
                 <Label Content="TPF: 0" Height="20" Name="statusText1" Width="120" Padding="0" FontSize="11" />
                 <Label Height="20" Name="statusText2" Width="120" Padding="0" FontSize="11" />
                 <Label Height="20" Name="statusText3" Width="120" Padding="0" FontSize="11" />
