@@ -83,6 +83,7 @@ namespace Orbit.Core.Client
             StateMgr = new GameStateManager();
 
             currentPlayer = CreatePlayer();
+            currentPlayer.Data.PlayerColor = Player.GetChosenColor();
             players.Add(currentPlayer);
             StateMgr.AddGameState(currentPlayer);
             FloatingTextMgr = new FloatingTextManager(this);

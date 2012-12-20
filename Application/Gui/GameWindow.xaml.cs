@@ -133,6 +133,11 @@ namespace Orbit.Gui
                         if (GameRunning)
                             StaticMouse.Enable(true);
                     }
+                    else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "colorPicker") as UIElement) != null)
+                    {
+                        mainGrid.Children.Remove(uc);
+                        mainGrid.Children.Add(new PlayerSettings());
+                    }
                     else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "mouseMenu") as UIElement) != null)
                     {
                         ShowOptions(uc);

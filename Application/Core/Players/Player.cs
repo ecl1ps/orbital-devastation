@@ -289,6 +289,18 @@ namespace Orbit.Core.Players
 
             return actions;
         }
+
+        public static Color GetChosenColor()
+        {
+            string col = GameProperties.Props.Get(PropertyKey.CHOSEN_COLOR);
+            try
+            {
+                return (Color)ColorConverter.ConvertFromString(col);
+            }
+            catch (Exception /*e*/) {}
+
+            return Colors.Pink;
+        }
     }
 
     public enum PlayerPosition

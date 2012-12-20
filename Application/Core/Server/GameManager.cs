@@ -62,6 +62,8 @@ namespace Orbit.Core.Server
                 if (gameLevel.IsBotAllowed())
                     bot.Data.BotType = SharedDef.DEFAULT_BOT;
                 bot.Data.StartReady = true;
+                Color plrColor = players[0].Data.PlayerColor;
+                bot.Data.PlayerColor = Color.FromRgb((byte)(0xFF - plrColor.R), (byte)(0xFF - plrColor.G), (byte)(0xFF - plrColor.B));
             }
 
             foreach (Player p in players)
@@ -82,10 +84,6 @@ namespace Orbit.Core.Server
             PlayerPosition firstPlayerPosition = serverMgr.GetRandomGenerator().Next(2) == 0 ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
             plr1.Data.PlayerPosition = firstPlayerPosition;
             plr2.Data.PlayerPosition = firstPlayerPosition == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
-
-            bool redBaseColor = serverMgr.GetRandomGenerator().Next(2) == 0 ? true : false;
-            plr1.Data.PlayerColor = redBaseColor ? Colors.Red : Colors.Blue;
-            plr2.Data.PlayerColor = redBaseColor ? Colors.Blue : Colors.Red;
         }
 
         private void CreateNewLevel()
