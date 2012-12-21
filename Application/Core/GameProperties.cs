@@ -33,8 +33,8 @@ namespace Orbit.Core
             defaults.Add(PropertyKey.STATIC_MOUSE_CURSOR, "pack://application:,,,/resources/images/mouse/targeting_icon2.png");
             defaults.Add(PropertyKey.STATIC_MOUSE_SENSITIVITY, "1");
             defaults.Add(PropertyKey.MUSIC_ENABLED, true.ToString());
-            defaults.Add(PropertyKey.MUSIC_VOLUME, "1");
-            defaults.Add(PropertyKey.SOUNDS_VOLUME, "1");
+            defaults.Add(PropertyKey.MUSIC_VOLUME, "0,3");
+            defaults.Add(PropertyKey.SOUNDS_VOLUME, "0,2");
             defaults.Add(PropertyKey.USED_SERVERS, "");
             defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO1, "0");
             defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO2, "0");
@@ -51,7 +51,7 @@ namespace Orbit.Core
             defaults.Add(PropertyKey.PLAYER_ACTION_MOVE_BOT, ((int)Key.S).ToString());
             defaults.Add(PropertyKey.PLAYER_ACTION_MOVE_RIGHT, ((int)Key.D).ToString());
             defaults.Add(PropertyKey.PLAYER_ACTION_MOVE_LEFT, ((int)Key.A).ToString());
-            defaults.Add(PropertyKey.AVAILABLE_COLORS, "1");
+            defaults.Add(PropertyKey.AVAILABLE_COLORS, ((int)PlayerColorSet.BASIC).ToString());
             defaults.Add(PropertyKey.CHOSEN_COLOR, Colors.CornflowerBlue.ToString());
             return defaults;
         }

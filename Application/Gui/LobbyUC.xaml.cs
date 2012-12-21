@@ -20,6 +20,7 @@ namespace Orbit.Gui
     public partial class LobbyUC : UserControl
     {
         private bool leader;
+        private bool ready;
 
         public LobbyUC(bool asLeader)
         {
@@ -28,10 +29,12 @@ namespace Orbit.Gui
             if (asLeader)
             {
                 btnReady.Visibility = Visibility.Hidden;
+                ready = true;
             }
             else
             {
                 btnStartGame.Visibility = Visibility.Hidden;
+                ready = false;
             }
         }
 
@@ -61,6 +64,7 @@ namespace Orbit.Gui
 
         private void btnReady_Click(object sender, RoutedEventArgs e)
         {
+            ready = true;
             btnReady.IsEnabled = false;
             (Application.Current as App).PlayerReady();
         }
@@ -101,7 +105,8 @@ namespace Orbit.Gui
             }
             else
             {
-                btnReady.IsEnabled = true;
+                if (!ready)
+                    btnReady.IsEnabled = true;
                 lblColorNotice.Visibility = Visibility.Hidden;
             }
         }
