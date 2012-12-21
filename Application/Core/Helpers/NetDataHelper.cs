@@ -217,32 +217,32 @@ namespace Orbit.Core.Helpers
             msg.Write(controls.Count);
             foreach (IControl c in controls)
             {
-                if (c.GetType() == typeof(BaseCollisionControl))
+                if (c is BaseCollisionControl)
                 {
                     msg.Write(typeof(BaseCollisionControl).GUID.GetHashCode());
                     msg.WriteControl(c);
                 }
-                else if (c.GetType() == typeof(BouncingSingularityBulletControl))
+                else if (c is BouncingSingularityBulletControl)
                 {
                     msg.Write(typeof(BouncingSingularityBulletControl).GUID.GetHashCode());
                     msg.WriteObjectExplodingSingularityBulletControl(c as ExplodingSingularityBulletControl);
                 }
-                else if (c.GetType() == typeof(SingularityControl))
+                else if (c is SingularityControl)
                 {
                     msg.Write(typeof(SingularityControl).GUID.GetHashCode());
                     msg.WriteObjectSingularityControl(c as SingularityControl);
                 }
-                else if (c.GetType() == typeof(DroppingSingularityControl))
-                {
-                    msg.Write(typeof(DroppingSingularityControl).GUID.GetHashCode());
-                    msg.WriteObjectDroppingSingularityControl(c as DroppingSingularityControl);
-                }
-                else if (c.GetType() == typeof(AsteroidDroppingSingularityControl))
+                else if (c is AsteroidDroppingSingularityControl)
                 {
                     msg.Write(typeof(AsteroidDroppingSingularityControl).GUID.GetHashCode());
                     msg.WriteObjectDroppingSingularityControl(c as DroppingSingularityControl);
                 }
-                if (c is NewtonianMovementControl)
+                else if (c is DroppingSingularityControl)
+                {
+                    msg.Write(typeof(DroppingSingularityControl).GUID.GetHashCode());
+                    msg.WriteObjectDroppingSingularityControl(c as DroppingSingularityControl);
+                }
+                else if (c is NewtonianMovementControl)
                 {
                     msg.Write(typeof(NewtonianMovementControl).GUID.GetHashCode());
                     msg.WriteObjectNewtonianMovementControl(c as NewtonianMovementControl);
@@ -336,7 +336,6 @@ namespace Orbit.Core.Helpers
                 else
                 {
                     msg.Write(0);
-                    msg.WriteControl(c);
                     Console.Error.WriteLine("Sending unspported control (" + c.GetType().Name + ")!");
                 }
             }
@@ -379,7 +378,7 @@ namespace Orbit.Core.Helpers
                     msg.ReadObjectDroppingSingularityControl(c);
                     controls.Add(c);
                 }
-                if (hash == typeof(NewtonianMovementControl).GUID.GetHashCode())
+                else if (hash == typeof(NewtonianMovementControl).GUID.GetHashCode())
                 {
                     NewtonianMovementControl c = new NewtonianMovementControl();
                     msg.ReadObjectNewtonianMovementControl(c);
@@ -490,7 +489,6 @@ namespace Orbit.Core.Helpers
                 else
                 {
                     msg.ReadInt32();
-                    msg.ReadControl(new BaseCollisionControl());
                     Console.Error.WriteLine("Received unspported control (" + hash + ")!");
                 }
             }

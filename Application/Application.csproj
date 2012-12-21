@@ -168,7 +168,7 @@
     <Compile Include="Core\Scene\Controls\IMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LaserDamageControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LimitedLifeControl.cs" />
-    <Compile Include="Core\Scene\Controls\Implementations\MeteorDroppingSingularityControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\AsteroidDroppingSingularityControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\MiningElipseControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\MiningLineControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\MiningModuleControl.cs" />
