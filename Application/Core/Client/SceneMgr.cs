@@ -786,6 +786,7 @@ namespace Orbit.Core.Client
         {
             List<ISceneObject> temp = new List<ISceneObject>();
 
+            //TODO zkusit otocit podminku
             foreach (ISceneObject obj in objects) 
             {
                 if (obj.GetType().IsAssignableFrom(clazz))

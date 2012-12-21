@@ -239,7 +239,9 @@
     <Compile Include="Core\SpecialActions\Spectator\BrutalGravity.cs" />
     <Compile Include="Core\SpecialActions\SpecialAction.cs" />
     <Compile Include="Core\SpecialActions\ISpecialAction.cs" />
+    <Compile Include="Core\SpecialActions\Spectator\ISpectatorAction.cs" />
     <Compile Include="Core\SpecialActions\Spectator\Shielding.cs" />
+    <Compile Include="Core\SpecialActions\Spectator\SpectatorAction.cs" />
     <Compile Include="Core\Utils\HealingKit.cs" />
     <Compile Include="Core\Utils\IHealingKit.cs" />
     <Compile Include="Core\Weapons\AsteroidMineLauncher.cs" />
@@ -258,6 +260,9 @@
     </Compile>
     <Compile Include="Gui\ActionControllers\ActionController.cs" />
     <Compile Include="Gui\ActionControllers\ActionControllerImpl.cs" />
+    <Compile Include="Gui\ActionOverview.xaml.cs">
+      <DependentUpon>ActionOverview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\BotSelection.xaml.cs">
       <DependentUpon>BotSelection.xaml</DependentUpon>
     </Compile>
@@ -273,8 +278,13 @@
     <Compile Include="Gui\GameUC.xaml.cs">
       <DependentUpon>GameUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\InteractivePanel\IActionOverview.cs" />
+    <Compile Include="Gui\InteractivePanel\IInteractivePanel.cs" />
     <Compile Include="Gui\KeyBindingsOptions.xaml.cs">
       <DependentUpon>KeyBindingsOptions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\LeftPanel.xaml.cs">
+      <DependentUpon>LeftPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\LobbyPlayer.xaml.cs">
       <DependentUpon>LobbyPlayer.xaml</DependentUpon>
@@ -364,6 +374,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Gui\ActionOverview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Gui\BotSelection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -389,6 +403,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Gui\KeyBindingsOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\LeftPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
