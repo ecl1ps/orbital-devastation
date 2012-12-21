@@ -867,7 +867,7 @@ namespace Orbit.Core.Client
         internal void PlayerColorChanged()
         {
             Color newColor = Player.GetChosenColor();
-            if (players.Exists(p => p.GetPlayerColor() == newColor))
+            if (players == null || players.Exists(p => p.GetPlayerColor() == newColor))
                 return;
 
             GetCurrentPlayer().Data.PlayerColor = Player.GetChosenColor();
