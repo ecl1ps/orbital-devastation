@@ -7,7 +7,7 @@ using Orbit.Core.SpecialActions;
 
 namespace Orbit.Gui.ActionControllers
 {
-    class ActionControllerImpl : ActionController
+    class ActionControllerImpl : ActionController<BuyActionUC>
     {
         public ActionControllerImpl(SceneMgr mgr, ISpecialAction action)
             : base(action, mgr)

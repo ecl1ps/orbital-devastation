@@ -11,7 +11,7 @@ namespace Orbit.Gui.ActionControllers
     /// ActionController je kontroller, ktery ovlada chovani BuyActionWindow okna, 
     /// controller bezi kompletne na scene threadu, takze neni treba synchronizovat
     /// </summary>
-    public abstract class ActionController
+    public abstract class ActionController<T>
     {
         public ISpecialAction Action { get; set; }
         protected SceneMgr sceneMgr;
@@ -27,12 +27,12 @@ namespace Orbit.Gui.ActionControllers
             sceneMgr.Enqueue(act);
         }
 
-        public abstract void ActionClicked(BuyActionUC window);
+        public abstract void ActionClicked(T window);
 
-        public abstract void CreateHeaderText(BuyActionUC window);
+        public abstract void CreateHeaderText(T window);
 
-        public abstract void CreatePriceText(BuyActionUC window);
+        public abstract void CreatePriceText(T window);
 
-        public abstract void CreateImageUriString(BuyActionUC window);
+        public abstract void CreateImageUriString(T window);
     }
 }
