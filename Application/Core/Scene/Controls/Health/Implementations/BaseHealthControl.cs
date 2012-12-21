@@ -20,8 +20,6 @@ namespace Orbit.Core.Scene.Controls.Health.Implementations
 
         protected override void InitControl(Entities.ISceneObject me)
         {
-            base.InitControl(me);
-
             if (me is Base)
                 baze = me as Base;
         }

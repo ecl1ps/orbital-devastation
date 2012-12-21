@@ -12,10 +12,11 @@ namespace Orbit.Core.Scene.Entities.Implementations
 {
     public class PercentageEllipse : SceneObject, IHpBar
     {
-        public float A {get; set;}
+        public float A { get; set; }
         public float B { get; set; }
         public float FullAngle { get; set; }
         public float Percentage { get; set; }
+        public Point StartPoint { get; set; }
 
         private bool colorChanged = false;
         private Color color;
@@ -45,9 +46,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
             float angle = - (FullAngle - (FullAngle * Percentage));
 
-            if (arc.IsLargeArc && angle < Math.PI)
+            if (arc.IsLargeArc && angle < -(Math.PI * 0.5))
                 arc.IsLargeArc = false;
-            else if (!arc.IsLargeArc && angle > Math.PI)
+            else if (!arc.IsLargeArc && angle > -(Math.PI * 0.5))
                 arc.IsLargeArc = true;
 
             if (colorChanged)
@@ -62,6 +63,5 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
             this.arc = arc;
         }
-
     }
 }
