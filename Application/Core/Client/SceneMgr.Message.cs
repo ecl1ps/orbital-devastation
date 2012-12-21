@@ -381,7 +381,15 @@ namespace Orbit.Core.Client
                 {
                     DroppingSingularityControl c = obj.GetControlOfType<DroppingSingularityControl>();
                     if (c == null)
-                        Console.Error.WriteLine("Object id " + mineId + " (" + obj.GetType().Name + ") is supposed to be a SingularityMine and have DroppingSingularityControl, but control is null");
+                    {
+                        ExplodingSingularityBulletControl c2 = obj.GetControlOfType<ExplodingSingularityBulletControl>();
+                        if (c2 == null)
+                            Console.Error.WriteLine("Object id " + mineId + " (" + obj.GetType().Name + 
+                                ") is supposed to be a SingularityMine and have DroppingSingularityControl " +
+                                "or SingularityExplodingBullet and have ExplodingSingularityBulletControl, but control is null");
+                        else
+                            c2.StartDetonation();
+                    }
                     else
                         c.StartDetonation();
                     continue;
