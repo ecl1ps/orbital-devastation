@@ -55,12 +55,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             if (lifeTime >= SharedDef.MINE_LIFE_TIME)
             {
-                if (meMine.Owner.IsCurrentPlayerOrBot() && hitObjects.Count > 2)
-                {
-                    me.SceneMgr.FloatingTextMgr.AddFloatingText((int)Math.Pow(hitObjects.Count, ScoreDefines.MINE_HIT_MULTIPLE_EXPONENT),
+                if (meMine.Owner.IsCurrentPlayer() && hitObjects.Count > 2)
+                    me.SceneMgr.FloatingTextMgr.AddFloatingText(GetMultihitMessage(hitObjects.Count),
                         meMine.Center, FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG, false, true);
+
+                if (meMine.Owner.IsCurrentPlayerOrBot() && hitObjects.Count > 2)
                     meMine.Owner.AddScoreAndShow((int)Math.Pow(hitObjects.Count, ScoreDefines.MINE_HIT_MULTIPLE_EXPONENT));
-                }
                 meMine.DoRemoveMe();
                 return;
             }
@@ -68,6 +68,20 @@ namespace Orbit.Core.Scene.Controls.Implementations
             Grow(tpf);                
         }
 
+        private string GetMultihitMessage(int count)
+        {
+            switch (count)
+            {
+                case 3:
+                    return "Triple Hit";
+                case 4:
+                    return "Quadra Hit";
+                case 5:
+                    return "Penta Hit";
+                default:
+                    return "Multi Hit";
+            }
+        }
 
         public virtual void DoCollideWith(ISceneObject other, float tpf)
         {

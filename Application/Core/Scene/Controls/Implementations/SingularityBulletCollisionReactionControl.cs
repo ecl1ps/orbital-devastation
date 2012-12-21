@@ -63,8 +63,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
                     if (asteroid.Position.Y > SharedDef.VIEW_PORT_SIZE.Height * 0.4 &&
                         asteroid.Position.X >= xMin && asteroid.Position.X <= xMax)
                     {
-                        bullet.SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.CANNON_DESTROYED_UNSTABLE_ASTEROID_ABOVE_ENEMY, bullet.Center,
-                            FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG, false, true);
+                        if (bullet.Owner.IsCurrentPlayer())
+                            bullet.SceneMgr.FloatingTextMgr.AddFloatingText("Enemy crusher!", bullet.Center,
+                                FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG, false, true);
                         bullet.Owner.AddScoreAndShow(ScoreDefines.CANNON_DESTROYED_UNSTABLE_ASTEROID_ABOVE_ENEMY);
                     }
                 }
