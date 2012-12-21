@@ -91,6 +91,27 @@ namespace Orbit.Gui
             foreach (LobbyPlayerData data in updatedPlayers)
                 if (!data.Leader)
                     AddPlayer(data);
+
+            if (PlayersHaveSameColor(updatedPlayers))
+            {
+                if (!leader)
+                    btnReady.IsEnabled = false;
+
+                lblColorNotice.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                btnReady.IsEnabled = true;
+                lblColorNotice.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private bool PlayersHaveSameColor(List<LobbyPlayerData> updatedPlayers)
+        {
+            foreach (LobbyPlayerData p in updatedPlayers)
+                if (updatedPlayers.Exists(pl => pl.Id != p.Id && p.Color == pl.Color))
+                    return true;
+            return false;
         }
 
         private void AddPlayer(LobbyPlayerData data)
