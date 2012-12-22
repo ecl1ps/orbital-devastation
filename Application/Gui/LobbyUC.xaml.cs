@@ -11,6 +11,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Orbit.Core.Server.Match;
+using Orbit.Core.Server;
+using Orbit.Core;
 
 namespace Orbit.Gui
 {
@@ -21,21 +24,61 @@ namespace Orbit.Gui
     {
         private bool leader;
         private bool ready;
+        private bool receivedSettings;
+        private Dictionary<GameMatchMakerType, string> matchmakerNames;
 
         public LobbyUC(bool asLeader)
         {
             leader = asLeader;
+            receivedSettings = false;
             InitializeComponent();
+
+            matchmakerNames = new Dictionary<GameMatchMakerType, string>(3);
+            matchmakerNames.Add(GameMatchMakerType.ONE_TO_ALL_THEN_SCORE, "Each vs. Each (most wins then score)");
+            matchmakerNames.Add(GameMatchMakerType.ONE_TO_ALL_TILL_WINNER, "Each vs. Each (till winner)");
+            matchmakerNames.Add(GameMatchMakerType.ONE_TO_ONE_INFINITE, "One vs. One (infinite)");
+
+            btnReady.IsEnabled = false;
+
             if (asLeader)
             {
                 btnReady.Visibility = Visibility.Hidden;
                 ready = true;
+
+                List<ComboData> data = new List<ComboData>();
+                foreach (GameMatchMakerType m in Enum.GetValues(typeof(GameMatchMakerType)))
+                    data.Add(new ComboData { Id = m, Name = matchmakerNames[m] });
+
+                cbType.ItemsSource = data;
+                cbType.DisplayMemberPath = "Name";
+                cbType.SelectedValuePath = "Id";
+                cbType.SelectedValue = GameMatchMakerType.ONE_TO_ALL_THEN_SCORE;
+
+                List<ComboData> dataMap = new List<ComboData>();
+                foreach (GameLevel l in Enum.GetValues(typeof(GameLevel)))
+                    dataMap.Add(new ComboData { Id = l, Name = l.ToString() });
+
+                cbMap.ItemsSource = dataMap;
+                cbMap.DisplayMemberPath = "Name";
+                cbMap.SelectedValuePath = "Id";
+                cbMap.SelectedValue = GameLevel.NORMAL1;
             }
             else
             {
                 btnStartGame.Visibility = Visibility.Hidden;
+                btnSettings.Visibility = Visibility.Hidden;
                 ready = false;
+                cbType.Visibility = Visibility.Hidden;
+                cbMap.Visibility = Visibility.Hidden;
+                lblType.Visibility = Visibility.Visible;
+                lblMap.Visibility = Visibility.Visible;
             }
+        }
+
+        class ComboData
+        {
+            public object Id { get; set; }
+            public string Name { get; set; }
         }
 
         private void tbMessage_KeyDown(object sender, KeyEventArgs e)
@@ -100,7 +143,7 @@ namespace Orbit.Gui
             }
             else
             {
-                if (!ready)
+                if (!ready && receivedSettings)
                     btnReady.IsEnabled = true;
                 lblColorNotice.Visibility = Visibility.Hidden;
             }
@@ -138,6 +181,39 @@ namespace Orbit.Gui
         private void btnColor_Click(object sender, RoutedEventArgs e)
         {
             (Application.Current.MainWindow as GameWindow).mainGrid.Children.Add(new ColorPickerUC());
+        }
+
+        private void btnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            btnSettings.IsEnabled = false;
+            btnStartGame.IsEnabled = false;
+
+            TournamentSettings s = new TournamentSettings();
+            s.MMType = (GameMatchMakerType)cbType.SelectedValue;
+            s.Level = (GameLevel)cbMap.SelectedValue;
+
+            (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
+            {
+                (Application.Current as App).GetSceneMgr().ProcessNewTournamentSettings(s);
+            }));
+        }
+
+        internal void UpdateTournamentSettings(TournamentSettings s)
+        {
+            receivedSettings = true;
+            btnReady.IsEnabled = true;
+            lblType.Content = matchmakerNames[s.MMType];
+            lblMap.Content = s.Level;
+        }
+
+        private void cbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            btnSettings.IsEnabled = true;
+        }
+
+        private void cbMap_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            btnSettings.IsEnabled = true;
         }
     }
 }

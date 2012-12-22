@@ -37,7 +37,22 @@ namespace Orbit.Core.Server
         {
             this.serverMgr = serverMgr;
             this.players = players;
-            matchMaker = new OneToAllThenScoreMatchMaker(players, serverMgr.GetRandomGenerator());
+            if (serverMgr.TournamentSettings == null)
+                serverMgr.TournamentSettings = new TournamentSettings(true);
+
+            switch (serverMgr.TournamentSettings.MMType)
+            {
+                case GameMatchMakerType.ONE_TO_ALL_THEN_SCORE:
+                    matchMaker = new OneToAllThenScoreMatchMaker(players, serverMgr.GetRandomGenerator());
+                    break;
+                case GameMatchMakerType.ONE_TO_ALL_TILL_WINNER:
+                    matchMaker = new OneToAllTillWinnerMatchMaker(players, serverMgr.GetRandomGenerator());
+                    break;
+                case GameMatchMakerType.ONE_TO_ONE_INFINITE:
+                    matchMaker = new OneToOneInfiniteMachMaker(players, serverMgr.GetRandomGenerator());
+                    break;
+            }
+            
             tournamentPlayerIds = new SortedSet<string>();
             if (serverMgr.GameType == Gametype.TOURNAMENT_GAME)
                 players.ForEach(p => tournamentPlayerIds.Add(p.Data.HashId));
@@ -90,7 +105,7 @@ namespace Orbit.Core.Server
         {
             objects = new List<ISceneObject>();
 
-            gameLevel = GameLevelManager.CreateNewGameLevel(serverMgr, SharedDef.STARTING_LEVEL, objects);
+            gameLevel = GameLevelManager.CreateNewGameLevel(serverMgr, serverMgr.TournamentSettings.Level, objects);
             gameLevel.CreateLevelObjects();
         }
 

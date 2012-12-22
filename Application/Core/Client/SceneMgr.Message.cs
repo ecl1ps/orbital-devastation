@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Controls.Health.Implementations;
 using Orbit.Core.Scene.Controls.Health;
+using Orbit.Gui;
 
 namespace Orbit.Core.Client
 {
@@ -51,10 +52,13 @@ namespace Orbit.Core.Client
             {
                 GameType = serverType;
                 if (!tournametRunnig)
+                {
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
                         (Application.Current as App).CreateLobbyGui(false);
                     }));
+                    SendTournamentSettingsRequest();
+                }
             }
 
             while (pendingMessages.Count != 0)
@@ -63,6 +67,13 @@ namespace Orbit.Core.Client
             Console.WriteLine("LOGIN confirmed (id: " + IdMgr.GetHighId(GetCurrentPlayer().Data.Id) + ")");
 
             SendPlayerDataRequestMessage();
+        }
+
+        private void SendTournamentSettingsRequest()
+        {
+            NetOutgoingMessage reqmsg = CreateNetMessage();
+            reqmsg.Write((int)PacketType.TOURNAMENT_SETTINGS_REQUEST);
+            SendMessage(reqmsg);
         }
 
         private void SendPlayerDataRequestMessage()
@@ -711,6 +722,35 @@ namespace Orbit.Core.Client
                         control.Speed = SharedDef.SPECTATOR_ASTEROID_THROW_SPEED;
                 }
             }
+        }
+
+        private void ReceivedTournamentSettingsMsg(NetIncomingMessage msg)
+        {
+            players.ForEach(p => { if (!p.Data.LobbyLeader) p.Data.LobbyReady = false; });
+            TournamentSettings s = msg.ReadTournamentSettings();
+
+            List<LobbyPlayerData> data = CreateLobbyPlayerData();
+
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                LobbyUC lobby = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
+                if (lobby != null)
+                {
+                    lobby.UpdateTournamentSettings(s);
+                    lobby.UpdateShownPlayers(data);
+                }
+            }));
+        }
+
+        internal void ProcessNewTournamentSettings(TournamentSettings s)
+        {
+            NetOutgoingMessage msg = CreateNetMessage();
+            msg.Write((int)PacketType.TOURNAMENT_SETTINGS);
+            msg.Write(s);
+            SendMessage(msg);
+
+            players.ForEach(p => { if (!p.Data.LobbyLeader) p.Data.LobbyReady = false; });
+            UpdateLobbyPlayers();
         }
     }
 }

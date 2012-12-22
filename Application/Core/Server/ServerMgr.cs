@@ -35,6 +35,7 @@ namespace Orbit.Core.Server
 
         public Gametype GameType { get; set; }
         public GameStateManager StateMgr { get; set; }
+        public TournamentSettings TournamentSettings { get; set; }
 
         public ServerMgr()
         {

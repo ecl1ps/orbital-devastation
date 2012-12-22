@@ -21,7 +21,21 @@
             -->
         </StackPanel>
         <Grid Name="gridGameInfo" Background="#FFE5E5E5" Margin="555,31,10,260" Grid.Row="1" >
-            <Label Name="lblSettings" HorizontalContentAlignment="Center" Width="200" FontFamily="Bauhaus 93" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Top" >Settings</Label>
+            <Label HorizontalContentAlignment="Center" Width="200" FontFamily="Bauhaus 93" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Top" >Settings</Label>
+            <Label Content="Type: " HorizontalAlignment="Left" Margin="24,45,0,0" Height="28" VerticalAlignment="Top" />
+            <Label Content="Map: " Height="28" HorizontalAlignment="Left" Margin="25,79,0,0" VerticalAlignment="Top" />
+            <ComboBox Height="23" HorizontalAlignment="Left" Margin="97,50,0,0" Name="cbType" VerticalAlignment="Top" Width="226" SelectionChanged="cbType_SelectionChanged" />
+            <ComboBox Height="23" HorizontalAlignment="Left" Margin="97,84,0,0" Name="cbMap" VerticalAlignment="Top" Width="226" SelectionChanged="cbMap_SelectionChanged" />
+            <Label Content="---" Height="28" HorizontalAlignment="Left" Margin="97,47,0,0" Name="lblType" VerticalAlignment="Top" Width="226" Visibility="Hidden" />
+            <Label Content="---" Height="28" HorizontalAlignment="Left" Margin="97,79,0,0" Name="lblMap" VerticalAlignment="Top" Width="226" Visibility="Hidden" />
+            <Button Content="Confirm settings" FontFamily="Bauhaus 93" FontSize="16" Height="28" HorizontalAlignment="Center" Margin="97,221,109,0" Name="btnSettings" VerticalAlignment="Top" Width="129" Click="btnSettings_Click">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black" Offset="1" />
+                        <GradientStop Color="#80FFFFFF" Offset="0" />
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
         </Grid>
         <ListView Height="148" HorizontalAlignment="Left" Margin="12,367,0,0" Name="lvChat" VerticalAlignment="Top" Width="879" Grid.Row="1" />
         <Button Content="Start Game" Height="28" HorizontalAlignment="Center" Margin="91,316,680,0" FontFamily="Bauhaus 93" FontSize="16" Name="btnStartGame" VerticalAlignment="Top" Width="129" Click="btnStartGame_Click" IsEnabled="False" Grid.Row="1">
@@ -40,7 +54,7 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Button Content="Leave room" Height="28" HorizontalAlignment="Center" Margin="347,316,425,0" FontFamily="Bauhaus 93" FontSize="16" Name="btnLeave" VerticalAlignment="Top" Width="129" Click="btnLeave_Click" Grid.Row="1">
+        <Button Content="Leave room" Height="28" HorizontalAlignment="Center" Margin="347,316,423,0" FontFamily="Bauhaus 93" FontSize="16" Name="btnLeave" VerticalAlignment="Top" Width="129" Click="btnLeave_Click" Grid.Row="1">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="1" />
@@ -57,15 +71,7 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Button Content="Change color" FontFamily="Bauhaus 93" FontSize="16" Height="28" HorizontalAlignment="Center" Margin="749,316,22,0" Name="btnColor" VerticalAlignment="Top" Width="129" Grid.Row="1" Click="btnColor_Click">
-            <Button.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="1" />
-                    <GradientStop Color="#80FFFFFF" Offset="0" />
-                </LinearGradientBrush>
-            </Button.Background>
-        </Button>
-        <Button Content="Confirm settings" FontFamily="Bauhaus 93" FontSize="16" Height="28" HorizontalAlignment="Center" Margin="579,316,192,0" Name="btnSettings" VerticalAlignment="Top" Width="129" Grid.Row="1">
+        <Button Content="Change color" FontFamily="Bauhaus 93" FontSize="16" Height="28" HorizontalAlignment="Center" Margin="652,316,119,0" Name="btnColor" VerticalAlignment="Top" Width="129" Grid.Row="1" Click="btnColor_Click">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="1" />

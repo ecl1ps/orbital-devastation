@@ -190,6 +190,9 @@ namespace Orbit.Core.Client
                 case PacketType.PLAYER_READY:
                     ReceivedPlayerReadyMsg(msg);
                     break;
+                case PacketType.TOURNAMENT_SETTINGS:
+                    ReceivedTournamentSettingsMsg(msg);
+                    break;
                 case PacketType.CHAT_MESSAGE:
                     ShowChatMessage(msg.ReadString());
                     break;

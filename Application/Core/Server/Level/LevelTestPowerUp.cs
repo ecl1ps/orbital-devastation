@@ -23,8 +23,6 @@ namespace Orbit.Core.Server.Level
 
         public void CreateLevelObjects()
         {
-            for (int i = 0; i < 5; ++i)
-                objects.Add(ServerSceneObjectFactory.CreateNewRandomAsteroid(mgr, i % 2 == 0));
         }
 
         public void Update(float tpf)
@@ -40,7 +38,6 @@ namespace Orbit.Core.Server.Level
 
         public void OnStart()
         {
-
         }
 
         public bool IsBotAllowed()

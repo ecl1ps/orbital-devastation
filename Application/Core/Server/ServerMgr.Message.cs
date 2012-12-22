@@ -84,6 +84,15 @@ namespace Orbit.Core.Server
             return outmsg;
         }
 
+
+        private NetOutgoingMessage CreateTournamentSettingsMessage()
+        {
+            NetOutgoingMessage outmsg = CreateNetMessage();
+            outmsg.Write((int)PacketType.TOURNAMENT_SETTINGS);
+            outmsg.Write(TournamentSettings);
+            return outmsg;
+        }
+
         private void ReceivedScoreQueryResponseMsg(NetIncomingMessage msg)
         {
             Player p = GetPlayer(msg.ReadInt32());
@@ -150,6 +159,12 @@ namespace Orbit.Core.Server
                 return;
             disconnected.Data.StartReady = false;
             ForwardMessage(msg);
+        }
+
+        private void ReceivedTournamentSettingsMsg(NetIncomingMessage msg)
+        {
+            players.ForEach(p => { if (!p.Data.LobbyLeader) p.Data.LobbyReady = false; });
+            TournamentSettings = msg.ReadTournamentSettings();
         }
     }
 }

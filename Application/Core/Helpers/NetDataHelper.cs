@@ -17,6 +17,8 @@ using Orbit.Core.Scene.Controls.Collisions.Implementations;
 using Orbit.Core.Scene.Controls.Health.Implementations;
 using Orbit.Core.Scene.Controls.Health.implementations;
 using Orbit.Core.Scene.Controls.Health;
+using Orbit.Core.Server.Match;
+using Orbit.Core.Server;
 
 namespace Orbit.Core.Helpers
 {
@@ -828,6 +830,22 @@ namespace Orbit.Core.Helpers
         public static Point ReadPoint(this NetIncomingMessage msg)
         {
             return new Point(msg.ReadDouble(), msg.ReadDouble());
+        }
+
+        // other
+
+        public static void Write(this NetOutgoingMessage msg, TournamentSettings s)
+        {
+            msg.Write((int)s.MMType);
+            msg.Write((int)s.Level);
+        }
+
+        public static TournamentSettings ReadTournamentSettings(this NetIncomingMessage msg)
+        {
+            TournamentSettings s = new TournamentSettings();
+            s.MMType = (GameMatchMakerType)msg.ReadInt32();
+            s.Level = (GameLevel)msg.ReadInt32();
+            return s;
         }
     }
 }

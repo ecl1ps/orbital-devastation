@@ -871,9 +871,12 @@ namespace Orbit.Core.Client
                 return;
 
             GetCurrentPlayer().Data.PlayerColor = Player.GetChosenColor();
-            //TODO: posilat a updatovat jen kdyz je hrac v lobby
-            SendPlayerColorChanged();
-            UpdateLobbyPlayers();
+
+            if (GameWindowState == WindowState.IN_LOBBY)
+            {
+                SendPlayerColorChanged();
+                UpdateLobbyPlayers();
+            }
         }
     }
 }
