@@ -38,9 +38,11 @@ namespace Orbit.Core.Players.Input
         public override void OnCanvasClick(Point point, MouseButtonEventArgs e)
         {
             base.OnCanvasClick(point, e);
+#if DEBUG
             // TODO: akce budou vetsinou spousteny z action baru
             if (e.ChangedButton == MouseButton.Middle && e.ButtonState == MouseButtonState.Pressed)
                 new BrutalGravity(mgr, plr).StartAction();
+#endif
         }
 
 
