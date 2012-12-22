@@ -86,15 +86,10 @@ namespace Orbit.Gui
         {
             spPlayers.Children.Clear();
 
-            // pridat leadera jako prvniho
-            LobbyPlayerData d = updatedPlayers.Find(p => p.Leader);
-            if (d != null)
-                AddPlayer(d);
-
-            // pak zbytek hracu
-            foreach (LobbyPlayerData data in updatedPlayers)
-                if (!data.Leader)
-                    AddPlayer(data);
+            IEnumerable<LobbyPlayerData> sortedData = updatedPlayers.OrderByDescending(p => p.Won).
+                ThenByDescending(p => p.Score).ThenByDescending(p => p.Leader).ThenBy(p => p.Name);
+            foreach (LobbyPlayerData data in sortedData)
+                AddPlayer(data);
 
             if (PlayersHaveSameColor(updatedPlayers))
             {
@@ -121,7 +116,7 @@ namespace Orbit.Gui
 
         private void AddPlayer(LobbyPlayerData data)
         {
-            // TODO: ted se jich vejde alespon 6
+            // TODO: ted se jich vejde 6
             if (spPlayers.Children.Count < 6)
                 spPlayers.Children.Add(new LobbyPlayer(data));
         }
