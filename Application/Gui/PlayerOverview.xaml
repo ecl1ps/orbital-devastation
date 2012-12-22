@@ -12,13 +12,11 @@
             <Label Content="Score: 264831" Height="28" HorizontalAlignment="Left" Margin="171,0,0,0" Name="lblScore" VerticalAlignment="Center" FontSize="11" />
             <Label Content="Gold: 41646" Height="28" HorizontalAlignment="Right" Margin="0,0,332,0" Name="lblGold" VerticalAlignment="Center" FontSize="11" />
 
-            <Label Content="Mine: III" Height="28" Margin="330,0,271,0" Name="lblMine" VerticalAlignment="Center" FontSize="11" />
-            <Label Content="Cannon: III" Height="28" HorizontalAlignment="Left" Margin="376,0,0,0" Name="lblCannon" VerticalAlignment="Center" FontSize="11" />
-            <Label Content="Hook: III" Height="28" HorizontalAlignment="Left" Margin="436,0,0,0" Name="lblHook" VerticalAlignment="Center" FontSize="11" />
-            <Label Content="Repair: III" Height="28" HorizontalAlignment="Right" Margin="0,0,111,0" Name="lblHealingKit" VerticalAlignment="Center" FontSize="11" />
-
-            <Label Content="Won: 0" Height="28" HorizontalAlignment="Left" Margin="550,0,0,0" Name="lblWon" VerticalAlignment="Center" FontSize="11" />
-            <Label Content="Played: 0" Height="28" HorizontalAlignment="Left" Name="lblPlayed" VerticalAlignment="Center" FontSize="11" Margin="590,0,0,0" />
+            <Label Content="Mine: III" Height="28" Margin="349,0,252,0" Name="lblMine" VerticalAlignment="Center" FontSize="11" />
+            <Label Content="Cannon: III" Height="28" HorizontalAlignment="Left" Margin="394,0,0,0" Name="lblCannon" VerticalAlignment="Center" FontSize="11" />
+            <Label Content="Hook: III" Height="28" HorizontalAlignment="Right" Margin="0,0,146,0" Name="lblHook" VerticalAlignment="Center" FontSize="11" />
+            <Label Content="Won: 0" Height="28" HorizontalAlignment="Left" Margin="545,0,0,0" Name="lblWon" VerticalAlignment="Center" FontSize="11" />
+            <Label Content="Played: 0" Height="28" HorizontalAlignment="Left" Name="lblPlayed" VerticalAlignment="Center" FontSize="11" Margin="588,0,0,0" />
         </Grid>
     </Border>
 </UserControl>

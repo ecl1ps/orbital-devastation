@@ -32,10 +32,19 @@ namespace Orbit.Gui
             lblActive.Content = data.Active ? "Playing" : "Spectating";
             lblScore.Content = "Score: " + data.Score;
             lblGold.Content = "Gold: " + data.Gold;
-            lblMine.Content = "Mine: " + GetCharsForLevel(data.MineLevel);
-            lblCannon.Content = "Cannon: " + GetCharsForLevel(data.CannonLevel);
-            lblHook.Content = "Hook: " + GetCharsForLevel(data.HookLevel);
-            lblHealingKit.Content = "Repair: " + GetCharsForLevel(data.HealingKitLevel);
+            if (data.Active)
+            {
+                lblMine.Content = "Mine: " + GetCharsForLevel(data.MineLevel);
+                lblCannon.Content = "Cannon: " + GetCharsForLevel(data.CannonLevel);
+                lblHook.Content = "Hook: " + GetCharsForLevel(data.HookLevel);
+            }
+            else
+            {
+                lblMine.Content = string.Empty;
+                lblCannon.Content = string.Empty;
+                lblHook.Content = string.Empty;
+            }
+
             lblWon.Content = "Won: " + data.Won;
             lblPlayed.Content = "Played: " + data.Played;
         }
@@ -60,10 +69,9 @@ namespace Orbit.Gui
         public UpgradeLevel MineLevel { get; set; }
         public UpgradeLevel CannonLevel { get; set; }
         public UpgradeLevel HookLevel { get; set; }
-        public UpgradeLevel HealingKitLevel { get; set; }
 
         public PlayerOverviewData(string name, int score, int gold, bool active, int played, int won, 
-            UpgradeLevel mine, UpgradeLevel cannon, UpgradeLevel hook, UpgradeLevel heal)
+            UpgradeLevel mine, UpgradeLevel cannon, UpgradeLevel hook)
         {
             Name = name;
             Score = score;
@@ -74,7 +82,6 @@ namespace Orbit.Gui
             MineLevel = mine;
             CannonLevel = cannon;
             HookLevel = hook;
-            HealingKitLevel = heal;
         }
     }
 }
