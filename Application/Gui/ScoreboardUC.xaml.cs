@@ -28,7 +28,7 @@ namespace Orbit.Gui
             IEnumerable<LobbyPlayerData> sortedData = data.OrderByDescending(p => p.Won).ThenByDescending(p => p.Score);
 
             foreach (LobbyPlayerData d in sortedData)
-                spResults.Children.Add(new LobbyPlayer(d));
+                spResults.Children.Add(new LobbyPlayer(d, true));
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)

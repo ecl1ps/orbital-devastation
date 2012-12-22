@@ -26,10 +26,12 @@ namespace Orbit.Gui
             InitializeComponent();
         }
 
-        public LobbyPlayer(LobbyPlayerData data)
+        public LobbyPlayer(LobbyPlayerData data, bool withoutReadyIndicator = false)
         {
             InitializeComponent();
-            if (data.Leader)
+            if (withoutReadyIndicator)
+                readyState.Visibility = Visibility.Hidden;
+            else if (data.Leader)
                 readyState.Fill = new SolidColorBrush(Color.FromRgb(0x90, 0x00, 0x90));
             else if (data.Ready)
                 readyState.Fill = new SolidColorBrush(Color.FromRgb(0x00, 0xC0, 0x00));
