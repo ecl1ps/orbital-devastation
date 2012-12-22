@@ -317,7 +317,11 @@ namespace Orbit
 
         public void ShowBotSelectionGui()
         {
-            mainWindow.mainGrid.Children.Add(new BotSelection());
+            UIElement uc = LogicalTreeHelper.FindLogicalNode(mainWindow.mainGrid, "botSelection") as UIElement;
+            if (uc != null)
+                mainWindow.mainGrid.Children.Remove(uc);
+            else
+                mainWindow.mainGrid.Children.Add(new BotSelection());
         }
 
         public void OnKeyEvent(System.Windows.Input.KeyEventArgs e)
