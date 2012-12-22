@@ -18,18 +18,21 @@ namespace Orbit.Core.SpecialActions.Spectator
     class Shielding : SpecialAction
     {
         private ISceneObject toFollow;
+        protected MiningModuleControl control;
 
-        public Shielding(ISceneObject toFollow,SceneMgr mgr, Player plr) : 
-            base(mgr, plr) {
-
-                Name = "Static Shield";
-                ImageSource = "pack://application:,,,/resources/images/icons/shield-icon.png";
-                Cost = 750;
-                this.toFollow = toFollow;
+        public Shielding(ISceneObject toFollow,SceneMgr mgr, Player plr) : base(mgr, plr) {
+            Name = "Static Shield";
+            ImageSource = "pack://application:,,,/resources/images/icons/shield-icon.png";
+            Cost = 750;
+            this.toFollow = toFollow;
+            control = toFollow.GetControlOfType<MiningModuleControl>();
         }
 
         public override void StartAction()
         {
+            if (!control.Enabled)
+                return;
+
             base.StartAction();
 
             IHpBar bar = Owner.Device.GetControlOfType<HpBarControl>().Bar;
