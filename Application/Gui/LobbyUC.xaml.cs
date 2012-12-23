@@ -27,7 +27,7 @@ namespace Orbit.Gui
         private bool receivedSettings;
         private Dictionary<GameMatchMakerType, string> matchmakerNames;
 
-        public LobbyUC(bool asLeader)
+        public LobbyUC(bool asLeader, bool settingsLocked = false)
         {
             leader = asLeader;
             receivedSettings = false;
@@ -44,7 +44,15 @@ namespace Orbit.Gui
             {
                 btnReady.Visibility = Visibility.Hidden;
                 ready = true;
-
+            }
+            else
+            {
+                btnStartGame.Visibility = Visibility.Hidden;
+                ready = false;
+            }
+            
+            if (asLeader && !settingsLocked)
+            {
                 List<ComboData> data = new List<ComboData>();
                 foreach (GameMatchMakerType m in Enum.GetValues(typeof(GameMatchMakerType)))
                     data.Add(new ComboData { Id = m, Name = matchmakerNames[m] });
@@ -65,9 +73,7 @@ namespace Orbit.Gui
             }
             else
             {
-                btnStartGame.Visibility = Visibility.Hidden;
                 btnSettings.Visibility = Visibility.Hidden;
-                ready = false;
                 cbType.Visibility = Visibility.Hidden;
                 cbMap.Visibility = Visibility.Hidden;
                 tbRounds.Visibility = Visibility.Hidden;
@@ -153,7 +159,7 @@ namespace Orbit.Gui
             int rounds = 1;
             try
             {
-                if (leader)
+                if (tbRounds.Visibility == Visibility.Visible)
                     rounds = int.Parse(tbRounds.Text);
                 else
                     rounds = int.Parse((string)lblRounds.Content);

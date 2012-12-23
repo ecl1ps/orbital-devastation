@@ -648,10 +648,11 @@ namespace Orbit.Core.Client
 
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-                (Application.Current as App).CreateLobbyGui(currentPlayer.Data.LobbyLeader);
+                (Application.Current as App).CreateLobbyGui(currentPlayer.Data.LobbyLeader, true);
             }));
 
             SendPlayerDataRequestMessage();
+            SendTournamentSettingsRequest();
 
             if (currentPlayer.Data.LobbyLeader)
             {
