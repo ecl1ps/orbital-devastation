@@ -23,11 +23,14 @@ namespace Orbit.Core.SpecialActions
         String ImageSource { get; set; }
         SpecialActionType Type { get; set; }
         float Cost { get; set; }
-        float CoolDown { get; set; }
+        float Cooldown { get; set; }
+        float RemainingCooldown { get; set; }
 
         void StartAction();
 
         Boolean IsReady();
+
+        Boolean IsOnCooldown();
 
         void SendActionExecuted();
     }

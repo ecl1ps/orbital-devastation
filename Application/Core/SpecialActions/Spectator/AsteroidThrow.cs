@@ -23,7 +23,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             Type = SpecialActionType.ASTEROID_THROW;
 
             //nastavime parametry
-            this.CoolDown = 2; //sec
+            this.Cooldown = 2; //sec
             this.normal = 4;
             this.gold = 1;
 

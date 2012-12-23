@@ -17,7 +17,8 @@ namespace Orbit.Core.SpecialActions
         public SpecialActionType Type { get; set; }
         public float Cost { get; set; }
         private float timer = 0;
-        public float CoolDown { get; set; }
+        public float RemainingCooldown { get { return timer; } set { timer = value; } }
+        public float Cooldown { get; set; }
 
         public SpecialAction(SceneMgr mgr, Player owner)
         {
@@ -28,7 +29,7 @@ namespace Orbit.Core.SpecialActions
         public virtual void StartAction()
         {
             Owner.AddGoldAndShow((int) -Cost);
-            timer = CoolDown;
+            timer = Cooldown;
         }
 
         public abstract bool IsReady();
@@ -49,9 +50,9 @@ namespace Orbit.Core.SpecialActions
             }
         }
 
-        protected bool isOnCoolDown()
+        public bool IsOnCooldown()
         {
-            return timer == 0;
+            return timer != 0;
         }
     }
 }

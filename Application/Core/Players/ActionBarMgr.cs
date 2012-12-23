@@ -18,10 +18,10 @@ using Orbit.Core.SpecialActions;
 namespace Orbit.Core.Players
 {
     struct WindowController {
-        public BuyActionUC Window { get; set; }
-        public ActionController<BuyActionUC> Controller { get; set; }
+        public ActionUC Window { get; set; }
+        public ActionController<ActionUC> Controller { get; set; }
 
-        public WindowController(BuyActionUC window, ActionController<BuyActionUC> controller)
+        public WindowController(ActionUC window, ActionController<ActionUC> controller)
             : this()
         {
             Window = window;
@@ -33,6 +33,7 @@ namespace Orbit.Core.Players
     {
         private SceneMgr mgr;
         private List<WindowController> windows;
+        private List<ISpecialAction> actions;
 
         public ActionBar ActionBar { get; set; }
 
@@ -44,11 +45,12 @@ namespace Orbit.Core.Players
 
         public void CreateActionBarItems(List<ISpecialAction> actions)
         {
+            this.actions = actions;
             mgr.Invoke(new Action(() =>
             {
                 ActionBar = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "ActionBarUC") as ActionBar;
-                BuyActionUC window;
-                ActionController<BuyActionUC> controller;
+                ActionUC window;
+                ActionController<ActionUC> controller;
 
                 foreach (ISpecialAction action in actions)
                 {
@@ -62,14 +64,18 @@ namespace Orbit.Core.Players
         public void Update(float tpf)
         {
             mgr.GetCurrentPlayer().ShowGold();
+            actions.ForEach(action => action.Update(tpf));
 
             foreach (WindowController windowController in windows)
             {
+                windowController.Controller.Update(windowController.Window, tpf);
                 if (windowController.Controller.Action.IsReady())
                     windowController.Window.Activate();
                 else
                     windowController.Window.Deactivate();
             }
+
+           
         }
 
         public void Click(int index)

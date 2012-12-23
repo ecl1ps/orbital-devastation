@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Orbit.Core.Client;
 using Orbit.Core.SpecialActions;
+using Orbit.Core;
 
 namespace Orbit.Gui.ActionControllers
 {
@@ -15,6 +16,8 @@ namespace Orbit.Gui.ActionControllers
     {
         public ISpecialAction Action { get; set; }
         protected SceneMgr sceneMgr;
+
+        protected T window;
 
         public ActionController(ISpecialAction action, SceneMgr mgr)
         {
@@ -34,5 +37,7 @@ namespace Orbit.Gui.ActionControllers
         public abstract void CreatePriceText(T window);
 
         public abstract void CreateImageUriString(T window);
+
+        public abstract void Update(T window, float tpf);
     }
 }

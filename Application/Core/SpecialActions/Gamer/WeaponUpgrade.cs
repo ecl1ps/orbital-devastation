@@ -17,7 +17,7 @@ namespace Orbit.Core.SpecialActions.Gamer
             LoadWeapon(weapon);
             ImageSource = "pack://application:,,,/resources/images/icons/upgrade.png";
 
-            CoolDown = 0;
+            Cooldown = 0;
         }
 
         private void LoadWeapon(IWeapon weapon)
@@ -69,7 +69,7 @@ namespace Orbit.Core.SpecialActions.Gamer
 
         public override bool IsReady()
         {
-            return !isOnCoolDown() && currentWeapon.Next() != null && currentWeapon.Next().Cost <= Owner.Data.Gold;
+            return !IsOnCooldown() && currentWeapon.Next() != null && currentWeapon.Next().Cost <= Owner.Data.Gold;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             this.control = control;
             
             //nastavime parametry
-            this.CoolDown = 1; //sekundy
+            this.Cooldown = 1; //sekundy
             this.normal = 2;
             this.gold = 0;
 

@@ -7,14 +7,14 @@ using Orbit.Core.SpecialActions;
 
 namespace Orbit.Gui.ActionControllers
 {
-    class ActionControllerImpl : ActionController<BuyActionUC>
+    class ActionControllerImpl : ActionController<ActionUC>
     {
         public ActionControllerImpl(SceneMgr mgr, ISpecialAction action)
             : base(action, mgr)
         {
         }
 
-        public override void ActionClicked(BuyActionUC window)
+        public override void ActionClicked(ActionUC window)
         {
             if (Action.IsReady())
                 Action.StartAction();
@@ -22,20 +22,32 @@ namespace Orbit.Gui.ActionControllers
             window.Refresh();
         }
 
-        public override void CreateHeaderText(BuyActionUC window)
+        public override void CreateHeaderText(ActionUC window)
         {
             window.SetHeaderText(Action.Name);
         }
 
-        public override void CreatePriceText(BuyActionUC window)
+        public override void CreatePriceText(ActionUC window)
         {
             window.SetPriceText("Costs " + Action.Cost + " credits");
         }
 
-        public override void CreateImageUriString(BuyActionUC window)
+        public override void CreateImageUriString(ActionUC window)
         {
             if(Action.ImageSource != null)
                 window.SetImageUri(Action.ImageSource);
+        }
+
+        public override void Update(ActionUC window, float tpf)
+        {
+            if (Action.IsOnCooldown())
+                computeCooldown(window);
+        }
+
+        private void computeCooldown(ActionUC window)
+        {
+            float perc = (Action.RemainingCooldown / Action.Cooldown);
+            window.SetShadeWidth(30 * perc);
         }
     }
 }

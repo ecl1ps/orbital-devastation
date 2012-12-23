@@ -32,8 +32,8 @@ namespace Orbit.Gui
             {
                 foreach (UIElement elem in ActionPanel.Children)
                 {
-                    if (elem is BuyActionUC)
-                        (elem as BuyActionUC).OnClick(point);
+                    if (elem is ActionUC)
+                        (elem as ActionUC).OnClick(point);
                 }
             }));
           

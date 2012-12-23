@@ -347,8 +347,8 @@
     <Compile Include="Core\Server\ServerSceneObjectFactory.cs" />
     <Compile Include="Core\Server\ServerMgr.cs" />
     <Compile Include="Core\Server\ServerMgr.Net.cs" />
-    <Compile Include="Gui\BuyActionUC.xaml.cs">
-      <DependentUpon>BuyActionUC.xaml</DependentUpon>
+    <Compile Include="Gui\ActionUC.xaml.cs">
+      <DependentUpon>ActionUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\Client\Shaders\ColorReplaceEffect.cs" />
   </ItemGroup>
@@ -447,7 +447,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Gui\BuyActionUC.xaml">
+    <Page Include="Gui\ActionUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

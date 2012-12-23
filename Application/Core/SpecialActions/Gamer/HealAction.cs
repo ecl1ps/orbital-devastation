@@ -19,7 +19,7 @@ namespace Orbit.Core.SpecialActions.Gamer
             Cost = healingKit.Cost;
             ImageSource = "pack://application:,,,/resources/images/icons/heal-icon.png";
 
-            CoolDown = 1; //sekunda
+            Cooldown = 1; //sekunda
         }
 
         public override void StartAction()
@@ -36,7 +36,7 @@ namespace Orbit.Core.SpecialActions.Gamer
         {
             int heal = (int)(Owner.Data.MaxBaseIntegrity * SharedDef.HEAL_AMOUNT) + Owner.Data.BonusHeal;
 
-            return !isOnCoolDown() &&
+            return !IsOnCooldown() &&
                 healingKit.Cost <= Owner.Data.Gold && 
                 (Owner.Data.MaxBaseIntegrity - Owner.GetBaseIntegrity()) >= heal;
         }

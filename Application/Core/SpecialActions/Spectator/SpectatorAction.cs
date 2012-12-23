@@ -41,7 +41,7 @@ namespace Orbit.Core.SpecialActions.Spectator
 
         public override bool IsReady()
         {
-            return !isOnCoolDown() && Percentage == 1;
+            return !IsOnCooldown() && Percentage == 1;
 
         }
 
