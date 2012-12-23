@@ -19,12 +19,12 @@ using ShaderEffectLibrary;
 
 namespace Orbit.Gui
 {
-    public partial class BuyActionUC : UserControl
+    public partial class ActionUC : UserControl
     {
-        private ActionController<BuyActionUC> controller;
+        private ActionController<ActionUC> controller;
         private bool active = true;
 
-        private BuyActionUC(ActionController<BuyActionUC> c)
+        private ActionUC(ActionController<ActionUC> c)
         {
             controller = c;
             InitializeComponent();
@@ -33,16 +33,16 @@ namespace Orbit.Gui
         /// <summary>
         /// okno musi byt vytvareno statickou tovarni metodou, protoze jinak by slo o nebezpecne publikovani objektu
         /// </summary>
-        public static BuyActionUC CreateWindow(ActionController<BuyActionUC> c)
+        public static ActionUC CreateWindow(ActionController<ActionUC> c)
         {
-            BuyActionUC w = new BuyActionUC(c);
+            ActionUC w = new ActionUC(c);
 
             w.AttachNewController(c);
 
             return w;
         }
 
-        public void AttachNewController(ActionController<BuyActionUC> c)
+        public void AttachNewController(ActionController<ActionUC> c)
         {
             controller = c;
             c.Enqueue(new Action(() =>
@@ -98,6 +98,13 @@ namespace Orbit.Gui
             Dispatcher.BeginInvoke(new Action(() =>
             {
                 (Parent as Panel).Children.Remove(this);
+            }));
+        }
+
+        public void SetShadeWidth(float width)
+        {
+            Dispatcher.BeginInvoke(new Action(() => {
+                CdLayer.Width = width;
             }));
         }
 
