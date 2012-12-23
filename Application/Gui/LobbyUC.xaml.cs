@@ -70,8 +70,10 @@ namespace Orbit.Gui
                 ready = false;
                 cbType.Visibility = Visibility.Hidden;
                 cbMap.Visibility = Visibility.Hidden;
+                tbRounds.Visibility = Visibility.Hidden;
                 lblType.Visibility = Visibility.Visible;
                 lblMap.Visibility = Visibility.Visible;
+                lblRounds.Visibility = Visibility.Visible;
             }
         }
 
@@ -147,6 +149,22 @@ namespace Orbit.Gui
                     btnReady.IsEnabled = true;
                 lblColorNotice.Visibility = Visibility.Hidden;
             }
+
+            int rounds = 1;
+            try
+            {
+                if (leader)
+                    rounds = int.Parse(tbRounds.Text);
+                else
+                    rounds = int.Parse((string)lblRounds.Content);
+                if (rounds < 1)
+                    throw new Exception();
+            }
+            catch (Exception)
+            {
+                rounds = 1;
+            }
+            UpdateMatchCount(rounds);
         }
 
         private bool PlayersHaveSameColor(List<LobbyPlayerData> updatedPlayers)
@@ -191,6 +209,18 @@ namespace Orbit.Gui
             TournamentSettings s = new TournamentSettings();
             s.MMType = (GameMatchMakerType)cbType.SelectedValue;
             s.Level = (GameLevel)cbMap.SelectedValue;
+            try
+            {
+                s.RoundCount = int.Parse(tbRounds.Text);
+                if (s.RoundCount < 1)
+                    throw new Exception();
+            }
+            catch (Exception)
+            {
+                s.RoundCount = 1;
+                tbRounds.Text = "1";
+                UpdateMatchCount(s.RoundCount);
+            }
 
             (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
             {
@@ -204,6 +234,8 @@ namespace Orbit.Gui
             btnReady.IsEnabled = true;
             lblType.Content = matchmakerNames[s.MMType];
             lblMap.Content = s.Level;
+            lblRounds.Content = s.RoundCount.ToString();
+            UpdateMatchCount(s.RoundCount);
         }
 
         private void cbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -214,6 +246,68 @@ namespace Orbit.Gui
         private void cbMap_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             btnSettings.IsEnabled = true;
+        }
+
+        private void tbRounds_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int rounds = 1;
+            try
+            {
+                rounds = int.Parse(tbRounds.Text);
+                if (rounds < 1)
+                    throw new Exception();
+                UpdateMatchCount(rounds);
+                btnSettings.IsEnabled = true;
+            }
+            catch (Exception)
+            {
+                tbRounds.Text = "";
+                lblMatches.Content = "";
+            }
+        }
+
+        private void UpdateMatchCount(int rounds)
+        {
+            if (lblMatches == null)
+                return;
+
+            int players = spPlayers.Children.Count > 1 ? spPlayers.Children.Count : 2;
+
+            // kombinace
+            int matches = Factorial(players) * rounds / (2 * Factorial(players - 2));
+            if (matches > 1)
+                lblMatches.Content = "(" + matches.ToString() + " matches)";
+            else
+                lblMatches.Content = "(" + matches.ToString() + " match)";
+        }
+
+        public int Factorial(int input)
+        {
+            int answer = 1;
+
+            if (input > 0)
+            {
+                int count = 1;
+                while (count <= input)
+                {
+                    if (count == 1)
+                    {
+                        answer = 1;
+                        count++;
+                    }
+                    else
+                    {
+                        answer = count * answer;
+                        count++;
+                    }
+                }
+            }
+            else if (input < 0)
+            {
+                throw new InvalidOperationException("Factorial can by computed only from a positive integer.");
+            }
+
+            return answer;
         }
     }
 }

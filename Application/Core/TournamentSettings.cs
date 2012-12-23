@@ -12,6 +12,7 @@ namespace Orbit.Core
 
         public GameMatchMakerType MMType { get; set; }
         public GameLevel Level { get; set; }
+        public int RoundCount { get; set; }
 
         public TournamentSettings(bool withDefaults = false)
         {
@@ -20,6 +21,7 @@ namespace Orbit.Core
 
             MMType = GameMatchMakerType.ONE_TO_ALL_THEN_SCORE;
             Level = GameLevel.NORMAL1;
+            RoundCount = 1;
         }
     }
 }

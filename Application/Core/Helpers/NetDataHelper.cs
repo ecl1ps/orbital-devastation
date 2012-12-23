@@ -838,6 +838,7 @@ namespace Orbit.Core.Helpers
         {
             msg.Write((int)s.MMType);
             msg.Write((int)s.Level);
+            msg.Write(s.RoundCount);
         }
 
         public static TournamentSettings ReadTournamentSettings(this NetIncomingMessage msg)
@@ -845,6 +846,7 @@ namespace Orbit.Core.Helpers
             TournamentSettings s = new TournamentSettings();
             s.MMType = (GameMatchMakerType)msg.ReadInt32();
             s.Level = (GameLevel)msg.ReadInt32();
+            s.RoundCount = msg.ReadInt32();
             return s;
         }
     }
