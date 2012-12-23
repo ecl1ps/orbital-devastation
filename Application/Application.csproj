@@ -260,6 +260,7 @@
     </Compile>
     <Compile Include="Gui\ActionControllers\ActionController.cs" />
     <Compile Include="Gui\ActionControllers\ActionControllerImpl.cs" />
+    <Compile Include="Gui\ActionControllers\SpectatorPanelControler.cs" />
     <Compile Include="Gui\ActionOverview.xaml.cs">
       <DependentUpon>ActionOverview.xaml</DependentUpon>
     </Compile>

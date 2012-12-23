@@ -16,7 +16,7 @@ namespace Orbit.Core.Helpers
 {
     class GuiObjectFactory
     {
-        public static BuyActionUC CreateAndAddBuyActionWindow(SceneMgr mgr, ActionBar actionbar, ActionController controller)
+        public static BuyActionUC CreateAndAddBuyActionWindow(SceneMgr mgr, ActionBar actionbar, ActionController<BuyActionUC> controller)
         {
             BuyActionUC wnd = null;
 
