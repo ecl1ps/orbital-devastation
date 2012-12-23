@@ -15,17 +15,15 @@ using Orbit.Core.Scene.Controls.Health.Implementations;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
-    class Shielding : SpecialAction
+    class Shielding : SpectatorAction
     {
         private ISceneObject toFollow;
-        protected MiningModuleControl control;
 
         public Shielding(ISceneObject toFollow,SceneMgr mgr, Player plr) : base(mgr, plr) {
             Name = "Static Shield";
             ImageSource = "pack://application:,,,/resources/images/icons/shield-icon.png";
             Cost = 750;
             this.toFollow = toFollow;
-            control = toFollow.GetControlOfType<MiningModuleControl>();
         }
 
         public override void StartAction()

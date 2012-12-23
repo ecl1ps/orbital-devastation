@@ -283,8 +283,8 @@ namespace Orbit.Core.Players
                 throw new Exception("Non mining object provided");
 
             List<ISpecialAction> actions = new List<ISpecialAction>();
-            actions.Add(new AsteroidThrow(miningControl, mgr, this));
-            actions.Add(new AsteroidDamage(miningControl, mgr, this));
+            actions.Add(new AsteroidThrow(mgr, this));
+            actions.Add(new AsteroidDamage(mgr, this));
             actions.Add(new Shielding(miningModule, mgr, this));
 
             return actions;

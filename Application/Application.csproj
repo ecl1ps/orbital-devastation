@@ -287,13 +287,13 @@
     <Compile Include="Gui\GameUC.xaml.cs">
       <DependentUpon>GameUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\HidingPanel.xaml.cs">
+      <DependentUpon>HidingPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\InteractivePanel\IActionOverview.cs" />
     <Compile Include="Gui\InteractivePanel\IInteractivePanel.cs" />
     <Compile Include="Gui\KeyBindingsOptions.xaml.cs">
       <DependentUpon>KeyBindingsOptions.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\LeftPanel.xaml.cs">
-      <DependentUpon>LeftPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\LobbyPlayer.xaml.cs">
       <DependentUpon>LobbyPlayer.xaml</DependentUpon>
@@ -419,11 +419,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Gui\KeyBindingsOptions.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Gui\HidingPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Gui\LeftPanel.xaml">
+    <Page Include="Gui\KeyBindingsOptions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

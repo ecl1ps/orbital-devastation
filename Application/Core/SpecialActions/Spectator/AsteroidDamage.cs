@@ -10,18 +10,22 @@ using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
-    class AsteroidDamage : SpecialAction
+    class AsteroidDamage : SpectatorAction
     {
-        private MiningModuleControl control;
-
-        public AsteroidDamage(MiningModuleControl control, SceneMgr mgr, Players.Player owner)
+        public AsteroidDamage(SceneMgr mgr, Players.Player owner)
             : base(mgr, owner)
         {
             Name = "Asteroid damage";
-            Type = SpecialActionType.ASTEROID_THROW;
+            Type = SpecialActionType.ASTEROID_DAMAGE;
             ImageSource = "pack://application:,,,/resources/images/icons/asteroid-damage-icon.png";
             this.control = control;
-            Cost = 250;
+            
+            //nastavime parametry
+            this.CoolDown = 1; //sekundy
+            this.normal = 2;
+            this.gold = 0;
+
+            this.limit = Limit.BOTTOM_LIMIT;
         }
 
         public override void StartAction()
@@ -52,11 +56,6 @@ namespace Orbit.Core.SpecialActions.Spectator
             temp.ForEach(obj => msg.Write(obj.Id));
 
             SceneMgr.SendMessage(msg);
-        }
-
-        public override bool IsReady()
-        {
-            return Cost <= Owner.Data.Gold && control.currentlyMining.Count != 0;
         }
     }
 }

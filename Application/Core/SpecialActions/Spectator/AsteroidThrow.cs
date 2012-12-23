@@ -13,18 +13,21 @@ using Orbit.Core.Scene.Controls;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
-    public class AsteroidThrow : SpecialAction
+    public class AsteroidThrow : SpectatorAction
     {
-        protected MiningModuleControl control;
-
-        public AsteroidThrow(MiningModuleControl control, SceneMgr mgr, Players.Player owner)
+        public AsteroidThrow(SceneMgr mgr, Players.Player owner)
             : base(mgr, owner)
         {
             Name = "Asteroid throw";
             ImageSource = "pack://application:,,,/resources/images/icons/asteroid-throw-icon.png";
             Type = SpecialActionType.ASTEROID_THROW;
-            this.control = control;
-            Cost = 500;
+
+            //nastavime parametry
+            this.CoolDown = 2; //sec
+            this.normal = 4;
+            this.gold = 1;
+
+            this.limit = Limit.EXACT;
         }
 
         public override void StartAction()
@@ -68,11 +71,6 @@ namespace Orbit.Core.SpecialActions.Spectator
 
             SceneMgr.SendMessage(msg);
             
-        }
-
-        public override bool IsReady()
-        {
-            return Owner.Data.Gold >= Cost && control.currentlyMining.Count != 0;
         }
     }
 }

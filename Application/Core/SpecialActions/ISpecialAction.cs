@@ -10,10 +10,12 @@ namespace Orbit.Core.SpecialActions
     public enum SpecialActionType
     {
         BRUTAL_GRAVITY,
-        ASTEROID_THROW
+        ASTEROID_THROW,
+        ASTEROID_DAMAGE,
+        SHIELDING
     }
 
-    public interface ISpecialAction
+    public interface ISpecialAction : IGameState
     {
         Player Owner { get; set; }
         SceneMgr SceneMgr { get; set; }
@@ -21,6 +23,7 @@ namespace Orbit.Core.SpecialActions
         String ImageSource { get; set; }
         SpecialActionType Type { get; set; }
         float Cost { get; set; }
+        float CoolDown { get; set; }
 
         void StartAction();
 

@@ -16,6 +16,8 @@ namespace Orbit.Core.SpecialActions
         public String ImageSource { get; set; }
         public SpecialActionType Type { get; set; }
         public float Cost { get; set; }
+        private float timer = 0;
+        public float CoolDown { get; set; }
 
         public SpecialAction(SceneMgr mgr, Player owner)
         {
@@ -26,6 +28,7 @@ namespace Orbit.Core.SpecialActions
         public virtual void StartAction()
         {
             Owner.AddGoldAndShow((int) -Cost);
+            timer = CoolDown;
         }
 
         public abstract bool IsReady();
@@ -34,6 +37,21 @@ namespace Orbit.Core.SpecialActions
         {
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
             //TODO
+        }
+
+        public void Update(float tpf)
+        {
+            if (timer > 0)
+            {
+                timer -= tpf;
+                if (timer < 0)
+                    timer = 0;
+            }
+        }
+
+        protected bool isOnCoolDown()
+        {
+            return timer == 0;
         }
     }
 }

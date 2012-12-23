@@ -28,15 +28,21 @@ namespace Orbit.Core.SpecialActions.Spectator
         public int MissingGold { get { return computeMissing(AsteroidType.GOLDEN); } }
 
 
-        public SpectatorAction(MiningModuleControl control, SceneMgr mgr, Players.Player owner)
+        public SpectatorAction(SceneMgr mgr, Players.Player owner)
             : base(mgr, owner)
         {
-            this.control = control;
+            this.control = owner.Device.GetControlOfType<MiningModuleControl>();
         }
 
         public float Percentage
         {
             get { return computePercentage(); }
+        }
+
+        public override bool IsReady()
+        {
+            return !isOnCoolDown() && Percentage == 1;
+
         }
 
         private float computePercentage()
