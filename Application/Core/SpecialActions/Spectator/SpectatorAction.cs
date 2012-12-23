@@ -19,8 +19,13 @@ namespace Orbit.Core.SpecialActions.Spectator
         protected MiningModuleControl control;
 
         protected int normal;
+        public int Normal { get { return normal; } }
         protected int gold;
+        public int Gold { get { return gold; } }
         protected Limit limit;
+
+        public int MissingNormal { get { return computeMissing(AsteroidType.NORMAL); } }
+        public int MissingGold { get { return computeMissing(AsteroidType.GOLDEN); } }
 
 
         public SpectatorAction(MiningModuleControl control, SceneMgr mgr, Players.Player owner)
@@ -143,5 +148,33 @@ namespace Orbit.Core.SpecialActions.Spectator
         {
             return ((perc * 100) % 100) / 100;
         }
+
+        private int computeMissing(AsteroidType type)
+        {
+            List<MiningObject> list = control.currentlyMining;
+
+            int ast = 0;
+
+            switch(type) 
+            {
+                case AsteroidType.NORMAL:
+                    ast = Normal;
+                    break;
+
+                case AsteroidType.GOLDEN:
+                    ast = Gold;
+                    break;
+
+                default:
+                    throw new Exception("Undefined type " + type);
+            }
+
+            foreach (MiningObject obj in list)
+                if (obj.Obj is Asteroid && (obj.Obj as Asteroid).AsteroidType == type)
+                    ast--;
+
+            return ast;
+        }
+
     }
 }

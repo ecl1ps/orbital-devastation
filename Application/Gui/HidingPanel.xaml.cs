@@ -18,28 +18,39 @@ namespace Orbit.Gui
     /// <summary>
     /// Interaction logic for LeftPanel.xaml
     /// </summary>
-    public partial class LeftPanel : UserControl, IInteractivePanel
+    public partial class HidingPanel : UserControl, IInteractivePanel
     {
-        public LeftPanel()
+        public HidingPanel()
         {
             InitializeComponent();
         }
 
         public void AddItem(UIElement elem)
         {
-            if (!Panel.Children.Contains(elem))
-                Panel.Children.Add(elem);
+            Dispatcher.BeginInvoke(new Action(() => 
+            {
+                if (!Panel.Children.Contains(elem))
+                    Panel.Children.Add(elem);
+            }));
         }
 
         public void RemoveItem(UIElement elem)
         {
-            if (!Panel.Children.Contains(elem))
-                Panel.Children.Remove(elem);
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (!Panel.Children.Contains(elem))
+                    Panel.Children.Remove(elem);
+            }));
+
+            
         }
 
         public void ClearAll()
         {
-            Panel.Children.Clear();
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                Panel.Children.Clear();
+            }));
         }
     }
 }

@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Orbit.Gui.InteractivePanel;
 using Orbit.Core.SpecialActions.Spectator;
+using Orbit.Core.SpecialActions;
 
 namespace Orbit.Gui
 {
@@ -28,13 +29,19 @@ namespace Orbit.Gui
 
         public void RenderAction(ISpectatorAction action)
         {
-            //if (action.ImageSource != null)
-              //  Icon.SetImageUri(action.ImageSource);
-        }
+            Dispatcher.BeginInvoke(new Action(() => {
+                if (action.ImageSource != null)
+                {
+                    BitmapImage image = new BitmapImage();
+                    image.BeginInit();
+                    image.UriSource = new Uri(action.ImageSource);
+                    image.EndInit();
+                    Icon.Source = image;
+                }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-
+                CountNormal.Text = action.MissingNormal.ToString();
+                CountGold.Text = action.MissingGold.ToString();
+            }));
         }
     }
 }

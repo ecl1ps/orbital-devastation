@@ -19,9 +19,11 @@ namespace Orbit.Core.Players
 {
     struct WindowController {
         public BuyActionUC Window { get; set; }
-        public ActionController Controller { get; set; }
+        public ActionController<BuyActionUC> Controller { get; set; }
 
-        public WindowController(BuyActionUC window, ActionController controller) : this() {
+        public WindowController(BuyActionUC window, ActionController<BuyActionUC> controller)
+            : this()
+        {
             Window = window;
             Controller = controller;
         }
@@ -46,7 +48,7 @@ namespace Orbit.Core.Players
             {
                 ActionBar = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "ActionBarUC") as ActionBar;
                 BuyActionUC window;
-                ActionController controller;
+                ActionController<BuyActionUC> controller;
 
                 foreach (ISpecialAction action in actions)
                 {
