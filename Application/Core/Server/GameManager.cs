@@ -51,6 +51,11 @@ namespace Orbit.Core.Server
                 case GameMatchMakerType.ONE_TO_ONE_INFINITE:
                     matchMaker = new OneToOneInfiniteMachMaker(players, serverMgr.GetRandomGenerator());
                     break;
+#if DEBUG
+                case GameMatchMakerType.FIRST_SPECTATOR:
+                    matchMaker = new FirstSpectatorMatchMaker(players);
+                    break;
+#endif
             }
             
             tournamentPlayerIds = new SortedSet<string>();

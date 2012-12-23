@@ -37,6 +37,9 @@ namespace Orbit.Gui
             matchmakerNames.Add(GameMatchMakerType.ONE_TO_ALL_THEN_SCORE, "Each vs. Each (most wins then score)");
             matchmakerNames.Add(GameMatchMakerType.ONE_TO_ALL_TILL_WINNER, "Each vs. Each (till winner)");
             matchmakerNames.Add(GameMatchMakerType.ONE_TO_ONE_INFINITE, "One vs. One (infinite)");
+#if DEBUG
+            matchmakerNames.Add(GameMatchMakerType.FIRST_SPECTATOR, "First player will be spectator");
+#endif
 
             btnReady.IsEnabled = false;
 

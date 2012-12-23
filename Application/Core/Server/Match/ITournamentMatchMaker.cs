@@ -20,5 +20,8 @@ namespace Orbit.Core.Server.Match
         ONE_TO_ALL_THEN_SCORE,
         ONE_TO_ALL_TILL_WINNER,
         ONE_TO_ONE_INFINITE,
+#if DEBUG
+        FIRST_SPECTATOR,
+#endif
     }
 }
