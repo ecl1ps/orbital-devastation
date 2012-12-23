@@ -81,7 +81,7 @@ namespace Orbit.Core
 
         public const bool ALLOW_SPECTATORS_IN_DUO_MATCH     = true;
 
-        public const int START_GOLD                         = 300;
+        public const int START_GOLD                         = 250;
 
         //konstanty pro spectatory
         public const float SPECTATOR_MINING_RADIUS          = 200;
@@ -109,14 +109,14 @@ namespace Orbit.Core
         /// <summary>
         /// view port je oblast, kde se odehrava cela hra - mimo ni by se nemelo nic dit (mimo je pak action bar)
         /// </summary>
-        public static Size VIEW_PORT_SIZE                   = new Size(CANVAS_SIZE.Width, CANVAS_SIZE.Height - 50); // 50 JSOU BARY DOLE
+        public static Size VIEW_PORT_SIZE                   = new Size(CANVAS_SIZE.Width, CANVAS_SIZE.Height - 60); // 60 JSOU BARY DOLE
 
         /// <summary>
         /// orbit area je horni oblast obrazovky - pas kde se pohybuji asteroidy
         /// </summary>
         public static Rect ORBIT_AREA                       = new Rect(0, 0, CANVAS_SIZE.Width, 200);
 
-        public const string CONFIG_FILE                     = "player";
+        public const string CONFIG_FILE                     = "data";
         public const GameLevel STARTING_LEVEL               = GameLevel.NORMAL1;
         public static BotType DEFAULT_BOT                   = BotType.LEVEL2;
 
@@ -133,6 +133,15 @@ namespace Orbit.Core
         //Texty pro boty
         public const string BOT_LEVEL_1_TEXT = "The easiest bot in this game, recomended for those who just started or for those who seek simple fun with not so much challenge. This bot will never upgrade its weapons and refuse to use hooks.";
         public const string BOL_LEVEL_2_TEXT = "Easier bot then rest of others, recomended for those who just got a little experience and want to train some more before challenging real players. This bot will never upgrade its weapons but he will use hook as best as he can.";
+
+        public const string SALT = "Kj5dfO0OR";
+    }
+
+    public enum WindowState
+    {
+        IN_MAIN_MENU,
+        IN_LOBBY,
+        IN_GAME
     }
 
     public enum Gametype
@@ -184,6 +193,7 @@ namespace Orbit.Core
         ASTEROID_DESTROYED,
         BASE_INTEGRITY_CHANGE,
         PLAYER_HEAL,
+        PLAYER_COLOR_CHANGED,
 
         START_GAME_RESPONSE,
         START_GAME_REQUEST,
@@ -205,5 +215,8 @@ namespace Orbit.Core
         ASTEROIDS_DIRECTIONS_CHANGE,
         OBJECTS_TAKE_DAMAGE,
         MODULE_COLOR_CHANGE,
+        TOURNAMENT_SETTINGS,
+        TOURNAMENT_SETTINGS_REQUEST,
+
     }    
 }

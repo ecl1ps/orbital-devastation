@@ -21,7 +21,7 @@ namespace Orbit.Core
 
             if (gameStates.Contains(state))
             {
-                Console.WriteLine("This GameState is already in GameStateManager");
+                Console.WriteLine("This GameState (" + state + ") is already in GameStateManager");
                 return;
             }
 

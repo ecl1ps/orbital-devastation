@@ -200,5 +200,10 @@ namespace Orbit.Gui
                 SaveUsedServerAdresses();
             }
         }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            (Application.Current as App).ShowStartScreen();
+        }
     }
 }

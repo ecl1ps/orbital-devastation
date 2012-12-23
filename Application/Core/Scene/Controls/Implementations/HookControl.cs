@@ -137,7 +137,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             if (GetDistanceFromOriginPct() > 0.9)
             {
-                hook.SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.HOOK_CAUGHT_OBJECT_AFTER_90PCT_DISTANCE, hook.Center,
+                hook.SceneMgr.FloatingTextMgr.AddFloatingText("Max range!", hook.Center,
                     FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG, false, true);
                 hook.Owner.AddScoreAndShow(ScoreDefines.HOOK_CAUGHT_OBJECT_AFTER_90PCT_DISTANCE);
             }

@@ -4,13 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="40" d:DesignWidth="425">
-    <Border Width="365" Height="30" BorderThickness="2" CornerRadius="5" BorderBrush="#FF000064" Margin="10, 5, 10, 5">
-        <Grid Width="385" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" >
-            <Label Content="Player Name" Height="30" HorizontalAlignment="Left" Name="lblName" VerticalAlignment="Center" Width="113" Margin="26,10,0,10" FontFamily="Bauhaus 93" FontSize="15" FontWeight="Normal"></Label>
-            <Label Content="Score:" Height="30" HorizontalAlignment="Left" Margin="254,10,0,10" Name="lblScoreText" VerticalAlignment="Center" Width="48" FontFamily="Bauhaus 93" FontSize="14" />
-            <Label Content="Won: 0/0" Height="30" HorizontalAlignment="Right" Margin="0,10,149,10" Name="lblWins" VerticalAlignment="Center" Width="78" FontFamily="Bauhaus 93" FontSize="14" />
-            <Label Content="0" FontFamily="Bauhaus 93" FontSize="14" Height="30" HorizontalAlignment="Right" Margin="0,10,6,10" Name="lblScore" VerticalAlignment="Center" Width="83" />
+             d:DesignHeight="45" d:DesignWidth="520">
+    <Border Width="500" Height="35" BorderThickness="2" CornerRadius="5" BorderBrush="black" Margin="10, 5, 10, 5">
+        <Grid Width="520" Height="45" HorizontalAlignment="Center" VerticalAlignment="Center" >
+            <Label Content="Player Name" Height="30" HorizontalAlignment="Left" Name="lblName" VerticalAlignment="Center" Width="113" Margin="38,10,0,10" FontFamily="Bauhaus 93" FontSize="15" FontWeight="Normal"></Label>
+            <Label Content="Score:" Height="30" Margin="394,8,73,8" Name="lblScoreText" VerticalAlignment="Center" FontFamily="Bauhaus 93" FontSize="15" />
+            <Label Content="Won/Played: 0/0" Height="30" HorizontalAlignment="Right" Margin="0,7,157,8" Name="lblWins" VerticalAlignment="Center" Width="127" FontFamily="Bauhaus 93" FontSize="15" />
+            <Label Content="0" FontFamily="Bauhaus 93" FontSize="15" Height="30" HorizontalAlignment="Right" Margin="0,8,10,7" Name="lblScore" VerticalAlignment="Center" Width="68" />
+            <Ellipse Height="10" HorizontalAlignment="Left" Margin="22,18,0,0" Name="readyState" Stroke="Black" VerticalAlignment="Top" Width="10" Fill="#FFC00000" StrokeThickness="2"/>
+            <Border Width="30" Height="15" BorderThickness="2" Name="colorBox" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="2" BorderBrush="black" Margin="167,15,0,0" Background="blue" />
         </Grid>
     </Border>
 </UserControl>

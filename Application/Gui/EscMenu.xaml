@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             x:Name="escMenu">
-    <Grid Width="215" Height="215" Background="#aa655D5D" >
-        <Button Content="Main Menu" Height="31" HorizontalAlignment="Center" Margin="0,40,0,0" Name="btnMainMenu" VerticalAlignment="Top" Width="84" FontFamily="Bauhaus 93" Click="btnMainMenu_Click" />
-        <Button Content="Options" Height="31" HorizontalAlignment="Center" Margin="0,90,0,0" Name="btnOptions" VerticalAlignment="Top" Width="84" FontFamily="Bauhaus 93" Click="btnOptions_Click" />
+             mc:Ignorable="d" Name="escMenu" Width="350" Height="350" BorderBrush="Black" BorderThickness="1">
+    <Grid Width="350" Height="350" Background="#dd655D5D" >
+        <Button Content="Options" Height="31" HorizontalAlignment="Center" Margin="0,40,0,0" Name="btnOptions" VerticalAlignment="Top" Width="84" FontFamily="Bauhaus 93" Click="btnOptions_Click" />
+        <Button Content="Main Menu" Height="31" HorizontalAlignment="Center" Margin="0,90,0,0" Name="btnMainMenu" VerticalAlignment="Top" Width="84" FontFamily="Bauhaus 93" Click="btnMainMenu_Click" />
         <Button Content="Exit Game" Height="31" HorizontalAlignment="Center" Margin="0,140,0,0" Name="btnExit" VerticalAlignment="Top" Width="84" Click="btnExit_Click" FontFamily="Bauhaus 93" />
+        <Button Content="Back" FontFamily="Bauhaus 93" Height="31" HorizontalAlignment="Center" Margin="0,250,0,0" Name="btnBack" VerticalAlignment="Top" Width="84" Click="btnBack_Click" />
     </Grid>
 </UserControl>

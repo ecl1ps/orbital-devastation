@@ -31,6 +31,8 @@ namespace Orbit.Core.Client
         public StatsMgr StatsMgr { get; set; }
         public GameStateManager StateMgr { get; set; }
         public LevelEnvironment LevelEnv { get; set; }
+        private volatile WindowState gameWindowState;
+        public WindowState GameWindowState { get { return gameWindowState; } set { gameWindowState = value; } }
 
         /// <summary>
         /// canvas je velky 1000*700 - pres cele okno
@@ -52,6 +54,7 @@ namespace Orbit.Core.Client
         private ActionBarMgr actionBarMgr;
         private IInputMgr inputMgr;
         private bool playerQuit;
+        private GameEnd lastGameEnd;
 
         public SceneMgr()
         {
@@ -59,6 +62,7 @@ namespace Orbit.Core.Client
             isGameInitialized = false;
             shouldQuit = false;
             synchronizedQueue = new ConcurrentQueue<Action>();
+            GameWindowState = WindowState.IN_MAIN_MENU;
         }
 
         public void Init(Gametype gameType)
@@ -79,6 +83,7 @@ namespace Orbit.Core.Client
             StateMgr = new GameStateManager();
 
             currentPlayer = CreatePlayer();
+            currentPlayer.Data.PlayerColor = Player.GetChosenColor();
             players.Add(currentPlayer);
             StateMgr.AddGameState(currentPlayer);
             FloatingTextMgr = new FloatingTextManager(this);
@@ -135,7 +140,7 @@ namespace Orbit.Core.Client
             Invoke(new Action(() =>
             {
                 Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblWaiting");
-                if (lblw != null)
+                if (lblw != null && canvas != null)
                     lblw.Content = t;
             }));
         }
@@ -145,7 +150,7 @@ namespace Orbit.Core.Client
             Invoke(new Action(() =>
             {
                 Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "statusText" + index);
-                if (lbl != null)
+                if (lbl != null && canvas != null)
                     lbl.Content = text;
             }));
         }
@@ -496,6 +501,9 @@ namespace Orbit.Core.Client
 
         private void EndGame(Player plr, GameEnd endType)
         {
+            if (endType == GameEnd.TOURNAMENT_FINISHED)
+                TournamenFinished(plr);
+
             if (gameEnded)
                 return;
 
@@ -518,16 +526,19 @@ namespace Orbit.Core.Client
                 PlayerLeft(plr);
             else if (endType == GameEnd.SERVER_DISCONNECTED)
                 Disconnected();
-            else if (endType == GameEnd.TOURNAMENT_FINISHED)
-                TournamenFinished(plr);
+
+            lastGameEnd = endType;
 
             // po urcitem case zavola metodu CloseGameWindowAndCleanup()
-            StateMgr.AddGameState(new TimedGameWindowClose(this, endType));
+            if (GameWindowState == WindowState.IN_GAME)
+                StateMgr.AddGameState(new DelayedActionInvoker(3.0f, new Action(() => { CloseGameWindowAndCleanup(); })));
+            else
+                CloseGameWindowAndCleanup();
         }
 
-        public void CloseGameWindowAndCleanup(GameEnd endType)
+        public void CloseGameWindowAndCleanup()
         {
-            if (GameType != Gametype.TOURNAMENT_GAME || endType == GameEnd.SERVER_DISCONNECTED || endType == GameEnd.TOURNAMENT_FINISHED)
+            if (GameType != Gametype.TOURNAMENT_GAME || lastGameEnd == GameEnd.SERVER_DISCONNECTED || lastGameEnd == GameEnd.TOURNAMENT_FINISHED)
                 RequestStop();
 
             StateMgr.Clear();
@@ -536,9 +547,9 @@ namespace Orbit.Core.Client
             if (Application.Current == null)
                 return;
 
-            if (GameType == Gametype.TOURNAMENT_GAME && endType != GameEnd.SERVER_DISCONNECTED && endType != GameEnd.TOURNAMENT_FINISHED)
+            if (GameType == Gametype.TOURNAMENT_GAME && lastGameEnd != GameEnd.SERVER_DISCONNECTED && lastGameEnd != GameEnd.TOURNAMENT_FINISHED)
                 TournamentGameEnded();
-            else if (endType != GameEnd.TOURNAMENT_FINISHED)
+            else if (lastGameEnd != GameEnd.TOURNAMENT_FINISHED)
                 NormalGameEnded();
         }
 
@@ -602,8 +613,9 @@ namespace Orbit.Core.Client
             if (Application.Current == null)
                 return;
 
-            List<LobbyPlayerData> data = new List<LobbyPlayerData>();
-            players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score, p.Data.LobbyLeader, p.Data.PlayedMatches, p.Data.WonMatches)));
+            lastGameEnd = GameEnd.TOURNAMENT_FINISHED;
+
+            List<LobbyPlayerData> data = CreateLobbyPlayerData();
 
             LobbyPlayerData winnerData = data.Find(d => d.Id == winner.Data.Id);
 
@@ -676,13 +688,7 @@ namespace Orbit.Core.Client
 
         private void PlayerWon(Player winner)
         {
-            string text;
-            // kdyz maji hraci stejna jmena, tak jsou rozliseni barvami
-            Player otherActivePlayer = players.Find(p => p.IsActivePlayer() && p.GetId() != winner.GetId());
-            if (otherActivePlayer != null && otherActivePlayer.Data.Name.Equals(winner.Data.Name))
-                text = (winner.Data.PlayerColor == Colors.Red ? "Red" : "Blue") + " player wins!";
-            else
-                text = winner.Data.Name + " wins!";
+            string text = winner.Data.Name + " wins!";
             Invoke(new Action(() =>
             {
                 Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
@@ -696,14 +702,7 @@ namespace Orbit.Core.Client
             if (leaver == null)
                 return;
 
-            string text;
-            // kdyz maji hraci stejna jmena, tak jsou rozliseni barvami
-            Player otherActivePlayer = players.Find(p => p.IsActivePlayer() && p.GetId() != leaver.GetId());
-            if (otherActivePlayer != null && otherActivePlayer.Data.Name.Equals(leaver.Data.Name))
-                text = (leaver.Data.PlayerColor == Colors.Red ? "Red" : "Blue") + " player left the game!";
-            else
-                text = leaver.Data.Name + " left the game!";
-
+            string text = leaver.Data.Name + " left the game!";
             Invoke(new Action(() =>
             {
                 Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
@@ -809,8 +808,7 @@ namespace Orbit.Core.Client
             if (Application.Current == null)
                 return;
 
-            List<LobbyPlayerData> data = new List<LobbyPlayerData>();
-            players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score, p.Data.LobbyLeader, p.Data.PlayedMatches, p.Data.WonMatches)));
+            List<LobbyPlayerData> data = CreateLobbyPlayerData();
 
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
@@ -820,6 +818,14 @@ namespace Orbit.Core.Client
             }));
         }
 
+        private List<LobbyPlayerData> CreateLobbyPlayerData()
+        {
+            List<LobbyPlayerData> data = new List<LobbyPlayerData>();
+            players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score, p.Data.LobbyLeader,
+                p.Data.LobbyReady, p.Data.PlayedMatches, p.Data.WonMatches, p.Data.PlayerColor)));
+            return data;
+        }
+
         public Player GetOtherActivePlayer(int firstPlayerId)
         {
             return players.Find(p => p.IsActivePlayer() && p.GetId() != firstPlayerId);
@@ -827,7 +833,7 @@ namespace Orbit.Core.Client
 
         public void OnKeyEvent(KeyEventArgs e)
         {
-            if (!isGameInitialized)
+            if (!isGameInitialized || inputMgr == null)
                 return;
 
             switch (e.Key)
@@ -837,26 +843,52 @@ namespace Orbit.Core.Client
                         if (!e.IsDown)
                             break;
 
-                        List<PlayerOverviewData> data = new List<PlayerOverviewData>(players.Count);
-                        foreach (Player p in players)
-                        {
-                            if (p.IsActivePlayer())
-                                data.Add(new PlayerOverviewData(p.Data.Name, p.Data.Score, p.Data.Gold, p.Data.Active, p.Data.PlayedMatches, p.Data.WonMatches,
-                                    p.Mine.UpgradeLevel, p.Canoon.UpgradeLevel, p.Hook.UpgradeLevel, p.HealingKit.UpgradeLevel));
-                            else
-                                data.Add(new PlayerOverviewData(p.Data.Name, p.Data.Score, p.Data.Gold, p.Data.Active, p.Data.PlayedMatches, p.Data.WonMatches,
-                                    UpgradeLevel.LEVEL_NONE, UpgradeLevel.LEVEL_NONE, UpgradeLevel.LEVEL_NONE, UpgradeLevel.LEVEL_NONE));
-                        }
-
-                        Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                        {
-                            (Application.Current as App).ShowGameOverview(data);
-                        }));
+                        ShowPlayerOverview();
                     }
                     break;
             }
 
             inputMgr.OnKeyEvent(e);
+        }
+
+        private List<PlayerOverviewData> GetPlayerOverviewData()
+        {
+            List<PlayerOverviewData> data = new List<PlayerOverviewData>(players.Count);
+            foreach (Player p in players)
+            {
+                if (p.IsActivePlayer())
+                    data.Add(new PlayerOverviewData(p.Data.Name, p.Data.Score, p.Data.Gold, p.Data.Active, p.Data.PlayedMatches, p.Data.WonMatches,
+                        p.Mine.UpgradeLevel, p.Canoon.UpgradeLevel, p.Hook.UpgradeLevel));
+                else
+                    data.Add(new PlayerOverviewData(p.Data.Name, p.Data.Score, p.Data.Gold, p.Data.Active, p.Data.PlayedMatches, p.Data.WonMatches,
+                        UpgradeLevel.LEVEL_NONE, UpgradeLevel.LEVEL_NONE, UpgradeLevel.LEVEL_NONE));
+            }
+            return data;
+        }
+
+        internal void PlayerColorChanged()
+        {
+            Color newColor = Player.GetChosenColor();
+            if (players == null || players.Exists(p => p.GetPlayerColor() == newColor))
+                return;
+
+            GetCurrentPlayer().Data.PlayerColor = Player.GetChosenColor();
+
+            if (GameWindowState == WindowState.IN_LOBBY)
+            {
+                SendPlayerColorChanged();
+                UpdateLobbyPlayers();
+            }
+        }
+
+        internal void ShowPlayerOverview()
+        {
+            List<PlayerOverviewData> data = GetPlayerOverviewData();
+
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                (Application.Current as App).ShowGameOverview(data);
+            }));
         }
     }
 }

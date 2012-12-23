@@ -56,21 +56,21 @@ namespace Orbit.Gui
         private void LoadKeys()
         {
             foreach (KeyLabel item in bindings)
-                item.Label.Text = parseString(GameProperties.Props.Get(item.Key)).ToString();
+                item.Label.Text = ParseString(GameProperties.Props.Get(item.Key)).ToString();
             
             keyBindingsMenu.Focusable = true;
         }
 
-        private Key parseKey(String key)
+        private Key ParseKey(String key)
         {
             return (Key) Int32.Parse(key);
         }
 
-        private String parseString(String key)
+        private String ParseString(String key)
         {
-            String result = parseKey(key).ToString();
+            String result = ParseKey(key).ToString();
 
-            if(result.Equals("D0") || result.Equals("D1") || result.Equals("D2") || result.Equals("D3") || result.Equals("D4") || result.Equals("D5") 
+            if (result.Equals("D0") || result.Equals("D1") || result.Equals("D2") || result.Equals("D3") || result.Equals("D4") || result.Equals("D5") 
                 || result.Equals("D6") || result.Equals("D7") || result.Equals("D8") || result.Equals("D9")) {
 
                     result = result.Substring(1);
@@ -136,7 +136,7 @@ namespace Orbit.Gui
                 return;
 
             int k = (int)key;
-            toFill.Label.Text = parseString(k.ToString());
+            toFill.Label.Text = ParseString(k.ToString());
 
             GameProperties.Props.SetAndSave(toFill.Key, (int) key);
             waitingForInput = false;
@@ -146,7 +146,7 @@ namespace Orbit.Gui
                         && k == int.Parse(GameProperties.Props.Get(actual.Key)))
                 {
                     GameProperties.Props.SetAndSave(actual.Key, (int) Key.None);
-                    actual.Label.Text = parseString(GameProperties.Props.Get(actual.Key));
+                    actual.Label.Text = ParseString(GameProperties.Props.Get(actual.Key));
                 }
             }
             
@@ -155,7 +155,7 @@ namespace Orbit.Gui
         private void WaitForInput(TextBlock label, PropertyKey key)
         {
             if (waitingForInput)
-                toFill.Label.Text = parseString(GameProperties.Props.Get(toFill.Key)).ToString();
+                toFill.Label.Text = ParseString(GameProperties.Props.Get(toFill.Key)).ToString();
 
             label.Text = "Press any key";
 
@@ -163,6 +163,11 @@ namespace Orbit.Gui
 
             waitingForInput = true;
             keyBindingsMenu.Focus();
+        }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            (Application.Current.MainWindow as GameWindow).ShowOptions(this);
         }
     }
 }

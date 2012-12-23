@@ -6,6 +6,7 @@ using Lidgren.Network;
 using Orbit.Core.Players;
 using Orbit.Core.Helpers;
 using Orbit.Core.Server.Match;
+using System.Windows.Media;
 
 namespace Orbit.Core.Server
 {
@@ -25,11 +26,12 @@ namespace Orbit.Core.Server
 
             string plrName = msg.ReadString();
             string plrHash = msg.ReadString();
+            Color plrColor = msg.ReadColor();
 
             // nepridavat ani hrace ze stejne instance hry (nejde je potom spolehlive rozlisit v tournamentu)
             Player p = players.Find(plr => plr.Data.HashId == plrHash);
             if (p == null)
-                p = CreateAndAddPlayer(plrName, plrHash);
+                p = CreateAndAddPlayer(plrName, plrHash, plrColor);
             //player je connected kdyz se snazi pripojit
             //else if (p.IsOnlineOrBot())
                 // return;
@@ -79,6 +81,15 @@ namespace Orbit.Core.Server
                 outmsg.WriteObjectPlayerData(plr.Data);
             }
 
+            return outmsg;
+        }
+
+
+        private NetOutgoingMessage CreateTournamentSettingsMessage()
+        {
+            NetOutgoingMessage outmsg = CreateNetMessage();
+            outmsg.Write((int)PacketType.TOURNAMENT_SETTINGS);
+            outmsg.Write(TournamentSettings);
             return outmsg;
         }
 
@@ -148,6 +159,12 @@ namespace Orbit.Core.Server
                 return;
             disconnected.Data.StartReady = false;
             ForwardMessage(msg);
+        }
+
+        private void ReceivedTournamentSettingsMsg(NetIncomingMessage msg)
+        {
+            players.ForEach(p => { if (!p.Data.LobbyLeader) p.Data.LobbyReady = false; });
+            TournamentSettings = msg.ReadTournamentSettings();
         }
     }
 }

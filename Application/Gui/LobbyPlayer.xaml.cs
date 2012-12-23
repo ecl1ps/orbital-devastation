@@ -21,13 +21,28 @@ namespace Orbit.Gui
     {
         public int PlayerId { get; set; }
 
-        public LobbyPlayer(LobbyPlayerData data)
+        public LobbyPlayer()
         {
             InitializeComponent();
+        }
+
+        public LobbyPlayer(LobbyPlayerData data, bool withoutReadyIndicator = false)
+        {
+            InitializeComponent();
+            if (withoutReadyIndicator)
+                readyState.Visibility = Visibility.Hidden;
+            else if (data.Leader)
+                readyState.Fill = new SolidColorBrush(Color.FromRgb(0x90, 0x00, 0x90));
+            else if (data.Ready)
+                readyState.Fill = new SolidColorBrush(Color.FromRgb(0x00, 0xC0, 0x00));
+            else
+                readyState.Fill = new SolidColorBrush(Color.FromRgb(0xC0, 0x00, 0x00));
+
             PlayerId = data.Id;
             lblName.Content = data.Name;
             lblScore.Content = data.Score;
-            lblWins.Content = "Won: " + data.Won + "/" + data.Played;
+            lblWins.Content = "Won/Played: " + data.Won + "/" + data.Played;
+            colorBox.Background = new SolidColorBrush(data.Color);
         }
     }
 
@@ -37,17 +52,21 @@ namespace Orbit.Gui
         public string Name { get; set; }
         public int Score { get; set; }
         public bool Leader { get; set; }
+        public bool Ready { get; set; }
         public int Played { get; set; }
         public int Won { get; set; }
+        public Color Color { get; set; }
 
-        public LobbyPlayerData(int id, string name, int score, bool leader, int played, int won)
+        public LobbyPlayerData(int id, string name, int score, bool leader, bool ready, int played, int won, Color c)
         {
             Id = id;
             Name = name;
             Score = score;
             Leader = leader;
+            Ready = ready;
             Played = played;
             Won = won;
+            Color = c;
         }
     }
 }

@@ -18,6 +18,8 @@ using Orbit.Core.Scene.Controls;
 using System.Windows.Shapes;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Controls.Health.Implementations;
+using Orbit.Core.Scene.Controls.Health;
+using Orbit.Gui;
 
 namespace Orbit.Core.Client
 {
@@ -29,6 +31,7 @@ namespace Orbit.Core.Client
             msg.Write((int)PacketType.PLAYER_CONNECT);
             msg.Write(GetCurrentPlayer().Data.Name);
             msg.Write(GetCurrentPlayer().Data.HashId);
+            msg.Write(GetCurrentPlayer().Data.PlayerColor);
 
             serverConnection = client.Connect(serverAddress, SharedDef.PORT_NUMBER, msg);
         }
@@ -49,10 +52,13 @@ namespace Orbit.Core.Client
             {
                 GameType = serverType;
                 if (!tournametRunnig)
+                {
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
                         (Application.Current as App).CreateLobbyGui(false);
                     }));
+                    SendTournamentSettingsRequest();
+                }
             }
 
             while (pendingMessages.Count != 0)
@@ -61,6 +67,13 @@ namespace Orbit.Core.Client
             Console.WriteLine("LOGIN confirmed (id: " + IdMgr.GetHighId(GetCurrentPlayer().Data.Id) + ")");
 
             SendPlayerDataRequestMessage();
+        }
+
+        private void SendTournamentSettingsRequest()
+        {
+            NetOutgoingMessage reqmsg = CreateNetMessage();
+            reqmsg.Write((int)PacketType.TOURNAMENT_SETTINGS_REQUEST);
+            SendMessage(reqmsg);
         }
 
         private void SendPlayerDataRequestMessage()
@@ -83,6 +96,15 @@ namespace Orbit.Core.Client
             msg.Write((int)PacketType.PLAYER_READY);
             msg.Write(currentPlayer.GetId());
             msg.Write(currentPlayer.Data.LobbyLeader);
+            SendMessage(msg);
+        }
+
+        private void SendPlayerColorChanged()
+        {
+            NetOutgoingMessage msg = CreateNetMessage();
+            msg.Write((int)PacketType.PLAYER_COLOR_CHANGED);
+            msg.Write(currentPlayer.GetId());
+            msg.Write(currentPlayer.GetPlayerColor());
             SendMessage(msg);
         }
 
@@ -231,7 +253,7 @@ namespace Orbit.Core.Client
                     if (p.IsActivePlayer())
                     {
                         inputMgr = new PlayerInputMgr(p, this, actionBarMgr);
-                        actionBarMgr.CreateActionBarItems(p.generatePlayerActions(this));
+                        actionBarMgr.CreateActionBarItems(p.GeneratePlayerActions(this));
                     }
                     else
                     {
@@ -240,7 +262,7 @@ namespace Orbit.Core.Client
                         p.Device.AddControl(mc);
 
                         inputMgr = new SpectatorInputMgr(p, this, p.Device, actionBarMgr);
-                        actionBarMgr.CreateActionBarItems(p.generateSpectatorActions(this, p.Device));
+                        actionBarMgr.CreateActionBarItems(p.GenerateSpectatorActions(this, p.Device));
                     }
                 }
             }
@@ -257,7 +279,7 @@ namespace Orbit.Core.Client
             }));
 
             if (currentPlayer.IsActivePlayer())
-                ShowStatusText(3, "You are " + (currentPlayer.GetPlayerColor() == Colors.Red ? "Red" : "Blue"));
+                ShowStatusText(3, "You are on the " + (currentPlayer.GetPosition() == PlayerPosition.LEFT ? "left" : "right"));
             else
                 ShowStatusText(3, "You are Spectator");
 
@@ -370,7 +392,15 @@ namespace Orbit.Core.Client
                 {
                     DroppingSingularityControl c = obj.GetControlOfType<DroppingSingularityControl>();
                     if (c == null)
-                        Console.Error.WriteLine("Object id " + mineId + " (" + obj.GetType().Name + ") is supposed to be a SingularityMine and have DroppingSingularityControl, but control is null");
+                    {
+                        ExplodingSingularityBulletControl c2 = obj.GetControlOfType<ExplodingSingularityBulletControl>();
+                        if (c2 == null)
+                            Console.Error.WriteLine("Object id " + mineId + " (" + obj.GetType().Name + 
+                                ") is supposed to be a SingularityMine and have DroppingSingularityControl " +
+                                "or SingularityExplodingBullet and have ExplodingSingularityBulletControl, but control is null");
+                        else
+                            c2.StartDetonation();
+                    }
                     else
                         c.StartDetonation();
                     continue;
@@ -536,6 +566,7 @@ namespace Orbit.Core.Client
         {
             Player pl = GetPlayer(msg.ReadInt32());
             pl.Data.LobbyReady = true;
+            UpdateLobbyPlayers();
             CheckAllPlayersReady();
         }
 
@@ -620,6 +651,106 @@ namespace Orbit.Core.Client
                 RemoveFromSceneDelayed(toRemove);
             else
                 idsToRemove.Add(id);
+        }
+
+        private void ReceiveModuleDamage(NetIncomingMessage msg)
+        {
+            Player player = GetPlayer(msg.ReadInt32());
+            player.Device.TakeDamage(msg.ReadInt32(), null);
+            player.Device.GetControlOfType<IHpControl>().Hp = msg.ReadInt32();
+        }
+
+        private void ChangeMoveState(NetIncomingMessage msg)
+        {
+            Player player = GetPlayer(msg.ReadInt32());
+            player.Device.GetControlOfType<ControlableDeviceControl>().receiveMovingTypeChanged(msg);
+        }
+
+        private void ReceiveModuleColorChange(NetIncomingMessage msg)
+        {
+            Player owner = GetPlayer(msg.ReadInt32());
+            HpBarControl control = owner.Device.GetControlOfType<HpBarControl>();
+
+            control.Bar.Color = msg.ReadColor();
+        }
+
+        private void ReceivePlayerColorChange(NetIncomingMessage msg)
+        {
+            Player plr = GetPlayer(msg.ReadInt32());
+            if (plr != null)
+            {
+                plr.Data.PlayerColor = msg.ReadColor();
+                UpdateLobbyPlayers();
+            }
+        }
+
+        private void ReceiveObjectsDamage(NetIncomingMessage msg)
+        {
+            Player owner = GetPlayer(msg.ReadInt32());
+            int count = msg.ReadInt32();
+            int dmg = msg.ReadInt32();
+
+            IDestroyable obj;
+
+            for (int i = 0; i < count; i++)
+            {
+                obj = findObject(msg.ReadInt64()) as IDestroyable;
+
+                if (obj != null)
+                {
+                    obj.TakeDamage(dmg, owner.Device);
+                    FloatingTextMgr.AddFloatingText(dmg, obj.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE);
+                }
+            }
+        }
+
+        private void ReceiveAsteroidsDirectionChange(NetIncomingMessage msg)
+        {
+            int count = msg.ReadInt32();
+            Asteroid ast = null;
+            Vector dir;
+            for (int i = 0; i < count; i++)
+            {
+                ast = findObject(msg.ReadInt64(), typeof(Asteroid)) as Asteroid;
+                dir = msg.ReadVector();
+
+                if (ast != null)
+                {
+                    ast.Direction = dir;
+                    IMovementControl control = ast.GetControlOfType<IMovementControl>();
+                    if (control != null)
+                        control.Speed = SharedDef.SPECTATOR_ASTEROID_THROW_SPEED;
+                }
+            }
+        }
+
+        private void ReceivedTournamentSettingsMsg(NetIncomingMessage msg)
+        {
+            players.ForEach(p => { if (!p.Data.LobbyLeader) p.Data.LobbyReady = false; });
+            TournamentSettings s = msg.ReadTournamentSettings();
+
+            List<LobbyPlayerData> data = CreateLobbyPlayerData();
+
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                LobbyUC lobby = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
+                if (lobby != null)
+                {
+                    lobby.UpdateTournamentSettings(s);
+                    lobby.UpdateShownPlayers(data);
+                }
+            }));
+        }
+
+        internal void ProcessNewTournamentSettings(TournamentSettings s)
+        {
+            NetOutgoingMessage msg = CreateNetMessage();
+            msg.Write((int)PacketType.TOURNAMENT_SETTINGS);
+            msg.Write(s);
+            SendMessage(msg);
+
+            players.ForEach(p => { if (!p.Data.LobbyLeader) p.Data.LobbyReady = false; });
+            UpdateLobbyPlayers();
         }
     }
 }

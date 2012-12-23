@@ -15,7 +15,7 @@ namespace Orbit.Core.SpecialActions.Spectator
 {
     public class AsteroidThrow : SpecialAction
     {
-        protected MiningModuleControl Control;
+        protected MiningModuleControl control;
 
         public AsteroidThrow(MiningModuleControl control, SceneMgr mgr, Players.Player owner)
             : base(mgr, owner)
@@ -23,29 +23,32 @@ namespace Orbit.Core.SpecialActions.Spectator
             Name = "Asteroid throw";
             ImageSource = "pack://application:,,,/resources/images/icons/asteroid-throw-icon.png";
             Type = SpecialActionType.ASTEROID_THROW;
-            Control = control;
+            this.control = control;
             Cost = 500;
         }
 
         public override void StartAction()
         {
+            if (!control.Enabled)
+                return;
+
             base.StartAction();
 
             Vector v = new Vector();
-            v = new Vector(Control.Position.X, SharedDef.CANVAS_SIZE.Height) - Control.Position;
+            v = new Vector(control.Position.X, SharedDef.CANVAS_SIZE.Height) - control.Position;
             v.Normalize();
 
             int count = 0;
 
-            foreach (MiningObject afflicted in Control.currentlyMining)
+            foreach (MiningObject afflicted in control.currentlyMining)
             {
                 if (afflicted.Obj is Asteroid)
                 {
-                    IMovementControl control = afflicted.Obj.GetControlOfType<IMovementControl>();
-                    if (control != null)
-                        control.Speed = SharedDef.SPECTATOR_ASTEROID_THROW_SPEED;
+                    IMovementControl mc = afflicted.Obj.GetControlOfType<IMovementControl>();
+                    if (mc != null)
+                        mc.Speed = SharedDef.SPECTATOR_ASTEROID_THROW_SPEED;
 
-                    (afflicted.Obj as Asteroid).Direction = v;
+                    (afflicted.Obj as IMovable).Direction = v;
                     count++;
                 }
             }
@@ -54,12 +57,12 @@ namespace Orbit.Core.SpecialActions.Spectator
             msg.Write((int) PacketType.ASTEROIDS_DIRECTIONS_CHANGE);
             msg.Write(count);
 
-            foreach (MiningObject afflicted in Control.currentlyMining)
+            foreach (MiningObject afflicted in control.currentlyMining)
             {
                 if (afflicted.Obj is Asteroid)
                 {
-                    msg.Write((afflicted.Obj as Asteroid).Id);
-                    msg.Write((afflicted.Obj as Asteroid).Direction);
+                    msg.Write((afflicted.Obj as ISceneObject).Id);
+                    msg.Write((afflicted.Obj as IMovable).Direction);
                 }
             }
 
@@ -69,7 +72,7 @@ namespace Orbit.Core.SpecialActions.Spectator
 
         public override bool IsReady()
         {
-            return Owner.Data.Gold >= Cost && Control.currentlyMining.Count != 0;
+            return Owner.Data.Gold >= Cost && control.currentlyMining.Count != 0;
         }
     }
 }

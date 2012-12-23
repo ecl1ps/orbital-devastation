@@ -149,6 +149,16 @@ namespace Orbit.Core.Server
                     NetOutgoingMessage plrs = CreateAllPlayersDataMessage();
                     SendMessage(plrs, msg.SenderConnection);
                     break;
+                case PacketType.TOURNAMENT_SETTINGS:
+                    ReceivedTournamentSettingsMsg(msg);
+                    ForwardMessage(msg);
+                    break;
+                case PacketType.TOURNAMENT_SETTINGS_REQUEST:
+                    if (TournamentSettings == null)
+                        return;
+                    NetOutgoingMessage settings = CreateTournamentSettingsMessage();
+                    SendMessage(settings, msg.SenderConnection);
+                    break;
                 case PacketType.PLAYER_SCORE_AND_GOLD:
                     ReceivedPlayerScoreAndGoldMsg(msg);
                     break;
@@ -161,6 +171,10 @@ namespace Orbit.Core.Server
                     break;
                 case PacketType.PLAYER_DISCONNECTED:
                     ReceivedPlayerDisconnectedMsg(msg);
+                    break;
+                case PacketType.PLAYER_COLOR_CHANGED:
+                    GetPlayer(msg.ReadInt32()).Data.PlayerColor = msg.ReadColor();
+                    ForwardMessage(msg);
                     break;
                 default:
                     ForwardMessage(msg);

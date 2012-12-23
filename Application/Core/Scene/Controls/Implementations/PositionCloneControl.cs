@@ -20,7 +20,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         protected override void InitControl(ISceneObject me)
         {
-            base.InitControl(me);
             me.Position = toFollow.Position;
         }
 

@@ -35,6 +35,7 @@ namespace Orbit.Core.Server
 
         public Gametype GameType { get; set; }
         public GameStateManager StateMgr { get; set; }
+        public TournamentSettings TournamentSettings { get; set; }
 
         public ServerMgr()
         {
@@ -90,13 +91,14 @@ namespace Orbit.Core.Server
         private void TournamentGameEnded(Player plr, GameEnd endType)
         {
             isInitialized = false;
-            gameEnded = false;
 
             if (gameSession.CheckTournamentFinished(true))
             {
                 RequestStop();
                 return;
             }
+
+            gameEnded = false;
 
             players.ForEach(p => p.Data.LobbyReady = false);
             players.ForEach(p => p.Data.BaseIntegrity = SharedDef.BASE_MAX_INGERITY);
@@ -124,7 +126,7 @@ namespace Orbit.Core.Server
             }
         }
 
-        public Player CreateAndAddPlayer(String name, String hash)
+        public Player CreateAndAddPlayer(String name, String hash, Color clr)
         {
             Player plr = new Player(null);
             plr.Data = new PlayerData();
@@ -134,6 +136,7 @@ namespace Orbit.Core.Server
             else
                 plr.Data.Name = name;
             plr.Data.HashId = hash;
+            plr.Data.PlayerColor = clr;
             players.Add(plr);
             return plr;
         }

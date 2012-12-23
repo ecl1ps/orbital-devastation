@@ -362,7 +362,7 @@ namespace Orbit.Core.Helpers
             ArcSegment arc = new ArcSegment();
 
             PathFigure figure = new PathFigure();
-            figure.StartPoint = e.ComputeEllipsePoint(e.FullAngle);
+            figure.StartPoint = e.StartPoint;
 
             arc = new ArcSegment();
             arc.SweepDirection = SweepDirection.Clockwise;

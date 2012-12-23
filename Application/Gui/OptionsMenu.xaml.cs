@@ -52,5 +52,11 @@ namespace Orbit.Gui
         {
             ShowAnotherWindow(new KeyBindingsOptions());
         }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            (Parent as Panel).Children.Remove(this);
+            (Application.Current.MainWindow as GameWindow).mainGrid.Children.Add(new EscMenu());
+        }
     }
 }

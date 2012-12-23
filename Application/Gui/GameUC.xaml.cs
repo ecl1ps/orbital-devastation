@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Orbit.Core.Scene;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Gui
 {
@@ -52,6 +53,39 @@ namespace Orbit.Gui
             {
                 (Application.Current as App).GetSceneMgr().OnCanvasMouseMove(p);
             }));
+        }
+
+        private void settings_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            GameWindow wnd = Application.Current.MainWindow as GameWindow;
+            UIElement esc = LogicalTreeHelper.FindLogicalNode(wnd.mainGrid, "escMenu") as UIElement;
+            if (esc != null)
+            {
+                wnd.mainGrid.Children.Remove(esc);
+                if (wnd.GameRunning)
+                    StaticMouse.Enable(true);
+            }
+            else
+            {
+                wnd.mainGrid.Children.Add(new EscMenu());
+                if (wnd.GameRunning)
+                    StaticMouse.Enable(false);
+            }
+        }
+
+        private void overvie_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
+            {
+                (Application.Current as App).GetSceneMgr().ShowPlayerOverview();
+            })); 
+        }
+
+        private void overvie_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            GameOverviewUC go = LogicalTreeHelper.FindLogicalNode((Application.Current.MainWindow as GameWindow).mainGrid, "gameOverview") as GameOverviewUC;
+            if (go != null)
+                (Application.Current.MainWindow as GameWindow).mainGrid.Children.Remove(go);
         }
     }
 }

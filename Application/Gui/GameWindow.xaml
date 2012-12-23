@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:controls="clr-namespace:Orbit.Gui"
              Closing="OnClose" Name="mainWindow"
-             WindowStyle="ThreeDBorderWindow" Title="Orbital Devastation" WindowStartupLocation="CenterScreen" KeyDown="OnKeyDown" Icon="/OrbitalDevastation;component/resources/images/rock/rock_normal_6.png"
-             Width="1020" Height="740" KeyUp="OnKeyUp">
+             WindowStyle="None" Title="Orbital Devastation" WindowStartupLocation="CenterScreen" KeyDown="OnKeyDown" Icon="/OrbitalDevastation;component/resources/images/rock/rock_normal_6.png"
+             Width="1014" Height="740" KeyUp="OnKeyUp">
 
     <Grid Name="mainContainerGrid" SizeChanged="OnSizeChanged">
         <Grid.LayoutTransform>

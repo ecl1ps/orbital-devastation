@@ -3,9 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             d:DesignHeight="350" d:DesignWidth="350"
-             mc:Ignorable="d"
-             x:Name="mouseMenu"  Width="350" Height="350" BorderBrush="Black" BorderThickness="1">
+             mc:Ignorable="d" Name="mouseMenu" Width="350" Height="350" BorderBrush="Black" BorderThickness="1">
+    
     <Grid Width="350" Height="350" Background="#dd655D5D">
         <Button Name="MouseButton" Height="31" Width="84" Content="Disable Mouse" FontFamily="Bauhaus 93" Margin="12,12,254,308" Click="MouseEnabledChanged" />
         <Label Height="25" Width="100" FontFamily="Bauhaus 93" Content="Cursor icon" Margin="12,57,238,267" />
@@ -21,5 +20,6 @@
         <Label Height="25" Width="100" FontFamily="Bauhaus 93" Content="Mouse Sensitivity" Margin="12,124,238,200" />
         <TextBlock Name="SensitivityLabel" Height="20" Width="55" FontFamily="Bauhaus 93" TextAlignment="Right" VerticalAlignment="Bottom" Text="1" Margin="22,152,274,172" />
         <Slider Name="SensitivitySlider" Height="25" Maximum="100" Margin="83,153,4,171" ValueChanged="SensitivityChange" />
+        <Button Content="Back" FontFamily="Bauhaus 93" Height="31" HorizontalAlignment="Center" Margin="66,280,65,0" Name="btnBack" VerticalAlignment="Top" Width="84" Click="btnBack_Click" />
     </Grid>
 </UserControl>

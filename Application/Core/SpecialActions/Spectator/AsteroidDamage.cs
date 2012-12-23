@@ -26,6 +26,9 @@ namespace Orbit.Core.SpecialActions.Spectator
 
         public override void StartAction()
         {
+            if (!control.Enabled)
+                return;
+
             base.StartAction();
 
             List<IDestroyable> temp = new List<IDestroyable>();

@@ -37,7 +37,22 @@ namespace Orbit.Core.Server
         {
             this.serverMgr = serverMgr;
             this.players = players;
-            matchMaker = new OneToAllThenScoreMatchMaker(players, serverMgr.GetRandomGenerator());
+            if (serverMgr.TournamentSettings == null)
+                serverMgr.TournamentSettings = new TournamentSettings(true);
+
+            switch (serverMgr.TournamentSettings.MMType)
+            {
+                case GameMatchMakerType.ONE_TO_ALL_THEN_SCORE:
+                    matchMaker = new OneToAllThenScoreMatchMaker(players, serverMgr.GetRandomGenerator());
+                    break;
+                case GameMatchMakerType.ONE_TO_ALL_TILL_WINNER:
+                    matchMaker = new OneToAllTillWinnerMatchMaker(players, serverMgr.GetRandomGenerator());
+                    break;
+                case GameMatchMakerType.ONE_TO_ONE_INFINITE:
+                    matchMaker = new OneToOneInfiniteMachMaker(players, serverMgr.GetRandomGenerator());
+                    break;
+            }
+            
             tournamentPlayerIds = new SortedSet<string>();
             if (serverMgr.GameType == Gametype.TOURNAMENT_GAME)
                 players.ForEach(p => tournamentPlayerIds.Add(p.Data.HashId));
@@ -57,11 +72,13 @@ namespace Orbit.Core.Server
             // pri solo hre se vytvori jeden bot
             if (players.Count == 1)
             {
-                Player bot = serverMgr.CreateAndAddPlayer(BotNameAccessor.GetBotName(SharedDef.DEFAULT_BOT), "NullBotHash");
+                Player bot = serverMgr.CreateAndAddPlayer(BotNameAccessor.GetBotName(SharedDef.DEFAULT_BOT), "NullBotHash", Colors.White);
                 bot.Data.PlayerType = PlayerType.BOT;
                 if (gameLevel.IsBotAllowed())
                     bot.Data.BotType = SharedDef.DEFAULT_BOT;
                 bot.Data.StartReady = true;
+                Color plrColor = players[0].Data.PlayerColor;
+                bot.Data.PlayerColor = Color.FromRgb((byte)(0xFF - plrColor.R), (byte)(0xFF - plrColor.G), (byte)(0xFF - plrColor.B));
             }
 
             foreach (Player p in players)
@@ -82,17 +99,13 @@ namespace Orbit.Core.Server
             PlayerPosition firstPlayerPosition = serverMgr.GetRandomGenerator().Next(2) == 0 ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
             plr1.Data.PlayerPosition = firstPlayerPosition;
             plr2.Data.PlayerPosition = firstPlayerPosition == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
-
-            bool redBaseColor = serverMgr.GetRandomGenerator().Next(2) == 0 ? true : false;
-            plr1.Data.PlayerColor = redBaseColor ? Colors.Red : Colors.Blue;
-            plr2.Data.PlayerColor = redBaseColor ? Colors.Blue : Colors.Red;
         }
 
         private void CreateNewLevel()
         {
             objects = new List<ISceneObject>();
 
-            gameLevel = GameLevelManager.CreateNewGameLevel(serverMgr, SharedDef.STARTING_LEVEL, objects);
+            gameLevel = GameLevelManager.CreateNewGameLevel(serverMgr, serverMgr.TournamentSettings.Level, objects);
             gameLevel.CreateLevelObjects();
         }
 

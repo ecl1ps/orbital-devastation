@@ -172,8 +172,12 @@ namespace Orbit.Core.AI
 
         private void CheckHeal()
         {
-            if (me.Data.BaseIntegrity <= SharedDef.BASE_MAX_INGERITY - ((SharedDef.BASE_MAX_INGERITY * SharedDef.HEAL_AMOUNT) + SharedDef.BONUS_HEAL))
+            if (me.Data.BaseIntegrity <= SharedDef.BASE_MAX_INGERITY - ((SharedDef.BASE_MAX_INGERITY * SharedDef.HEAL_AMOUNT) + SharedDef.BONUS_HEAL) &&
+                me.Data.Gold >= me.HealingKit.Cost)
+            {
+                me.Data.Gold -= me.HealingKit.Cost;
                 me.HealingKit.Heal();
+            }
         }
 
         private void MineDrop()

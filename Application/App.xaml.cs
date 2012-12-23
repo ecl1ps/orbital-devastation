@@ -16,6 +16,7 @@ using Orbit.Core.Server;
 using System.IO;
 using Orbit.Core.Players;
 using Orbit.Core.Client.GameStates;
+using System.Net.Sockets;
 
 namespace Orbit
 {
@@ -64,22 +65,32 @@ namespace Orbit
 
         public void StartSoloGame()
         {
-            StartLocalServer(Gametype.SOLO_GAME);
+            if (!StartLocalServer(Gametype.SOLO_GAME))
+                return;
 
             sceneMgr.SetRemoteServerAddress("127.0.0.1");
 
             StartGame(Gametype.SOLO_GAME);
         }
 
-        private void StartLocalServer(Gametype type)
+        private bool StartLocalServer(Gametype type)
         {
             server = new ServerMgr();
-            server.Init(type);
+            try
+            {
+                server.Init(type);
+            }
+            catch (SocketException)
+            {
+                ShowStartScreen();
+                return false;
+            }
 
             Thread serverThread = new Thread(new ThreadStart(server.Run));
             serverThread.IsBackground = false;
             serverThread.Name = "Server Thread";
             serverThread.Start();
+            return true;
         }
 
         private void StartGame(Gametype type)
@@ -102,9 +113,10 @@ namespace Orbit
 
         public void StartHostedGame()
         {
-            hostedLastgame = true;
+            if (!StartLocalServer(Gametype.MULTIPLAYER_GAME))
+                return;
 
-            StartLocalServer(Gametype.MULTIPLAYER_GAME);
+            hostedLastgame = true;
 
             sceneMgr.SetRemoteServerAddress("127.0.0.1");
 
@@ -113,11 +125,14 @@ namespace Orbit
 
         public void StartTournamentLobby()
         {
-            StartLocalServer(Gametype.TOURNAMENT_GAME);
+            if (!StartLocalServer(Gametype.TOURNAMENT_GAME))
+                return;
 
             sceneMgr.SetRemoteServerAddress("127.0.0.1");
 
             StartGame(Gametype.TOURNAMENT_GAME);
+
+            CreateLobbyGui(true);
         }
 
         public void SetGameStarted(bool started)
@@ -130,6 +145,7 @@ namespace Orbit
             mainWindow.mainGrid.Children.Clear();
             GameUC gameW = new GameUC();
             mainWindow.mainGrid.Children.Add(gameW);
+            sceneMgr.GameWindowState = Orbit.Core.WindowState.IN_GAME;
             if (setCanvas)
                 sceneMgr.Enqueue(new Action(() =>
                 {
@@ -150,6 +166,7 @@ namespace Orbit
                 sceneMgr.GetCurrentPlayer().Data.LobbyLeader = asLeader;
             }));
             mainWindow.mainGrid.Children.Add(new LobbyUC(asLeader));
+            sceneMgr.GameWindowState = Orbit.Core.WindowState.IN_LOBBY;
         }
 
         public void ConnectToGame(string serverAddress)
@@ -192,6 +209,7 @@ namespace Orbit
 
             mainWindow.mainGrid.Children.Clear();
             mainWindow.mainGrid.Children.Add(new MainUC());
+            sceneMgr.GameWindowState = Orbit.Core.WindowState.IN_MAIN_MENU;
         }
 
         public void ShutdownServerIfExists()
@@ -250,7 +268,6 @@ namespace Orbit
                     break;
                 case Gametype.TOURNAMENT_GAME:
                     StartTournamentLobby();
-                    CreateLobbyGui(true);
                     break;
                 case Gametype.NONE:
                 default:
@@ -300,7 +317,11 @@ namespace Orbit
 
         public void ShowBotSelectionGui()
         {
-            mainWindow.mainGrid.Children.Add(new BotSelection());
+            UIElement uc = LogicalTreeHelper.FindLogicalNode(mainWindow.mainGrid, "botSelection") as UIElement;
+            if (uc != null)
+                mainWindow.mainGrid.Children.Remove(uc);
+            else
+                mainWindow.mainGrid.Children.Add(new BotSelection());
         }
 
         public void OnKeyEvent(System.Windows.Input.KeyEventArgs e)
@@ -314,6 +335,11 @@ namespace Orbit
         public void ShowGameOverview(List<PlayerOverviewData> data)
         {
             mainWindow.mainGrid.Children.Add(new GameOverviewUC(data));
+        }
+
+        public bool IsGameStarted() 
+        { 
+            return mainWindow.GameRunning; 
         }
     }
 }

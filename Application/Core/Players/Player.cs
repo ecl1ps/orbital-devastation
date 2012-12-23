@@ -264,7 +264,7 @@ namespace Orbit.Core.Players
             return GetId() == SceneMgr.GetCurrentPlayer().GetId() || Data.PlayerType == PlayerType.BOT;
         }
 
-        public List<ISpecialAction> generatePlayerActions(SceneMgr mgr)
+        public List<ISpecialAction> GeneratePlayerActions(SceneMgr mgr)
         {
             List<ISpecialAction> actions = new List<ISpecialAction>();
             actions.Add(new HealAction(HealingKit, mgr, this));
@@ -275,7 +275,7 @@ namespace Orbit.Core.Players
             return actions;
         }
 
-        public List<ISpecialAction> generateSpectatorActions(SceneMgr mgr, ISceneObject miningModule)
+        public List<ISpecialAction> GenerateSpectatorActions(SceneMgr mgr, ISceneObject miningModule)
         {
             MiningModuleControl miningControl = miningModule.GetControlOfType<MiningModuleControl>();
 
@@ -288,6 +288,18 @@ namespace Orbit.Core.Players
             actions.Add(new Shielding(miningModule, mgr, this));
 
             return actions;
+        }
+
+        public static Color GetChosenColor()
+        {
+            string col = GameProperties.Props.Get(PropertyKey.CHOSEN_COLOR);
+            try
+            {
+                return (Color)ColorConverter.ConvertFromString(col);
+            }
+            catch (Exception /*e*/) {}
+
+            return Colors.Pink;
         }
     }
 

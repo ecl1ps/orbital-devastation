@@ -14,7 +14,6 @@ namespace Orbit.Core.Scene.Controls.Health
 
         protected override void InitControl(Entities.ISceneObject me)
         {
-            base.InitControl(me);
             hp = MaxHp;
         }
 
