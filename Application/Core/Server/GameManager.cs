@@ -42,15 +42,17 @@ namespace Orbit.Core.Server
 
             switch (serverMgr.TournamentSettings.MMType)
             {
-                case GameMatchMakerType.ONE_TO_ALL_THEN_SCORE:
-                    matchMaker = new OneToAllThenScoreMatchMaker(players, serverMgr.GetRandomGenerator());
+                case GameMatchMakerType.WINS_THEN_SCORE:
+                    matchMaker = new WinsThenScoreMatchMaker(players, serverMgr.GetRandomGenerator(), serverMgr.TournamentSettings.RoundCount);
                     break;
-                case GameMatchMakerType.ONE_TO_ALL_TILL_WINNER:
-                    matchMaker = new OneToAllTillWinnerMatchMaker(players, serverMgr.GetRandomGenerator());
+                case GameMatchMakerType.ONLY_SCORE:
+                    matchMaker = new ScoreMatchMaker(players, serverMgr.GetRandomGenerator(), serverMgr.TournamentSettings.RoundCount);
                     break;
-                case GameMatchMakerType.ONE_TO_ONE_INFINITE:
-                    matchMaker = new OneToOneInfiniteMachMaker(players, serverMgr.GetRandomGenerator());
+                case GameMatchMakerType.TEST_LEADER_SPECTATOR:
+                    matchMaker = new LeaderSpectatorMatchMaker(players);
                     break;
+                default:
+                    throw new NotImplementedException("Unknown MatchMaker required");
             }
             
             tournamentPlayerIds = new SortedSet<string>();
@@ -88,13 +90,14 @@ namespace Orbit.Core.Server
             Player plr2 = players[1];
 
             if (serverMgr.GameType == Gametype.TOURNAMENT_GAME)
-                matchMaker.SelectPlayersForNewMatch(out plr1, out plr2);
+            {
+                Tuple<Player, Player> selectedPlayers = matchMaker.SelectPlayersForNewMatch();
+                plr1 = selectedPlayers.Item1;
+                plr2 = selectedPlayers.Item2;
+            }
 
             plr1.Data.Active = true;
             plr2.Data.Active = true;
-
-            plr1.Data.PlayedMatches += 1;
-            plr2.Data.PlayedMatches += 1;
 
             PlayerPosition firstPlayerPosition = serverMgr.GetRandomGenerator().Next(2) == 0 ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
             plr1.Data.PlayerPosition = firstPlayerPosition;
@@ -115,7 +118,7 @@ namespace Orbit.Core.Server
             matchCreated = false;
 
             if (serverMgr.GameType == Gametype.TOURNAMENT_GAME)
-                matchMaker.MatchEnded(plr, endType);
+                matchMaker.OnMatchEnd(plr, endType);
         }
 
         public void ObjectDestroyed(long id)
@@ -229,6 +232,8 @@ namespace Orbit.Core.Server
                 NetOutgoingMessage tournamentFinished = serverMgr.CreateNetMessage();
                 tournamentFinished.Write((int)PacketType.TOURNAMENT_FINISHED);
                 tournamentFinished.Write(winner.GetId());
+                //hraci kteri hrali posledni hru
+                players.ForEach(p => { if (p.IsActivePlayer()) tournamentFinished.Write(p.GetId()); });
                 serverMgr.BroadcastMessage(tournamentFinished);
             }
 

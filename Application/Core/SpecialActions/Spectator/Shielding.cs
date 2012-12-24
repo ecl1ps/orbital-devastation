@@ -39,7 +39,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             bar.Color = Colors.RoyalBlue;
 
             LimitedReverseDamageControl c = new LimitedReverseDamageControl(SharedDef.SPECTATOR_SHIELDING_TIME);
-            c.addControlDestroyAction(new Action(() => { bar.Color = Owner.GetPlayerColor(); }));
+            c.AddControlDestroyAction(new Action(() => { bar.Color = Owner.GetPlayerColor(); }));
             toFollow.AddControl(c);
 
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();

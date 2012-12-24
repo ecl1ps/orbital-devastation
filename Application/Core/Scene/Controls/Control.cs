@@ -34,7 +34,7 @@ namespace Orbit.Core.Scene.Controls
             actions.ForEach(a => a.Invoke());
         }
 
-        public void addControlDestroyAction(Action a)
+        public void AddControlDestroyAction(Action a)
         {
             actions.Add(a);
         }

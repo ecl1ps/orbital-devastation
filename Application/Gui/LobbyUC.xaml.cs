@@ -34,9 +34,11 @@ namespace Orbit.Gui
             InitializeComponent();
 
             matchmakerNames = new Dictionary<GameMatchMakerType, string>(3);
-            matchmakerNames.Add(GameMatchMakerType.ONE_TO_ALL_THEN_SCORE, "Each vs. Each (most wins then score)");
-            matchmakerNames.Add(GameMatchMakerType.ONE_TO_ALL_TILL_WINNER, "Each vs. Each (till winner)");
-            matchmakerNames.Add(GameMatchMakerType.ONE_TO_ONE_INFINITE, "One vs. One (infinite)");
+            matchmakerNames.Add(GameMatchMakerType.WINS_THEN_SCORE, "Each vs. Each (most wins then score)");
+            matchmakerNames.Add(GameMatchMakerType.ONLY_SCORE, "Each vs. Each (score)");
+#if DEBUG
+            matchmakerNames.Add(GameMatchMakerType.TEST_LEADER_SPECTATOR, "Leader as Spectator (test)");
+#endif
 
             btnReady.IsEnabled = false;
 
@@ -60,7 +62,7 @@ namespace Orbit.Gui
                 cbType.ItemsSource = data;
                 cbType.DisplayMemberPath = "Name";
                 cbType.SelectedValuePath = "Id";
-                cbType.SelectedValue = GameMatchMakerType.ONE_TO_ALL_THEN_SCORE;
+                cbType.SelectedValue = GameMatchMakerType.WINS_THEN_SCORE;
 
                 List<ComboData> dataMap = new List<ComboData>();
                 foreach (GameLevel l in Enum.GetValues(typeof(GameLevel)))

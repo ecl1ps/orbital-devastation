@@ -29,14 +29,14 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
                 // score
                 Player otherPlayer = baze.SceneMgr.GetOtherActivePlayer(baze.Owner.GetId());
-                if (otherPlayer.IsCurrentPlayer())
+                if (otherPlayer != null && otherPlayer.IsCurrentPlayer())
                 {
                     Vector textPos = new Vector(otherPlayer.GetBaseLocation().X + (otherPlayer.GetBaseLocation().Width / 2), otherPlayer.GetBaseLocation().Y - 20);
                     baze.SceneMgr.FloatingTextMgr.AddFloatingText(damage * ScoreDefines.DAMAGE_DEALT, textPos, FloatingTextManager.TIME_LENGTH_2,
                         FloatingTextType.SCORE, FloatingTextManager.SIZE_MEDIUM);
                 }
 
-                if (otherPlayer.IsCurrentPlayerOrBot())
+                if (otherPlayer != null && otherPlayer.IsCurrentPlayerOrBot())
                     otherPlayer.AddScoreAndShow(damage * ScoreDefines.DAMAGE_DEALT);
 
                 // damage

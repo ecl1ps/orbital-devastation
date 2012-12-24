@@ -220,6 +220,7 @@
     <Compile Include="Core\Helpers\SceneGeometryFactory.cs" />
     <Compile Include="Core\Helpers\SceneObjectFactory.cs" />
     <Compile Include="Core\IGameState.cs" />
+    <Compile Include="Core\Server\Match\LeaderSpectatorMatchMaker.cs" />
     <Compile Include="Core\Server\Level\LevelTestEmpty.cs" />
     <Compile Include="Core\Server\Level\LevelTestPowerUp.cs" />
     <Compile Include="Core\Server\Level\GameLevelManager.cs" />
@@ -227,11 +228,11 @@
     <Compile Include="Core\Server\Level\LevelNormal1.cs" />
     <Compile Include="Core\Server\Level\LevelTestBaseCollisions.cs" />
     <Compile Include="Core\Server\Level\LevelTestStaticObjects.cs" />
-    <Compile Include="Core\Server\Match\OneToAllThenScoreMatchMaker.cs" />
+    <Compile Include="Core\Server\Match\AbstractTournamentMatchMaker.cs" />
+    <Compile Include="Core\Server\Match\WinsThenScoreMatchMaker.cs" />
     <Compile Include="Core\Server\Match\ITournamentMatchMaker.cs" />
-    <Compile Include="Core\Server\Match\OneToAllTillWinnerMatchMaker.cs" />
-    <Compile Include="Core\Server\Match\OneToOneInfiniteMachMaker.cs" />
     <Compile Include="Core\Server\Match\PlayerMatchData.cs" />
+    <Compile Include="Core\Server\Match\ScoreMatchMaker.cs" />
     <Compile Include="Core\Server\ServerMgr.Message.cs" />
     <Compile Include="Core\SpecialActions\Gamer\HealAction.cs" />
     <Compile Include="Core\SpecialActions\Gamer\WeaponUpgrade.cs" />

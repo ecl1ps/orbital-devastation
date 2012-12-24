@@ -184,7 +184,16 @@ namespace Orbit.Core.Client
 
         private void ReceivedTournamentFinishedMgs(NetIncomingMessage msg)
         {
-            EndGame(GetPlayer(msg.ReadInt32()), GameEnd.TOURNAMENT_FINISHED);
+            Player winner = GetPlayer(msg.ReadInt32());
+
+            for (int i = 0; i < 2; ++i)
+            {
+                Player playedLastGame = GetPlayer(msg.ReadInt32());
+                if (playedLastGame != null)
+                    playedLastGame.Data.PlayedMatches++;
+            }
+
+            EndGame(winner, GameEnd.TOURNAMENT_FINISHED);
         }
 
         private void ReceivedTournamentStartingMsg(NetIncomingMessage msg)
@@ -212,8 +221,8 @@ namespace Orbit.Core.Client
 
         private void ReceivedStartGameResponseMsg(NetIncomingMessage msg)
         {
-            string leftPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.LEFT).Data.Name;
-            string rightPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.RIGHT).Data.Name;
+            Player leftPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.LEFT);
+            Player rightPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.RIGHT);
 
             InitStaticMouse();
             (Application.Current as App).SetGameStarted(true);
@@ -269,13 +278,19 @@ namespace Orbit.Core.Client
 
             Invoke(new Action(() =>
             {
-                Label lbl3 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblNameLeft");
-                if (lbl3 != null)
-                    lbl3.Content = leftPlr;
+                if (leftPlr != null)
+                {
+                    Label lbl3 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblNameLeft");
+                    if (lbl3 != null)
+                        lbl3.Content = leftPlr.Data.Name;
+                }
 
-                Label lbl4 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblNameRight");
-                if (lbl4 != null)
-                    lbl4.Content = rightPlr;
+                if (rightPlr != null)
+                {
+                    Label lbl4 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblNameRight");
+                    if (lbl4 != null)
+                        lbl4.Content = rightPlr.Data.Name;
+                }
             }));
 
             if (currentPlayer.IsActivePlayer())
