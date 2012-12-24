@@ -9,7 +9,7 @@ using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    class ControlableDeviceControl : Control, IControledDevice
+    public class ControlableDeviceControl : Control, IControledDevice
     {
         private bool isMovingDown = false;
         public bool IsMovingDown
@@ -23,7 +23,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 if (isMovingDown != value)
                 {
                     isMovingDown = value;
-                    sendMovingTypeChanged();
+                    SendMovingTypeChanged();
                 }
             }
         }
@@ -40,7 +40,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 if (isMovingTop != value)
                 {
                     isMovingTop = value;
-                    sendMovingTypeChanged();
+                    SendMovingTypeChanged();
                 }
             }
         }
@@ -56,7 +56,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 if (isMovingLeft != value)
                 {
                     isMovingLeft = value;
-                    sendMovingTypeChanged();
+                    SendMovingTypeChanged();
                 }
             }
         }
@@ -72,7 +72,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 if (isMovingRight != value)
                 {
                     isMovingRight = value;
-                    sendMovingTypeChanged();
+                    SendMovingTypeChanged();
                 }
             }
         }
@@ -104,17 +104,17 @@ namespace Orbit.Core.Scene.Controls.Implementations
             Vector botVector = new Vector(0, SharedDef.SPECTATOR_MODULE_SPEED * tpf);
             Vector rightVector = new Vector(SharedDef.SPECTATOR_MODULE_SPEED * tpf, 0);
 
-            if (IsMovingTop && me.Position.Y > 0)
+            if (IsMovingTop && (me.Position.Y - botVector.Y) > 0)
                 me.Position -= botVector;
-            if (IsMovingDown && me.Position.Y < SharedDef.VIEW_PORT_SIZE.Height)
+            if (IsMovingDown && (me.Position.Y + botVector.Y) < SharedDef.VIEW_PORT_SIZE.Height)
                 me.Position += botVector;
-            if (IsMovingLeft && me.Position.X > 0)
+            if (IsMovingLeft && (me.Position.X - rightVector.X) > 0)
                 me.Position -= rightVector;
-            if (IsMovingRight && me.Position.Y < SharedDef.VIEW_PORT_SIZE.Width)
+            if (IsMovingRight && (me.Position.X + rightVector.X) < SharedDef.VIEW_PORT_SIZE.Width)
                 me.Position += rightVector;
         }
 
-        private void sendMovingTypeChanged()
+        private void SendMovingTypeChanged()
         {
             if (!Enabled)
                 return;
@@ -131,7 +131,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             me.SceneMgr.SendMessage(msg);
         }
 
-        public void receiveMovingTypeChanged(NetIncomingMessage msg)
+        public void ReceivedMovingTypeChanged(NetIncomingMessage msg)
         {
             //TODO dodelat interpolaci na zaklade cas odeslani / cas prijmuti
             isMovingDown = msg.ReadBoolean();
