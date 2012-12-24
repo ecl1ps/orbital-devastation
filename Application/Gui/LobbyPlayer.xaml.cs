@@ -47,7 +47,11 @@ namespace Orbit.Gui
 
         private void ColorPick(object sender, MouseButtonEventArgs e)
         {
-            (Application.Current.MainWindow as GameWindow).mainGrid.Children.Add(new ColorPickerUC());
+            //TODO: zobrazit jen pokud hrac klikne na svou barvu - jinak to evokuje pocit, ze muze upravit barvu ostatnich hracu...
+            Grid main = (Application.Current.MainWindow as GameWindow).mainGrid;
+            ColorPickerUC cp = LogicalTreeHelper.FindLogicalNode(main, "colorPicker") as ColorPickerUC;
+            if (cp == null)
+                (Application.Current.MainWindow as GameWindow).mainGrid.Children.Add(new ColorPickerUC());
         }
     }
 

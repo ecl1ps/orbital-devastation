@@ -206,7 +206,10 @@ namespace Orbit.Gui
 
         private void btnColor_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current.MainWindow as GameWindow).mainGrid.Children.Add(new ColorPickerUC());
+            Grid main = (Application.Current.MainWindow as GameWindow).mainGrid;
+            ColorPickerUC cp = LogicalTreeHelper.FindLogicalNode(main, "colorPicker") as ColorPickerUC;
+            if (cp == null)
+                (Application.Current.MainWindow as GameWindow).mainGrid.Children.Add(new ColorPickerUC());
         }
 
         private void btnSettings_Click(object sender, RoutedEventArgs e)
