@@ -51,7 +51,7 @@ namespace Orbit.Core.Players
             float addedValue = GenerateAndAddStatToPlayer(pickedStat, plr.Data);
 
             Vector textPos = new Vector(plr.GetBaseLocation().X + (plr.GetBaseLocation().Width / 2), plr.GetBaseLocation().Y - 40);
-            sceneMgr.FloatingTextMgr.AddFloatingText(pickedStat.text + (addedValue > 0 ? " +" : " ") + addedValue.ToString("0.0"), textPos, FloatingTextManager.TIME_LENGTH_3,
+            sceneMgr.FloatingTextMgr.AddFloatingText(pickedStat.text + (addedValue > 0 ? " +" : " ") + addedValue.ToString("0.0") + "%", textPos, FloatingTextManager.TIME_LENGTH_3,
                 FloatingTextType.SYSTEM, 14, true, true);
 
             NetOutgoingMessage msg = sceneMgr.CreateNetMessage();
@@ -69,62 +69,79 @@ namespace Orbit.Core.Players
 #if DEBUG
             Console.WriteLine("Added stat " + stat.type + " (" + val + ") to player " + data.Name);
 #endif
-            AddStatToPlayer(data, stat.type, val);
-
-            return val;
+            return AddStatToPlayer(data, stat.type, val);
         }
 
-        public void AddStatToPlayer(PlayerData data, PlayerStats type, float val)
+        public float AddStatToPlayer(PlayerData data, PlayerStats type, float val)
         {
+            float pct = 0;
+
             switch (type)
             {
                 case PlayerStats.MINE_1_COOLDOWN:
+                    pct = data.MineCooldown;
                     data.MineCooldown += val;
                     break;
                 case PlayerStats.MINE_1_FALLING_SPEED:
+                    pct = data.MineFallingSpeed;
                     data.MineFallingSpeed += (int)val;
                     break;
                 case PlayerStats.MINE_1_GROWTH_SPEED:
+                    pct = data.MineGrowthSpeed;
                     data.MineGrowthSpeed += val;
                     break;
                 case PlayerStats.MINE_1_STRENGTH:
+                    pct = data.MineStrength;
                     data.MineStrength += val;
                     break;
 
                 case PlayerStats.CANNON_1_COOLDOWN:
+                    pct = data.BulletCooldown;
                     data.BulletCooldown += val;
                     break;
                 case PlayerStats.CANNON_1_DAMAGE:
+                    pct = data.BulletDamage;
                     data.BulletDamage += (int)val;
                     break;
                 case PlayerStats.CANNON_1_SPEED:
+                    pct = data.BulletSpeed;
                     data.BulletSpeed += (int)val;
                     break;
                 case PlayerStats.CANNON_3_CHARGE_TIME:
+                    pct = data.LaserChargingTime;
                     data.LaserChargingTime += val;
                     break;
                 case PlayerStats.CANNON_3_DAMAGE:
+                    pct = data.LaserDamage;
                     data.LaserDamage += (int)val;
                     break;
                 case PlayerStats.CANNON_3_DAMAGE_INTERVAL:
+                    pct = data.LaserDamageInterval;
                     data.LaserDamageInterval += val;
                     break;
 
                 case PlayerStats.HOOK_1_COOLDOWN:
+                    pct = data.HookCooldown;
                     data.HookCooldown += val;
                     break;
                 case PlayerStats.HOOK_1_LENGTH:
+                    pct = data.HookLenght;
                     data.HookLenght += (int)val;
                     break;
                 case PlayerStats.HOOK_1_SPEED:
+                    pct = data.HookSpeed;
                     data.HookSpeed += (int)val;
                     break;
                 case PlayerStats.HEALING_KIT_1_BONUS_HEAL:
+                    pct = data.BonusHeal;
                     data.BonusHeal += (int)val;
                     break;
                 case PlayerStats.HEALING_KIT_1_REPAIR_BASE:
                     if (sceneMgr != null)
+                    {
+                        pct = sceneMgr.GetPlayer(data.Id).GetBaseIntegrity();
                         sceneMgr.GetPlayer(data.Id).ChangeBaseIntegrity((int)val, true);
+                    }
                     else
                     {
                         data.BaseIntegrity += (int)val;
@@ -134,6 +151,7 @@ namespace Orbit.Core.Players
                     break;
                 case PlayerStats.HEALING_KIT_1_FORTIFY_BASE:
                     int healVal = data.BaseIntegrity * (data.MaxBaseIntegrity + (int)val) / data.MaxBaseIntegrity - data.BaseIntegrity;
+                    pct = data.MaxBaseIntegrity;
                     data.MaxBaseIntegrity += (int)val;
                     if (sceneMgr != null)
                         sceneMgr.GetPlayer(data.Id).ChangeBaseIntegrity(healVal, true);
@@ -145,6 +163,10 @@ namespace Orbit.Core.Players
                     }
                     break;
             }
+
+            // vypocet o kolik se procentualne zmeni stat
+            pct = val * 100 / pct;
+            return pct;
         }
 
         private Stat GetStatForDeviceTypeAndLevel(DeviceType type, UpgradeLevel upgradeLevel)
