@@ -158,14 +158,14 @@ namespace Orbit
             return LogicalTreeHelper.FindLogicalNode(MainWindow, "mainCanvas") as Canvas;
         }
 
-        public void CreateLobbyGui(bool asLeader)
+        public void CreateLobbyGui(bool asLeader, bool settingsLocked = false)
         {
             mainWindow.mainGrid.Children.Clear();
             sceneMgr.Enqueue(new Action(() =>
             {
                 sceneMgr.GetCurrentPlayer().Data.LobbyLeader = asLeader;
             }));
-            mainWindow.mainGrid.Children.Add(new LobbyUC(asLeader));
+            mainWindow.mainGrid.Children.Add(new LobbyUC(asLeader, settingsLocked));
             sceneMgr.GameWindowState = Orbit.Core.WindowState.IN_LOBBY;
         }
 

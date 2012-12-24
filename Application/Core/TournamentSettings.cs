@@ -19,7 +19,7 @@ namespace Orbit.Core
             if (!withDefaults)
                 return;
 
-            MMType = GameMatchMakerType.ONE_TO_ALL_THEN_SCORE;
+            MMType = GameMatchMakerType.WINS_THEN_SCORE;
             Level = GameLevel.NORMAL1;
             RoundCount = 1;
         }

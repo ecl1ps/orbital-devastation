@@ -27,18 +27,17 @@ namespace Orbit.Gui
         private bool receivedSettings;
         private Dictionary<GameMatchMakerType, string> matchmakerNames;
 
-        public LobbyUC(bool asLeader)
+        public LobbyUC(bool asLeader, bool settingsLocked = false)
         {
             leader = asLeader;
             receivedSettings = false;
             InitializeComponent();
 
             matchmakerNames = new Dictionary<GameMatchMakerType, string>(3);
-            matchmakerNames.Add(GameMatchMakerType.ONE_TO_ALL_THEN_SCORE, "Each vs. Each (most wins then score)");
-            matchmakerNames.Add(GameMatchMakerType.ONE_TO_ALL_TILL_WINNER, "Each vs. Each (till winner)");
-            matchmakerNames.Add(GameMatchMakerType.ONE_TO_ONE_INFINITE, "One vs. One (infinite)");
+            matchmakerNames.Add(GameMatchMakerType.WINS_THEN_SCORE, "Each vs. Each (most wins then score)");
+            matchmakerNames.Add(GameMatchMakerType.ONLY_SCORE, "Each vs. Each (score)");
 #if DEBUG
-            matchmakerNames.Add(GameMatchMakerType.FIRST_SPECTATOR, "First player will be spectator");
+            matchmakerNames.Add(GameMatchMakerType.TEST_LEADER_SPECTATOR, "Leader as Spectator (test)");
 #endif
 
             btnReady.IsEnabled = false;
@@ -47,7 +46,15 @@ namespace Orbit.Gui
             {
                 btnReady.Visibility = Visibility.Hidden;
                 ready = true;
-
+            }
+            else
+            {
+                btnStartGame.Visibility = Visibility.Hidden;
+                ready = false;
+            }
+            
+            if (asLeader && !settingsLocked)
+            {
                 List<ComboData> data = new List<ComboData>();
                 foreach (GameMatchMakerType m in Enum.GetValues(typeof(GameMatchMakerType)))
                     data.Add(new ComboData { Id = m, Name = matchmakerNames[m] });
@@ -55,7 +62,7 @@ namespace Orbit.Gui
                 cbType.ItemsSource = data;
                 cbType.DisplayMemberPath = "Name";
                 cbType.SelectedValuePath = "Id";
-                cbType.SelectedValue = GameMatchMakerType.ONE_TO_ALL_THEN_SCORE;
+                cbType.SelectedValue = GameMatchMakerType.WINS_THEN_SCORE;
 
                 List<ComboData> dataMap = new List<ComboData>();
                 foreach (GameLevel l in Enum.GetValues(typeof(GameLevel)))
@@ -68,9 +75,7 @@ namespace Orbit.Gui
             }
             else
             {
-                btnStartGame.Visibility = Visibility.Hidden;
                 btnSettings.Visibility = Visibility.Hidden;
-                ready = false;
                 cbType.Visibility = Visibility.Hidden;
                 cbMap.Visibility = Visibility.Hidden;
                 tbRounds.Visibility = Visibility.Hidden;
@@ -156,7 +161,7 @@ namespace Orbit.Gui
             int rounds = 1;
             try
             {
-                if (leader)
+                if (tbRounds.Visibility == Visibility.Visible)
                     rounds = int.Parse(tbRounds.Text);
                 else
                     rounds = int.Parse((string)lblRounds.Content);

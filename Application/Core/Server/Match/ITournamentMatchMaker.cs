@@ -8,20 +8,17 @@ namespace Orbit.Core.Server.Match
 {
     public interface ITournamentMatchMaker
     {
-        void SelectPlayersForNewMatch(out Player plr1, out Player plr2);
+        Tuple<Player, Player> SelectPlayersForNewMatch();
 
-        void MatchEnded(Player plr, GameEnd endType);
+        void OnMatchEnd(Player plr, GameEnd endType);
 
         Player GetWinner();
     }
 
     public enum GameMatchMakerType
     {
-        ONE_TO_ALL_THEN_SCORE,
-        ONE_TO_ALL_TILL_WINNER,
-        ONE_TO_ONE_INFINITE,
-#if DEBUG
-        FIRST_SPECTATOR,
-#endif
+        WINS_THEN_SCORE,
+        ONLY_SCORE,
+        TEST_LEADER_SPECTATOR,
     }
 }
