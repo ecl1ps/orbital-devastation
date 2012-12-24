@@ -6,7 +6,7 @@ using Orbit.Core.Players;
 
 namespace Orbit.Core.Server.Match
 {
-    public abstract class AbstractTournamentMatchMaker : ITournamentMatchMaker
+    public abstract class AbstractTournamentMatchManager : ITournamentMatchManager
     {
         protected List<Player> players;
         protected List<PlayerMatchData> data;
@@ -14,7 +14,7 @@ namespace Orbit.Core.Server.Match
         protected int roundCount;
         protected int roundNumber;
 
-        public AbstractTournamentMatchMaker(List<Player> players, Random randGen, int rounds)
+        public AbstractTournamentMatchManager(List<Player> players, Random randGen, int rounds)
         {
             this.players = players;
             data = new List<PlayerMatchData>();

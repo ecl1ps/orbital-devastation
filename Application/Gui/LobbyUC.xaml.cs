@@ -25,7 +25,7 @@ namespace Orbit.Gui
         private bool leader;
         private bool ready;
         private bool receivedSettings;
-        private Dictionary<GameMatchMakerType, string> matchmakerNames;
+        private Dictionary<GameMatchManagerType, string> matchManagerNames;
 
         public LobbyUC(bool asLeader, bool settingsLocked = false)
         {
@@ -33,11 +33,11 @@ namespace Orbit.Gui
             receivedSettings = false;
             InitializeComponent();
 
-            matchmakerNames = new Dictionary<GameMatchMakerType, string>(3);
-            matchmakerNames.Add(GameMatchMakerType.WINS_THEN_SCORE, "Each vs. Each (most wins then score)");
-            matchmakerNames.Add(GameMatchMakerType.ONLY_SCORE, "Each vs. Each (score)");
+            matchManagerNames = new Dictionary<GameMatchManagerType, string>(3);
+            matchManagerNames.Add(GameMatchManagerType.WINS_THEN_SCORE, "Each vs. Each (most wins then score)");
+            matchManagerNames.Add(GameMatchManagerType.ONLY_SCORE, "Each vs. Each (score)");
 #if DEBUG
-            matchmakerNames.Add(GameMatchMakerType.TEST_LEADER_SPECTATOR, "Leader as Spectator (test)");
+            matchManagerNames.Add(GameMatchManagerType.TEST_LEADER_SPECTATOR, "Leader as Spectator (test)");
 #endif
 
             btnReady.IsEnabled = false;
@@ -56,13 +56,13 @@ namespace Orbit.Gui
             if (asLeader && !settingsLocked)
             {
                 List<ComboData> data = new List<ComboData>();
-                foreach (GameMatchMakerType m in Enum.GetValues(typeof(GameMatchMakerType)))
-                    data.Add(new ComboData { Id = m, Name = matchmakerNames[m] });
+                foreach (GameMatchManagerType m in Enum.GetValues(typeof(GameMatchManagerType)))
+                    data.Add(new ComboData { Id = m, Name = matchManagerNames[m] });
 
                 cbType.ItemsSource = data;
                 cbType.DisplayMemberPath = "Name";
                 cbType.SelectedValuePath = "Id";
-                cbType.SelectedValue = GameMatchMakerType.WINS_THEN_SCORE;
+                cbType.SelectedValue = GameMatchManagerType.WINS_THEN_SCORE;
 
                 List<ComboData> dataMap = new List<ComboData>();
                 foreach (GameLevel l in Enum.GetValues(typeof(GameLevel)))
@@ -218,7 +218,7 @@ namespace Orbit.Gui
             btnStartGame.IsEnabled = false;
 
             TournamentSettings s = new TournamentSettings();
-            s.MMType = (GameMatchMakerType)cbType.SelectedValue;
+            s.MMType = (GameMatchManagerType)cbType.SelectedValue;
             s.Level = (GameLevel)cbMap.SelectedValue;
             try
             {
@@ -243,7 +243,7 @@ namespace Orbit.Gui
         {
             receivedSettings = true;
             btnReady.IsEnabled = true;
-            lblType.Content = matchmakerNames[s.MMType];
+            lblType.Content = matchManagerNames[s.MMType];
             lblMap.Content = s.Level;
             lblRounds.Content = s.RoundCount.ToString();
             UpdateMatchCount(s.RoundCount);

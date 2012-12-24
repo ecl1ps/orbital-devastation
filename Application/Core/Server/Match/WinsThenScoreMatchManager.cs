@@ -7,11 +7,11 @@ using Orbit.Core.Players;
 namespace Orbit.Core.Server.Match
 {
     /// <summary>
-    /// kazdy hraje s kazdym a potom rozhoduje pouze score
+    /// kazdy hraje s kazdym a kdyz potom neni jednoznacny vyherce (treba dva maji dve vyhry), tak rozhodne score
     /// </summary>
-    public class ScoreMatchMaker : AbstractTournamentMatchMaker
+    public class WinsThenScoreMatchManager : AbstractTournamentMatchManager
     {
-        public ScoreMatchMaker(List<Player> players, Random randGen, int rounds)
+        public WinsThenScoreMatchManager(List<Player> players, Random randGen, int rounds)
             : base(players, randGen, rounds)
         {
         }
@@ -49,27 +49,30 @@ namespace Orbit.Core.Server.Match
             if (!EveryOnePlayedWithNumberOfPlayers(players.Count - 1))
                 return null;
 
-            int maxScore = 0;
-            players.ForEach(p => { if (p.Data.Score > maxScore) maxScore = p.Data.Score; });
+            int maxWins = 0;
+            data.ForEach(d => { if (d.WonGames > maxWins) maxWins = d.WonGames; });
 
-            // hraci, kteri se deli o prvni misto ve score
-            List<Player> bestPlayers = GetPlayersWhoHaveScore(maxScore);
+            if (maxWins == 0)
+                return null;
+
+            // hraci, kteri se deli o prvni misto ve vyhranych zapasech
+            List<Player> bestPlayers = GetPlayersWhoWonNumberOfMatches(maxWins);
             if (bestPlayers.Count == 1)
                 return bestPlayers[0];
             else
             {
-                // kdyz jich je vic, tak vyhrava hrac s nejvice vyhranymi hrami
-                IOrderedEnumerable<Player> bp = bestPlayers.OrderByDescending(p => p.Data.WonMatches);
+                // kdyz jich je vic, tak vyhrava hrac s nejvetsim score
+                IOrderedEnumerable<Player> bp = bestPlayers.OrderByDescending(p => p.Data.Score);
                 return bp.First();
             }
         }
 
-        private List<Player> GetPlayersWhoHaveScore(int score)
+        private List<Player> GetPlayersWhoWonNumberOfMatches(int wins)
         {
             List<Player> bestPlayers = new List<Player>();
 
-            // vrati vsechny hrace, kteri maji dane score
-            players.ForEach(p => { if (p.Data.Score == score) bestPlayers.Add(p); });
+            // vrati vsechny hrace, kteri maji wins vyher
+            data.ForEach(d => { if (d.WonGames == wins) bestPlayers.Add(players.Find(p => p.Data.HashId == d.Owner)); });
 
             return bestPlayers;
         }

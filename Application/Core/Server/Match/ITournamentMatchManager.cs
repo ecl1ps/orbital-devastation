@@ -6,7 +6,7 @@ using Orbit.Core.Players;
 
 namespace Orbit.Core.Server.Match
 {
-    public interface ITournamentMatchMaker
+    public interface ITournamentMatchManager
     {
         Tuple<Player, Player> SelectPlayersForNewMatch();
 
@@ -15,7 +15,7 @@ namespace Orbit.Core.Server.Match
         Player GetWinner();
     }
 
-    public enum GameMatchMakerType
+    public enum GameMatchManagerType
     {
         WINS_THEN_SCORE,
         ONLY_SCORE,

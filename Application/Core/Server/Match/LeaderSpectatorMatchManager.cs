@@ -9,11 +9,11 @@ namespace Orbit.Core.Server.Match
     /// <summary>
     /// testovaci MM, ktery vrati dva hrace, kteri nejsou leaderem (aby leader byl vzdy spectator)
     /// </summary>
-    public class LeaderSpectatorMatchMaker : ITournamentMatchMaker
+    public class LeaderSpectatorMatchManager : ITournamentMatchManager
     {
         private List<Player> players;
 
-        public LeaderSpectatorMatchMaker(List<Player> players)
+        public LeaderSpectatorMatchManager(List<Player> players)
         {
             this.players = players;
         }

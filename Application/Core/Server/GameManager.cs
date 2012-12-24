@@ -25,7 +25,7 @@ namespace Orbit.Core.Server
         private List<Player> players;
         private SortedSet<string> tournamentPlayerIds;
         private List<ISceneObject> objects;
-        private ITournamentMatchMaker matchMaker;
+        private ITournamentMatchManager matchManager;
         private IGameLevel gameLevel;
 
         public int Level { get; set; }
@@ -42,17 +42,17 @@ namespace Orbit.Core.Server
 
             switch (serverMgr.TournamentSettings.MMType)
             {
-                case GameMatchMakerType.WINS_THEN_SCORE:
-                    matchMaker = new WinsThenScoreMatchMaker(players, serverMgr.GetRandomGenerator(), serverMgr.TournamentSettings.RoundCount);
+                case GameMatchManagerType.WINS_THEN_SCORE:
+                    matchManager = new WinsThenScoreMatchManager(players, serverMgr.GetRandomGenerator(), serverMgr.TournamentSettings.RoundCount);
                     break;
-                case GameMatchMakerType.ONLY_SCORE:
-                    matchMaker = new ScoreMatchMaker(players, serverMgr.GetRandomGenerator(), serverMgr.TournamentSettings.RoundCount);
+                case GameMatchManagerType.ONLY_SCORE:
+                    matchManager = new ScoreMatchManager(players, serverMgr.GetRandomGenerator(), serverMgr.TournamentSettings.RoundCount);
                     break;
-                case GameMatchMakerType.TEST_LEADER_SPECTATOR:
-                    matchMaker = new LeaderSpectatorMatchMaker(players);
+                case GameMatchManagerType.TEST_LEADER_SPECTATOR:
+                    matchManager = new LeaderSpectatorMatchManager(players);
                     break;
                 default:
-                    throw new NotImplementedException("Unknown MatchMaker required");
+                    throw new NotImplementedException("Unknown MatchManager required");
             }
             
             tournamentPlayerIds = new SortedSet<string>();
@@ -91,7 +91,7 @@ namespace Orbit.Core.Server
 
             if (serverMgr.GameType == Gametype.TOURNAMENT_GAME)
             {
-                Tuple<Player, Player> selectedPlayers = matchMaker.SelectPlayersForNewMatch();
+                Tuple<Player, Player> selectedPlayers = matchManager.SelectPlayersForNewMatch();
                 plr1 = selectedPlayers.Item1;
                 plr2 = selectedPlayers.Item2;
             }
@@ -118,7 +118,7 @@ namespace Orbit.Core.Server
             matchCreated = false;
 
             if (serverMgr.GameType == Gametype.TOURNAMENT_GAME)
-                matchMaker.OnMatchEnd(plr, endType);
+                matchManager.OnMatchEnd(plr, endType);
         }
 
         public void ObjectDestroyed(long id)
@@ -223,7 +223,7 @@ namespace Orbit.Core.Server
 
         public bool CheckTournamentFinished(bool announce = false)
         {
-            Player winner = matchMaker.GetWinner();
+            Player winner = matchManager.GetWinner();
             if (winner == null)
                 return false;
 

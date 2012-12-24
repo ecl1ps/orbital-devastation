@@ -10,7 +10,7 @@ namespace Orbit.Core
     public class TournamentSettings
     {
 
-        public GameMatchMakerType MMType { get; set; }
+        public GameMatchManagerType MMType { get; set; }
         public GameLevel Level { get; set; }
         public int RoundCount { get; set; }
 
@@ -19,7 +19,7 @@ namespace Orbit.Core
             if (!withDefaults)
                 return;
 
-            MMType = GameMatchMakerType.WINS_THEN_SCORE;
+            MMType = GameMatchManagerType.WINS_THEN_SCORE;
             Level = GameLevel.NORMAL1;
             RoundCount = 1;
         }

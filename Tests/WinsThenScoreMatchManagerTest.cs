@@ -7,11 +7,11 @@ using System.Collections.Generic;
 namespace Tests
 {
     /// <summary>
-    ///This is a test class for WinsThenScoreMatchMakerTest and is intended
-    ///to contain all WinsThenScoreMatchMakerTest Unit Tests
+    ///This is a test class for WinsThenScoreMatchManagerTest and is intended
+    ///to contain all WinsThenScoreMatchManagerTest Unit Tests
     ///</summary>
     [TestClass()]
-    public class WinsThenScoreMatchMakerTest
+    public class WinsThenScoreMatchManagerTest
     {
         #region Additional test attributes
         // 
@@ -44,22 +44,6 @@ namespace Tests
         #endregion
 
         /// <summary>
-        ///A test for GetPlayersWhoWonNumberOfMatches
-        ///</summary>
-        [TestMethod()]
-        public void GetPlayersWhoWonNumberOfMatchesTest()
-        {
-            PrivateObject param0 = null; // TODO: Initialize to an appropriate value
-            WinsThenScoreMatchMaker_Accessor target = new WinsThenScoreMatchMaker_Accessor(param0); // TODO: Initialize to an appropriate value
-            int wins = 0; // TODO: Initialize to an appropriate value
-            List<Player> expected = null; // TODO: Initialize to an appropriate value
-            List<Player> actual;
-            actual = target.GetPlayersWhoWonNumberOfMatches(wins);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
         ///A test for GetWinner
         ///</summary>
         [TestMethod()]
@@ -68,7 +52,7 @@ namespace Tests
             List<Player> players = null; // TODO: Initialize to an appropriate value
             Random randGen = null; // TODO: Initialize to an appropriate value
             int rounds = 0; // TODO: Initialize to an appropriate value
-            WinsThenScoreMatchMaker target = new WinsThenScoreMatchMaker(players, randGen, rounds); // TODO: Initialize to an appropriate value
+            WinsThenScoreMatchManager target = new WinsThenScoreMatchManager(players, randGen, rounds); // TODO: Initialize to an appropriate value
             Player expected = null; // TODO: Initialize to an appropriate value
             Player actual;
             actual = target.GetWinner();
@@ -85,7 +69,7 @@ namespace Tests
             List<Player> players = null; // TODO: Initialize to an appropriate value
             Random randGen = null; // TODO: Initialize to an appropriate value
             int rounds = 0; // TODO: Initialize to an appropriate value
-            WinsThenScoreMatchMaker target = new WinsThenScoreMatchMaker(players, randGen, rounds); // TODO: Initialize to an appropriate value
+            WinsThenScoreMatchManager target = new WinsThenScoreMatchManager(players, randGen, rounds); // TODO: Initialize to an appropriate value
             Tuple<Player, Player> expected = null; // TODO: Initialize to an appropriate value
             Tuple<Player, Player> actual;
             actual = target.SelectPlayersForNewMatch();
