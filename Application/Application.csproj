@@ -228,12 +228,9 @@
     <Compile Include="Core\Server\Level\LevelNormal1.cs" />
     <Compile Include="Core\Server\Level\LevelTestBaseCollisions.cs" />
     <Compile Include="Core\Server\Level\LevelTestStaticObjects.cs" />
-    <Compile Include="Core\Server\Match\FirstSpectatorMatchMaker.cs" />
     <Compile Include="Core\Server\Match\AbstractTournamentMatchMaker.cs" />
     <Compile Include="Core\Server\Match\WinsThenScoreMatchMaker.cs" />
     <Compile Include="Core\Server\Match\ITournamentMatchMaker.cs" />
-    <Compile Include="Core\Server\Match\OneToAllTillWinnerMatchMaker.cs" />
-    <Compile Include="Core\Server\Match\OneToOneInfiniteMachMaker.cs" />
     <Compile Include="Core\Server\Match\PlayerMatchData.cs" />
     <Compile Include="Core\Server\Match\ScoreMatchMaker.cs" />
     <Compile Include="Core\Server\ServerMgr.Message.cs" />
