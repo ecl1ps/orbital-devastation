@@ -11,3 +11,6 @@ SATTest/obj/*
 Application/resources/images/icons/arrow-red.png
 Application/resources/images/icons/broken_asteroid.xcf
 Application/resources/images/icons/flame.png
+TestResults/*
+Tests/bin/*
+Tests/obj/*
