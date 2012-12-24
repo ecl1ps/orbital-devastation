@@ -678,7 +678,7 @@ namespace Orbit.Core.Client
         private void ChangeMoveState(NetIncomingMessage msg)
         {
             Player player = GetPlayer(msg.ReadInt32());
-            player.Device.GetControlOfType<ControlableDeviceControl>().receiveMovingTypeChanged(msg);
+            player.Device.GetControlOfType<ControlableDeviceControl>().ReceivedMovingTypeChanged(msg);
         }
 
         private void ReceiveModuleColorChange(NetIncomingMessage msg)

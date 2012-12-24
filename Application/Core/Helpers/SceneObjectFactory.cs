@@ -470,7 +470,7 @@ namespace Orbit.Core.Helpers
             cs.Radius = module.Radius;
             module.CollisionShape = cs;
 
-            ControlableDeviceControl dc = new ControlableDeviceControl();
+            ControlableDeviceControl dc = new ControlableMiningModuleControl();
             module.AddControl(dc);
 
             LinearRotationControl rc = new LinearRotationControl();

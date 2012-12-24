@@ -153,6 +153,7 @@
     <Compile Include="Core\Scene\Controls\Health\Implementations\DestroyHpControl.cs" />
     <Compile Include="Core\Scene\Controls\Health\Implementations\BaseHealthControl.cs" />
     <Compile Include="Core\Scene\Controls\IDamageControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\ControlableMiningModuleControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ExcludingExplodingSingularityBulletControl.cs" />
     <Compile Include="Core\Scene\Controls\Health\HpControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\MinorAsteroidCollisionReactionControl.cs" />
