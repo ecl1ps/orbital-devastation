@@ -42,7 +42,12 @@ namespace Orbit.Gui
             lblName.Content = data.Name;
             lblScore.Content = data.Score;
             lblWins.Content = "Won/Played: " + data.Won + "/" + data.Played;
-            colorBox.Background = new SolidColorBrush(data.Color);
+            ColorBox.Background = new SolidColorBrush(data.Color);
+        }
+
+        private void ColorPick(object sender, MouseButtonEventArgs e)
+        {
+            (Application.Current.MainWindow as GameWindow).mainGrid.Children.Add(new ColorPickerUC());
         }
     }
 
