@@ -36,9 +36,7 @@ namespace Orbit.Gui
             matchManagerNames = new Dictionary<GameMatchManagerType, string>(3);
             matchManagerNames.Add(GameMatchManagerType.WINS_THEN_SCORE, "Each vs. Each (most wins then score)");
             matchManagerNames.Add(GameMatchManagerType.ONLY_SCORE, "Each vs. Each (score)");
-#if DEBUG
             matchManagerNames.Add(GameMatchManagerType.TEST_LEADER_SPECTATOR, "Leader as Spectator (test)");
-#endif
 
             btnReady.IsEnabled = false;
 
@@ -56,9 +54,11 @@ namespace Orbit.Gui
             if (asLeader && !settingsLocked)
             {
                 List<ComboData> data = new List<ComboData>();
-                foreach (GameMatchManagerType m in Enum.GetValues(typeof(GameMatchManagerType)))
-                    data.Add(new ComboData { Id = m, Name = matchManagerNames[m] });
-
+                data.Add(new ComboData { Id = GameMatchManagerType.WINS_THEN_SCORE, Name = matchManagerNames[GameMatchManagerType.WINS_THEN_SCORE] });
+                data.Add(new ComboData { Id = GameMatchManagerType.ONLY_SCORE, Name = matchManagerNames[GameMatchManagerType.ONLY_SCORE] });
+#if DEBUG
+                data.Add(new ComboData { Id = GameMatchManagerType.TEST_LEADER_SPECTATOR, Name = matchManagerNames[GameMatchManagerType.TEST_LEADER_SPECTATOR] });
+#endif
                 cbType.ItemsSource = data;
                 cbType.DisplayMemberPath = "Name";
                 cbType.SelectedValuePath = "Id";
@@ -124,8 +124,10 @@ namespace Orbit.Gui
 
         public void AllReady(bool ready = true)
         {
+#if !DEBUG
             if (leader)
                 btnStartGame.IsEnabled = ready;
+#endif
         }
 
         private void lobbyWindow_Loaded(object sender, RoutedEventArgs e)
@@ -215,7 +217,9 @@ namespace Orbit.Gui
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
             btnSettings.IsEnabled = false;
+#if !DEBUG
             btnStartGame.IsEnabled = false;
+#endif
 
             TournamentSettings s = new TournamentSettings();
             s.MMType = (GameMatchManagerType)cbType.SelectedValue;

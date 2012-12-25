@@ -126,9 +126,6 @@ namespace Orbit.Core.Server
 
         private void ReceivedStartGameRequestMsg(NetIncomingMessage msg)
         {
-            if (GameType != Gametype.SOLO_GAME && players.Count < 2)
-                return;
-
             if (gameSession == null)
             {
                 gameSession = new GameManager(this, players);

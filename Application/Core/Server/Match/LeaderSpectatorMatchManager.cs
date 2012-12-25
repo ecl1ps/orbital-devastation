@@ -24,14 +24,13 @@ namespace Orbit.Core.Server.Match
             foreach (Player p in players)
                 p.Data.Active = false;
 
-            if (players.Count < 3)
-                throw new Exception("Not enough players -> you need at least 3 players so you can become spectator!");
-            
             List<Player> nonLeaders = players.FindAll(p => p.Data.LobbyLeader == false);
-            nonLeaders[0].Data.Active = true;
-            nonLeaders[1].Data.Active = true;
+            if (nonLeaders.Count > 0)
+                nonLeaders[0].Data.Active = true;
+            if (nonLeaders.Count > 1)
+                nonLeaders[1].Data.Active = true;
 
-            return new Tuple<Player, Player>(nonLeaders[0], nonLeaders[1]);
+            return new Tuple<Player, Player>(nonLeaders.Count > 0 ? nonLeaders[0] : null, nonLeaders.Count > 1 ? nonLeaders[1] : null);
         }
 
         public void OnMatchEnd(Player plr, GameEnd endType)

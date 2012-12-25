@@ -31,7 +31,7 @@ namespace Orbit.Core.Server.Match
 
             // skocime na dalsi kolo
             if (roundNumber++ == roundCount)
-                throw new Exception("Error: players are trying to start round " + roundNumber + " but tournament is set for " + roundCount + "rounds!");
+                throw new Exception("Error: players are trying to start round " + roundNumber + " but tournament is set for " + roundCount + "round(s)!");
 
             // a vynulujeme zaznamy kdo hral s kym
             data.ForEach(d => d.playedWith.Clear());

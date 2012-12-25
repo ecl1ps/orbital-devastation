@@ -72,7 +72,7 @@ namespace Orbit.Core.Server
             CreateNewLevel();
 
             // pri solo hre se vytvori jeden bot
-            if (players.Count == 1)
+            /*if (players.Count == 1)
             {
                 Player bot = serverMgr.CreateAndAddPlayer(BotNameAccessor.GetBotName(SharedDef.DEFAULT_BOT), "NullBotHash", Colors.White);
                 bot.Data.PlayerType = PlayerType.BOT;
@@ -81,7 +81,7 @@ namespace Orbit.Core.Server
                 bot.Data.StartReady = true;
                 Color plrColor = players[0].Data.PlayerColor;
                 bot.Data.PlayerColor = Color.FromRgb((byte)(0xFF - plrColor.R), (byte)(0xFF - plrColor.G), (byte)(0xFF - plrColor.B));
-            }
+            }*/
 
             Tuple<Player, Player> selectedPlayers = matchManager.SelectPlayersForNewMatch();
             Player plr1 = selectedPlayers.Item1;
