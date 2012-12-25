@@ -247,6 +247,11 @@ namespace Orbit.Core.Server
 
             gameLevel.Update(tpf);
         }
+
+        public static int GetRequiredNumberOfMatches(int players, int rounds)
+        {
+            return FastMath.Factorial(players) * rounds / (2 * FastMath.Factorial(players - 2));
+        }
     }
 
     public enum GameLevel

@@ -285,40 +285,11 @@ namespace Orbit.Gui
             int players = spPlayers.Children.Count > 1 ? spPlayers.Children.Count : 2;
 
             // kombinace
-            int matches = Factorial(players) * rounds / (2 * Factorial(players - 2));
+            int matches = GameManager.GetRequiredNumberOfMatches(players, rounds);
             if (matches > 1)
                 lblMatches.Content = "(" + matches.ToString() + " matches)";
             else
                 lblMatches.Content = "(" + matches.ToString() + " match)";
-        }
-
-        public int Factorial(int input)
-        {
-            int answer = 1;
-
-            if (input > 0)
-            {
-                int count = 1;
-                while (count <= input)
-                {
-                    if (count == 1)
-                    {
-                        answer = 1;
-                        count++;
-                    }
-                    else
-                    {
-                        answer = count * answer;
-                        count++;
-                    }
-                }
-            }
-            else if (input < 0)
-            {
-                throw new InvalidOperationException("Factorial can by computed only from a positive integer.");
-            }
-
-            return answer;
         }
     }
 }
