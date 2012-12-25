@@ -145,7 +145,7 @@ namespace Orbit.Core.Client
 
             if ((GameType != Gametype.TOURNAMENT_GAME || tournametRunnig) && !currentPlayer.Data.StartReady)
                 SendStartGameRequest();
-            else
+            else if (GameWindowState == WindowState.IN_LOBBY)
             {
                 CheckAllPlayersReady();
                 UpdateLobbyPlayers();
@@ -175,7 +175,7 @@ namespace Orbit.Core.Client
                 EndGame(disconnected, GameEnd.LEFT_GAME);
             else if (disconnected.Device != null)
                 disconnected.Device.DoRemoveMe();
-            if (GameType == Gametype.TOURNAMENT_GAME)
+            if (GameType == Gametype.TOURNAMENT_GAME && GameWindowState == WindowState.IN_LOBBY)
             {
                 UpdateLobbyPlayers();
                 CheckAllPlayersReady();

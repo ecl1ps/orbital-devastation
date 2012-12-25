@@ -272,7 +272,7 @@ namespace Orbit.Core.Client
 
         private void CreateAndAddBot(Player plr)
         {
-            if (plr.Data.BotType == BotType.NONE)
+            if (plr.Data.BotType == BotType.NONE || !plr.IsActivePlayer())
                 return;
 
             switch (plr.Data.BotType)
