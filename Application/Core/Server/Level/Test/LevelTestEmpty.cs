@@ -30,9 +30,8 @@ namespace Orbit.Core.Server.Level
         {
         }
 
-        public bool IsBotAllowed()
+        public void CreateBots(List<Player> players, int suggestedCount, BotType type)
         {
-            return false;
         }
     }
 }

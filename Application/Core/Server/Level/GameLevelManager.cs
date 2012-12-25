@@ -6,9 +6,22 @@ using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Weapons;
 using Lidgren.Network;
+using Orbit.Core.Players;
+using System.Windows.Media;
+using Orbit.Core.AI;
 
 namespace Orbit.Core.Server.Level
 {
+    public enum GameLevel
+    {
+        BASIC_MAP,
+
+        TEST_EMPTY,
+        TEST_BASE_COLLISIONS,
+        TEST_POWERUPS,
+        TEST_STATIC_OBJ,
+    }
+
     public static class GameLevelManager
     {
         public static IGameLevel CreateNewGameLevel(ServerMgr mgr, GameLevel lvl, List<ISceneObject> objects)
@@ -16,9 +29,11 @@ namespace Orbit.Core.Server.Level
             IGameLevel newLvl = null;
             switch (lvl)
             {
-                case GameLevel.NORMAL1:
-                    newLvl = new LevelNormal1(mgr, objects);
+                case GameLevel.BASIC_MAP:
+                    newLvl = new LevelBasic(mgr, objects);
                     break;
+
+                // testovaci
                 case GameLevel.TEST_EMPTY:
                     newLvl = new LevelTestEmpty(mgr);
                     break;
@@ -54,6 +69,33 @@ namespace Orbit.Core.Server.Level
             NetOutgoingMessage msg = serverMgr.CreateNetMessage();
             (obj as ISendable).WriteObject(msg);
             serverMgr.BroadcastMessage(msg);
+        }
+
+        public static Player CreateBot(BotType type, String hash, List<Player> players)
+        {
+            Player bot = new Player(null);
+            bot.Data = new PlayerData();
+            bot.Data.Id = IdMgr.GetNewPlayerId();
+            String name = BotNameAccessor.GetBotName(type);
+            if (players.Exists(p => p.Data.Name.Equals(name)))
+            {
+                Random rand = new Random(Environment.TickCount);
+                bot.Data.PlayerColor = Color.FromRgb((byte)rand.Next(255), (byte)rand.Next(255), (byte)rand.Next(255));
+                bot.Data.Name = name + " " + bot.GetId();
+            }
+            else
+            {
+                Color botColor = players[0].Data.PlayerColor;
+                bot.Data.PlayerColor = Color.FromRgb((byte)(0xFF - botColor.R), (byte)(0xFF - botColor.G), (byte)(0xFF - botColor.B));
+                bot.Data.Name = name;
+            }
+            bot.Data.HashId = hash;
+
+            bot.Data.PlayerType = PlayerType.BOT;
+            bot.Data.BotType = type;
+            bot.Data.StartReady = true;
+
+            return bot;
         }
     }
 }

@@ -5,17 +5,18 @@ using System.Text;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Entities.Implementations;
 using Lidgren.Network;
+using Orbit.Core.Players;
 
 namespace Orbit.Core.Server.Level
 {
-    public class LevelNormal1 : IGameLevel
+    public class LevelBasic : IGameLevel
     {
         protected ServerMgr mgr;
         protected List<ISceneObject> objects;
         protected float newStatPowerupTimer;
         protected float newAsteroidTimer;
 
-        public LevelNormal1(ServerMgr serverMgr, List<ISceneObject> objs)
+        public LevelBasic(ServerMgr serverMgr, List<ISceneObject> objs)
         {
             mgr = serverMgr;
             objects = objs;
@@ -55,12 +56,14 @@ namespace Orbit.Core.Server.Level
 
         public virtual void OnStart()
         {
-
         }
 
-        public bool IsBotAllowed()
+        public void CreateBots(List<Player> players, int suggestedCount, BotType type)
         {
-            return true;
+            for (int i = 0; i < suggestedCount; ++i)
+            {
+                players.Add(GameLevelManager.CreateBot(type, "NullBotHash", players));
+            }
         }
     }
 }

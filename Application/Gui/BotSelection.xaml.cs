@@ -14,6 +14,8 @@ using System.Windows.Shapes;
 using System.Windows.Controls.Primitives;
 using Orbit.Core;
 using Orbit.Core.Players;
+using Orbit.Core.Server.Match;
+using Orbit.Core.Server.Level;
 
 namespace Orbit.Gui
 {
@@ -23,6 +25,8 @@ namespace Orbit.Gui
     public partial class BotSelection : UserControl
     {
         public const string TWO_LINES = "\r\n\r\n";
+
+        private BotType type;
 
         public BotSelection()
         {
@@ -39,12 +43,12 @@ namespace Orbit.Gui
 
             if (selected.Equals(EasyBotButton))
             {
-                SharedDef.DEFAULT_BOT = BotType.LEVEL1;
+                type = BotType.LEVEL1;
                 TextArea.Text = SharedDef.BOT_LEVEL_1_TEXT + TWO_LINES + "Best highscore: " + GameProperties.Props.Get(PropertyKey.PLAYER_HIGHSCORE_SOLO1);
             }
             else if (selected.Equals(HookerBotButton))
             {
-                SharedDef.DEFAULT_BOT = BotType.LEVEL2;
+                type = BotType.LEVEL2;
                 TextArea.Text = SharedDef.BOL_LEVEL_2_TEXT + TWO_LINES + "Best highscore: " + GameProperties.Props.Get(PropertyKey.PLAYER_HIGHSCORE_SOLO2);
             }
             else
@@ -63,7 +67,15 @@ namespace Orbit.Gui
         private void StartGame(object sender, RoutedEventArgs e)
         {
             (Application.Current as App).CreateGameGui();
-            (Application.Current as App).StartSoloGame();
+
+            TournamentSettings s = new TournamentSettings();
+            s.MMType = GameMatchManagerType.SKIRMISH;
+            s.Level = GameLevel.BASIC_MAP;
+            s.RoundCount = 1;
+            s.BotCount = 1;
+            s.BotType = type;
+
+            (Application.Current as App).StartSoloGame(s);
         }
     }
 }

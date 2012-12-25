@@ -19,6 +19,7 @@ using Orbit.Core.Scene.Controls.Health.implementations;
 using Orbit.Core.Scene.Controls.Health;
 using Orbit.Core.Server.Match;
 using Orbit.Core.Server;
+using Orbit.Core.Server.Level;
 
 namespace Orbit.Core.Helpers
 {
@@ -839,6 +840,8 @@ namespace Orbit.Core.Helpers
             msg.Write((int)s.MMType);
             msg.Write((int)s.Level);
             msg.Write(s.RoundCount);
+            msg.Write((int)s.BotType);
+            msg.Write(s.BotCount);
         }
 
         public static TournamentSettings ReadTournamentSettings(this NetIncomingMessage msg)
@@ -847,6 +850,8 @@ namespace Orbit.Core.Helpers
             s.MMType = (GameMatchManagerType)msg.ReadInt32();
             s.Level = (GameLevel)msg.ReadInt32();
             s.RoundCount = msg.ReadInt32();
+            s.BotType = (BotType)msg.ReadInt32();
+            s.BotCount = msg.ReadInt32();
             return s;
         }
     }

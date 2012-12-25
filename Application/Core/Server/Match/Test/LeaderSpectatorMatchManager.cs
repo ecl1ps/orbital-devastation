@@ -41,5 +41,10 @@ namespace Orbit.Core.Server.Match
         {
             return null;
         }
+
+        public virtual bool HasRightNumberOfPlayersForStart()
+        {
+            return true;
+        }
     }
 }

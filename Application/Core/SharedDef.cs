@@ -2,6 +2,7 @@
 using System.Windows;
 using Orbit.Core.Server;
 using Orbit.Core.Players;
+using Orbit.Core.Server.Level;
 namespace Orbit.Core
 {
     class SharedDef
@@ -117,7 +118,7 @@ namespace Orbit.Core
         public static Rect ORBIT_AREA                       = new Rect(0, 0, CANVAS_SIZE.Width, 200);
 
         public const string CONFIG_FILE                     = "data";
-        public const GameLevel STARTING_LEVEL               = GameLevel.NORMAL1;
+        public const GameLevel STARTING_LEVEL               = GameLevel.BASIC_MAP;
         public static BotType DEFAULT_BOT                   = BotType.LEVEL2;
 
         //Jmena zvuku

@@ -80,5 +80,10 @@ namespace Orbit.Core.Server.Match
 
             return bestPlayers;
         }
+
+        public override bool HasRightNumberOfPlayersForStart()
+        {
+            return players.FindAll(p => p.Data.PlayerType == PlayerType.HUMAN).Count >= 2;
+        }
     }
 }

@@ -17,6 +17,8 @@ using System.IO;
 using Orbit.Core.Players;
 using Orbit.Core.Client.GameStates;
 using System.Net.Sockets;
+using Orbit.Core.Server.Match;
+using Orbit.Core.Server.Level;
 
 namespace Orbit
 {
@@ -31,6 +33,8 @@ namespace Orbit
         private string lastServerAddress;
         private Gametype lastGameType;
         private bool hostedLastgame = false;
+        private TournamentSettings lastSoloTournamentSettings;
+
         public string PlayerName { get; set; }
         public string PlayerHashId { get; set; }
 
@@ -63,7 +67,7 @@ namespace Orbit
             ShutdownServerIfExists();
         }
 
-        public void StartSoloGame()
+        public void StartSoloGame(TournamentSettings s)
         {
             if (!StartLocalServer(Gametype.SOLO_GAME))
                 return;
@@ -71,6 +75,17 @@ namespace Orbit
             sceneMgr.SetRemoteServerAddress("127.0.0.1");
 
             StartGame(Gametype.SOLO_GAME);
+
+            SendTournamentSettings(s);
+            lastSoloTournamentSettings = s;
+        }
+
+        private void SendTournamentSettings(TournamentSettings s)
+        {
+            sceneMgr.Enqueue(new Action(() =>
+            {
+                sceneMgr.SendNewTournamentSettings(s);
+            }));
         }
 
         private bool StartLocalServer(Gametype type)
@@ -121,6 +136,14 @@ namespace Orbit
             sceneMgr.SetRemoteServerAddress("127.0.0.1");
 
             StartGame(Gametype.MULTIPLAYER_GAME);
+
+            TournamentSettings s = new TournamentSettings();
+            s.MMType = GameMatchManagerType.QUICK_GAME;
+            s.Level = GameLevel.BASIC_MAP;
+            s.RoundCount = 1;
+            s.BotCount = 0;
+
+            SendTournamentSettings(s);
         }
 
         public void StartTournamentLobby()
@@ -257,7 +280,7 @@ namespace Orbit
             {
                 case Gametype.SOLO_GAME:
                     CreateGameGui();
-                    StartSoloGame();
+                    StartSoloGame(lastSoloTournamentSettings);
                     break;
                 case Gametype.MULTIPLAYER_GAME:
                     CreateGameGui();
@@ -272,7 +295,7 @@ namespace Orbit
                 case Gametype.NONE:
                 default:
                     CreateGameGui();
-                    StartSoloGame();
+                    StartSoloGame(lastSoloTournamentSettings);
                     break;
             }
         }

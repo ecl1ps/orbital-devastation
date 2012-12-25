@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Orbit.Core.Players;
 
 namespace Orbit.Core.Server.Level
 {
@@ -13,6 +14,6 @@ namespace Orbit.Core.Server.Level
 
         void OnStart();
 
-        bool IsBotAllowed();
+        void CreateBots(List<Player> players, int suggestedCount, BotType type);
     }
 }

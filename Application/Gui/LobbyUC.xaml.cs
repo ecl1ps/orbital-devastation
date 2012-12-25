@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using Orbit.Core.Server.Match;
 using Orbit.Core.Server;
 using Orbit.Core;
+using Orbit.Core.Server.Level;
 
 namespace Orbit.Gui
 {
@@ -26,6 +27,7 @@ namespace Orbit.Gui
         private bool ready;
         private bool receivedSettings;
         private Dictionary<GameMatchManagerType, string> matchManagerNames;
+        private Dictionary<GameLevel, string> levelNames;
 
         public LobbyUC(bool asLeader, bool settingsLocked = false)
         {
@@ -33,10 +35,21 @@ namespace Orbit.Gui
             receivedSettings = false;
             InitializeComponent();
 
-            matchManagerNames = new Dictionary<GameMatchManagerType, string>(3);
+            matchManagerNames = new Dictionary<GameMatchManagerType, string>(5);
             matchManagerNames.Add(GameMatchManagerType.WINS_THEN_SCORE, "Each vs. Each (most wins then score)");
             matchManagerNames.Add(GameMatchManagerType.ONLY_SCORE, "Each vs. Each (score)");
-            matchManagerNames.Add(GameMatchManagerType.TEST_LEADER_SPECTATOR, "Leader as Spectator (test)");
+
+            matchManagerNames.Add(GameMatchManagerType.TEST_LEADER_SPECTATOR, "[TEST] Leader as Spectator");
+            matchManagerNames.Add(GameMatchManagerType.SKIRMISH, "[TEST] One player vs. bot");
+            matchManagerNames.Add(GameMatchManagerType.QUICK_GAME, "[TEST] Two players");
+
+            levelNames = new Dictionary<GameLevel, string>(7);
+            levelNames.Add(GameLevel.BASIC_MAP, "Basic map");
+
+            levelNames.Add(GameLevel.TEST_EMPTY, "[TEST] Empty map");
+            levelNames.Add(GameLevel.TEST_POWERUPS, "[TEST] Powerups");
+            levelNames.Add(GameLevel.TEST_BASE_COLLISIONS, "[TEST] Base collisions");
+            levelNames.Add(GameLevel.TEST_STATIC_OBJ, "[TEST] Static objects");
 
             btnReady.IsEnabled = false;
 
@@ -58,20 +71,27 @@ namespace Orbit.Gui
                 data.Add(new ComboData { Id = GameMatchManagerType.ONLY_SCORE, Name = matchManagerNames[GameMatchManagerType.ONLY_SCORE] });
 #if DEBUG
                 data.Add(new ComboData { Id = GameMatchManagerType.TEST_LEADER_SPECTATOR, Name = matchManagerNames[GameMatchManagerType.TEST_LEADER_SPECTATOR] });
+                data.Add(new ComboData { Id = GameMatchManagerType.SKIRMISH, Name = matchManagerNames[GameMatchManagerType.SKIRMISH] });
+                data.Add(new ComboData { Id = GameMatchManagerType.QUICK_GAME, Name = matchManagerNames[GameMatchManagerType.QUICK_GAME] });
 #endif
                 cbType.ItemsSource = data;
                 cbType.DisplayMemberPath = "Name";
                 cbType.SelectedValuePath = "Id";
                 cbType.SelectedValue = GameMatchManagerType.WINS_THEN_SCORE;
 
-                List<ComboData> dataMap = new List<ComboData>();
-                foreach (GameLevel l in Enum.GetValues(typeof(GameLevel)))
-                    dataMap.Add(new ComboData { Id = l, Name = l.ToString() });
+                data = new List<ComboData>();
+                data.Add(new ComboData { Id = GameLevel.BASIC_MAP, Name = levelNames[GameLevel.BASIC_MAP] });
+#if DEBUG
+                data.Add(new ComboData { Id = GameLevel.TEST_BASE_COLLISIONS, Name = levelNames[GameLevel.TEST_BASE_COLLISIONS] });
+                data.Add(new ComboData { Id = GameLevel.TEST_EMPTY, Name = levelNames[GameLevel.TEST_EMPTY] });
+                data.Add(new ComboData { Id = GameLevel.TEST_POWERUPS, Name = levelNames[GameLevel.TEST_POWERUPS] });
+                data.Add(new ComboData { Id = GameLevel.TEST_STATIC_OBJ, Name = levelNames[GameLevel.TEST_STATIC_OBJ] });
+#endif
 
-                cbMap.ItemsSource = dataMap;
+                cbMap.ItemsSource = data;
                 cbMap.DisplayMemberPath = "Name";
                 cbMap.SelectedValuePath = "Id";
-                cbMap.SelectedValue = GameLevel.NORMAL1;
+                cbMap.SelectedValue = GameLevel.BASIC_MAP;
             }
             else
             {
@@ -219,6 +239,8 @@ namespace Orbit.Gui
             btnSettings.IsEnabled = false;
 #if !DEBUG
             btnStartGame.IsEnabled = false;
+#else
+            btnStartGame.IsEnabled = true;
 #endif
 
             TournamentSettings s = new TournamentSettings();
@@ -236,6 +258,11 @@ namespace Orbit.Gui
                 tbRounds.Text = "1";
                 UpdateMatchCount(s.RoundCount);
             }
+
+            //TODO
+            s.BotCount = 0;
+            s.BotType = SharedDef.DEFAULT_BOT;
+            //
 
             (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
             {

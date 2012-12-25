@@ -24,9 +24,14 @@ namespace Orbit.Core.Server.Match
             roundNumber = 1;
         }
 
+
         public abstract Tuple<Player, Player> SelectPlayersForNewMatch();
 
         public abstract Player GetWinner();
+
+        public abstract bool HasRightNumberOfPlayersForStart();
+
+
 
         public void OnMatchEnd(Player plr, GameEnd endType)
         {

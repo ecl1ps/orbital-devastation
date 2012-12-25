@@ -5,6 +5,7 @@ using System.Text;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Entities.Implementations;
 using Lidgren.Network;
+using Orbit.Core.Players;
 
 namespace Orbit.Core.Server.Level
 {
@@ -40,9 +41,8 @@ namespace Orbit.Core.Server.Level
         {
         }
 
-        public bool IsBotAllowed()
+        public void CreateBots(List<Player> players, int suggestedCount, BotType type)
         {
-            return false;
         }
     }
 }

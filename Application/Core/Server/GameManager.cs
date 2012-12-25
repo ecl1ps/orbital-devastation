@@ -48,6 +48,14 @@ namespace Orbit.Core.Server
                 case GameMatchManagerType.ONLY_SCORE:
                     matchManager = new ScoreMatchManager(players, serverMgr.GetRandomGenerator(), serverMgr.TournamentSettings.RoundCount);
                     break;
+                case GameMatchManagerType.SKIRMISH:
+                    matchManager = new SkirmishMatchManager(players, serverMgr.GetRandomGenerator(), serverMgr.TournamentSettings.RoundCount);
+                    break;
+                case GameMatchManagerType.QUICK_GAME:
+                    matchManager = new QuickGameMatchManager(players, serverMgr.GetRandomGenerator(), serverMgr.TournamentSettings.RoundCount);
+                    break;
+                
+                // testovaci managery
                 case GameMatchManagerType.TEST_LEADER_SPECTATOR:
                     matchManager = new LeaderSpectatorMatchManager(players);
                     break;
@@ -67,21 +75,12 @@ namespace Orbit.Core.Server
             if (matchCreated)
                 return;
 
+            if (!matchManager.HasRightNumberOfPlayersForStart())
+                return;
+
             matchCreated = true;
 
             CreateNewLevel();
-
-            // pri solo hre se vytvori jeden bot
-            /*if (players.Count == 1)
-            {
-                Player bot = serverMgr.CreateAndAddPlayer(BotNameAccessor.GetBotName(SharedDef.DEFAULT_BOT), "NullBotHash", Colors.White);
-                bot.Data.PlayerType = PlayerType.BOT;
-                if (gameLevel.IsBotAllowed())
-                    bot.Data.BotType = SharedDef.DEFAULT_BOT;
-                bot.Data.StartReady = true;
-                Color plrColor = players[0].Data.PlayerColor;
-                bot.Data.PlayerColor = Color.FromRgb((byte)(0xFF - plrColor.R), (byte)(0xFF - plrColor.G), (byte)(0xFF - plrColor.B));
-            }*/
 
             Tuple<Player, Player> selectedPlayers = matchManager.SelectPlayersForNewMatch();
             Player plr1 = selectedPlayers.Item1;
@@ -99,6 +98,7 @@ namespace Orbit.Core.Server
             objects = new List<ISceneObject>();
 
             gameLevel = GameLevelManager.CreateNewGameLevel(serverMgr, serverMgr.TournamentSettings.Level, objects);
+            gameLevel.CreateBots(players, serverMgr.TournamentSettings.BotCount, serverMgr.TournamentSettings.BotType);
             gameLevel.CreateLevelObjects();
         }
 
@@ -151,6 +151,9 @@ namespace Orbit.Core.Server
 
         public bool RequestStartMatch(Player p)
         {
+            if (!matchManager.HasRightNumberOfPlayersForStart())
+                return false;
+
             if (IsRunning && !p.IsActivePlayer() && !SharedDef.ALLOW_SPECTATORS_IN_DUO_MATCH)
                 return false;
 
@@ -242,14 +245,5 @@ namespace Orbit.Core.Server
         {
             return FastMath.Factorial(players) * rounds / (2 * FastMath.Factorial(players - 2));
         }
-    }
-
-    public enum GameLevel
-    {
-        NORMAL1,
-        TEST_EMPTY,
-        TEST_BASE_COLLISIONS,
-        TEST_POWERUPS,
-        TEST_STATIC_OBJ
     }
 }

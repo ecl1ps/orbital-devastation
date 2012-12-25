@@ -13,12 +13,17 @@ namespace Orbit.Core.Server.Match
         void OnMatchEnd(Player plr, GameEnd endType);
 
         Player GetWinner();
+
+        bool HasRightNumberOfPlayersForStart();
     }
 
     public enum GameMatchManagerType
     {
         WINS_THEN_SCORE,
         ONLY_SCORE,
+        SKIRMISH,
+        QUICK_GAME,
+
         TEST_LEADER_SPECTATOR,
     }
 }

@@ -757,13 +757,17 @@ namespace Orbit.Core.Client
             }));
         }
 
-        internal void ProcessNewTournamentSettings(TournamentSettings s)
+        internal void SendNewTournamentSettings(TournamentSettings s)
         {
             NetOutgoingMessage msg = CreateNetMessage();
             msg.Write((int)PacketType.TOURNAMENT_SETTINGS);
             msg.Write(s);
             SendMessage(msg);
+        }
 
+        internal void ProcessNewTournamentSettings(TournamentSettings s)
+        {
+            SendNewTournamentSettings(s);
             players.ForEach(p => { if (!p.Data.LobbyLeader) p.Data.LobbyReady = false; });
             UpdateLobbyPlayers();
         }
