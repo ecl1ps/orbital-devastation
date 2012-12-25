@@ -18,6 +18,10 @@ namespace Orbit.Core.Server.Match
 
         public override Tuple<Player, Player> SelectPlayersForNewMatch()
         {
+            // zneaktivnime vsechny hrace
+            foreach (Player p in players)
+                p.Data.Active = false;
+
             // zkusime najit hrace beznou cestou
             Tuple<Player, Player> newPlayes = SelectPlayersBasic();
             if (newPlayes != null)

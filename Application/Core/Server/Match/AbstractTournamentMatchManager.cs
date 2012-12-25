@@ -101,6 +101,8 @@ namespace Orbit.Core.Server.Match
                     foundPlayers.Remove(plr1);
                     // a najdeme mu spoluhrace (pokud existuje nekdo, kdo take nehral tolikrat, tak ma prednost, jinak nahodne kdokoli jiny)
                     Player plr2 = SelectRandomPlayerForMatchWithPlayer(foundPlayers, plr1);
+                    plr1.Data.Active = true;
+                    plr2.Data.Active = true;
                     return new Tuple<Player, Player>(plr1, plr2);
                 }
             }

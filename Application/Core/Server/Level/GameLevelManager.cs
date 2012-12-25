@@ -40,15 +40,16 @@ namespace Orbit.Core.Server.Level
         {
             StatPowerUp p = ServerSceneObjectFactory.CreateStatPowerUp(serverMgr,
                 (DeviceType)serverMgr.GetRandomGenerator().Next((int)DeviceType.DEVICE_FIRST + 1, (int)DeviceType.DEVICE_LAST));
-            NetOutgoingMessage powerupMsg = serverMgr.CreateNetMessage();
-            p.WriteObject(powerupMsg);
-            serverMgr.BroadcastMessage(powerupMsg);
+            SendNewObject(serverMgr, p);
         }
 
         public static void SendNewObject(ServerMgr serverMgr, ISceneObject obj)
         {
             if (!(obj is ISendable))
+            {
+                Console.Error.WriteLine("Trying to send " + obj.GetType().Name + " but it is not ISendable");
                 return;
+            }
 
             NetOutgoingMessage msg = serverMgr.CreateNetMessage();
             (obj as ISendable).WriteObject(msg);

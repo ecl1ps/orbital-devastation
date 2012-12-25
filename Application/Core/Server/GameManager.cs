@@ -83,25 +83,15 @@ namespace Orbit.Core.Server
                 bot.Data.PlayerColor = Color.FromRgb((byte)(0xFF - plrColor.R), (byte)(0xFF - plrColor.G), (byte)(0xFF - plrColor.B));
             }
 
-            foreach (Player p in players)
-                p.Data.Active = false;
-
-            Player plr1 = players[0];
-            Player plr2 = players[1];
-
-            if (serverMgr.GameType == Gametype.TOURNAMENT_GAME)
-            {
-                Tuple<Player, Player> selectedPlayers = matchManager.SelectPlayersForNewMatch();
-                plr1 = selectedPlayers.Item1;
-                plr2 = selectedPlayers.Item2;
-            }
-
-            plr1.Data.Active = true;
-            plr2.Data.Active = true;
+            Tuple<Player, Player> selectedPlayers = matchManager.SelectPlayersForNewMatch();
+            Player plr1 = selectedPlayers.Item1;
+            Player plr2 = selectedPlayers.Item2;
 
             PlayerPosition firstPlayerPosition = serverMgr.GetRandomGenerator().Next(2) == 0 ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
-            plr1.Data.PlayerPosition = firstPlayerPosition;
-            plr2.Data.PlayerPosition = firstPlayerPosition == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
+            if (plr1 != null)
+                plr1.Data.PlayerPosition = firstPlayerPosition;
+            if (plr2 != null)
+                plr2.Data.PlayerPosition = firstPlayerPosition == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
         }
 
         private void CreateNewLevel()
