@@ -90,7 +90,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             StartDetonation();
 
-            if (meMine.SceneMgr.GameType != Gametype.SOLO_GAME && !meMine.Owner.IsCurrentPlayer())
+            if (!meMine.Owner.IsCurrentPlayerOrBot())
                 return;
 
             if (hitObjects.Contains((other as ISceneObject).Id))
@@ -100,8 +100,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 me.SceneMgr.FloatingTextMgr.AddFloatingText(ScoreDefines.MINE_HIT, meMine.Center, FloatingTextManager.TIME_LENGTH_1, 
                     FloatingTextType.SCORE);
 
-            if (meMine.Owner.IsCurrentPlayerOrBot())
-                meMine.Owner.AddScoreAndShow(ScoreDefines.MINE_HIT);
+            meMine.Owner.AddScoreAndShow(ScoreDefines.MINE_HIT);
 
             hitObjects.Add(other.Id);
 
