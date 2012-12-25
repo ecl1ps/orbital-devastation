@@ -71,7 +71,7 @@ namespace Orbit.Core.Server.Level
             serverMgr.BroadcastMessage(msg);
         }
 
-        public static Player CreateBot(BotType type, String hash, List<Player> players)
+        public static Player CreateBot(BotType type, List<Player> players)
         {
             Player bot = new Player(null);
             bot.Data = new PlayerData();
@@ -89,7 +89,7 @@ namespace Orbit.Core.Server.Level
                 bot.Data.PlayerColor = Color.FromRgb((byte)(0xFF - botColor.R), (byte)(0xFF - botColor.G), (byte)(0xFF - botColor.B));
                 bot.Data.Name = name;
             }
-            bot.Data.HashId = hash;
+            bot.Data.HashId = bot.Data.Name;
 
             bot.Data.PlayerType = PlayerType.BOT;
             bot.Data.BotType = type;

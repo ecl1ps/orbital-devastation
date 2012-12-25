@@ -62,7 +62,7 @@ namespace Orbit.Core.Server.Level
         {
             for (int i = 0; i < suggestedCount; ++i)
             {
-                players.Add(GameLevelManager.CreateBot(type, "NullBotHash", players));
+                players.Add(GameLevelManager.CreateBot(type, players));
             }
         }
     }
