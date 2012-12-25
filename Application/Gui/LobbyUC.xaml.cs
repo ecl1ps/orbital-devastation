@@ -15,6 +15,8 @@ using Orbit.Core.Server.Match;
 using Orbit.Core.Server;
 using Orbit.Core;
 using Orbit.Core.Server.Level;
+using Orbit.Core.Players;
+using Orbit.Core.AI;
 
 namespace Orbit.Gui
 {
@@ -92,6 +94,17 @@ namespace Orbit.Gui
                 cbMap.DisplayMemberPath = "Name";
                 cbMap.SelectedValuePath = "Id";
                 cbMap.SelectedValue = GameLevel.BASIC_MAP;
+
+#if DEBUG
+                data = new List<ComboData>();
+                data.Add(new ComboData { Id = BotType.LEVEL1, Name = BotNameAccessor.GetBotName(BotType.LEVEL1) });
+                data.Add(new ComboData { Id = BotType.LEVEL2, Name = BotNameAccessor.GetBotName(BotType.LEVEL2) });
+
+                cbBot.ItemsSource = data;
+                cbBot.DisplayMemberPath = "Name";
+                cbBot.SelectedValuePath = "Id";
+                cbBot.SelectedValue = BotType.LEVEL1;
+#endif
             }
             else
             {
@@ -102,7 +115,19 @@ namespace Orbit.Gui
                 lblType.Visibility = Visibility.Visible;
                 lblMap.Visibility = Visibility.Visible;
                 lblRounds.Visibility = Visibility.Visible;
+
+                tbBotCount.Visibility = Visibility.Hidden;
+                cbBot.Visibility = Visibility.Hidden;
+                lblBot.Visibility = Visibility.Hidden;
+                lblBotCount.Visibility = Visibility.Hidden;
             }
+
+#if !DEBUG
+                tbBotCount.Visibility = Visibility.Hidden;
+                cbBot.Visibility = Visibility.Hidden;
+                lblBot.Visibility = Visibility.Hidden;
+                lblBotCount.Visibility = Visibility.Hidden;
+#endif
         }
 
         class ComboData
@@ -144,10 +169,8 @@ namespace Orbit.Gui
 
         public void AllReady(bool ready = true)
         {
-#if !DEBUG
             if (leader)
                 btnStartGame.IsEnabled = ready;
-#endif
         }
 
         private void lobbyWindow_Loaded(object sender, RoutedEventArgs e)
@@ -259,10 +282,13 @@ namespace Orbit.Gui
                 UpdateMatchCount(s.RoundCount);
             }
 
-            //TODO
+#if !DEBUG
             s.BotCount = 0;
             s.BotType = SharedDef.DEFAULT_BOT;
-            //
+#else
+            s.BotCount = int.Parse(tbBotCount.Text);
+            s.BotType = (BotType)cbBot.SelectedValue;
+#endif
 
             (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
             {
@@ -275,9 +301,11 @@ namespace Orbit.Gui
             receivedSettings = true;
             btnReady.IsEnabled = true;
             lblType.Content = matchManagerNames[s.MMType];
-            lblMap.Content = s.Level;
+            lblMap.Content = levelNames[s.Level];
             lblRounds.Content = s.RoundCount.ToString();
             UpdateMatchCount(s.RoundCount);
+
+            // TODO: mozna se pozdeji pridaji boti i pro normalni hrace - potom se zde musi zobrazit, kdyz prijde zprava
         }
 
         private void cbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -321,6 +349,22 @@ namespace Orbit.Gui
                 lblMatches.Content = "(" + matches.ToString() + " matches)";
             else
                 lblMatches.Content = "(" + matches.ToString() + " match)";
+        }
+
+        private void tbBotCount_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int bots = 0;
+            try
+            {
+                bots = int.Parse(tbBotCount.Text);
+                if (bots < 0 || bots > 2)
+                    throw new Exception();
+                btnSettings.IsEnabled = true;
+            }
+            catch (Exception)
+            {
+                tbBotCount.Text = "0";
+            }
         }
     }
 }

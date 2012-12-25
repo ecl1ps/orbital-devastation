@@ -360,10 +360,9 @@ namespace Orbit.Core.Client
             {
                 UpdateGeomtricState();
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException)
             {
                 // UI is closed before game finished its Update loop
-                System.Console.Error.WriteLine(e);
             }
         }
 
