@@ -44,7 +44,8 @@ namespace Orbit.Gui
         {
             (Application.Current.MainWindow as GameWindow).mainGrid.Children.Remove(this);
 
-            if ((Application.Current.MainWindow as GameWindow).GameRunning)
+            DependencyObject lobby = LogicalTreeHelper.FindLogicalNode((Application.Current.MainWindow as GameWindow).mainGrid, "lobbyWindow");
+            if ((Application.Current.MainWindow as GameWindow).GameRunning || lobby != null)
             {
                 (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
                 {
