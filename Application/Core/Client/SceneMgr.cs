@@ -618,6 +618,9 @@ namespace Orbit.Core.Client
 
             lastGameEnd = GameEnd.TOURNAMENT_FINISHED;
 
+            if (winner == null)
+                return;
+
             List<LobbyPlayerData> data = CreateLobbyPlayerData();
 
             LobbyPlayerData winnerData = data.Find(d => d.Id == winner.Data.Id);

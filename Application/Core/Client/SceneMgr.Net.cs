@@ -190,6 +190,9 @@ namespace Orbit.Core.Client
                 case PacketType.PLAYER_READY:
                     ReceivedPlayerReadyMsg(msg);
                     break;
+                case PacketType.PLAYER_RECONNECTED:
+                    ReceivedPlayerReconnectedMsg(msg);
+                    break;
                 case PacketType.TOURNAMENT_SETTINGS:
                     ReceivedTournamentSettingsMsg(msg);
                     break;
@@ -236,38 +239,6 @@ namespace Orbit.Core.Client
                     Logger.Warn("Received unhandled packet type: " + type);
                     break;
             }
-        }
-
-        private ISceneObject findObject(long id, Type type)
-        {
-            ISceneObject found = null;
-
-            foreach (ISceneObject obj in GetSceneObjects(type)) 
-            {
-                if (obj.Id == id)
-                {
-                    found = obj;
-                    break;
-                }
-            }
-
-            return found;
-        }
-
-        private ISceneObject findObject(long id)
-        {
-            ISceneObject found = null;
-
-            foreach (ISceneObject obj in GetSceneObjects())
-            {
-                if (obj.Id == id)
-                {
-                    found = obj;
-                    break;
-                }
-            }
-
-            return found;
         }
 
         private void CreateAndAddBot(Player plr)

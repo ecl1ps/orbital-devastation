@@ -80,7 +80,7 @@ namespace Orbit.Core
 
         public const float ACTION_BAR_TOP_MARGIN_PCT        = 0.3f;
 
-        public const bool ALLOW_SPECTATORS_IN_DUO_MATCH     = true;
+        public const bool ALLOW_SPECTATORS_IN_DUO_MATCH     = false;
 
         public const int START_GOLD                         = 250;
 
@@ -216,8 +216,9 @@ namespace Orbit.Core
         ASTEROIDS_DIRECTIONS_CHANGE,
         OBJECTS_TAKE_DAMAGE,
         MODULE_COLOR_CHANGE,
+
         TOURNAMENT_SETTINGS,
         TOURNAMENT_SETTINGS_REQUEST,
-
+        PLAYER_RECONNECTED,
     }    
 }

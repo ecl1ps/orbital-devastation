@@ -100,7 +100,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 Owner.Data.Gold += 1;
             }
 
-            me.SceneMgr.ShowStatusText(3, Owner.Data.Gold.ToString() + " + " + goldPerSec.ToString("0.##") + "/s");
+            me.SceneMgr.ShowStatusText(4, Owner.Data.Gold.ToString() + " + " + goldPerSec.ToString("0.##") + "/s");
         }
 
         private void CheckMining()

@@ -163,10 +163,12 @@ namespace Orbit.Core.Client
             if (disconnected == null)
                 return;
 
-            if (GameType == Gametype.SOLO_GAME)
+            if (GameType == Gametype.TOURNAMENT_GAME && !disconnected.IsActivePlayer())
+            {
                 FloatingTextMgr.AddFloatingText(disconnected.Data.Name + " has disconnected",
                     new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
                     FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
+            }
 
             players.Remove(disconnected);
             (Application.Current as App).SetGameStarted(false);
@@ -237,53 +239,7 @@ namespace Orbit.Core.Client
             (Application.Current as App).SetGameStarted(true);
 
             foreach (Player p in players)
-            {
-                if (p.IsActivePlayer())
-                {
-                    p.CreateWeapons();
-
-                    // zobrazi aktualni integrity bazi
-                    p.SetBaseIntegrity(p.GetBaseIntegrity());
-                    p.Baze = SceneObjectFactory.CreateBase(this, p);
-
-                    PercentageEllipse ellipse = SceneObjectFactory.CreatePercentageEllipse(this, p);
-                    
-                    HpBarControl control = new HpBarControl(ellipse);
-                    p.Baze.AddControl(control);
-
-                    DelayedAttachToScene(ellipse);
-                    DelayedAttachToScene(p.Baze);
-                }
-                else
-                {
-                    MiningModule obj = SceneObjectFactory.CreateMiningModule(this, new Vector(10, 10), p);
-                    DelayedAttachToScene(obj);
-                    DelayedAttachToScene(SceneObjectFactory.CreatePercentageArc(this, obj, p));
-
-                    p.Device = obj;
-                }
-
-                if (p.IsCurrentPlayer())
-                {
-                    actionBarMgr = new ActionBarMgr(this);
-                    StateMgr.AddGameState(actionBarMgr);
-
-                    if (p.IsActivePlayer())
-                    {
-                        inputMgr = new PlayerInputMgr(p, this, actionBarMgr);
-                        actionBarMgr.CreateActionBarItems(p.GeneratePlayerActions(this));
-                    }
-                    else
-                    {
-                        MiningModuleControl mc = new MiningModuleControl();
-                        mc.Owner = p;
-                        p.Device.AddControl(mc);
-
-                        inputMgr = new SpectatorInputMgr(p, this, p.Device, actionBarMgr);
-                        actionBarMgr.CreateActionBarItems(p.GenerateSpectatorActions(this, p.Device));
-                    }
-                }
-            }
+                CreateActiveObjectsOfPlayer(p);
 
             Invoke(new Action(() =>
             {
@@ -309,6 +265,71 @@ namespace Orbit.Core.Client
 
             SetMainInfoText("");
             userActionsDisabled = false;
+        }
+
+        private void ReceivedPlayerReconnectedMsg(NetIncomingMessage msg)
+        {
+            Player reconnecting = GetPlayer(msg.ReadInt32());
+            if (reconnecting == null)
+            {
+                Logger.Error("Unknown reconnecting player");
+                return;
+            }
+
+            CreateActiveObjectsOfPlayer(reconnecting);
+        }
+
+        /// <summary>
+        /// vytvori hraci action bar, input manager a zbranea bazi nebo mining module
+        /// </summary>
+        /// <param name="p">hrac kteremu se maji vytvorit objekty</param>
+        private void CreateActiveObjectsOfPlayer(Player p)
+        {
+            if (p.IsActivePlayer())
+            {
+                p.CreateWeapons();
+
+                // zobrazi aktualni integrity bazi
+                p.SetBaseIntegrity(p.GetBaseIntegrity());
+                p.Baze = SceneObjectFactory.CreateBase(this, p);
+
+                PercentageEllipse ellipse = SceneObjectFactory.CreatePercentageEllipse(this, p);
+
+                HpBarControl control = new HpBarControl(ellipse);
+                p.Baze.AddControl(control);
+
+                DelayedAttachToScene(ellipse);
+                DelayedAttachToScene(p.Baze);
+            }
+            else
+            {
+                MiningModule obj = SceneObjectFactory.CreateMiningModule(this, new Vector(10, 10), p);
+                DelayedAttachToScene(obj);
+                DelayedAttachToScene(SceneObjectFactory.CreatePercentageArc(this, obj, p));
+
+                p.Device = obj;
+            }
+
+            if (p.IsCurrentPlayer())
+            {
+                actionBarMgr = new ActionBarMgr(this);
+                StateMgr.AddGameState(actionBarMgr);
+
+                if (p.IsActivePlayer())
+                {
+                    inputMgr = new PlayerInputMgr(p, this, actionBarMgr);
+                    actionBarMgr.CreateActionBarItems(p.GeneratePlayerActions(this));
+                }
+                else
+                {
+                    MiningModuleControl mc = new MiningModuleControl();
+                    mc.Owner = p;
+                    p.Device.AddControl(mc);
+
+                    inputMgr = new SpectatorInputMgr(p, this, p.Device, actionBarMgr);
+                    actionBarMgr.CreateActionBarItems(p.GenerateSpectatorActions(this, p.Device));
+                }
+            }
         }
 
         private void ReceivedPlayerAndGoldScoreMsg(NetIncomingMessage msg)
@@ -721,7 +742,7 @@ namespace Orbit.Core.Client
 
             for (int i = 0; i < count; i++)
             {
-                obj = findObject(msg.ReadInt64()) as IDestroyable;
+                obj = GetSceneObject(msg.ReadInt64()) as IDestroyable;
 
                 if (obj != null)
                 {
@@ -738,7 +759,7 @@ namespace Orbit.Core.Client
             Vector dir;
             for (int i = 0; i < count; i++)
             {
-                ast = findObject(msg.ReadInt64(), typeof(Asteroid)) as Asteroid;
+                ast = GetSceneObject(msg.ReadInt64()) as Asteroid;
                 dir = msg.ReadVector();
 
                 if (ast != null)
