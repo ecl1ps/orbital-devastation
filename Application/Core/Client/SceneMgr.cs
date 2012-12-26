@@ -344,6 +344,9 @@ namespace Orbit.Core.Client
 
         public void Update(float tpf)
         {
+            if (GameWindowState != WindowState.IN_GAME)
+                return;
+
             ShowStatistics(tpf);
 
             AddObjectsReadyToAdd();
@@ -356,14 +359,7 @@ namespace Orbit.Core.Client
             CheckCollisions(tpf);
             RemoveObjectsMarkedForRemoval();
 
-            try
-            {
-                UpdateGeomtricState();
-            }
-            catch (NullReferenceException)
-            {
-                // UI is closed before game finished its Update loop
-            }
+            UpdateGeomtricState();
         }
 
         private void ShowStatistics(float tpf)
@@ -466,7 +462,7 @@ namespace Orbit.Core.Client
             if (StaticMouse.Instance != null && StaticMouse.ALLOWED)
                 point = StaticMouse.GetPosition();
 
-            if(e.ChangedButton == MouseButton.Left && e.ButtonState == MouseButtonState.Pressed &&
+            if (e.ChangedButton == MouseButton.Left && e.ButtonState == MouseButtonState.Pressed &&
                 !IsPointInViewPort(point) && StaticMouse.Instance != null && StaticMouse.ALLOWED)
             {
                 ProcessStaticMouseActionBarClick(point);

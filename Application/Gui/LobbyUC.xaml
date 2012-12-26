@@ -24,8 +24,8 @@
             <Label HorizontalContentAlignment="Center" Width="200" FontFamily="Bauhaus 93" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Top" >Settings</Label>
             <Label Content="Type: " HorizontalAlignment="Left" Margin="24,45,0,0" Height="28" VerticalAlignment="Top" />
             <Label Content="Map: " Height="28" HorizontalAlignment="Left" Margin="25,108,0,0" VerticalAlignment="Top" />
-            <ComboBox Height="23" HorizontalAlignment="Left" Margin="97,50,0,0" Name="cbType" VerticalAlignment="Top" Width="226" SelectionChanged="cbType_SelectionChanged" />
-            <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,113,12,0" Name="cbMap" VerticalAlignment="Top" Width="226" SelectionChanged="cbMap_SelectionChanged" />
+            <ComboBox Height="23" HorizontalAlignment="Left" Margin="97,50,0,0" Name="cbType" VerticalAlignment="Top" Width="226" SelectionChanged="SelectionChanged" />
+            <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,113,12,0" Name="cbMap" VerticalAlignment="Top" Width="226" SelectionChanged="SelectionChanged" />
             <Label Content="---" Height="28" HorizontalAlignment="Left" Margin="97,47,0,0" Name="lblType" VerticalAlignment="Top" Width="226" Visibility="Hidden" />
             <Label Content="---" Height="28" HorizontalAlignment="Left" Margin="97,111,0,0" Name="lblMap" VerticalAlignment="Top" Width="226" Visibility="Hidden" />
             <Button Content="Confirm settings" FontFamily="Bauhaus 93" FontSize="16" Height="28" HorizontalAlignment="Center" Margin="97,221,109,0" Name="btnSettings" VerticalAlignment="Top" Width="129" Click="btnSettings_Click">
@@ -43,7 +43,7 @@
             <Label Content="Bot count: " Height="28" HorizontalAlignment="Left" Margin="24,142,0,0" VerticalAlignment="Top" Name="lblBotCount" />
             <TextBox AcceptsTab="True" Height="23" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="97,147,0,0" MaxLength="2" Name="tbBotCount" TabIndex="4" Text="0" VerticalAlignment="Top" Width="37" TextChanged="tbBotCount_TextChanged" />
             <Label Content="Bot level: " Height="28" HorizontalAlignment="Left" Margin="24,176,0,0" VerticalAlignment="Top" Name="lblBot" />
-            <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,181,12,0" Name="cbBot" VerticalAlignment="Top" Width="226" />
+            <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,181,12,0" Name="cbBot" VerticalAlignment="Top" Width="226" SelectionChanged="SelectionChanged" />
         </Grid>
         <ListView Height="148" HorizontalAlignment="Left" Margin="12,367,0,0" Name="lvChat" VerticalAlignment="Top" Width="879" Grid.Row="1" />
         <Button Content="Start Game" Height="28" HorizontalAlignment="Center" Margin="91,316,680,0" FontFamily="Bauhaus 93" FontSize="16" Name="btnStartGame" VerticalAlignment="Top" Width="129" Click="btnStartGame_Click" IsEnabled="False" Grid.Row="1">

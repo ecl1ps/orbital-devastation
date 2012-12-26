@@ -157,7 +157,9 @@ namespace Orbit.Gui
         private void btnStartGame_Click(object sender, RoutedEventArgs e)
         {
             (Application.Current as App).StartTournamentGame();
+#if !DEBUG
             btnStartGame.IsEnabled = false;
+#endif
         }
 
         private void btnReady_Click(object sender, RoutedEventArgs e)
@@ -308,12 +310,7 @@ namespace Orbit.Gui
             // TODO: mozna se pozdeji pridaji boti i pro normalni hrace - potom se zde musi zobrazit, kdyz prijde zprava
         }
 
-        private void cbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            btnSettings.IsEnabled = true;
-        }
-
-        private void cbMap_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             btnSettings.IsEnabled = true;
         }
