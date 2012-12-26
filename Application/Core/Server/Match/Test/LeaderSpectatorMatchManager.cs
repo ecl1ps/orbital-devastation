@@ -24,7 +24,8 @@ namespace Orbit.Core.Server.Match
             foreach (Player p in players)
                 p.Data.Active = false;
 
-            List<Player> nonLeaders = players.FindAll(p => p.Data.LobbyLeader == false);
+            // boti prvni
+            List<Player> nonLeaders = players.FindAll(p => p.Data.LobbyLeader == false).OrderByDescending(p => p.Data.PlayerType).ToList<Player>();
             if (nonLeaders.Count > 0)
                 nonLeaders[0].Data.Active = true;
             if (nonLeaders.Count > 1)
