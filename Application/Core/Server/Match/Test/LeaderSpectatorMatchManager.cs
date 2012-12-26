@@ -40,7 +40,7 @@ namespace Orbit.Core.Server.Match
         {
         }
 
-        public Player GetWinner()
+        public Player GetTournamentWinner()
         {
             return null;
         }
@@ -48,6 +48,14 @@ namespace Orbit.Core.Server.Match
         public virtual bool HasRightNumberOfPlayersForStart()
         {
             return true;
+        }
+
+        public virtual void OnPlayerLeave(Player plr, bool gameRunning)
+        {
+        }
+
+        public virtual void OnPlayerConnect(Player plr, bool gameRunning)
+        {
         }
     }
 }

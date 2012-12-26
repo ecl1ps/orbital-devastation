@@ -11,6 +11,7 @@ namespace Orbit.Core.Server.Match
     /// </summary>
     public class WinsThenScoreMatchManager : AbstractTournamentMatchManager
     {
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public static readonly MatchManagerInfo Info = new MatchManagerInfo(false, "Each vs. Each (most wins then score)");
 
         public WinsThenScoreMatchManager(List<Player> players, Random randGen, int rounds)
@@ -21,8 +22,7 @@ namespace Orbit.Core.Server.Match
         public override Tuple<Player, Player> SelectPlayersForNewMatch()
         {
             // zneaktivnime vsechny hrace
-            foreach (Player p in players)
-                p.Data.Active = false;
+            SetAllPlayersInactive();
 
             // zkusime najit hrace beznou cestou
             Tuple<Player, Player> newPlayes = SelectPlayersBasic();
@@ -45,7 +45,7 @@ namespace Orbit.Core.Server.Match
         /// <summary>
         /// vraci bud viteze nebo null, pokud vitez jeste neni
         /// </summary>
-        public override Player GetWinner()
+        public override Player GetTournamentWinner()
         {
             // jeste nejsme v poslednim kole
             if (roundNumber < roundCount)
@@ -86,6 +86,33 @@ namespace Orbit.Core.Server.Match
         public override bool HasRightNumberOfPlayersForStart()
         {
             return players.FindAll(p => p.Data.PlayerType == PlayerType.HUMAN).Count >= 2;
+        }
+
+        public override void OnPlayerLeave(Player plr, bool gameRunning)
+        {
+            PlayerMatchData d = GetPlayerMatchData(plr);
+            if (d != null)
+            {
+                if (plr.IsActivePlayer() && gameRunning)
+                {
+                    Player otherPlr = players.Find(p => p.IsActivePlayer() && p.Data.Id != plr.Data.Id);
+                    SetPlayedTogether(plr, otherPlr);
+                    GetPlayerMatchData(otherPlr).WonGames++;
+                    otherPlr.Data.WonMatches++;
+                }
+                d.IsOnline = false;
+            }
+            else
+                Logger.Warn("Left player " + plr.Data.Name + " but has no data in tournament");
+        }
+
+        public override void OnPlayerConnect(Player plr, bool gameRunning)
+        {
+            PlayerMatchData d = GetPlayerMatchData(plr);
+            if (d != null)
+                d.IsOnline = true;
+            else
+                Logger.Warn("Reconnected player " + plr.Data.Name + " but has no data in tournament");
         }
     }
 }

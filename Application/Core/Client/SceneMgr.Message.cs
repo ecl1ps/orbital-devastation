@@ -163,7 +163,7 @@ namespace Orbit.Core.Client
             if (disconnected == null)
                 return;
 
-            if (GameType != Gametype.MULTIPLAYER_GAME)
+            if (GameType == Gametype.SOLO_GAME)
                 FloatingTextMgr.AddFloatingText(disconnected.Data.Name + " has disconnected",
                     new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
                     FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
@@ -175,7 +175,8 @@ namespace Orbit.Core.Client
                 EndGame(disconnected, GameEnd.LEFT_GAME);
             else if (disconnected.Device != null)
                 disconnected.Device.DoRemoveMe();
-            if (GameType == Gametype.TOURNAMENT_GAME && GameWindowState == WindowState.IN_LOBBY)
+
+            if (GameWindowState == WindowState.IN_LOBBY)
             {
                 UpdateLobbyPlayers();
                 CheckAllPlayersReady();
@@ -190,7 +191,15 @@ namespace Orbit.Core.Client
             {
                 Player playedLastGame = GetPlayer(msg.ReadInt32());
                 if (playedLastGame != null)
-                    playedLastGame.Data.PlayedMatches++;
+                {
+                    playedLastGame.Data.WonMatches = msg.ReadInt32();
+                    playedLastGame.Data.PlayedMatches = msg.ReadInt32();
+                }
+                else
+                {
+                    msg.ReadInt32();
+                    msg.ReadInt32();
+                }
             }
 
             EndGame(winner, GameEnd.TOURNAMENT_FINISHED);

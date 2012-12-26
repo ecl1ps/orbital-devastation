@@ -36,6 +36,9 @@ namespace Orbit.Core.Server
             //else if (p.IsOnlineOrBot())
                 // return;
 
+            if (gameSession != null)
+                gameSession.PlayerConnected(p);
+
             p.Connection = msg.SenderConnection;
 
             NetOutgoingMessage hailMsg = CreateNetMessage();
@@ -155,6 +158,8 @@ namespace Orbit.Core.Server
             if (disconnected == null)
                 return;
             disconnected.Data.StartReady = false;
+            if (gameSession != null)
+                gameSession.PlayerLeft(disconnected);
             ForwardMessage(msg);
         }
 

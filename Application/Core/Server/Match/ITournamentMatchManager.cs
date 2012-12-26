@@ -10,11 +10,15 @@ namespace Orbit.Core.Server.Match
     {
         Tuple<Player, Player> SelectPlayersForNewMatch();
 
-        void OnMatchEnd(Player plr, GameEnd endType);
-
-        Player GetWinner();
+        Player GetTournamentWinner();
 
         bool HasRightNumberOfPlayersForStart();
+
+        void OnMatchEnd(Player plr, GameEnd endType);
+
+        void OnPlayerLeave(Player plr, bool gameRunning);
+
+        void OnPlayerConnect(Player plr, bool gameRunning);
     }
 
     public enum MatchManagerType

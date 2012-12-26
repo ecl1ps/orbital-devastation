@@ -216,7 +216,7 @@ namespace Orbit.Core.Server
 
         public bool CheckTournamentFinished(bool announce = false)
         {
-            Player winner = matchManager.GetWinner();
+            Player winner = matchManager.GetTournamentWinner();
             if (winner == null)
                 return false;
 
@@ -225,8 +225,13 @@ namespace Orbit.Core.Server
                 NetOutgoingMessage tournamentFinished = serverMgr.CreateNetMessage();
                 tournamentFinished.Write((int)PacketType.TOURNAMENT_FINISHED);
                 tournamentFinished.Write(winner.GetId());
-                //hraci kteri hrali posledni hru
-                players.ForEach(p => { if (p.IsActivePlayer()) tournamentFinished.Write(p.GetId()); });
+                // vyhry a odehrane hry vsech hracu
+                foreach (Player p in players)
+                {
+                    tournamentFinished.Write(p.GetId());
+                    tournamentFinished.Write(p.Data.WonMatches);
+                    tournamentFinished.Write(p.Data.PlayedMatches);
+                }
                 serverMgr.BroadcastMessage(tournamentFinished);
             }
 
@@ -239,6 +244,17 @@ namespace Orbit.Core.Server
                 return;
 
             gameLevel.Update(tpf);
+        }
+
+        public void PlayerLeft(Player p)
+        {
+            if (players.Contains(p))
+                matchManager.OnPlayerLeave(p, IsRunning);
+        }
+
+        public void PlayerConnected(Player p)
+        {
+            matchManager.OnPlayerConnect(p, IsRunning);
         }
 
         public static int GetRequiredNumberOfMatches(int players, int rounds)

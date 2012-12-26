@@ -26,7 +26,7 @@ namespace Orbit.Core.Server.Match
             return new Tuple<Player, Player>(players[0], players.Count > 1 ? players[1] : null);
         }
 
-        public override Player GetWinner()
+        public override Player GetTournamentWinner()
         {
             return players.Find(p => p.Data.WonMatches == 1);
         }

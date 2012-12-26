@@ -21,8 +21,7 @@ namespace Orbit.Core.Server.Match
         public override Tuple<Player, Player> SelectPlayersForNewMatch()
         {
             // zneaktivnime vsechny hrace
-            foreach (Player p in players)
-                p.Data.Active = false;
+            SetAllPlayersInactive();
 
             // zkusime najit hrace beznou cestou
             Tuple<Player, Player> newPlayes = SelectPlayersBasic();
@@ -45,7 +44,7 @@ namespace Orbit.Core.Server.Match
         /// <summary>
         /// vraci bud viteze nebo null, pokud vitez jeste neni
         /// </summary>
-        public override Player GetWinner()
+        public override Player GetTournamentWinner()
         {
             // jeste nejsme v poslednim kole
             if (roundNumber < roundCount)

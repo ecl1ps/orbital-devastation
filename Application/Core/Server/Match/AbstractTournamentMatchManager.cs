@@ -27,10 +27,9 @@ namespace Orbit.Core.Server.Match
 
         public abstract Tuple<Player, Player> SelectPlayersForNewMatch();
 
-        public abstract Player GetWinner();
+        public abstract Player GetTournamentWinner();
 
         public abstract bool HasRightNumberOfPlayersForStart();
-
 
 
         public void OnMatchEnd(Player plr, GameEnd endType)
@@ -44,7 +43,7 @@ namespace Orbit.Core.Server.Match
             plr.Data.WonMatches = d.WonGames;
         }
 
-        private void SetPlayedTogether(Player plr1, Player plr2)
+        protected void SetPlayedTogether(Player plr1, Player plr2)
         {
             PlayerMatchData d = GetPlayerMatchData(plr1);
             d.playedWith.Add(plr2.Data.HashId);
@@ -54,19 +53,18 @@ namespace Orbit.Core.Server.Match
             plr2.Data.PlayedMatches += 1;
         }
 
-        private PlayerMatchData GetPlayerMatchData(Player p)
+        protected PlayerMatchData GetPlayerMatchData(Player p)
         {
             return data.Find(d => d.Owner == p.Data.HashId);
         }
-
 
         protected Player SelectRandomPlayerForMatchWithPlayer(List<Player> foundPlayers, Player plr1)
         {
             // pokud je hracu lichy pocet a nezbyva nikdo, s kyma hrat, tak se vybira protihrac ze vsech hracu (jakoby zacatek dalsiho kola)
             if (foundPlayers.Count == 0)
             {
-                foundPlayers = new List<Player>(players);
-                foundPlayers.Remove(plr1);
+                foundPlayers = new List<Player>();
+                data.ForEach(d => { if (d.Owner != plr1.Data.HashId && d.IsOnline) foundPlayers.Add(players.Find(p => p.Data.HashId == d.Owner)); });
             }
 
             return SelectRandomPlayerForMatch(foundPlayers);
@@ -74,6 +72,9 @@ namespace Orbit.Core.Server.Match
 
         protected Player SelectRandomPlayerForMatch(List<Player> foundPlayers)
         {
+            if (foundPlayers.Count == 0)
+                return null;
+
             return foundPlayers[rand.Next(foundPlayers.Count)];
         }
 
@@ -81,14 +82,14 @@ namespace Orbit.Core.Server.Match
         {
             List<Player> plrs = new List<Player>();
 
-            data.ForEach(d => { if (d.playedWith.Count < playerCount) plrs.Add(players.Find(p => p.Data.HashId == d.Owner)); });
+            data.ForEach(d => { if (d.playedWith.Count < playerCount && d.IsOnline) plrs.Add(players.Find(p => p.Data.HashId == d.Owner)); });
 
             return plrs;
         }
 
         protected bool EveryOnePlayedWithNumberOfPlayers(int i)
         {
-            return data.TrueForAll(p => p.playedWith.Count >= i);
+            return data.TrueForAll(p => p.playedWith.Count >= i || !p.IsOnline);
         }
 
         protected Tuple<Player, Player> SelectPlayersBasic()
@@ -107,11 +108,26 @@ namespace Orbit.Core.Server.Match
                     // a najdeme mu spoluhrace (pokud existuje nekdo, kdo take nehral tolikrat, tak ma prednost, jinak nahodne kdokoli jiny)
                     Player plr2 = SelectRandomPlayerForMatchWithPlayer(foundPlayers, plr1);
                     plr1.Data.Active = true;
-                    plr2.Data.Active = true;
+                    if (plr2 != null)
+                        plr2.Data.Active = true;
                     return new Tuple<Player, Player>(plr1, plr2);
                 }
             }
             return null;
+        }
+
+        protected void SetAllPlayersInactive()
+        {
+            foreach (Player p in players)
+                p.Data.Active = false;
+        }
+
+        public virtual void OnPlayerLeave(Player plr, bool gameRunning)
+        {
+        }
+
+        public virtual void OnPlayerConnect(Player plr, bool gameRunning)
+        {
         }
     }
 }

@@ -100,6 +100,8 @@ namespace Orbit.Core.Server
                                 Player disconnected = GetPlayer(msg.SenderConnection);
                                 if (disconnected == null)
                                     return;
+                                if (gameSession != null)
+                                    gameSession.PlayerLeft(disconnected);
                                 disconnected.Data.StartReady = false;
                                 SendPlayerLeftMessage(disconnected);
                                 if (disconnected.IsActivePlayer())
