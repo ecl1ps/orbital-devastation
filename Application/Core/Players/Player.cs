@@ -132,6 +132,11 @@ namespace Orbit.Core.Players
             return Data.BaseIntegrity;
         }
 
+        public float GetBaseIntegrityPct()
+        {
+            return (float)Data.BaseIntegrity / Data.MaxBaseIntegrity;
+        }
+
         public void ChangeBaseIntegrity(int amount, bool showHeal = false)
         {
             SetBaseIntegrity(Data.BaseIntegrity + amount, showHeal);

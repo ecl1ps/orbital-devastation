@@ -75,11 +75,12 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public void OnIntegrityChange()
         {
-            if (Integrity <= 25)
+            float integrityPct = Owner.GetBaseIntegrityPct();
+            if (integrityPct <= 0.25)
                 ChangeGeometry(Image25);
-            else if (Integrity <= 50)
+            else if (integrityPct <= 0.50)
                 ChangeGeometry(Image50);
-            else if (Integrity <= 75)
+            else if (integrityPct <= 0.75)
                 ChangeGeometry(Image75);
             else
                 ChangeGeometry(Image100);
