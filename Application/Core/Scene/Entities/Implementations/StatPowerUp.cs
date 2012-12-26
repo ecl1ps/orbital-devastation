@@ -20,7 +20,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public float Rotation { get; set; }
         public DeviceType PowerUpType { get; set; }
 
-        public StatPowerUp(SceneMgr mgr) : base(mgr) { }
+        public StatPowerUp(SceneMgr mgr, long id) : base(mgr, id) { }
 
         protected override void UpdateGeometricState()
         {

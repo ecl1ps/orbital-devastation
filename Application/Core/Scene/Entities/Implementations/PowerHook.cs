@@ -11,8 +11,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
     {
         public List<ICatchable> CaughtObjects { get; set; }
 
-        public PowerHook(SceneMgr mgr)
-            : base(mgr)
+        public PowerHook(SceneMgr mgr, long id)
+            : base(mgr, id)
         {
             CaughtObjects = new List<ICatchable>();
             HookType = HookType.HOOK_POWER;

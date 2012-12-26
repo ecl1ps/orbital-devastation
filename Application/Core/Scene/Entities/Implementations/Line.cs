@@ -24,12 +24,13 @@ namespace Orbit.Core.Scene.Entities
             }
         }
 
-        public Line(SceneMgr mgr) : base(mgr)
+        public Line(SceneMgr mgr, long id)
+            : base(mgr, id)
         {
         }
 
-        public Line(SceneMgr mgr, Vector start, Vector end, Color color, int width)
-            : base(mgr)
+        public Line(SceneMgr mgr, long id, Vector start, Vector end, Color color, int width)
+            : base(mgr, id)
         {
             SceneMgr = mgr;
             Start = start;

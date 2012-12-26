@@ -208,6 +208,12 @@ namespace Orbit.Core.Client
         /// </summary>
         private void DirectAttachToScene(ISceneObject obj)
         {
+            if (obj.Id == -1)
+            {
+                Console.Error.WriteLine("Trying to add object " + obj.GetType().Name + " to scene, but it has uninitialized id! Skipped!");
+                return;
+            }
+
             for (int i = idsToRemove.Count - 1; i >= 0; i--)
             {
                 if (obj.Id == idsToRemove[i])

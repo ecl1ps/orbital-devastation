@@ -53,8 +53,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public UIElement Image25 { get { return image25; } }
         private UIElement background;
         public UIElement BackgroundImage { get { return background; } }
-        
-        public Base(SceneMgr mgr) : base(mgr)
+
+        public Base(SceneMgr mgr, long id)
+            : base(mgr, id)
         {
         }
 

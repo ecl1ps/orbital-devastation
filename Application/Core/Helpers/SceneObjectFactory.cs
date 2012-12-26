@@ -25,9 +25,8 @@ namespace Orbit.Core.Helpers
 
         public static Base CreateBase(SceneMgr mgr, Player plr)
         {
-            Base baze = new Base(mgr);
+            Base baze = new Base(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             baze.Owner = plr;
-            baze.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
             baze.BasePosition = plr.Data.PlayerPosition;
             baze.Color = plr.Data.PlayerColor;
             baze.Position = new Vector(plr.GetBaseLocation().X, plr.GetBaseLocation().Y);
@@ -51,8 +50,7 @@ namespace Orbit.Core.Helpers
 
         public static StaticShield CreateShield(SceneMgr mgr, Player plr, ISceneObject toFollow)
         {
-            StaticShield shield = new StaticShield(mgr);
-            shield.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
+            StaticShield shield = new StaticShield(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             shield.Position = toFollow.Position;
             shield.Color = Colors.AliceBlue;
             shield.Radius = 10;
@@ -76,8 +74,7 @@ namespace Orbit.Core.Helpers
 
         public static SingularityMine CreatePowerlessMine(SceneMgr mgr, Vector pos, Vector dir, Player plr)
         {
-            SingularityMine mine = new SingularityMine(mgr);
-            mine.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
+            SingularityMine mine = new SingularityMine(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             mine.Position = pos;
             mine.Owner = plr;
             mine.Radius = 2;
@@ -100,8 +97,7 @@ namespace Orbit.Core.Helpers
 
         public static SingularityMine CreateSingularityMine(SceneMgr mgr, Point point, Player plr)
         {
-            SingularityMine mine = new SingularityMine(mgr);
-            mine.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
+            SingularityMine mine = new SingularityMine(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             mine.Position = point.ToVector();
             mine.Owner = plr;
             mine.FillBrush = new RadialGradientBrush(Colors.Black, Color.FromRgb(0x66, 0x00, 0x80));
@@ -125,8 +121,7 @@ namespace Orbit.Core.Helpers
 
         public static SingularityMine CreateDroppingSingularityMine(SceneMgr mgr, Point point, Player plr)
         {
-            SingularityMine mine = new SingularityMine(mgr);
-            mine.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
+            SingularityMine mine = new SingularityMine(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             mine.Position = new Vector(point.X, 0);
             mine.Owner = plr;
             mine.Radius = 2;
@@ -155,8 +150,7 @@ namespace Orbit.Core.Helpers
 
         public static SingularityMine CreateAsteroidDroppingSingularityMine(SceneMgr mgr, Point point, Player plr)
         {
-            SingularityMine mine = new SingularityMine(mgr);
-            mine.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
+            SingularityMine mine = new SingularityMine(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             mine.Position = new Vector(point.X, 0);
             mine.Owner = plr;
             mine.Radius = 2;
@@ -189,8 +183,7 @@ namespace Orbit.Core.Helpers
             Vector direction = point.ToVector() - position;
             direction.Normalize();
 
-            SingularityBullet bullet = new SingularityBullet(mgr);
-            bullet.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
+            SingularityBullet bullet = new SingularityBullet(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             bullet.Position = position;
             bullet.Owner = plr;
             bullet.Radius = 2;
@@ -221,8 +214,7 @@ namespace Orbit.Core.Helpers
             Vector direction = point.ToVector() - position;
             direction.Normalize();
 
-            Hook hook = new Hook(mgr);
-            hook.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
+            Hook hook = new Hook(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             hook.Owner = player;
             hook.Radius = 8;
             position.X -= hook.Radius;
@@ -261,8 +253,7 @@ namespace Orbit.Core.Helpers
             Vector direction = point.ToVector() - position;
             direction.Normalize();
 
-            PowerHook hook = new PowerHook(mgr);
-            hook.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
+            PowerHook hook = new PowerHook(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             hook.Owner = player;
             hook.Radius = 8;
             position.X -= hook.Radius;
@@ -296,11 +287,10 @@ namespace Orbit.Core.Helpers
         }
 
 
-        public static MinorAsteroid CreateSmallAsteroid(SceneMgr mgr, long id, Vector direction, Vector center, int rot, int textureId, int radius,float speed, double rotation)
+        public static MinorAsteroid CreateSmallAsteroid(SceneMgr mgr, Vector direction, Vector center, int rot, int textureId, int radius,float speed, double rotation)
         {
-            MinorAsteroid asteroid = new MinorAsteroid(mgr);
+            MinorAsteroid asteroid = new MinorAsteroid(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             asteroid.AsteroidType = AsteroidType.SPAWNED;
-            asteroid.Id = id;
             asteroid.Rotation = rot;
             asteroid.Direction = direction.Rotate(rotation);
             asteroid.Radius = radius;
@@ -331,8 +321,7 @@ namespace Orbit.Core.Helpers
 
         public static VectorLine CreateVectorLine(SceneMgr mgr, Vector origin, Vector vector, Color color, ISceneObject parent = null)
         {
-            VectorLine l = new VectorLine(mgr);
-            l.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
+            VectorLine l = new VectorLine(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             l.Position = origin;
             l.Direction = vector;
             l.Color = color;
@@ -351,8 +340,7 @@ namespace Orbit.Core.Helpers
 
         public static Circle CreateCircle(SceneMgr mgr, Vector point, Color color)
         {
-            Circle c = new Circle(mgr);
-            c.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
+            Circle c = new Circle(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             c.Position = point;
             c.Radius = 4;
             c.Color = color;
@@ -379,7 +367,7 @@ namespace Orbit.Core.Helpers
             Vector direction = point - position;
             direction.Normalize();
 
-            SingularityExplodingBullet bullet = new SingularityExplodingBullet(mgr);
+            SingularityExplodingBullet bullet = new SingularityExplodingBullet(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             InitSingularityBullet(bullet, mgr, point, position, plr);
 
             PointCollisionShape cs = new PointCollisionShape();
@@ -401,7 +389,6 @@ namespace Orbit.Core.Helpers
             Vector direction = point - position;
             direction.Normalize();
 
-            bullet.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
             bullet.Position = position;
             bullet.Owner = plr;
             bullet.Radius = 2;
@@ -423,8 +410,7 @@ namespace Orbit.Core.Helpers
             Vector direction = point.ToVector() - position;
             direction.Normalize();
 
-            SingularityBouncingBullet bullet = new SingularityBouncingBullet(mgr);
-            bullet.Id = IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId());
+            SingularityBouncingBullet bullet = new SingularityBouncingBullet(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             bullet.Position = position;
             bullet.Owner = plr;
             bullet.Radius = 2;
@@ -455,7 +441,7 @@ namespace Orbit.Core.Helpers
 
         public static MiningModule CreateMiningModule(SceneMgr mgr, Vector position, Player owner)
         {
-            MiningModule module = new MiningModule(mgr, owner);
+            MiningModule module = new MiningModule(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()), owner);
             module.Position = position;
             module.Radius = 10;
             module.Color = Colors.Crimson;
@@ -493,7 +479,7 @@ namespace Orbit.Core.Helpers
 
         public static PercentageEllipse CreatePercentageEllipse(SceneMgr mgr, Player owner)
         {
-            PercentageEllipse arc = new PercentageEllipse(mgr);
+            PercentageEllipse arc = new PercentageEllipse(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             Color c = owner.GetPlayerColor();
             c.A = 0x55;
             arc.Color = c;
@@ -511,7 +497,7 @@ namespace Orbit.Core.Helpers
 
         public static PercentageArc CreatePercentageArc(SceneMgr mgr, MiningModule module, Player owner)
         {
-            PercentageArc arc = new PercentageArc(mgr);
+            PercentageArc arc = new PercentageArc(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             arc.Color = owner.GetPlayerColor();
             arc.Radius = module.Radius + 5;
 
@@ -528,7 +514,7 @@ namespace Orbit.Core.Helpers
 
         public static OrbitEllipse CreateOrbitEllipse(SceneMgr mgr, Vector position, float radiusX, float radiusY)
         {
-            OrbitEllipse ellipse = new OrbitEllipse(mgr, radiusX, radiusY);
+            OrbitEllipse ellipse = new OrbitEllipse(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()), radiusX, radiusY);
             ellipse.Position = position;
             ellipse.SetGeometry(SceneGeometryFactory.CreateEllipseGeometry(ellipse));
 

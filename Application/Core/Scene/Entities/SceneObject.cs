@@ -53,15 +53,12 @@ namespace Orbit.Core.Scene.Entities
             }
         }
 
-        private SceneObject()
-        {
-        }
-
-        public SceneObject(SceneMgr mgr)
+        public SceneObject(SceneMgr mgr, long id)
         {
             controls = new List<IControl>();
             Dead = false;
             SceneMgr = mgr;
+            Id = id;
         }
 
         public void Update(float tpf)

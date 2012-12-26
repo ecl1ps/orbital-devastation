@@ -20,7 +20,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public Player Owner { get; set; } // neposilan
         public int Damage { get; set; }
 
-        public SingularityBullet(SceneMgr mgr) : base(mgr)
+        public SingularityBullet(SceneMgr mgr, long id)
+            : base(mgr, id)
         {
         }
 

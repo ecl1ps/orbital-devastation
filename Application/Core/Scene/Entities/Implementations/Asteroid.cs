@@ -30,7 +30,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public int Gold { get; set; }
         public AsteroidType AsteroidType { get; set; }
 
-        public Asteroid(SceneMgr mgr) : base(mgr)
+        public Asteroid(SceneMgr mgr, long id)
+            : base(mgr, id)
         {
         }
 

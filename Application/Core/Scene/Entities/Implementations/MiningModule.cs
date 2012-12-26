@@ -18,8 +18,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public float Rotation { get; set; }
         public Player Owner { get; set; }
 
-        public MiningModule(SceneMgr mgr, Player owner)
-            : base(mgr)
+        public MiningModule(SceneMgr mgr, long id, Player owner)
+            : base(mgr, id)
         {
             this.Owner = owner;
             HasPositionInCenter = false;

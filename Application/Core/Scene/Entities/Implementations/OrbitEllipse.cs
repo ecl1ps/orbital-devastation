@@ -13,7 +13,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public float RadiusX { get; set; }
         public float RadiusY { get; set; }
 
-        public OrbitEllipse(SceneMgr mgr, float radiusX, float radiusY) : base(mgr)
+        public OrbitEllipse(SceneMgr mgr, long id, float radiusX, float radiusY)
+            : base(mgr, id)
         {
             RadiusX = radiusX;
             RadiusY = radiusY;

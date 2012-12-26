@@ -22,7 +22,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         private ArcSegment arc;
 
-        public PercentageArc(SceneMgr mgr) : base(mgr)
+        public PercentageArc(SceneMgr mgr, long id)
+            : base(mgr, id)
         {
             Percentage = 1;
         }

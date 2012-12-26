@@ -158,7 +158,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             stretchingControl.FirstObj = me;
             stretchingControl.SecondObj = obj;
 
-            Line line = new Line(sceneMgr, me.Position, obj.Position, Colors.Black, 1);
+            Line line = new Line(sceneMgr, IdMgr.GetNewId(sceneMgr.GetCurrentPlayer().GetId()), me.Position, obj.Position, Colors.Black, 1);
             line.AddControl(stretchingControl);
             line.AddControl(new MiningLineControl());
 

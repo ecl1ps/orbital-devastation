@@ -22,8 +22,9 @@ namespace Orbit.Core.Scene.Entities
                 return new Vector(Position.X + Size.Width / 2, Position.Y + Size.Height / 2);
             }
         }
-        
-        public Square(SceneMgr mgr) : base(mgr)
+
+        public Square(SceneMgr mgr, long id)
+            : base(mgr, id)
         {
         }
 

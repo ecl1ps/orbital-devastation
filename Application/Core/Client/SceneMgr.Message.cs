@@ -471,7 +471,7 @@ namespace Orbit.Core.Client
 
         private void ReceiveNewLaserMsg(NetIncomingMessage msg)
         {
-            Laser laser = new Laser(GetOpponentPlayer(), this);
+            Laser laser = new Laser(GetOpponentPlayer(), this, -1);
             laser.ReadObject(msg);
 
             DelayedAttachToScene(laser);
@@ -480,7 +480,7 @@ namespace Orbit.Core.Client
 
         private void ReceivedNewSingularityBouncingBulletMsg(NetIncomingMessage msg)
         {
-            SingularityBouncingBullet s = new SingularityBouncingBullet(this);
+            SingularityBouncingBullet s = new SingularityBouncingBullet(this, -1);
             s.ReadObject(msg);
             s.Owner = GetOpponentPlayer();
             s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
@@ -490,7 +490,7 @@ namespace Orbit.Core.Client
 
         private void ReceivedNewSingularityExplodingBulletMsg(NetIncomingMessage msg)
         {
-            SingularityExplodingBullet s = new SingularityExplodingBullet(this);
+            SingularityExplodingBullet s = new SingularityExplodingBullet(this, -1);
             s.ReadObject(msg);
             s.Owner = GetOpponentPlayer();
             s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
@@ -500,7 +500,7 @@ namespace Orbit.Core.Client
 
         private void ReceivedNewSingularityBulletMsg(NetIncomingMessage msg)
         {
-            SingularityBullet s = new SingularityBullet(this);
+            SingularityBullet s = new SingularityBullet(this, -1);
             s.ReadObject(msg);
             s.Owner = GetOpponentPlayer();
             s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
@@ -512,7 +512,7 @@ namespace Orbit.Core.Client
 
         private void ReceivedNewSingularityMineMsg(NetIncomingMessage msg)
         {
-            SingularityMine s = new SingularityMine(this);
+            SingularityMine s = new SingularityMine(this, -1);
             s.ReadObject(msg);
             s.Owner = GetOpponentPlayer();
             s.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(s));
@@ -529,15 +529,18 @@ namespace Orbit.Core.Client
             int rot = msg.ReadInt32();
             int textureId = msg.ReadInt32();
             int destoryerId = msg.ReadInt32();
-            long id1 = msg.ReadInt64();
-            long id2 = msg.ReadInt64();
-            long id3 = msg.ReadInt64();
 
-            MinorAsteroid a1 = SceneObjectFactory.CreateSmallAsteroid(this, id1, direction, center, rot, textureId, radius, speed, Math.PI / 12);
-            MinorAsteroid a2 = SceneObjectFactory.CreateSmallAsteroid(this, id2, direction, center, rot, textureId, radius, speed, 0);
-            MinorAsteroid a3 = SceneObjectFactory.CreateSmallAsteroid(this, id3, direction, center, rot, textureId, radius, speed, -Math.PI / 12);
+            MinorAsteroid a1 = SceneObjectFactory.CreateSmallAsteroid(this, direction, center, rot, textureId, radius, speed, Math.PI / 12);
+            a1.Id = msg.ReadInt64();
+            MinorAsteroid a2 = SceneObjectFactory.CreateSmallAsteroid(this, direction, center, rot, textureId, radius, speed, 0);
+            a2.Id = msg.ReadInt64();
+            MinorAsteroid a3 = SceneObjectFactory.CreateSmallAsteroid(this, direction, center, rot, textureId, radius, speed, -Math.PI / 12);
+            a3.Id = msg.ReadInt64();
 
-            UnstableAsteroid p = new UnstableAsteroid(this);
+            long parentId = msg.ReadInt64();
+            UnstableAsteroid p = GetSceneObject(parentId) as UnstableAsteroid;
+            if (p == null)
+                p = new UnstableAsteroid(this, parentId);
             p.Destroyer = destoryerId;
 
             a1.Parent = p;
@@ -565,7 +568,7 @@ namespace Orbit.Core.Client
 
         private void ReceivedNewStatPowerupMsg(NetIncomingMessage msg)
         {
-            StatPowerUp p = new StatPowerUp(this);
+            StatPowerUp p = new StatPowerUp(this, -1);
             p.ReadObject(msg);
             p.SetGeometry(SceneGeometryFactory.CreatePowerUpImage(p));
             DelayedAttachToScene(p);

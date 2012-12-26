@@ -22,7 +22,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
 {
     class SingularityExplodingBullet : SingularityBullet
     {
-        public SingularityExplodingBullet(SceneMgr mgr) : base(mgr)
+        public SingularityExplodingBullet(SceneMgr mgr, long id)
+            : base(mgr, id)
         {
         }
 
@@ -41,8 +42,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         private void CreateSmallBullet(double rotation)
         {
-            SingularityBullet smallBullet = new SingularityBullet(SceneMgr);
-            smallBullet.Id = IdMgr.GetNewId(SceneMgr.GetCurrentPlayer().GetId());
+            SingularityBullet smallBullet = new SingularityBullet(SceneMgr, IdMgr.GetNewId(SceneMgr.GetCurrentPlayer().GetId()));
             smallBullet.Owner = Owner;
             Vector dir = Direction;
             dir.Normalize();

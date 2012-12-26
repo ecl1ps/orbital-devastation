@@ -301,19 +301,19 @@ namespace Orbit.Core.Client
             switch (asteroidType)
             {
                 case AsteroidType.GOLDEN:
-                    asteroid = new Asteroid(this);
+                    asteroid = new Asteroid(this, -1);
                     break;
                 case AsteroidType.NORMAL:
-                    asteroid = new Asteroid(this);
+                    asteroid = new Asteroid(this, -1);
                     break;
                 case AsteroidType.SPAWNED:
-                    asteroid = new MinorAsteroid(this);
+                    asteroid = new MinorAsteroid(this, -1);
                     break;
                 case AsteroidType.UNSTABLE:
-                    asteroid = new UnstableAsteroid(this);
+                    asteroid = new UnstableAsteroid(this, -1);
                     break;
                 default:
-                    asteroid = new Asteroid(this);
+                    asteroid = new Asteroid(this, -1);
                     break;
             }
 

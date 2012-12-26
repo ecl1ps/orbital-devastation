@@ -17,13 +17,14 @@ namespace Orbit.Core.Scene.Entities.Implementations
     {
         public Player Owner { get; set; }
 
-        public Laser(Player owner, SceneMgr mgr) : base(mgr)
+        public Laser(Player owner, SceneMgr mgr, long id)
+            : base(mgr, id)
         {
             Owner = owner;
         }
 
-        public Laser(Player owner, SceneMgr mgr, Vector start, Vector end, Color color, int width) 
-            : base(mgr, start, end, color, width)
+        public Laser(Player owner, long id, SceneMgr mgr, Vector start, Vector end, Color color, int width) 
+            : base(mgr, id, start, end, color, width)
         {
             Owner = owner;
         }

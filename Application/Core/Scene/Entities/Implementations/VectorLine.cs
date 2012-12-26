@@ -18,7 +18,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public Color Color { get; set; }
         public Vector Direction { get; set; }
 
-        public VectorLine(SceneMgr mgr) : base(mgr)
+        public VectorLine(SceneMgr mgr, long id)
+            : base(mgr, id)
         {
         }
 

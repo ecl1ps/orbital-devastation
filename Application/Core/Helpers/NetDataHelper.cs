@@ -131,10 +131,10 @@ namespace Orbit.Core.Helpers
             switch (type)
             {
                 case HookType.HOOK_NORMAL:
-                    h = new Hook(mgr);
+                    h = new Hook(mgr, -1);
                     break;
                 case HookType.HOOK_POWER:
-                    h = new PowerHook(mgr);
+                    h = new PowerHook(mgr, -1);
                     break;
 
                 default:
