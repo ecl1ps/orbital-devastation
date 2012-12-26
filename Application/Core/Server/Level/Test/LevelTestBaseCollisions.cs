@@ -34,10 +34,14 @@ namespace Orbit.Core.Server.Level
         {
             Rect baseLoc = PlayerBaseLocation.GetBaseLocation(PlayerPosition.LEFT);
 
-            GameLevelManager.SendNewObject(mgr, ServerSceneObjectFactory.CreateCustomAsteroid(mgr, 10, new Vector(baseLoc.X - 10 * 2 - 1, 100), new Vector(0, 1)));
-            GameLevelManager.SendNewObject(mgr, ServerSceneObjectFactory.CreateCustomAsteroid(mgr, 20, new Vector(baseLoc.X - 20 * 2, 200), new Vector(0, 1)));
-            GameLevelManager.SendNewObject(mgr, ServerSceneObjectFactory.CreateCustomAsteroid(mgr, 10, new Vector(baseLoc.X + baseLoc.Width + 1, 100), new Vector(0, 1)));
-            GameLevelManager.SendNewObject(mgr, ServerSceneObjectFactory.CreateCustomAsteroid(mgr, 20, new Vector(baseLoc.X + baseLoc.Width, 200), new Vector(0, 1)));
+            GameLevelManager.SendNewObject(mgr, ServerSceneObjectFactory.CreateCustomAsteroid(
+                mgr, 10, new Vector(baseLoc.X - 10 * 2 - 1, 100), new Vector(0, 1), AsteroidType.NORMAL));
+            GameLevelManager.SendNewObject(mgr, ServerSceneObjectFactory.CreateCustomAsteroid(
+                mgr, 20, new Vector(baseLoc.X - 20 * 2, 200), new Vector(0, 1), AsteroidType.NORMAL));
+            GameLevelManager.SendNewObject(mgr, ServerSceneObjectFactory.CreateCustomAsteroid(
+                mgr, 10, new Vector(baseLoc.X + baseLoc.Width + 1, 100), new Vector(0, 1), AsteroidType.NORMAL));
+            GameLevelManager.SendNewObject(mgr, ServerSceneObjectFactory.CreateCustomAsteroid(
+                mgr, 20, new Vector(baseLoc.X + baseLoc.Width, 200), new Vector(0, 1), AsteroidType.NORMAL));
 
             baseLoc = PlayerBaseLocation.GetBaseLocation(PlayerPosition.RIGHT);
             GameLevelManager.SendNewObject(mgr, CreateAndSendNewStatPowerup(new Vector(baseLoc.X - 10 * 2 - 1, 100), new Vector(0, 1)));

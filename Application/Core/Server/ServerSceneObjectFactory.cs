@@ -77,13 +77,13 @@ namespace Orbit.Core.Server
                 randomGenerator.Next((int)(SharedDef.ORBIT_AREA.Y + objectRadius), (int)(SharedDef.ORBIT_AREA.Height - objectRadius)));
         }
 
-        public static Asteroid CreateCustomAsteroid(ServerMgr mgr, int rad, Vector pos, Vector dir)
+        public static Asteroid CreateCustomAsteroid(ServerMgr mgr, int rad, Vector pos, Vector dir, AsteroidType type)
         {
             Random randomGenerator = mgr.GetRandomGenerator();
 
             Asteroid s;
             s = new Asteroid(null);
-            s.AsteroidType = AsteroidType.NORMAL;
+            s.AsteroidType = type;
             s.TextureId = randomGenerator.Next(1, 18);
             s.Radius = rad;
 

@@ -32,10 +32,21 @@ namespace Orbit.Core.Server.Level
         {
             Rect baseLoc = PlayerBaseLocation.GetBaseLocation(PlayerPosition.LEFT);
 
-            GameLevelManager.SendNewObject(mgr, MakeObjectStatic(ServerSceneObjectFactory.CreateCustomAsteroid(mgr, 10, new Vector(baseLoc.X - 10 * 2 - 1, 100), new Vector(0, 0))));
-            GameLevelManager.SendNewObject(mgr, MakeObjectStatic(ServerSceneObjectFactory.CreateCustomAsteroid(mgr, 20, new Vector(baseLoc.X - 20 * 2, 200), new Vector(0, 0))));
-            GameLevelManager.SendNewObject(mgr, MakeObjectStatic(ServerSceneObjectFactory.CreateCustomAsteroid(mgr, 10, new Vector(baseLoc.X + baseLoc.Width + 1, 100), new Vector(0, 0))));
-            GameLevelManager.SendNewObject(mgr, MakeObjectStatic(ServerSceneObjectFactory.CreateCustomAsteroid(mgr, 20, new Vector(baseLoc.X + baseLoc.Width, 200), new Vector(0, 0))));
+            GameLevelManager.SendNewObject(mgr, MakeObjectStatic(ServerSceneObjectFactory.CreateCustomAsteroid(
+                mgr, 10, new Vector(baseLoc.X - 10 * 2 - 1, 100), new Vector(0, 0), AsteroidType.NORMAL)));
+            GameLevelManager.SendNewObject(mgr, MakeObjectStatic(ServerSceneObjectFactory.CreateCustomAsteroid(
+                mgr, 20, new Vector(baseLoc.X - 20 * 2, 200), new Vector(0, 0), AsteroidType.NORMAL)));
+            GameLevelManager.SendNewObject(mgr, MakeObjectStatic(ServerSceneObjectFactory.CreateCustomAsteroid(
+                mgr, 10, new Vector(baseLoc.X + baseLoc.Width + 1, 100), new Vector(0, 0), AsteroidType.NORMAL)));
+            GameLevelManager.SendNewObject(mgr, MakeObjectStatic(ServerSceneObjectFactory.CreateCustomAsteroid(
+                mgr, 20, new Vector(baseLoc.X + baseLoc.Width, 200), new Vector(0, 0), AsteroidType.NORMAL)));
+
+
+            GameLevelManager.SendNewObject(mgr, MakeObjectStatic(ServerSceneObjectFactory.CreateCustomAsteroid(
+                mgr, 20, new Vector(300, 200), new Vector(0, 0), AsteroidType.GOLDEN)));
+            GameLevelManager.SendNewObject(mgr, MakeObjectStatic(ServerSceneObjectFactory.CreateCustomAsteroid(
+                mgr, 20, new Vector(500, 200), new Vector(0, 0), AsteroidType.GOLDEN)));
+
 
             StatPowerUp sp = CreateNewStatPowerup();
             sp.Position = new Vector(100, 100);
