@@ -54,6 +54,9 @@ namespace Orbit.Core.Scene.Controls.Health.Implementations
                 p = 0;
 
             Bar.Percentage = p;
+
+            if (me.Dead)
+                Bar.DoRemoveMe();
         }
     }
 }
