@@ -11,7 +11,7 @@ namespace Orbit.Core.Server.Level
 {
     public class LevelTestPoweUp : IGameLevel
     {
-        public static LevelInfo Info = new LevelInfo(true, "[TEST] Powerups");
+        public static readonly LevelInfo Info = new LevelInfo(true, "[TEST] Powerups");
 
         private ServerMgr mgr;
         private List<ISceneObject> objects;

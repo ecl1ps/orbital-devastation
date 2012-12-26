@@ -105,37 +105,37 @@ namespace Orbit.Core
         /// <summary>
         /// velikost canvasu je zaroven velikost celeho okna
         /// </summary>
-        public static Size CANVAS_SIZE                      = new Size(1000, 700);
+        public static readonly Size CANVAS_SIZE             = new Size(1000, 700);
 
         /// <summary>
         /// view port je oblast, kde se odehrava cela hra - mimo ni by se nemelo nic dit (mimo je pak action bar)
         /// </summary>
-        public static Size VIEW_PORT_SIZE                   = new Size(CANVAS_SIZE.Width, CANVAS_SIZE.Height - 60); // 60 JSOU BARY DOLE
+        public static readonly Size VIEW_PORT_SIZE          = new Size(CANVAS_SIZE.Width, CANVAS_SIZE.Height - 60); // 60 JSOU BARY DOLE
 
         /// <summary>
         /// orbit area je horni oblast obrazovky - pas kde se pohybuji asteroidy
         /// </summary>
-        public static Rect ORBIT_AREA                       = new Rect(0, 0, CANVAS_SIZE.Width, 200);
+        public static readonly Rect ORBIT_AREA              = new Rect(0, 0, CANVAS_SIZE.Width, 200);
 
         public const string CONFIG_FILE                     = "data";
         public const GameLevel STARTING_LEVEL               = GameLevel.BASIC_MAP;
         public const BotType DEFAULT_BOT                    = BotType.LEVEL2;
 
         //Jmena zvuku
-        public const string MUSIC_METEOR_HIT                      = "meteor_hit";
-        public const string MUSIC_DAMAGE_TO_BASE                  = "base_dmg";
-        public const string MUSIC_SHOOT                           = "shoot";
-        public const string MUSIC_EXPLOSION                       = "explosion";
-        public const string MUSIC_VICTORY                         = "victory";
-        public const string MUSIC_LOSE                            = "lose";
-        public const string MUSIC_BACKGROUND_CALM                 = "bg_calm";
-        public const string MUSIC_BACKGROUND_ACTION               = "bg_action";
+        public const string MUSIC_METEOR_HIT                = "meteor_hit";
+        public const string MUSIC_DAMAGE_TO_BASE            = "base_dmg";
+        public const string MUSIC_SHOOT                     = "shoot";
+        public const string MUSIC_EXPLOSION                 = "explosion";
+        public const string MUSIC_VICTORY                   = "victory";
+        public const string MUSIC_LOSE                      = "lose";
+        public const string MUSIC_BACKGROUND_CALM           = "bg_calm";
+        public const string MUSIC_BACKGROUND_ACTION         = "bg_action";
 
         //Texty pro boty
         public const string BOT_LEVEL_1_TEXT = "The easiest bot in this game, recomended for those who just started or for those who seek simple fun with not so much challenge. This bot will never upgrade its weapons and refuse to use hooks.";
         public const string BOL_LEVEL_2_TEXT = "Easier bot then rest of others, recomended for those who just got a little experience and want to train some more before challenging real players. This bot will never upgrade its weapons but he will use hook as best as he can.";
 
-        public const string SALT = "Kj5dfO0OR";
+        public const string SALT                            = "Kj5dfO0OR";
     }
 
     public enum WindowState
