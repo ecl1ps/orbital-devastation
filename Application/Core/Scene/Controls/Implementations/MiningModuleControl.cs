@@ -176,6 +176,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private void RemoveMiningLines()
         {
             currentlyMining.ForEach(mineObj => mineObj.MiningLine.DoRemoveMe());
+            currentlyMining.Clear();
         }
 
         public void DoCollideWith(ISceneObject other, float tpf)

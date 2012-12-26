@@ -74,7 +74,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         {
             foreach (Control control in me.GetControlsCopy()) 
             {
-                if(control != this)
+                if (control != this)
                     control.Enabled = enable;
             }
         }
