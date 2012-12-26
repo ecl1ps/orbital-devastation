@@ -11,8 +11,10 @@ using Orbit.Core.Scene.Controls.Implementations;
 
 namespace Orbit.Core.Server.Level
 {
-    class LevelTestStaticObjects : IGameLevel
+    public class LevelTestStaticObjects : IGameLevel
     {
+        public static LevelInfo Info = new LevelInfo(true, "[TEST] Static objects");
+
         private ServerMgr mgr;
 
         public LevelTestStaticObjects(ServerMgr serverMgr)

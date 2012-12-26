@@ -9,8 +9,10 @@ using Orbit.Core.Players;
 
 namespace Orbit.Core.Server.Level
 {
-    class LevelTestEmpty : IGameLevel
+    public class LevelTestEmpty : IGameLevel
     {
+        public static LevelInfo Info = new LevelInfo(true, "[TEST] Empty map");
+
         private ServerMgr mgr;
 
         public LevelTestEmpty(ServerMgr serverMgr)

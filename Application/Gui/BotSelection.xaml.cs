@@ -69,7 +69,7 @@ namespace Orbit.Gui
             (Application.Current as App).CreateGameGui();
 
             TournamentSettings s = new TournamentSettings();
-            s.MMType = GameMatchManagerType.SKIRMISH;
+            s.MMType = MatchManagerType.SKIRMISH;
             s.Level = GameLevel.BASIC_MAP;
             s.RoundCount = 1;
             s.BotCount = 1;

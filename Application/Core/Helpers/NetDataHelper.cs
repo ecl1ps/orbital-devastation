@@ -847,7 +847,7 @@ namespace Orbit.Core.Helpers
         public static TournamentSettings ReadTournamentSettings(this NetIncomingMessage msg)
         {
             TournamentSettings s = new TournamentSettings();
-            s.MMType = (GameMatchManagerType)msg.ReadInt32();
+            s.MMType = (MatchManagerType)msg.ReadInt32();
             s.Level = (GameLevel)msg.ReadInt32();
             s.RoundCount = msg.ReadInt32();
             s.BotType = (BotType)msg.ReadInt32();

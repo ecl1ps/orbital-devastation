@@ -17,7 +17,7 @@ namespace Orbit.Core.Server.Match
         bool HasRightNumberOfPlayersForStart();
     }
 
-    public enum GameMatchManagerType
+    public enum MatchManagerType
     {
         WINS_THEN_SCORE,
         ONLY_SCORE,

@@ -42,21 +42,21 @@ namespace Orbit.Core.Server
 
             switch (serverMgr.TournamentSettings.MMType)
             {
-                case GameMatchManagerType.WINS_THEN_SCORE:
+                case MatchManagerType.WINS_THEN_SCORE:
                     matchManager = new WinsThenScoreMatchManager(players, serverMgr.GetRandomGenerator(), serverMgr.TournamentSettings.RoundCount);
                     break;
-                case GameMatchManagerType.ONLY_SCORE:
+                case MatchManagerType.ONLY_SCORE:
                     matchManager = new ScoreMatchManager(players, serverMgr.GetRandomGenerator(), serverMgr.TournamentSettings.RoundCount);
                     break;
-                case GameMatchManagerType.SKIRMISH:
+                case MatchManagerType.SKIRMISH:
                     matchManager = new SkirmishMatchManager(players, serverMgr.GetRandomGenerator(), serverMgr.TournamentSettings.RoundCount);
                     break;
-                case GameMatchManagerType.QUICK_GAME:
+                case MatchManagerType.QUICK_GAME:
                     matchManager = new QuickGameMatchManager(players, serverMgr.GetRandomGenerator(), serverMgr.TournamentSettings.RoundCount);
                     break;
                 
                 // testovaci managery
-                case GameMatchManagerType.TEST_LEADER_SPECTATOR:
+                case MatchManagerType.TEST_LEADER_SPECTATOR:
                     matchManager = new LeaderSpectatorMatchManager(players);
                     break;
                 default:

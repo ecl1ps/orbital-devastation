@@ -11,6 +11,8 @@ namespace Orbit.Core.Server.Level
 {
     public class LevelBasic : IGameLevel
     {
+        public static LevelInfo Info = new LevelInfo(false, "Basic map");
+
         protected ServerMgr mgr;
         protected List<ISceneObject> objects;
         protected float newStatPowerupTimer;

@@ -28,30 +28,12 @@ namespace Orbit.Gui
         private bool leader;
         private bool ready;
         private bool receivedSettings;
-        private Dictionary<GameMatchManagerType, string> matchManagerNames;
-        private Dictionary<GameLevel, string> levelNames;
 
         public LobbyUC(bool asLeader, bool settingsLocked = false)
         {
             leader = asLeader;
             receivedSettings = false;
             InitializeComponent();
-
-            matchManagerNames = new Dictionary<GameMatchManagerType, string>(5);
-            matchManagerNames.Add(GameMatchManagerType.WINS_THEN_SCORE, "Each vs. Each (most wins then score)");
-            matchManagerNames.Add(GameMatchManagerType.ONLY_SCORE, "Each vs. Each (score)");
-
-            matchManagerNames.Add(GameMatchManagerType.TEST_LEADER_SPECTATOR, "[TEST] Leader as Spectator");
-            matchManagerNames.Add(GameMatchManagerType.SKIRMISH, "[TEST] One player vs. bot");
-            matchManagerNames.Add(GameMatchManagerType.QUICK_GAME, "[TEST] Two players");
-
-            levelNames = new Dictionary<GameLevel, string>(7);
-            levelNames.Add(GameLevel.BASIC_MAP, "Basic map");
-
-            levelNames.Add(GameLevel.TEST_EMPTY, "[TEST] Empty map");
-            levelNames.Add(GameLevel.TEST_POWERUPS, "[TEST] Powerups");
-            levelNames.Add(GameLevel.TEST_BASE_COLLISIONS, "[TEST] Base collisions");
-            levelNames.Add(GameLevel.TEST_STATIC_OBJ, "[TEST] Static objects");
 
             btnReady.IsEnabled = false;
 
@@ -69,25 +51,44 @@ namespace Orbit.Gui
             if (asLeader && !settingsLocked)
             {
                 List<ComboData> data = new List<ComboData>();
-                data.Add(new ComboData { Id = GameMatchManagerType.WINS_THEN_SCORE, Name = matchManagerNames[GameMatchManagerType.WINS_THEN_SCORE] });
-                data.Add(new ComboData { Id = GameMatchManagerType.ONLY_SCORE, Name = matchManagerNames[GameMatchManagerType.ONLY_SCORE] });
+                // pridani produkcnich manageru
+                foreach (MatchManagerType t in Enum.GetValues(typeof(MatchManagerType)))
+                {
+                    MatchManagerInfo i = MatchManagerInfoAccessor.GetInfo(t);
+                    if (!i.IsDebug)
+                        data.Add(new ComboData { Id = t, Name = i.Text });
+                }
+
 #if DEBUG
-                data.Add(new ComboData { Id = GameMatchManagerType.TEST_LEADER_SPECTATOR, Name = matchManagerNames[GameMatchManagerType.TEST_LEADER_SPECTATOR] });
-                data.Add(new ComboData { Id = GameMatchManagerType.SKIRMISH, Name = matchManagerNames[GameMatchManagerType.SKIRMISH] });
-                data.Add(new ComboData { Id = GameMatchManagerType.QUICK_GAME, Name = matchManagerNames[GameMatchManagerType.QUICK_GAME] });
+                // pridani testovacich manageru
+                foreach (MatchManagerType t in Enum.GetValues(typeof(MatchManagerType)))
+                {
+                    MatchManagerInfo i = MatchManagerInfoAccessor.GetInfo(t);
+                    if (i.IsDebug)
+                        data.Add(new ComboData { Id = t, Name = i.Text });
+                }
 #endif
                 cbType.ItemsSource = data;
                 cbType.DisplayMemberPath = "Name";
                 cbType.SelectedValuePath = "Id";
-                cbType.SelectedValue = GameMatchManagerType.WINS_THEN_SCORE;
+                cbType.SelectedValue = MatchManagerType.WINS_THEN_SCORE;
 
                 data = new List<ComboData>();
-                data.Add(new ComboData { Id = GameLevel.BASIC_MAP, Name = levelNames[GameLevel.BASIC_MAP] });
+                // pridani produkcnich map
+                foreach (GameLevel l in Enum.GetValues(typeof(GameLevel)))
+                {
+                    LevelInfo i = LevelInfoAccessor.GetInfo(l);
+                    if (!i.IsDebug)
+                        data.Add(new ComboData { Id = l, Name = i.Text });
+                }
 #if DEBUG
-                data.Add(new ComboData { Id = GameLevel.TEST_BASE_COLLISIONS, Name = levelNames[GameLevel.TEST_BASE_COLLISIONS] });
-                data.Add(new ComboData { Id = GameLevel.TEST_EMPTY, Name = levelNames[GameLevel.TEST_EMPTY] });
-                data.Add(new ComboData { Id = GameLevel.TEST_POWERUPS, Name = levelNames[GameLevel.TEST_POWERUPS] });
-                data.Add(new ComboData { Id = GameLevel.TEST_STATIC_OBJ, Name = levelNames[GameLevel.TEST_STATIC_OBJ] });
+                // pridani testovacich map
+                foreach (GameLevel l in Enum.GetValues(typeof(GameLevel)))
+                {
+                    LevelInfo i = LevelInfoAccessor.GetInfo(l);
+                    if (i.IsDebug)
+                        data.Add(new ComboData { Id = l, Name = i.Text });
+                }
 #endif
 
                 cbMap.ItemsSource = data;
@@ -96,6 +97,7 @@ namespace Orbit.Gui
                 cbMap.SelectedValue = GameLevel.BASIC_MAP;
 
 #if DEBUG
+                // pridani dostupnych botu pro testovani
                 data = new List<ComboData>();
                 data.Add(new ComboData { Id = BotType.LEVEL1, Name = BotNameAccessor.GetBotName(BotType.LEVEL1) });
                 data.Add(new ComboData { Id = BotType.LEVEL2, Name = BotNameAccessor.GetBotName(BotType.LEVEL2) });
@@ -269,7 +271,7 @@ namespace Orbit.Gui
 #endif
 
             TournamentSettings s = new TournamentSettings();
-            s.MMType = (GameMatchManagerType)cbType.SelectedValue;
+            s.MMType = (MatchManagerType)cbType.SelectedValue;
             s.Level = (GameLevel)cbMap.SelectedValue;
             try
             {
@@ -302,8 +304,8 @@ namespace Orbit.Gui
         {
             receivedSettings = true;
             btnReady.IsEnabled = true;
-            lblType.Content = matchManagerNames[s.MMType];
-            lblMap.Content = levelNames[s.Level];
+            lblType.Content = MatchManagerInfoAccessor.GetInfo(s.MMType).Text;
+            lblMap.Content = LevelInfoAccessor.GetInfo(s.Level).Text;
             lblRounds.Content = s.RoundCount.ToString();
             UpdateMatchCount(s.RoundCount);
 

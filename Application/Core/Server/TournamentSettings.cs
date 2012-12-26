@@ -11,7 +11,7 @@ namespace Orbit.Core
 {
     public class TournamentSettings
     {
-        public GameMatchManagerType MMType { get; set; }
+        public MatchManagerType MMType { get; set; }
         public GameLevel Level { get; set; }
         public int RoundCount { get; set; }
         public BotType BotType { get; set; }
@@ -22,7 +22,7 @@ namespace Orbit.Core
             if (!withDefaults)
                 return;
 
-            MMType = GameMatchManagerType.SKIRMISH;
+            MMType = MatchManagerType.SKIRMISH;
             Level = GameLevel.BASIC_MAP;
             RoundCount = 1;
             BotType = SharedDef.DEFAULT_BOT;

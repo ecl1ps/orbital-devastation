@@ -11,6 +11,8 @@ namespace Orbit.Core.Server.Match
     /// </summary>
     public class ScoreMatchManager : AbstractTournamentMatchManager
     {
+        public static MatchManagerInfo Info = new MatchManagerInfo(false, "Each vs. Each (score)");
+
         public ScoreMatchManager(List<Player> players, Random randGen, int rounds)
             : base(players, randGen, rounds)
         {

@@ -138,7 +138,7 @@ namespace Orbit
             StartGame(Gametype.MULTIPLAYER_GAME);
 
             TournamentSettings s = new TournamentSettings();
-            s.MMType = GameMatchManagerType.QUICK_GAME;
+            s.MMType = MatchManagerType.QUICK_GAME;
             s.Level = GameLevel.BASIC_MAP;
             s.RoundCount = 1;
             s.BotCount = 0;
