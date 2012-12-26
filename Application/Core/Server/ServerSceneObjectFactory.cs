@@ -84,7 +84,10 @@ namespace Orbit.Core.Server
             Asteroid s;
             s = new Asteroid(null);
             s.AsteroidType = type;
-            s.TextureId = randomGenerator.Next(1, 18);
+            if (type == AsteroidType.NORMAL)
+                s.TextureId = randomGenerator.Next(1, 18);
+            else
+                s.TextureId = randomGenerator.Next(1, 6);
             s.Radius = rad;
 
             s.Id = IdMgr.GetNewId(0);
