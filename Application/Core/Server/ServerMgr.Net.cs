@@ -64,7 +64,7 @@ namespace Orbit.Core.Server
                     case NetIncomingMessageType.DebugMessage:
                     case NetIncomingMessageType.WarningMessage:
                     case NetIncomingMessageType.ErrorMessage:
-                        Console.WriteLine(msg.ReadString());
+                        Logger.Debug(msg.ReadString());
                         break;
                     case NetIncomingMessageType.DiscoveryRequest:
                         NetOutgoingMessage response = server.CreateMessage();
@@ -110,10 +110,10 @@ namespace Orbit.Core.Server
                         }
 
                         // NOTE: Disconnecting and Disconnected are not instant unless client is shutdown with disconnect()
-                        Console.WriteLine(msg.SenderConnection.ToString() + " status changed to: " + msg.SenderConnection.Status);
+                        Logger.Debug(msg.SenderConnection.ToString() + " status changed to: " + msg.SenderConnection.Status);
                         break;
                     default:
-                        Console.WriteLine("Unhandled message type: " + msg.MessageType);
+                        Logger.Debug("Unhandled message type: " + msg.MessageType);
                         break;
                 }
                 server.Recycle(msg);
@@ -124,7 +124,7 @@ namespace Orbit.Core.Server
         {
             PacketType type = (PacketType)msg.ReadInt32();
 #if VERBOSE
-            Console.WriteLine("Server " + GetPlayer(msg.SenderConnection).GetId() + ": received msg " + type.ToString());
+            Logger.Debug("Server " + GetPlayer(msg.SenderConnection).GetId() + ": received msg " + type.ToString());
 #endif
             switch (type)
             {

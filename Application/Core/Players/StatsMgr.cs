@@ -12,6 +12,8 @@ namespace Orbit.Core.Players
 { 
     public class StatsMgr
     {
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private SceneMgr sceneMgr;
         private Dictionary<PlayerStats, Stat> allStats = new Dictionary<PlayerStats, Stat>();
 
@@ -66,9 +68,9 @@ namespace Orbit.Core.Players
         {
             // ziskame rozmezi min - max
             float val = (float)sceneMgr.GetRandomGenerator().NextDouble() * (stat.max - stat.min) + stat.min;
-#if DEBUG
-            Console.WriteLine("Added stat " + stat.type + " (" + val + ") to player " + data.Name);
-#endif
+
+            Logger.Debug("Added stat " + stat.type + " (" + val + ") to player " + data.Name);
+
             return AddStatToPlayer(data, stat.type, val);
         }
 

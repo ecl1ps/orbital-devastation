@@ -6,6 +6,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
 {
     public class LinearRotationControl : Control
     {
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private IRotable meRotable;
 
         public float RotationSpeed { get; set; }
@@ -14,7 +16,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         {
             if (!(obj is IRotable))
             {
-                Console.Error.WriteLine("LinearRotationControl cannot be attached to non-rotable object!");
+                Logger.Error("LinearRotationControl cannot be attached to non-rotable object!");
                 return;
             }
 

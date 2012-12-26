@@ -75,7 +75,6 @@ namespace Orbit.Gui
                         theMatch.Groups[3].Value + "." + 
                         theMatch.Groups[4].Value;
                 }
-                System.Console.WriteLine(ip);
                  
                 searcher.Shutdown();
                 Thread.Sleep(10); // vypnuti muze chvili trvat

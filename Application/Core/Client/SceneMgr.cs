@@ -26,6 +26,8 @@ namespace Orbit.Core.Client
 {
     public partial class SceneMgr
     {
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public Gametype GameType { get; set; }
         public FloatingTextManager FloatingTextMgr { get; set; }
         public StatsMgr StatsMgr { get; set; }
@@ -210,7 +212,7 @@ namespace Orbit.Core.Client
         {
             if (obj.Id == -1)
             {
-                Console.Error.WriteLine("Trying to add object " + obj.GetType().Name + " to scene, but it has uninitialized id! Skipped!");
+                Logger.Error("Trying to add object " + obj.GetType().Name + " to scene, but it has uninitialized id -> skipped!");
                 return;
             }
 

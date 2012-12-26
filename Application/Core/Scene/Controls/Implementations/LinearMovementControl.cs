@@ -6,6 +6,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
 {
     public class LinearMovementControl : Control, IMovementControl
     {
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private IMovable meMovable;
         public float Speed { get; set; }
 
@@ -13,7 +15,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         {
             if (!(obj is IMovable))
             {
-                Console.Error.WriteLine("LinearMovementControl cannot be attached to non-movable object!");
+                Logger.Error("LinearMovementControl cannot be attached to non-movable object!");
                 return;
             }
 

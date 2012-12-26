@@ -64,7 +64,7 @@ namespace Orbit.Core.Client
             while (pendingMessages.Count != 0)
                 SendMessage(pendingMessages.Dequeue());
 
-            Console.WriteLine("LOGIN confirmed (id: " + IdMgr.GetHighId(GetCurrentPlayer().Data.Id) + ")");
+            Logger.Debug("LOGIN confirmed (id: " + IdMgr.GetHighId(GetCurrentPlayer().Data.Id) + ")");
 
             SendPlayerDataRequestMessage();
         }
@@ -354,7 +354,7 @@ namespace Orbit.Core.Client
                 if (obj is IDestroyable)
                     target = (obj as IDestroyable);
                 else
-                    Console.Error.WriteLine("Object id " + bulletId + " (" + obj.GetType().Name + ") is supposed to be a instance of IDestroyable but it is not");
+                    Logger.Error("Object id " + bulletId + " (" + obj.GetType().Name + ") is supposed to be a instance of IDestroyable but it is not");
 
                 break;
             }
@@ -410,7 +410,7 @@ namespace Orbit.Core.Client
                     {
                         ExplodingSingularityBulletControl c2 = obj.GetControlOfType<ExplodingSingularityBulletControl>();
                         if (c2 == null)
-                            Console.Error.WriteLine("Object id " + mineId + " (" + obj.GetType().Name + 
+                            Logger.Error("Object id " + mineId + " (" + obj.GetType().Name + 
                                 ") is supposed to be a SingularityMine and have DroppingSingularityControl " +
                                 "or SingularityExplodingBullet and have ExplodingSingularityBulletControl, but control is null");
                         else
@@ -592,7 +592,7 @@ namespace Orbit.Core.Client
         {
             if (objects.Count > 2)
             {
-                Console.WriteLine("Error: receiving all asteroids but already have " + objects.Count);
+                Logger.Error("Receiving AllAsteroids packet but already have " + objects.Count + " objects");
                 return;
             }
 
@@ -601,7 +601,7 @@ namespace Orbit.Core.Client
             {
                 if (msg.ReadInt32() != (int)PacketType.NEW_ASTEROID)
                 {
-                    Console.WriteLine("Corrupted object PacketType.SYNC_ALL_ASTEROIDS");
+                    Logger.Error("Corrupted object PacketType.SYNC_ALL_ASTEROIDS");
                     return;
                 }
                 Asteroid s = CreateNewAsteroid((AsteroidType)msg.ReadByte());

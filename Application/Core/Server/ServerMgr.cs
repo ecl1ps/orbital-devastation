@@ -22,6 +22,8 @@ namespace Orbit.Core.Server
 {
     public partial class ServerMgr
     {
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private bool isInitialized;
         private volatile bool shouldQuit;
         private List<Player> players;
@@ -161,7 +163,6 @@ namespace Orbit.Core.Server
                 if (tpf >= 0.001 && isInitialized)
                     Update(tpf);
 
-                //Console.Out.WriteLine(Server tpf + ": " +sw.ElapsedMilliseconds);
                 elapsedMs = sw.ElapsedMilliseconds;
                 if (elapsedMs < SharedDef.MINIMUM_UPDATE_TIME) 
                 {

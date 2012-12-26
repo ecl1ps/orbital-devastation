@@ -6,6 +6,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
 {
     public class NewtonianMovementControl : Control, IMovementControl
     {
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private IMovable meMovable;
         private float earthSurface;
         public float Speed { get; set; }
@@ -22,7 +24,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         {
             if (!(obj is IMovable))
             {
-                Console.Error.WriteLine("NewtonianMovementControl cannot be attached to non-movable object!");
+                Logger.Error("NewtonianMovementControl cannot be attached to non-movable object!");
                 return;
             }
 

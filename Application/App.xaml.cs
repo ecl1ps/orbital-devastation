@@ -20,6 +20,12 @@ using System.Net.Sockets;
 using Orbit.Core.Server.Match;
 using Orbit.Core.Server.Level;
 
+#if DEBUG
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "logger.config")]
+#else
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "logger.config")]
+#endif
+
 namespace Orbit
 {
     /// <summary>

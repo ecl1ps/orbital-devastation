@@ -14,7 +14,7 @@ namespace Orbit.Core.Server
     {
         private void PlayerConnectionApproval(NetIncomingMessage msg)
         {
-            Console.WriteLine("Incoming LOGIN");
+            Logger.Debug("Incoming LOGIN");
 
             // nepridavat hrace, pokud uz existuje
             if (players.Exists(plr => plr.Connection == null || plr.Connection.RemoteUniqueIdentifier == msg.SenderConnection.RemoteUniqueIdentifier))
