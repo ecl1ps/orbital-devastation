@@ -275,6 +275,10 @@ namespace Orbit.Core.Client
             if (plr.Data.BotType == BotType.NONE || !plr.IsActivePlayer())
                 return;
 
+            // jinak budou provadet update na vice klientech - n-nasobek akci
+            if (GameType == Gametype.TOURNAMENT_GAME && !GetCurrentPlayer().Data.LobbyLeader)
+                return;
+
             switch (plr.Data.BotType)
             {
                 case BotType.LEVEL1:
