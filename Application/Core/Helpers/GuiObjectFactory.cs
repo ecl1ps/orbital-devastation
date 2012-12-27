@@ -41,6 +41,7 @@ namespace Orbit.Core.Helpers
                 panel = new HidingPanel();
                 mgr.GetCanvas().Children.Add(panel);
                 Canvas.SetTop(panel, 100);
+                Canvas.SetZIndex(panel, 1000);
             }));
 
             return panel;
