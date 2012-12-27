@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Orbit.Gui.InteractivePanel;
+using System.Windows.Media.Animation;
 
 namespace Orbit.Gui
 {
@@ -20,9 +21,22 @@ namespace Orbit.Gui
     /// </summary>
     public partial class HidingPanel : UserControl, IInteractivePanel<ActionOverview>
     {
+        private DoubleAnimation hideAnimation;
+        private DoubleAnimation showAnimation;
+
+        private bool hidden = false;
+
         public HidingPanel()
         {
             InitializeComponent();
+            
+            hideAnimation = new DoubleAnimation(50, 0, new Duration(TimeSpan.FromSeconds(1)));
+            hideAnimation.AutoReverse = true;
+            hideAnimation.RepeatBehavior = new RepeatBehavior(0.5);
+
+            showAnimation = new DoubleAnimation(0, 50, new Duration(TimeSpan.FromSeconds(1)));
+            showAnimation.AutoReverse = true;
+            showAnimation.RepeatBehavior = new RepeatBehavior(0.5);
         }
 
         public void AddItem(UIElement elem)
@@ -72,5 +86,14 @@ namespace Orbit.Gui
             
             return item;
         }
-    }
+
+        public void  ToggleVisibility()
+        {
+            hidden = !hidden;
+            if(hidden)
+                Panel.BeginAnimation(WidthProperty, showAnimation);
+            else
+                Panel.BeginAnimation(WidthProperty, hideAnimation);
+        }
+}
 }

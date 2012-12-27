@@ -16,5 +16,7 @@ namespace Orbit.Gui.InteractivePanel
         T getItem(int i);
 
         void ClearAll();
+
+        void ToggleVisibility();
     }
 }
