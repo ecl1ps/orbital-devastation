@@ -265,6 +265,13 @@ namespace Orbit.Core.Client
 
             SetMainInfoText("");
             userActionsDisabled = false;
+
+            Application.Current.Dispatcher.BeginInvoke(new Action(() => {
+                (Application.Current as App).FocusWindow();
+            }));
+
+            // TODO: prehrat zvuk misto pipnuti
+            Console.Beep(300, 200);
         }
 
         private void ReceivedPlayerReconnectedMsg(NetIncomingMessage msg)

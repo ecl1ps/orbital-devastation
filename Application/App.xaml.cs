@@ -182,6 +182,13 @@ namespace Orbit
                 }));
         }
 
+        public void FocusWindow()
+        {
+            MainWindow.WindowState = System.Windows.WindowState.Normal;
+            MainWindow.Focus();
+            MainWindow.BringIntoView();
+        }
+
         public Canvas GetCanvas()
         {
             return LogicalTreeHelper.FindLogicalNode(MainWindow, "mainCanvas") as Canvas;
