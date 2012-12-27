@@ -48,7 +48,7 @@ namespace Orbit.Core.Scene.Entities
             set
             {
                 enabled = value;
-                foreach (IControl control in GetControlsCopy())
+                foreach (IControl control in controls)
                     control.Enabled = enabled;
             }
         }

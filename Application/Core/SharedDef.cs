@@ -19,6 +19,9 @@ namespace Orbit.Core
         public const int MIN_ASTEROID_SPEED                 = 70;
         public const int MAX_ASTEROID_SPEED                 = 150;
 
+        public const int MIN_POWERUP_SPEED                  = 100;
+        public const int MAX_POWERUP_SPEED                  = 150;
+
         public const int ASTEROID_THRESHOLD_RADIUS          = 10;
 
         public const int FIRST_COSMICAL_SPEED               = 120;
@@ -117,7 +120,7 @@ namespace Orbit.Core
         /// </summary>
         public static readonly Rect ORBIT_AREA              = new Rect(0, 0, CANVAS_SIZE.Width, 200);
 
-        public static readonly Rect LOWER_ORBIT_AREA        = new Rect(0, 200, CANVAS_SIZE.Width, 150);
+        public static readonly Rect LOWER_ORBIT_AREA        = new Rect(0, 200, CANVAS_SIZE.Width, 100);
 
         public const string CONFIG_FILE                     = "data";
         public const GameLevel STARTING_LEVEL               = GameLevel.BASIC_MAP;

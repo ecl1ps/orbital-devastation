@@ -104,7 +104,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 {
                     caught.Enabled = true;
                     if (caught is IMovable)
-                        (caught as IMovable).Direction = new Vector(0, 100);
+                        (caught as IMovable).Direction = new Vector(0, 1);
                 }
             }
 
