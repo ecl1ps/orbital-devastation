@@ -40,7 +40,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
     public class MiningModuleControl : Control, ICollisionReactionControl
     {
         private SceneMgr sceneMgr;
-        private float farmedGold;
         private List<CollisionData> recentlyCollided;
 
         public List<MiningObject> currentlyMining;
@@ -66,13 +65,11 @@ namespace Orbit.Core.Scene.Controls.Implementations
             sceneMgr = me.SceneMgr;
             currentlyMining = new List<MiningObject>();
             recentlyCollided = new List<CollisionData>();
-            farmedGold = 0;
         }
 
         protected override void UpdateControl(float tpf)
         {
-            CheckMining();
-            MineObjects(tpf);
+            CheckModuleLink();
             UpdateRecentCollisions(tpf);
         }
 
@@ -86,24 +83,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             }
         }
 
-        private void MineObjects(float tpf)
-        {
-            float goldPerSec = 0;
-            foreach (MiningObject mined in currentlyMining)
-                goldPerSec += mined.Obj.Gold;
-
-            farmedGold += goldPerSec * SharedDef.SPECTATOR_GOLD_MULTIPLY * tpf;
-
-            while (farmedGold > 1)
-            {
-                farmedGold -= 1;
-                Owner.Data.Gold += 1;
-            }
-
-            me.SceneMgr.ShowStatusText(4, Owner.Data.Gold.ToString() + " + " + goldPerSec.ToString("0.##") + "/s");
-        }
-
-        private void CheckMining()
+        private void CheckModuleLink()
         {
             List<ISceneObject> collided = new List<ISceneObject>();
 
@@ -119,14 +99,14 @@ namespace Orbit.Core.Scene.Controls.Implementations
                     collided.Add(obj);
 
                     if (!IsPresent(obj))
-                        InitNewMining(obj as IContainsGold);
+                        InitNewLink(obj as IContainsGold);
                 }
             }
 
             for (int i = currentlyMining.Count - 1; i >= 0; i--)
             {
                 if (!IsPresent(currentlyMining[i], collided))
-                    StopMining(currentlyMining[i]);
+                    StopLink(currentlyMining[i]);
             }
         }
 
@@ -152,7 +132,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             return false;
         }
 
-        private void InitNewMining(IContainsGold obj) 
+        private void InitNewLink(IContainsGold obj) 
         {
             StretchingLineControl stretchingControl = new StretchingLineControl();
             stretchingControl.FirstObj = me;
@@ -166,7 +146,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             currentlyMining.Add(new MiningObject(obj, line));
         }
 
-        private void StopMining(MiningObject obj)
+        private void StopLink(MiningObject obj)
         {
             obj.MiningLine.DoRemoveMe();
             obj.MiningLine.Dead = true;
