@@ -128,7 +128,7 @@ namespace Orbit.Core.Client
                         CreateAndAddBot(plr);
                     else
                         FloatingTextMgr.AddFloatingText(plr.Data.Name + " has joined the game",
-                            new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50 + i * 30),
+                            new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
                             FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
                 }
                 else // hrace uz zname, ale mohl se zmenit jeho stav na active a take se mohly zmenit dalsi player data

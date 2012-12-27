@@ -7,14 +7,19 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Lidgren.Network;
 using Orbit.Core.Helpers;
+using Orbit.Core.Scene.CollisionShapes;
+using System.Globalization;
+using System.Windows.Shapes;
 
 namespace Orbit.Core.Client.GameStates
 {
     public class FloatingTextManager : IGameState
     {
         private SceneMgr mgr;
-        private List<FloatingText> floatingTexts = new List<FloatingText>();
-        private List<FloatingText> newFloatingTexts = new List<FloatingText>();
+        private List<FloatingText> floatingTexts         = new List<FloatingText>();
+        private List<FloatingText> newFloatingTexts      = new List<FloatingText>();
+
+        public static bool CollisionShapeVisualization   = false;
 
         public const float TIME_LENGTH_1                 = 0.5f;
         public const float TIME_LENGTH_2                 = 1f;
@@ -94,10 +99,126 @@ namespace Orbit.Core.Client.GameStates
                 Canvas.SetLeft(tb, ft.Position.X);
                 Canvas.SetTop(tb, ft.Position.Y);
                 mgr.GetCanvas().Children.Add(tb);
+                FormattedText formtxt = new FormattedText(ft.Text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(tb.FontFamily.Source), ft.FontSize, Brushes.Black);
+                ft.CS.Size = new Size(formtxt.Width, formtxt.Height * 0.8); // nepotrebujeme cely radek i s volnym mistem nahore a dole
             }));
+
             ft.GUIObject = tb;
+            ft.FinalPosition = new Vector(ft.Position.X - ft.CS.Size.Width / 2, ft.Position.Y - ft.CS.Size.Height / 2);
+            ft.CS.Position = ft.FinalPosition;
+            ft.CollisionArea = new Rect(ft.CS.Position.ToPoint(), ft.CS.Size);
+            
+            if (CollisionShapeVisualization)
+                ShowCA(ft);
+
+            AdjustPositionDueToCollisions(ft);
 
             floatingTexts.Add(ft);
+
+            if (ft.Send)
+            {
+                NetOutgoingMessage msg = mgr.CreateNetMessage();
+                msg.Write((int)PacketType.FLOATING_TEXT);
+                msg.Write(ft.Text);
+                msg.Write(ft.Position);
+                msg.Write(ft.TotalTime);
+                msg.Write((byte)ft.Type);
+                msg.Write(ft.FontSize);
+                mgr.SendMessage(msg);
+            }
+        }
+
+        private void AdjustPositionDueToCollisions(FloatingText currentFt)
+        {
+            bool positionFound = false;
+            while (!positionFound)
+            {
+                positionFound = true;
+                foreach (FloatingText t in floatingTexts)
+                {
+                    if (t == currentFt)
+                        continue;
+
+                    if (currentFt.CS.CollideWith(t.CS))
+                    {
+                        UpdateCollisionArea(currentFt, t.CS);
+                        FindNewPos(currentFt);
+                        positionFound = false;
+                        break;
+                    }
+                }
+            }
+
+            currentFt.Position = currentFt.CS.Position + new Vector(currentFt.CS.Size.Width / 2, currentFt.CS.Size.Height / 2);
+
+            mgr.Invoke(new Action(() =>
+            {
+                Canvas.SetLeft(currentFt.GUIObject, currentFt.Position.X);
+                Canvas.SetTop(currentFt.GUIObject, currentFt.Position.Y);
+            }));
+        }
+
+        /// <summary>
+        /// prepocitava velikost kolizniho obdelniku floating textu tak, ze k nemu pricte poskytnuty kolizni obdelnik
+        /// kolizni obdelnik udava oblast, ve ktere doslo ke kolizi a uz v ni neni opakovane zkouseno hledat volne misto
+        /// </summary>
+        /// <param name="squareCollisionShape"></param>
+        private void UpdateCollisionArea(FloatingText ft, SquareCollisionShape cs)
+        {
+            // leva
+            double x1 = ft.CollisionArea.Left;
+            if (cs.Position.X < ft.CollisionArea.Left)
+                x1 = cs.Position.X - 1;
+
+            // prava
+            double x2 = ft.CollisionArea.Right;
+            if (cs.Position.X + cs.Size.Width > ft.CollisionArea.Right)
+                x2 = cs.Position.X + cs.Size.Width + 1;
+
+            // horni
+            double y1 = ft.CollisionArea.Top;
+            if (cs.Position.Y < ft.CollisionArea.Top)
+                y1 = cs.Position.Y - 1;
+
+            // dolni
+            double y2 = ft.CollisionArea.Bottom;
+            if (cs.Position.Y + cs.Size.Height > ft.CollisionArea.Bottom)
+                y2 = cs.Position.Y + cs.Size.Height + 1;
+
+            ft.CollisionArea = new Rect(x1, y1, x2 - x1, y2 - y1);
+            
+            if (CollisionShapeVisualization)
+                ShowCA(ft);
+        }
+
+        private void ShowCA(FloatingText ft)
+        {
+            mgr.Invoke(new Action(() =>
+            {
+                RectangleGeometry geom = new RectangleGeometry(ft.CollisionArea);
+                Path path = new Path();
+                path.Data = geom;
+                path.Stroke = Brushes.Black;
+                mgr.GetCanvas().Children.Add(path);
+            }));
+        }
+
+        /// <summary>
+        /// pocita novou pozici pro floating text - jednou nad koliznim obdelnikem, jednou pod nim
+        /// </summary>
+        /// <param name="ft"></param>
+        private void FindNewPos(FloatingText ft)
+        {
+            // TODO pripadne posunovat do dalsich stran
+
+            if (!ft.LastCollisionMovedUp)
+                // posunuti nahoru
+                ft.CS.Position = new Vector(ft.CS.Position.X, ft.CollisionArea.Top - ft.CS.Size.Height - 2);
+            else
+                // posunuti dolu
+                ft.CS.Position = new Vector(ft.CS.Position.X, ft.CollisionArea.Bottom + 2);
+
+            ft.LastCollisionMovedUp = !ft.LastCollisionMovedUp;
         }
 
         private void RemoveFloatingText(FloatingText ft)
@@ -118,19 +239,7 @@ namespace Orbit.Core.Client.GameStates
         {
             if (!disableRandomPos)
                 position = new Vector(position.X + mgr.GetRandomGenerator().Next(-5, 5), position.Y + mgr.GetRandomGenerator().Next(-5, 5));
-            newFloatingTexts.Add(new FloatingText(text, position, time, type, fontSize));
-
-            if (send)
-            {
-                NetOutgoingMessage msg = mgr.CreateNetMessage();
-                msg.Write((int)PacketType.FLOATING_TEXT);
-                msg.Write(text);
-                msg.Write(position);
-                msg.Write(time);
-                msg.Write((byte)type);
-                msg.Write(fontSize);
-                mgr.SendMessage(msg);
-            }
+            newFloatingTexts.Add(new FloatingText(text, position, time, type, fontSize, send));
         }
 
         private Brush GetColorForType(FloatingTextType type)
@@ -161,8 +270,13 @@ namespace Orbit.Core.Client.GameStates
             public FloatingTextType Type { get; set; }
             public float FontSize { get; set; }
             public TextBlock GUIObject { get; set; }
+            public bool Send { get; set; }
+            public SquareCollisionShape CS { get; set; }
+            public bool LastCollisionMovedUp { get; set; }
+            public Vector FinalPosition { get; set; }
+            public Rect CollisionArea { get; set; }
 
-            public FloatingText(string text, Vector position, float time, FloatingTextType type, float fontSize)
+            public FloatingText(string text, Vector position, float time, FloatingTextType type, float fontSize, bool send)
             {
                 Text = text;
                 Position = position;
@@ -170,6 +284,10 @@ namespace Orbit.Core.Client.GameStates
                 RemainingTime = time;
                 Type = type;
                 FontSize = fontSize;
+                Send = send;
+                CS = new SquareCollisionShape();
+                LastCollisionMovedUp = false;
+                CollisionArea = new Rect();
             }
         }
     }
