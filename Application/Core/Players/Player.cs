@@ -192,6 +192,10 @@ namespace Orbit.Core.Players
 
         public void Update(float tpf)
         {
+            // zatim ne pro spectatory
+            if (!IsActivePlayer())
+                return;
+
             scoreUpdateTimer += tpf;
             if (scoreUpdateTimer > 0.3)
             {
