@@ -264,28 +264,33 @@ namespace Orbit.Core.Players
             return GetId() == SceneMgr.GetCurrentPlayer().GetId() || Data.PlayerType == PlayerType.BOT;
         }
 
-        public List<ISpecialAction> GeneratePlayerActions(SceneMgr mgr)
+        public List<ISpecialAction> GeneratePlayerActions(SceneMgr mgr, bool isSpecatator = false)
         {
-            List<ISpecialAction> actions = new List<ISpecialAction>();
-            actions.Add(new HealAction(HealingKit, mgr, this));
-            actions.Add(new WeaponUpgrade(Hook, mgr, this));
-            actions.Add(new WeaponUpgrade(Mine, mgr, this));
-            actions.Add(new WeaponUpgrade(Canoon, mgr, this));
 
+            List<ISpecialAction> actions = new List<ISpecialAction>();
+            if (!isSpecatator)
+            {
+                actions.Add(new HealAction(HealingKit, mgr, this));
+                actions.Add(new WeaponUpgrade(Hook, mgr, this));
+                actions.Add(new WeaponUpgrade(Mine, mgr, this));
+                actions.Add(new WeaponUpgrade(Canoon, mgr, this));
+            }
+            else
+            {
+                actions.Add(new AsteroidThrow(mgr, this));
+                actions.Add(new AsteroidDamage(mgr, this));
+                //actions.Add(new Shielding(Device, mgr, this));
+
+            }
             return actions;
         }
 
-        public List<ISpecialAction> GenerateSpectatorActions(SceneMgr mgr, ISceneObject miningModule)
+        public List<ISpectatorAction> GenerateSpectatorActions(SceneMgr mgr)
         {
-            MiningModuleControl miningControl = miningModule.GetControlOfType<MiningModuleControl>();
-
-            if(miningControl == null)
-                throw new Exception("Non mining object provided");
-
-            List<ISpecialAction> actions = new List<ISpecialAction>();
+            List<ISpectatorAction> actions = new List<ISpectatorAction>();
             actions.Add(new AsteroidThrow(mgr, this));
             actions.Add(new AsteroidDamage(mgr, this));
-            actions.Add(new Shielding(miningModule, mgr, this));
+            //actions.Add(new Shielding(Device, mgr, this));
 
             return actions;
         }

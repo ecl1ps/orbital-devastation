@@ -20,6 +20,9 @@ using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Controls.Health.Implementations;
 using Orbit.Core.Scene.Controls.Health;
 using Orbit.Gui;
+using Orbit.Gui.ActionControllers;
+using Orbit.Core.SpecialActions.Spectator;
+using Orbit.Core.SpecialActions;
 
 namespace Orbit.Core.Client
 {
@@ -271,7 +274,11 @@ namespace Orbit.Core.Client
                         p.Device.AddControl(mc);
 
                         inputMgr = new SpectatorInputMgr(p, this, p.Device, actionBarMgr);
-                        actionBarMgr.CreateActionBarItems(p.GenerateSpectatorActions(this, p.Device));
+                        actionBarMgr.CreateActionBarItems(p.GeneratePlayerActions(this, true));
+
+                        HidingPanel panel = GuiObjectFactory.CreateHidingPanel(this);
+
+                        StateMgr.AddGameState(new SpectatorPanelController(this, panel, p.GenerateSpectatorActions(this), 4));
                     }
                 }
             }
