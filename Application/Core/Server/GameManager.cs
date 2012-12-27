@@ -91,6 +91,17 @@ namespace Orbit.Core.Server
                 plr1.Data.PlayerPosition = firstPlayerPosition;
             if (plr2 != null)
                 plr2.Data.PlayerPosition = firstPlayerPosition == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
+
+            foreach (Player p in players)
+                if (!p.IsActivePlayer())
+                    GenerateRandomMiningModulePosition(p);
+        }
+
+        private void GenerateRandomMiningModulePosition(Player p)
+        {
+            p.Data.MiningModuleStartPos = new Vector(
+                serverMgr.GetRandomGenerator().Next(15, (int)SharedDef.ORBIT_AREA.Width - 45),
+                serverMgr.GetRandomGenerator().Next(15, (int)SharedDef.ORBIT_AREA.Height - 45));
         }
 
         private void CreateNewLevel()

@@ -682,7 +682,7 @@ namespace Orbit.Core.Client
 
             string msg;
             if (!playerQuit)
-                msg = "Disconnected from the server";
+                msg = "Disconnected from the host";
             else
                 msg = "End of Game";
             Invoke(new Action(() =>

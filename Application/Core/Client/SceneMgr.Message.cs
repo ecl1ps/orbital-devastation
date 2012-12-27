@@ -310,7 +310,7 @@ namespace Orbit.Core.Client
             }
             else
             {
-                MiningModule obj = SceneObjectFactory.CreateMiningModule(this, new Vector(10, 10), p);
+                MiningModule obj = SceneObjectFactory.CreateMiningModule(this, p.Data.MiningModuleStartPos, p);
                 DelayedAttachToScene(obj);
                 DelayedAttachToScene(SceneObjectFactory.CreatePercentageArc(this, obj, p));
 

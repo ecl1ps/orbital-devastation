@@ -45,6 +45,7 @@ namespace Orbit.Core.Players
         public int LaserDamage { get; set; }
         public float LaserChargingTime { get; set; }
         public float LaserDamageInterval { get; set; }
+        public Vector MiningModuleStartPos { get; set; }
         /// <summary>
         /// na klientovi pouzivat funkcni Player.SetGoldAndShow() nebo Player.AddGoldAndShow()
         /// </summary>
@@ -79,6 +80,7 @@ namespace Orbit.Core.Players
             LaserDamageInterval = SharedDef.LASER_DMG_INTERVAL;
             LaserChargingTime = SharedDef.LASER_CHARGING_TIME;
             BonusHeal = SharedDef.BONUS_HEAL;
+            MiningModuleStartPos = new Vector(0, 0);
         }
     }
 
