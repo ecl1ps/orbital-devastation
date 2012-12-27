@@ -24,10 +24,8 @@ namespace Orbit.Core.SpecialActions.Spectator
 
             //nastavime parametry
             this.Cooldown = 2; //sec
-            this.normal = 4;
-            this.gold = 1;
-
-            this.limit = Limit.EXACT;
+            this.Normal = new RangeGroup(AsteroidType.NORMAL, new Range(0, 5));
+            this.Gold = new RangeGroup(AsteroidType.GOLDEN, new Range(1, 3));
         }
 
         public override void StartAction()
@@ -60,7 +58,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             msg.Write((int) PacketType.ASTEROIDS_DIRECTIONS_CHANGE);
             msg.Write(count);
 
-            foreach (MiningObject afflicted in control.currentlyMining)
+            foreach (MiningObject afflicted in lockedObjects)
             {
                 if (afflicted.Obj is Asteroid)
                 {

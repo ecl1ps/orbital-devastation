@@ -7,14 +7,15 @@ namespace Orbit.Core.SpecialActions.Spectator
 {
     public interface ISpectatorAction : ISpecialAction
     {
+        float CastingTime { get; set; }
+
         float Percentage { get; }
 
-        int Normal { get; }
+        RangeGroup Normal { get; set; }
 
-        int Gold { get; }
+        RangeGroup Gold { get; set; }
 
-        int MissingNormal { get; }
+        int ComputeMissing(RangeGroup range);
 
-        int MissingGold { get; }
     }
 }

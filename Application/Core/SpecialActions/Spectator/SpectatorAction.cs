@@ -5,28 +5,24 @@ using System.Text;
 using Orbit.Core.Client;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Scene.Entities.Implementations;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
-   public enum Limit{
-        EXACT,
-        TOP_LIMIT,
-        BOTTOM_LIMIT
-    }
-
     public abstract class SpectatorAction : SpecialAction, ISpectatorAction
     {
+        private const float LOCK_TIME = 2;
+
         protected MiningModuleControl control;
 
-        protected int normal;
-        public int Normal { get { return normal; } }
-        protected int gold;
-        public int Gold { get { return gold; } }
-        protected Limit limit;
+        public RangeGroup Normal { get; set; }
+        public RangeGroup Gold { get; set; }
 
-        public int MissingNormal { get { return computeMissing(AsteroidType.NORMAL); } }
-        public int MissingGold { get { return computeMissing(AsteroidType.GOLDEN); } }
+        public float CastingTime { get; set; }
 
+        protected Boolean locked = false;
+        protected List<MiningObject> lockedObjects = null;
+        protected float lockedTime = 0;
 
         public SpectatorAction(SceneMgr mgr, Players.Player owner)
             : base(mgr, owner)
@@ -36,151 +32,59 @@ namespace Orbit.Core.SpecialActions.Spectator
 
         public float Percentage
         {
-            get { return computePercentage(); }
+            get { return ComputePercentage(); }
         }
 
         public override bool IsReady()
         {
-            return !IsOnCooldown() && Percentage == 1;
-
+            return locked;
         }
 
-        private float computePercentage()
+        private float ComputePercentage() {
+            if (Gold == null || Normal == null)
+                throw new Exception("gold and normal ranges must be set");
+
+            return Gold.ComputePercentage(control.currentlyMining) * Normal.ComputePercentage(control.currentlyMining);
+        }
+
+        public int ComputeMissing(RangeGroup range)
         {
-            List<MiningObject> list = control.currentlyMining;
+            return range.ComputeMissing(control.currentlyMining);
+        }
 
-            int normal = 0;
-            int gold = 0;
+        public override void Update(float tpf)
+        {
+            base.Update(tpf);
 
-            foreach (MiningObject obj in list)
-                if (obj.Obj is Asteroid)
+            if (!locked && isReadyToBeLocked())
+            {
+                lockAction();
+            } else if(locked) {
+                lockedTime -= tpf;
+
+                if (lockedTime < 0)
+                    locked = false;
+                else
                 {
-                    if ((obj.Obj as Asteroid).AsteroidType == AsteroidType.GOLDEN)
-                        gold++;
-                    else if ((obj.Obj as Asteroid).AsteroidType == AsteroidType.NORMAL)
-                        normal++;
+                    if (isReadyToBeLocked() && control.currentlyMining.Count > lockedObjects.Count)
+                        lockedObjects = new List<MiningObject>(control.currentlyMining);
                 }
-
-            switch (limit)
-            {
-                case Limit.EXACT:
-                    return computePercentageExact(normal, gold);
-                
-                case Limit.BOTTOM_LIMIT:
-                    return computePercentageBottom(normal, gold);
-
-                case Limit.TOP_LIMIT:
-                    return computePercentageTop(normal, gold);
-                
-                default:
-                    throw new Exception("Unknown limit value");
             }
         }
 
-        protected float computePercentageTop(int normal, int gold)
+        protected void lockAction() 
         {
-            float normPerc = this.normal == 0 ? 1 : 0;
-            float goldPerc = this.gold == 0 ? 1 : 0;
+            locked = true;
+            lockedObjects = new List<MiningObject>(control.currentlyMining);
+            lockedTime = LOCK_TIME;
 
-            if (normPerc != 1)
-                normPerc = normal / this.normal;
-
-            if (goldPerc != 1)
-                goldPerc = gold / this.gold;
-
-            if (goldPerc < 1)
-                goldPerc = 1;
-            else
-                goldPerc = computeModulo(goldPerc);
-
-            if (normPerc < 1)
-                normPerc = 1;
-            else
-                normPerc = computeModulo(normPerc);
-
-            return goldPerc * normPerc;
+            SceneMgr.FloatingTextMgr.AddFloatingText("LOCKED " + Name, control.Position, FloatingTextManager.TIME_LENGTH_2, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_BIG, true);
         }
 
-        protected float computePercentageBottom(int normal, int gold)
+        private bool isReadyToBeLocked()
         {
-            float normPerc = this.normal == 0 ? 1 : 0;
-            float goldPerc = this.gold == 0 ? 1 : 0;
-
-            if (normPerc != 1)
-                normPerc = normal / this.normal;
-
-            if (goldPerc != 1)
-                goldPerc = gold / this.gold;
-
-            if (goldPerc > 1)
-                goldPerc = 1;
-            else
-                goldPerc = computeModulo(goldPerc);
-
-            if (normPerc > 1)
-                normPerc = 1;
-            else
-                normPerc = computeModulo(normPerc);
-
-            return goldPerc * normPerc;
+            return !IsOnCooldown() && Percentage == 1;
         }
-
-        protected float computePercentageExact(int normal, int gold)
-        {
-
-            float normPerc = this.normal == 0 ? 1 : 0;
-            float goldPerc = this.gold == 0 ? 1 : 0;
-
-            if (normPerc != 1)
-                normPerc = normal / this.normal;
-
-            if (goldPerc != 1)
-                goldPerc = gold / this.gold;
-
-            if (goldPerc > 1)
-                goldPerc = 1 - computeModulo(goldPerc);
-            else
-                goldPerc = computeModulo(goldPerc);
-
-            if (normPerc > 1)
-                normPerc = 1 - computeModulo(normPerc);
-            else
-                normPerc = computeModulo(normPerc);
-
-            return goldPerc * normPerc;
-        }
-
-        private float computeModulo(float perc)
-        {
-            return ((perc * 100) % 100) / 100;
-        }
-
-        private int computeMissing(AsteroidType type)
-        {
-            List<MiningObject> list = control.currentlyMining;
-
-            int ast = 0;
-
-            switch(type) 
-            {
-                case AsteroidType.NORMAL:
-                    ast = Normal;
-                    break;
-
-                case AsteroidType.GOLDEN:
-                    ast = Gold;
-                    break;
-
-                default:
-                    throw new Exception("Undefined type " + type);
-            }
-
-            foreach (MiningObject obj in list)
-                if (obj.Obj is Asteroid && (obj.Obj as Asteroid).AsteroidType == type)
-                    ast--;
-
-            return ast;
-        }
-
+   
     }
 }

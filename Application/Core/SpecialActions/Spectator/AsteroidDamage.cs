@@ -7,6 +7,7 @@ using Orbit.Core.Client;
 using Orbit.Core.Scene.Entities;
 using Lidgren.Network;
 using Orbit.Core.Client.GameStates;
+using Orbit.Core.Scene.Entities.Implementations;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
@@ -22,10 +23,8 @@ namespace Orbit.Core.SpecialActions.Spectator
             
             //nastavime parametry
             this.Cooldown = 1; //sekundy
-            this.normal = 2;
-            this.gold = 0;
-
-            this.limit = Limit.BOTTOM_LIMIT;
+            this.Normal = new RangeGroup(AsteroidType.NORMAL, new Range(3, 5));
+            this.Gold = new RangeGroup(AsteroidType.GOLDEN, new Range());
         }
 
         public override void StartAction()
@@ -40,7 +39,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
             msg.Write((int)PacketType.OBJECTS_TAKE_DAMAGE);
 
-            foreach (MiningObject afflicted in control.currentlyMining)
+            foreach (MiningObject afflicted in lockedObjects)
             {
                 if (afflicted.Obj is IDestroyable)
                 {

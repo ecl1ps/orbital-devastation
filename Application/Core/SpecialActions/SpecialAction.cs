@@ -40,7 +40,7 @@ namespace Orbit.Core.SpecialActions
             //TODO
         }
 
-        public void Update(float tpf)
+        public virtual void Update(float tpf)
         {
             if (timer > 0)
             {
