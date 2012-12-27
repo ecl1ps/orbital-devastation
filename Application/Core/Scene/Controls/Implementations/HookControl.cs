@@ -106,7 +106,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 CatchObject(other as ICatchable);
         }
 
-        protected void CatchObject(ICatchable caught)
+        protected virtual void CatchObject(ICatchable caught)
         {
             if (caught == null)
                 return;
