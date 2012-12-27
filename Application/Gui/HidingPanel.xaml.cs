@@ -18,7 +18,7 @@ namespace Orbit.Gui
     /// <summary>
     /// Interaction logic for LeftPanel.xaml
     /// </summary>
-    public partial class HidingPanel : UserControl, IInteractivePanel
+    public partial class HidingPanel : UserControl, IInteractivePanel<ActionOverview>
     {
         public HidingPanel()
         {
@@ -30,7 +30,11 @@ namespace Orbit.Gui
             Dispatcher.BeginInvoke(new Action(() => 
             {
                 if (!Panel.Children.Contains(elem))
+                {
+                    //hmm hack protoze nefunguje stack panel
                     Panel.Children.Add(elem);
+                    Canvas.SetTop(elem, Panel.Children.Count * 30);
+                }
             }));
         }
 
@@ -51,6 +55,15 @@ namespace Orbit.Gui
             {
                 Panel.Children.Clear();
             }));
+        }
+
+
+        public ActionOverview getItem(int i)
+        {
+            ActionOverview item = null;
+            item = Panel.Children[i] as ActionOverview;
+            
+            return item;
         }
     }
 }

@@ -6,11 +6,13 @@ using System.Windows;
 
 namespace Orbit.Gui.InteractivePanel
 {
-    interface IInteractivePanel
+    interface IInteractivePanel<T>
     {
         void AddItem(UIElement elem);
 
         void RemoveItem(UIElement elem);
+
+        T getItem(int i);
 
         void ClearAll();
     }
