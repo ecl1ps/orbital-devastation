@@ -9,36 +9,13 @@ namespace Orbit.Core.Server.Match
     /// <summary>
     /// kazdy hraje s kazdym a potom rozhoduje pouze score
     /// </summary>
-    public class ScoreMatchManager : AbstractTournamentMatchManager
+    public class ScoreMatchManager : AbstractTournamentMultiplayerMatchManager
     {
         public static readonly MatchManagerInfo Info = new MatchManagerInfo(false, "Each vs. Each (score)");
 
         public ScoreMatchManager(List<Player> players, Random randGen, int rounds)
             : base(players, randGen, rounds)
         {
-        }
-
-        public override Tuple<Player, Player> SelectPlayersForNewMatch()
-        {
-            // zneaktivnime vsechny hrace
-            SetAllPlayersInactive();
-
-            // zkusime najit hrace beznou cestou
-            Tuple<Player, Player> newPlayes = SelectPlayersBasic();
-            if (newPlayes != null)
-                return newPlayes;
-
-            // zde uz kazdy odehral s kazdym
-
-            // skocime na dalsi kolo
-            if (roundNumber++ == roundCount)
-                throw new Exception("Error: players are trying to start round " + roundNumber + " but tournament is set for " + roundCount + "rounds!");
-
-            // a vynulujeme zaznamy kdo hral s kym
-            data.ForEach(d => d.playedWith.Clear());
-
-            // a hledame hrace znovu pro dalsi kolo
-            return SelectPlayersForNewMatch();
         }
 
         /// <summary>
@@ -77,11 +54,6 @@ namespace Orbit.Core.Server.Match
             players.ForEach(p => { if (p.Data.Score == score) bestPlayers.Add(p); });
 
             return bestPlayers;
-        }
-
-        public override bool HasRightNumberOfPlayersForStart()
-        {
-            return players.FindAll(p => p.Data.PlayerType == PlayerType.HUMAN).Count >= 2;
         }
     }
 }
