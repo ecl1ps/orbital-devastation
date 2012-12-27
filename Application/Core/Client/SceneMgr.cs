@@ -101,8 +101,6 @@ namespace Orbit.Core.Client
 
             if (gameType != Gametype.TOURNAMENT_GAME)
             {
-                /*actionMgr = new PlayerActionManager(this);
-                StateMgr.AddGameState(actionMgr);*/
                 Invoke(new Action(() =>
                 {
                     Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
