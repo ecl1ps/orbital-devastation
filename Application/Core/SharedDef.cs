@@ -117,6 +117,8 @@ namespace Orbit.Core
         /// </summary>
         public static readonly Rect ORBIT_AREA              = new Rect(0, 0, CANVAS_SIZE.Width, 200);
 
+        public static readonly Rect LOWER_ORBIT_AREA        = new Rect(0, 200, CANVAS_SIZE.Width, 150);
+
         public const string CONFIG_FILE                     = "data";
         public const GameLevel STARTING_LEVEL               = GameLevel.BASIC_MAP;
         public const BotType DEFAULT_BOT                    = BotType.LEVEL2;

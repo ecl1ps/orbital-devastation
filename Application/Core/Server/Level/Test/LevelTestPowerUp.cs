@@ -33,7 +33,7 @@ namespace Orbit.Core.Server.Level
             if (newStatPowerupTimer <= tpf)
             {
                 GameLevelManager.CreateAndSendNewStatPowerup(mgr);
-                newStatPowerupTimer = 1;
+                newStatPowerupTimer = 0.2f;
             }
             else
                 newStatPowerupTimer -= tpf;
