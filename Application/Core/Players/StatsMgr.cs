@@ -15,32 +15,33 @@ namespace Orbit.Core.Players
         private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private SceneMgr sceneMgr;
-        private Dictionary<PlayerStats, Stat> allStats = new Dictionary<PlayerStats, Stat>();
+        private static Dictionary<PlayerStats, Stat> allStats = new Dictionary<PlayerStats, Stat>()
+        {
+            { PlayerStats.MINE_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_COOLDOWN, "Mine cooldown", -0.1f, -0.3f)},
+            { PlayerStats.MINE_1_FALLING_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_FALLING_SPEED, "Mine falling speed", +10f, +30f)},
+            { PlayerStats.MINE_1_GROWTH_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_GROWTH_SPEED, "Mine growth speed", +0.1f, +0.3f)},
+            { PlayerStats.MINE_1_STRENGTH, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_STRENGTH, "Mine power", +10f, +30f)},
 
+            { PlayerStats.CANNON_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.CANNON_1_COOLDOWN, "Cannon cooldown", -0.03f, -0.07f)},
+            { PlayerStats.CANNON_1_DAMAGE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.CANNON_1_DAMAGE, "Cannon damage", +1f, +2f)},
+            { PlayerStats.CANNON_1_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.CANNON_1_SPEED, "Cannon bullet speed", +30f, +100f)},
+
+            { PlayerStats.CANNON_3_CHARGE_TIME, new Stat(UpgradeLevel.LEVEL3, PlayerStats.CANNON_3_CHARGE_TIME, "Laser charging time", -0.03f, -0.05f)},
+            { PlayerStats.CANNON_3_DAMAGE, new Stat(UpgradeLevel.LEVEL3, PlayerStats.CANNON_3_DAMAGE, "Laser damage", +1f, +2f)},
+            { PlayerStats.CANNON_3_DAMAGE_INTERVAL, new Stat(UpgradeLevel.LEVEL3, PlayerStats.CANNON_3_DAMAGE_INTERVAL, "Laser damage interval", -0.01f, -0.03f)},
+
+            { PlayerStats.HOOK_1_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_SPEED, "Hook speed", +20f, +40f)},
+            { PlayerStats.HOOK_1_LENGTH, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_LENGTH, "Hook length", +40f, +80f)},
+            { PlayerStats.HOOK_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_COOLDOWN, "Hook cooldown", -0.1f, -0.3f)},
+
+            { PlayerStats.HEALING_KIT_1_REPAIR_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_REPAIR_BASE, "Base repair", +25f, +35f)},
+            { PlayerStats.HEALING_KIT_1_FORTIFY_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_FORTIFY_BASE, "Base fortify", +15f, +25f)},
+            { PlayerStats.HEALING_KIT_1_BONUS_HEAL, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_BONUS_HEAL, "Heal Bonus", +1, +5)}
+        };
+    
         public StatsMgr(SceneMgr mgr)
         {
             sceneMgr = mgr;
-
-            allStats.Add(PlayerStats.MINE_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_COOLDOWN, "Mine cooldown", -0.1f, -0.3f));
-            allStats.Add(PlayerStats.MINE_1_FALLING_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_FALLING_SPEED, "Mine falling speed", +10f, +30f));
-            allStats.Add(PlayerStats.MINE_1_GROWTH_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_GROWTH_SPEED, "Mine growth speed", +0.1f, +0.3f));
-            allStats.Add(PlayerStats.MINE_1_STRENGTH, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_STRENGTH, "Mine power", +10f, +30f));
-
-            allStats.Add(PlayerStats.CANNON_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.CANNON_1_COOLDOWN, "Cannon cooldown", -0.03f, -0.07f));
-            allStats.Add(PlayerStats.CANNON_1_DAMAGE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.CANNON_1_DAMAGE, "Cannon damage", +1f, +2f));
-            allStats.Add(PlayerStats.CANNON_1_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.CANNON_1_SPEED, "Cannon bullet speed", +30f, +100f));
-
-            allStats.Add(PlayerStats.CANNON_3_CHARGE_TIME, new Stat(UpgradeLevel.LEVEL3, PlayerStats.CANNON_3_CHARGE_TIME, "Laser charging time", -0.03f, -0.05f));
-            allStats.Add(PlayerStats.CANNON_3_DAMAGE, new Stat(UpgradeLevel.LEVEL3, PlayerStats.CANNON_3_DAMAGE, "Laser damage", +1f, +2f));
-            allStats.Add(PlayerStats.CANNON_3_DAMAGE_INTERVAL, new Stat(UpgradeLevel.LEVEL3, PlayerStats.CANNON_3_DAMAGE_INTERVAL, "Laser damage interval", -0.01f, -0.03f));
-
-            allStats.Add(PlayerStats.HOOK_1_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_SPEED, "Hook speed", +20f, +40f));
-            allStats.Add(PlayerStats.HOOK_1_LENGTH, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_LENGTH, "Hook length", +40f, +80f));
-            allStats.Add(PlayerStats.HOOK_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_COOLDOWN, "Hook cooldown", -0.1f, -0.3f));
-
-            allStats.Add(PlayerStats.HEALING_KIT_1_REPAIR_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_REPAIR_BASE, "Base repair", +25f, +35f));
-            allStats.Add(PlayerStats.HEALING_KIT_1_FORTIFY_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_FORTIFY_BASE, "Base fortify", +15f, +25f));
-            allStats.Add(PlayerStats.HEALING_KIT_1_BONUS_HEAL, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_BONUS_HEAL, "Heal Bonus", +1, +5));
         }
         
         public void OnPlayerCaughtPowerUp(Player plr, DeviceType type)
@@ -141,8 +142,11 @@ namespace Orbit.Core.Players
                 case PlayerStats.HEALING_KIT_1_REPAIR_BASE:
                     if (sceneMgr != null)
                     {
-                        pct = sceneMgr.GetPlayer(data.Id).GetBaseIntegrity();
-                        sceneMgr.GetPlayer(data.Id).ChangeBaseIntegrity((int)val, true);
+                        Player p = sceneMgr.GetPlayer(data.Id);
+                        pct = p.Data.MaxBaseIntegrity;
+                        int prevIntegrity = p.GetBaseIntegrity();
+                        p.ChangeBaseIntegrity((int)val, true);
+                        val = p.GetBaseIntegrity() - prevIntegrity;
                     }
                     else
                     {
