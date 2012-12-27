@@ -44,12 +44,13 @@ namespace Orbit.Core.SpecialActions.Spectator
             if (Gold == null || Normal == null)
                 throw new Exception("gold and normal ranges must be set");
 
-            return Gold.ComputePercentage(control.currentlyMining) * Normal.ComputePercentage(control.currentlyMining);
+            List<MiningObject> temp = new List<MiningObject>(control.currentlyMining);
+            return Gold.ComputePercentage(temp) * Normal.ComputePercentage(temp);
         }
 
         public int ComputeMissing(RangeGroup range)
         {
-            return range.ComputeMissing(control.currentlyMining);
+            return range.ComputeMissing(new List<MiningObject>(control.currentlyMining));
         }
 
         public override void Update(float tpf)
@@ -83,7 +84,13 @@ namespace Orbit.Core.SpecialActions.Spectator
 
         private bool isReadyToBeLocked()
         {
-            return !IsOnCooldown() && Percentage == 1;
+            return !IsOnCooldown() && Percentage == 1 && control.Enabled;
+        }
+
+        public override void StartAction()
+        {
+            base.StartAction();
+            locked = false;
         }
    
     }

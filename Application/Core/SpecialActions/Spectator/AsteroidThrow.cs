@@ -23,8 +23,8 @@ namespace Orbit.Core.SpecialActions.Spectator
             Type = SpecialActionType.ASTEROID_THROW;
 
             //nastavime parametry
-            this.Cooldown = 2; //sec
-            this.Normal = new RangeGroup(AsteroidType.NORMAL, new Range(0, 5));
+            this.Cooldown = 4; //sec
+            this.Normal = new RangeGroup(AsteroidType.NORMAL, new Range(2, 5));
             this.Gold = new RangeGroup(AsteroidType.GOLDEN, new Range(1, 3));
         }
 

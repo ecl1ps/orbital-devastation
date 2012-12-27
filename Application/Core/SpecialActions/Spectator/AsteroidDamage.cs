@@ -22,8 +22,8 @@ namespace Orbit.Core.SpecialActions.Spectator
             this.control = control;
             
             //nastavime parametry
-            this.Cooldown = 1; //sekundy
-            this.Normal = new RangeGroup(AsteroidType.NORMAL, new Range(3, 5));
+            this.Cooldown = 2; //sekundy
+            this.Normal = new RangeGroup(AsteroidType.NORMAL, new Range(4));
             this.Gold = new RangeGroup(AsteroidType.GOLDEN, new Range());
         }
 

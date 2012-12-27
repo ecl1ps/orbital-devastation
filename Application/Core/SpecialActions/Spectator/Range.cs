@@ -68,7 +68,7 @@ namespace Orbit.Core.SpecialActions.Spectator
                 return 1;
 
             if (count < Minimum)
-                return (Minimum - count) / Minimum;
+                return count / Minimum;
 
             if (count > Maximum)
             {

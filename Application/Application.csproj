@@ -247,6 +247,7 @@
     <Compile Include="Core\SpecialActions\SpecialAction.cs" />
     <Compile Include="Core\SpecialActions\ISpecialAction.cs" />
     <Compile Include="Core\SpecialActions\Spectator\ISpectatorAction.cs" />
+    <Compile Include="Core\SpecialActions\Spectator\Range.cs" />
     <Compile Include="Core\SpecialActions\Spectator\Shielding.cs" />
     <Compile Include="Core\SpecialActions\Spectator\SpectatorAction.cs" />
     <Compile Include="Core\Server\TournamentSettings.cs" />
@@ -268,7 +269,7 @@
     </Compile>
     <Compile Include="Gui\ActionControllers\ActionController.cs" />
     <Compile Include="Gui\ActionControllers\ActionControllerImpl.cs" />
-    <Compile Include="Gui\ActionControllers\SpectatorPanelControler.cs" />
+    <Compile Include="Gui\ActionControllers\SpectatorPanelController.cs" />
     <Compile Include="Gui\ActionOverview.xaml.cs">
       <DependentUpon>ActionOverview.xaml</DependentUpon>
     </Compile>
