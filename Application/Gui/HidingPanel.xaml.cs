@@ -42,8 +42,15 @@ namespace Orbit.Gui
         {
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                if (!Panel.Children.Contains(elem))
-                    Panel.Children.Remove(elem);
+                UIElementCollection temp = Panel.Children;
+                temp.Remove(elem);
+
+                Panel.Children.Clear();
+
+                foreach (UIElement element in temp)
+                {
+                    AddItem(element);
+                }
             }));
 
             
@@ -51,10 +58,10 @@ namespace Orbit.Gui
 
         public void ClearAll()
         {
-            Dispatcher.BeginInvoke(new Action(() =>
+            foreach (UIElement element in Panel.Children)
             {
-                Panel.Children.Clear();
-            }));
+                (element as ActionOverview).RenderAction(null);
+            }
         }
 
 

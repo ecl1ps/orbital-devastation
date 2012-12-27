@@ -41,6 +41,8 @@ namespace Orbit.Gui.ActionControllers
         {
             mgr.BeginInvoke(new Action(() =>
             {
+                rootPanel.ClearAll();
+
                 actions.Sort(Compare);
 
                 int count = actions.Count;
@@ -48,7 +50,7 @@ namespace Orbit.Gui.ActionControllers
                     count = size;
            
                 for (int i = 0; i < count; i++)
-                    if (rootPanel.getItem(i) != null)
+                    if (rootPanel.getItem(i) != null && actions[i].Percentage != 1)
                         rootPanel.getItem(i).RenderAction(actions[i]);
             }));
         }
