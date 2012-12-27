@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:controls="clr-namespace:Orbit.Gui"
-             mc:Ignorable="d" x:Name="lobbyWindow"
+             mc:Ignorable="d" Name="lobbyWindow"
              d:DesignWidth="1000" d:DesignHeight="700" Width="1000" Height="700" Loaded="lobbyWindow_Loaded">
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="700" Width="900">
         <Grid.RowDefinitions>

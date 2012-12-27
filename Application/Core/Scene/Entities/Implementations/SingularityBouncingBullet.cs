@@ -15,13 +15,14 @@ namespace Orbit.Core.Scene.Entities.Implementations
 {
     class SingularityBouncingBullet : SingularityExplodingBullet
     {
-        public SingularityBouncingBullet(SceneMgr mgr) : base(mgr)
+        public SingularityBouncingBullet(SceneMgr mgr, long id)
+            : base(mgr, id)
         {
         }
 
         public void SpawnNewBullet(ISceneObject collidedWith)
         {
-            SingularityExplodingBullet bullet = new SingularityExplodingBullet(SceneMgr);
+            SingularityExplodingBullet bullet = new SingularityExplodingBullet(SceneMgr, IdMgr.GetNewId(SceneMgr.GetCurrentPlayer().GetId()));
             SceneObjectFactory.InitSingularityBullet(bullet, SceneMgr, GetComputedPoint(collidedWith), Position, Owner);
 
             PointCollisionShape cs = new PointCollisionShape();

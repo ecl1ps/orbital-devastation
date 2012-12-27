@@ -24,6 +24,8 @@ namespace Orbit.Core.Server.Level
 
     public static class GameLevelManager
     {
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public static IGameLevel CreateNewGameLevel(ServerMgr mgr, GameLevel lvl, List<ISceneObject> objects)
         {
             IGameLevel newLvl = null;
@@ -62,7 +64,7 @@ namespace Orbit.Core.Server.Level
         {
             if (!(obj is ISendable))
             {
-                Console.Error.WriteLine("Trying to send " + obj.GetType().Name + " but it is not ISendable");
+                Logger.Error("Trying to send " + obj.GetType().Name + " but it is not ISendable");
                 return;
             }
 

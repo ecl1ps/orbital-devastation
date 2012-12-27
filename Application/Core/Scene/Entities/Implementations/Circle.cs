@@ -20,7 +20,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public Color Color { get; set; }
         public int Radius { get; set; }
 
-        public Circle(SceneMgr mgr) : base(mgr)
+        public Circle(SceneMgr mgr, long id)
+            : base(mgr, id)
         {
 
         }

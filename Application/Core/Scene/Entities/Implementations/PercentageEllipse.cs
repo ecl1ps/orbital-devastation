@@ -24,7 +24,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         private ArcSegment arc;
 
-        public PercentageEllipse(SceneMgr mgr) : base(mgr)
+        public PercentageEllipse(SceneMgr mgr, long id)
+            : base(mgr, id)
         {
             Percentage = 1;
         }

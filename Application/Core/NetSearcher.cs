@@ -10,6 +10,8 @@ namespace Orbit.Core
 {
     public class NetSearcher
     {
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public ListBox ServerListBox { get; set; }
         private NetClient client;
         private volatile bool shouldQuit;
@@ -47,7 +49,7 @@ namespace Orbit.Core
                     case NetIncomingMessageType.DebugMessage:
                     case NetIncomingMessageType.WarningMessage:
                     case NetIncomingMessageType.ErrorMessage:
-                        Console.WriteLine(msg.ReadString());
+                        Logger.Debug(msg.ReadString());
                         break;
                     case NetIncomingMessageType.DiscoveryResponse:
                         Gametype type = (Gametype)msg.ReadByte();

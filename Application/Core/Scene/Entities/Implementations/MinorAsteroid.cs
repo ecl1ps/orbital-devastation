@@ -19,7 +19,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public UnstableAsteroid Parent { get; set; }
         private Player lastHitTakenFrom;
 
-        public MinorAsteroid(SceneMgr mgr) : base(mgr)
+        public MinorAsteroid(SceneMgr mgr, long id)
+            : base(mgr, id)
         {
         }
 

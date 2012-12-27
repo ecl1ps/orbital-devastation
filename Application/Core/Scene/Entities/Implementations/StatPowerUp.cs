@@ -9,7 +9,6 @@ using Lidgren.Network;
 using Orbit.Core.Scene.Controls;
 using Orbit.Core.Helpers;
 using System.Windows.Media;
-using System.Windows.Controls;
 using Orbit.Core.Scene.CollisionShapes;
 
 namespace Orbit.Core.Scene.Entities.Implementations
@@ -20,7 +19,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public float Rotation { get; set; }
         public DeviceType PowerUpType { get; set; }
 
-        public StatPowerUp(SceneMgr mgr) : base(mgr) { }
+        public StatPowerUp(SceneMgr mgr, long id) : base(mgr, id) { }
 
         protected override void UpdateGeometricState()
         {
@@ -45,7 +44,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             CollisionShape = cs;
 
             IList<IControl> controls = msg.ReadControls();
-            foreach (Orbit.Core.Scene.Controls.Control c in controls)
+            foreach (Control c in controls)
                 AddControl(c);
         }
     }

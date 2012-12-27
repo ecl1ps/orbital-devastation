@@ -9,43 +9,19 @@ namespace Orbit.Core.Server.Match
     /// <summary>
     /// kazdy hraje s kazdym a kdyz potom neni jednoznacny vyherce (treba dva maji dve vyhry), tak rozhodne score
     /// </summary>
-    public class WinsThenScoreMatchManager : AbstractTournamentMatchManager
+    public class WinsThenScoreMatchManager : AbstractTournamentMultiplayerMatchManager
     {
-        public static MatchManagerInfo Info = new MatchManagerInfo(false, "Each vs. Each (most wins then score)");
+        public static readonly MatchManagerInfo Info = new MatchManagerInfo(false, "Each vs. Each (most wins then score)");
 
         public WinsThenScoreMatchManager(List<Player> players, Random randGen, int rounds)
             : base(players, randGen, rounds)
         {
         }
 
-        public override Tuple<Player, Player> SelectPlayersForNewMatch()
-        {
-            // zneaktivnime vsechny hrace
-            foreach (Player p in players)
-                p.Data.Active = false;
-
-            // zkusime najit hrace beznou cestou
-            Tuple<Player, Player> newPlayes = SelectPlayersBasic();
-            if (newPlayes != null)
-                return newPlayes;
-
-            // zde uz kazdy odehral s kazdym
-
-            // skocime na dalsi kolo
-            if (roundNumber++ == roundCount)
-                throw new Exception("Error: players are trying to start round " + roundNumber + " but tournament is set for " + roundCount + "round(s)!");
-
-            // a vynulujeme zaznamy kdo hral s kym
-            data.ForEach(d => d.playedWith.Clear());
-
-            // a hledame hrace znovu pro dalsi kolo
-            return SelectPlayersForNewMatch();
-        }
-
         /// <summary>
         /// vraci bud viteze nebo null, pokud vitez jeste neni
         /// </summary>
-        public override Player GetWinner()
+        public override Player GetTournamentWinner()
         {
             // jeste nejsme v poslednim kole
             if (roundNumber < roundCount)
@@ -81,11 +57,6 @@ namespace Orbit.Core.Server.Match
             data.ForEach(d => { if (d.WonGames == wins) bestPlayers.Add(players.Find(p => p.Data.HashId == d.Owner)); });
 
             return bestPlayers;
-        }
-
-        public override bool HasRightNumberOfPlayersForStart()
-        {
-            return players.FindAll(p => p.Data.PlayerType == PlayerType.HUMAN).Count >= 2;
         }
     }
 }

@@ -253,8 +253,7 @@ namespace Orbit.Core.Weapons
             v.X += origin.X;
             v.Y += origin.Y;
 
-            laser = new Laser(Owner, SceneMgr, origin, v, Colors.Blue, 3);
-            laser.Id = IdMgr.GetNewId(Owner.GetId());
+            laser = new Laser(Owner, IdMgr.GetNewId(Owner.GetId()), SceneMgr, origin, v, Colors.Blue, 3);
 
             LaserDamageControl control = new LaserDamageControl();
             laser.AddControl(control);

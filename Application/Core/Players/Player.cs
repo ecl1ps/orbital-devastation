@@ -132,6 +132,11 @@ namespace Orbit.Core.Players
             return Data.BaseIntegrity;
         }
 
+        public float GetBaseIntegrityPct()
+        {
+            return (float)Data.BaseIntegrity / Data.MaxBaseIntegrity;
+        }
+
         public void ChangeBaseIntegrity(int amount, bool showHeal = false)
         {
             SetBaseIntegrity(Data.BaseIntegrity + amount, showHeal);
@@ -187,10 +192,6 @@ namespace Orbit.Core.Players
 
         public void Update(float tpf)
         {
-            // zatim ne pro spectatory
-            if (!IsActivePlayer())
-                return;
-
             scoreUpdateTimer += tpf;
             if (scoreUpdateTimer > 0.3)
             {

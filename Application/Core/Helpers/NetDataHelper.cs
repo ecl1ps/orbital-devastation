@@ -25,6 +25,8 @@ namespace Orbit.Core.Helpers
 {
     static class NetDataHelper
     {
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         // objects
 
         public static void WriteObjectSceneObject(this NetOutgoingMessage msg, SceneObject s)
@@ -131,10 +133,10 @@ namespace Orbit.Core.Helpers
             switch (type)
             {
                 case HookType.HOOK_NORMAL:
-                    h = new Hook(mgr);
+                    h = new Hook(mgr, -1);
                     break;
                 case HookType.HOOK_POWER:
-                    h = new PowerHook(mgr);
+                    h = new PowerHook(mgr, -1);
                     break;
 
                 default:
@@ -339,7 +341,7 @@ namespace Orbit.Core.Helpers
                 else
                 {
                     msg.Write(0);
-                    Console.Error.WriteLine("Sending unspported control (" + c.GetType().Name + ")!");
+                    Logger.Error("Sending unspported control (" + c.GetType().Name + ")!");
                 }
             }
         }
@@ -492,7 +494,7 @@ namespace Orbit.Core.Helpers
                 else
                 {
                     msg.ReadInt32();
-                    Console.Error.WriteLine("Received unspported control (" + hash + ")!");
+                    Logger.Error("Received unspported control (" + hash + ")!");
                 }
             }
             return controls;
@@ -739,6 +741,8 @@ namespace Orbit.Core.Helpers
 
             msg.Write(d.PlayedMatches);
             msg.Write(d.WonMatches);
+
+            msg.Write(d.MiningModuleStartPos);
         }
 
         public static void ReadObjectPlayerData(this NetIncomingMessage msg, PlayerData d)
@@ -782,6 +786,8 @@ namespace Orbit.Core.Helpers
 
             d.PlayedMatches = msg.ReadInt32();
             d.WonMatches = msg.ReadInt32();
+
+            d.MiningModuleStartPos = msg.ReadVector();
         }
 
 

@@ -10,10 +10,12 @@ namespace Orbit.Core.Server.Match
         public List<string> playedWith = new List<string>();
         public int WonGames { get; set; }
         public string Owner { get; set; }
+        public bool IsOnline { get; set; }
 
         public PlayerMatchData(string owner)
         {
             Owner = owner;
+            IsOnline = true;
         }
     }
 }

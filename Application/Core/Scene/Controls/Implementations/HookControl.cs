@@ -106,7 +106,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 CatchObject(other as ICatchable);
         }
 
-        protected void CatchObject(ICatchable caught)
+        protected virtual void CatchObject(ICatchable caught)
         {
             if (caught == null)
                 return;
@@ -121,8 +121,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             Vector hitVector = caught.Position - hook.Position;
 
-            if (caught.Enabled)
-                Catch(caught, hitVector);
+            Catch(caught, hitVector);
         }
 
         protected virtual void ProcessScore(ICatchable caught)

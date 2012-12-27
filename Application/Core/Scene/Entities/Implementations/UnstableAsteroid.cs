@@ -21,7 +21,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
         private int childsDestroyed = 0;
         private bool allDestroyedByTheSamePlayer = true;
 
-        public UnstableAsteroid(SceneMgr mgr) : base(mgr)
+        public UnstableAsteroid(SceneMgr mgr, long id)
+            : base(mgr, id)
         {
             Destroyer = -1;
         }
@@ -35,13 +36,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
             int textureId = SceneMgr.GetRandomGenerator().Next(1, 18);
             float speed = GetControlOfType<NewtonianMovementControl>().Speed / 2;
 
-            long id1 = IdMgr.GetNewId(SceneMgr.GetCurrentPlayer().GetId());
-            long id2 = IdMgr.GetNewId(SceneMgr.GetCurrentPlayer().GetId());
-            long id3 = IdMgr.GetNewId(SceneMgr.GetCurrentPlayer().GetId());
-
-            MinorAsteroid a1 = SceneObjectFactory.CreateSmallAsteroid(SceneMgr, id1, Direction, Center, rotation, textureId, radius, speed, Math.PI / 12);
-            MinorAsteroid a2 = SceneObjectFactory.CreateSmallAsteroid(SceneMgr, id2, Direction, Center, rotation, textureId, radius, speed, 0);
-            MinorAsteroid a3 = SceneObjectFactory.CreateSmallAsteroid(SceneMgr, id3, Direction, Center, rotation, textureId, radius, speed, -Math.PI / 12);
+            MinorAsteroid a1 = SceneObjectFactory.CreateSmallAsteroid(SceneMgr, Direction, Center, rotation, textureId, radius, speed, Math.PI / 12);
+            MinorAsteroid a2 = SceneObjectFactory.CreateSmallAsteroid(SceneMgr, Direction, Center, rotation, textureId, radius, speed, 0);
+            MinorAsteroid a3 = SceneObjectFactory.CreateSmallAsteroid(SceneMgr, Direction, Center, rotation, textureId, radius, speed, -Math.PI / 12);
 
             a1.Parent = this;
             a2.Parent = this;
@@ -60,9 +57,10 @@ namespace Orbit.Core.Scene.Entities.Implementations
             message.Write(rotation);
             message.Write(textureId);
             message.Write(Destroyer);
-            message.Write(id1);
-            message.Write(id2);
-            message.Write(id3);
+            message.Write(a1.Id);
+            message.Write(a2.Id);
+            message.Write(a3.Id);
+            message.Write(Id);
 
             SceneMgr.SendMessage(message);
         }

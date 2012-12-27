@@ -11,7 +11,7 @@ namespace Orbit.Core.Server.Level
 {
     public class LevelTestEmpty : IGameLevel
     {
-        public static LevelInfo Info = new LevelInfo(true, "[TEST] Empty map");
+        public static readonly LevelInfo Info = new LevelInfo(true, "[TEST] Empty map");
 
         private ServerMgr mgr;
 

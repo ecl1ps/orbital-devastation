@@ -9,7 +9,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
 {
     public class StaticShield : Sphere
     {
-        public StaticShield(SceneMgr mgr) : base(mgr)
+        public StaticShield(SceneMgr mgr, long id)
+            : base(mgr, id)
         {
         }
     }

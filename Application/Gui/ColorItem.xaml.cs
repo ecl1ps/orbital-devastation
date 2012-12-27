@@ -19,6 +19,8 @@ namespace Orbit.Gui
     /// </summary>
     public partial class ColorItem : UserControl
     {
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private Color color;
 
         public ColorItem(Color c)
@@ -41,7 +43,7 @@ namespace Orbit.Gui
                 {
                     if ((Color)prop.GetGetMethod().Invoke(null, null) == color)
                     {
-                        Console.WriteLine(prop.Name + " " + color.ToString());
+                        Logger.Debug(prop.Name + " " + color.ToString());
                         break;
                     }
                 }

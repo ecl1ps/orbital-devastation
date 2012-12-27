@@ -26,6 +26,8 @@ namespace Orbit.Core.Client
 {
     public partial class SceneMgr
     {
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public Gametype GameType { get; set; }
         public FloatingTextManager FloatingTextMgr { get; set; }
         public StatsMgr StatsMgr { get; set; }
@@ -99,8 +101,6 @@ namespace Orbit.Core.Client
 
             if (gameType != Gametype.TOURNAMENT_GAME)
             {
-                /*actionMgr = new PlayerActionManager(this);
-                StateMgr.AddGameState(actionMgr);*/
                 Invoke(new Action(() =>
                 {
                     Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
@@ -208,6 +208,12 @@ namespace Orbit.Core.Client
         /// </summary>
         private void DirectAttachToScene(ISceneObject obj)
         {
+            if (obj.Id == -1)
+            {
+                Logger.Error("Trying to add object " + obj.GetType().Name + " to scene, but it has uninitialized id -> skipped!");
+                return;
+            }
+
             for (int i = idsToRemove.Count - 1; i >= 0; i--)
             {
                 if (obj.Id == idsToRemove[i])
@@ -610,6 +616,9 @@ namespace Orbit.Core.Client
 
             lastGameEnd = GameEnd.TOURNAMENT_FINISHED;
 
+            if (winner == null)
+                return;
+
             List<LobbyPlayerData> data = CreateLobbyPlayerData();
 
             LobbyPlayerData winnerData = data.Find(d => d.Id == winner.Data.Id);
@@ -671,7 +680,7 @@ namespace Orbit.Core.Client
 
             string msg;
             if (!playerQuit)
-                msg = "Disconnected from the server";
+                msg = "Disconnected from the host";
             else
                 msg = "End of Game";
             Invoke(new Action(() =>

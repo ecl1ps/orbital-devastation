@@ -7,6 +7,8 @@ namespace Orbit.Core
 {
     public class GameStateManager
     {
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private List<IGameState> gameStates = new List<IGameState>();
 
         public void Update(float tpf)
@@ -21,7 +23,7 @@ namespace Orbit.Core
 
             if (gameStates.Contains(state))
             {
-                Console.WriteLine("This GameState (" + state + ") is already in GameStateManager");
+                Logger.Warn("This GameState (" + state + ") is already in GameStateManager");
                 return;
             }
 

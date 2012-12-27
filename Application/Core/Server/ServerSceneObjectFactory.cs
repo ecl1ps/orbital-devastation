@@ -30,7 +30,7 @@ namespace Orbit.Core.Server
             int chance = randomGenerator.Next(100);
             if (chance <= SharedDef.ASTEROID_GOLD_CHANCE)
             {
-                s = new Asteroid(null);
+                s = new Asteroid(null, IdMgr.GetNewId(0));
                 s.AsteroidType = AsteroidType.GOLDEN;
                 s.TextureId = randomGenerator.Next(1, 6);
                 s.Radius = randomGenerator.Next(SharedDef.MIN_ASTEROID_RADIUS, SharedDef.MAX_ASTEROID_RADIUS);
@@ -38,7 +38,7 @@ namespace Orbit.Core.Server
             }
             else if (chance <= SharedDef.ASTEROID_UNSTABLE_CHANCE)
             {
-                s = new UnstableAsteroid(null);
+                s = new UnstableAsteroid(null, IdMgr.GetNewId(0));
                 s.AsteroidType = AsteroidType.UNSTABLE;
                 s.TextureId = randomGenerator.Next(1, 6);
                 s.Radius = randomGenerator.Next(SharedDef.MIN_ASTEROID_RADIUS, SharedDef.MAX_ASTEROID_RADIUS);
@@ -46,14 +46,13 @@ namespace Orbit.Core.Server
             }
             else
             {
-                s = new Asteroid(null);
+                s = new Asteroid(null, IdMgr.GetNewId(0));
                 s.AsteroidType = AsteroidType.NORMAL;
                 s.TextureId = randomGenerator.Next(1, 18);
                 s.Radius = randomGenerator.Next(SharedDef.MIN_ASTEROID_RADIUS, SharedDef.MAX_ASTEROID_RADIUS);
                 s.Gold = s.Radius / 2;
             }
 
-            s.Id = IdMgr.GetNewId(0);
             s.IsHeadingRight = headingRight;
             s.Direction = headingRight ? new Vector(1, 0) : new Vector(-1, 0);
 
@@ -82,7 +81,7 @@ namespace Orbit.Core.Server
             Random randomGenerator = mgr.GetRandomGenerator();
 
             Asteroid s;
-            s = new Asteroid(null);
+            s = new Asteroid(null, IdMgr.GetNewId(0));
             s.AsteroidType = type;
             if (type == AsteroidType.NORMAL)
                 s.TextureId = randomGenerator.Next(1, 18);
@@ -90,7 +89,6 @@ namespace Orbit.Core.Server
                 s.TextureId = randomGenerator.Next(1, 6);
             s.Radius = rad;
 
-            s.Id = IdMgr.GetNewId(0);
             s.Direction = dir;
             s.Position = pos;
             s.Rotation = mgr.GetRandomGenerator().Next(360);
@@ -117,8 +115,8 @@ namespace Orbit.Core.Server
 
         private static Vector GetPositionOnEdgeOfOrbitArea(Random rand, bool onLeftSide, int objectRadius)
         {
-            return new Vector(onLeftSide ? (int)(-4 * objectRadius) : (int)(SharedDef.ORBIT_AREA.Width + 2 * objectRadius),
-                rand.Next((int)(SharedDef.ORBIT_AREA.Y), (int)(SharedDef.ORBIT_AREA.Height - 2 * objectRadius)));
+            return new Vector(onLeftSide ? (int)(SharedDef.ORBIT_AREA.Left - 4 * objectRadius) : (int)(SharedDef.ORBIT_AREA.Right + 2 * objectRadius),
+                rand.Next((int)(SharedDef.ORBIT_AREA.Top), (int)(SharedDef.ORBIT_AREA.Bottom)));
         }
 
         private static Asteroid CreateAsteroidControls(ServerMgr mgr, Asteroid s)
@@ -140,11 +138,10 @@ namespace Orbit.Core.Server
         {
             Random randomGenerator = mgr.GetRandomGenerator();
 
-            StatPowerUp s = new StatPowerUp(null);
-            s.Id = IdMgr.GetNewId(0);
+            StatPowerUp s = new StatPowerUp(null, IdMgr.GetNewId(0));
             s.Size = new Size(20, 20);
             bool headingRight = randomGenerator.Next(10) > 5 ? true : false;
-            s.Position = GetPositionOnEdgeOfOrbitArea(randomGenerator, headingRight, (int)s.Size.Width / 2);
+            s.Position = GetPositionOnEdgeOfLowerOrbitArea(randomGenerator, headingRight, (int)s.Size.Width / 2);
             s.Direction = headingRight ? new Vector(1, 0) : new Vector(-1, 0);
             s.Rotation = mgr.GetRandomGenerator().Next(360);
 
@@ -157,7 +154,7 @@ namespace Orbit.Core.Server
             s.CollisionShape = cs;
 
             NewtonianMovementControl nmc = new NewtonianMovementControl();
-            nmc.Speed = mgr.GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_SPEED * 10, SharedDef.MAX_ASTEROID_SPEED * 10) / 10.0f;
+            nmc.Speed = mgr.GetRandomGenerator().Next(SharedDef.MIN_POWERUP_SPEED * 10, SharedDef.MAX_POWERUP_SPEED * 10) / 10.0f;
             s.AddControl(nmc);
 
             LinearRotationControl lrc = new LinearRotationControl();
@@ -168,6 +165,12 @@ namespace Orbit.Core.Server
             s.AddControl(new StatPowerUpCollisionReactionControl());
 
             return s;
+        }
+
+        private static Vector GetPositionOnEdgeOfLowerOrbitArea(Random rand, bool onLeftSide, int objectRadius)
+        {
+            return new Vector(onLeftSide ? (int)(SharedDef.LOWER_ORBIT_AREA.Left - 4 * objectRadius) : (int)(SharedDef.LOWER_ORBIT_AREA.Right + 2 * objectRadius),
+                rand.Next((int)(SharedDef.LOWER_ORBIT_AREA.Top), (int)(SharedDef.LOWER_ORBIT_AREA.Bottom)));
         }
     }
 }

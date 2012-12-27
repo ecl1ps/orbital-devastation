@@ -11,7 +11,7 @@ namespace Orbit.Core.Server.Match
     /// </summary>
     public class SkirmishMatchManager : AbstractTournamentMatchManager
     {
-        public static MatchManagerInfo Info = new MatchManagerInfo(true, "[TEST] One player vs. bot");
+        public static readonly MatchManagerInfo Info = new MatchManagerInfo(true, "[TEST] One player vs. bot");
 
         public SkirmishMatchManager(List<Player> players, Random randGen, int rounds)
             : base(players, randGen, rounds)
@@ -26,7 +26,7 @@ namespace Orbit.Core.Server.Match
             return new Tuple<Player, Player>(players[0], players.Count > 1 ? players[1] : null);
         }
 
-        public override Player GetWinner()
+        public override Player GetTournamentWinner()
         {
             return players.Find(p => p.Data.WonMatches == 1);
         }

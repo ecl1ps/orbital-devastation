@@ -91,6 +91,17 @@ namespace Orbit.Core.Server
                 plr1.Data.PlayerPosition = firstPlayerPosition;
             if (plr2 != null)
                 plr2.Data.PlayerPosition = firstPlayerPosition == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
+
+            foreach (Player p in players)
+                if (!p.IsActivePlayer())
+                    GenerateRandomMiningModulePosition(p);
+        }
+
+        private void GenerateRandomMiningModulePosition(Player p)
+        {
+            p.Data.MiningModuleStartPos = new Vector(
+                serverMgr.GetRandomGenerator().Next(15, (int)SharedDef.ORBIT_AREA.Width - 45),
+                serverMgr.GetRandomGenerator().Next(15, (int)SharedDef.ORBIT_AREA.Height - 45));
         }
 
         private void CreateNewLevel()
@@ -154,7 +165,8 @@ namespace Orbit.Core.Server
             if (!matchManager.HasRightNumberOfPlayersForStart())
                 return false;
 
-            if (IsRunning && !p.IsActivePlayer() && !SharedDef.ALLOW_SPECTATORS_IN_DUO_MATCH)
+            // zabrani pripojeni spectatora do quick game
+            if (IsRunning && serverMgr.GameType != Gametype.TOURNAMENT_GAME && !p.IsActivePlayer() && !SharedDef.ALLOW_SPECTATORS_IN_DUO_MATCH)
                 return false;
 
             // do tournamentu se nemuzou pridat dalsi hraci, kteri nebyli v lobby pri startu
@@ -185,8 +197,7 @@ namespace Orbit.Core.Server
                 return true;
             }
             
-            // TODO: nemuze se stat, ze by jeden spectator dal request vickrat? 
-            // pak by bylo jeste potreba kontrolovat stav pred a po requestu
+            // pro spectatora, ktery se reconnectuje do bezici hry
             if (!p.IsActivePlayer() && IsRunning)
             {
                 if (serverMgr.GameType == Gametype.TOURNAMENT_GAME)
@@ -196,16 +207,25 @@ namespace Orbit.Core.Server
                     serverMgr.SendMessage(tournamentMsg, p);
                 }
 
+                // je potreba ostatnim hracum dat vedet, ze se spectator reconnectuje - aby mu vytvorili mining module
+                NetOutgoingMessage plrReconnectedMsg = serverMgr.CreateNetMessage();
+                plrReconnectedMsg.Write((int)PacketType.PLAYER_RECONNECTED);
+                plrReconnectedMsg.Write(p.GetId());
+                serverMgr.BroadcastMessage(plrReconnectedMsg, p);
+
+                // reconnectujicimu hraci se posle hromadna zprava o ostatnich hracich
                 NetOutgoingMessage outmsg = serverMgr.CreateAllPlayersDataMessage();
                 serverMgr.SendMessage(outmsg, p);
 
                 // na zacatku neposilame zadne asteroidy, protoze nevime jejich soucasnou pozici - posilaji se az nove
                 // ale zaroven tato zprava iniciuje klienta, takze je nutna
+                // TODO
                 outmsg = serverMgr.CreateNetMessage();
                 outmsg.Write((int)PacketType.ALL_ASTEROIDS);
                 outmsg.Write(0);
                 serverMgr.SendMessage(outmsg, p);
 
+                // zprava ze muze zacit hra
                 NetOutgoingMessage startMsg = serverMgr.CreateNetMessage();
                 startMsg.Write((int)PacketType.START_GAME_RESPONSE);
                 serverMgr.SendMessage(startMsg, p);
@@ -216,7 +236,7 @@ namespace Orbit.Core.Server
 
         public bool CheckTournamentFinished(bool announce = false)
         {
-            Player winner = matchManager.GetWinner();
+            Player winner = matchManager.GetTournamentWinner();
             if (winner == null)
                 return false;
 
@@ -225,8 +245,13 @@ namespace Orbit.Core.Server
                 NetOutgoingMessage tournamentFinished = serverMgr.CreateNetMessage();
                 tournamentFinished.Write((int)PacketType.TOURNAMENT_FINISHED);
                 tournamentFinished.Write(winner.GetId());
-                //hraci kteri hrali posledni hru
-                players.ForEach(p => { if (p.IsActivePlayer()) tournamentFinished.Write(p.GetId()); });
+                // vyhry a odehrane hry vsech hracu
+                foreach (Player p in players)
+                {
+                    tournamentFinished.Write(p.GetId());
+                    tournamentFinished.Write(p.Data.WonMatches);
+                    tournamentFinished.Write(p.Data.PlayedMatches);
+                }
                 serverMgr.BroadcastMessage(tournamentFinished);
             }
 
@@ -239,6 +264,17 @@ namespace Orbit.Core.Server
                 return;
 
             gameLevel.Update(tpf);
+        }
+
+        public void PlayerLeft(Player p)
+        {
+            if (players.Contains(p))
+                matchManager.OnPlayerLeave(p, IsRunning);
+        }
+
+        public void PlayerConnected(Player p)
+        {
+            matchManager.OnPlayerConnect(p, IsRunning);
         }
 
         public static int GetRequiredNumberOfMatches(int players, int rounds)

@@ -42,8 +42,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
         }
 
         private System.Windows.Shapes.Line line; // neposilano
-        
-        public Hook(SceneMgr mgr) : base(mgr)
+
+        public Hook(SceneMgr mgr, long id)
+            : base(mgr, id)
         {
             HookType = HookType.HOOK_NORMAL;
         }
@@ -103,7 +104,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 {
                     caught.Enabled = true;
                     if (caught is IMovable)
-                        (caught as IMovable).Direction = new Vector(0, 100);
+                        (caught as IMovable).Direction = new Vector(0, 1);
                 }
             }
 

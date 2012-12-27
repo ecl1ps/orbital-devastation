@@ -100,7 +100,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 Owner.Data.Gold += 1;
             }
 
-            me.SceneMgr.ShowStatusText(3, Owner.Data.Gold.ToString() + " + " + goldPerSec.ToString("0.##") + "/s");
+            me.SceneMgr.ShowStatusText(4, Owner.Data.Gold.ToString() + " + " + goldPerSec.ToString("0.##") + "/s");
         }
 
         private void CheckMining()
@@ -158,7 +158,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             stretchingControl.FirstObj = me;
             stretchingControl.SecondObj = obj;
 
-            Line line = new Line(sceneMgr, me.Position, obj.Position, Colors.Black, 1);
+            Line line = new Line(sceneMgr, IdMgr.GetNewId(sceneMgr.GetCurrentPlayer().GetId()), me.Position, obj.Position, Colors.Black, 1);
             line.AddControl(stretchingControl);
             line.AddControl(new MiningLineControl());
 
@@ -176,6 +176,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private void RemoveMiningLines()
         {
             currentlyMining.ForEach(mineObj => mineObj.MiningLine.DoRemoveMe());
+            currentlyMining.Clear();
         }
 
         public void DoCollideWith(ISceneObject other, float tpf)

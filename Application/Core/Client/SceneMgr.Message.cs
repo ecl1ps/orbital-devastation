@@ -67,7 +67,7 @@ namespace Orbit.Core.Client
             while (pendingMessages.Count != 0)
                 SendMessage(pendingMessages.Dequeue());
 
-            Console.WriteLine("LOGIN confirmed (id: " + IdMgr.GetHighId(GetCurrentPlayer().Data.Id) + ")");
+            Logger.Debug("LOGIN confirmed (id: " + IdMgr.GetHighId(GetCurrentPlayer().Data.Id) + ")");
 
             SendPlayerDataRequestMessage();
         }
@@ -131,7 +131,7 @@ namespace Orbit.Core.Client
                         CreateAndAddBot(plr);
                     else
                         FloatingTextMgr.AddFloatingText(plr.Data.Name + " has joined the game",
-                            new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50 + i * 30),
+                            new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
                             FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
                 }
                 else // hrace uz zname, ale mohl se zmenit jeho stav na active a take se mohly zmenit dalsi player data
@@ -166,10 +166,12 @@ namespace Orbit.Core.Client
             if (disconnected == null)
                 return;
 
-            if (GameType != Gametype.MULTIPLAYER_GAME)
+            if (GameType == Gametype.TOURNAMENT_GAME && !disconnected.IsActivePlayer())
+            {
                 FloatingTextMgr.AddFloatingText(disconnected.Data.Name + " has disconnected",
                     new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
                     FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
+            }
 
             players.Remove(disconnected);
             (Application.Current as App).SetGameStarted(false);
@@ -178,7 +180,8 @@ namespace Orbit.Core.Client
                 EndGame(disconnected, GameEnd.LEFT_GAME);
             else if (disconnected.Device != null)
                 disconnected.Device.DoRemoveMe();
-            if (GameType == Gametype.TOURNAMENT_GAME && GameWindowState == WindowState.IN_LOBBY)
+
+            if (GameWindowState == WindowState.IN_LOBBY)
             {
                 UpdateLobbyPlayers();
                 CheckAllPlayersReady();
@@ -193,7 +196,15 @@ namespace Orbit.Core.Client
             {
                 Player playedLastGame = GetPlayer(msg.ReadInt32());
                 if (playedLastGame != null)
-                    playedLastGame.Data.PlayedMatches++;
+                {
+                    playedLastGame.Data.WonMatches = msg.ReadInt32();
+                    playedLastGame.Data.PlayedMatches = msg.ReadInt32();
+                }
+                else
+                {
+                    msg.ReadInt32();
+                    msg.ReadInt32();
+                }
             }
 
             EndGame(winner, GameEnd.TOURNAMENT_FINISHED);
@@ -231,57 +242,7 @@ namespace Orbit.Core.Client
             (Application.Current as App).SetGameStarted(true);
 
             foreach (Player p in players)
-            {
-                if (p.IsActivePlayer())
-                {
-                    p.CreateWeapons();
-
-                    // zobrazi aktualni integrity bazi
-                    p.SetBaseIntegrity(p.GetBaseIntegrity());
-                    p.Baze = SceneObjectFactory.CreateBase(this, p);
-
-                    PercentageEllipse ellipse = SceneObjectFactory.CreatePercentageEllipse(this, p);
-                    
-                    HpBarControl control = new HpBarControl(ellipse);
-                    p.Baze.AddControl(control);
-
-                    DelayedAttachToScene(ellipse);
-                    DelayedAttachToScene(p.Baze);
-                }
-                else
-                {
-                    MiningModule obj = SceneObjectFactory.CreateMiningModule(this, new Vector(10, 10), p);
-                    DelayedAttachToScene(obj);
-                    DelayedAttachToScene(SceneObjectFactory.CreatePercentageArc(this, obj, p));
-
-                    p.Device = obj;
-                }
-
-                if (p.IsCurrentPlayer())
-                {
-                    actionBarMgr = new ActionBarMgr(this);
-                    StateMgr.AddGameState(actionBarMgr);
-
-                    if (p.IsActivePlayer())
-                    {
-                        inputMgr = new PlayerInputMgr(p, this, actionBarMgr);
-                        actionBarMgr.CreateActionBarItems(p.GeneratePlayerActions(this));
-                    }
-                    else
-                    {
-                        MiningModuleControl mc = new MiningModuleControl();
-                        mc.Owner = p;
-                        p.Device.AddControl(mc);
-
-                        inputMgr = new SpectatorInputMgr(p, this, p.Device, actionBarMgr);
-                        actionBarMgr.CreateActionBarItems(p.GeneratePlayerActions(this, true));
-
-                        HidingPanel panel = GuiObjectFactory.CreateHidingPanel(this);
-
-                        StateMgr.AddGameState(new SpectatorPanelController(this, panel, p.GenerateSpectatorActions(this), 4));
-                    }
-                }
-            }
+                CreateActiveObjectsOfPlayer(p);
 
             Invoke(new Action(() =>
             {
@@ -307,6 +268,84 @@ namespace Orbit.Core.Client
 
             SetMainInfoText("");
             userActionsDisabled = false;
+
+            Application.Current.Dispatcher.BeginInvoke(new Action(() => {
+                (Application.Current as App).FocusWindow();
+            }));
+
+#if !DEBUG
+            // TODO: prehrat zvuk misto pipnuti
+            Console.Beep(300, 200);
+#endif
+        }
+
+        private void ReceivedPlayerReconnectedMsg(NetIncomingMessage msg)
+        {
+            Player reconnecting = GetPlayer(msg.ReadInt32());
+            if (reconnecting == null)
+            {
+                Logger.Error("Unknown reconnecting player");
+                return;
+            }
+
+            CreateActiveObjectsOfPlayer(reconnecting);
+        }
+
+        /// <summary>
+        /// vytvori hraci action bar, input manager a zbranea bazi nebo mining module
+        /// </summary>
+        /// <param name="p">hrac kteremu se maji vytvorit objekty</param>
+        private void CreateActiveObjectsOfPlayer(Player p)
+        {
+            if (p.IsActivePlayer())
+            {
+                p.CreateWeapons();
+
+                // zobrazi aktualni integrity bazi
+                p.SetBaseIntegrity(p.GetBaseIntegrity());
+                p.Baze = SceneObjectFactory.CreateBase(this, p);
+
+                PercentageEllipse ellipse = SceneObjectFactory.CreatePercentageEllipse(this, p);
+
+                HpBarControl control = new HpBarControl(ellipse);
+                p.Baze.AddControl(control);
+
+                DelayedAttachToScene(ellipse);
+                DelayedAttachToScene(p.Baze);
+            }
+            else
+            {
+                MiningModule obj = SceneObjectFactory.CreateMiningModule(this, p.Data.MiningModuleStartPos, p);
+                DelayedAttachToScene(obj);
+                DelayedAttachToScene(SceneObjectFactory.CreatePercentageArc(this, obj, p));
+
+                p.Device = obj;
+            }
+
+            if (p.IsCurrentPlayer())
+            {
+                actionBarMgr = new ActionBarMgr(this);
+                StateMgr.AddGameState(actionBarMgr);
+
+                if (p.IsActivePlayer())
+                {
+                    inputMgr = new PlayerInputMgr(p, this, actionBarMgr);
+                    actionBarMgr.CreateActionBarItems(p.GeneratePlayerActions(this));
+                }
+                else
+                {
+                    MiningModuleControl mc = new MiningModuleControl();
+                    mc.Owner = p;
+                    p.Device.AddControl(mc);
+
+                    inputMgr = new SpectatorInputMgr(p, this, p.Device, actionBarMgr);
+                        actionBarMgr.CreateActionBarItems(p.GeneratePlayerActions(this, true));
+
+                        HidingPanel panel = GuiObjectFactory.CreateHidingPanel(this);
+
+                        StateMgr.AddGameState(new SpectatorPanelController(this, panel, p.GenerateSpectatorActions(this), 4));
+                }
+            }
         }
 
         private void ReceivedPlayerAndGoldScoreMsg(NetIncomingMessage msg)
@@ -361,7 +400,7 @@ namespace Orbit.Core.Client
                 if (obj is IDestroyable)
                     target = (obj as IDestroyable);
                 else
-                    Console.Error.WriteLine("Object id " + bulletId + " (" + obj.GetType().Name + ") is supposed to be a instance of IDestroyable but it is not");
+                    Logger.Error("Object id " + bulletId + " (" + obj.GetType().Name + ") is supposed to be a instance of IDestroyable but it is not");
 
                 break;
             }
@@ -417,7 +456,7 @@ namespace Orbit.Core.Client
                     {
                         ExplodingSingularityBulletControl c2 = obj.GetControlOfType<ExplodingSingularityBulletControl>();
                         if (c2 == null)
-                            Console.Error.WriteLine("Object id " + mineId + " (" + obj.GetType().Name + 
+                            Logger.Error("Object id " + mineId + " (" + obj.GetType().Name + 
                                 ") is supposed to be a SingularityMine and have DroppingSingularityControl " +
                                 "or SingularityExplodingBullet and have ExplodingSingularityBulletControl, but control is null");
                         else
@@ -478,7 +517,7 @@ namespace Orbit.Core.Client
 
         private void ReceiveNewLaserMsg(NetIncomingMessage msg)
         {
-            Laser laser = new Laser(GetOpponentPlayer(), this);
+            Laser laser = new Laser(GetOpponentPlayer(), this, -1);
             laser.ReadObject(msg);
 
             DelayedAttachToScene(laser);
@@ -487,7 +526,7 @@ namespace Orbit.Core.Client
 
         private void ReceivedNewSingularityBouncingBulletMsg(NetIncomingMessage msg)
         {
-            SingularityBouncingBullet s = new SingularityBouncingBullet(this);
+            SingularityBouncingBullet s = new SingularityBouncingBullet(this, -1);
             s.ReadObject(msg);
             s.Owner = GetOpponentPlayer();
             s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
@@ -497,7 +536,7 @@ namespace Orbit.Core.Client
 
         private void ReceivedNewSingularityExplodingBulletMsg(NetIncomingMessage msg)
         {
-            SingularityExplodingBullet s = new SingularityExplodingBullet(this);
+            SingularityExplodingBullet s = new SingularityExplodingBullet(this, -1);
             s.ReadObject(msg);
             s.Owner = GetOpponentPlayer();
             s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
@@ -507,7 +546,7 @@ namespace Orbit.Core.Client
 
         private void ReceivedNewSingularityBulletMsg(NetIncomingMessage msg)
         {
-            SingularityBullet s = new SingularityBullet(this);
+            SingularityBullet s = new SingularityBullet(this, -1);
             s.ReadObject(msg);
             s.Owner = GetOpponentPlayer();
             s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
@@ -519,7 +558,7 @@ namespace Orbit.Core.Client
 
         private void ReceivedNewSingularityMineMsg(NetIncomingMessage msg)
         {
-            SingularityMine s = new SingularityMine(this);
+            SingularityMine s = new SingularityMine(this, -1);
             s.ReadObject(msg);
             s.Owner = GetOpponentPlayer();
             s.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(s));
@@ -536,15 +575,18 @@ namespace Orbit.Core.Client
             int rot = msg.ReadInt32();
             int textureId = msg.ReadInt32();
             int destoryerId = msg.ReadInt32();
-            long id1 = msg.ReadInt64();
-            long id2 = msg.ReadInt64();
-            long id3 = msg.ReadInt64();
 
-            MinorAsteroid a1 = SceneObjectFactory.CreateSmallAsteroid(this, id1, direction, center, rot, textureId, radius, speed, Math.PI / 12);
-            MinorAsteroid a2 = SceneObjectFactory.CreateSmallAsteroid(this, id2, direction, center, rot, textureId, radius, speed, 0);
-            MinorAsteroid a3 = SceneObjectFactory.CreateSmallAsteroid(this, id3, direction, center, rot, textureId, radius, speed, -Math.PI / 12);
+            MinorAsteroid a1 = SceneObjectFactory.CreateSmallAsteroid(this, direction, center, rot, textureId, radius, speed, Math.PI / 12);
+            a1.Id = msg.ReadInt64();
+            MinorAsteroid a2 = SceneObjectFactory.CreateSmallAsteroid(this, direction, center, rot, textureId, radius, speed, 0);
+            a2.Id = msg.ReadInt64();
+            MinorAsteroid a3 = SceneObjectFactory.CreateSmallAsteroid(this, direction, center, rot, textureId, radius, speed, -Math.PI / 12);
+            a3.Id = msg.ReadInt64();
 
-            UnstableAsteroid p = new UnstableAsteroid(this);
+            long parentId = msg.ReadInt64();
+            UnstableAsteroid p = GetSceneObject(parentId) as UnstableAsteroid;
+            if (p == null)
+                p = new UnstableAsteroid(this, parentId);
             p.Destroyer = destoryerId;
 
             a1.Parent = p;
@@ -572,7 +614,7 @@ namespace Orbit.Core.Client
 
         private void ReceivedNewStatPowerupMsg(NetIncomingMessage msg)
         {
-            StatPowerUp p = new StatPowerUp(this);
+            StatPowerUp p = new StatPowerUp(this, -1);
             p.ReadObject(msg);
             p.SetGeometry(SceneGeometryFactory.CreatePowerUpImage(p));
             DelayedAttachToScene(p);
@@ -596,7 +638,7 @@ namespace Orbit.Core.Client
         {
             if (objects.Count > 2)
             {
-                Console.WriteLine("Error: receiving all asteroids but already have " + objects.Count);
+                Logger.Error("Receiving AllAsteroids packet but already have " + objects.Count + " objects");
                 return;
             }
 
@@ -605,7 +647,7 @@ namespace Orbit.Core.Client
             {
                 if (msg.ReadInt32() != (int)PacketType.NEW_ASTEROID)
                 {
-                    Console.WriteLine("Corrupted object PacketType.SYNC_ALL_ASTEROIDS");
+                    Logger.Error("Corrupted object PacketType.SYNC_ALL_ASTEROIDS");
                     return;
                 }
                 Asteroid s = CreateNewAsteroid((AsteroidType)msg.ReadByte());
@@ -716,7 +758,7 @@ namespace Orbit.Core.Client
 
             for (int i = 0; i < count; i++)
             {
-                obj = findObject(msg.ReadInt64()) as IDestroyable;
+                obj = GetSceneObject(msg.ReadInt64()) as IDestroyable;
 
                 if (obj != null)
                 {
@@ -733,7 +775,7 @@ namespace Orbit.Core.Client
             Vector dir;
             for (int i = 0; i < count; i++)
             {
-                ast = findObject(msg.ReadInt64(), typeof(Asteroid)) as Asteroid;
+                ast = GetSceneObject(msg.ReadInt64()) as Asteroid;
                 dir = msg.ReadVector();
 
                 if (ast != null)

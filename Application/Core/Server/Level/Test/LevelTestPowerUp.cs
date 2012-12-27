@@ -11,7 +11,7 @@ namespace Orbit.Core.Server.Level
 {
     public class LevelTestPoweUp : IGameLevel
     {
-        public static LevelInfo Info = new LevelInfo(true, "[TEST] Powerups");
+        public static readonly LevelInfo Info = new LevelInfo(true, "[TEST] Powerups");
 
         private ServerMgr mgr;
         private List<ISceneObject> objects;
@@ -33,7 +33,7 @@ namespace Orbit.Core.Server.Level
             if (newStatPowerupTimer <= tpf)
             {
                 GameLevelManager.CreateAndSendNewStatPowerup(mgr);
-                newStatPowerupTimer = 1;
+                newStatPowerupTimer = 0.2f;
             }
             else
                 newStatPowerupTimer -= tpf;

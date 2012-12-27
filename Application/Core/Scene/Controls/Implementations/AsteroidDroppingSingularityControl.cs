@@ -45,8 +45,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         private void SpawnAsteroid()
         {
-            Asteroid ast = new Asteroid(me.SceneMgr);
-            ast.Id = IdMgr.GetNewId(meMine.Owner.GetId());
+            Asteroid ast = new Asteroid(me.SceneMgr, IdMgr.GetNewId(me.SceneMgr.GetCurrentPlayer().GetId()));
             ast.Radius = 10;
             ast.Position = new Vector(me.Position.X - ast.Radius, me.Position.Y - ast.Radius);
             ast.Direction = (me as IMovable).Direction;

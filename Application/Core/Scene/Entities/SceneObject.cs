@@ -48,20 +48,17 @@ namespace Orbit.Core.Scene.Entities
             set
             {
                 enabled = value;
-                foreach (IControl control in GetControlsCopy())
+                foreach (IControl control in controls)
                     control.Enabled = enabled;
             }
         }
 
-        private SceneObject()
-        {
-        }
-
-        public SceneObject(SceneMgr mgr)
+        public SceneObject(SceneMgr mgr, long id)
         {
             controls = new List<IControl>();
             Dead = false;
             SceneMgr = mgr;
+            Id = id;
         }
 
         public void Update(float tpf)

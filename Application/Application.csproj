@@ -90,6 +90,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\Lidgren.Network.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>lib\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="ShaderEffectLibrary">
@@ -223,6 +226,7 @@
     <Compile Include="Core\IGameState.cs" />
     <Compile Include="Core\Server\Level\LevelInfo.cs" />
     <Compile Include="Core\Server\Level\Production\LevelBasic.cs" />
+    <Compile Include="Core\Server\Match\AbstractTournamentMultiplayerMatchManager.cs" />
     <Compile Include="Core\Server\Match\MatchManagerInfo.cs" />
     <Compile Include="Core\Server\Match\Production\QuickGameMatchManager.cs" />
     <Compile Include="Core\Server\Match\Production\SkirmishMatchManager.cs" />
@@ -634,6 +638,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Content Include="logger.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Resource Include="resources\sounds\background\action.ogg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

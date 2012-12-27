@@ -69,7 +69,7 @@ namespace Orbit.Core.Client
                     case NetIncomingMessageType.DebugMessage:
                     case NetIncomingMessageType.WarningMessage:
                     case NetIncomingMessageType.ErrorMessage:
-                        Console.WriteLine(msg.ReadString());
+                        Logger.Debug(msg.ReadString());
                         break;
                     case NetIncomingMessageType.DiscoveryRequest:
                         break;
@@ -97,10 +97,10 @@ namespace Orbit.Core.Client
                         }
 
                         // NOTE: Disconnecting and Disconnected are not instant unless client is shutdown with disconnect()
-                        Console.WriteLine(msg.SenderConnection.ToString() + " status changed to: " + msg.SenderConnection.Status);
+                        Logger.Debug(msg.SenderConnection.ToString() + " status changed to: " + msg.SenderConnection.Status);
                         break;
                     default:
-                        Console.WriteLine("Unhandled message type: " + msg.MessageType);
+                        Logger.Warn("Unhandled message type: " + msg.MessageType);
                         break;
                 }
                 client.Recycle(msg);
@@ -111,7 +111,7 @@ namespace Orbit.Core.Client
         {
             PacketType type = (PacketType)msg.ReadInt32();
 #if VERBOSE
-            Console.WriteLine("Client " + GetCurrentPlayer().GetId() + ": received msg " + type.ToString());
+            Logger.Debug("Client " + GetCurrentPlayer().GetId() + ": received msg " + type.ToString());
 #endif
             switch (type)
             {
@@ -190,6 +190,9 @@ namespace Orbit.Core.Client
                 case PacketType.PLAYER_READY:
                     ReceivedPlayerReadyMsg(msg);
                     break;
+                case PacketType.PLAYER_RECONNECTED:
+                    ReceivedPlayerReconnectedMsg(msg);
+                    break;
                 case PacketType.TOURNAMENT_SETTINGS:
                     ReceivedTournamentSettingsMsg(msg);
                     break;
@@ -233,41 +236,9 @@ namespace Orbit.Core.Client
                     ReceivePlayerColorChange(msg);
                     break;
                 default:
-                    Console.WriteLine("Received unhandled packet type: " + type);
+                    Logger.Warn("Received unhandled packet type: " + type);
                     break;
             }
-        }
-
-        private ISceneObject findObject(long id, Type type)
-        {
-            ISceneObject found = null;
-
-            foreach (ISceneObject obj in GetSceneObjects(type)) 
-            {
-                if (obj.Id == id)
-                {
-                    found = obj;
-                    break;
-                }
-            }
-
-            return found;
-        }
-
-        private ISceneObject findObject(long id)
-        {
-            ISceneObject found = null;
-
-            foreach (ISceneObject obj in GetSceneObjects())
-            {
-                if (obj.Id == id)
-                {
-                    found = obj;
-                    break;
-                }
-            }
-
-            return found;
         }
 
         private void CreateAndAddBot(Player plr)
@@ -301,19 +272,19 @@ namespace Orbit.Core.Client
             switch (asteroidType)
             {
                 case AsteroidType.GOLDEN:
-                    asteroid = new Asteroid(this);
+                    asteroid = new Asteroid(this, -1);
                     break;
                 case AsteroidType.NORMAL:
-                    asteroid = new Asteroid(this);
+                    asteroid = new Asteroid(this, -1);
                     break;
                 case AsteroidType.SPAWNED:
-                    asteroid = new MinorAsteroid(this);
+                    asteroid = new MinorAsteroid(this, -1);
                     break;
                 case AsteroidType.UNSTABLE:
-                    asteroid = new UnstableAsteroid(this);
+                    asteroid = new UnstableAsteroid(this, -1);
                     break;
                 default:
-                    asteroid = new Asteroid(this);
+                    asteroid = new Asteroid(this, -1);
                     break;
             }
 
