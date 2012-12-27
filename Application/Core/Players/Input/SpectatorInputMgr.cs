@@ -9,6 +9,8 @@ using Orbit.Core.SpecialActions;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.SpecialActions.Spectator;
+using Orbit.Gui.InteractivePanel;
+using Orbit.Gui;
 
 namespace Orbit.Core.Players.Input
 {
@@ -50,14 +52,25 @@ namespace Orbit.Core.Players.Input
         {
             base.OnKeyEvent(e);
             bool down = e.IsDown;
-            if (e.Key == (Key) int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_TOP)))
+            if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_TOP)))
                 device.IsMovingTop = down;
-            else if (e.Key == (Key) int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_BOT)))
+            else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_BOT)))
                 device.IsMovingDown = down;
             else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_LEFT)))
                 device.IsMovingLeft = down;
             else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_RIGHT)))
                 device.IsMovingRight = down;
+            else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_SHOW_ACTIONS)) && down)
+                ToggleActions();
+        }
+
+        private void ToggleActions()
+        {
+            mgr.BeginInvoke(new Action(() =>
+            {
+                HidingPanel panel = LogicalTreeHelper.FindLogicalNode(mgr.GetCanvas(), "hidingPanel") as HidingPanel;
+                panel.ToggleVisibility();
+            }));
         }
     }
 }

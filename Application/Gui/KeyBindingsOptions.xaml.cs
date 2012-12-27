@@ -50,6 +50,8 @@ namespace Orbit.Gui
             bindings.Add(new KeyLabel(PropertyKey.PLAYER_ACTION_MOVE_LEFT, MoveLeft));
             bindings.Add(new KeyLabel(PropertyKey.PLAYER_ACTION_MOVE_RIGHT, MoveRight));
             bindings.Add(new KeyLabel(PropertyKey.PLAYER_ACTION_MOVE_TOP, MoveTop));
+            bindings.Add(new KeyLabel(PropertyKey.PLAYER_SHOW_ACTIONS, ShowActions));
+            bindings.Add(new KeyLabel(PropertyKey.PLAYER_SHOW_QUESTS, ShowQuests));
             LoadKeys();
         }
         
@@ -122,6 +124,16 @@ namespace Orbit.Gui
         private void MoveRight_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             WaitForInput(sender as TextBlock, PropertyKey.PLAYER_ACTION_MOVE_RIGHT);
+        }
+
+        private void ShowActions_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            WaitForInput(sender as TextBlock, PropertyKey.PLAYER_SHOW_ACTIONS);
+        }
+
+        private void ShowQuests_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            WaitForInput(sender as TextBlock, PropertyKey.PLAYER_SHOW_QUESTS);
         }
 
         private void Grid_KeyDown(object sender, KeyEventArgs e)
