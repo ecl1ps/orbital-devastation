@@ -12,6 +12,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private bool counting = false;
         private float respawningTime = 0;
         private float visibilityTime = 0;
+        private float initRespawningTime = 0;
 
         private IHpControl hpControl;
 
@@ -48,7 +49,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         {
             if (visibilityTime <= 0)
             {
-                visibilityTime = 1;
+                visibilityTime = 0.1f + (0.9f * respawningTime / initRespawningTime);
                 me.SceneMgr.Invoke(new Action(() => {
                     me.Visible = !me.Visible;
                 }));
@@ -65,6 +66,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 return;
 
             this.respawningTime = respawningTime;
+            this.initRespawningTime = respawningTime;
             counting = true;
 
             toggleControls(false);
