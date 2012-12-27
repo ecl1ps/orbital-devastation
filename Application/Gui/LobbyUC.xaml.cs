@@ -179,8 +179,12 @@ namespace Orbit.Gui
 
         private void lobbyWindow_Loaded(object sender, RoutedEventArgs e)
         {
+#if !DEBUG
             if (leader)
                 (Application.Current as App).PlayerReady();
+#else
+            (Application.Current as App).PlayerReady();
+#endif
             tbMessage.Focus();
         }
 

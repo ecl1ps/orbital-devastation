@@ -270,8 +270,10 @@ namespace Orbit.Core.Client
                 (Application.Current as App).FocusWindow();
             }));
 
+#if !DEBUG
             // TODO: prehrat zvuk misto pipnuti
             Console.Beep(300, 200);
+#endif
         }
 
         private void ReceivedPlayerReconnectedMsg(NetIncomingMessage msg)
