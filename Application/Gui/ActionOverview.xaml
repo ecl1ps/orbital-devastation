@@ -6,12 +6,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="65">
 
-    <Canvas>
-        <Image Name="Icon" Canvas.Top="0" Canvas.Left="35" Width="30" Height="30" Source="/OrbitalDevastation;component/resources/images/icons/upgrade.png"></Image>
+        <Canvas>
+            <Image Name="Icon" Canvas.Top="0" Canvas.Left="35" Width="30" Height="30" Source="/OrbitalDevastation;component/resources/images/icons/upgrade.png"></Image>
 
-        <Ellipse Height="10" Width="10" Canvas.Top="3" Canvas.Left="4" Fill="#FF3A3F38"></Ellipse>
-        <Ellipse Height="10" Width="10" Canvas.Top="17" Canvas.Left="4" Fill="DarkGoldenrod"></Ellipse>
-        <TextBlock Name="CountNormal" Canvas.Left="17" Canvas.Top="0" FontWeight="Bold">+1</TextBlock>
-        <TextBlock Name="CountGold" Canvas.Left="17" Canvas.Top="14"  FontWeight="Bold">+1</TextBlock>
-    </Canvas>
+            <Ellipse Height="10" Width="10" Canvas.Top="3" Canvas.Left="4" Fill="#FF3A3F38"></Ellipse>
+            <Ellipse Height="10" Width="10" Canvas.Top="17" Canvas.Left="4" Fill="DarkGoldenrod"></Ellipse>
+            <TextBlock Name="CountNormal" Canvas.Left="17" Canvas.Top="0" FontWeight="Bold">+1</TextBlock>
+            <TextBlock Name="CountGold" Canvas.Left="17" Canvas.Top="14"  FontWeight="Bold">+1</TextBlock>
+        </Canvas>
 </UserControl>

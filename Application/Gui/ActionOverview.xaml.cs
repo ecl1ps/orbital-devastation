@@ -22,6 +22,8 @@ namespace Orbit.Gui
     /// </summary>
     public partial class ActionOverview : UserControl, IActionOverview
     {
+        private ISpectatorAction action = null;
+
         public ActionOverview()
         {
             InitializeComponent();
@@ -29,6 +31,16 @@ namespace Orbit.Gui
 
         public void RenderAction(ISpectatorAction action)
         {
+            if (action == null)
+            {
+                Visibility = System.Windows.Visibility.Collapsed;
+                return;
+            }
+            else
+                Visibility = System.Windows.Visibility.Visible;
+
+            this.action = action;
+
             Dispatcher.BeginInvoke(new Action(() => {
                 if (action.ImageSource != null)
                 {
@@ -39,8 +51,8 @@ namespace Orbit.Gui
                     Icon.Source = image;
                 }
 
-                CountNormal.Text = action.MissingNormal.ToString();
-                CountGold.Text = action.MissingGold.ToString();
+                CountNormal.Text = action.ComputeMissing(action.Normal).ToString();
+                CountGold.Text = action.ComputeMissing(action.Gold).ToString();
             }));
         }
     }
