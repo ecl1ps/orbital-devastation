@@ -26,17 +26,27 @@ namespace Orbit.Core.Scene.Entities
         }
         public bool Dead { get; set; }
         public SceneMgr SceneMgr { get; set; }
-        public bool Visible { get { return geometryElement.Visibility != Visibility.Hidden; } 
+        private bool visible;
+        public bool Visible
+        {
+            get 
+            { 
+                return visible; 
+            } 
             set 
             {
                 if (geometryElement == null)
                     return;
 
-                //TODO: ve vlaknu gui?
-                if (value)
-                    geometryElement.Visibility = Visibility.Visible;
-                else
-                    geometryElement.Visibility = Visibility.Hidden;
+                if (value != visible)
+                {
+                    SceneMgr.BeginInvoke(new Action(() =>
+                    {
+                        geometryElement.Visibility = value ? Visibility.Visible : Visibility.Hidden;
+                    }));
+                }
+
+                visible = value;
             } 
         }
         private bool enabled = true;
