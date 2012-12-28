@@ -108,6 +108,17 @@ namespace Orbit.Gui
             }));
         }
 
+        public void SetCooldownTime(float time)
+        {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (time != 0)
+                    CdTime.Text = time.ToString("0.0");
+                else
+                    CdTime.Text = "";
+            }));
+        }
+
         public void OnClick(Point point)
         {
             if (!active)

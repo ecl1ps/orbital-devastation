@@ -40,8 +40,14 @@ namespace Orbit.Gui.ActionControllers
 
         public override void Update(ActionUC window, float tpf)
         {
+            float time = 0;
             if (Action.IsOnCooldown())
+            {
                 computeCooldown(window);
+                time = Action.RemainingCooldown;
+            }
+
+            window.SetCooldownTime(time);
         }
 
         private void computeCooldown(ActionUC window)
