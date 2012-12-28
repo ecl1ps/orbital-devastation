@@ -53,18 +53,28 @@ namespace Orbit.Core.Weapons
                 SceneMgr.SendMessage(msg);
             }
 
+            HighlightingControl hc = new HighlightingControl();
+            mine.AddControl(hc);
+
+            if (lastMine != null)
+                lastMine.GetControlOfType<HighlightingControl>().Enabled = false;
+
             lastMine = mine;
             SceneMgr.DelayedAttachToScene(mine);
         }
 
         public bool IsActivableReady()
         {
-            return lastMine != null && !lastMine.Dead && !lastMine.GetControlOfType<AsteroidDroppingSingularityControl>().Detonated;
+            bool ready = lastMine != null && !lastMine.Dead && !lastMine.GetControlOfType<AsteroidDroppingSingularityControl>().Detonated;
+            if (ready)
+                lastMine.GetControlOfType<HighlightingControl>().Enabled = true;
+            return ready;
         }
 
         public void StartActivableAction()
         {
             lastMine.GetControlOfType<AsteroidDroppingSingularityControl>().SpawnActivated = true;
+            lastMine.GetControlOfType<HighlightingControl>().Enabled = false;
         }
     }
 }

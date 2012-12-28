@@ -13,6 +13,7 @@ using ShaderEffectLibrary;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Weapons;
 using Orbit.Core.Client.Shaders;
+using Orbit.Core.Client;
 
 namespace Orbit.Core.Helpers
 {
@@ -56,18 +57,18 @@ namespace Orbit.Core.Helpers
             return path;
         }
 
-        public static Path CreateRadialGradientEllipseGeometry(Circle s)
+        public static Path CreateRadialGradientEllipseGeometry(SceneMgr mgr, int radius, Color start, Color end, Color stroke, Vector position)
         {
             Path path = null;
-            s.SceneMgr.Invoke(new Action(() =>
+            mgr.Invoke(new Action(() =>
             {
-                EllipseGeometry geom = new EllipseGeometry(new Point(), s.Radius, s.Radius);
+                EllipseGeometry geom = new EllipseGeometry(new Point(), radius, radius);
                 path = new Path();
                 path.Data = geom;
-                path.Fill = new SolidColorBrush(s.Color);
-                path.Stroke = Brushes.Black;
-                Canvas.SetLeft(path, s.Position.X);
-                Canvas.SetTop(path, s.Position.Y);
+                path.Fill = new RadialGradientBrush(end, start);
+                path.Stroke = new SolidColorBrush(stroke);
+                Canvas.SetLeft(path, position.X);
+                Canvas.SetTop(path, position.Y);
             }));
 
             return path;

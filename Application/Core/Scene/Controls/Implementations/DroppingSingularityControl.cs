@@ -154,11 +154,11 @@ namespace Orbit.Core.Scene.Controls.Implementations
         {
             int r = (int)(255 * GetDistFromStartPct());
             byte red = (byte)(r > 254 ? 254 : r);
+            meMine.Color = Color.FromRgb(red, 0x00, red);
 
             meMine.GetGeometry().Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
             {
-                meMine.BorderBrush = new SolidColorBrush(Color.FromRgb(red, 0x00, red));
-                //meMine.FillBrush = new RadialGradientBrush(Colors.Black, Color.Add(Color.FromRgb(red, (byte)0, (byte)0), Color.FromRgb(0x66, 0x00, 0x80)));
+                meMine.BorderBrush = new SolidColorBrush(meMine.Color);
             }));
         }
 

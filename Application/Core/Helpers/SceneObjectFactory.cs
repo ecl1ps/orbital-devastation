@@ -79,6 +79,7 @@ namespace Orbit.Core.Helpers
             mine.Owner = plr;
             mine.Radius = 2;
             mine.Direction = dir;
+            mine.Color = Colors.BlueViolet;
             mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
                 
             SphereCollisionShape cs = new SphereCollisionShape();
@@ -100,7 +101,8 @@ namespace Orbit.Core.Helpers
             SingularityMine mine = new SingularityMine(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             mine.Position = point.ToVector();
             mine.Owner = plr;
-            mine.FillBrush = new RadialGradientBrush(Colors.Black, Color.FromRgb(0x66, 0x00, 0x80));
+            mine.Color = Colors.BlueViolet;
+            mine.FillBrush = new RadialGradientBrush(Colors.Black, mine.Color);
 
             SphereCollisionShape cs = new SphereCollisionShape();
             cs.Center = mine.Center;
@@ -126,6 +128,7 @@ namespace Orbit.Core.Helpers
             mine.Owner = plr;
             mine.Radius = 2;
             mine.Direction = new Vector(0, 1);
+            mine.Color = Colors.BlueViolet;
 
             SphereCollisionShape cs = new SphereCollisionShape();
             cs.Center = mine.Center;
@@ -155,6 +158,7 @@ namespace Orbit.Core.Helpers
             mine.Owner = plr;
             mine.Radius = 2;
             mine.Direction = new Vector(0, 1);
+            mine.Color = Colors.BlueViolet;
 
             SphereCollisionShape cs = new SphereCollisionShape();
             cs.Center = mine.Center;
@@ -338,7 +342,7 @@ namespace Orbit.Core.Helpers
             return l;
         }
 
-        public static Circle CreateCircle(SceneMgr mgr, Vector point, Color color)
+        /*public static Circle CreateCircle(SceneMgr mgr, Vector point, Color color)
         {
             Circle c = new Circle(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             c.Position = point;
@@ -353,7 +357,7 @@ namespace Orbit.Core.Helpers
             }));
 
             return c;
-        }
+        }*/
 
         public static SingularityExplodingBullet CreateSingularityExploadingBullet(SceneMgr mgr, Vector point, Player plr)
         {

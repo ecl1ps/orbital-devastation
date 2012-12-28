@@ -159,6 +159,7 @@
     <Compile Include="Core\Scene\Controls\Implementations\ControlableMiningModuleControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ExcludingExplodingSingularityBulletControl.cs" />
     <Compile Include="Core\Scene\Controls\Health\HpControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\HighlightingControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\MinorAsteroidCollisionReactionControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\PowerlessSingularityControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\SingularityBulletCollisionReactionControl.cs" />
@@ -194,6 +195,7 @@
     <Compile Include="Core\Scene\Entities\IControledDevice.cs" />
     <Compile Include="Core\Scene\Controls\Health\IHpControl.cs" />
     <Compile Include="Core\Scene\Entities\IHpBar.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\HighlightingSphere.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\OrbitEllipse.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\MiningModule.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\PercentageEllipse.cs" />
