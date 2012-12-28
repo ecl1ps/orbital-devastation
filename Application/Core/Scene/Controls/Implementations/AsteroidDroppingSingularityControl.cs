@@ -56,12 +56,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private void SpawnAsteroid()
         {
             Asteroid ast = new Asteroid(me.SceneMgr, IdMgr.GetNewId(me.SceneMgr.GetCurrentPlayer().GetId()));
-            ast.Radius = 10;
+            ast.Radius = 20;
             ast.Position = new Vector(me.Position.X - ast.Radius, me.Position.Y - ast.Radius);
             ast.Direction = (me as IMovable).Direction;
 
             ast.AsteroidType = AsteroidType.NORMAL;
-            ast.TextureId = 1;
+            ast.TextureId = me.SceneMgr.GetRandomGenerator().Next(1, 18);
 
             SphereCollisionShape cs = new SphereCollisionShape();
             cs.Center = ast.Center;
