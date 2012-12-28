@@ -243,6 +243,7 @@
     <Compile Include="Core\Server\Match\PlayerMatchData.cs" />
     <Compile Include="Core\Server\Match\Production\ScoreMatchManager.cs" />
     <Compile Include="Core\Server\ServerMgr.Message.cs" />
+    <Compile Include="Core\SpecialActions\Gamer\ActiveWeapon.cs" />
     <Compile Include="Core\SpecialActions\Gamer\HealAction.cs" />
     <Compile Include="Core\SpecialActions\Gamer\WeaponUpgrade.cs" />
     <Compile Include="Core\SpecialActions\Spectator\AsteroidDamage.cs" />
@@ -258,6 +259,7 @@
     <Compile Include="Core\Utils\HealingKit.cs" />
     <Compile Include="Core\Utils\IHealingKit.cs" />
     <Compile Include="Core\Weapons\AsteroidMineLauncher.cs" />
+    <Compile Include="Core\Weapons\IActivableWeapon.cs" />
     <Compile Include="Core\Weapons\DoubleHookLauncher.cs" />
     <Compile Include="Core\Weapons\Lazor.cs" />
     <Compile Include="Core\Weapons\PowerHookLauncher.cs" />

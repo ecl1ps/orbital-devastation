@@ -7,6 +7,7 @@ using Orbit.Core.Client;
 using Orbit.Core.Players;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Helpers;
+using Orbit.Core.SpecialActions;
 
 namespace Orbit.Core.Weapons
 {
@@ -19,7 +20,7 @@ namespace Orbit.Core.Weapons
             Name = "Power hook launcher";
         }
 
-        public override IWeapon Next()
+        public override ISpecialAction NextSpecialAction()
         {
             return null;
         }

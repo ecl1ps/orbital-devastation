@@ -17,6 +17,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private IList<long> collided = new List<long>();
         private bool detonated = false;
 
+        public bool SpawnActivated { get; set; }
+
         public override void DoCollideWith(ISceneObject other, float tpf)
         {
             if (collided.Contains(other.Id))
@@ -37,7 +39,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (detonated || GetDistToExplosionPct() > 0)
                 return;
 
-            if ((me as SingularityMine).Owner.IsCurrentPlayer())
+            if ((me as SingularityMine).Owner.IsCurrentPlayer() && SpawnActivated)
                 SpawnAsteroid();
 
             base.StartDetonation();

@@ -10,6 +10,8 @@ using System.Windows;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Client;
 using Orbit.Core.Helpers;
+using Orbit.Core.SpecialActions;
+using Orbit.Core.SpecialActions.Gamer;
 
 namespace Orbit.Core.Weapons
 {
@@ -39,10 +41,10 @@ namespace Orbit.Core.Weapons
             UpgradeLevel = UpgradeLevel.LEVEL2;
         }
 
-        public override IWeapon Next()
+        public override ISpecialAction NextSpecialAction()
         {
             if (next == null)
-                next = new PowerHookLauncher(SceneMgr, Owner);
+                next = new WeaponUpgrade(new PowerHookLauncher(SceneMgr, Owner));
 
             return next;
         }

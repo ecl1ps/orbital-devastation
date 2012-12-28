@@ -88,7 +88,7 @@ namespace Orbit.Core.Scene.Entities
             for (int i = 0; i < controls.Count; ++i)
             {
                 if (typeof(T).IsAssignableFrom(controls[i].GetType()))
-                    controls.Remove(controls[i]);
+                    controls.RemoveAt(i);
             }
         }
 

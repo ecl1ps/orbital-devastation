@@ -9,6 +9,7 @@ using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Helpers;
 using Lidgren.Network;
 using Orbit.Core.Scene.Entities;
+using Orbit.Core.SpecialActions;
 
 namespace Orbit.Core.Weapons
 {
@@ -22,9 +23,9 @@ namespace Orbit.Core.Weapons
             UpgradeLevel = UpgradeLevel.LEVEL3;
         }
 
-        public override IWeapon Next()
+        public override ISpecialAction NextSpecialAction()
         {
-            //i dont have next
+            //i dont have next - but don't worry, you will ;)
             return null;
         }
 

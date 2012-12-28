@@ -29,12 +29,15 @@ namespace Orbit.Gui.ActionControllers
 
         public override void CreatePriceText(ActionUC window)
         {
-            window.SetPriceText("Costs " + Action.Cost + " credits");
+            if (Action.Cost != 0)
+                window.SetPriceText("Costs " + Action.Cost + " credits");
+            else
+                window.SetPriceText("");
         }
 
         public override void CreateImageUriString(ActionUC window)
         {
-            if(Action.ImageSource != null)
+            if (Action.ImageSource != null)
                 window.SetImageUri(Action.ImageSource);
         }
 
@@ -43,14 +46,14 @@ namespace Orbit.Gui.ActionControllers
             float time = 0;
             if (Action.IsOnCooldown())
             {
-                computeCooldown(window);
+                ComputeCooldown(window);
                 time = Action.RemainingCooldown;
             }
 
             window.SetCooldownTime(time);
         }
 
-        private void computeCooldown(ActionUC window)
+        private void ComputeCooldown(ActionUC window)
         {
             float perc = (Action.RemainingCooldown / Action.Cooldown);
             window.SetShadeWidth(30 * perc);

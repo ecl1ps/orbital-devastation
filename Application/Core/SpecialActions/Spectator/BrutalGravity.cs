@@ -18,7 +18,6 @@ namespace Orbit.Core.SpecialActions
         public override void StartAction()
         {
             SceneMgr.LevelEnv.ChangeGravity(SharedDef.GRAVITY * 5, 2);
-            SendActionExecuted();
         }
 
         public override bool IsReady()

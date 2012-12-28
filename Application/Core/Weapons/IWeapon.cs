@@ -8,6 +8,7 @@ using Orbit.Core.Scene;
 using Orbit.Core.Players;
 using Orbit.Core.Client;
 using System.Windows.Input;
+using Orbit.Core.SpecialActions;
 
 namespace Orbit.Core.Weapons
 {
@@ -35,17 +36,17 @@ namespace Orbit.Core.Weapons
         SceneMgr SceneMgr { get; set; }
         float ReloadTime { get; set; }
         int Cost { get; set; }
-        String Name { get; set; }
+        string Name { get; set; }
         DeviceType DeviceType { get; set; }
         UpgradeLevel UpgradeLevel { get; set; }
 
-        IWeapon Next();
+        ISpecialAction NextSpecialAction();
 
         void ProccessClickEvent(Point point, MouseButton button, MouseButtonState buttonState);
 
         void Shoot(Point point);
 
-        Boolean IsReady();
+        bool IsReady();
 
         void TriggerUpgrade(IWeapon old);
     }

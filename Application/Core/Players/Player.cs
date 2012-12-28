@@ -276,9 +276,9 @@ namespace Orbit.Core.Players
             if (!isSpecatator)
             {
                 actions.Add(new HealAction(HealingKit, mgr, this));
-                actions.Add(new WeaponUpgrade(Hook, mgr, this));
-                actions.Add(new WeaponUpgrade(Mine, mgr, this));
-                actions.Add(new WeaponUpgrade(Canoon, mgr, this));
+                actions.Add(new WeaponUpgrade(Hook));
+                actions.Add(new WeaponUpgrade(Mine));
+                actions.Add(new WeaponUpgrade(Canoon));
             }
             else
             {

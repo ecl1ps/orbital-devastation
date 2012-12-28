@@ -10,23 +10,35 @@ using System.Windows;
 using Lidgren.Network;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Controls.Implementations;
+using Orbit.Core.SpecialActions;
+using Orbit.Core.SpecialActions.Gamer;
 
 namespace Orbit.Core.Weapons
 {
-    class AsteroidMineLauncher : TargetingMineLauncher
+    class AsteroidMineLauncher : TargetingMineLauncher, IActivableWeapon
     {
+        public string ActivableName { get; set; }
+        public string ActivableIcon { get; set; }
+
+        private SingularityMine lastMine;
+
         public AsteroidMineLauncher(SceneMgr mgr, Player plr) : base(mgr, plr)
         {
             Name = "Asteroid Carrier";
+            ActivableName = "Artificial Asteroid";
+            ActivableIcon = "asteroid-damage-icon.png";
             Cost = 750;
         }
 
-        public override IWeapon Next()
+        public override ISpecialAction NextSpecialAction()
         {
-            return null;
+            if (next == null)
+                next = new ActiveWeapon(this);
+
+            return next;
         }
 
-        protected override void SpawnMine(System.Windows.Point point)
+        protected override void SpawnMine(Point point)
         {
             SingularityMine mine = SceneObjectFactory.CreateAsteroidDroppingSingularityMine(SceneMgr, point, Owner);
             Vector dir = new Vector(endPoint.X - startPoint.X, endPoint.Y - startPoint.Y);
@@ -43,7 +55,19 @@ namespace Orbit.Core.Weapons
                 SceneMgr.SendMessage(msg);
             }
 
+            lastMine = mine;
             SceneMgr.DelayedAttachToScene(mine);
+        }
+
+        public bool IsActivableReady()
+        {
+            // TODO
+            return lastMine != null && !lastMine.Dead;
+        }
+
+        public void StartActivableAction()
+        {
+            lastMine.GetControlOfType<AsteroidDroppingSingularityControl>().SpawnActivated = true;
         }
     }
 }

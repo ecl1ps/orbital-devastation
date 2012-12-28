@@ -17,12 +17,11 @@ using Orbit.Core.SpecialActions;
 
 namespace Orbit.Core.Players
 {
-    struct WindowController {
+    class WindowController {
         public ActionUC Window { get; set; }
         public ActionController<ActionUC> Controller { get; set; }
 
         public WindowController(ActionUC window, ActionController<ActionUC> controller)
-            : this()
         {
             Window = window;
             Controller = controller;
@@ -55,7 +54,7 @@ namespace Orbit.Core.Players
                 foreach (ISpecialAction action in actions)
                 {
                     controller = new ActionControllerImpl(mgr, action);
-                    window = GuiObjectFactory.CreateAndAddBuyActionWindow(mgr, ActionBar, controller);
+                    window = GuiObjectFactory.CreateAndAddActionUC(mgr, ActionBar, controller);
                     windows.Add(new WindowController(window, controller));
                 }
             }));
@@ -74,14 +73,22 @@ namespace Orbit.Core.Players
                 else
                     windowController.Window.Deactivate();
             }
-
-           
         }
 
         public void Click(int index)
         {
             if (index < windows.Count)
                 windows[index].Controller.ActionClicked(windows[index].Window);
+        }
+
+        public void SwitchAction(ISpecialAction oldAction, ISpecialAction newAction)
+        {
+            WindowController c = windows.Find(w => w.Controller.Action == oldAction);
+            c.Controller = new ActionControllerImpl(mgr, newAction);
+            c.Window.AttachNewController(c.Controller);
+
+            actions.Remove(oldAction);
+            actions.Add(newAction);
         }
     }
 

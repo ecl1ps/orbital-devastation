@@ -34,12 +34,6 @@ namespace Orbit.Core.SpecialActions
 
         public abstract bool IsReady();
 
-        public void SendActionExecuted()
-        {
-            NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-            //TODO
-        }
-
         public virtual void Update(float tpf)
         {
             if (timer > 0)

@@ -32,6 +32,5 @@ namespace Orbit.Core.SpecialActions
 
         Boolean IsOnCooldown();
 
-        void SendActionExecuted();
     }
 }

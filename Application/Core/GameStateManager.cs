@@ -38,26 +38,26 @@ namespace Orbit.Core
         /// <summary>
         /// pokud obsahuje vic states stejneho typu, tak budou odstraneny vsechny
         /// </summary>
-        public void RemoveGameState(Type type)
+        public void RemoveGameStateOfType<T>()
         {
-            foreach (IGameState state in gameStates)
+            for (int i = 0; i < gameStates.Count; ++i)
             {
-                if (type.IsAssignableFrom(state.GetType()))
-                    gameStates.Remove(state);
+                if (typeof(T).IsAssignableFrom(gameStates[i].GetType()))
+                    gameStates.RemoveAt(i);
             }
         }
 
         /// <summary>
         /// pokud obsahuje vic states stejneho typu, tak nelze zarucit, ktery bude vracen
         /// </summary>
-        public IGameState GetGameStateOfType(Type type)
+        public T GetGameStateOfType<T>()
         {
-            foreach (IGameState state in gameStates)
+            for (int i = 0; i < gameStates.Count; ++i)
             {
-                if (type.IsAssignableFrom(state.GetType()))
-                    return state;
+                if (typeof(T).IsAssignableFrom(gameStates[i].GetType()))
+                    return (T)gameStates[i];
             }
-            return null;
+            return default(T);
         }
 
         public void Clear()

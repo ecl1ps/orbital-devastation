@@ -5,6 +5,8 @@ using System.Text;
 using Orbit.Core.Weapons;
 using Orbit.Core.Client;
 using Orbit.Core.Players;
+using Orbit.Gui;
+using Orbit.Gui.ActionControllers;
 
 namespace Orbit.Core.SpecialActions.Gamer
 {
@@ -12,9 +14,10 @@ namespace Orbit.Core.SpecialActions.Gamer
     {
         private IWeapon currentWeapon;
 
-        public WeaponUpgrade(IWeapon weapon, SceneMgr mgr, Player plr) : base(mgr, plr)
+        public WeaponUpgrade(IWeapon weapon) : base(weapon.SceneMgr, weapon.Owner)
         {
             LoadWeapon(weapon);
+
             ImageSource = "pack://application:,,,/resources/images/icons/upgrade.png";
 
             Cooldown = 0;
@@ -24,15 +27,15 @@ namespace Orbit.Core.SpecialActions.Gamer
         {
             this.currentWeapon = weapon;
 
-            if (weapon == null || weapon.Next() == null)
+            if (weapon == null || weapon.NextSpecialAction() == null || !(weapon.NextSpecialAction() is WeaponUpgrade))
             {
                 Name = "Unavailable";
                 Cost = 0;
             }
             else
             {
-                Name = weapon.Next().Name;
-                Cost = weapon.Next().Cost;
+                Name = (weapon.NextSpecialAction() as WeaponUpgrade).GetWeapon().Name;
+                Cost = (weapon.NextSpecialAction() as WeaponUpgrade).GetWeapon().Cost;
             }
         }
 
@@ -42,34 +45,51 @@ namespace Orbit.Core.SpecialActions.Gamer
             {
                 base.StartAction();
                 UpgradeWeapon();
+                LoadActivableActionIfAvailable();
             }
+        }
 
+        private void LoadActivableActionIfAvailable()
+        {
+            if (currentWeapon.NextSpecialAction() == null || !(currentWeapon.NextSpecialAction() is ActiveWeapon))
+                return;
+
+            ActionBarMgr mgr = SceneMgr.StateMgr.GetGameStateOfType<ActionBarMgr>();
+            mgr.SwitchAction(this, currentWeapon.NextSpecialAction());
         }
 
         private void UpgradeWeapon()
         {
+            if (!(currentWeapon.NextSpecialAction() is WeaponUpgrade))
+                return;
+
             switch (currentWeapon.DeviceType)
             {
                 case DeviceType.CANNON:
-                    Owner.Canoon = currentWeapon.Next();
+                    Owner.Canoon = (currentWeapon.NextSpecialAction() as WeaponUpgrade).GetWeapon();
                     break;
                 case DeviceType.HOOK:
-                    Owner.Hook = currentWeapon.Next();
+                    Owner.Hook = (currentWeapon.NextSpecialAction() as WeaponUpgrade).GetWeapon();
                     break;
                 case DeviceType.MINE:
-                    Owner.Mine = currentWeapon.Next();
+                    Owner.Mine = (currentWeapon.NextSpecialAction() as WeaponUpgrade).GetWeapon();
                     break;
 
                 default:
                     throw new Exception("unknown weapon type " + currentWeapon.DeviceType.ToString());
             }
 
-            LoadWeapon(currentWeapon.Next());
+            LoadWeapon((currentWeapon.NextSpecialAction() as WeaponUpgrade).GetWeapon());
         }
 
         public override bool IsReady()
         {
-            return !IsOnCooldown() && currentWeapon.Next() != null && currentWeapon.Next().Cost <= Owner.Data.Gold;
+            return !IsOnCooldown() && currentWeapon.NextSpecialAction() != null && currentWeapon.NextSpecialAction().Cost <= Owner.Data.Gold;
+        }
+
+        public IWeapon GetWeapon()
+        {
+            return currentWeapon;
         }
     }
 }

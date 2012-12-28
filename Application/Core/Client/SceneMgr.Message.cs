@@ -23,6 +23,7 @@ using Orbit.Gui;
 using Orbit.Gui.ActionControllers;
 using Orbit.Core.SpecialActions.Spectator;
 using Orbit.Core.SpecialActions;
+using Orbit.Core.SpecialActions.Gamer;
 
 namespace Orbit.Core.Client
 {
@@ -665,16 +666,15 @@ namespace Orbit.Core.Client
             switch ((DeviceType)msg.ReadByte())
             {
                 case DeviceType.MINE:
-                    p.Mine = p.Mine.Next();
+                    p.Mine = (p.Mine.NextSpecialAction() as WeaponUpgrade).GetWeapon();
                     break;
                 case DeviceType.CANNON:
-                    p.Canoon = p.Canoon.Next();
+                    p.Canoon = (p.Canoon.NextSpecialAction() as WeaponUpgrade).GetWeapon();
                     break;
                 case DeviceType.HOOK:
-                    p.Hook = p.Hook.Next();
+                    p.Hook = (p.Hook.NextSpecialAction() as WeaponUpgrade).GetWeapon();
                     break;
                 case DeviceType.HEALING_KIT:
-                    //p.HealingKit = p.HealingKit.Next();
                     break;
             }
         }

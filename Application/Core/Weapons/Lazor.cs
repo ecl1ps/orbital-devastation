@@ -14,6 +14,7 @@ using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Controls.Implementations;
 using Lidgren.Network;
 using Orbit.Core.Client.GameStates;
+using Orbit.Core.SpecialActions;
 
 namespace Orbit.Core.Weapons
 {
@@ -53,7 +54,7 @@ namespace Orbit.Core.Weapons
             chargingTime = Owner.Data.LaserChargingTime;
         }
 
-        public IWeapon Next()
+        public ISpecialAction NextSpecialAction()
         {
             return null;
         }

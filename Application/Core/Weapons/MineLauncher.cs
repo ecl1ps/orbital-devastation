@@ -12,6 +12,8 @@ using Orbit.Core.Client;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Helpers;
 using System.Windows.Input;
+using Orbit.Core.SpecialActions;
+using Orbit.Core.SpecialActions.Gamer;
 
 namespace Orbit.Core.Weapons
 {
@@ -25,7 +27,7 @@ namespace Orbit.Core.Weapons
         public UpgradeLevel UpgradeLevel { get; set; }
         public String Name { get; set; }
 
-        protected IWeapon next = null;
+        protected ISpecialAction next = null;
 
         public MineLauncher(SceneMgr mgr, Player owner)
         {
@@ -35,10 +37,10 @@ namespace Orbit.Core.Weapons
             UpgradeLevel = UpgradeLevel.LEVEL1;
         }
 
-        public virtual IWeapon Next()
+        public virtual ISpecialAction NextSpecialAction()
         {
             if (next == null)
-                next = new TargetingMineLauncher(SceneMgr, Owner);
+                next = new WeaponUpgrade(new TargetingMineLauncher(SceneMgr, Owner));
             
             return next;
         }

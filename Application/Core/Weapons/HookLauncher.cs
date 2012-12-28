@@ -12,6 +12,8 @@ using Orbit.Core.Client;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Helpers;
 using System.Windows.Input;
+using Orbit.Core.SpecialActions;
+using Orbit.Core.SpecialActions.Gamer;
 
 namespace Orbit.Core.Weapons
 {
@@ -26,7 +28,7 @@ namespace Orbit.Core.Weapons
         public UpgradeLevel UpgradeLevel { get; set; }
 
         protected Hook hook;
-        protected IWeapon next;
+        protected ISpecialAction next;
 
         public HookLauncher(SceneMgr mgr, Player owner)
         {
@@ -46,10 +48,10 @@ namespace Orbit.Core.Weapons
             }
         }
 
-        public virtual IWeapon Next()
+        public virtual ISpecialAction NextSpecialAction()
         {
             if (next == null)
-                next = new DoubleHookLauncher(SceneMgr, Owner);
+                next = new WeaponUpgrade(new DoubleHookLauncher(SceneMgr, Owner));
 
             return next;
         }
