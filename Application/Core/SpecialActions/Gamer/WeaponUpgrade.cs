@@ -85,7 +85,7 @@ namespace Orbit.Core.SpecialActions.Gamer
 
         public override bool IsReady()
         {
-            return !IsOnCooldown() && currentWeapon.NextSpecialAction() != null && currentWeapon.NextSpecialAction().Cost <= Owner.Data.Gold;
+            return !IsOnCooldown() && currentWeapon.NextSpecialAction() != null && (currentWeapon.NextSpecialAction() as WeaponUpgrade).GetWeapon() != null && (currentWeapon.NextSpecialAction() as WeaponUpgrade).GetWeapon().Cost <= Owner.Data.Gold;
         }
 
         public IWeapon GetWeapon()
