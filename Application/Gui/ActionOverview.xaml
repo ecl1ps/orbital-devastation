@@ -8,7 +8,7 @@
 
     
     <StackPanel>
-        <Grid Height="30">
+        <Grid Height="30" Margin="5, 0, 5, 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -23,8 +23,8 @@
 
             <Ellipse Height="10" Width="10" Grid.Column="0" Grid.Row="0" Fill="#FF3A3F38"></Ellipse>
             <Ellipse Height="10" Width="10" Grid.Column="0" Grid.Row="1" Fill="DarkGoldenrod"></Ellipse>
-            <TextBlock Name="CountNormal" Grid.Column="1" Grid.Row="0" FontWeight="Bold">+1</TextBlock>
-            <TextBlock Name="CountGold" Grid.Column="1" Grid.Row="1" FontWeight="Bold">+1</TextBlock>
+            <TextBlock TextAlignment="Right" Name="CountNormal" Grid.Column="1" Grid.Row="0" FontWeight="Bold">+1</TextBlock>
+            <TextBlock TextAlignment="Right" Name="CountGold" Grid.Column="1" Grid.Row="1" FontWeight="Bold">+1</TextBlock>
             
         </Grid>
         <Canvas>

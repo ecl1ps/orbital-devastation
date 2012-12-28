@@ -30,11 +30,11 @@ namespace Orbit.Gui
         {
             InitializeComponent();
             
-            hideAnimation = new DoubleAnimation(50, 0, new Duration(TimeSpan.FromSeconds(1)));
+            hideAnimation = new DoubleAnimation(75, 0, new Duration(TimeSpan.FromSeconds(0.75)));
             hideAnimation.AutoReverse = true;
             hideAnimation.RepeatBehavior = new RepeatBehavior(0.5);
 
-            showAnimation = new DoubleAnimation(0, 50, new Duration(TimeSpan.FromSeconds(1)));
+            showAnimation = new DoubleAnimation(0, 75, new Duration(TimeSpan.FromSeconds(0.75)));
             showAnimation.AutoReverse = true;
             showAnimation.RepeatBehavior = new RepeatBehavior(0.5);
         }
@@ -89,11 +89,12 @@ namespace Orbit.Gui
 
         public void  ToggleVisibility()
         {
-            hidden = !hidden;
             if(hidden)
                 Panel.BeginAnimation(WidthProperty, showAnimation);
             else
                 Panel.BeginAnimation(WidthProperty, hideAnimation);
+
+            hidden = !hidden;
         }
 }
 }
