@@ -17,7 +17,7 @@ namespace Orbit.Core.Weapons
 {
     class AsteroidMineLauncher : TargetingMineLauncher, IActivableWeapon
     {
-        public ActivableData ActivableData { get; set; }
+        public ActivableData Data { get; set; }
 
         private SingularityMine lastMine;
 
@@ -25,7 +25,7 @@ namespace Orbit.Core.Weapons
         {
             Name = "Asteroid Carrier";
             Cost = 750;
-            ActivableData = new ActivableData("Artificial Asteroid", "asteroid-damage-icon.png", 8);
+            Data = new ActivableData("Artificial Asteroid", "asteroid-damage-icon.png", 8);
         }
 
         public override ISpecialAction NextSpecialAction()

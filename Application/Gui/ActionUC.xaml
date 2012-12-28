@@ -18,7 +18,7 @@
                 <TextBlock Name="CdTime" Canvas.Left="5" Canvas.Top="2" FontSize="16" FontWeight="Black"></TextBlock>
             </Canvas>
             
-            <Label Background="AntiqueWhite" Grid.Column="1" Width="95" HorizontalAlignment="Right" FontFamily="Andalus" Padding="0">
+            <Label Name="TextBackground" Background="AntiqueWhite" Grid.Column="1" Width="95" HorizontalAlignment="Right" FontFamily="Andalus" Padding="0">
                 <StackPanel>
                     <TextBlock Name="Header" TextAlignment="Center" TextWrapping="Wrap" Width="95" FontSize="9" HorizontalAlignment="Right" FontWeight="ExtraBlack">Double Hook Launcher</TextBlock>
                     <TextBlock Name="Price" TextAlignment="Center" TextWrapping="Wrap" Width="95" FontSize="9" HorizontalAlignment="Right">Costs 500 gold</TextBlock>

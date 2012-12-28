@@ -7,6 +7,7 @@ using Orbit.Core.Client;
 using Orbit.Core.Players;
 using Orbit.Gui;
 using Orbit.Gui.ActionControllers;
+using System.Windows.Media;
 
 namespace Orbit.Core.SpecialActions.Gamer
 {
@@ -19,7 +20,7 @@ namespace Orbit.Core.SpecialActions.Gamer
             LoadWeapon(weapon);
 
             ImageSource = "pack://application:,,,/resources/images/icons/upgrade.png";
-
+            BackgroundColor = Colors.AntiqueWhite;
             Cooldown = 0;
         }
 

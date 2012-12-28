@@ -5,6 +5,7 @@ using System.Text;
 using Orbit.Core.Players;
 using Orbit.Core.Client;
 using Lidgren.Network;
+using System.Windows.Media;
 
 namespace Orbit.Core.SpecialActions
 {
@@ -19,6 +20,7 @@ namespace Orbit.Core.SpecialActions
         private float timer = 0;
         public float RemainingCooldown { get { return timer; } set { timer = value; } }
         public float Cooldown { get; set; }
+        public Color BackgroundColor { get; set; }
 
         public SpecialAction(SceneMgr mgr, Player owner)
         {

@@ -6,6 +6,7 @@ using Orbit.Core.Weapons;
 using Orbit.Core.Client;
 using Orbit.Core.Players;
 using Orbit.Gui;
+using System.Windows.Media;
 
 namespace Orbit.Core.SpecialActions.Gamer
 {
@@ -21,6 +22,7 @@ namespace Orbit.Core.SpecialActions.Gamer
             Name = weapon.Data.Name;
             Cost = 0;
             Cooldown = weapon.Data.Cooldown;
+            BackgroundColor = Colors.PaleTurquoise;
         }
 
         public override void StartAction()

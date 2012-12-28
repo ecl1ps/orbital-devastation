@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Orbit.Core.Players;
 using Orbit.Core.Client;
+using System.Windows.Media;
 
 namespace Orbit.Core.SpecialActions
 {
@@ -25,12 +26,12 @@ namespace Orbit.Core.SpecialActions
         float Cost { get; set; }
         float Cooldown { get; set; }
         float RemainingCooldown { get; set; }
+        Color BackgroundColor { get; set; }
 
         void StartAction();
 
         Boolean IsReady();
 
         Boolean IsOnCooldown();
-
     }
 }

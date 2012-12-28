@@ -42,6 +42,9 @@ namespace Orbit.Gui
             return w;
         }
 
+        /// <summary>
+        /// thread safe
+        /// </summary>
         public void AttachNewController(ActionController<ActionUC> c)
         {
             controller = c;
@@ -50,6 +53,7 @@ namespace Orbit.Gui
                 c.CreateHeaderText(this);
                 c.CreatePriceText(this);
                 c.CreateImageUriString(this);
+                c.CreateBackgroundColor(this);
             }));
         }
 
@@ -93,6 +97,17 @@ namespace Orbit.Gui
         /// <summary>
         /// thread safe
         /// </summary>
+        public void SetBackgroundColor(Color c)
+        {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                TextBackground.Background = new SolidColorBrush(c);
+            }));
+        }
+
+        /// <summary>
+        /// thread safe
+        /// </summary>
         public void Remove()
         {
             Dispatcher.BeginInvoke(new Action(() =>
@@ -101,6 +116,9 @@ namespace Orbit.Gui
             }));
         }
 
+        /// <summary>
+        /// thread safe
+        /// </summary>
         public void SetShadeWidth(float width)
         {
             Dispatcher.BeginInvoke(new Action(() => {
@@ -108,6 +126,9 @@ namespace Orbit.Gui
             }));
         }
 
+        /// <summary>
+        /// thread safe
+        /// </summary>
         public void SetCooldownTime(float time)
         {
             Dispatcher.BeginInvoke(new Action(() =>
@@ -173,11 +194,17 @@ namespace Orbit.Gui
             }));
         }
 
+        /// <summary>
+        /// thread safe
+        /// </summary>
         public void Refresh()
         {
-            controller.CreateHeaderText(this);
-            controller.CreatePriceText(this);
-            controller.CreateImageUriString(this);
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                controller.CreateHeaderText(this);
+                controller.CreatePriceText(this);
+                controller.CreateImageUriString(this);
+            }));
         }
     }
 }

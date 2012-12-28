@@ -41,6 +41,11 @@ namespace Orbit.Gui.ActionControllers
                 window.SetImageUri(Action.ImageSource);
         }
 
+        public override void CreateBackgroundColor(ActionUC window)
+        {
+            window.SetBackgroundColor(Action.BackgroundColor);
+        }
+
         public override void Update(ActionUC window, float tpf)
         {
             float time = 0;

@@ -38,6 +38,8 @@ namespace Orbit.Gui.ActionControllers
 
         public abstract void CreateImageUriString(T window);
 
+        public abstract void CreateBackgroundColor(T window);
+
         public abstract void Update(T window, float tpf);
     }
 }

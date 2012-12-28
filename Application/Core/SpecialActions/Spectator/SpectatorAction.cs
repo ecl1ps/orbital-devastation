@@ -6,6 +6,7 @@ using Orbit.Core.Client;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Client.GameStates;
+using System.Windows.Media;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
@@ -28,6 +29,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             : base(mgr, owner)
         {
             this.control = owner.Device.GetControlOfType<MiningModuleControl>();
+            BackgroundColor = Colors.Bisque;
         }
 
         public float Percentage
