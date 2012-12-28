@@ -13,12 +13,24 @@ namespace Orbit.Core.Weapons
 {
     public interface IActivableWeapon : IWeapon
     {
-        string ActivableName { get; set; }
-
-        string ActivableIcon { get; set; }
+        ActivableData Data { get; set; }
 
         bool IsActivableReady();
 
         void StartActivableAction();
+    }
+
+    public class ActivableData
+    {
+        public string Name { get; set; }
+        public string Icon { get; set; }
+        public int Cooldown { get; set; }
+
+        public ActivableData(string name, string icon, int cd)
+        {
+            Name = name;
+            Icon = icon;
+            Cooldown = cd;
+        }
     }
 }

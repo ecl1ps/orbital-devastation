@@ -17,10 +17,10 @@ namespace Orbit.Core.SpecialActions.Gamer
             : base(weapon.SceneMgr, weapon.Owner)
         {
             this.weapon = weapon;
-            ImageSource = "pack://application:,,,/resources/images/icons/" + weapon.ActivableIcon;
-            Name = weapon.ActivableName;
+            ImageSource = "pack://application:,,,/resources/images/icons/" + weapon.Data.Icon;
+            Name = weapon.Data.Name;
             Cost = 0;
-            Cooldown = 5;
+            Cooldown = weapon.Data.Cooldown;
         }
 
         public override void StartAction()

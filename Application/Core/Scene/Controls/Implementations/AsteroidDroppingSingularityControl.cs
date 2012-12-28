@@ -15,9 +15,16 @@ namespace Orbit.Core.Scene.Controls.Implementations
     class AsteroidDroppingSingularityControl : DroppingSingularityControl
     {
         private IList<long> collided = new List<long>();
-        private bool detonated = false;
 
+        public bool Detonated { get; set; }
         public bool SpawnActivated { get; set; }
+
+        public AsteroidDroppingSingularityControl()
+            : base()
+        {
+            Detonated = false;
+            SpawnActivated = false;
+        }
 
         public override void DoCollideWith(ISceneObject other, float tpf)
         {
@@ -36,13 +43,14 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         public override void StartDetonation()
         {
-            if (detonated || GetDistToExplosionPct() > 0)
+            if (Detonated || GetDistToExplosionPct() > 0)
                 return;
 
             if ((me as SingularityMine).Owner.IsCurrentPlayer() && SpawnActivated)
                 SpawnAsteroid();
 
             base.StartDetonation();
+            Detonated = true;
         }
 
         private void SpawnAsteroid()
@@ -65,7 +73,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
             me.SceneMgr.DelayedAttachToScene(ast);
 
             collided.Add(ast.Id);
-            detonated = true;
 
             ast.AddControl(new StickySphereCollisionShapeControl());
 
