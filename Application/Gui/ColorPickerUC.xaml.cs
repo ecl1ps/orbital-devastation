@@ -54,9 +54,10 @@ namespace Orbit.Gui
 
         private void Close()
         {
-            (Parent as Panel).Children.Remove(this);
             if (fromEsc)
-                (Application.Current.MainWindow as GameWindow).mainGrid.Children.Add(new PlayerSettings());
+                (Application.Current as App).AddMenu(new PlayerSettings());
+            else
+                (Application.Current as App).ClearMenus();
         }
 
         private void btncancel_Click(object sender, RoutedEventArgs e)

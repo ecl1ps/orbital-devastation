@@ -50,13 +50,12 @@ namespace Orbit.Gui
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current.MainWindow as GameWindow).ShowOptions(this);
+            (Application.Current.MainWindow as GameWindow).ShowOptionsMenu();
         }
 
         private void colorPicker_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            (Parent as Panel).Children.Remove(this);
-            (Application.Current.MainWindow as GameWindow).mainGrid.Children.Add(new ColorPickerUC(true));
+            (Application.Current as App).AddMenu(new ColorPickerUC(true));
         }
     }
 }

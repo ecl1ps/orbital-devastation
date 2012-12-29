@@ -23,7 +23,7 @@ namespace Orbit.Gui
         public MainUC()
         {
             InitializeComponent();
-#if (DEBUG == false)
+#if !DEBUG
             spMenu.Children.Remove(btnConnectToLocalhost);
 #endif
         }
@@ -72,11 +72,7 @@ namespace Orbit.Gui
 
         private void btnShowOptions_Click(object sender, RoutedEventArgs e)
         {
-            UIElementCollection els = (Application.Current.MainWindow as GameWindow).mainGrid.Children;
-            for (int i = 0; i < els.Count; ++i)
-                if (!(els[i] is MainUC))
-                    (Application.Current.MainWindow as GameWindow).mainGrid.Children.RemoveAt(i);
-            (Application.Current.MainWindow as GameWindow).mainGrid.Children.Add(new OptionsMenu());
+            (Application.Current as App).AddMenu(new OptionsMenu());
         }
     }
 }

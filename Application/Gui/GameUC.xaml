@@ -20,7 +20,7 @@
             <Border Width="30" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" BorderThickness="2" CornerRadius="1" BorderBrush="#FF414141" Background="#FFE5E5E5" MouseDown="settings_MouseDown">
                 <Image Source="pack://application:,,,/resources/images/icons/settings.png" Height="24" />
             </Border>
-            <Border Width="30" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" BorderThickness="2" CornerRadius="1" BorderBrush="#FF414141" Background="#FFE5E5E5" MouseDown="overvie_MouseDown" Margin="30,0,0,0">
+            <Border Width="30" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" BorderThickness="2" CornerRadius="1" BorderBrush="#FF414141" Background="#FFE5E5E5" MouseDown="overview_MouseDown" Margin="30,0,0,0">
                 <Image Source="pack://application:,,,/resources/images/icons/statistics.png" Height="24" />
             </Border>            
             <StatusBar Height="30" Name="statusBar1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Padding="0" Margin="60,0,0,0" >

@@ -28,6 +28,7 @@ namespace Orbit.Gui
             {
                 btnMainMenu.Content = "Exit Match";
             }
+
             if (LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "mainUC") != null)
             {
                 btnExit.Margin = btnMainMenu.Margin;
@@ -42,7 +43,7 @@ namespace Orbit.Gui
 
         private void btnMainMenu_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current.MainWindow as GameWindow).mainGrid.Children.Remove(this);
+            (Application.Current as App).ClearMenus();
 
             DependencyObject lobby = LogicalTreeHelper.FindLogicalNode((Application.Current.MainWindow as GameWindow).mainGrid, "lobbyWindow");
             if ((Application.Current.MainWindow as GameWindow).GameRunning || lobby != null)
@@ -60,12 +61,12 @@ namespace Orbit.Gui
 
         private void btnOptions_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current.MainWindow as GameWindow).ShowOptions(this);
+            (Application.Current.MainWindow as GameWindow).ShowOptionsMenu();
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            (Parent as Panel).Children.Remove(this);
+            (Application.Current as App).ClearMenus();
             if ((Application.Current.MainWindow as GameWindow).GameRunning)
                 StaticMouse.Enable(true);
         }

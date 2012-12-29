@@ -61,29 +61,29 @@ namespace Orbit.Gui
             UIElement esc = LogicalTreeHelper.FindLogicalNode(wnd.mainGrid, "escMenu") as UIElement;
             if (esc != null)
             {
-                wnd.mainGrid.Children.Remove(esc);
+                wnd.ClearMenus();
                 if (wnd.GameRunning)
                     StaticMouse.Enable(true);
             }
             else
             {
-                wnd.mainGrid.Children.Add(new EscMenu());
+                wnd.AddMenu(new EscMenu());
                 if (wnd.GameRunning)
                     StaticMouse.Enable(false);
             }
         }
 
-        private void overvie_MouseDown(object sender, MouseButtonEventArgs e)
+        private void overview_MouseDown(object sender, MouseButtonEventArgs e)
         {
             GameOverviewUC go = LogicalTreeHelper.FindLogicalNode((Application.Current.MainWindow as GameWindow).mainGrid, "gameOverview") as GameOverviewUC;
             if (go != null)
-                (Application.Current.MainWindow as GameWindow).mainGrid.Children.Remove(go);
+                (Application.Current as App).ClearMenus();
             else
             {
                 (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
                 {
                     (Application.Current as App).GetSceneMgr().ShowPlayerOverview();
-                })); 
+                }));
             }
         }
     }

@@ -127,68 +127,65 @@ namespace Orbit.Gui
             {
                 case Key.Escape:
                     UIElement uc;
-                    if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "botSelection") as UIElement) != null)
+                    if ((uc = LogicalTreeHelper.FindLogicalNode(menuGrid, "botSelection") as UIElement) != null)
                     {
-                        mainGrid.Children.Remove(uc);
+                        ClearMenus();
                         if (GameRunning)
                             StaticMouse.Enable(true);
                     }
-                    else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "colorPicker") as UIElement) != null)
+                    else if ((uc = LogicalTreeHelper.FindLogicalNode(menuGrid, "colorPicker") as UIElement) != null)
                     {
-                        mainGrid.Children.Remove(uc);
-                        mainGrid.Children.Add(new PlayerSettings());
+                        AddMenu(new PlayerSettings());
                     }
-                    else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "mouseMenu") as UIElement) != null)
+                    else if ((uc = LogicalTreeHelper.FindLogicalNode(menuGrid, "mouseMenu") as UIElement) != null)
                     {
-                        ShowOptions(uc);
+                        ShowOptionsMenu();
                     }
-                    else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "soundMenu") as UIElement) != null)
+                    else if ((uc = LogicalTreeHelper.FindLogicalNode(menuGrid, "soundMenu") as UIElement) != null)
                     {
-                        ShowOptions(uc);
+                        ShowOptionsMenu();
                     }
-                    else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "playerSettings") as UIElement) != null)
+                    else if ((uc = LogicalTreeHelper.FindLogicalNode(menuGrid, "playerSettings") as UIElement) != null)
                     {
-                        ShowOptions(uc);
+                        ShowOptionsMenu();
                     }
-                    else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "keyBindingsMenu") as UIElement) != null)
+                    else if ((uc = LogicalTreeHelper.FindLogicalNode(menuGrid, "keyBindingsMenu") as UIElement) != null)
                     {
-                        ShowOptions(uc);
+                        ShowOptionsMenu();
                     }
-                    else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "optionsMenu") as UIElement) != null)
+                    else if ((uc = LogicalTreeHelper.FindLogicalNode(menuGrid, "optionsMenu") as UIElement) != null)
                     {
-                        mainGrid.Children.Remove(uc);
-                        mainGrid.Children.Add(new EscMenu());
+                        AddMenu(new EscMenu());
                         if (GameRunning)
                             StaticMouse.Enable(false);
                     } 
-                    else if ((uc = LogicalTreeHelper.FindLogicalNode(mainGrid, "escMenu") as UIElement) != null)
+                    else if ((uc = LogicalTreeHelper.FindLogicalNode(menuGrid, "escMenu") as UIElement) != null)
                     {
-                        mainGrid.Children.Remove(uc);
+                        ClearMenus();
                         if (GameRunning)
                             StaticMouse.Enable(true);
-                    } else {
-                        mainGrid.Children.Add(new EscMenu());
+                    } 
+                    else if (menuGrid.Children.Count == 0) {
+                        AddMenu(new EscMenu());
                         if (GameRunning)
                             StaticMouse.Enable(false);
                     }
+                    else
+                    {
+                        ClearMenus();
+                    }
                     break;
                 case Key.Tab:
-                    if (tabDown)
-                        return;
                     tabDown = true;
-                    GameOverviewUC go = LogicalTreeHelper.FindLogicalNode(mainGrid, "gameOverview") as GameOverviewUC;
-                    if (go != null)
-                        mainGrid.Children.Remove(go);
                     break;
             }
 
             (Application.Current as App).OnKeyEvent(e);
         }
 
-        internal void ShowOptions(UIElement elem)
+        public void ShowOptionsMenu()
         {
-            mainGrid.Children.Remove(elem);
-            mainGrid.Children.Add(new OptionsMenu());
+            AddMenu(new OptionsMenu());
             if (GameRunning)
                 StaticMouse.Enable(false);
         }
@@ -202,13 +199,27 @@ namespace Orbit.Gui
                         return;
 
                     tabDown = false;
-                    GameOverviewUC go = LogicalTreeHelper.FindLogicalNode(mainGrid, "gameOverview") as GameOverviewUC;
+                    GameOverviewUC go = LogicalTreeHelper.FindLogicalNode(menuGrid, "gameOverview") as GameOverviewUC;
                     if (go != null)
-                        mainGrid.Children.Remove(go);
+                        menuGrid.Children.Remove(go);
                     break;
             }
 
             (Application.Current as App).OnKeyEvent(e);
         }
+
+        public void ClearMenus()
+        {
+            menuGrid.Children.Clear();
+        }
+
+        public void AddMenu(UserControl menu, bool removeOldMenus = true)
+        {
+            if (removeOldMenus)
+                ClearMenus();
+
+            menuGrid.Children.Add(menu);
+        }
+
     }
 }

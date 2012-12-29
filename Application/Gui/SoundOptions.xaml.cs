@@ -82,7 +82,7 @@ namespace Orbit.Gui
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current.MainWindow as GameWindow).ShowOptions(this);
+            (Application.Current.MainWindow as GameWindow).ShowOptionsMenu();
         }
     }
 }
