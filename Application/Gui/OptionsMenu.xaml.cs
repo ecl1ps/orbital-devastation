@@ -29,27 +29,27 @@ namespace Orbit.Gui
 
         private void btnPlayer_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).AddMenu(new PlayerSettings());
+            App.Instance.AddMenu(new PlayerSettings());
         }
 
         private void btnMouse_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).AddMenu(new MouseOptions());
+            App.Instance.AddMenu(new MouseOptions());
         }
 
         private void btnSound_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).AddMenu(new SoundOptions());
+            App.Instance.AddMenu(new SoundOptions());
         }
 
         private void btnKeys_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).AddMenu(new KeyBindingsOptions());
+            App.Instance.AddMenu(new KeyBindingsOptions());
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).AddMenu(new EscMenu());
+            App.Instance.AddMenu(new EscMenu());
         }
     }
 }

@@ -73,7 +73,7 @@ namespace Orbit.Core.Server
                         // jmeno serveru
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            response.Write("Server hosted by " + (Application.Current as App).PlayerName);
+                            response.Write("Server hosted by " + App.Instance.PlayerName);
                         }));
                         
                         server.SendDiscoveryResponse(response, msg.SenderEndpoint);

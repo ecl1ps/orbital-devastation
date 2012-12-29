@@ -33,8 +33,8 @@ namespace Orbit.Gui
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).ShowStartScreen();
-            (Application.Current as App).GameEnded();
+            App.Instance.ShowStartScreen();
+            App.Instance.GameEnded();
         }
     }
 }

@@ -95,8 +95,8 @@ namespace Orbit.Core.Client
 
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-                currentPlayer.Data.Name = (Application.Current as App).PlayerName;
-                currentPlayer.Data.HashId = (Application.Current as App).PlayerHashId;
+                currentPlayer.Data.Name = App.Instance.PlayerName;
+                currentPlayer.Data.HashId = App.Instance.PlayerHashId;
             }));
 
             if (gameType != Gametype.TOURNAMENT_GAME)
@@ -511,7 +511,7 @@ namespace Orbit.Core.Client
             if (Application.Current != null)
                 Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
-                    (Application.Current as App).SetGameStarted(false);
+                    App.Instance.SetGameStarted(false);
                 }));
 
             if (endType == GameEnd.WIN_GAME)
@@ -625,7 +625,7 @@ namespace Orbit.Core.Client
 
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                (Application.Current as App).CreateScoreboardGui(winnerData, data);
+                App.Instance.CreateScoreboardGui(winnerData, data);
             }));
         }
 
@@ -652,7 +652,7 @@ namespace Orbit.Core.Client
 
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-                (Application.Current as App).CreateLobbyGui(currentPlayer.Data.LobbyLeader, true);
+                App.Instance.CreateLobbyGui(currentPlayer.Data.LobbyLeader, true);
             }));
 
             SendPlayerDataRequestMessage();
@@ -669,7 +669,7 @@ namespace Orbit.Core.Client
         {
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                (Application.Current as App).GameEnded();
+                App.Instance.GameEnded();
             }));
         }
 
@@ -892,7 +892,7 @@ namespace Orbit.Core.Client
 
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                (Application.Current as App).ShowGameOverview(data);
+                App.Instance.ShowGameOverview(data);
             }));
         }
     }

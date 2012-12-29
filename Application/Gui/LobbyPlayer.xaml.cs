@@ -48,7 +48,7 @@ namespace Orbit.Gui
         private void ColorPick(object sender, MouseButtonEventArgs e)
         {
             //TODO: zobrazit jen pokud hrac klikne na svou barvu - jinak to evokuje pocit, ze muze upravit barvu ostatnich hracu...
-            (Application.Current as App).AddMenu(new ColorPickerUC());
+            App.Instance.AddMenu(new ColorPickerUC());
         }
     }
 

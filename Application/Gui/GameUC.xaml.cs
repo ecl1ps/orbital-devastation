@@ -30,9 +30,9 @@ namespace Orbit.Gui
         {
             Point p = e.GetPosition(mainCanvas);
 
-            (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
+            App.Instance.GetSceneMgr().Enqueue(new Action(() =>
             {
-                (Application.Current as App).GetSceneMgr().OnCanvasClick(p, e);
+                App.Instance.GetSceneMgr().OnCanvasClick(p, e);
             }));
         }
 
@@ -49,40 +49,39 @@ namespace Orbit.Gui
                 return;
 
             Point p = e.GetPosition(mainCanvas);
-            (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
+            App.Instance.GetSceneMgr().Enqueue(new Action(() =>
             {
-                (Application.Current as App).GetSceneMgr().OnCanvasMouseMove(p);
+                App.Instance.GetSceneMgr().OnCanvasMouseMove(p);
             }));
         }
 
         private void settings_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            GameWindow wnd = Application.Current.MainWindow as GameWindow;
-            UIElement esc = LogicalTreeHelper.FindLogicalNode(wnd.mainGrid, "escMenu") as UIElement;
+            UIElement esc = LogicalTreeHelper.FindLogicalNode(App.WindowInstance.mainGrid, "escMenu") as UIElement;
             if (esc != null)
             {
-                wnd.ClearMenus();
-                if (wnd.GameRunning)
+                App.WindowInstance.ClearMenus();
+                if (App.WindowInstance.GameRunning)
                     StaticMouse.Enable(true);
             }
             else
             {
-                wnd.AddMenu(new EscMenu());
-                if (wnd.GameRunning)
+                App.WindowInstance.AddMenu(new EscMenu());
+                if (App.WindowInstance.GameRunning)
                     StaticMouse.Enable(false);
             }
         }
 
         private void overview_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            GameOverviewUC go = LogicalTreeHelper.FindLogicalNode((Application.Current.MainWindow as GameWindow).mainGrid, "gameOverview") as GameOverviewUC;
+            GameOverviewUC go = LogicalTreeHelper.FindLogicalNode(App.WindowInstance.mainGrid, "gameOverview") as GameOverviewUC;
             if (go != null)
-                (Application.Current as App).ClearMenus();
+                App.Instance.ClearMenus();
             else
             {
-                (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
+                App.Instance.GetSceneMgr().Enqueue(new Action(() =>
                 {
-                    (Application.Current as App).GetSceneMgr().ShowPlayerOverview();
+                    App.Instance.GetSceneMgr().ShowPlayerOverview();
                 }));
             }
         }

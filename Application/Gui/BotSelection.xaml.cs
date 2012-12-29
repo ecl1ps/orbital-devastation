@@ -66,7 +66,7 @@ namespace Orbit.Gui
 
         private void StartGame(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).CreateGameGui();
+            App.Instance.CreateGameGui();
 
             TournamentSettings s = new TournamentSettings();
             s.MMType = MatchManagerType.SKIRMISH;
@@ -75,7 +75,7 @@ namespace Orbit.Gui
             s.BotCount = 1;
             s.BotType = type;
 
-            (Application.Current as App).StartSoloGame(s);
+            App.Instance.StartSoloGame(s);
         }
     }
 }

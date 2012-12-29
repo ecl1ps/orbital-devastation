@@ -50,6 +50,13 @@ namespace Orbit
                 return Application.Current as App;
             }
         }
+        public static GameWindow WindowInstance
+        {
+            get
+            {
+                return Application.Current.MainWindow as GameWindow;
+            }
+        }
 
         [STAThread]
         public static void Main(string[] args)

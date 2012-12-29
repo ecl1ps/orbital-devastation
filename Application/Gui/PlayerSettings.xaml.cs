@@ -26,7 +26,7 @@ namespace Orbit.Gui
         public PlayerSettings()
         {
             InitializeComponent();
-            tbPlayerName.Text = (Application.Current as App).PlayerName;
+            tbPlayerName.Text = App.Instance.PlayerName;
             colorPickerField.Background = new SolidColorBrush(Player.GetChosenColor());
         }
 
@@ -38,24 +38,24 @@ namespace Orbit.Gui
                 return;
             }
 
-            (Application.Current as App).PlayerName = tbPlayerName.Text;
-            (Application.Current as App).PlayerHashId = Player.GenerateNewHashId(tbPlayerName.Text);
+            App.Instance.PlayerName = tbPlayerName.Text;
+            App.Instance.PlayerHashId = Player.GenerateNewHashId(tbPlayerName.Text);
             GameProperties.Props.Set(PropertyKey.PLAYER_NAME, tbPlayerName.Text);
 #if DEBUG            
             GameProperties.Props.Set(PropertyKey.AVAILABLE_COLORS, ((int)PlayerColorSet.END - 1).ToString());
             PlayerColorManager.RefreshPlayerColors();
 #endif
-            GameProperties.Props.SetAndSave(PropertyKey.PLAYER_HASH_ID, (Application.Current as App).PlayerHashId);
+            GameProperties.Props.SetAndSave(PropertyKey.PLAYER_HASH_ID, App.Instance.PlayerHashId);
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current.MainWindow as GameWindow).ShowOptionsMenu();
+            App.WindowInstance.ShowOptionsMenu();
         }
 
         private void colorPicker_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            (Application.Current as App).AddMenu(new ColorPickerUC(true));
+            App.Instance.AddMenu(new ColorPickerUC(true));
         }
     }
 }

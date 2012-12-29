@@ -117,7 +117,7 @@ namespace Orbit.Gui
 
         private void OnClose(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            (Application.Current as App).ShutdownSceneMgr();
+            App.Instance.ShutdownSceneMgr();
             Application.Current.Shutdown();
         }
 
@@ -180,7 +180,7 @@ namespace Orbit.Gui
                     break;
             }
 
-            (Application.Current as App).OnKeyEvent(e);
+            App.Instance.OnKeyEvent(e);
         }
 
         public void ShowOptionsMenu()
@@ -205,7 +205,7 @@ namespace Orbit.Gui
                     break;
             }
 
-            (Application.Current as App).OnKeyEvent(e);
+            App.Instance.OnKeyEvent(e);
         }
 
         public void ClearMenus()

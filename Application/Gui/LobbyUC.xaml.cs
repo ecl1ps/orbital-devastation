@@ -150,15 +150,15 @@ namespace Orbit.Gui
         {
             if (tbMessage.Text == "")
                 return;
-            (Application.Current as App).SendChatMessage(tbMessage.Text);
-            lvChat.Items.Add((Application.Current as App).PlayerName + ": " + tbMessage.Text);
+            App.Instance.SendChatMessage(tbMessage.Text);
+            lvChat.Items.Add(App.Instance.PlayerName + ": " + tbMessage.Text);
             lvChat.ScrollIntoView(lvChat.Items[lvChat.Items.Count - 1]);
             tbMessage.Text = "";
         }
 
         private void btnStartGame_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).StartTournamentGame();
+            App.Instance.StartTournamentGame();
 #if !DEBUG
             btnStartGame.IsEnabled = false;
 #endif
@@ -168,7 +168,7 @@ namespace Orbit.Gui
         {
             ready = true;
             btnReady.IsEnabled = false;
-            (Application.Current as App).PlayerReady();
+            App.Instance.PlayerReady();
         }
 
         public void AllReady(bool ready = true)
@@ -181,9 +181,9 @@ namespace Orbit.Gui
         {
 #if !DEBUG
             if (leader)
-                (Application.Current as App).PlayerReady();
+                App.Instance.PlayerReady();
 #else
-            (Application.Current as App).PlayerReady();
+            App.Instance.PlayerReady();
 #endif
             tbMessage.Focus();
         }
@@ -245,11 +245,11 @@ namespace Orbit.Gui
 
         private void btnLeave_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
+            App.Instance.GetSceneMgr().Enqueue(new Action(() =>
             {
-                (Application.Current as App).GetSceneMgr().PlayerQuitGame();
+                App.Instance.GetSceneMgr().PlayerQuitGame();
             }));
-            (Application.Current as App).ShutdownServerIfExists();
+            App.Instance.ShutdownServerIfExists();
         }
 
         private void btnSendMessage_Click(object sender, RoutedEventArgs e)
@@ -259,10 +259,10 @@ namespace Orbit.Gui
 
         private void btnColor_Click(object sender, RoutedEventArgs e)
         {
-            Grid main = (Application.Current.MainWindow as GameWindow).mainGrid;
+            Grid main = App.WindowInstance.mainGrid;
             ColorPickerUC cp = LogicalTreeHelper.FindLogicalNode(main, "colorPicker") as ColorPickerUC;
             if (cp == null)
-                (Application.Current.MainWindow as GameWindow).mainGrid.Children.Add(new ColorPickerUC());
+                App.WindowInstance.mainGrid.Children.Add(new ColorPickerUC());
         }
 
         private void btnSettings_Click(object sender, RoutedEventArgs e)
@@ -298,9 +298,9 @@ namespace Orbit.Gui
             s.BotType = (BotType)cbBot.SelectedValue;
 #endif
 
-            (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
+            App.Instance.GetSceneMgr().Enqueue(new Action(() =>
             {
-                (Application.Current as App).GetSceneMgr().ProcessNewTournamentSettings(s);
+                App.Instance.GetSceneMgr().ProcessNewTournamentSettings(s);
             }));
         }
 
