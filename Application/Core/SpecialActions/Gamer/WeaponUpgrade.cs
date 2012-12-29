@@ -11,7 +11,7 @@ using System.Windows.Media;
 
 namespace Orbit.Core.SpecialActions.Gamer
 {
-    class WeaponUpgrade : SpecialAction
+    class WeaponUpgrade : SpecialAction, IPlayerAction
     {
         private IWeapon currentWeapon;
 

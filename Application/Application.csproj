@@ -248,6 +248,7 @@
     <Compile Include="Core\SpecialActions\Gamer\ActiveWeapon.cs" />
     <Compile Include="Core\SpecialActions\Gamer\HealAction.cs" />
     <Compile Include="Core\SpecialActions\Gamer\WeaponUpgrade.cs" />
+    <Compile Include="Core\SpecialActions\Gamer\IPlayerAction.cs" />
     <Compile Include="Core\SpecialActions\Spectator\AsteroidDamage.cs" />
     <Compile Include="Core\SpecialActions\Spectator\AsteroidGrowth.cs" />
     <Compile Include="Core\SpecialActions\Spectator\AsteroidThrow.cs" />

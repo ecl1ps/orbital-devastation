@@ -10,7 +10,7 @@ using System.Windows.Media;
 
 namespace Orbit.Core.SpecialActions.Gamer
 {
-    public class ActiveWeapon : SpecialAction
+    public class ActiveWeapon : SpecialAction, IPlayerAction
     {
         private IActivableWeapon weapon;
 

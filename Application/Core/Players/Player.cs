@@ -76,6 +76,8 @@ namespace Orbit.Core.Players
         private int lastScoreValue = 0;
         private int lastGoldValue = 0;
 
+        private List<ISpecialAction> actions = null;
+
         public Player(SceneMgr mgr)
         {
             SceneMgr = mgr;
@@ -269,35 +271,62 @@ namespace Orbit.Core.Players
             return GetId() == SceneMgr.GetCurrentPlayer().GetId() || Data.PlayerType == PlayerType.BOT;
         }
 
-        public List<ISpecialAction> GeneratePlayerActions(SceneMgr mgr, bool isSpecatator = false)
+        public List<ISpecialAction> GetActions<T>(SceneMgr mgr)
         {
+            if (actions == null)
+                InitActions(mgr);
 
-            List<ISpecialAction> actions = new List<ISpecialAction>();
-            if (!isSpecatator)
+            List<ISpecialAction> temp = new List<ISpecialAction>();
+            foreach (ISpecialAction action in actions)
             {
-                actions.Add(new HealAction(HealingKit, mgr, this));
-                actions.Add(new WeaponUpgrade(Hook));
-                actions.Add(new WeaponUpgrade(Mine));
-                actions.Add(new WeaponUpgrade(Canoon));
+                if (typeof(T).IsAssignableFrom(action.GetType()))
+                    temp.Add((ISpecialAction) action);
             }
+
+            return temp;
+        }
+
+        public List<T> GetActionsTyped<T>(SceneMgr mgr)
+        {
+            if (actions == null)
+                InitActions(mgr);
+
+            List<T> temp = new List<T>();
+            foreach (ISpecialAction action in actions)
+            {
+                if (typeof(T).IsAssignableFrom(action.GetType()))
+                    temp.Add((T)action);
+            }
+
+            return temp;
+        }
+
+        private void InitActions(SceneMgr mgr)
+        {
+            if (IsActivePlayer())
+                actions = GeneratePlayerActions(mgr);
             else
-            {
-                actions.Add(new AsteroidThrow(mgr, this));
-                actions.Add(new AsteroidDamage(mgr, this));
-                actions.Add(new AsteroidGrowth(mgr, this));
-                //actions.Add(new Shielding(Device, mgr, this));
+                actions = GenerateSpectatorActions(mgr);
+        }
 
-            }
+        private List<ISpecialAction> GeneratePlayerActions(SceneMgr mgr)
+        {
+            actions = new List<ISpecialAction>();
+            actions.Add(new HealAction(HealingKit, mgr, this));
+            actions.Add(new WeaponUpgrade(Hook));
+            actions.Add(new WeaponUpgrade(Mine));
+            actions.Add(new WeaponUpgrade(Canoon));
+
             return actions;
         }
 
-        public List<ISpectatorAction> GenerateSpectatorActions(SceneMgr mgr)
+        private List<ISpecialAction> GenerateSpectatorActions(SceneMgr mgr)
         {
-            List<ISpectatorAction> actions = new List<ISpectatorAction>();
+            actions = new List<ISpecialAction>();
+
             actions.Add(new AsteroidThrow(mgr, this));
             actions.Add(new AsteroidDamage(mgr, this));
             actions.Add(new AsteroidGrowth(mgr, this));
-            //actions.Add(new Shielding(Device, mgr, this));
 
             return actions;
         }
