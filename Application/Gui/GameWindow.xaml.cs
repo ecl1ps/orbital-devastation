@@ -211,12 +211,17 @@ namespace Orbit.Gui
         public void ClearMenus()
         {
             menuGrid.Children.Clear();
+            mainGrid.IsHitTestVisible = true;
         }
 
         public void AddMenu(UserControl menu, bool removeOldMenus = true)
         {
             if (removeOldMenus)
                 ClearMenus();
+
+            // ve hre nevypinat testovani hitu, jinak prestanou fungovat menu bary
+            if (!(App.Instance.IsGameStarted()))
+                mainGrid.IsHitTestVisible = false;
 
             menuGrid.Children.Add(menu);
         }

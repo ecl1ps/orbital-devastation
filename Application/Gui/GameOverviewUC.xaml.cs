@@ -28,5 +28,10 @@ namespace Orbit.Gui
             foreach (PlayerOverviewData d in sortedData)
                 spPlayers.Children.Add(new PlayerOverview(d));
         }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            App.Instance.ClearMenus();
+        }
     }
 }

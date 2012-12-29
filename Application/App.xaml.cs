@@ -351,7 +351,6 @@ namespace Orbit
 
         public void CreateScoreboardGui(LobbyPlayerData winnerData, List<LobbyPlayerData> data)
         {
-            ClearMenus();
             AddWindow(new ScoreboardUC(winnerData, data));
         }
 
@@ -398,11 +397,10 @@ namespace Orbit
             mainWindow.mainGrid.Children.Clear();
         }
 
-        public void AddWindow(UserControl window, bool removeOldWindow = true)
+        public void AddWindow(UserControl window)
         {
-            if (removeOldWindow)
-                ClearWindows();
-
+            ClearMenus();
+            ClearWindows();
             mainWindow.mainGrid.Children.Add(window);
         }           
     }
