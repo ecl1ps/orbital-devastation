@@ -10,5 +10,7 @@ namespace Orbit.Core.Scene.Controls
         void OnControlDestroy();
 
         void AddControlDestroyAction(Action a);
+
+        void Destroy();
     }
 }

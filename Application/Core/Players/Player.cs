@@ -284,6 +284,7 @@ namespace Orbit.Core.Players
             {
                 actions.Add(new AsteroidThrow(mgr, this));
                 actions.Add(new AsteroidDamage(mgr, this));
+                actions.Add(new AsteroidGrowth(mgr, this));
                 //actions.Add(new Shielding(Device, mgr, this));
 
             }
@@ -295,6 +296,7 @@ namespace Orbit.Core.Players
             List<ISpectatorAction> actions = new List<ISpectatorAction>();
             actions.Add(new AsteroidThrow(mgr, this));
             actions.Add(new AsteroidDamage(mgr, this));
+            actions.Add(new AsteroidGrowth(mgr, this));
             //actions.Add(new Shielding(Device, mgr, this));
 
             return actions;
