@@ -75,17 +75,16 @@ namespace Orbit.Gui
 
         private void overvie_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
-            {
-                (Application.Current as App).GetSceneMgr().ShowPlayerOverview();
-            })); 
-        }
-
-        private void overvie_MouseUp(object sender, MouseButtonEventArgs e)
-        {
             GameOverviewUC go = LogicalTreeHelper.FindLogicalNode((Application.Current.MainWindow as GameWindow).mainGrid, "gameOverview") as GameOverviewUC;
             if (go != null)
                 (Application.Current.MainWindow as GameWindow).mainGrid.Children.Remove(go);
+            else
+            {
+                (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
+                {
+                    (Application.Current as App).GetSceneMgr().ShowPlayerOverview();
+                })); 
+            }
         }
     }
 }
