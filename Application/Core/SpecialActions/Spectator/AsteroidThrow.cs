@@ -15,8 +15,8 @@ namespace Orbit.Core.SpecialActions.Spectator
 {
     public class AsteroidThrow : SpectatorAction
     {
-        public AsteroidThrow(SceneMgr mgr, Players.Player owner)
-            : base(mgr, owner)
+        public AsteroidThrow(SceneMgr mgr, Players.Player owner, params ISpectatorAction[] actions)
+            : base(mgr, owner, actions)
         {
             Name = "Asteroid throw";
             ImageSource = "pack://application:,,,/resources/images/icons/asteroid-throw-icon.png";
@@ -41,7 +41,7 @@ namespace Orbit.Core.SpecialActions.Spectator
 
             int count = 0;
 
-            foreach (MiningObject afflicted in control.currentlyMining)
+            foreach (MiningObject afflicted in lockedObjects)
             {
                 if (afflicted.Obj is Asteroid)
                 {

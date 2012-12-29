@@ -13,16 +13,15 @@ namespace Orbit.Core.SpecialActions.Spectator
 {
     class AsteroidDamage : SpectatorAction
     {
-        public AsteroidDamage(SceneMgr mgr, Players.Player owner)
-            : base(mgr, owner)
+        public AsteroidDamage(SceneMgr mgr, Players.Player owner, params ISpectatorAction[] actions)
+            : base(mgr, owner, actions)
         {
             Name = "Asteroid damage";
             Type = SpecialActionType.ASTEROID_DAMAGE;
             ImageSource = "pack://application:,,,/resources/images/icons/asteroid-damage-icon.png";
-            this.control = control;
             
             //nastavime parametry
-            this.Cooldown = 2; //sekundy
+            this.Cooldown = 3; //sekundy
             this.Normal = new RangeGroup(AsteroidType.NORMAL, new Range(2));
             this.Gold = new RangeGroup(AsteroidType.GOLDEN, new Range());
         }

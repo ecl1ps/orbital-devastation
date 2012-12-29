@@ -12,7 +12,7 @@ namespace Orbit.Core.SpecialActions.Spectator
 {
     public abstract class SpectatorAction : SpecialAction, ISpectatorAction
     {
-        private const float LOCK_TIME = 2;
+        private const float LOCK_TIME = 1;
 
         protected MiningModuleControl control;
 
@@ -25,8 +25,8 @@ namespace Orbit.Core.SpecialActions.Spectator
         protected List<MiningObject> lockedObjects = null;
         protected float lockedTime = 0;
 
-        public SpectatorAction(SceneMgr mgr, Players.Player owner)
-            : base(mgr, owner)
+        public SpectatorAction(SceneMgr mgr, Players.Player owner, params ISpectatorAction[] actions)
+            : base(mgr, owner, actions)
         {
             this.control = owner.Device.GetControlOfType<MiningModuleControl>();
             BackgroundColor = Colors.Bisque;
