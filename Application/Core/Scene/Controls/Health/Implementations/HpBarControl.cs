@@ -8,7 +8,7 @@ using Orbit.Core.Scene.Entities;
 
 namespace Orbit.Core.Scene.Controls.Health.Implementations
 {
-    class HpBarControl : Control
+    public class HpBarControl : Control
     {
         public IHpBar Bar { get; set;}
         private IHpControl obj;
@@ -23,12 +23,7 @@ namespace Orbit.Core.Scene.Controls.Health.Implementations
             {
                 base.Enabled = value;
                 if (me != null)
-                {
-                    me.SceneMgr.Invoke(new Action(() =>
-                    {
-                        Bar.Visible = value;
-                    }));
-                }
+                    Bar.Visible = value;
             }
         }
 

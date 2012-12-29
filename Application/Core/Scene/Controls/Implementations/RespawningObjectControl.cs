@@ -29,30 +29,25 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 if (respawningTime <= 0)
                 {
                     counting = false;
-                    toggleControls(true);
+                    me.ToggleControls(true);
                     if (hpControl != null)
                         hpControl.RefillHp();
 
-                    me.SceneMgr.Invoke(new Action(() =>
-                    {
-                        me.Visible = true;
-                    }));
+                    me.Visible = true;
                 }
                 else
                 {
-                    blinkObject(tpf);
+                    BlinkObject(tpf);
                 }
             }
         }
 
-        private void blinkObject(float tpf)
+        private void BlinkObject(float tpf)
         {
             if (visibilityTime <= 0)
             {
                 visibilityTime = 0.1f + (0.9f * respawningTime / initRespawningTime);
-                me.SceneMgr.Invoke(new Action(() => {
-                    me.Visible = !me.Visible;
-                }));
+                me.Visible = !me.Visible;
             }
             else
             {
@@ -60,7 +55,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             }
         }
 
-        public void die(float respawningTime)
+        public void Die(float respawningTime)
         {
             if (counting)
                 return;
@@ -69,20 +64,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             this.initRespawningTime = respawningTime;
             counting = true;
 
-            toggleControls(false);
+            me.ToggleControls(false, this);
         }
-
-        private void toggleControls(bool enable)
-        {
-            foreach (Control control in me.GetControlsCopy()) 
-            {
-                if (control != this)
-                    control.Enabled = enable;
-            }
-        }
-
-
-
-
     }
 }

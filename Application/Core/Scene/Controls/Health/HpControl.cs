@@ -6,10 +6,10 @@ using Orbit.Core.Scene.Controls.Health;
 
 namespace Orbit.Core.Scene.Controls.Health
 {
-    abstract class HpControl : Control, IHpControl
+    public abstract class HpControl : Control, IHpControl
     {
         protected int hp;
-        public int Hp { get { return hp; } set { updateHp(value); } }
+        public int Hp { get { return hp; } set { UpdateHp(value); } }
         public int MaxHp { get; set; }
 
         protected override void InitControl(Entities.ISceneObject me)
@@ -17,14 +17,14 @@ namespace Orbit.Core.Scene.Controls.Health
             hp = MaxHp;
         }
 
-        protected virtual void updateHp(int amount)
+        protected virtual void UpdateHp(int amount)
         {
             if (amount > MaxHp)
                 hp = MaxHp;
             else if (amount <= 0)
             {
                 hp = 0;
-                onDeath();
+                OnDeath();
             }
             else
                 hp = amount;
@@ -35,6 +35,6 @@ namespace Orbit.Core.Scene.Controls.Health
             hp = MaxHp;
         }
 
-        protected abstract void onDeath();
+        protected abstract void OnDeath();
     }
 }

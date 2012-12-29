@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Orbit.Core.Scene.Controls
 {
-    interface IDamageControl
+    public interface IDamageControl
     {
         bool Vulnerable { get; set; }
 

@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace Orbit.Core.Scene.Entities
 {
-    interface IHpBar : ISceneObject
+    public interface IHpBar : ISceneObject
     {
         float Percentage { get; set; }
 

@@ -156,18 +156,25 @@ namespace Orbit.Core.Scene.Entities
             DoRemove(this);
         }
 
-
         public void RemoveControl(Control control)
         {
             controls.Remove(control);
         }
 
+        public void ToggleControls(bool enable, Control except = null)
+        {
+            foreach (Control c in controls)
+            {
+                if (except == null || except != c)
+                    c.Enabled = enable;
+            }
+        }
 
         /// hooks
 
         public virtual void OnRemove() { }
 
         public virtual void OnAttach() { }
-    }
 
+    }
 }
