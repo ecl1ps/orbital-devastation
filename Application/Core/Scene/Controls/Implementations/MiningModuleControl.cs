@@ -10,6 +10,7 @@ using Orbit.Core.Scene.Entities.Implementations;
 using System.Windows;
 using Orbit.Core.Scene.Controls.Collisions;
 using Orbit.Core.Players;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -171,6 +172,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
                         return;
 
                 int damage = (other as Asteroid).Radius;
+
+                sceneMgr.FloatingTextMgr.AddFloatingText(damage, me.Center + ((other.Center - me.Center) / 2), FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE);
 
                 (me as IDestroyable).TakeDamage(damage, other);
                 recentlyCollided.Add(new CollisionData(other));
