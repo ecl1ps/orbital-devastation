@@ -40,7 +40,6 @@ namespace Orbit.Gui
             float musicVolume = float.Parse(GameProperties.Props.Get(PropertyKey.MUSIC_VOLUME));
             BackgroundSlider.Value = musicVolume * 100;
             BackgroundValue.Text = (musicVolume * 100).ToString("0.##");
-
         }
 
         private void SoundVolumeChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -61,21 +60,14 @@ namespace Orbit.Gui
             GameProperties.Props.SetAndSave(PropertyKey.MUSIC_VOLUME, volume.ToString());
         }
 
-        private void EnabledChanged(object sender, RoutedEventArgs e)
-        {
-            SoundManager.Instance.Enabled = !SoundManager.Instance.Enabled;
-            EnableSounds(SoundManager.Instance.Enabled);
-        }
-
         private void EnableSounds(bool enabled)
         {
+            SoundManager.Instance.Enabled = enabled;
+
             BackgroundSlider.IsEnabled = enabled;
             SoundSlider.IsEnabled = enabled;
 
-            if (enabled)
-                SoundButton.Content = "Disable sound";
-            else
-                SoundButton.Content = "Enable sound";
+            soundEnabled.IsChecked = enabled;
 
             GameProperties.Props.SetAndSave(PropertyKey.MUSIC_ENABLED, enabled.ToString());
         }
@@ -83,6 +75,16 @@ namespace Orbit.Gui
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
             App.WindowInstance.ShowOptionsMenu();
+        }
+
+        private void soundEnabled_Checked(object sender, RoutedEventArgs e)
+        {
+            EnableSounds(true);
+        }
+
+        private void soundEnabled_Unchecked(object sender, RoutedEventArgs e)
+        {
+            EnableSounds(false);
         }
     }
 }

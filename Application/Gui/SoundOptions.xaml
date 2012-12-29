@@ -8,11 +8,12 @@
     <Grid Width="350" Height="350" Background="#dd655D5D">
         <TextBlock Name="SoundValue" Height="20" FontFamily="Bauhaus 93" Text="100" TextAlignment="Right" Margin="12,143,281,0" VerticalAlignment="Top" />
         <TextBlock Name="BackgroundValue" Height="20" FontFamily="Bauhaus 93" Text="100" TextAlignment="Right" Margin="12,81,281,0" VerticalAlignment="Top" />
-        <Button Name="SoundButton" Content="Enable sounds" FontFamily="Bauhaus 93" Height="31" Width="84" Margin="12,12,254,307" Click="EnabledChanged" />
-        <Label Height="25" Width="100" FontFamily="Bauhaus 93" Margin="12,50,238,274">Background</Label>
+        <Label Content="Background volume"  Height="25" FontFamily="Bauhaus 93" Margin="12,50,223,274" />
         <Slider Name="BackgroundSlider"  Height="25" Margin="75,81,12,244" Maximum="100" ValueChanged="BackgroundVolumeChanged" />
-        <Label Content="Sound" FontFamily="Bauhaus 93" Height="25" Margin="12,112,238,213" Width="100" />
+        <Label Content="Effect volume" FontFamily="Bauhaus 93" Height="25" Margin="12,112,223,213" />
         <Slider Name="SoundSlider" Height="25" Margin="75,143,12,182" Maximum="100" ValueChanged="SoundVolumeChanged" />
         <Button Content="Back" FontFamily="Bauhaus 93" Height="31" HorizontalAlignment="Center" Margin="66,280,65,0" Name="btnBack" VerticalAlignment="Top" Width="84" Click="btnBack_Click" />
+        <Label Content="Sounds enabled" FontFamily="Bauhaus 93" Height="25" Margin="12,19,0,306" Width="115" HorizontalAlignment="Left" />
+        <CheckBox Height="16" HorizontalAlignment="Left" Margin="134,24,0,0" Name="soundEnabled" VerticalAlignment="Top" Checked="soundEnabled_Checked" Unchecked="soundEnabled_Unchecked" />
     </Grid>
 </UserControl>
