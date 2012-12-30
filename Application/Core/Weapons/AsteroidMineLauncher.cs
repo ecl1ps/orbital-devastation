@@ -20,6 +20,7 @@ namespace Orbit.Core.Weapons
         public ActivableData Data { get; set; }
 
         private SingularityMine lastMine;
+        private HighlightingControl lastHC;
 
         public AsteroidMineLauncher(SceneMgr mgr, Player plr) : base(mgr, plr)
         {
@@ -54,12 +55,14 @@ namespace Orbit.Core.Weapons
             }
 
             HighlightingControl hc = new HighlightingControl();
+            hc.IsCircle = true;
             mine.AddControl(hc);
 
-            if (lastMine != null)
-                lastMine.GetControlOfType<HighlightingControl>().Enabled = false;
+            if (lastHC != null)
+                lastHC.Enabled = false;
 
             lastMine = mine;
+            lastHC = lastMine.GetControlOfType<HighlightingControl>();
             SceneMgr.DelayedAttachToScene(mine);
         }
 
@@ -74,7 +77,6 @@ namespace Orbit.Core.Weapons
         public void StartActivableAction()
         {
             lastMine.GetControlOfType<AsteroidDroppingSingularityControl>().SpawnActivated = true;
-            lastMine.GetControlOfType<HighlightingControl>().Enabled = false;
         }
     }
 }

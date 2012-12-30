@@ -12,6 +12,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
 {
     public class HighlightingControl : Control
     {
+        public bool IsCircle { get; set; }
+
         private bool enabled;
         public override bool Enabled
         {
@@ -64,8 +66,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
                     border.A = 0x0;
                     center.A = 0xAA;
 
-                    highlighter.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(
-                        me.SceneMgr, (highlighter as Sphere).Radius, border, center, Colors.Transparent, me.Position));
+                    if (IsCircle)
+                        highlighter.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(
+                            me.SceneMgr, (highlighter as Sphere).Radius, Colors.Transparent, Colors.Transparent, (me as Sphere).Color, me.Position));
+                    else
+                        highlighter.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(
+                            me.SceneMgr, (highlighter as Sphere).Radius, border, center, Colors.Transparent, me.Position));
 
                     // nastavit ho pod rodicovsky objekt
                     me.SceneMgr.BeginInvoke(new Action(() =>
@@ -83,6 +89,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 else
                     throw new NotSupportedException("Highlighting control supports only Sphere parent object yet");
             }
+        }
+
+        public override void OnRemove()
+        {
+            if (highlighter != null)
+                highlighter.DoRemoveMe();
         }
     }
 }

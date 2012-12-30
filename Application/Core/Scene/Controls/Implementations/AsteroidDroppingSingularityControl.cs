@@ -17,13 +17,31 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private IList<long> collided = new List<long>();
 
         public bool Detonated { get; set; }
-        public bool SpawnActivated { get; set; }
+        private bool spawnActivated;
+        public bool SpawnActivated 
+        {
+            get
+            {
+                return spawnActivated;
+            }
+            set
+            {
+                if (!spawnActivated && value)
+                {
+                    me.RemoveControlsOfType<HighlightingControl>();
+                    HighlightingControl hc = new HighlightingControl();
+                    me.AddControl(hc);
+                    hc.Enabled = true;
+                }
+                spawnActivated = value;
+            }
+        }
 
         public AsteroidDroppingSingularityControl()
             : base()
         {
             Detonated = false;
-            SpawnActivated = false;
+            spawnActivated = false;
         }
 
         public override void DoCollideWith(ISceneObject other, float tpf)
