@@ -13,6 +13,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Orbit.Core.Scene;
 using Orbit.Core.Client.GameStates;
+using System.Diagnostics;
+using Orbit.Core;
 
 namespace Orbit.Gui
 {
@@ -21,9 +23,30 @@ namespace Orbit.Gui
     /// </summary>
     public partial class GameUC : UserControl
     {
+        private Stopwatch stopWatch;
+
         public GameUC()
         {
             InitializeComponent();
+
+            if (SharedDef.MEASURE_RENDER_SPEED)
+            {
+                stopWatch = Stopwatch.StartNew();
+                LayoutUpdated += OnLayoutUpdated;
+                Unloaded += OnWindowUnload;
+            }
+        }
+
+        private void OnLayoutUpdated(object sender, EventArgs args)
+        {
+            //TODO: statistiky a nevypisovat porad
+            Console.WriteLine(stopWatch.ElapsedMilliseconds.ToString());
+            stopWatch.Restart();
+        }
+
+        private void OnWindowUnload(object sender, RoutedEventArgs e)
+        {
+            stopWatch.Stop();
         }
 
         private void OnCanvasMouseClick(object sender, MouseButtonEventArgs e)
