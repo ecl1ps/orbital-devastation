@@ -24,51 +24,38 @@ namespace Orbit.Core.SpecialActions.Spectator
 
             //nastavime parametry
             this.Cooldown = 4; //sec
-            this.Normal = new RangeGroup(AsteroidType.NORMAL, new Range(2, 3));
-            this.Gold = new RangeGroup(AsteroidType.GOLDEN, new Range(1, 2));
+            this.Range = new RangeGroup(new Range(AsteroidType.NORMAL, 3), new Range(AsteroidType.GOLDEN, 2));
         }
 
-        public override void StartAction()
+        protected override void StartAction(List<Asteroid> afflicted)
         {
-            if (!control.Enabled)
-                return;
-
-            base.StartAction();
-
             Vector v = new Vector();
             v = new Vector(control.Position.X, SharedDef.CANVAS_SIZE.Height) - control.Position;
             v.Normalize();
 
             int count = 0;
 
-            foreach (MiningObject afflicted in lockedObjects)
+            foreach (Asteroid ast in afflicted)
             {
-                if (afflicted.Obj is Asteroid)
-                {
-                    IMovementControl mc = afflicted.Obj.GetControlOfType<IMovementControl>();
+                    IMovementControl mc = ast.GetControlOfType<IMovementControl>();
                     if (mc != null)
                         mc.Speed = SharedDef.SPECTATOR_ASTEROID_THROW_SPEED;
 
-                    (afflicted.Obj as IMovable).Direction = v;
+                    ast.Direction = v;
                     count++;
-                }
             }
 
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-            msg.Write((int) PacketType.ASTEROIDS_DIRECTIONS_CHANGE);
+            msg.Write((int)PacketType.ASTEROIDS_DIRECTIONS_CHANGE);
             msg.Write(count);
 
-            foreach (MiningObject afflicted in lockedObjects)
+            foreach (Asteroid ast in afflicted)
             {
-                if (afflicted.Obj is Asteroid)
-                {
-                    msg.Write((afflicted.Obj as ISceneObject).Id);
-                    msg.Write((afflicted.Obj as IMovable).Direction);
-                }
+                msg.Write(ast.Id);
+                msg.Write(ast.Direction);
             }
 
             SceneMgr.SendMessage(msg);
-            
         }
     }
 }

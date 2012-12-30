@@ -20,19 +20,12 @@ namespace Orbit.Core.SpecialActions.Spectator
 
             //nastavime parametry
             this.Cooldown = 3; //sekundy
-            this.Normal = new RangeGroup(AsteroidType.NORMAL, new Range(2));
-            this.Gold = new RangeGroup(AsteroidType.GOLDEN, new Range());
+            this.Range = new RangeGroup(new Range(AsteroidType.NORMAL, 4), new Range(AsteroidType.GOLDEN, 2));
         }
 
-        public override void StartAction()
+        protected override void  StartAction(List<Asteroid> afflicted)
         {
-            base.StartAction();
-
-            foreach (MiningObject locked in lockedObjects)
-            {
-                if (locked.Obj is Asteroid)
-                    growAsteroid(locked.Obj as Asteroid);
-            }
+            afflicted.ForEach(aff => growAsteroid(aff));
         }
 
         private void growAsteroid(Asteroid a)

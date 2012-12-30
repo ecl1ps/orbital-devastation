@@ -40,11 +40,6 @@ namespace Orbit.Core.Players.Input
         public override void OnCanvasClick(Point point, MouseButtonEventArgs e)
         {
             base.OnCanvasClick(point, e);
-#if DEBUG
-            // TODO: akce budou vetsinou spousteny z action baru
-            if (e.ChangedButton == MouseButton.Middle && e.ButtonState == MouseButtonState.Pressed)
-                new BrutalGravity(mgr, plr).StartAction();
-#endif
         }
 
 
@@ -60,17 +55,6 @@ namespace Orbit.Core.Players.Input
                 device.IsMovingLeft = down;
             else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_RIGHT)))
                 device.IsMovingRight = down;
-            else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_SHOW_ACTIONS)) && down)
-                ToggleActions();
-        }
-
-        private void ToggleActions()
-        {
-            mgr.BeginInvoke(new Action(() =>
-            {
-                HidingPanel panel = LogicalTreeHelper.FindLogicalNode(mgr.GetCanvas(), "hidingPanel") as HidingPanel;
-                panel.ToggleVisibility();
-            }));
         }
     }
 }

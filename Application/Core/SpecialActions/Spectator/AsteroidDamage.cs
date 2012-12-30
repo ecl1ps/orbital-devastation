@@ -22,30 +22,21 @@ namespace Orbit.Core.SpecialActions.Spectator
             
             //nastavime parametry
             this.Cooldown = 3; //sekundy
-            this.Normal = new RangeGroup(AsteroidType.NORMAL, new Range(2));
-            this.Gold = new RangeGroup(AsteroidType.GOLDEN, new Range());
+            this.Range = new RangeGroup(new Range());
         }
 
-        public override void StartAction()
+        protected override void StartAction(List<Asteroid> afflicted)
         {
-            if (!control.Enabled)
-                return;
-
-            base.StartAction();
-
             List<IDestroyable> temp = new List<IDestroyable>();
 
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
             msg.Write((int)PacketType.OBJECTS_TAKE_DAMAGE);
 
-            foreach (MiningObject afflicted in lockedObjects)
+            foreach (Asteroid ast in afflicted)
             {
-                if (afflicted.Obj is IDestroyable)
-                {
-                    temp.Add(afflicted.Obj as IDestroyable);
-                    (afflicted.Obj as IDestroyable).TakeDamage(SharedDef.SPECTATOR_DAMAGE, null);
-                    SceneMgr.FloatingTextMgr.AddFloatingText(SharedDef.SPECTATOR_DAMAGE, afflicted.Obj.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE); 
-                }
+                temp.Add(ast);
+                ast.TakeDamage(SharedDef.SPECTATOR_DAMAGE, null);
+                SceneMgr.FloatingTextMgr.AddFloatingText(SharedDef.SPECTATOR_DAMAGE, ast.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE);
             }
 
             msg.Write(Owner.GetId());

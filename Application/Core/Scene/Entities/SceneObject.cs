@@ -84,7 +84,7 @@ namespace Orbit.Core.Scene.Entities
             }
         }
 
-        public void AddControl(Control control)
+        public void AddControl(IControl control)
         {
             if (controls.Contains(control))
                 return;
@@ -157,7 +157,7 @@ namespace Orbit.Core.Scene.Entities
         }
 
 
-        public void RemoveControl(Control control)
+        public void RemoveControl(IControl control)
         {
             controls.Remove(control);
         }

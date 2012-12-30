@@ -327,6 +327,8 @@ namespace Orbit.Core.Players
             actions.Add(new AsteroidThrow(mgr, this));
             actions.Add(new AsteroidDamage(mgr, this));
             actions.Add(new AsteroidGrowth(mgr, this));
+            actions.Add(new AsteroidSlow(mgr, this));
+            actions.Add(new StaticField(mgr, this));
 
             return actions;
         }

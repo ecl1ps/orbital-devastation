@@ -9,13 +9,7 @@ namespace Orbit.Core.SpecialActions.Spectator
     {
         float CastingTime { get; set; }
 
-        float Percentage { get; }
-
-        RangeGroup Normal { get; set; }
-
-        RangeGroup Gold { get; set; }
-
-        int ComputeMissing(RangeGroup range);
+        RangeGroup Range { get; set; }
 
     }
 }

@@ -31,34 +31,5 @@ namespace Orbit.Core.Helpers
 
             return wnd;
         }
-
-        public static HidingPanel CreateHidingPanel(SceneMgr mgr)
-        {
-            HidingPanel panel = null;
-
-            mgr.Invoke(new Action(() =>
-            {
-                panel = new HidingPanel();
-                mgr.GetCanvas().Children.Add(panel);
-                Canvas.SetTop(panel, 100);
-                Canvas.SetZIndex(panel, 1000);
-            }));
-
-            return panel;
-        }
-
-        //TODO jak udelat <Object> nebo <?> 
-        public static ActionOverview CreateAndAddActionOverview(SceneMgr mgr, IInteractivePanel<ActionOverview> panel, ISpectatorAction action) 
-        {
-            ActionOverview item = null;
-
-            mgr.Invoke(new Action(() => {
-                item = new ActionOverview();
-                item.RenderAction(action);
-                panel.AddItem(item);
-            }));
-
-            return item;
-        }
     }
 }

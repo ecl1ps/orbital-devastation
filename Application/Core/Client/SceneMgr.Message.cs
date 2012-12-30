@@ -340,11 +340,7 @@ namespace Orbit.Core.Client
                     p.Device.AddControl(mc);
 
                     inputMgr = new SpectatorInputMgr(p, this, p.Device, actionBarMgr);
-                        actionBarMgr.CreateActionBarItems(p.GetActions<ISpectatorAction>(this));
-
-                        HidingPanel panel = GuiObjectFactory.CreateHidingPanel(this);
-
-                        StateMgr.AddGameState(new SpectatorPanelController(this, panel, p.GetActionsTyped<ISpectatorAction>(this), 4));
+                    actionBarMgr.CreateActionBarItems(p.GetActions<ISpectatorAction>(this));
                 }
             }
         }

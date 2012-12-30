@@ -28,11 +28,11 @@ namespace Orbit.Core.Scene.Entities
 
         void Update(float tpf);
 
-        void AddControl(Control control);
+        void AddControl(IControl control);
 
         void RemoveControlsOfType<T>();
 
-        void RemoveControl(Control control);
+        void RemoveControl(IControl control);
 
         T GetControlOfType<T>();
 

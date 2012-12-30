@@ -14,6 +14,8 @@ namespace Orbit.Core.SpecialActions
         ASTEROID_THROW,
         ASTEROID_DAMAGE,
         ASTEROID_GROWTH,
+        ASTEROID_SLOW,
+        STATIC_FIELD,
         SHIELDING
     }
 
