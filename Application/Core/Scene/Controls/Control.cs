@@ -48,7 +48,7 @@ namespace Orbit.Core.Scene.Controls
 
         public void Destroy()
         {
-            OnControlDestroy();
+            OnRemove();
             me.RemoveControl(this);
         }
     }
