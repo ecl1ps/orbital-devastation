@@ -176,7 +176,13 @@ namespace Orbit.Gui
                     }
                     break;
                 case Key.Tab:
+                    if (tabDown)
+                        return;
+
                     tabDown = true;
+                    GameOverviewUC go = LogicalTreeHelper.FindLogicalNode(menuGrid, "gameOverview") as GameOverviewUC;
+                    if (go != null)
+                        menuGrid.Children.Remove(go);
                     break;
             }
 
