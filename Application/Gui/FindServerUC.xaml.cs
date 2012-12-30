@@ -85,8 +85,8 @@ namespace Orbit.Gui
                         usedServerAdresses.Add(ip.Trim());
                         SaveUsedServerAdresses();
                     }
-                    (Application.Current as App).CreateGameGui();
-                    (Application.Current as App).ConnectToGame(ip.Trim());
+                    App.Instance.CreateGameGui();
+                    App.Instance.ConnectToGame(ip.Trim());
                 }));
             }
         }
@@ -145,8 +145,8 @@ namespace Orbit.Gui
                             usedServerAdresses.Add(adr.ToString());
                             SaveUsedServerAdresses();
                         }
-                        (Application.Current as App).CreateGameGui();
-                        (Application.Current as App).ConnectToGame(adr.ToString());
+                        App.Instance.CreateGameGui();
+                        App.Instance.ConnectToGame(adr.ToString());
                     }));
 
                 });
@@ -176,8 +176,8 @@ namespace Orbit.Gui
         {
             if (lbxUsedServers.SelectedIndex > -1)
             {
-                (Application.Current as App).CreateGameGui();
-                (Application.Current as App).ConnectToGame(lbxUsedServers.SelectedItem.ToString());
+                App.Instance.CreateGameGui();
+                App.Instance.ConnectToGame(lbxUsedServers.SelectedItem.ToString());
             }
         }
 
@@ -185,8 +185,8 @@ namespace Orbit.Gui
         {
             if (lbxUsedServers.SelectedIndex > -1)
             {
-                (Application.Current as App).CreateGameGui();
-                (Application.Current as App).ConnectToGame(lbxUsedServers.SelectedItem.ToString());
+                App.Instance.CreateGameGui();
+                App.Instance.ConnectToGame(lbxUsedServers.SelectedItem.ToString());
             }
         }
 
@@ -202,7 +202,7 @@ namespace Orbit.Gui
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).ShowStartScreen();
+            App.Instance.ShowStartScreen();
         }
     }
 }

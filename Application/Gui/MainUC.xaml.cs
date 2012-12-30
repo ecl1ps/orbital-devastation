@@ -23,30 +23,30 @@ namespace Orbit.Gui
         public MainUC()
         {
             InitializeComponent();
-#if (DEBUG == false)
+#if !DEBUG
             spMenu.Children.Remove(btnConnectToLocalhost);
 #endif
         }
 
         private void btnSinglePlayer_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).ShowBotSelectionGui();
+            App.Instance.ShowBotSelectionGui();
         }
 
         private void btnQuickGame_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).CreateGameGui();
-            (Application.Current as App).StartHostedGame();
+            App.Instance.CreateGameGui();
+            App.Instance.StartHostedGame();
         }
 
         private void btnHostTournament_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).StartTournamentLobby();
+            App.Instance.StartTournamentLobby();
         }
 
         private void btnFindHostedGame_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).LookForGame();
+            App.Instance.LookForGame();
         }
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
@@ -56,27 +56,23 @@ namespace Orbit.Gui
 
         private void btnRepeatGame_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).RepeatGame();
+            App.Instance.RepeatGame();
         }
 
         private void btnConnectToLocalhost_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).CreateGameGui();
-            (Application.Current as App).ConnectToGame("127.0.0.1");
+            App.Instance.CreateGameGui();
+            App.Instance.ConnectToGame("127.0.0.1");
         }
 
         private void btnShowStatistics_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).ShowStatisticsGui();
+            App.Instance.ShowStatisticsGui();
         }
 
         private void btnShowOptions_Click(object sender, RoutedEventArgs e)
         {
-            UIElementCollection els = (Application.Current.MainWindow as GameWindow).mainGrid.Children;
-            for (int i = 0; i < els.Count; ++i)
-                if (!(els[i] is MainUC))
-                    (Application.Current.MainWindow as GameWindow).mainGrid.Children.RemoveAt(i);
-            (Application.Current.MainWindow as GameWindow).mainGrid.Children.Add(new OptionsMenu());
+            App.Instance.AddMenu(new OptionsMenu());
         }
     }
 }

@@ -29,15 +29,17 @@ namespace Orbit.Core.Scene.Controls
                 UpdateControl(tpf);
         }
 
-        public virtual void OnControlDestroy()
+        public virtual void OnSceneObjectRemove()
         {
             actions.ForEach(a => a.Invoke());
         }
 
-        public void AddControlDestroyAction(Action a)
+        public void AddSceneObjectRemoveAction(Action a)
         {
             actions.Add(a);
         }
+
+        public virtual void OnRemove() { }
 
         protected virtual void InitControl(ISceneObject me) { }
 

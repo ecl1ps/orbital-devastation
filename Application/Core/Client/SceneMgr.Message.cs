@@ -47,7 +47,7 @@ namespace Orbit.Core.Client
             currentPlayer.Data.Name = msg.SenderConnection.RemoteHailMessage.ReadString();
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-                (Application.Current as App).PlayerName = currentPlayer.Data.Name;
+                App.Instance.PlayerName = currentPlayer.Data.Name;
             }));
             // pokud je hra zakladana pres lobby, tak o tom musi vedet i klient, ktery ji nezakladal
             Gametype serverType = (Gametype)msg.SenderConnection.RemoteHailMessage.ReadByte();
@@ -59,7 +59,7 @@ namespace Orbit.Core.Client
                 {
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
-                        (Application.Current as App).CreateLobbyGui(false);
+                        App.Instance.CreateLobbyGui(false);
                     }));
                     SendTournamentSettingsRequest();
                 }
@@ -175,7 +175,7 @@ namespace Orbit.Core.Client
             }
 
             players.Remove(disconnected);
-            (Application.Current as App).SetGameStarted(false);
+            App.Instance.SetGameStarted(false);
 
             if (disconnected.IsActivePlayer())
                 EndGame(disconnected, GameEnd.LEFT_GAME);
@@ -215,9 +215,9 @@ namespace Orbit.Core.Client
         {
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-                (Application.Current as App).CreateGameGui(false);
-                (Application.Current as App).SetGameStarted(true);
-                SetCanvas((Application.Current as App).GetCanvas());
+                App.Instance.CreateGameGui(false);
+                App.Instance.SetGameStarted(true);
+                SetCanvas(App.Instance.GetCanvas());
             }));
 
             InitStaticMouse();
@@ -240,7 +240,7 @@ namespace Orbit.Core.Client
             Player rightPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.RIGHT);
 
             InitStaticMouse();
-            (Application.Current as App).SetGameStarted(true);
+            App.Instance.SetGameStarted(true);
 
             foreach (Player p in players)
                 CreateActiveObjectsOfPlayer(p);
@@ -271,7 +271,7 @@ namespace Orbit.Core.Client
             userActionsDisabled = false;
 
             Application.Current.Dispatcher.BeginInvoke(new Action(() => {
-                (Application.Current as App).FocusWindow();
+                App.Instance.FocusWindow();
             }));
 
 #if !DEBUG

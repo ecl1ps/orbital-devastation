@@ -15,7 +15,6 @@ using Orbit.Core;
 
 namespace Orbit.Gui
 {
-
     public class KeyLabel
     {
         public TextBlock Label { get; set; }
@@ -27,6 +26,7 @@ namespace Orbit.Gui
             Label = label;
         }
     }
+
     /// <summary>
     /// Interaction logic for KeyBindingsOptions.xaml
     /// </summary>
@@ -179,7 +179,7 @@ namespace Orbit.Gui
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current.MainWindow as GameWindow).ShowOptions(this);
+            App.WindowInstance.ShowOptionsMenu();
         }
     }
 }

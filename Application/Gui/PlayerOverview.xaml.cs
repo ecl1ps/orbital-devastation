@@ -31,15 +31,17 @@ namespace Orbit.Gui
             lblName.Content = data.Name;
             lblActive.Content = data.Active ? "Playing" : "Spectating";
             lblScore.Content = "Score: " + data.Score;
-            lblGold.Content = "Gold: " + data.Gold;
+            
             if (data.Active)
             {
+                lblGold.Content = "Gold: " + data.Gold;
                 lblMine.Content = "Mine: " + GetCharsForLevel(data.MineLevel);
                 lblCannon.Content = "Cannon: " + GetCharsForLevel(data.CannonLevel);
                 lblHook.Content = "Hook: " + GetCharsForLevel(data.HookLevel);
             }
             else
             {
+                lblGold.Content = string.Empty;
                 lblMine.Content = string.Empty;
                 lblCannon.Content = string.Empty;
                 lblHook.Content = string.Empty;

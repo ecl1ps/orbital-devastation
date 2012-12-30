@@ -8,7 +8,7 @@ namespace Orbit.Core.Scene.Controls.Health.implementations
     class DestroyHpControl : HpControl
     {
 
-        protected override void onDeath()
+        protected override void OnDeath()
         {
             me.DoRemoveMe();
         }

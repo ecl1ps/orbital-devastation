@@ -13,6 +13,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Orbit.Core.Scene;
 using Orbit.Core.Client.GameStates;
+using System.Diagnostics;
+using Orbit.Core;
 
 namespace Orbit.Gui
 {
@@ -21,18 +23,39 @@ namespace Orbit.Gui
     /// </summary>
     public partial class GameUC : UserControl
     {
+        private Stopwatch stopWatch;
+
         public GameUC()
         {
             InitializeComponent();
+
+            if (SharedDef.MEASURE_RENDER_SPEED)
+            {
+                stopWatch = Stopwatch.StartNew();
+                LayoutUpdated += OnLayoutUpdated;
+                Unloaded += OnWindowUnload;
+            }
+        }
+
+        private void OnLayoutUpdated(object sender, EventArgs args)
+        {
+            //TODO: statistiky a nevypisovat porad
+            Console.WriteLine(stopWatch.ElapsedMilliseconds.ToString());
+            stopWatch.Restart();
+        }
+
+        private void OnWindowUnload(object sender, RoutedEventArgs e)
+        {
+            stopWatch.Stop();
         }
 
         private void OnCanvasMouseClick(object sender, MouseButtonEventArgs e)
         {
             Point p = e.GetPosition(mainCanvas);
 
-            (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
+            App.Instance.GetSceneMgr().Enqueue(new Action(() =>
             {
-                (Application.Current as App).GetSceneMgr().OnCanvasClick(p, e);
+                App.Instance.GetSceneMgr().OnCanvasClick(p, e);
             }));
         }
 
@@ -49,43 +72,41 @@ namespace Orbit.Gui
                 return;
 
             Point p = e.GetPosition(mainCanvas);
-            (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
+            App.Instance.GetSceneMgr().Enqueue(new Action(() =>
             {
-                (Application.Current as App).GetSceneMgr().OnCanvasMouseMove(p);
+                App.Instance.GetSceneMgr().OnCanvasMouseMove(p);
             }));
         }
 
         private void settings_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            GameWindow wnd = Application.Current.MainWindow as GameWindow;
-            UIElement esc = LogicalTreeHelper.FindLogicalNode(wnd.mainGrid, "escMenu") as UIElement;
+            UIElement esc = LogicalTreeHelper.FindLogicalNode(App.WindowInstance.mainGrid, "escMenu") as UIElement;
             if (esc != null)
             {
-                wnd.mainGrid.Children.Remove(esc);
-                if (wnd.GameRunning)
+                App.WindowInstance.ClearMenus();
+                if (App.WindowInstance.GameRunning)
                     StaticMouse.Enable(true);
             }
             else
             {
-                wnd.mainGrid.Children.Add(new EscMenu());
-                if (wnd.GameRunning)
+                App.WindowInstance.AddMenu(new EscMenu());
+                if (App.WindowInstance.GameRunning)
                     StaticMouse.Enable(false);
             }
         }
 
-        private void overvie_MouseDown(object sender, MouseButtonEventArgs e)
+        private void overview_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
-            {
-                (Application.Current as App).GetSceneMgr().ShowPlayerOverview();
-            })); 
-        }
-
-        private void overvie_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            GameOverviewUC go = LogicalTreeHelper.FindLogicalNode((Application.Current.MainWindow as GameWindow).mainGrid, "gameOverview") as GameOverviewUC;
+            GameOverviewUC go = LogicalTreeHelper.FindLogicalNode(App.WindowInstance.mainGrid, "gameOverview") as GameOverviewUC;
             if (go != null)
-                (Application.Current.MainWindow as GameWindow).mainGrid.Children.Remove(go);
+                App.Instance.ClearMenus();
+            else
+            {
+                App.Instance.GetSceneMgr().Enqueue(new Action(() =>
+                {
+                    App.Instance.GetSceneMgr().ShowPlayerOverview();
+                }));
+            }
         }
     }
 }

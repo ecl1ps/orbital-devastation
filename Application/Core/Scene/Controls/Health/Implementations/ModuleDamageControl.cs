@@ -10,7 +10,7 @@ using Orbit.Core.Scene.Controls.Health.Implementations;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    class ModuleDamageControl : HpControl, IDamageControl
+    public class ModuleDamageControl : HpControl, IDamageControl
     {
         public bool Vulnerable { get; set; }
 
@@ -49,9 +49,10 @@ namespace Orbit.Core.Scene.Controls.Implementations
             }
         }
 
-        protected override void onDeath()
+        protected override void OnDeath()
         {
-            module.GetControlOfType<RespawningObjectControl>().die(SharedDef.SPECTATOR_RESPAWN_TIME);
+            module.GetControlOfType<HpBarControl>().Bar.Percentage = 0;
+            module.GetControlOfType<RespawningObjectControl>().Die(SharedDef.SPECTATOR_RESPAWN_TIME);
         }
     }
 }

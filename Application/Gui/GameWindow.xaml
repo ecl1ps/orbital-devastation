@@ -19,6 +19,6 @@
         <Grid Name="mainGrid" VerticalAlignment="Center" HorizontalAlignment="Center" >
             <controls:MainUC />
         </Grid>
-
+        <Grid Name="menuGrid" VerticalAlignment="Center" HorizontalAlignment="Center" ></Grid>
     </Grid>
 </Window>

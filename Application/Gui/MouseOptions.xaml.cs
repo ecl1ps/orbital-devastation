@@ -62,18 +62,10 @@ namespace Orbit.Gui
             GameProperties.Props.SetAndSave(PropertyKey.STATIC_MOUSE_SENSITIVITY, val.ToString());
         }
 
-        private void MouseEnabledChanged(object sender, RoutedEventArgs e)
-        {
-            Allow(!StaticMouse.ALLOWED);
-        }
-
         private void Allow(bool allow)
         {
             StaticMouse.ALLOWED = allow;
             ChangeMouseButton(allow);
-
-            if (StaticMouse.Instance != null)
-                StaticMouse.Enable(allow);
 
             GameProperties.Props.SetAndSave(PropertyKey.STATIC_MOUSE_ENABLED, allow);
         }
@@ -88,10 +80,7 @@ namespace Orbit.Gui
 
             SensitivitySlider.IsEnabled = enabled;
 
-            if (enabled)
-                MouseButton.Content = "Disable Mouse";
-            else
-                MouseButton.Content = "Enable Mouse";
+            mouseEnabled.IsChecked = enabled;
         }
 
         private void UntoggleButtons()
@@ -119,7 +108,7 @@ namespace Orbit.Gui
         private void ProccesCursorIconChange(RoutedEventArgs e, Uri uri)
         {
             UntoggleButtons();
-            (e.Source as ToggleButton).IsChecked = true;
+            mouseEnabled.IsChecked = true;
 
             if (StaticMouse.Instance != null)
                 StaticMouse.Instance.InitCursorImage(uri);
@@ -129,7 +118,17 @@ namespace Orbit.Gui
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current.MainWindow as GameWindow).ShowOptions(this);
+            App.WindowInstance.ShowOptionsMenu();
+        }
+
+        private void mouseEnabled_Unchecked(object sender, RoutedEventArgs e)
+        {
+            Allow(false);
+        }
+
+        private void mouseEnabled_Checked(object sender, RoutedEventArgs e)
+        {
+            Allow(true);
         }
     }
 }

@@ -24,11 +24,12 @@ namespace Orbit.Gui
         public EscMenu()
         {
             InitializeComponent();
-            if ((Application.Current.MainWindow as GameWindow).GameRunning)
+            if (App.WindowInstance.GameRunning)
             {
                 btnMainMenu.Content = "Exit Match";
             }
-            if (LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "mainUC") != null)
+
+            if (LogicalTreeHelper.FindLogicalNode(App.WindowInstance.mainGrid, "mainUC") != null)
             {
                 btnExit.Margin = btnMainMenu.Margin;
                 btnMainMenu.Visibility = Visibility.Hidden;
@@ -42,31 +43,31 @@ namespace Orbit.Gui
 
         private void btnMainMenu_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current.MainWindow as GameWindow).mainGrid.Children.Remove(this);
+            App.Instance.ClearMenus();
 
-            DependencyObject lobby = LogicalTreeHelper.FindLogicalNode((Application.Current.MainWindow as GameWindow).mainGrid, "lobbyWindow");
-            if ((Application.Current.MainWindow as GameWindow).GameRunning || lobby != null)
+            DependencyObject lobby = LogicalTreeHelper.FindLogicalNode(App.WindowInstance.mainGrid, "lobbyWindow");
+            if (App.WindowInstance.GameRunning || lobby != null)
             {
-                (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
+                App.Instance.GetSceneMgr().Enqueue(new Action(() =>
                 {
-                    (Application.Current as App).GetSceneMgr().PlayerQuitGame();
+                    App.Instance.GetSceneMgr().PlayerQuitGame();
                 }));
             }
             else
-                (Application.Current as App).ShowStartScreen();
+                App.Instance.ShowStartScreen();
 
-            (Application.Current as App).ShutdownServerIfExists();
+            App.Instance.ShutdownServerIfExists();
         }
 
         private void btnOptions_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current.MainWindow as GameWindow).ShowOptions(this);
+            App.WindowInstance.ShowOptionsMenu();
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            (Parent as Panel).Children.Remove(this);
-            if ((Application.Current.MainWindow as GameWindow).GameRunning)
+            App.Instance.ClearMenus();
+            if (App.WindowInstance.GameRunning)
                 StaticMouse.Enable(true);
         }
     }

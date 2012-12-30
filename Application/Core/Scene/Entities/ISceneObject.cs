@@ -40,6 +40,8 @@ namespace Orbit.Core.Scene.Entities
 
         IList<IControl> GetControlsCopy();
 
+        void ToggleControls(bool p, Control except = null);
+
         bool IsOnScreen(Size screenSize);
 
         void UpdateGeometric();

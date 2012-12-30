@@ -44,9 +44,9 @@ namespace Orbit.Gui
             if (SelectedColor != null && SelectedColor != Colors.Transparent)
             {
                 GameProperties.Props.SetAndSave(PropertyKey.CHOSEN_COLOR, SelectedColor.ToString());
-                (Application.Current as App).GetSceneMgr().Enqueue(new Action(() =>
+                App.Instance.GetSceneMgr().Enqueue(new Action(() =>
                 {
-                    (Application.Current as App).GetSceneMgr().PlayerColorChanged();
+                    App.Instance.GetSceneMgr().PlayerColorChanged();
                 }));
             }
             Close();
@@ -54,9 +54,10 @@ namespace Orbit.Gui
 
         private void Close()
         {
-            (Parent as Panel).Children.Remove(this);
             if (fromEsc)
-                (Application.Current.MainWindow as GameWindow).mainGrid.Children.Add(new PlayerSettings());
+                App.Instance.AddMenu(new PlayerSettings());
+            else
+                App.Instance.ClearMenus();
         }
 
         private void btncancel_Click(object sender, RoutedEventArgs e)

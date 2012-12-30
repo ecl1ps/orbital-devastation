@@ -17,12 +17,16 @@
 
         <Grid Canvas.Left="0" Width="1000" Canvas.Top="640" Panel.ZIndex="100" Height="60" VerticalAlignment="Bottom">
             <controls:ActionBar HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="0,0,0,30" Height="30" Background="DarkGray" MouseUp="OnActionBarClick" x:Name="ActionBarUC"/>
-            <Border Width="30" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" BorderThickness="2" CornerRadius="1" BorderBrush="#FF414141" Background="#FFE5E5E5" MouseDown="settings_MouseDown">
-                <Image Source="pack://application:,,,/resources/images/icons/settings.png" Height="24" />
-            </Border>
-            <Border Width="30" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" BorderThickness="2" CornerRadius="1" BorderBrush="#FF414141" Background="#FFE5E5E5" MouseDown="overvie_MouseDown" MouseUp="overvie_MouseUp" Margin="30,0,0,0">
-                <Image Source="pack://application:,,,/resources/images/icons/statistics.png" Height="24" />
-            </Border>            
+            
+            <StackPanel Name="gameMenuBar"  Height="30" HorizontalAlignment="Left" VerticalAlignment="Bottom" Orientation="Horizontal">
+                <Border Width="30" Height="30" BorderThickness="2" CornerRadius="1" BorderBrush="#FF414141" Background="#FFE5E5E5" MouseDown="settings_MouseDown">
+                    <Image Source="pack://application:,,,/resources/images/icons/settings.png" Height="24" />
+                </Border>
+                <Border Width="30" Height="30" BorderThickness="2" CornerRadius="1" BorderBrush="#FF414141" Background="#FFE5E5E5" MouseDown="overview_MouseDown" >
+                    <Image Source="pack://application:,,,/resources/images/icons/statistics.png" Height="24" />
+                </Border>
+            </StackPanel>
+          
             <StatusBar Height="30" Name="statusBar1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Padding="0" Margin="60,0,0,0" >
                 <Label Content="TPF: 0" Height="20" Name="statusText1" Width="120" Padding="0" FontSize="11" />
                 <Label Height="20" Name="statusText2" Width="120" Padding="0" FontSize="11" />

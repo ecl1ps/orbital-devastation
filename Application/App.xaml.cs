@@ -43,6 +43,20 @@ namespace Orbit
 
         public string PlayerName { get; set; }
         public string PlayerHashId { get; set; }
+        public static App Instance
+        {
+            get
+            {
+                return Application.Current as App;
+            }
+        }
+        public static GameWindow WindowInstance
+        {
+            get
+            {
+                return Application.Current.MainWindow as GameWindow;
+            }
+        }
 
         [STAThread]
         public static void Main(string[] args)
@@ -171,9 +185,8 @@ namespace Orbit
 
         public void CreateGameGui(bool setCanvas = true)
         {
-            mainWindow.mainGrid.Children.Clear();
             GameUC gameW = new GameUC();
-            mainWindow.mainGrid.Children.Add(gameW);
+            AddWindow(gameW);
             sceneMgr.GameWindowState = Orbit.Core.WindowState.IN_GAME;
             if (setCanvas)
                 sceneMgr.Enqueue(new Action(() =>
@@ -191,17 +204,16 @@ namespace Orbit
 
         public Canvas GetCanvas()
         {
-            return LogicalTreeHelper.FindLogicalNode(MainWindow, "mainCanvas") as Canvas;
+            return LogicalTreeHelper.FindLogicalNode(mainWindow.mainGrid, "mainCanvas") as Canvas;
         }
 
         public void CreateLobbyGui(bool asLeader, bool settingsLocked = false)
         {
-            mainWindow.mainGrid.Children.Clear();
             sceneMgr.Enqueue(new Action(() =>
             {
                 sceneMgr.GetCurrentPlayer().Data.LobbyLeader = asLeader;
             }));
-            mainWindow.mainGrid.Children.Add(new LobbyUC(asLeader, settingsLocked));
+            AddWindow(new LobbyUC(asLeader, settingsLocked));
             sceneMgr.GameWindowState = Orbit.Core.WindowState.IN_LOBBY;
         }
 
@@ -243,8 +255,7 @@ namespace Orbit
             SoundManager.Instance.StopAllSounds();
             SoundManager.Instance.StartPlayingInfinite(SharedDef.MUSIC_BACKGROUND_CALM);
 
-            mainWindow.mainGrid.Children.Clear();
-            mainWindow.mainGrid.Children.Add(new MainUC());
+            AddWindow(new MainUC());
             sceneMgr.GameWindowState = Orbit.Core.WindowState.IN_MAIN_MENU;
         }
 
@@ -281,10 +292,9 @@ namespace Orbit
 
         public void LookForGame()
         {
-            mainWindow.mainGrid.Children.Clear();
             FindServerUC f = new FindServerUC();
             f.LastAddress = lastServerAddress;
-            mainWindow.mainGrid.Children.Add(f);
+            AddWindow(f);
         }
 
         public void RepeatGame()
@@ -341,23 +351,17 @@ namespace Orbit
 
         public void CreateScoreboardGui(LobbyPlayerData winnerData, List<LobbyPlayerData> data)
         {
-            mainWindow.mainGrid.Children.Clear();
-            mainWindow.mainGrid.Children.Add(new ScoreboardUC(winnerData, data));
+            AddWindow(new ScoreboardUC(winnerData, data));
         }
 
         public void ShowStatisticsGui()
         {
-            mainWindow.mainGrid.Children.Clear();
-            mainWindow.mainGrid.Children.Add(new StatisticsUC());
+            AddWindow(new StatisticsUC());
         }
 
         public void ShowBotSelectionGui()
         {
-            UIElement uc = LogicalTreeHelper.FindLogicalNode(mainWindow.mainGrid, "botSelection") as UIElement;
-            if (uc != null)
-                mainWindow.mainGrid.Children.Remove(uc);
-            else
-                mainWindow.mainGrid.Children.Add(new BotSelection());
+            AddMenu(new BotSelection());
         }
 
         public void OnKeyEvent(System.Windows.Input.KeyEventArgs e)
@@ -370,12 +374,34 @@ namespace Orbit
 
         public void ShowGameOverview(List<PlayerOverviewData> data)
         {
-            mainWindow.mainGrid.Children.Add(new GameOverviewUC(data));
+            AddMenu(new GameOverviewUC(data));
         }
 
         public bool IsGameStarted() 
         { 
             return mainWindow.GameRunning; 
         }
+
+        public void ClearMenus()
+        {
+            mainWindow.ClearMenus();
+        }
+
+        public void AddMenu(UserControl menu, bool removeOldMenus = true)
+        {
+            mainWindow.AddMenu(menu, removeOldMenus);
+        }
+
+        public void ClearWindows()
+        {
+            mainWindow.mainGrid.Children.Clear();
+        }
+
+        public void AddWindow(UserControl window)
+        {
+            ClearMenus();
+            ClearWindows();
+            mainWindow.mainGrid.Children.Add(window);
+        }           
     }
 }

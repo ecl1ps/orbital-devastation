@@ -106,7 +106,7 @@ namespace Orbit.Core.Players
             if (Data.Gold < 0)
                 return;
 
-            if (IsCurrentPlayer())
+            if (IsCurrentPlayer() && IsActivePlayer())
                 SceneMgr.ShowStatusText(4, "Gold: " + Data.Gold);
         }
 
@@ -117,7 +117,7 @@ namespace Orbit.Core.Players
             if (Data.Score <= 0)
                 return;
 
-            if (IsCurrentPlayer())
+            if (IsCurrentPlayer() && IsActivePlayer())
                 SceneMgr.ShowStatusText(5, "Score: " + Data.Score);
         }
 
