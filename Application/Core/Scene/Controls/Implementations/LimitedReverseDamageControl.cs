@@ -51,7 +51,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         private void End()
         {
-            OnControlDestroy();
+            OnSceneObjectRemove();
             me.RemoveControl(this);
             me.GetControlsOfType<IDamageControl>().ForEach(control => control.Vulnerable = true);
 

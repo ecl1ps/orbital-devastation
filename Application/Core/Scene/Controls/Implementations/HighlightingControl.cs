@@ -47,12 +47,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 throw new NotSupportedException("Highlighting control supports only Sphere parent object yet");
 
             enabled = false;
-
-            AddControlDestroyAction(new Action(() =>
-            {
-                if (highlighter != null)
-                    highlighter.DoRemoveMe();
-            }));
         }
 
         private void CreateHighlighter()

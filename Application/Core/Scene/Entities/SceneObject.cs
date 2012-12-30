@@ -98,7 +98,10 @@ namespace Orbit.Core.Scene.Entities
             for (int i = 0; i < controls.Count; ++i)
             {
                 if (typeof(T).IsAssignableFrom(controls[i].GetType()))
+                {
+                    controls[i].OnRemove();
                     controls.RemoveAt(i);
+                }
             }
         }
 
@@ -148,7 +151,8 @@ namespace Orbit.Core.Scene.Entities
         {
             SceneMgr.RemoveFromSceneDelayed(obj);
 
-            controls.ForEach(control => control.OnControlDestroy());
+            controls.ForEach(control => control.OnRemove());
+            controls.ForEach(control => control.OnSceneObjectRemove());
         }
 
         public void DoRemoveMe()
@@ -158,6 +162,7 @@ namespace Orbit.Core.Scene.Entities
 
         public void RemoveControl(Control control)
         {
+            control.OnRemove();
             controls.Remove(control);
         }
 

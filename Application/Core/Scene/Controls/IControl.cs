@@ -7,8 +7,10 @@ namespace Orbit.Core.Scene.Controls
     {
         Boolean Enabled { get; set; }
 
-        void OnControlDestroy();
+        void OnSceneObjectRemove();
 
-        void AddControlDestroyAction(Action a);
+        void AddSceneObjectRemoveAction(Action a);
+
+        void OnRemove();
     }
 }
