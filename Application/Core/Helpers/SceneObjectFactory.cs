@@ -524,5 +524,21 @@ namespace Orbit.Core.Helpers
 
             return ellipse;
         }
+
+        public static SphereField CreateSphereField(SceneMgr mgr, Vector position, int radius, Color color) 
+        {
+            SphereField f = new SphereField(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
+            f.Radius = radius;
+            f.Color = color;
+            f.Position = position;
+            f.SetGeometry(SceneGeometryFactory.CreateConstantRippedColorEllipseGeometry(f));
+
+            SphereCollisionShape shape = new SphereCollisionShape();
+            shape.Radius = radius;
+            shape.Center = f.Center;
+            f.CollisionShape = shape;
+
+            return f;
+        }
     }
 }

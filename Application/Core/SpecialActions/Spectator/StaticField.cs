@@ -5,11 +5,15 @@ using System.Text;
 using Orbit.Core.Client;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Controls.Implementations;
+using Orbit.Core.Helpers;
+using System.Windows.Media;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
     class StaticField : SpectatorAction
     {
+        private SphereField field = null;
+
         public StaticField(SceneMgr mgr, Players.Player owner, params ISpectatorAction[] actions)
             : base(mgr, owner, actions)
         {
@@ -24,18 +28,38 @@ namespace Orbit.Core.SpecialActions.Spectator
 
         public override bool IsReady()
         {
-            return base.IsReady() && Owner.Device.GetControlOfType<StaticFieldControl>() == null;
+            return base.IsReady() && (field == null || field.Dead);
         }
 
+        public override void Update(float tpf)
+        {
+            base.Update(tpf);
+            if (field != null && !field.Dead)
+                this.RemainingCooldown = Cooldown;
+        }
 
         protected override void StartAction(List<Asteroid> afflicted)
         {
+            Color color = new Color();
+            color.A = 100;
+            color.R = 80;
+            color.G = 255;
+            color.B = 80;
+            field = SceneObjectFactory.CreateSphereField(SceneMgr, Owner.Device.Position, 200, color);
+            
             StaticFieldControl control = new StaticFieldControl();
             control.Force = 100;
             control.LifeTime = 5;
-            control.Radius = 200;
 
-            Owner.Device.AddControl(control);
+            RippleEffectControl rippleControl = new RippleEffectControl();
+            rippleControl.Speed = 15;
+            
+            field.AddControl(control);
+            field.AddControl(rippleControl);
+            field.AddControl(new PositionCloneControl(Owner.Device));
+            
+
+            SceneMgr.DelayedAttachToScene(field);
         }
     }
 }

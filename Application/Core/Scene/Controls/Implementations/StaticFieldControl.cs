@@ -5,37 +5,25 @@ using System.Text;
 using Orbit.Core.Scene.CollisionShapes;
 using Orbit.Core.Scene.Entities;
 using System.Windows;
+using Orbit.Core.Scene.Controls.Collisions;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    class StaticFieldControl : Control
+    class StaticFieldControl : Control, ICollisionReactionControl
     {
         public float LifeTime { get; set; }
         public float Force { get; set; }
-        public int Radius { get; set; }
-
-        private SphereCollisionShape collisionShape;
 
         protected override void InitControl(ISceneObject me)
         {
             base.InitControl(me);
-            collisionShape = new SphereCollisionShape();
-            collisionShape.Radius = Radius;
         }
 
         protected override void UpdateControl(float tpf)
         {
             base.UpdateControl(tpf);
             if (LifeTime <= 0)
-                Destroy();
-
-            collisionShape.Center = me.Center;
-
-            foreach (ISceneObject obj in me.SceneMgr.GetSceneObjects())
-            {
-                if (obj is IMovable && collisionShape.CollideWith(obj.CollisionShape))
-                    collide(obj as IMovable, tpf);
-            }
+                me.DoRemoveMe();
 
             LifeTime -= tpf;
         }
@@ -55,6 +43,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             control.Speed = (float) v.Length;
             obj.Direction = v.NormalizeV();
+        }
+
+        public void DoCollideWith(ISceneObject other, float tpf)
+        {
+            if (other is IMovable)
+                collide(other as IMovable, tpf);
         }
     }
 }

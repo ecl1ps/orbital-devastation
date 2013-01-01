@@ -162,6 +162,7 @@
     <Compile Include="Core\Scene\Controls\Implementations\HighlightingControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\MinorAsteroidCollisionReactionControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\PowerlessSingularityControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\RippleEffectControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\SingularityBulletCollisionReactionControl.cs" />
     <Compile Include="Core\Scene\Controls\Collisions\ICollisionShapeUpdater.cs" />
     <Compile Include="Core\Scene\Controls\Collisions\Implementations\StickySphereCollisionShapeControl.cs" />
@@ -206,6 +207,7 @@
     <Compile Include="Core\Scene\Entities\Implementations\Laser.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\PowerHook.cs" />
     <Compile Include="Core\Scene\CollisionShapes\SphereCollisionShape.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\SphereField.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\StaticShield.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\PercentageArc.cs" />
     <Compile Include="Core\Scene\Controls\Collisions\Implementations\StickyPointCollisionShapeControl.cs" />

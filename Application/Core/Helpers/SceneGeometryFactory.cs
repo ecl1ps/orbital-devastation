@@ -31,8 +31,29 @@ namespace Orbit.Core.Helpers
                 path.Data = geom;
                 path.Fill = new SolidColorBrush(s.Color);
                 path.Stroke = Brushes.Black;
+
                 Canvas.SetLeft(path, s.Position.X);
                 Canvas.SetTop(path, s.Position.Y);
+            }));
+
+            return path;
+        }
+
+        public static Path CreateConstantRippedColorEllipseGeometry(Sphere s)
+        {
+            s.HasPositionInCenter = true;
+
+            Path path = null;
+            s.SceneMgr.Invoke(new Action(() =>
+            {
+                EllipseGeometry geom = new EllipseGeometry(new Point(), s.Radius, s.Radius);
+                path = new Path();
+                path.Data = geom;
+                path.Fill = new SolidColorBrush(s.Color);
+                path.Stroke = Brushes.Black;
+                Canvas.SetLeft(path, s.Position.X);
+                Canvas.SetTop(path, s.Position.Y);
+                Canvas.SetZIndex(path, -10);
             }));
 
             return path;
