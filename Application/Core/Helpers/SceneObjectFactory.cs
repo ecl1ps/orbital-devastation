@@ -540,5 +540,15 @@ namespace Orbit.Core.Helpers
 
             return f;
         }
+
+        public static IceSquare CreateIceSquare(SceneMgr mgr, Vector position, Size size)
+        {
+            IceSquare s = new IceSquare(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
+            s.Size = size;
+            s.Position = position;
+            s.SetGeometry(SceneGeometryFactory.CreateIceCube(s));
+
+            return s;
+        }
     }
 }

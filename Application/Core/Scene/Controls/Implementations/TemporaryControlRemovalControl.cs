@@ -7,13 +7,14 @@ namespace Orbit.Core.Scene.Controls.Implementations
 {
     class TemporaryControlRemovalControl : Control
     {
-        public IControl ToRemove { get; set; }
+        public List<IControl> ToRemove { get; set; }
         public float Time { get; set; }
 
         protected override void InitControl(Entities.ISceneObject me)
         {
             base.InitControl(me);
-            me.RemoveControl(ToRemove);
+
+            ToRemove.ForEach(control => me.RemoveControl(control));
         }
 
         protected override void UpdateControl(float tpf)
@@ -22,7 +23,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             if (Time <= 0)
             {
-                me.AddControl(ToRemove);
+                ToRemove.ForEach(control => me.AddControl(control));
                 Destroy();
             }
 

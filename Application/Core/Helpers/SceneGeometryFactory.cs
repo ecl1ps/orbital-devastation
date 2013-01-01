@@ -473,5 +473,28 @@ namespace Orbit.Core.Helpers
 
             return img;
         }
+
+        public static Image CreateIceCube(IceSquare s)
+        {
+            Image img = null;
+            s.SceneMgr.Invoke(new Action(() =>
+            {
+                BitmapImage bi = new BitmapImage();
+                bi.BeginInit();
+                bi.UriSource = new Uri("pack://application:,,,/resources/images/actions/ice-cube.png");
+                bi.EndInit();
+
+                img = new Image();
+                img.Source = bi;
+                img.Width = s.Size.Width;
+                img.Height = s.Size.Height;
+
+                Canvas.SetLeft(img, s.Position.X);
+                Canvas.SetTop(img, s.Position.Y);
+                Canvas.SetZIndex(img, -1);
+            }));
+
+            return img;
+        }
     }
 }

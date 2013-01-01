@@ -124,6 +124,7 @@
     <Compile Include="Core\Client\GameStates\LevelEnvironment.cs" />
     <Compile Include="Core\Client\GameStates\DelayedActionInvoker.cs" />
     <Compile Include="Core\Client\SceneMgr.Message.cs" />
+    <Compile Include="Core\Client\Shaders\AlphaChannelEffect.cs" />
     <Compile Include="Core\Client\Shaders\ConstantColorEffect.cs" />
     <Compile Include="Core\Client\Shaders\CustomColorEffect.cs" />
     <Compile Include="Core\Client\Sounds\FileSound.cs" />
@@ -156,6 +157,7 @@
     <Compile Include="Core\Scene\Controls\Health\Implementations\DestroyHpControl.cs" />
     <Compile Include="Core\Scene\Controls\Health\Implementations\BaseHealthControl.cs" />
     <Compile Include="Core\Scene\Controls\IDamageControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\AsteroidFreezeControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ControlableMiningModuleControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ExcludingExplodingSingularityBulletControl.cs" />
     <Compile Include="Core\Scene\Controls\Health\HpControl.cs" />
@@ -199,6 +201,7 @@
     <Compile Include="Core\Scene\Controls\Health\IHpControl.cs" />
     <Compile Include="Core\Scene\Entities\IHpBar.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\HighlightingSphere.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\IceSquare.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\OrbitEllipse.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\MiningModule.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\PercentageEllipse.cs" />
@@ -480,6 +483,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <Resource Include="resources\images\actions\ice-cube.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="resources\images\icons\asteroid-slow-icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -642,6 +648,12 @@
     <Content Include="logger.config">
       <SubType>Designer</SubType>
     </Content>
+    <Resource Include="resources\shaders\alphaChannelEffect.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\shaders\alphaChannelEffect.ps">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="resources\sounds\background\action.ogg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
