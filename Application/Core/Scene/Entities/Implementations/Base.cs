@@ -58,7 +58,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public Base(SceneMgr mgr, long id)
             : base(mgr, id)
         {
-            Category = DrawingCategory.PLAYER_OBJECTS;
+            Category = DrawingCategory.BACKGROUND;
         }
 
         public void LoadImages()
@@ -99,12 +99,12 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         private void VisualiseBase()
         {
-            StatPowerUp sq = new StatPowerUp(SceneMgr, SceneMgr.GetCurrentPlayer().GetId());
+            Square sq = new SimpleSquare(SceneMgr, SceneMgr.GetCurrentPlayer().GetId());
             sq.Position = Position;
             sq.Size = Size;
             SceneMgr.AttachGraphicalObjectToScene(SceneGeometryFactory.CreateConstantColorRectangleGeometry(sq), DrawingCategory.PROJECTILE_BACKGROUND);
 
-            Sphere s = new StaticShield(SceneMgr, SceneMgr.GetCurrentPlayer().GetId());
+            Sphere s = new SimpleSphere(SceneMgr, SceneMgr.GetCurrentPlayer().GetId());
             s.Position = new Vector(Center.X, Position.Y + 3.36 * Size.Height);
             s.Radius = (int)(Size.Width / 1.4);
             SceneMgr.AttachGraphicalObjectToScene(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s), DrawingCategory.PROJECTILE_BACKGROUND);
