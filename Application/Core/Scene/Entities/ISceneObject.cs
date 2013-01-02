@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Orbit.Core.Client;
 using Orbit.Core.Scene.CollisionShapes;
 using System.Windows.Media;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -25,6 +26,8 @@ namespace Orbit.Core.Scene.Entities
         bool Enabled { get; set; }
 
         bool Visible { get; set; }
+
+        DrawingCategory Category { get; set; }
 
         void Update(float tpf);
 

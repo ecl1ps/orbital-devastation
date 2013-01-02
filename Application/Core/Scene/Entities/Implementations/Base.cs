@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using Orbit.Core.Helpers;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.CollisionShapes;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -57,6 +58,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public Base(SceneMgr mgr, long id)
             : base(mgr, id)
         {
+            Category = DrawingCategory.PLAYER_OBJECTS;
         }
 
         public void LoadImages()
@@ -88,8 +90,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         private void ChangeGeometry(DrawingGroup geometry)
         {
-            SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry());
-            SceneMgr.AttachGraphicalObjectToScene(geometry);
+            SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry(), DrawingCategory.PLAYER_OBJECTS);
+            SceneMgr.AttachGraphicalObjectToScene(geometry, DrawingCategory.PLAYER_OBJECTS);
             SetGeometry(geometry);
 
             //VisualiseBase();
@@ -100,24 +102,24 @@ namespace Orbit.Core.Scene.Entities.Implementations
             StatPowerUp sq = new StatPowerUp(SceneMgr, SceneMgr.GetCurrentPlayer().GetId());
             sq.Position = Position;
             sq.Size = Size;
-            SceneMgr.AttachGraphicalObjectToScene(SceneGeometryFactory.CreateConstantColorRectangleGeometry(sq));
+            SceneMgr.AttachGraphicalObjectToScene(SceneGeometryFactory.CreateConstantColorRectangleGeometry(sq), DrawingCategory.PROJECTILE_BACKGROUND);
 
             Sphere s = new StaticShield(SceneMgr, SceneMgr.GetCurrentPlayer().GetId());
             s.Position = new Vector(Center.X, Position.Y + 3.36 * Size.Height);
             s.Radius = (int)(Size.Width / 1.4);
-            SceneMgr.AttachGraphicalObjectToScene(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
+            SceneMgr.AttachGraphicalObjectToScene(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s), DrawingCategory.PROJECTILE_BACKGROUND);
         }
 
         public override void  OnRemove()
         {
             base.OnRemove();
-            SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry());
-            SceneMgr.RemoveGraphicalObjectFromScene(background);
+            SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry(), DrawingCategory.PLAYER_OBJECTS);
+            SceneMgr.RemoveGraphicalObjectFromScene(background, DrawingCategory.BACKGROUND);
         }
 
         public override void OnAttach()
         {
-            SceneMgr.AttachGraphicalObjectToScene(background);
+            SceneMgr.AttachGraphicalObjectToScene(background, DrawingCategory.BACKGROUND);
             //VisualiseBase();
         }
     }

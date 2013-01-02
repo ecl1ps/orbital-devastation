@@ -6,6 +6,7 @@ using Orbit.Core.Client;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -19,6 +20,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
             RadiusX = radiusX;
             RadiusY = radiusY;
+            Category = DrawingCategory.PROJECTILES;
         }
 
         public override bool IsOnScreen(Size screenSize)

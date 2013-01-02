@@ -15,6 +15,7 @@ using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Controls.Collisions.Implementations;
 using Orbit.Core.Scene.CollisionShapes;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -43,13 +44,14 @@ namespace Orbit.Core.Scene.Entities.Implementations
             : base(mgr, id)
         {
             HookType = HookType.HOOK_NORMAL;
+            Category = DrawingCategory.PROJECTILES;
         }
 
         public void PrepareLine()
         {
             HookControl control = GetControlOfType<HookControl>();
             lineGeom = SceneGeometryFactory.CreateLineGeometry(SceneMgr, Colors.LightSteelBlue, 2, Colors.Black, control.Origin, control.Origin);
-            SceneMgr.AttachGraphicalObjectToScene(lineGeom);
+            SceneMgr.AttachGraphicalObjectToScene(lineGeom, DrawingCategory.PROJECTILE_BACKGROUND);
         }
 
         protected override void UpdateGeometricState()
@@ -91,12 +93,12 @@ namespace Orbit.Core.Scene.Entities.Implementations
             }
 
             DoRemoveMe();
-            SceneMgr.RemoveGraphicalObjectFromScene(lineGeom);
+            SceneMgr.RemoveGraphicalObjectFromScene(lineGeom, DrawingCategory.PROJECTILE_BACKGROUND);
         }
 
         public override void OnRemove()
         {
-            SceneMgr.RemoveGraphicalObjectFromScene(lineGeom);
+            SceneMgr.RemoveGraphicalObjectFromScene(lineGeom, DrawingCategory.PROJECTILE_BACKGROUND);
         }
 
         protected virtual void AddGoldToOwner(int gold) 

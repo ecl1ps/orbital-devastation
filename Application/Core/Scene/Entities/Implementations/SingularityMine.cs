@@ -10,6 +10,7 @@ using Orbit.Core.Client;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.CollisionShapes;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -26,6 +27,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
             BorderBrush = Brushes.Black;
             FillBrush = Brushes.Black;
+            Category = DrawingCategory.PROJECTILES;
         }
 
         protected override void UpdateGeometricState()

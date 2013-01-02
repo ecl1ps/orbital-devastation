@@ -10,6 +10,7 @@ using Orbit.Core.Helpers;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.CollisionShapes;
 using Orbit.Core.Scene.Controls.Collisions.Implementations;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -31,6 +32,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public Asteroid(SceneMgr mgr, long id)
             : base(mgr, id)
         {
+            Category = DrawingCategory.ASTEROIDS;
         }
 
         protected override void UpdateGeometricState()

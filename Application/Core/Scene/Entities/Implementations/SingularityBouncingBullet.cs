@@ -13,7 +13,7 @@ using Orbit.Core.Scene.Controls.Collisions.Implementations;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    class SingularityBouncingBullet : SingularityExplodingBullet
+    public class SingularityBouncingBullet : SingularityExplodingBullet
     {
         public SingularityBouncingBullet(SceneMgr mgr, long id)
             : base(mgr, id)

@@ -230,7 +230,7 @@ namespace Orbit.Core.Client
 
             BeginInvoke(new Action(() =>
             {
-                area.Add(obj.GetGeometry());
+                area.Add(obj.GetGeometry(), obj.Category);
             }));
         }
 
@@ -245,22 +245,22 @@ namespace Orbit.Core.Client
         /// <summary>
         /// prida GUI objekt do sceny - nikoliv SceneObject
         /// </summary>
-        public void AttachGraphicalObjectToScene(Drawing obj)
+        public void AttachGraphicalObjectToScene(Drawing obj, DrawingCategory category = DrawingCategory.BACKGROUND)
         {
             BeginInvoke(new Action(() =>
             {
-                area.Add(obj);
+                area.Add(obj, category);
             }));
         }
 
         /// <summary>
         /// odstrani jen GUI element
         /// </summary>
-        public void RemoveGraphicalObjectFromScene(Drawing obj)
+        public void RemoveGraphicalObjectFromScene(Drawing obj, DrawingCategory category = DrawingCategory.BACKGROUND)
         {
             BeginInvoke(new Action(() =>
             {
-                area.Remove(obj);
+                area.Remove(obj, category);
             }));
         }
 
@@ -281,7 +281,7 @@ namespace Orbit.Core.Client
             objects.Remove(obj);
             BeginInvoke(new Action(() =>
             {
-                area.Remove(obj.GetGeometry());
+                area.Remove(obj.GetGeometry(), obj.Category);
             }));
         }
 

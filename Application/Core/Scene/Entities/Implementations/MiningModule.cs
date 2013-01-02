@@ -10,6 +10,7 @@ using Lidgren.Network;
 using Orbit.Core.Players;
 using Orbit.Core.Scene.Controls;
 using System.Windows;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -22,6 +23,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
             this.Owner = owner;
             HasPositionInCenter = false;
+            Category = DrawingCategory.PLAYER_OBJECTS;
         }
 
         public override bool IsOnScreen(Size screenSize)

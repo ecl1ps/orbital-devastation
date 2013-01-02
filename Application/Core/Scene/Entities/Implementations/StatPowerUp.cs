@@ -10,6 +10,7 @@ using Orbit.Core.Scene.Controls;
 using Orbit.Core.Helpers;
 using System.Windows.Media;
 using Orbit.Core.Scene.CollisionShapes;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -17,7 +18,11 @@ namespace Orbit.Core.Scene.Entities.Implementations
     {
         public DeviceType PowerUpType { get; set; }
 
-        public StatPowerUp(SceneMgr mgr, long id) : base(mgr, id) { }
+        public StatPowerUp(SceneMgr mgr, long id) 
+            : base(mgr, id) 
+        {
+            Category = DrawingCategory.LOOTABLES;
+        }
 
         public void WriteObject(NetOutgoingMessage msg)
         {

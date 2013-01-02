@@ -15,6 +15,7 @@ using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.SpecialActions;
 using Orbit.Core.SpecialActions.Gamer;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Weapons
 {
@@ -62,14 +63,14 @@ namespace Orbit.Core.Weapons
         {
             SceneMgr.Invoke(new Action(() =>
             {
-                SceneMgr.RemoveGraphicalObjectFromScene(lineGeom);
+                SceneMgr.RemoveGraphicalObjectFromScene(lineGeom, DrawingCategory.PROJECTILE_BACKGROUND);
             }));
         }
 
         private void PrepareLine()
         {
             lineGeom = SceneGeometryFactory.CreateLineGeometry(SceneMgr, Colors.Crimson, 1, Colors.Red, startPoint.ToVector(), endPoint.ToVector());
-            SceneMgr.AttachGraphicalObjectToScene(lineGeom);
+            SceneMgr.AttachGraphicalObjectToScene(lineGeom, DrawingCategory.PROJECTILE_BACKGROUND);
         }
 
         protected override void SpawnMine(Point point)

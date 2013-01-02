@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Client.GameStates
 {
@@ -109,7 +110,8 @@ namespace Orbit.Core.Client.GameStates
 
         private void AttachCustomCursor()
         {
-            //sceneMgr.AttachGraphicalObjectToScene(cursor);
+            // TODO
+            //sceneMgr.AttachGraphicalObjectToScene(cursor, DrawingCategory.GUI);
             sceneMgr.Invoke(new Action(() =>
             {
                 Canvas.SetZIndex(cursor, 500);
@@ -134,7 +136,8 @@ namespace Orbit.Core.Client.GameStates
         {
             sceneMgr.Invoke(new Action(() =>
             {
-                //sceneMgr.RemoveGraphicalObjectFromScene(cursor);
+                // TODO
+                //sceneMgr.RemoveGraphicalObjectFromScene(cursor, DrawingCategory.GUI);
                 PositionNativeCursor();
                 Cursor.Show();
             }));

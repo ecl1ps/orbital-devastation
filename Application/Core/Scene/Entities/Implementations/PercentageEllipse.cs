@@ -6,6 +6,7 @@ using System.Windows.Media;
 using Orbit.Core.Client;
 using System.Windows;
 using System.Windows.Controls;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -27,6 +28,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             : base(mgr, id)
         {
             Percentage = 1;
+            Category = DrawingCategory.BACKGROUND;
         }
 
         public Point ComputeEllipsePoint(float angle)

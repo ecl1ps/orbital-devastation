@@ -8,6 +8,7 @@ using System.Collections;
 using System.Linq;
 using System.Windows.Media;
 using MB.Tools;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -22,6 +23,7 @@ namespace Orbit.Core.Scene.Entities
         public Vector Position { get; set; }
         public Vector Direction { get; set; }
         public float Rotation { get; set; }
+        public DrawingCategory Category { get; set; }
         public virtual Vector Center
         {
             get
@@ -74,6 +76,7 @@ namespace Orbit.Core.Scene.Entities
             Dead = false;
             SceneMgr = mgr;
             Id = id;
+            Category = DrawingCategory.BACKGROUND;
         }
 
         public void Update(float tpf)

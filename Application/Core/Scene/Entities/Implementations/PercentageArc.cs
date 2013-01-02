@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Controls;
 using Orbit.Core.Client;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -25,6 +26,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             : base(mgr, id)
         {
             Percentage = 1;
+            Category = DrawingCategory.PLAYER_OBJECTS;
         }
 
         public Point ComputePointOnCircle(double angle)

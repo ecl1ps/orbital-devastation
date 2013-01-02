@@ -105,15 +105,21 @@ namespace Orbit.Gui.Visuals
         }
     }
 
+    /// <summary>
+    /// kategorie objektu, prakticky urcuje Z-index objektu a pomaha optimalizovat scenu;
+    /// BACKGROUND je nejnize a TEXTS nejvyse, MAX nesmi byt pouzito
+    /// </summary>
     public enum DrawingCategory
     {
         BACKGROUND              = 0,
         ASTEROIDS               = 1,
         LOOTABLES               = 2,
         PLAYER_OBJECTS          = 3,
-        PROJECTILES             = 4,
-        TEXTS                   = 5,
+        PROJECTILE_BACKGROUND   = 4,
+        PROJECTILES             = 5,
+        TEXTS                   = 6,
+        GUI                     = 7,
 
-        MAX                     = 6,
+        MAX                     = 8,
     }
 }
