@@ -293,7 +293,7 @@ namespace Orbit.Core.Client
         }
 
         /// <summary>
-        /// vytvori hraci action bar, input manager a zbranea bazi nebo mining module
+        /// vytvori hraci action bar, input manager a zbrane a bazi nebo mining module
         /// </summary>
         /// <param name="p">hrac kteremu se maji vytvorit objekty</param>
         private void CreateActiveObjectsOfPlayer(Player p)
@@ -506,7 +506,7 @@ namespace Orbit.Core.Client
             Hook h = msg.ReadObjectHook(this);
             h.ReadObject(msg);
             h.Owner = GetOpponentPlayer();
-            //h.SetGeometry(SceneGeometryFactory.CreateHookHead(h));
+            h.SetGeometry(SceneGeometryFactory.CreateHookHead(h));
 
             h.PrepareLine();
             DelayedAttachToScene(h);
@@ -527,7 +527,7 @@ namespace Orbit.Core.Client
             SingularityBouncingBullet s = new SingularityBouncingBullet(this, -1);
             s.ReadObject(msg);
             s.Owner = GetOpponentPlayer();
-            //s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
+            s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
             DelayedAttachToScene(s);
             SyncReceivedObject(s, msg);
         }
@@ -537,7 +537,7 @@ namespace Orbit.Core.Client
             SingularityExplodingBullet s = new SingularityExplodingBullet(this, -1);
             s.ReadObject(msg);
             s.Owner = GetOpponentPlayer();
-            //s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
+            s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
             DelayedAttachToScene(s);
             SyncReceivedObject(s, msg);
         }
@@ -547,7 +547,7 @@ namespace Orbit.Core.Client
             SingularityBullet s = new SingularityBullet(this, -1);
             s.ReadObject(msg);
             s.Owner = GetOpponentPlayer();
-            //s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
+            s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
             DelayedAttachToScene(s);
             SyncReceivedObject(s, msg);
 
@@ -559,7 +559,7 @@ namespace Orbit.Core.Client
             SingularityMine s = new SingularityMine(this, -1);
             s.ReadObject(msg);
             s.Owner = GetOpponentPlayer();
-            //s.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(s));
+            s.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(s));
             DelayedAttachToScene(s);
             SyncReceivedObject(s, msg);
         }

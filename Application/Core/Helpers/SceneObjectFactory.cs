@@ -48,7 +48,7 @@ namespace Orbit.Core.Helpers
             return baze;
         }
 
-        public static StaticShield CreateShield(SceneMgr mgr, Player plr, ISceneObject toFollow)
+        /*public static StaticShield CreateShield(SceneMgr mgr, Player plr, ISceneObject toFollow)
         {
             StaticShield shield = new StaticShield(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             shield.Position = toFollow.Position;
@@ -60,7 +60,7 @@ namespace Orbit.Core.Helpers
             cs.Radius = shield.Radius;
             shield.CollisionShape = cs;
 
-            //shield.SetGeometry(SceneGeometryFactory.CreateShield(shield));
+            shield.SetGeometry(SceneGeometryFactory.CreateShield(shield));
 
             shield.AddControl(new StickySphereCollisionShapeControl());
 
@@ -70,7 +70,7 @@ namespace Orbit.Core.Helpers
             shield.AddControl(new PositionCloneControl(toFollow));
 
             return shield;
-        }
+        }*/
 
         public static SingularityMine CreatePowerlessMine(SceneMgr mgr, Vector pos, Vector dir, Player plr)
         {
