@@ -337,6 +337,8 @@
     <Compile Include="Gui\StatisticsUC.xaml.cs">
       <DependentUpon>StatisticsUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\Visuals\GameVisualArea.cs" />
+    <Compile Include="Gui\Visuals\VisualRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Scene\Controls\Control.cs" />
     <Compile Include="Core\Scene\Controls\IControl.cs" />

@@ -35,6 +35,8 @@ namespace Orbit.Gui
                 LayoutUpdated += OnLayoutUpdated;
                 Unloaded += OnWindowUnload;
             }
+            gameArea.Width = SharedDef.VIEW_PORT_SIZE.Width;
+            gameArea.Height = SharedDef.VIEW_PORT_SIZE.Height;
         }
 
         private void OnLayoutUpdated(object sender, EventArgs args)

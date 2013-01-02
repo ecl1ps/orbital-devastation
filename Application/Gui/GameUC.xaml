@@ -4,9 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:controls="clr-namespace:Orbit.Gui"
+             xmlns:visual="clr-namespace:Orbit.Gui.Visuals"
              Width="1000" Height="700" >
 
     <Canvas x:Name="mainCanvas" MinWidth="400" MinHeight="300" Width="1000" Height="700" HorizontalAlignment="Stretch" VerticalAlignment="Top" MouseDown="OnCanvasMouseClick" MouseUp="OnCanvasMouseClick" MouseMove="OnCanvasMouseMove" >
+        <visual:GameVisualArea x:Name="gameArea" />
         <Label Canvas.Left="220" Canvas.Top="584" Height="30" Name="lblIntegrityLeft" Width="60" Panel.ZIndex="100" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Visibility="Hidden"></Label>
         <Label Canvas.Left="723" Canvas.Top="585" Height="30" Name="lblIntegrityRight" Width="60" Panel.ZIndex="100" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Visibility="Hidden"></Label>
         <Label Canvas.Left="4" Canvas.Top="612" Height="30" Name="lblNameLeft" Width="150" Panel.ZIndex="100" FontSize="15" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"></Label>

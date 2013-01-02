@@ -217,17 +217,17 @@ namespace Orbit.Core.Client
             {
                 App.Instance.CreateGameGui(false);
                 App.Instance.SetGameStarted(true);
-                SetCanvas(App.Instance.GetCanvas());
+                SetGameVisualArea(App.Instance.GetGameArea());
             }));
 
             InitStaticMouse();
             BeginInvoke(new Action(() =>
             {
-                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
+                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblEndGame");
                 if (lbl != null)
                     lbl.Content = "";
 
-                Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblWaiting");
+                Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblWaiting");
                 if (lblw != null)
                     lblw.Content = "";
 
@@ -249,14 +249,14 @@ namespace Orbit.Core.Client
             {
                 if (leftPlr != null)
                 {
-                    Label lbl3 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblNameLeft");
+                    Label lbl3 = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblNameLeft");
                     if (lbl3 != null)
                         lbl3.Content = leftPlr.Data.Name;
                 }
 
                 if (rightPlr != null)
                 {
-                    Label lbl4 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblNameRight");
+                    Label lbl4 = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblNameRight");
                     if (lbl4 != null)
                         lbl4.Content = rightPlr.Data.Name;
                 }
