@@ -506,11 +506,8 @@ namespace Orbit.Core.Client
             Hook h = msg.ReadObjectHook(this);
             h.ReadObject(msg);
             h.Owner = GetOpponentPlayer();
-            h.SetGeometry(SceneGeometryFactory.CreateHookHead(h));
-            BeginInvoke(new Action(() =>
-            {
-                Canvas.SetZIndex(h.GetGeometry(), 99);
-            }));
+            //h.SetGeometry(SceneGeometryFactory.CreateHookHead(h));
+
             h.PrepareLine();
             DelayedAttachToScene(h);
             SyncReceivedObject(h, msg);
@@ -530,7 +527,7 @@ namespace Orbit.Core.Client
             SingularityBouncingBullet s = new SingularityBouncingBullet(this, -1);
             s.ReadObject(msg);
             s.Owner = GetOpponentPlayer();
-            s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
+            //s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
             DelayedAttachToScene(s);
             SyncReceivedObject(s, msg);
         }
@@ -540,7 +537,7 @@ namespace Orbit.Core.Client
             SingularityExplodingBullet s = new SingularityExplodingBullet(this, -1);
             s.ReadObject(msg);
             s.Owner = GetOpponentPlayer();
-            s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
+            //s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
             DelayedAttachToScene(s);
             SyncReceivedObject(s, msg);
         }
@@ -550,7 +547,7 @@ namespace Orbit.Core.Client
             SingularityBullet s = new SingularityBullet(this, -1);
             s.ReadObject(msg);
             s.Owner = GetOpponentPlayer();
-            s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
+            //s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
             DelayedAttachToScene(s);
             SyncReceivedObject(s, msg);
 
@@ -562,7 +559,7 @@ namespace Orbit.Core.Client
             SingularityMine s = new SingularityMine(this, -1);
             s.ReadObject(msg);
             s.Owner = GetOpponentPlayer();
-            s.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(s));
+            //s.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(s));
             DelayedAttachToScene(s);
             SyncReceivedObject(s, msg);
         }
@@ -617,7 +614,7 @@ namespace Orbit.Core.Client
         {
             StatPowerUp p = new StatPowerUp(this, -1);
             p.ReadObject(msg);
-            p.SetGeometry(SceneGeometryFactory.CreatePowerUpImage(p));
+            //p.SetGeometry(SceneGeometryFactory.CreatePowerUpImage(p));
             DelayedAttachToScene(p);
             SyncReceivedObject(p, msg);
         }

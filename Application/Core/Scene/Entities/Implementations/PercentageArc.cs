@@ -49,12 +49,12 @@ namespace Orbit.Core.Scene.Entities.Implementations
             else if (!arc.IsLargeArc && Percentage > 0.5)
                 arc.IsLargeArc = true;
 
-            if (colorChanged)
+            /*if (colorChanged)
                 (geometryElement as Path).Stroke = new SolidColorBrush(Color);
 
             arc.Point = ComputePointOnCircle((Math.PI * 2) * Percentage);
             Canvas.SetLeft(geometryElement, Position.X);
-            Canvas.SetTop(geometryElement, Position.Y);
+            Canvas.SetTop(geometryElement, Position.Y);*/
         }
 
         public void SetArc(ArcSegment arc)

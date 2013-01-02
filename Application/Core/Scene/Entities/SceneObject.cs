@@ -2,21 +2,25 @@
 using System.Windows;
 using Orbit.Core.Scene.Controls;
 using System.Collections.Generic;
-using System.Windows.Shapes;
 using Orbit.Core.Client;
 using Orbit.Core.Scene.CollisionShapes;
 using System.Collections;
 using System.Linq;
+using System.Windows.Media;
+using MB.Tools;
 
 namespace Orbit.Core.Scene.Entities
 {
     public abstract class SceneObject : ISceneObject
     {
         private List<IControl> controls;
+
+        protected DrawingGroup geometryElement;
+
         public long Id { get; set; }
-        protected UIElement geometryElement;
         public ICollisionShape CollisionShape { get; set; }
         public Vector Position { get; set; }
+        public float Rotation { get; set; }
         public virtual Vector Center
         {
             get
@@ -42,7 +46,7 @@ namespace Orbit.Core.Scene.Entities
                 {
                     SceneMgr.BeginInvoke(new Action(() =>
                     {
-                        geometryElement.Visibility = value ? Visibility.Visible : Visibility.Hidden;
+                        MetaPropertyExtender.SetMetaProperty(geometryElement, "IsVisible", value);
                     }));
                 }
 
@@ -137,13 +141,16 @@ namespace Orbit.Core.Scene.Entities
 
         public abstract void UpdateGeometric();
 
-        public UIElement GetGeometry()
+        public DrawingGroup GetGeometry()
         {
             return geometryElement;
         }
 
-        public void SetGeometry(UIElement geometryElement)
+        public void SetGeometry(DrawingGroup geometryElement)
         {
+            // zajisti, ze se spravne nastavi meta property
+            visible = false;
+            Visible = true;
             this.geometryElement = geometryElement;
         }
 

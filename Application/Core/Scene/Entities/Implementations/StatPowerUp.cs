@@ -23,7 +23,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         protected override void UpdateGeometricState()
         {
-            geometryElement.RenderTransform = new RotateTransform(Rotation);
+            //geometryElement.RenderTransform = new RotateTransform(Rotation);
         }
 
         public void WriteObject(NetOutgoingMessage msg)

@@ -88,21 +88,22 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         private void ChangeGeometry(UIElement geometry)
         {
-            SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry());
-            SceneMgr.AttachGraphicalObjectToScene(geometry);
-            SetGeometry(geometry);
+            //SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry());
+            //SceneMgr.AttachGraphicalObjectToScene(geometry);
+            //SetGeometry(geometry);
         }
 
         public override void  OnRemove()
         {
             base.OnRemove();
-            SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry());
-            SceneMgr.RemoveGraphicalObjectFromScene(background);
+            //SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry());
+            //SceneMgr.RemoveGraphicalObjectFromScene(background);
         }
 
         public override void OnAttach()
         {
-            SceneMgr.AttachGraphicalObjectToScene(background);
+            //SceneMgr.AttachGraphicalObjectToScene(background);
+
             /*Sphere s = new StaticShield(SceneMgr);
             s.Position = new Vector(Center.X, Position.Y + 2.4 * Size.Height);
             s.Radius = (int)(Size.Width / 1.9);

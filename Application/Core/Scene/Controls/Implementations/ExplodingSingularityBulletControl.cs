@@ -76,7 +76,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             me.GetGeometry().Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
             {
-                (meBullet.GetGeometry() as Path).Fill = new RadialGradientBrush(meBullet.Color, Colors.Black);
+                //(meBullet.GetGeometry() as Path).Fill = new RadialGradientBrush(meBullet.Color, Colors.Black);
             }));
         }
 

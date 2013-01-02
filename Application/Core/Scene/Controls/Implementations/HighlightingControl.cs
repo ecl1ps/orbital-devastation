@@ -66,7 +66,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                     border.A = 0x0;
                     center.A = 0xAA;
 
-                    if (IsCircle)
+                    /*if (IsCircle)
                         highlighter.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(
                             me.SceneMgr, (highlighter as Sphere).Radius, Colors.Transparent, Colors.Transparent, (me as Sphere).Color, me.Position));
                     else
@@ -77,7 +77,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                     me.SceneMgr.BeginInvoke(new Action(() =>
                     {
                         Canvas.SetZIndex(highlighter.GetGeometry(), Canvas.GetZIndex(me.GetGeometry()) - 1);
-                    }));
+                    }));*/
 
                     PositionCloneControl pcc = new PositionCloneControl(me);
                     highlighter.AddControl(pcc);

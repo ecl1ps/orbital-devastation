@@ -74,56 +74,41 @@ namespace Orbit.Core.Helpers
             return path;
         }
 
-        public static Image CreateAsteroidImage(Asteroid s)
+        public static DrawingGroup CreateAsteroidImage(Asteroid a)
         {
-            s.HasPositionInCenter = false;
+            a.HasPositionInCenter = false;
 
-            Image img = null;
-            s.SceneMgr.Invoke(new Action(() =>
+            DrawingGroup g = null;
+
+            a.SceneMgr.Invoke(new Action(() =>
             {
-                /*BitmapImage bi = new BitmapImage();
-                bi.BeginInit();
-                bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/Stone0" +
-                    SceneMgr.GetInstance().GetRandomGenerator().Next(1, 8) + "_SR.png");
-                bi.DecodePixelWidth = s.Radius * 4;
-                bi.EndInit();*/
-
                 BitmapImage bi = new BitmapImage();
                 bi.BeginInit();
-                //prozatim jenom na gold pak bude vic typu
-                if (s.AsteroidType == AsteroidType.GOLDEN)
+
+                if (a.AsteroidType == AsteroidType.GOLDEN)
                     bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/rock_gold_" +
-                        s.TextureId + ".png");
-                else if(s.AsteroidType == AsteroidType.UNSTABLE)
+                        a.TextureId + ".png");
+                else if(a.AsteroidType == AsteroidType.UNSTABLE)
                     bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/rock_unstable_" +
-                        s.TextureId + ".png");
+                        a.TextureId + ".png");
                 else
                     bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/rock_normal_" + 
-                        s.TextureId + ".png");
-                bi.DecodePixelWidth = s.Radius * 4;
+                        a.TextureId + ".png");
+                bi.DecodePixelWidth = a.Radius * 4;
                 bi.EndInit();
 
-                img = new Image();
-                img.Source = bi;
-                img.Width = s.Radius * 2;
-                img.RenderTransform = new RotateTransform(s.Rotation);
-                img.RenderTransformOrigin = new Point(0.5, 0.5);
-
-                /*if (s.Gold > 0)
-                {
-                    ColorToneEffect eff = new ColorToneEffect();
-                    eff.Desaturation = 2;
-                    eff.Toned = 1;
-                    eff.LightColor = Colors.Goldenrod;
-                    img.Effect = eff;
-                    Canvas.SetZIndex(img, -1); // tone shader spatne pracuje s pruhlednymi castmi obrazku - musi byt uplne dole
-                }*/
-
-                Canvas.SetLeft(img, s.Position.X);
-                Canvas.SetTop(img, s.Position.Y);
+                g = new DrawingGroup();
+                ImageDrawing img = new ImageDrawing();
+                img.ImageSource = bi;
+                img.Rect = new Rect(new Size(a.Radius * 2, a.Radius * 2));
+                TransformGroup tg = new TransformGroup();
+                tg.Children.Add(new TranslateTransform(a.Position.X, a.Position.Y));
+                tg.Children.Add(new RotateTransform(a.Rotation, a.Radius, a.Radius));
+                g.Transform = tg;
+                g.Children.Add(img);
             }));
 
-            return img;
+            return g;
         }
 
         public static Path CreateRadialGradientEllipseGeometry(SingularityMine mine)
@@ -166,7 +151,7 @@ namespace Orbit.Core.Helpers
                 eff.Height = 30;
                 eff.Width = 10;
                 path.Effect = eff;
-                shield.SetGeometry(path);
+                //shield.SetGeometry(path);
             }));
 
             return path;
@@ -189,7 +174,7 @@ namespace Orbit.Core.Helpers
                 eff.Height = 30;
                 eff.Width = 10;
                 path.Effect = eff;
-                baze.SetGeometry(path);
+                //baze.SetGeometry(path);
             }));
 
             return path;

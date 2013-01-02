@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows;
 using Orbit.Core.Scene.Controls;
-using System.Windows.Shapes;
 using System.Collections.Generic;
 using Orbit.Core.Client;
 using Orbit.Core.Scene.CollisionShapes;
+using System.Windows.Media;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -46,9 +46,9 @@ namespace Orbit.Core.Scene.Entities
 
         void UpdateGeometric();
 
-        UIElement GetGeometry();
+        DrawingGroup GetGeometry();
 
-        void SetGeometry(UIElement geometryElement);
+        void SetGeometry(DrawingGroup geometryElement);
 
         void DoRemove(ISceneObject obj);
 

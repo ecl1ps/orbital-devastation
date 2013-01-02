@@ -30,10 +30,10 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void UpdateGeometric()
         {
-            (geometryElement as System.Windows.Shapes.Line).X1 = Position.X;
+            /*(geometryElement as System.Windows.Shapes.Line).X1 = Position.X;
             (geometryElement as System.Windows.Shapes.Line).Y1 = Position.Y;
             (geometryElement as System.Windows.Shapes.Line).X2 = Position.X + Direction.X;
-            (geometryElement as System.Windows.Shapes.Line).Y2 = Position.Y + Direction.Y;
+            (geometryElement as System.Windows.Shapes.Line).Y2 = Position.Y + Direction.Y;*/
         }
 
     }

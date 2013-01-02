@@ -48,10 +48,15 @@ namespace Orbit.Core.Scene.Entities
 
         public sealed override void UpdateGeometric()
         {
-            Canvas.SetLeft(geometryElement, Position.X);
-            Canvas.SetTop(geometryElement, Position.Y);
-            if (geometryElement is Image)
-                (geometryElement as Image).Width = Radius * 2;
+            (geometryElement.Transform as TransformGroup).Children.Clear();
+
+            if (HasPositionInCenter)
+                (geometryElement.Transform as TransformGroup).Children.Add(new RotateTransform(Rotation));
+            else
+                (geometryElement.Transform as TransformGroup).Children.Add(new RotateTransform(Rotation, Radius, Radius));
+
+            (geometryElement.Transform as TransformGroup).Children.Add(new TranslateTransform(Position.X, Position.Y));
+
             UpdateGeometricState();
         }
 

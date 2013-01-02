@@ -87,7 +87,7 @@ namespace Orbit.Gui.Visuals
 
         public void Remove(Drawing elem, DrawingCategory cat = DrawingCategory.BACKGROUND)
         {
-            (children[(int)cat] as ExtraDrawingVisual).DrawingChildren.Add(elem);
+            (children[(int)cat] as ExtraDrawingVisual).DrawingChildren.Remove(elem);
         }
 
         public void Clear()

@@ -220,8 +220,15 @@ namespace Orbit.Core.Client
                 }
             }
 
+            if (obj.GetGeometry() == null)
+            {
+                Logger.Warn("Trying to add geometry object to scene, but it is null -> skipped!");
+                return;
+            }
+
             obj.OnAttach();
             objects.Add(obj);
+
             BeginInvoke(new Action(() =>
             {
                 area.Add(obj.GetGeometry());

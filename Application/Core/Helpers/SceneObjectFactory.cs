@@ -43,7 +43,7 @@ namespace Orbit.Core.Helpers
             baze.AddControl(new BaseCollisionControl());
 
             baze.LoadImages();
-            baze.SetGeometry(baze.Image100);
+            //baze.SetGeometry(baze.Image100);
 
             return baze;
         }
@@ -60,7 +60,7 @@ namespace Orbit.Core.Helpers
             cs.Radius = shield.Radius;
             shield.CollisionShape = cs;
 
-            shield.SetGeometry(SceneGeometryFactory.CreateShield(shield));
+            //shield.SetGeometry(SceneGeometryFactory.CreateShield(shield));
 
             shield.AddControl(new StickySphereCollisionShapeControl());
 
@@ -80,7 +80,7 @@ namespace Orbit.Core.Helpers
             mine.Radius = 2;
             mine.Direction = dir;
             mine.Color = Colors.BlueViolet;
-            mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
+            //mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
                 
             SphereCollisionShape cs = new SphereCollisionShape();
             cs.Center = mine.Center;
@@ -116,7 +116,7 @@ namespace Orbit.Core.Helpers
 
             mine.AddControl(new StickySphereCollisionShapeControl());
 
-            mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
+            //mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
 
             return mine;
         }
@@ -146,7 +146,7 @@ namespace Orbit.Core.Helpers
 
             mine.AddControl(new StickySphereCollisionShapeControl());
 
-            mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
+            //mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
 
             return mine;
         }
@@ -176,7 +176,7 @@ namespace Orbit.Core.Helpers
 
             mine.AddControl(new StickySphereCollisionShapeControl());
 
-            mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
+            //mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
 
             return mine;
         }
@@ -207,7 +207,7 @@ namespace Orbit.Core.Helpers
             bullet.AddControl(new SingularityBulletCollisionReactionControl());
             bullet.AddControl(new StickyPointCollisionShapeControl());
 
-            bullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(bullet));
+            //bullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(bullet));
 
             return bullet;
         }
@@ -228,11 +228,7 @@ namespace Orbit.Core.Helpers
             hook.Direction = direction;
             hook.Color = player.GetPlayerColor();
 
-            hook.SetGeometry(SceneGeometryFactory.CreateHookHead(hook));
-            mgr.BeginInvoke(new Action(() =>
-            {
-                Canvas.SetZIndex(hook.GetGeometry(), 99);
-            }));
+            //hook.SetGeometry(SceneGeometryFactory.CreateHookHead(hook));
 
             PointCollisionShape cs = new PointCollisionShape();
             cs.Center = hook.Center;
@@ -267,11 +263,7 @@ namespace Orbit.Core.Helpers
             hook.Direction = direction;
             hook.Color = player.GetPlayerColor();
 
-            hook.SetGeometry(SceneGeometryFactory.CreateHookHead(hook));
-            mgr.BeginInvoke(new Action(() =>
-            {
-                Canvas.SetZIndex(hook.GetGeometry(), 99);
-            }));
+            //hook.SetGeometry(SceneGeometryFactory.CreateHookHead(hook));
 
             PointCollisionShape cs = new PointCollisionShape();
             cs.Center = hook.Center;
@@ -302,7 +294,7 @@ namespace Orbit.Core.Helpers
             asteroid.Gold = radius * 2;
             asteroid.TextureId = textureId;
             asteroid.Enabled = true;
-            asteroid.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(asteroid));
+            //asteroid.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(asteroid));
 
             SphereCollisionShape cs = new SphereCollisionShape();
             cs.Center = asteroid.Center;
@@ -337,7 +329,7 @@ namespace Orbit.Core.Helpers
                 l.AddControl(c);
             }
 
-            l.SetGeometry(SceneGeometryFactory.CreateLineGeometry(l));
+            //l.SetGeometry(SceneGeometryFactory.CreateLineGeometry(l));
 
             return l;
         }
@@ -405,7 +397,7 @@ namespace Orbit.Core.Helpers
             lmc.Speed = plr.Data.BulletSpeed;
             bullet.AddControl(lmc);
 
-            bullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(bullet));
+            //bullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(bullet));
         }
 
         public static SingularityBouncingBullet CreateSingularityBouncingBullet(SceneMgr mgr, Point point, Player plr)
@@ -438,7 +430,7 @@ namespace Orbit.Core.Helpers
 
             bullet.AddControl(new StickyPointCollisionShapeControl());
 
-            bullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(bullet));
+            //bullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(bullet));
 
             return bullet;
         }
@@ -476,7 +468,7 @@ namespace Orbit.Core.Helpers
             module.AddControl(new RespawningObjectControl());
             module.AddControl(new StickySphereCollisionShapeControl());
 
-            module.SetGeometry(SceneGeometryFactory.CrateMiningModule(module));
+            //module.SetGeometry(SceneGeometryFactory.CrateMiningModule(module));
 
             return module;
         }
@@ -494,7 +486,7 @@ namespace Orbit.Core.Helpers
             arc.Position = owner.Baze.Position + (new Vector(owner.Baze.Size.Width / 2, owner.Baze.Size.Height));
             arc.StartPoint = new Point(0, owner.Baze.Size.Height + 3);
 
-            arc.SetGeometry(SceneGeometryFactory.CreateArcSegments(arc));
+            //arc.SetGeometry(SceneGeometryFactory.CreateArcSegments(arc));
 
             return arc;
         }
@@ -511,7 +503,7 @@ namespace Orbit.Core.Helpers
             HpBarControl hControl = new HpBarControl(arc);
             module.AddControl(hControl);
 
-            arc.SetGeometry(SceneGeometryFactory.CreateArcSegments(arc));
+            //arc.SetGeometry(SceneGeometryFactory.CreateArcSegments(arc));
 
             return arc;
         }
@@ -520,7 +512,7 @@ namespace Orbit.Core.Helpers
         {
             OrbitEllipse ellipse = new OrbitEllipse(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()), radiusX, radiusY);
             ellipse.Position = position;
-            ellipse.SetGeometry(SceneGeometryFactory.CreateEllipseGeometry(ellipse));
+            //ellipse.SetGeometry(SceneGeometryFactory.CreateEllipseGeometry(ellipse));
 
             return ellipse;
         }

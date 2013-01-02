@@ -29,8 +29,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         protected override void UpdateGeometricState()
         {
-            ((geometryElement as Path).Data as EllipseGeometry).RadiusX = Radius;
-            ((geometryElement as Path).Data as EllipseGeometry).RadiusY = Radius;
+            /*((geometryElement as Path).Data as EllipseGeometry).RadiusX = Radius;
+            ((geometryElement as Path).Data as EllipseGeometry).RadiusY = Radius;*/
         }
 
         public void SpawnSmallBullets()
@@ -57,7 +57,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
             smallBullet.Color = Color;
 
-            smallBullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(smallBullet));
+            //smallBullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(smallBullet));
 
             LinearMovementControl nmc = new LinearMovementControl();
             nmc.Speed = GetControlOfType<LinearMovementControl>().Speed;

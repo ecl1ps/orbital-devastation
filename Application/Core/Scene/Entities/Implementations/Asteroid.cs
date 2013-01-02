@@ -25,7 +25,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
     public class Asteroid : Sphere, IRotable, ISendable, IContainsGold, IDestroyable, ICatchable
     {
         public bool IsHeadingRight { get; set; }
-        public float Rotation { get; set; }
         public int TextureId { get; set; }
         public int Gold { get; set; }
         public AsteroidType AsteroidType { get; set; }
@@ -33,11 +32,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public Asteroid(SceneMgr mgr, long id)
             : base(mgr, id)
         {
-        }
-
-        protected override void UpdateGeometricState()
-        {
-            geometryElement.RenderTransform = new RotateTransform(Rotation);
         }
 
         public override void OnRemove()

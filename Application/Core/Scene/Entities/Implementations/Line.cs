@@ -55,7 +55,7 @@ namespace Orbit.Core.Scene.Entities
                 line.Stroke = new SolidColorBrush(Color);
                 line.Fill = new SolidColorBrush(Color);
 
-                geometryElement = line;
+                //geometryElement = line;
             }));
         }
 
@@ -67,11 +67,11 @@ namespace Orbit.Core.Scene.Entities
 
         public override void UpdateGeometric()
         {
-            System.Windows.Shapes.Line line = geometryElement as System.Windows.Shapes.Line;
+            /*System.Windows.Shapes.Line line = geometryElement as System.Windows.Shapes.Line;
             line.X1 = Start.X;
             line.Y1 = Start.Y;
             line.X2 = End.X;
-            line.Y2 = End.Y;
+            line.Y2 = End.Y;*/
         }
     }
 }
