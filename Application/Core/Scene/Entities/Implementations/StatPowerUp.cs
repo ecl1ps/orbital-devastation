@@ -13,18 +13,11 @@ using Orbit.Core.Scene.CollisionShapes;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    public class StatPowerUp : Square, IMovable, IRotable, ISendable, ICatchable
+    public class StatPowerUp : Square, IMovable, ISendable, ICatchable
     {
-        public Vector Direction { get; set; }
-        public float Rotation { get; set; }
         public DeviceType PowerUpType { get; set; }
 
         public StatPowerUp(SceneMgr mgr, long id) : base(mgr, id) { }
-
-        protected override void UpdateGeometricState()
-        {
-            //geometryElement.RenderTransform = new RotateTransform(Rotation);
-        }
 
         public void WriteObject(NetOutgoingMessage msg)
         {

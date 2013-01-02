@@ -246,7 +246,7 @@ namespace Orbit.Core.Client
         /// <summary>
         /// prida GUI objekt do sceny - nikoliv SceneObject
         /// </summary>
-        public void AttachGraphicalObjectToScene(UIElement obj)
+        public void AttachGraphicalObjectToScene(Drawing obj)
         {
             BeginInvoke(new Action(() =>
             {
@@ -257,7 +257,7 @@ namespace Orbit.Core.Client
         /// <summary>
         /// odstrani jen GUI element
         /// </summary>
-        public void RemoveGraphicalObjectFromScene(UIElement obj)
+        public void RemoveGraphicalObjectFromScene(Drawing obj)
         {
             BeginInvoke(new Action(() =>
             {

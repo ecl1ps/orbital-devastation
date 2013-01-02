@@ -30,8 +30,9 @@ namespace Orbit.Core.Scene.Entities
 
         public sealed override void UpdateGeometric()
         {
-            /*Canvas.SetLeft(geometryElement, Position.X);
-            Canvas.SetTop(geometryElement, Position.Y);*/
+            (geometryElement.Transform as TransformGroup).Children.Clear();
+            (geometryElement.Transform as TransformGroup).Children.Add(new RotateTransform(Rotation, Size.Width / 2, Size.Height / 2));
+            (geometryElement.Transform as TransformGroup).Children.Add(new TranslateTransform(Position.X, Position.Y));
             UpdateGeometricState();
         }
 

@@ -43,16 +43,16 @@ namespace Orbit.Core.Scene.Entities.Implementations
             }
         }
 
-        private UIElement image100;
-        public UIElement Image100 { get { return image100; } }
-        private UIElement image75; 
-        public UIElement Image75 { get { return image75; } }
-        private UIElement image50;
-        public UIElement Image50 { get { return image50; } }
-        private UIElement image25;
-        public UIElement Image25 { get { return image25; } }
-        private UIElement background;
-        public UIElement BackgroundImage { get { return background; } }
+        private DrawingGroup image100;
+        public DrawingGroup Image100 { get { return image100; } }
+        private DrawingGroup image75;
+        public DrawingGroup Image75 { get { return image75; } }
+        private DrawingGroup image50;
+        public DrawingGroup Image50 { get { return image50; } }
+        private DrawingGroup image25;
+        public DrawingGroup Image25 { get { return image25; } }
+        private DrawingGroup background;
+        public DrawingGroup BackgroundImage { get { return background; } }
 
         public Base(SceneMgr mgr, long id)
             : base(mgr, id)
@@ -86,23 +86,23 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 ChangeGeometry(Image100);
         }
 
-        private void ChangeGeometry(UIElement geometry)
+        private void ChangeGeometry(DrawingGroup geometry)
         {
-            //SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry());
-            //SceneMgr.AttachGraphicalObjectToScene(geometry);
-            //SetGeometry(geometry);
+            SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry());
+            SceneMgr.AttachGraphicalObjectToScene(geometry);
+            SetGeometry(geometry);
         }
 
         public override void  OnRemove()
         {
             base.OnRemove();
-            //SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry());
-            //SceneMgr.RemoveGraphicalObjectFromScene(background);
+            SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry());
+            SceneMgr.RemoveGraphicalObjectFromScene(background);
         }
 
         public override void OnAttach()
         {
-            //SceneMgr.AttachGraphicalObjectToScene(background);
+            SceneMgr.AttachGraphicalObjectToScene(background);
 
             /*Sphere s = new StaticShield(SceneMgr);
             s.Position = new Vector(Center.X, Position.Y + 2.4 * Size.Height);

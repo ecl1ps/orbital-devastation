@@ -22,7 +22,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         SPAWNED
     }
 
-    public class Asteroid : Sphere, IRotable, ISendable, IContainsGold, IDestroyable, ICatchable
+    public class Asteroid : Sphere, ISendable, IContainsGold, IDestroyable, ICatchable
     {
         public bool IsHeadingRight { get; set; }
         public int TextureId { get; set; }
@@ -32,6 +32,11 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public Asteroid(SceneMgr mgr, long id)
             : base(mgr, id)
         {
+        }
+
+        protected override void UpdateGeometricState()
+        {
+            (geometryElement.Children[0] as ImageDrawing).Rect = new Rect(0, 0, Radius * 2, Radius * 2);
         }
 
         public override void OnRemove()
@@ -72,6 +77,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 SceneMgr.FloatingTextMgr.AddFloatingText(damage, Center, FloatingTextManager.TIME_LENGTH_1, FloatingTextType.DAMAGE);
 
             Radius -= damage;
+            Position = new Vector(Position.X + damage / 2, Position.Y + damage / 2);
             if (Radius < SharedDef.ASTEROID_THRESHOLD_RADIUS)
             {
                 Radius = 0;

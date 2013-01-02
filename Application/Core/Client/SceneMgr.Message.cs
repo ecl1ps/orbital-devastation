@@ -614,7 +614,7 @@ namespace Orbit.Core.Client
         {
             StatPowerUp p = new StatPowerUp(this, -1);
             p.ReadObject(msg);
-            //p.SetGeometry(SceneGeometryFactory.CreatePowerUpImage(p));
+            p.SetGeometry(SceneGeometryFactory.CreatePowerUpImage(p));
             DelayedAttachToScene(p);
             SyncReceivedObject(p, msg);
         }

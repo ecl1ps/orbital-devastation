@@ -28,8 +28,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void UpdateGeometric()
         {
-            /*Canvas.SetLeft(geometryElement, Position.X);
-            Canvas.SetTop(geometryElement, Position.Y);*/
+            (geometryElement.Transform as TransformGroup).Children.Clear();
+            (geometryElement.Transform as TransformGroup).Children.Add(new RotateTransform(Rotation));
+            (geometryElement.Transform as TransformGroup).Children.Add(new TranslateTransform(Position.X, Position.Y));
         }
 
         public override bool IsOnScreen(Size screenSize)

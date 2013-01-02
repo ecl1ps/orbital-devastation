@@ -16,7 +16,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
     public class VectorLine : SceneObject, IMovable
     {
         public Color Color { get; set; }
-        public Vector Direction { get; set; }
 
         public VectorLine(SceneMgr mgr, long id)
             : base(mgr, id)

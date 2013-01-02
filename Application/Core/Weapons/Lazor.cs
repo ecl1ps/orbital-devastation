@@ -110,8 +110,8 @@ namespace Orbit.Core.Weapons
                 rightLine.Fill = new SolidColorBrush(Colors.Blue);
             }));
 
-            SceneMgr.AttachGraphicalObjectToScene(leftLine);
-            SceneMgr.AttachGraphicalObjectToScene(rightLine);
+            //SceneMgr.AttachGraphicalObjectToScene(leftLine);
+            //SceneMgr.AttachGraphicalObjectToScene(rightLine);
         }
 
         public void Shoot(Point point)
@@ -214,8 +214,8 @@ namespace Orbit.Core.Weapons
 
         private void removeLines()
         {
-            SceneMgr.RemoveGraphicalObjectFromScene(leftLine);
-            SceneMgr.RemoveGraphicalObjectFromScene(rightLine);
+            //SceneMgr.RemoveGraphicalObjectFromScene(leftLine);
+            //SceneMgr.RemoveGraphicalObjectFromScene(rightLine);
 
             leftLine = null;
             rightLine = null;

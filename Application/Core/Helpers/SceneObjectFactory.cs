@@ -43,7 +43,7 @@ namespace Orbit.Core.Helpers
             baze.AddControl(new BaseCollisionControl());
 
             baze.LoadImages();
-            //baze.SetGeometry(baze.Image100);
+            baze.SetGeometry(baze.Image100);
 
             return baze;
         }
@@ -207,7 +207,7 @@ namespace Orbit.Core.Helpers
             bullet.AddControl(new SingularityBulletCollisionReactionControl());
             bullet.AddControl(new StickyPointCollisionShapeControl());
 
-            //bullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(bullet));
+            bullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(bullet));
 
             return bullet;
         }

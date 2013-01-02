@@ -5,10 +5,11 @@ using System.Text;
 using Orbit.Core.Client;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    class OrbitEllipse : SceneObject
+    public class OrbitEllipse : SceneObject
     {
         public float RadiusX { get; set; }
         public float RadiusY { get; set; }
@@ -20,7 +21,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             RadiusY = radiusY;
         }
 
-        public override bool IsOnScreen(System.Windows.Size screenSize)
+        public override bool IsOnScreen(Size screenSize)
         {
             //I am always on screen
             return true;

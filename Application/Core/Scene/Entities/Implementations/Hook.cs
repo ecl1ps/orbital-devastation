@@ -27,10 +27,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
         HOOK_POWER
     }
 
-    public class Hook : Sphere, ISendable, IRotable, IProjectile
+    public class Hook : Sphere, ISendable, IProjectile
     {
         public Player Owner { get; set; } // neposilano
-        public float Rotation { get; set; }
         public ICatchable CaughtObject { get; set; } // neposilano
         public HookType HookType { get; set; }
         public Vector RopeContactPoint
@@ -66,7 +65,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 line.Fill = new SolidColorBrush(Colors.Black);
             }));
 
-            SceneMgr.AttachGraphicalObjectToScene(line);
+            //SceneMgr.AttachGraphicalObjectToScene(line);
         }
 
         protected override void UpdateGeometricState()
@@ -109,7 +108,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             }
 
             DoRemoveMe();
-            SceneMgr.RemoveGraphicalObjectFromScene(line);
+            //SceneMgr.RemoveGraphicalObjectFromScene(line);
         }
 
         protected virtual void AddGoldToOwner(int gold) 

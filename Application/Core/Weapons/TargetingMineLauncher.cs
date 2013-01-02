@@ -63,7 +63,7 @@ namespace Orbit.Core.Weapons
         {
             SceneMgr.Invoke(new Action(() =>
             {
-                SceneMgr.RemoveGraphicalObjectFromScene(line);
+                //SceneMgr.RemoveGraphicalObjectFromScene(line);
             }));
         }
 
@@ -83,7 +83,7 @@ namespace Orbit.Core.Weapons
                 line.Fill = new SolidColorBrush(Colors.Red);
             }));
 
-            SceneMgr.AttachGraphicalObjectToScene(line);
+            //SceneMgr.AttachGraphicalObjectToScene(line);
         }
 
         protected override void SpawnMine(Point point)

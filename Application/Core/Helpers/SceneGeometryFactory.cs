@@ -19,23 +19,23 @@ namespace Orbit.Core.Helpers
 {
     class SceneGeometryFactory
     {
-        public static Path CreateConstantColorEllipseGeometry(Sphere s)
+        public static DrawingGroup CreateConstantColorEllipseGeometry(Sphere s)
         {
             s.HasPositionInCenter = true;
 
-            Path path = null;
+            DrawingGroup d = null;
             s.SceneMgr.Invoke(new Action(() =>
             {
                 EllipseGeometry geom = new EllipseGeometry(new Point(), s.Radius, s.Radius);
-                path = new Path();
-                path.Data = geom;
-                path.Fill = new SolidColorBrush(s.Color);
-                path.Stroke = Brushes.Black;
-                Canvas.SetLeft(path, s.Position.X);
-                Canvas.SetTop(path, s.Position.Y);
+                d = new DrawingGroup();
+                d.Children.Add(new GeometryDrawing(new SolidColorBrush(s.Color), new Pen(Brushes.Black, 1), geom));
+
+                TransformGroup tg = new TransformGroup();
+                tg.Children.Add(new TranslateTransform(s.Position.X, s.Position.Y));
+                d.Transform = tg;
             }));
 
-            return path;
+            return d;
         }
 
         public static Path CreateRadialGradientEllipseGeometry(Sphere s)
@@ -180,9 +180,10 @@ namespace Orbit.Core.Helpers
             return path;
         }
 
-        public static UIElement CreateBaseImage(Base baze, String url, bool withShader = true)
+        public static DrawingGroup CreateBaseImage(Base baze, String url, bool withShader = true)
         {
-            Image img = null;
+            DrawingGroup g = null;
+
             baze.SceneMgr.Invoke(new Action(() =>
             {
                 BitmapImage bi = new BitmapImage();
@@ -190,11 +191,9 @@ namespace Orbit.Core.Helpers
                 bi.UriSource = new Uri(url);
                 bi.EndInit();
 
-                img = new Image();
-                img.Source = bi;
-                img.Width = baze.Size.Width;
-                img.Height = baze.Size.Height;
-                img.RenderTransformOrigin = new Point(0.5, 0.5);
+                g = new DrawingGroup();
+                ImageDrawing img = new ImageDrawing();
+                img.Rect = new Rect(baze.Size);
 
                 if (withShader)
                 {
@@ -202,14 +201,29 @@ namespace Orbit.Core.Helpers
                     effect.ColorToOverride = Colors.White;
                     effect.ColorReplace = baze.Owner.GetPlayerColor();
 
-                    img.Effect = effect;
-                }
+                    RenderTargetBitmap rtb = new RenderTargetBitmap((int)baze.Size.Width * 2, (int)baze.Size.Height * 2, 96, 96, PixelFormats.Pbgra32);
 
-                Canvas.SetLeft(img, baze.Position.X);
-                Canvas.SetTop(img, baze.Position.Y);
+                    Rectangle visual = new Rectangle();
+                    visual.Fill = new ImageBrush(bi);
+                    visual.Effect = effect;
+
+                    Size sz = new Size(baze.Size.Width * 2, baze.Size.Height * 2);
+                    visual.Measure(sz);
+                    visual.Arrange(new Rect(sz));
+                    
+                    rtb.Render(visual);
+                    img.ImageSource = rtb;
+                }
+                else
+                    img.ImageSource = bi;
+
+                TransformGroup tg = new TransformGroup();
+                tg.Children.Add(new TranslateTransform(baze.Position.X, baze.Position.Y));
+                g.Transform = tg;
+                g.Children.Add(img);
             }));
 
-            return img;
+            return g;
         }
 
         public static UIElement CreateHookHead(Hook hook)
@@ -255,12 +269,12 @@ namespace Orbit.Core.Helpers
             return line;
         }
 
-        public static UIElement CreatePowerUpImage(StatPowerUp p)
+        public static DrawingGroup CreatePowerUpImage(StatPowerUp p)
         {
-            Image img = null;
+            DrawingGroup g = null;
+
             p.SceneMgr.Invoke(new Action(() =>
             {
-
                 BitmapImage bi = new BitmapImage();
                 bi.BeginInit();
                 if (p.PowerUpType == DeviceType.MINE)
@@ -276,18 +290,18 @@ namespace Orbit.Core.Helpers
                 bi.DecodePixelHeight = (int)p.Size.Height * 2;
                 bi.EndInit();
 
-                img = new Image();
-                img.Source = bi;
-                img.Width = p.Size.Width;
-                img.Height = p.Size.Height;
-                img.RenderTransform = new RotateTransform(p.Rotation);
-                img.RenderTransformOrigin = new Point(0.5, 0.5);
-
-                Canvas.SetLeft(img, p.Position.X);
-                Canvas.SetTop(img, p.Position.Y);
+                g = new DrawingGroup();
+                ImageDrawing img = new ImageDrawing();
+                img.ImageSource = bi;
+                img.Rect = new Rect(p.Size);
+                TransformGroup tg = new TransformGroup();
+                tg.Children.Add(new TranslateTransform(p.Position.X, p.Position.Y));
+                tg.Children.Add(new RotateTransform(p.Rotation, p.Size.Width / 2, p.Size.Height / 2));
+                g.Transform = tg;
+                g.Children.Add(img);
             }));
 
-            return img;
+            return g;
         }
 
         public static Path CreateEllipseGeometry(OrbitEllipse e)

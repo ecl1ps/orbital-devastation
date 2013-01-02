@@ -12,10 +12,9 @@ using Orbit.Core.Scene.Entities.Implementations;
 
 namespace Orbit.Core.Scene.Entities
 {
-    public abstract class Sphere : SceneObject, IMovable
+    public abstract class Sphere : SceneObject
     {
         public Color Color { get; set; }
-        public Vector Direction { get; set; }
         public int Radius { get; set; }
         public bool HasPositionInCenter { get; set; }
         public override Vector Center

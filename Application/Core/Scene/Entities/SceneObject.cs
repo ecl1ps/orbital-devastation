@@ -11,7 +11,7 @@ using MB.Tools;
 
 namespace Orbit.Core.Scene.Entities
 {
-    public abstract class SceneObject : ISceneObject
+    public abstract class SceneObject : ISceneObject, IRotable, IMovable
     {
         private List<IControl> controls;
 
@@ -20,6 +20,7 @@ namespace Orbit.Core.Scene.Entities
         public long Id { get; set; }
         public ICollisionShape CollisionShape { get; set; }
         public Vector Position { get; set; }
+        public Vector Direction { get; set; }
         public float Rotation { get; set; }
         public virtual Vector Center
         {

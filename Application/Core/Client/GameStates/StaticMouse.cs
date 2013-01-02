@@ -109,7 +109,7 @@ namespace Orbit.Core.Client.GameStates
 
         private void AttachCustomCursor()
         {
-            sceneMgr.AttachGraphicalObjectToScene(cursor);
+            //sceneMgr.AttachGraphicalObjectToScene(cursor);
             sceneMgr.Invoke(new Action(() =>
             {
                 Canvas.SetZIndex(cursor, 500);
@@ -134,7 +134,7 @@ namespace Orbit.Core.Client.GameStates
         {
             sceneMgr.Invoke(new Action(() =>
             {
-                sceneMgr.RemoveGraphicalObjectFromScene(cursor);
+                //sceneMgr.RemoveGraphicalObjectFromScene(cursor);
                 PositionNativeCursor();
                 Cursor.Show();
             }));
