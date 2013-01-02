@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Media;
 using System.Windows;
+using MB.Tools;
 
 namespace Orbit.Gui.Visuals
 {
@@ -29,7 +30,8 @@ namespace Orbit.Gui.Visuals
         private void DrawAllDrawings(ExtraDrawingVisual curr, DrawingContext dc)
         {
             foreach (Drawing drawing in curr.DrawingChildren)
-                dc.DrawDrawing(drawing);
+                if (!MetaPropertyExtender.HasMetaProperty(drawing, "IsVisible") || (bool)MetaPropertyExtender.GetMetaProperty(drawing, "IsVisible"))
+                    dc.DrawDrawing(drawing);
         }
     }
 }
