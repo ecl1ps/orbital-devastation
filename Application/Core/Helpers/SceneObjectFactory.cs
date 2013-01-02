@@ -486,7 +486,7 @@ namespace Orbit.Core.Helpers
             arc.Position = owner.Baze.Position + (new Vector(owner.Baze.Size.Width / 2, owner.Baze.Size.Height));
             arc.StartPoint = new Point(0, owner.Baze.Size.Height + 3);
 
-            //arc.SetGeometry(SceneGeometryFactory.CreateArcSegments(arc));
+            arc.SetGeometry(SceneGeometryFactory.CreateArcSegments(arc));
 
             return arc;
         }
@@ -503,7 +503,7 @@ namespace Orbit.Core.Helpers
             HpBarControl hControl = new HpBarControl(arc);
             module.AddControl(hControl);
 
-            //arc.SetGeometry(SceneGeometryFactory.CreateArcSegments(arc));
+            arc.SetGeometry(SceneGeometryFactory.CreateArcSegments(arc));
 
             return arc;
         }

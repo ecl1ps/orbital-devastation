@@ -340,44 +340,41 @@ namespace Orbit.Core.Helpers
             return d;
         }
 
-        public static Path CreateArcSegments(PercentageArc arc)
+        public static DrawingGroup CreateArcSegments(PercentageArc arc)
         {
-            Path path = null;
-
-            arc.SceneMgr.Invoke(new Action(() => {
-                path = new Path();
-                path.Data = createArc(arc);
-                path.Stroke = new SolidColorBrush(arc.Color);
-                path.StrokeThickness = 2;
-
-                Canvas.SetLeft(path, arc.Position.X);
-                Canvas.SetTop(path, arc.Position.Y);
-            }));
-
-            return path;
-        }
-
-        public static Path CreateArcSegments(PercentageEllipse arc)
-        {
-            Path path = null;
+            DrawingGroup d = null;
 
             arc.SceneMgr.Invoke(new Action(() =>
             {
-                path = new Path();
-                path.Data = createArc(arc);
-                path.Stroke = new SolidColorBrush(Colors.Black);
-                path.StrokeThickness = 1;
-                path.Fill = new SolidColorBrush(arc.Color);
+                d = new DrawingGroup();
+                d.Children.Add(new GeometryDrawing(Brushes.Transparent, new Pen(new SolidColorBrush(arc.Color), 2), CreateArc(arc)));
 
-
-                Canvas.SetLeft(path, arc.Position.X);
-                Canvas.SetTop(path, arc.Position.Y);
+                TransformGroup tg = new TransformGroup();
+                tg.Children.Add(new TranslateTransform(arc.Position.X, arc.Position.Y));
+                d.Transform = tg;
             }));
 
-            return path;
+            return d;
         }
 
-        private static PathGeometry createArc(PercentageEllipse e)
+        public static DrawingGroup CreateArcSegments(PercentageEllipse arc)
+        {
+            DrawingGroup d = null;
+
+            arc.SceneMgr.Invoke(new Action(() =>
+            {
+                d = new DrawingGroup();
+                d.Children.Add(new GeometryDrawing(Brushes.Transparent, new Pen(new SolidColorBrush(arc.Color), 1), CreateArc(arc)));
+
+                TransformGroup tg = new TransformGroup();
+                tg.Children.Add(new TranslateTransform(arc.Position.X, arc.Position.Y));
+                d.Transform = tg;
+            }));
+
+            return d;
+        }
+
+        private static PathGeometry CreateArc(PercentageEllipse e)
         {
             ArcSegment arc = new ArcSegment();
 
@@ -400,7 +397,7 @@ namespace Orbit.Core.Helpers
             return geom;
         }
 
-        private static PathGeometry createArc(PercentageArc a)
+        private static PathGeometry CreateArc(PercentageArc a)
         {
             ArcSegment arc = new ArcSegment();
             Point point = new Point(a.Radius, 0);

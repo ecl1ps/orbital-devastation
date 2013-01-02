@@ -52,12 +52,13 @@ namespace Orbit.Core.Scene.Entities.Implementations
             else if (!arc.IsLargeArc && angle > -(Math.PI * 0.5))
                 arc.IsLargeArc = true;
 
-            /*if (colorChanged)
-                (geometryElement as Path).Fill = new SolidColorBrush(Color);
+            if (colorChanged)
+                (geometryElement.Children[0] as GeometryDrawing).Pen = new Pen(new SolidColorBrush(Color), 2);
 
             arc.Point = ComputeEllipsePoint(angle);
-            Canvas.SetLeft(geometryElement, Position.X);
-            Canvas.SetTop(geometryElement, Position.Y);*/
+
+            (geometryElement.Transform as TransformGroup).Children.Clear();
+            (geometryElement.Transform as TransformGroup).Children.Add(new TranslateTransform(Position.X, Position.Y));
         }
 
         public void SetArc(ArcSegment arc)
