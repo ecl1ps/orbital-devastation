@@ -13,7 +13,10 @@ using Orbit.Core.Scene.CollisionShapes;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    class Laser : Line, IProjectile, ISendable
+    /// <summary>
+    /// unused
+    /// </summary>
+    public class Laser : Line, IProjectile, ISendable
     {
         public Player Owner { get; set; }
 
@@ -44,7 +47,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             cs.End = End;
             CollisionShape = cs;
             
-            CreateLine();
+            //CreateLine();
         }
     }
 }

@@ -111,27 +111,30 @@ namespace Orbit.Core.Helpers
             return g;
         }
 
-        public static Path CreateRadialGradientEllipseGeometry(SingularityMine mine)
+        public static DrawingGroup CreateRadialGradientEllipseGeometry(SingularityMine mine)
         {
             mine.HasPositionInCenter = true;
 
-            Path path = null;
+            DrawingGroup d = null;
             mine.SceneMgr.Invoke(new Action(() =>
             {
-                EllipseGeometry geom = new EllipseGeometry(new Point(), 0, 0);
-                path = new Path();
-                path.Data = geom;
-                path.Fill = mine.FillBrush;
-                path.Stroke = mine.BorderBrush;
+                EllipseGeometry geom = new EllipseGeometry(new Point(), mine.Radius, mine.Radius);
+                d = new DrawingGroup();
+                d.Children.Add(new GeometryDrawing(mine.FillBrush, new Pen(mine.BorderBrush, 1), geom));
+
+                TransformGroup tg = new TransformGroup();
+                tg.Children.Add(new TranslateTransform(mine.Position.X, mine.Position.Y));
+                d.Transform = tg;
+
+                /*
                 RippleEffect eff = new RippleEffect();
                 eff.Amplitude = 0.2;
                 eff.Frequency = 60;
                 path.Effect = eff;
-                Canvas.SetLeft(path, mine.Position.X);
-                Canvas.SetTop(path, mine.Position.Y);
+                */
             }));
 
-            return path;
+            return d;
         }
 
         public static Path CreateLinearGradientRectangleGeometry(StaticShield shield)
@@ -226,11 +229,12 @@ namespace Orbit.Core.Helpers
             return g;
         }
 
-        public static UIElement CreateHookHead(Hook hook)
+        public static DrawingGroup CreateHookHead(Hook hook)
         {
             hook.HasPositionInCenter = false;
 
-            Image img = null;
+            DrawingGroup g = null;
+
             hook.SceneMgr.Invoke(new Action(() =>
             {
                 BitmapImage bi = new BitmapImage();
@@ -239,20 +243,21 @@ namespace Orbit.Core.Helpers
                 bi.DecodePixelWidth = hook.Radius * 4;
                 bi.EndInit();
 
-                img = new Image();
-                img.Source = bi;
-                img.Width = hook.Radius * 2;
-                img.RenderTransform = new RotateTransform(hook.Rotation);
-                img.RenderTransformOrigin = new Point(0.5, 0.5);
-
-                Canvas.SetLeft(img, hook.Position.X);
-                Canvas.SetTop(img, hook.Position.Y);
+                g = new DrawingGroup();
+                ImageDrawing img = new ImageDrawing();
+                img.ImageSource = bi;
+                img.Rect = new Rect(new Size(hook.Radius * 2, hook.Radius * 2));
+                TransformGroup tg = new TransformGroup();
+                tg.Children.Add(new TranslateTransform(hook.Position.X, hook.Position.Y));
+                tg.Children.Add(new RotateTransform(hook.Rotation, hook.Radius, hook.Radius));
+                g.Transform = tg;
+                g.Children.Add(img);
             }));
 
-            return img;
+            return g;
         }
 
-        public static System.Windows.Shapes.Line CreateLineGeometry(VectorLine l)
+        /*public static System.Windows.Shapes.Line CreateLineGeometry(VectorLine l)
         {
             System.Windows.Shapes.Line line = null;
             l.SceneMgr.Invoke(new Action(() =>
@@ -267,6 +272,20 @@ namespace Orbit.Core.Helpers
             }));
 
             return line;
+        }*/
+
+        public static DrawingGroup CreateLineGeometry(SceneMgr mgr, Color border, double borderThickness, Color fill, Vector positionFrom, Vector positionTo)
+        {
+            DrawingGroup d = null;
+
+            mgr.Invoke(new Action(() =>
+            {
+                LineGeometry g = new LineGeometry(positionFrom.ToPoint(), positionTo.ToPoint());
+                d = new DrawingGroup();
+                d.Children.Add(new GeometryDrawing(new SolidColorBrush(fill), new Pen(new SolidColorBrush(border), borderThickness), g));
+            }));
+
+            return d;
         }
 
         public static DrawingGroup CreatePowerUpImage(StatPowerUp p)
@@ -304,20 +323,21 @@ namespace Orbit.Core.Helpers
             return g;
         }
 
-        public static Path CreateEllipseGeometry(OrbitEllipse e)
+        public static DrawingGroup CreateConstantColorEllipseGeometry(OrbitEllipse e)
         {
-            Path path = null;
+            DrawingGroup d = null;
             e.SceneMgr.Invoke(new Action(() =>
             {
                 EllipseGeometry geom = new EllipseGeometry(new Point(), e.RadiusX, e.RadiusY);
-                path = new Path();
-                path.Data = geom;
-                path.Fill = new SolidColorBrush(Colors.Black);
-                Canvas.SetLeft(path, e.Position.X);
-                Canvas.SetTop(path, e.Position.Y);
+                d = new DrawingGroup();
+                d.Children.Add(new GeometryDrawing(Brushes.Black, null, geom));
+
+                TransformGroup tg = new TransformGroup();
+                tg.Children.Add(new TranslateTransform(e.Position.X, e.Position.Y));
+                d.Transform = tg;
             }));
 
-            return path;
+            return d;
         }
 
         public static Path CreateArcSegments(PercentageArc arc)
@@ -406,9 +426,12 @@ namespace Orbit.Core.Helpers
             return geom;
         }
 
-        public static Image CrateMiningModule(MiningModule m)
+        public static DrawingGroup CrateMiningModule(MiningModule m)
         {
-            Image img = null;
+            m.HasPositionInCenter = false;
+
+            DrawingGroup g = null;
+
             m.SceneMgr.Invoke(new Action(() =>
             {
                 BitmapImage bi = new BitmapImage();
@@ -417,17 +440,18 @@ namespace Orbit.Core.Helpers
                 bi.DecodePixelWidth = m.Radius * 4;
                 bi.EndInit();
 
-                img = new Image();
-                img.Source = bi;
-                img.Width = m.Radius * 2;
-                img.RenderTransformOrigin = new Point(0.5, 0.5);
-                img.RenderTransform = new RotateTransform(m.Rotation);
-
-                Canvas.SetLeft(img, m.Position.X);
-                Canvas.SetTop(img, m.Position.Y);
+                g = new DrawingGroup();
+                ImageDrawing img = new ImageDrawing();
+                img.ImageSource = bi;
+                img.Rect = new Rect(new Size(m.Radius * 2, m.Radius * 2));
+                TransformGroup tg = new TransformGroup();
+                tg.Children.Add(new TranslateTransform(m.Position.X, m.Position.Y));
+                tg.Children.Add(new RotateTransform(m.Rotation, m.Radius, m.Radius));
+                g.Transform = tg;
+                g.Children.Add(img);
             }));
 
-            return img;
+            return g;
         }
 
         public static Image CreateShield(StaticShield m)

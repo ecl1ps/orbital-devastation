@@ -173,8 +173,6 @@ namespace Orbit.Core.Helpers
 
             msg.Write(l.Start);
             msg.Write(l.End);
-            msg.Write(l.Color);
-            msg.Write(l.Width);
         }
 
         public static void ReadObjectLine(this NetIncomingMessage msg, Line l)
@@ -183,8 +181,6 @@ namespace Orbit.Core.Helpers
 
             l.Start = msg.ReadVector();
             l.End = msg.ReadVector();
-            l.Color = msg.ReadColor();
-            l.Width = msg.ReadInt32();
         }
 
         public static void WriteObjectLaser(this NetOutgoingMessage msg, Laser l)

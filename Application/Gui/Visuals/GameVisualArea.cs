@@ -18,6 +18,7 @@ namespace Orbit.Gui.Visuals
         {
             children = new VisualCollection(this);
             renderer = new VisualRenderer(this);
+
             invalidateAction = new Action(() =>
             {
                 InvalidateVisual();
@@ -62,22 +63,14 @@ namespace Orbit.Gui.Visuals
             return children[index];
         }
 
-        /// <summary>
-        /// deprecated
-        /// </summary>
         public void Add(Visual elem)
         {
-            /*EllipseGeometry g = new EllipseGeometry(new Point((children[0] as ExtraDrawingVisual).DrawingChildren.Count * 5, (children[0] as ExtraDrawingVisual).DrawingChildren.Count * 5), 5, 5);
-            Add(new GeometryDrawing(Brushes.Coral, new Pen(Brushes.CornflowerBlue, 1), g));*/
-            //children.Add(elem);
+            children.Add(elem);
         }
 
-        /// <summary>
-        /// deprecated
-        /// </summary>
         public void Remove(Visual elem)
         {
-            //children.Remove(elem);
+            children.Remove(elem);
         }
 
         public void Add(Drawing elem, DrawingCategory cat = DrawingCategory.BACKGROUND)
@@ -114,13 +107,13 @@ namespace Orbit.Gui.Visuals
 
     public enum DrawingCategory
     {
-        BACKGROUND      = 0,
-        ASTEROIDS       = 1,
-        LOOTABLES       = 2,
-        PLAYER_OBJECTS  = 3,
-        PROJECTILES     = 4,
-        TEXTS           = 5,
+        BACKGROUND              = 0,
+        ASTEROIDS               = 1,
+        LOOTABLES               = 2,
+        PLAYER_OBJECTS          = 3,
+        PROJECTILES             = 4,
+        TEXTS                   = 5,
 
-        MAX             = 6,
+        MAX                     = 6,
     }
 }

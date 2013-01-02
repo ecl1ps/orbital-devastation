@@ -14,7 +14,9 @@ using System.Windows.Controls;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-
+    /// <summary>
+    /// unused
+    /// </summary>
     public class Circle : SceneObject
     {
         public Color Color { get; set; }

@@ -31,10 +31,11 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         protected override void UpdateGeometricState()
         {
-            /*((geometryElement as Path).Data as EllipseGeometry).RadiusX = Radius;
-            ((geometryElement as Path).Data as EllipseGeometry).RadiusY = Radius;
-            (geometryElement as Path).Stroke = BorderBrush;
-            (geometryElement as Path).Fill = FillBrush;*/
+            EllipseGeometry elipse = (geometryElement.Children[0] as GeometryDrawing).Geometry as EllipseGeometry;
+            elipse.RadiusX = Radius;
+            elipse.RadiusY = Radius;
+            (geometryElement.Children[0] as GeometryDrawing).Pen = new Pen(BorderBrush, 1);
+            (geometryElement.Children[0] as GeometryDrawing).Brush = FillBrush;
         }
 
         public void WriteObject(NetOutgoingMessage msg)

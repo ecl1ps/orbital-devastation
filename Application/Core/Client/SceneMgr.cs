@@ -330,8 +330,6 @@ namespace Orbit.Core.Client
                 if (tpf >= 0.001 && isGameInitialized)
                     Update(tpf);
 
-                area.RunRender();
-
                 elapsedMs = sw.ElapsedMilliseconds;
                 if (elapsedMs < SharedDef.MINIMUM_UPDATE_TIME)
                 {
@@ -373,6 +371,8 @@ namespace Orbit.Core.Client
             RemoveObjectsMarkedForRemoval();
 
             UpdateGeomtricState();
+
+            area.RunRender();
         }
 
         private void ShowStatistics(float tpf)

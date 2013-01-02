@@ -13,6 +13,9 @@ using System.Windows.Shapes;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
+    /// <summary>
+    /// unused
+    /// </summary>
     public class VectorLine : SceneObject, IMovable
     {
         public Color Color { get; set; }
