@@ -86,11 +86,11 @@ namespace Orbit.Core.Players
 
     public class PlayerBaseLocation
     {
-        private static Rect BASE_LEFT = new Rect(SharedDef.VIEW_PORT_SIZE.Width * 0.1, SharedDef.VIEW_PORT_SIZE.Height * 0.9,
-                                                 SharedDef.VIEW_PORT_SIZE.Width * 0.3, SharedDef.VIEW_PORT_SIZE.Height * 0.1);
+        private static Rect BASE_LEFT = new Rect(SharedDef.VIEW_PORT_SIZE.Width * 0.12, SharedDef.VIEW_PORT_SIZE.Height * 0.9,
+                                                 SharedDef.VIEW_PORT_SIZE.Width * 0.26, SharedDef.VIEW_PORT_SIZE.Height * 0.1);
 
-        private static Rect BASE_RIGHT = new Rect(SharedDef.VIEW_PORT_SIZE.Width * 0.6, SharedDef.VIEW_PORT_SIZE.Height * 0.9,
-                                                  SharedDef.VIEW_PORT_SIZE.Width * 0.3, SharedDef.VIEW_PORT_SIZE.Height * 0.1);
+        private static Rect BASE_RIGHT = new Rect(SharedDef.VIEW_PORT_SIZE.Width * 0.62, SharedDef.VIEW_PORT_SIZE.Height * 0.9,
+                                                  SharedDef.VIEW_PORT_SIZE.Width * 0.26, SharedDef.VIEW_PORT_SIZE.Height * 0.1);
 
         public static Rect GetBaseLocation(Player p)
         {

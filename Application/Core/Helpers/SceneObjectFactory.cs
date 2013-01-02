@@ -21,7 +21,6 @@ namespace Orbit.Core.Helpers
 {
     static class SceneObjectFactory
     {
-
         public static Base CreateBase(SceneMgr mgr, Player plr)
         {
             Base baze = new Base(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
@@ -476,10 +475,10 @@ namespace Orbit.Core.Helpers
         {
             PercentageEllipse arc = new PercentageEllipse(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             Color c = owner.GetPlayerColor();
-            c.A = 0x55;
+            c.A = 0x40;
             arc.Color = c;
             arc.FullAngle = (float) Math.PI;
-            arc.A = (float)owner.Baze.Size.Width / 2 - 20;
+            arc.A = (float)owner.Baze.Size.Width / 2 + 2;
             arc.B = (float)owner.Baze.Size.Height + 3; //hack kvuli neeliptickym rozmerum baze
 
             arc.Position = owner.Baze.Position + (new Vector(owner.Baze.Size.Width / 2, owner.Baze.Size.Height));

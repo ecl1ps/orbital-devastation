@@ -296,7 +296,7 @@ namespace Orbit.Core.Helpers
             arc.SceneMgr.Invoke(new Action(() =>
             {
                 d = new DrawingGroup();
-                d.Children.Add(new GeometryDrawing(Brushes.Transparent, new Pen(new SolidColorBrush(arc.Color), 1), CreateArc(arc)));
+                d.Children.Add(new GeometryDrawing(new SolidColorBrush(arc.Color), new Pen(Brushes.Black, 1), CreateArc(arc)));
 
                 TransformGroup tg = new TransformGroup();
                 tg.Children.Add(new TranslateTransform(arc.Position.X, arc.Position.Y));

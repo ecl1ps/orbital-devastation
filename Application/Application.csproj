@@ -186,7 +186,7 @@
     <Compile Include="Core\Scene\Controls\Implementations\PowerHookControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\RespawningObjectControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LimitedReverseDamageControl.cs" />
-    <Compile Include="Core\Scene\Controls\Implementations\StaticShieldCollisionReactionControl.cs" />
+    <Compile Include="Core\Scene\Controls\Unused\StaticShieldCollisionReactionControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\StatPowerUpCollisionReactionControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\StretchingLineControl.cs" />
     <Compile Include="Core\Scene\Controls\Unused\VectorLineObjectMovementControl.cs" />
