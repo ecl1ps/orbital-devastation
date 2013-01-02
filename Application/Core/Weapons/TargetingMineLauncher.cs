@@ -24,7 +24,7 @@ namespace Orbit.Core.Weapons
         protected Point startPoint;
         protected Point endPoint;
         protected bool targeting = false;
-        private System.Windows.Shapes.Line line;
+        private DrawingGroup lineGeom;
 
         public TargetingMineLauncher(SceneMgr mgr, Player player) : base(mgr, player)
         {
@@ -48,7 +48,7 @@ namespace Orbit.Core.Weapons
                 targeting = true;
                 startPoint = new Point(point.X, 0);
                 endPoint = point;
-                prepareLine();
+                PrepareLine();
             }
             else if (state == MouseButtonState.Released && targeting)
             {
@@ -63,27 +63,14 @@ namespace Orbit.Core.Weapons
         {
             SceneMgr.Invoke(new Action(() =>
             {
-                //SceneMgr.RemoveGraphicalObjectFromScene(line);
+                SceneMgr.RemoveGraphicalObjectFromScene(lineGeom);
             }));
         }
 
-        private void prepareLine()
+        private void PrepareLine()
         {
-            SceneMgr.Invoke(new Action(() =>
-            {
-                line = new System.Windows.Shapes.Line();
-                line.Stroke = Brushes.Crimson;
-                line.X1 = startPoint.X;
-                line.Y1 = startPoint.Y;
-                line.X2 = endPoint.X;
-                line.Y2 = endPoint.Y;
-                line.HorizontalAlignment = HorizontalAlignment.Left;
-                line.VerticalAlignment = VerticalAlignment.Center;
-                line.StrokeThickness = 1;
-                line.Fill = new SolidColorBrush(Colors.Red);
-            }));
-
-            //SceneMgr.AttachGraphicalObjectToScene(line);
+            lineGeom = SceneGeometryFactory.CreateLineGeometry(SceneMgr, Colors.Crimson, 1, Colors.Red, startPoint.ToVector(), endPoint.ToVector());
+            SceneMgr.AttachGraphicalObjectToScene(lineGeom);
         }
 
         protected override void SpawnMine(Point point)
@@ -113,24 +100,23 @@ namespace Orbit.Core.Weapons
             if (targeting)
             {
                 endPoint = StaticMouse.GetPosition();
-                moveLine();
+                MoveLine();
             }
         }
 
-        private void moveLine()
+        private void MoveLine()
         {
             SceneMgr.Invoke(new Action(() => 
             {
                 Vector v = new Vector(endPoint.X - startPoint.X, endPoint.Y - startPoint.Y);
-                if(v.Length != 0)
+                if (v.Length != 0)
                     v.Normalize();
 
                 //FIXME chtelo by to vypocitat kolizi
                 v *= 1000;
                 v.X += startPoint.X;
                 v.Y += startPoint.Y;
-                line.X2 = v.X;
-                line.Y2 = v.Y;
+                ((lineGeom.Children[0] as GeometryDrawing).Geometry as LineGeometry).EndPoint = v.ToPoint();
             }));
         }
     }

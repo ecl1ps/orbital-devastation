@@ -266,7 +266,7 @@
     <Compile Include="Core\Weapons\AsteroidMineLauncher.cs" />
     <Compile Include="Core\Weapons\IActivableWeapon.cs" />
     <Compile Include="Core\Weapons\DoubleHookLauncher.cs" />
-    <Compile Include="Core\Weapons\Lazor.cs" />
+    <Compile Include="Core\Weapons\Unused\Lazor.cs" />
     <Compile Include="Core\Weapons\PowerHookLauncher.cs" />
     <Compile Include="Core\Weapons\MineLauncher.cs" />
     <Compile Include="Core\Weapons\ProximityCannon.cs" />

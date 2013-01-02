@@ -57,21 +57,21 @@ namespace Orbit.Core.Helpers
             return path;
         }
 
-        public static Path CreateRadialGradientEllipseGeometry(SceneMgr mgr, int radius, Color start, Color end, Color stroke, Vector position)
+        public static DrawingGroup CreateRadialGradientEllipseGeometry(SceneMgr mgr, int radius, Color start, Color end, Color stroke, Vector position)
         {
-            Path path = null;
+            DrawingGroup d = null;
             mgr.Invoke(new Action(() =>
             {
                 EllipseGeometry geom = new EllipseGeometry(new Point(), radius, radius);
-                path = new Path();
-                path.Data = geom;
-                path.Fill = new RadialGradientBrush(end, start);
-                path.Stroke = new SolidColorBrush(stroke);
-                Canvas.SetLeft(path, position.X);
-                Canvas.SetTop(path, position.Y);
+                d = new DrawingGroup();
+                d.Children.Add(new GeometryDrawing(new RadialGradientBrush(end, start), new Pen(new SolidColorBrush(stroke), 1), geom));
+
+                TransformGroup tg = new TransformGroup();
+                tg.Children.Add(new TranslateTransform(position.X, position.Y));
+                d.Transform = tg;
             }));
 
-            return path;
+            return d;
         }
 
         public static DrawingGroup CreateAsteroidImage(Asteroid a)

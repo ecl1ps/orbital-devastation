@@ -59,6 +59,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 {
                     highlighter = new HighlightingSphere(me.SceneMgr, IdMgr.GetNewId(me.SceneMgr.GetCurrentPlayer().GetId()));
                     highlighter.Position = me.Position;
+                    (highlighter as Sphere).HasPositionInCenter = true;
                     (highlighter as Sphere).Radius = (me as Sphere).Radius + 10;
                     (highlighter as Sphere).Color = (me as Sphere).Color;
                     Color border = (me as Sphere).Color;
@@ -66,18 +67,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
                     border.A = 0x0;
                     center.A = 0xAA;
 
-                    /*if (IsCircle)
+                    if (IsCircle)
                         highlighter.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(
                             me.SceneMgr, (highlighter as Sphere).Radius, Colors.Transparent, Colors.Transparent, (me as Sphere).Color, me.Position));
                     else
                         highlighter.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(
                             me.SceneMgr, (highlighter as Sphere).Radius, border, center, Colors.Transparent, me.Position));
-
-                    // nastavit ho pod rodicovsky objekt
-                    me.SceneMgr.BeginInvoke(new Action(() =>
-                    {
-                        Canvas.SetZIndex(highlighter.GetGeometry(), Canvas.GetZIndex(me.GetGeometry()) - 1);
-                    }));*/
 
                     PositionCloneControl pcc = new PositionCloneControl(me);
                     highlighter.AddControl(pcc);
