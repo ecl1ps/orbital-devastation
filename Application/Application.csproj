@@ -175,7 +175,6 @@
     <Compile Include="Core\Scene\Controls\Health\Implementations\HpBarControl.cs" />
     <Compile Include="Core\Scene\Controls\Health\Implementations\HpRegenControl.cs" />
     <Compile Include="Core\Scene\Controls\IMovementControl.cs" />
-    <Compile Include="Core\Scene\Controls\Implementations\LaserDamageControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LimitedLifeControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\AsteroidDroppingSingularityControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\MiningElipseControl.cs" />
@@ -186,7 +185,6 @@
     <Compile Include="Core\Scene\Controls\Implementations\PowerHookControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\RespawningObjectControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LimitedReverseDamageControl.cs" />
-    <Compile Include="Core\Scene\Controls\Unused\StaticShieldCollisionReactionControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\StatPowerUpCollisionReactionControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\StretchingLineControl.cs" />
     <Compile Include="Core\Scene\Controls\Unused\VectorLineObjectMovementControl.cs" />
@@ -203,12 +201,12 @@
     <Compile Include="Core\Scene\Entities\Implementations\OrbitEllipse.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\MiningModule.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\PercentageEllipse.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\SimpleSquare.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\SingularityBouncingBullet.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\SimpleSphere.cs" />
     <Compile Include="Core\Scene\Entities\Unused\Circle.cs" />
-    <Compile Include="Core\Scene\Entities\Unused\Laser.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\PowerHook.cs" />
     <Compile Include="Core\Scene\CollisionShapes\SphereCollisionShape.cs" />
-    <Compile Include="Core\Scene\Entities\Unused\StaticShield.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\PercentageArc.cs" />
     <Compile Include="Core\Scene\Controls\Collisions\Implementations\StickyPointCollisionShapeControl.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Line.cs" />
@@ -267,7 +265,6 @@
     <Compile Include="Core\Weapons\AsteroidMineLauncher.cs" />
     <Compile Include="Core\Weapons\IActivableWeapon.cs" />
     <Compile Include="Core\Weapons\DoubleHookLauncher.cs" />
-    <Compile Include="Core\Weapons\Unused\Lazor.cs" />
     <Compile Include="Core\Weapons\PowerHookLauncher.cs" />
     <Compile Include="Core\Weapons\MineLauncher.cs" />
     <Compile Include="Core\Weapons\ProximityCannon.cs" />

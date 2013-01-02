@@ -193,8 +193,6 @@ namespace Orbit.Core
         HOOK_HIT,
         BULLET_HIT,
 
-        NEW_LASER,
-        LASER_MOVE,
         REMOVE_OBJECT,
 
         ASTEROID_DESTROYED,

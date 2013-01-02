@@ -512,15 +512,6 @@ namespace Orbit.Core.Client
             SyncReceivedObject(h, msg);
         }
 
-        private void ReceiveNewLaserMsg(NetIncomingMessage msg)
-        {
-            Laser laser = new Laser(GetOpponentPlayer(), this, -1);
-            laser.ReadObject(msg);
-
-            DelayedAttachToScene(laser);
-            SyncReceivedObject(laser, msg);
-        }
-
         private void ReceivedNewSingularityBouncingBulletMsg(NetIncomingMessage msg)
         {
             SingularityBouncingBullet s = new SingularityBouncingBullet(this, -1);
@@ -678,20 +669,6 @@ namespace Orbit.Core.Client
         private void ReceivedFloatingTextMsg(NetIncomingMessage msg)
         {
             FloatingTextMgr.AddFloatingText(msg.ReadString(), msg.ReadVector(), msg.ReadFloat(), (FloatingTextType)msg.ReadByte(), msg.ReadFloat(), true, false);
-        }
-
-        private void RecieveMoveLaserObject(NetIncomingMessage msg)
-        {
-            long id = msg.ReadInt64();
-            Vector end = msg.ReadVector();
-            foreach (ISceneObject obj in objects)
-            {
-                if (obj.Id == id && obj is Laser)
-                {
-                    (obj as Laser).End = end;
-                    break;
-                }
-            }
         }
 
         private void ReceiveRemoveObject(NetIncomingMessage msg)
