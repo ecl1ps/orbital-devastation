@@ -3,7 +3,6 @@ using System.Windows;
 using Orbit.Core.Scene.Controls;
 using System.Windows.Threading;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using Lidgren.Network;
 using System.Collections.Generic;
 using Orbit.Core.Players;

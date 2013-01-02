@@ -11,7 +11,6 @@ using Orbit.Core.Client;
 using Orbit.Core.Helpers;
 using System.Windows.Threading;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using Orbit.Core.Scene.Controls.Implementations;
 using System.Windows;
 using Orbit.Core.Scene.CollisionShapes;

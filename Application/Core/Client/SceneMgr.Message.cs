@@ -15,7 +15,6 @@ using System.Windows.Media;
 using Orbit.Core.Weapons;
 using Orbit.Core.Players.Input;
 using Orbit.Core.Scene.Controls;
-using System.Windows.Shapes;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Controls.Health.Implementations;
 using Orbit.Core.Scene.Controls.Health;

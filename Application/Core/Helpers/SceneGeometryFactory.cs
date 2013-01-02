@@ -4,16 +4,13 @@ using System.Linq;
 using System.Text;
 using Orbit.Core.Scene.Entities;
 using System.Windows;
-using System.Windows.Threading;
 using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using ShaderEffectLibrary;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Weapons;
 using Orbit.Core.Client.Shaders;
 using Orbit.Core.Client;
+using System.Windows.Media.Imaging;
 
 namespace Orbit.Core.Helpers
 {
@@ -141,7 +138,7 @@ namespace Orbit.Core.Helpers
 
                     RenderTargetBitmap rtb = new RenderTargetBitmap((int)baze.Size.Width * 2, (int)baze.Size.Height * 2, 96, 96, PixelFormats.Pbgra32);
 
-                    Rectangle visual = new Rectangle();
+                    System.Windows.Shapes.Rectangle visual = new System.Windows.Shapes.Rectangle();
                     visual.Fill = new ImageBrush(bi);
                     visual.Effect = effect;
 

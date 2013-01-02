@@ -5,7 +5,6 @@ using System.Text;
 using System.Windows.Media;
 using Orbit.Core.Client;
 using System.Windows;
-using System.Windows.Shapes;
 using System.Windows.Controls;
 
 namespace Orbit.Core.Scene.Entities.Implementations

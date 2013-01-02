@@ -9,7 +9,6 @@ using System.Windows.Controls;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Collections.Concurrent;
 using Lidgren.Network;

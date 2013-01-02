@@ -10,7 +10,6 @@ using Orbit.Core.Helpers;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Players;
 using Orbit.Core.Client;
-using System.Windows.Shapes;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Controls.Collisions;
 
