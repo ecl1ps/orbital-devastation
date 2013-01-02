@@ -17,7 +17,7 @@ using Orbit.Core.Client;
 
 namespace Orbit.Core.Helpers
 {
-    class SceneGeometryFactory
+    public class SceneGeometryFactory
     {
         public static DrawingGroup CreateConstantColorEllipseGeometry(Sphere s)
         {
@@ -239,6 +239,23 @@ namespace Orbit.Core.Helpers
             }));
 
             return g;
+        }
+
+        public static DrawingGroup CreateConstantColorRectangleGeometry(Square s)
+        {
+            DrawingGroup d = null;
+            s.SceneMgr.Invoke(new Action(() =>
+            {
+                RectangleGeometry geom = new RectangleGeometry(new Rect(s.Size));
+                d = new DrawingGroup();
+                d.Children.Add(new GeometryDrawing(null, new Pen(Brushes.Black, 2), geom));
+
+                TransformGroup tg = new TransformGroup();
+                tg.Children.Add(new TranslateTransform(s.Position.X, s.Position.Y));
+                d.Transform = tg;
+            }));
+
+            return d;
         }
 
         public static DrawingGroup CreateConstantColorEllipseGeometry(OrbitEllipse e)

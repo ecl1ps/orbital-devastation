@@ -91,6 +91,21 @@ namespace Orbit.Core.Scene.Entities.Implementations
             SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry());
             SceneMgr.AttachGraphicalObjectToScene(geometry);
             SetGeometry(geometry);
+
+            //VisualiseBase();
+        }
+
+        private void VisualiseBase()
+        {
+            StatPowerUp sq = new StatPowerUp(SceneMgr, SceneMgr.GetCurrentPlayer().GetId());
+            sq.Position = Position;
+            sq.Size = Size;
+            SceneMgr.AttachGraphicalObjectToScene(SceneGeometryFactory.CreateConstantColorRectangleGeometry(sq));
+
+            Sphere s = new StaticShield(SceneMgr, SceneMgr.GetCurrentPlayer().GetId());
+            s.Position = new Vector(Center.X, Position.Y + 3.36 * Size.Height);
+            s.Radius = (int)(Size.Width / 1.4);
+            SceneMgr.AttachGraphicalObjectToScene(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
         }
 
         public override void  OnRemove()
@@ -103,15 +118,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public override void OnAttach()
         {
             SceneMgr.AttachGraphicalObjectToScene(background);
-
-            /*Sphere s = new StaticShield(SceneMgr);
-            s.Position = new Vector(Center.X, Position.Y + 2.4 * Size.Height);
-            s.Radius = (int)(Size.Width / 1.9);
-            UIElement el = SceneGeometryFactory.CreateConstantColorEllipseGeometry(s);
-            SceneMgr.AttachGraphicalObjectToScene(el);
-            SceneMgr.Invoke(new Action(() => {
-                Canvas.SetZIndex(el, 1000);
-            }));*/
+            //VisualiseBase();
         }
     }
 

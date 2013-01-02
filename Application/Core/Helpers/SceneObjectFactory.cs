@@ -33,8 +33,8 @@ namespace Orbit.Core.Helpers
             baze.Size = new Size(plr.GetBaseLocation().Width, plr.GetBaseLocation().Height);
 
             SphereCollisionShape cs = new SphereCollisionShape();
-            cs.Center = new Vector(baze.Center.X, baze.Position.Y + 2.4 * baze.Size.Height);
-            cs.Radius = (int)(baze.Size.Width / 1.9);
+            cs.Center = new Vector(baze.Center.X, baze.Position.Y + 3.36 * baze.Size.Height);
+            cs.Radius = (int)(baze.Size.Width / 1.4);
             baze.CollisionShape = cs;
 
             BaseHealthControl hc = new BaseHealthControl();

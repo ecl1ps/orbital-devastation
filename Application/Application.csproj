@@ -138,6 +138,7 @@
     <Compile Include="Core\ExtensionMethods.cs" />
     <Compile Include="Core\FastMath.cs" />
     <Compile Include="Core\Helpers\GuiObjectFactory.cs" />
+    <Compile Include="Core\Helpers\HeavyweightGeometryFactory.cs" />
     <Compile Include="Core\Helpers\NetDataHelper.cs" />
     <Compile Include="Core\NetSearcher.cs" />
     <Compile Include="Core\Players\Input\AbstractInputMgr.cs" />
