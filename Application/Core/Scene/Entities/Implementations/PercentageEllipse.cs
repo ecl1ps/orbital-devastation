@@ -54,7 +54,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 arc.IsLargeArc = true;
 
             if (colorChanged)
-                (geometryElement.Children[0] as GeometryDrawing).Pen = new Pen(new SolidColorBrush(Color), 2);
+                (geometryElement.Children[0] as GeometryDrawing).Brush = new SolidColorBrush(Color);
 
             arc.Point = ComputeEllipsePoint(angle);
 

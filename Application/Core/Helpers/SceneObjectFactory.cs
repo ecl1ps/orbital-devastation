@@ -475,7 +475,7 @@ namespace Orbit.Core.Helpers
         {
             PercentageEllipse arc = new PercentageEllipse(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             Color c = owner.GetPlayerColor();
-            c.A = 0x40;
+            c.A = 0x55;
             arc.Color = c;
             arc.FullAngle = (float) Math.PI;
             arc.A = (float)owner.Baze.Size.Width / 2 + 2;
