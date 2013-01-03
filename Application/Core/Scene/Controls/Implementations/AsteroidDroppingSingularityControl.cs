@@ -17,31 +17,13 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private IList<long> collided = new List<long>();
 
         public bool Detonated { get; set; }
-        private bool spawnActivated;
-        public bool SpawnActivated 
-        {
-            get
-            {
-                return spawnActivated;
-            }
-            set
-            {
-                if (!spawnActivated && value)
-                {
-                    me.RemoveControlsOfType<HighlightingControl>();
-                    HighlightingControl hc = new HighlightingControl();
-                    me.AddControl(hc);
-                    hc.Enabled = true;
-                }
-                spawnActivated = value;
-            }
-        }
+        public bool AsteroidSpawned { get; set; }
 
         public AsteroidDroppingSingularityControl()
             : base()
         {
             Detonated = false;
-            spawnActivated = false;
+            AsteroidSpawned = false;
         }
 
         public override void DoCollideWith(ISceneObject other, float tpf)
@@ -64,15 +46,18 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (Detonated || GetDistToExplosionPct() > 0)
                 return;
 
-            if ((me as SingularityMine).Owner.IsCurrentPlayer() && SpawnActivated)
-                SpawnAsteroid();
-
             base.StartDetonation();
             Detonated = true;
         }
 
-        private void SpawnAsteroid()
+        public void SpawnAsteroid()
         {
+            if (AsteroidSpawned)
+                return;
+
+            AsteroidSpawned = true;
+            me.RemoveControlsOfType<HighlightingControl>();
+
             Asteroid ast = new Asteroid(me.SceneMgr, IdMgr.GetNewId(me.SceneMgr.GetCurrentPlayer().GetId()));
             ast.Radius = 20;
             ast.Position = new Vector(me.Position.X - ast.Radius, me.Position.Y - ast.Radius);
