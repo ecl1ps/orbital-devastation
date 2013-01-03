@@ -90,8 +90,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         private void ChangeGeometry(DrawingGroup geometry)
         {
-            SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry(), DrawingCategory.PLAYER_OBJECTS);
-            SceneMgr.AttachGraphicalObjectToScene(geometry, DrawingCategory.PLAYER_OBJECTS);
+            SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry(), DrawingCategory.BACKGROUND);
+            SceneMgr.AttachGraphicalObjectToScene(geometry, DrawingCategory.BACKGROUND);
             SetGeometry(geometry);
 
             //VisualiseBase();
@@ -113,7 +113,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public override void  OnRemove()
         {
             base.OnRemove();
-            SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry(), DrawingCategory.PLAYER_OBJECTS);
+            SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry(), DrawingCategory.BACKGROUND);
             SceneMgr.RemoveGraphicalObjectFromScene(background, DrawingCategory.BACKGROUND);
         }
 
