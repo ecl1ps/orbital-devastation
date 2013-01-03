@@ -13,7 +13,7 @@ using Orbit.Core.Scene.Controls.Collisions.Implementations;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    class SingularityBouncingBullet : SingularityExplodingBullet
+    public class SingularityBouncingBullet : SingularityExplodingBullet
     {
         public SingularityBouncingBullet(SceneMgr mgr, long id)
             : base(mgr, id)
@@ -63,7 +63,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
             // rychlost bulletu
             double v1 = Owner.Data.BulletSpeed;
             // rychlost objektu
-            double v2 = nearest.GetControlOfType<IMovementControl>().Speed;
+            IMovementControl mc = nearest.GetControlOfType<IMovementControl>();
+            double v2 = mc == null ? 0 : mc.Speed;
             // vektor od objketu k launcheru hooku
             Vector cVec = Position - nearest.Center;
             // vektor smeru objektu

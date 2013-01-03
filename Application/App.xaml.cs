@@ -19,6 +19,7 @@ using Orbit.Core.Client.GameStates;
 using System.Net.Sockets;
 using Orbit.Core.Server.Match;
 using Orbit.Core.Server.Level;
+using Orbit.Gui.Visuals;
 
 #if DEBUG
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "logger.config")]
@@ -183,16 +184,19 @@ namespace Orbit
             mainWindow.GameRunning = started;
         }
 
-        public void CreateGameGui(bool setCanvas = true)
+        public void CreateGameGui(bool setGameArea = true)
         {
             GameUC gameW = new GameUC();
             AddWindow(gameW);
             sceneMgr.GameWindowState = Orbit.Core.WindowState.IN_GAME;
-            if (setCanvas)
+            if (setGameArea)
+            {
+                GameVisualArea gva = GetGameArea();
                 sceneMgr.Enqueue(new Action(() =>
                 {
-                    sceneMgr.SetCanvas(gameW.mainCanvas);
+                    sceneMgr.SetGameVisualArea(gva);
                 }));
+            }
         }
 
         public void FocusWindow()
@@ -202,9 +206,9 @@ namespace Orbit
             MainWindow.BringIntoView();
         }
 
-        public Canvas GetCanvas()
+        public GameVisualArea GetGameArea()
         {
-            return LogicalTreeHelper.FindLogicalNode(mainWindow.mainGrid, "mainCanvas") as Canvas;
+            return LogicalTreeHelper.FindLogicalNode(mainWindow.mainGrid, "gameArea") as GameVisualArea;
         }
 
         public void CreateLobbyGui(bool asLeader, bool settingsLocked = false)

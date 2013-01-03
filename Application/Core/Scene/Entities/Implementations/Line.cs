@@ -14,8 +14,6 @@ namespace Orbit.Core.Scene.Entities
     {
         public Vector Start {get; set; }
         public Vector End { get; set; }
-        public Color Color { get; set; }
-        public int Width { get; set; }
         public override Vector Center
         {
             get
@@ -35,31 +33,11 @@ namespace Orbit.Core.Scene.Entities
             SceneMgr = mgr;
             Start = start;
             End = end;
-            Width = width;
-            Color = color;
-            CreateLine();
+
+            geometryElement = SceneGeometryFactory.CreateLineGeometry(SceneMgr, color, width, color, Start, End);
         }
 
-        public void CreateLine()
-        {
-            SceneMgr.Invoke(new Action(() =>
-            {
-                System.Windows.Shapes.Line line = new System.Windows.Shapes.Line();
-                line.X1 = Start.X;
-                line.Y1 = Start.Y;
-                line.X2 = End.X;
-                line.Y2 = End.Y;
-                line.HorizontalAlignment = HorizontalAlignment.Left;
-                line.VerticalAlignment = VerticalAlignment.Center;
-                line.StrokeThickness = Width;
-                line.Stroke = new SolidColorBrush(Color);
-                line.Fill = new SolidColorBrush(Color);
-
-                geometryElement = line;
-            }));
-        }
-
-        public override bool IsOnScreen(System.Windows.Size screenSize)
+        public override bool IsOnScreen(Size screenSize)
         {
             // always on screen
             return true;
@@ -67,11 +45,9 @@ namespace Orbit.Core.Scene.Entities
 
         public override void UpdateGeometric()
         {
-            System.Windows.Shapes.Line line = geometryElement as System.Windows.Shapes.Line;
-            line.X1 = Start.X;
-            line.Y1 = Start.Y;
-            line.X2 = End.X;
-            line.Y2 = End.Y;
+            LineGeometry line = (geometryElement.Children[0] as GeometryDrawing).Geometry as LineGeometry;
+            line.StartPoint = Start.ToPoint();
+            line.EndPoint = End.ToPoint();
         }
     }
 }

@@ -9,7 +9,6 @@ using System.Windows.Controls;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Collections.Concurrent;
 using Lidgren.Network;
@@ -145,9 +144,6 @@ namespace Orbit.Core.Client
                 case PacketType.NEW_HOOK:
                     ReceivedNewHookMsg(msg);
                     break;
-                case PacketType.NEW_LASER:
-                    ReceiveNewLaserMsg(msg);
-                    break;
                 case PacketType.SCORE_QUERY:
                     ReceivedScoreQueryMsg(msg);
                     break;
@@ -165,9 +161,6 @@ namespace Orbit.Core.Client
                     break;
                 case PacketType.REMOVE_OBJECT:
                     ReceiveRemoveObject(msg);
-                    break;
-                case PacketType.LASER_MOVE:
-                    RecieveMoveLaserObject(msg);
                     break;
                 case PacketType.BASE_INTEGRITY_CHANGE:
                     ReceivedBaseIntegrityChangeMsg(msg);

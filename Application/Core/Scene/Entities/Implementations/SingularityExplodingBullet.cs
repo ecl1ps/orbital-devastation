@@ -11,7 +11,6 @@ using Orbit.Core.Client;
 using Orbit.Core.Helpers;
 using System.Windows.Threading;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using Orbit.Core.Scene.Controls.Implementations;
 using System.Windows;
 using Orbit.Core.Scene.CollisionShapes;
@@ -20,7 +19,7 @@ using Orbit.Core.Scene.Controls.Collisions.Implementations;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    class SingularityExplodingBullet : SingularityBullet
+    public class SingularityExplodingBullet : SingularityBullet
     {
         public SingularityExplodingBullet(SceneMgr mgr, long id)
             : base(mgr, id)
@@ -29,8 +28,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         protected override void UpdateGeometricState()
         {
-            ((geometryElement as Path).Data as EllipseGeometry).RadiusX = Radius;
-            ((geometryElement as Path).Data as EllipseGeometry).RadiusY = Radius;
+            EllipseGeometry elipse = (geometryElement.Children[0] as GeometryDrawing).Geometry as EllipseGeometry;
+            elipse.RadiusX = Radius;
+            elipse.RadiusY = Radius;
         }
 
         public void SpawnSmallBullets()

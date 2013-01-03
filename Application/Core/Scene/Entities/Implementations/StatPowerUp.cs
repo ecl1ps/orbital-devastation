@@ -10,20 +10,18 @@ using Orbit.Core.Scene.Controls;
 using Orbit.Core.Helpers;
 using System.Windows.Media;
 using Orbit.Core.Scene.CollisionShapes;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    public class StatPowerUp : Square, IMovable, IRotable, ISendable, ICatchable
+    public class StatPowerUp : Square, IMovable, ISendable, ICatchable
     {
-        public Vector Direction { get; set; }
-        public float Rotation { get; set; }
         public DeviceType PowerUpType { get; set; }
 
-        public StatPowerUp(SceneMgr mgr, long id) : base(mgr, id) { }
-
-        protected override void UpdateGeometricState()
+        public StatPowerUp(SceneMgr mgr, long id) 
+            : base(mgr, id) 
         {
-            geometryElement.RenderTransform = new RotateTransform(Rotation);
+            Category = DrawingCategory.LOOTABLES;
         }
 
         public void WriteObject(NetOutgoingMessage msg)

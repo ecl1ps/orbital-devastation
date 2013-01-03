@@ -7,7 +7,6 @@ using Orbit.Core.Players;
 using System.Windows.Media;
 using System.Windows;
 using System.Windows.Threading;
-using System.Windows.Shapes;
 using Orbit.Core.Scene.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
@@ -22,7 +21,6 @@ namespace Orbit.Core.Helpers
 {
     static class SceneObjectFactory
     {
-
         public static Base CreateBase(SceneMgr mgr, Player plr)
         {
             Base baze = new Base(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
@@ -33,8 +31,8 @@ namespace Orbit.Core.Helpers
             baze.Size = new Size(plr.GetBaseLocation().Width, plr.GetBaseLocation().Height);
 
             SphereCollisionShape cs = new SphereCollisionShape();
-            cs.Center = new Vector(baze.Center.X, baze.Position.Y + 2.4 * baze.Size.Height);
-            cs.Radius = (int)(baze.Size.Width / 1.9);
+            cs.Center = new Vector(baze.Center.X, baze.Position.Y + 2.5 * baze.Size.Height);
+            cs.Radius = (int)(baze.Size.Width / 1.6);
             baze.CollisionShape = cs;
 
             BaseHealthControl hc = new BaseHealthControl();
@@ -46,30 +44,6 @@ namespace Orbit.Core.Helpers
             baze.SetGeometry(baze.Image100);
 
             return baze;
-        }
-
-        public static StaticShield CreateShield(SceneMgr mgr, Player plr, ISceneObject toFollow)
-        {
-            StaticShield shield = new StaticShield(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
-            shield.Position = toFollow.Position;
-            shield.Color = Colors.AliceBlue;
-            shield.Radius = 10;
-
-            SphereCollisionShape cs = new SphereCollisionShape();
-            cs.Center = shield.Center;
-            cs.Radius = shield.Radius;
-            shield.CollisionShape = cs;
-
-            shield.SetGeometry(SceneGeometryFactory.CreateShield(shield));
-
-            shield.AddControl(new StickySphereCollisionShapeControl());
-
-            shield.AddControl(new LimitedLifeControl(SharedDef.SPECTATOR_SHIELDING_TIME));
-
-            PositionCloneControl pc = new PositionCloneControl(toFollow);
-            shield.AddControl(new PositionCloneControl(toFollow));
-
-            return shield;
         }
 
         public static SingularityMine CreatePowerlessMine(SceneMgr mgr, Vector pos, Vector dir, Player plr)
@@ -229,10 +203,6 @@ namespace Orbit.Core.Helpers
             hook.Color = player.GetPlayerColor();
 
             hook.SetGeometry(SceneGeometryFactory.CreateHookHead(hook));
-            mgr.BeginInvoke(new Action(() =>
-            {
-                Canvas.SetZIndex(hook.GetGeometry(), 99);
-            }));
 
             PointCollisionShape cs = new PointCollisionShape();
             cs.Center = hook.Center;
@@ -268,10 +238,6 @@ namespace Orbit.Core.Helpers
             hook.Color = player.GetPlayerColor();
 
             hook.SetGeometry(SceneGeometryFactory.CreateHookHead(hook));
-            mgr.BeginInvoke(new Action(() =>
-            {
-                Canvas.SetZIndex(hook.GetGeometry(), 99);
-            }));
 
             PointCollisionShape cs = new PointCollisionShape();
             cs.Center = hook.Center;
@@ -289,7 +255,6 @@ namespace Orbit.Core.Helpers
 
             return hook;
         }
-
 
         public static MinorAsteroid CreateSmallAsteroid(SceneMgr mgr, Vector direction, Vector center, int rot, int textureId, int radius,float speed, double rotation)
         {
@@ -323,7 +288,7 @@ namespace Orbit.Core.Helpers
             return asteroid;
         }
 
-        public static VectorLine CreateVectorLine(SceneMgr mgr, Vector origin, Vector vector, Color color, ISceneObject parent = null)
+        /*public static VectorLine CreateVectorLine(SceneMgr mgr, Vector origin, Vector vector, Color color, ISceneObject parent = null)
         {
             VectorLine l = new VectorLine(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             l.Position = origin;
@@ -337,10 +302,10 @@ namespace Orbit.Core.Helpers
                 l.AddControl(c);
             }
 
-            l.SetGeometry(SceneGeometryFactory.CreateLineGeometry(l));
+            //l.SetGeometry(SceneGeometryFactory.CreateLineGeometry(l));
 
             return l;
-        }
+        }*/
 
         /*public static Circle CreateCircle(SceneMgr mgr, Vector point, Color color)
         {
@@ -488,7 +453,7 @@ namespace Orbit.Core.Helpers
             c.A = 0x55;
             arc.Color = c;
             arc.FullAngle = (float) Math.PI;
-            arc.A = (float)owner.Baze.Size.Width / 2 - 20;
+            arc.A = (float)owner.Baze.Size.Width / 2 + 2;
             arc.B = (float)owner.Baze.Size.Height + 3; //hack kvuli neeliptickym rozmerum baze
 
             arc.Position = owner.Baze.Position + (new Vector(owner.Baze.Size.Width / 2, owner.Baze.Size.Height));
@@ -520,7 +485,7 @@ namespace Orbit.Core.Helpers
         {
             OrbitEllipse ellipse = new OrbitEllipse(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()), radiusX, radiusY);
             ellipse.Position = position;
-            ellipse.SetGeometry(SceneGeometryFactory.CreateEllipseGeometry(ellipse));
+            ellipse.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(ellipse));
 
             return ellipse;
         }
@@ -531,7 +496,7 @@ namespace Orbit.Core.Helpers
             f.Radius = radius;
             f.Color = color;
             f.Position = position;
-            f.SetGeometry(SceneGeometryFactory.CreateConstantRippedColorEllipseGeometry(f));
+            f.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(f));
 
             SphereCollisionShape shape = new SphereCollisionShape();
             shape.Radius = radius;

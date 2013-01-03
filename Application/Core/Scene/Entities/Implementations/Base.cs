@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using Orbit.Core.Helpers;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.CollisionShapes;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -43,20 +44,21 @@ namespace Orbit.Core.Scene.Entities.Implementations
             }
         }
 
-        private UIElement image100;
-        public UIElement Image100 { get { return image100; } }
-        private UIElement image75; 
-        public UIElement Image75 { get { return image75; } }
-        private UIElement image50;
-        public UIElement Image50 { get { return image50; } }
-        private UIElement image25;
-        public UIElement Image25 { get { return image25; } }
-        private UIElement background;
-        public UIElement BackgroundImage { get { return background; } }
+        private DrawingGroup image100;
+        public DrawingGroup Image100 { get { return image100; } }
+        private DrawingGroup image75;
+        public DrawingGroup Image75 { get { return image75; } }
+        private DrawingGroup image50;
+        public DrawingGroup Image50 { get { return image50; } }
+        private DrawingGroup image25;
+        public DrawingGroup Image25 { get { return image25; } }
+        private DrawingGroup background;
+        public DrawingGroup BackgroundImage { get { return background; } }
 
         public Base(SceneMgr mgr, long id)
             : base(mgr, id)
         {
+            Category = DrawingCategory.BACKGROUND;
         }
 
         public void LoadImages()
@@ -86,31 +88,39 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 ChangeGeometry(Image100);
         }
 
-        private void ChangeGeometry(UIElement geometry)
+        private void ChangeGeometry(DrawingGroup geometry)
         {
-            SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry());
-            SceneMgr.AttachGraphicalObjectToScene(geometry);
+            SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry(), DrawingCategory.BACKGROUND);
+            SceneMgr.AttachGraphicalObjectToScene(geometry, DrawingCategory.BACKGROUND);
             SetGeometry(geometry);
+
+            //VisualiseBase();
+        }
+
+        private void VisualiseBase()
+        {
+            Square sq = new SimpleSquare(SceneMgr, SceneMgr.GetCurrentPlayer().GetId());
+            sq.Position = Position;
+            sq.Size = Size;
+            SceneMgr.AttachGraphicalObjectToScene(SceneGeometryFactory.CreateConstantColorRectangleGeometry(sq), DrawingCategory.PROJECTILE_BACKGROUND);
+
+            Sphere s = new SimpleSphere(SceneMgr, SceneMgr.GetCurrentPlayer().GetId());
+            s.Position = new Vector(Center.X, Position.Y + 2.5 * Size.Height);
+            s.Radius = (int)(Size.Width / 1.6);
+            SceneMgr.AttachGraphicalObjectToScene(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s), DrawingCategory.PROJECTILE_BACKGROUND);
         }
 
         public override void  OnRemove()
         {
             base.OnRemove();
-            SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry());
-            SceneMgr.RemoveGraphicalObjectFromScene(background);
+            SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry(), DrawingCategory.BACKGROUND);
+            SceneMgr.RemoveGraphicalObjectFromScene(background, DrawingCategory.BACKGROUND);
         }
 
         public override void OnAttach()
         {
-            SceneMgr.AttachGraphicalObjectToScene(background);
-            /*Sphere s = new StaticShield(SceneMgr);
-            s.Position = new Vector(Center.X, Position.Y + 2.4 * Size.Height);
-            s.Radius = (int)(Size.Width / 1.9);
-            UIElement el = SceneGeometryFactory.CreateConstantColorEllipseGeometry(s);
-            SceneMgr.AttachGraphicalObjectToScene(el);
-            SceneMgr.Invoke(new Action(() => {
-                Canvas.SetZIndex(el, 1000);
-            }));*/
+            SceneMgr.AttachGraphicalObjectToScene(background, DrawingCategory.BACKGROUND);
+            //VisualiseBase();
         }
     }
 

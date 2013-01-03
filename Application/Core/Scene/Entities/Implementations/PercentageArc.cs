@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Controls;
 using Orbit.Core.Client;
-using System.Windows.Shapes;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -26,6 +26,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             : base(mgr, id)
         {
             Percentage = 1;
+            Category = DrawingCategory.PLAYER_OBJECTS;
         }
 
         public Point ComputePointOnCircle(double angle)
@@ -50,11 +51,12 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 arc.IsLargeArc = true;
 
             if (colorChanged)
-                (geometryElement as Path).Stroke = new SolidColorBrush(Color);
+                (geometryElement.Children[0] as GeometryDrawing).Pen = new Pen(new SolidColorBrush(Color), 2);
 
             arc.Point = ComputePointOnCircle((Math.PI * 2) * Percentage);
-            Canvas.SetLeft(geometryElement, Position.X);
-            Canvas.SetTop(geometryElement, Position.Y);
+
+            (geometryElement.Transform as TransformGroup).Children.Clear();
+            (geometryElement.Transform as TransformGroup).Children.Add(new TranslateTransform(Position.X, Position.Y));
         }
 
         public void SetArc(ArcSegment arc)

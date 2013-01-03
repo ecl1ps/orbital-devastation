@@ -12,10 +12,9 @@ using Orbit.Core.Scene.Entities.Implementations;
 
 namespace Orbit.Core.Scene.Entities
 {
-    public abstract class Sphere : SceneObject, IMovable
+    public abstract class Sphere : SceneObject
     {
         public Color Color { get; set; }
-        public Vector Direction { get; set; }
         public int Radius { get; set; }
         public bool HasPositionInCenter { get; set; }
         public override Vector Center
@@ -48,10 +47,15 @@ namespace Orbit.Core.Scene.Entities
 
         public sealed override void UpdateGeometric()
         {
-            Canvas.SetLeft(geometryElement, Position.X);
-            Canvas.SetTop(geometryElement, Position.Y);
-            if (geometryElement is Image)
-                (geometryElement as Image).Width = Radius * 2;
+            (geometryElement.Transform as TransformGroup).Children.Clear();
+
+            if (HasPositionInCenter)
+                (geometryElement.Transform as TransformGroup).Children.Add(new RotateTransform(Rotation));
+            else
+                (geometryElement.Transform as TransformGroup).Children.Add(new RotateTransform(Rotation, Radius, Radius));
+
+            (geometryElement.Transform as TransformGroup).Children.Add(new TranslateTransform(Position.X, Position.Y));
+
             UpdateGeometricState();
         }
 

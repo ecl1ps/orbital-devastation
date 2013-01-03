@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    class PowerlessSingularityControl : DroppingSingularityControl
+    public class PowerlessSingularityControl : DroppingSingularityControl
     {
         protected override void InitControl(Entities.ISceneObject me)
         {

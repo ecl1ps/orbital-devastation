@@ -25,6 +25,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
         {
             if (other is Asteroid && (other as Asteroid).Enabled)
             {
+                other.DoRemoveMe();
+
+                // nebudou hitovat objekty, ktere jsou uz pod horizontem
+                if (other.Center.Y > baze.Position.Y + baze.Size.Height)
+                    return;
+
                 int damage = (other as Asteroid).Radius / 2;
 
                 // score
@@ -46,7 +52,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_DAMAGE_TO_BASE);
 
                 baze.Integrity -= damage;
-                other.DoRemoveMe();
             }
         }
     }

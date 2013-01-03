@@ -173,8 +173,6 @@ namespace Orbit.Core.Helpers
 
             msg.Write(l.Start);
             msg.Write(l.End);
-            msg.Write(l.Color);
-            msg.Write(l.Width);
         }
 
         public static void ReadObjectLine(this NetIncomingMessage msg, Line l)
@@ -183,20 +181,6 @@ namespace Orbit.Core.Helpers
 
             l.Start = msg.ReadVector();
             l.End = msg.ReadVector();
-            l.Color = msg.ReadColor();
-            l.Width = msg.ReadInt32();
-        }
-
-        public static void WriteObjectLaser(this NetOutgoingMessage msg, Laser l)
-        {
-            msg.WriteObjectLine(l);
-        }
-
-        public static void ReadObjectLaser(this NetIncomingMessage msg, Laser l)
-        {
-            msg.ReadObjectLine(l);
-
-            l.AddControl(new LaserDamageControl());
         }
 
         public static void WriteObjectStatPowerUp(this NetOutgoingMessage msg, StatPowerUp s)
@@ -290,11 +274,6 @@ namespace Orbit.Core.Helpers
                 else if (c is SingularityBulletCollisionReactionControl)
                 {
                     msg.Write(typeof(SingularityBulletCollisionReactionControl).GUID.GetHashCode());
-                    msg.WriteControl(c);
-                }
-                else if (c is StaticShieldCollisionReactionControl)
-                {
-                    msg.Write(typeof(StaticShieldCollisionReactionControl).GUID.GetHashCode());
                     msg.WriteControl(c);
                 }
                 else if (c is StatPowerUpCollisionReactionControl)
@@ -434,12 +413,6 @@ namespace Orbit.Core.Helpers
                 else if (hash == typeof(SingularityBulletCollisionReactionControl).GUID.GetHashCode())
                 {
                     SingularityBulletCollisionReactionControl c = new SingularityBulletCollisionReactionControl();
-                    msg.ReadControl(c);
-                    controls.Add(c);
-                }
-                else if (hash == typeof(StaticShieldCollisionReactionControl).GUID.GetHashCode())
-                {
-                    StaticShieldCollisionReactionControl c = new StaticShieldCollisionReactionControl();
                     msg.ReadControl(c);
                     controls.Add(c);
                 }

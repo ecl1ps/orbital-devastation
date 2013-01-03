@@ -3,7 +3,6 @@ using System.Windows;
 using Orbit.Core.Scene.Controls;
 using System.Windows.Threading;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using Lidgren.Network;
 using System.Collections.Generic;
 using Orbit.Core.Players;
@@ -11,6 +10,7 @@ using Orbit.Core.Client;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.CollisionShapes;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -27,14 +27,16 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
             BorderBrush = Brushes.Black;
             FillBrush = Brushes.Black;
+            Category = DrawingCategory.PROJECTILES;
         }
 
         protected override void UpdateGeometricState()
         {
-            ((geometryElement as Path).Data as EllipseGeometry).RadiusX = Radius;
-            ((geometryElement as Path).Data as EllipseGeometry).RadiusY = Radius;
-            (geometryElement as Path).Stroke = BorderBrush;
-            (geometryElement as Path).Fill = FillBrush;
+            EllipseGeometry elipse = (geometryElement.Children[0] as GeometryDrawing).Geometry as EllipseGeometry;
+            elipse.RadiusX = Radius;
+            elipse.RadiusY = Radius;
+            (geometryElement.Children[0] as GeometryDrawing).Pen = new Pen(BorderBrush, 1);
+            (geometryElement.Children[0] as GeometryDrawing).Brush = FillBrush;
         }
 
         public void WriteObject(NetOutgoingMessage msg)

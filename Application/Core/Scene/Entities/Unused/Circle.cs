@@ -3,7 +3,6 @@ using System.Windows;
 using Orbit.Core.Scene.Controls;
 using System.Windows.Threading;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using Lidgren.Network;
 using System.Collections.Generic;
 using Orbit.Core.Players;
@@ -14,7 +13,9 @@ using System.Windows.Controls;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-
+    /// <summary>
+    /// unused
+    /// </summary>
     public class Circle : SceneObject
     {
         public Color Color { get; set; }
@@ -28,8 +29,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void UpdateGeometric()
         {
-            Canvas.SetLeft(geometryElement, Position.X);
-            Canvas.SetTop(geometryElement, Position.Y);
+            (geometryElement.Transform as TransformGroup).Children.Clear();
+            (geometryElement.Transform as TransformGroup).Children.Add(new RotateTransform(Rotation));
+            (geometryElement.Transform as TransformGroup).Children.Add(new TranslateTransform(Position.X, Position.Y));
         }
 
         public override bool IsOnScreen(Size screenSize)

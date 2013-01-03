@@ -15,7 +15,6 @@ using System.Windows.Media;
 using Orbit.Core.Weapons;
 using Orbit.Core.Players.Input;
 using Orbit.Core.Scene.Controls;
-using System.Windows.Shapes;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Controls.Health.Implementations;
 using Orbit.Core.Scene.Controls.Health;
@@ -217,17 +216,17 @@ namespace Orbit.Core.Client
             {
                 App.Instance.CreateGameGui(false);
                 App.Instance.SetGameStarted(true);
-                SetCanvas(App.Instance.GetCanvas());
+                SetGameVisualArea(App.Instance.GetGameArea());
             }));
 
             InitStaticMouse();
             BeginInvoke(new Action(() =>
             {
-                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
+                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblEndGame");
                 if (lbl != null)
                     lbl.Content = "";
 
-                Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblWaiting");
+                Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblWaiting");
                 if (lblw != null)
                     lblw.Content = "";
 
@@ -249,14 +248,14 @@ namespace Orbit.Core.Client
             {
                 if (leftPlr != null)
                 {
-                    Label lbl3 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblNameLeft");
+                    Label lbl3 = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblNameLeft");
                     if (lbl3 != null)
                         lbl3.Content = leftPlr.Data.Name;
                 }
 
                 if (rightPlr != null)
                 {
-                    Label lbl4 = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblNameRight");
+                    Label lbl4 = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblNameRight");
                     if (lbl4 != null)
                         lbl4.Content = rightPlr.Data.Name;
                 }
@@ -293,7 +292,7 @@ namespace Orbit.Core.Client
         }
 
         /// <summary>
-        /// vytvori hraci action bar, input manager a zbranea bazi nebo mining module
+        /// vytvori hraci action bar, input manager a zbrane a bazi nebo mining module
         /// </summary>
         /// <param name="p">hrac kteremu se maji vytvorit objekty</param>
         private void CreateActiveObjectsOfPlayer(Player p)
@@ -503,22 +502,10 @@ namespace Orbit.Core.Client
             h.ReadObject(msg);
             h.Owner = GetOpponentPlayer();
             h.SetGeometry(SceneGeometryFactory.CreateHookHead(h));
-            BeginInvoke(new Action(() =>
-            {
-                Canvas.SetZIndex(h.GetGeometry(), 99);
-            }));
+
             h.PrepareLine();
             DelayedAttachToScene(h);
             SyncReceivedObject(h, msg);
-        }
-
-        private void ReceiveNewLaserMsg(NetIncomingMessage msg)
-        {
-            Laser laser = new Laser(GetOpponentPlayer(), this, -1);
-            laser.ReadObject(msg);
-
-            DelayedAttachToScene(laser);
-            SyncReceivedObject(laser, msg);
         }
 
         private void ReceivedNewSingularityBouncingBulletMsg(NetIncomingMessage msg)
@@ -678,20 +665,6 @@ namespace Orbit.Core.Client
         private void ReceivedFloatingTextMsg(NetIncomingMessage msg)
         {
             FloatingTextMgr.AddFloatingText(msg.ReadString(), msg.ReadVector(), msg.ReadFloat(), (FloatingTextType)msg.ReadByte(), msg.ReadFloat(), true, false);
-        }
-
-        private void RecieveMoveLaserObject(NetIncomingMessage msg)
-        {
-            long id = msg.ReadInt64();
-            Vector end = msg.ReadVector();
-            foreach (ISceneObject obj in objects)
-            {
-                if (obj.Id == id && obj is Laser)
-                {
-                    (obj as Laser).End = end;
-                    break;
-                }
-            }
         }
 
         private void ReceiveRemoveObject(NetIncomingMessage msg)

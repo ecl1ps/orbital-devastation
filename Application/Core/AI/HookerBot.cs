@@ -71,6 +71,7 @@ namespace Orbit.Core.AI
         private double sqrtD;
         private double x1;
         private Vector contactPoint1;
+        private IMovementControl movementControl;
 
         private void ShootHook()
         {
@@ -81,7 +82,8 @@ namespace Orbit.Core.AI
             // rychlost hooku
             v1 = me.Data.HookSpeed;
             // rychlost objektu
-            v2 = nearest.GetControlOfType<IMovementControl>().Speed;
+            movementControl = nearest.GetControlOfType<IMovementControl>();
+            v2 = movementControl == null ? 0 : movementControl.Speed;
             // vektor od objketu k launcheru hooku
             cVec = baseLauncherPosition - nearest.Center;
             // vektor smeru objektu

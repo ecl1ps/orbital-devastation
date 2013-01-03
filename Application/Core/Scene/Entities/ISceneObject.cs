@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Windows;
 using Orbit.Core.Scene.Controls;
-using System.Windows.Shapes;
 using System.Collections.Generic;
 using Orbit.Core.Client;
 using Orbit.Core.Scene.CollisionShapes;
+using System.Windows.Media;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -26,6 +27,8 @@ namespace Orbit.Core.Scene.Entities
 
         bool Visible { get; set; }
 
+        DrawingCategory Category { get; set; }
+
         void Update(float tpf);
 
         void AddControl(IControl control);
@@ -46,9 +49,9 @@ namespace Orbit.Core.Scene.Entities
 
         void UpdateGeometric();
 
-        UIElement GetGeometry();
+        DrawingGroup GetGeometry();
 
-        void SetGeometry(UIElement geometryElement);
+        void SetGeometry(DrawingGroup geometryElement);
 
         void DoRemove(ISceneObject obj);
 

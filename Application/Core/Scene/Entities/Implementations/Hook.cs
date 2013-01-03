@@ -7,17 +7,15 @@ using Orbit.Core.Players;
 using Orbit.Core.Scene.Controls;
 using System.Windows;
 using Lidgren.Network;
-using System.Windows.Shapes;
-using System.Windows.Threading;
 using System.Windows.Media;
 using Orbit.Core.Client;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Controls.Implementations;
-using System.Diagnostics;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Controls.Collisions.Implementations;
 using Orbit.Core.Scene.CollisionShapes;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -27,10 +25,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
         HOOK_POWER
     }
 
-    public class Hook : Sphere, ISendable, IRotable, IProjectile
+    public class Hook : Sphere, ISendable, IProjectile
     {
         public Player Owner { get; set; } // neposilano
-        public float Rotation { get; set; }
         public ICatchable CaughtObject { get; set; } // neposilano
         public HookType HookType { get; set; }
         public Vector RopeContactPoint
@@ -41,38 +38,25 @@ namespace Orbit.Core.Scene.Entities.Implementations
             }
         }
 
-        private System.Windows.Shapes.Line line; // neposilano
+        private DrawingGroup lineGeom;
 
         public Hook(SceneMgr mgr, long id)
             : base(mgr, id)
         {
             HookType = HookType.HOOK_NORMAL;
+            Category = DrawingCategory.PROJECTILES;
         }
 
         public void PrepareLine()
         {
-            SceneMgr.Invoke(new Action(() =>
-            {
-                HookControl control = GetControlOfType<HookControl>();
-                line = new System.Windows.Shapes.Line();
-                line.Stroke = Brushes.LightSteelBlue;
-                line.X1 = control.Origin.X;
-                line.Y1 = control.Origin.Y;
-                line.X2 = control.Origin.X;
-                line.Y2 = control.Origin.Y;
-                line.HorizontalAlignment = HorizontalAlignment.Left;
-                line.VerticalAlignment = VerticalAlignment.Center;
-                line.StrokeThickness = 2;
-                line.Fill = new SolidColorBrush(Colors.Black);
-            }));
-
-            SceneMgr.AttachGraphicalObjectToScene(line);
+            HookControl control = GetControlOfType<HookControl>();
+            lineGeom = SceneGeometryFactory.CreateLineGeometry(SceneMgr, Colors.LightSteelBlue, 2, Colors.Black, control.Origin, control.Origin);
+            SceneMgr.AttachGraphicalObjectToScene(lineGeom, DrawingCategory.PROJECTILE_BACKGROUND);
         }
 
         protected override void UpdateGeometricState()
         {
-            line.X2 = RopeContactPoint.X;
-            line.Y2 = RopeContactPoint.Y;
+            ((lineGeom.Children[0] as GeometryDrawing).Geometry as LineGeometry).EndPoint = RopeContactPoint.ToPoint();
         }
 
         public virtual void OnCatch()
@@ -109,7 +93,12 @@ namespace Orbit.Core.Scene.Entities.Implementations
             }
 
             DoRemoveMe();
-            SceneMgr.RemoveGraphicalObjectFromScene(line);
+            SceneMgr.RemoveGraphicalObjectFromScene(lineGeom, DrawingCategory.PROJECTILE_BACKGROUND);
+        }
+
+        public override void OnRemove()
+        {
+            SceneMgr.RemoveGraphicalObjectFromScene(lineGeom, DrawingCategory.PROJECTILE_BACKGROUND);
         }
 
         protected virtual void AddGoldToOwner(int gold) 

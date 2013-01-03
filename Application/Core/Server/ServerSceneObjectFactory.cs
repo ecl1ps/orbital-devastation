@@ -7,7 +7,6 @@ using Orbit.Core.Players;
 using System.Windows.Media;
 using System.Windows;
 using System.Windows.Threading;
-using System.Windows.Shapes;
 using Orbit.Core.Scene.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;

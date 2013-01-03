@@ -13,7 +13,7 @@ using System.Windows.Media;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
-    class AsteroidSlow : SpectatorAction
+    public class AsteroidSlow : SpectatorAction
     {
         public AsteroidSlow(SceneMgr mgr, Players.Player owner)
             : base(mgr, owner)
@@ -43,14 +43,13 @@ namespace Orbit.Core.SpecialActions.Spectator
             removal.Time = 3;
 
             ast.AddControl(removal);
-
-            SceneMgr.BeginInvoke(new Action(() =>
-            {
-                Vector p = new Vector(ast.Position.X - (ast.Radius / 2), ast.Position.Y - (ast.Radius / 2));
-                IceSquare s = SceneObjectFactory.CreateIceSquare(SceneMgr, p, new Size(ast.Radius + 50, ast.Radius + 50));
-                s.AddControl(new LimitedLifeControl(3));
-                SceneMgr.DelayedAttachToScene(s);
-            }));
+            
+            // led je posunut o pulku radiusu doleva
+            Vector p = new Vector(ast.Position.X - (ast.Radius / 2), ast.Position.Y - (ast.Radius / 2));
+            // potom jeho sirka musi byt prumer + 2 * posunuti (vlevo a vpravo) => r * (2 + 0.5 + 0.5) 
+            IceSquare s = SceneObjectFactory.CreateIceSquare(SceneMgr, p, new Size(ast.Radius * 3, ast.Radius * 3)); 
+            s.AddControl(new LimitedLifeControl(3));
+            SceneMgr.DelayedAttachToScene(s);
         }
 
         protected override void StartAction(List<Asteroid> afflicted)

@@ -5,8 +5,8 @@ using System.Text;
 using System.Windows.Media;
 using Orbit.Core.Client;
 using System.Windows;
-using System.Windows.Shapes;
 using System.Windows.Controls;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -28,6 +28,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             : base(mgr, id)
         {
             Percentage = 1;
+            Category = DrawingCategory.BACKGROUND;
         }
 
         public Point ComputeEllipsePoint(float angle)
@@ -53,11 +54,12 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 arc.IsLargeArc = true;
 
             if (colorChanged)
-                (geometryElement as Path).Fill = new SolidColorBrush(Color);
+                (geometryElement.Children[0] as GeometryDrawing).Brush = new SolidColorBrush(Color);
 
             arc.Point = ComputeEllipsePoint(angle);
-            Canvas.SetLeft(geometryElement, Position.X);
-            Canvas.SetTop(geometryElement, Position.Y);
+
+            (geometryElement.Transform as TransformGroup).Children.Clear();
+            (geometryElement.Transform as TransformGroup).Children.Add(new TranslateTransform(Position.X, Position.Y));
         }
 
         public void SetArc(ArcSegment arc)

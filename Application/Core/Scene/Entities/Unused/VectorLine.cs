@@ -9,14 +9,15 @@ using System.Windows.Controls;
 using Orbit.Core.Client;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.Entities.Implementations;
-using System.Windows.Shapes;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
+    /// <summary>
+    /// unused
+    /// </summary>
     public class VectorLine : SceneObject, IMovable
     {
         public Color Color { get; set; }
-        public Vector Direction { get; set; }
 
         public VectorLine(SceneMgr mgr, long id)
             : base(mgr, id)
@@ -30,10 +31,10 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void UpdateGeometric()
         {
-            (geometryElement as System.Windows.Shapes.Line).X1 = Position.X;
+            /*(geometryElement as System.Windows.Shapes.Line).X1 = Position.X;
             (geometryElement as System.Windows.Shapes.Line).Y1 = Position.Y;
             (geometryElement as System.Windows.Shapes.Line).X2 = Position.X + Direction.X;
-            (geometryElement as System.Windows.Shapes.Line).Y2 = Position.Y + Direction.Y;
+            (geometryElement as System.Windows.Shapes.Line).Y2 = Position.Y + Direction.Y;*/
         }
 
     }

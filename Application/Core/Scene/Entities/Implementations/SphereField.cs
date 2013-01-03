@@ -7,7 +7,7 @@ using Orbit.Core.Client;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    class SphereField : Sphere
+    public class SphereField : Sphere
     {
         public SphereField(SceneMgr mgr, long id)
             : base(mgr, id)

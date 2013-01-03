@@ -5,10 +5,12 @@ using System.Text;
 using Orbit.Core.Client;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    class OrbitEllipse : SceneObject
+    public class OrbitEllipse : SceneObject
     {
         public float RadiusX { get; set; }
         public float RadiusY { get; set; }
@@ -18,9 +20,10 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
             RadiusX = radiusX;
             RadiusY = radiusY;
+            Category = DrawingCategory.PROJECTILES;
         }
 
-        public override bool IsOnScreen(System.Windows.Size screenSize)
+        public override bool IsOnScreen(Size screenSize)
         {
             //I am always on screen
             return true;
@@ -28,8 +31,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void UpdateGeometric()
         {
-            Canvas.SetLeft(geometryElement, Position.X);
-            Canvas.SetTop(geometryElement, Position.Y);
+            (geometryElement.Transform as TransformGroup).Children.Clear();
+            (geometryElement.Transform as TransformGroup).Children.Add(new TranslateTransform(Position.X, Position.Y));
         }
     }
 }

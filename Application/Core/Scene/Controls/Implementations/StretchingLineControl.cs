@@ -6,7 +6,7 @@ using Orbit.Core.Scene.Entities;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    class StretchingLineControl : Control
+    public class StretchingLineControl : Control
     {
         private ISceneObject firstObj;
         public ISceneObject FirstObj {
@@ -47,7 +47,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         protected override void UpdateControl(float tpf)
         {
-            if(FirstObj == null || SecondObj == null) {
+            if (FirstObj == null || SecondObj == null) {
                 Enabled = false;
                 return;
             }

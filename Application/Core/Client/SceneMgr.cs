@@ -9,7 +9,6 @@ using System.Windows.Controls;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Collections.Concurrent;
 using Lidgren.Network;
@@ -21,6 +20,7 @@ using System.Windows.Media.Imaging;
 using Orbit.Core.Players.Input;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Controls.Collisions;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Client
 {
@@ -33,13 +33,11 @@ namespace Orbit.Core.Client
         public StatsMgr StatsMgr { get; set; }
         public GameStateManager StateMgr { get; set; }
         public LevelEnvironment LevelEnv { get; set; }
-        private volatile WindowState gameWindowState;
         public WindowState GameWindowState { get { return gameWindowState; } set { gameWindowState = value; } }
 
-        /// <summary>
-        /// canvas je velky 1000*700 - pres cele okno
-        /// </summary>
-        private Canvas canvas;
+        private volatile WindowState gameWindowState;
+
+        private GameVisualArea area;
         private bool isGameInitialized;
         private bool userActionsDisabled;
         private volatile bool shouldQuit;
@@ -103,14 +101,13 @@ namespace Orbit.Core.Client
             {
                 Invoke(new Action(() =>
                 {
-                    Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
+                    Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblEndGame");
                     if (lbl != null)
                         lbl.Content = "";
 
-                    Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblWaiting");
+                    Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblWaiting");
                     if (lblw != null)
                         lblw.Content = "";
-
                 }));
             }
 
@@ -139,8 +136,8 @@ namespace Orbit.Core.Client
         {
             Invoke(new Action(() =>
             {
-                Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblWaiting");
-                if (lblw != null && canvas != null)
+                Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblWaiting");
+                if (lblw != null && area.Parent != null)
                     lblw.Content = t;
             }));
         }
@@ -149,8 +146,8 @@ namespace Orbit.Core.Client
         {
             Invoke(new Action(() =>
             {
-                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "statusText" + index);
-                if (lbl != null && canvas != null)
+                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "statusText" + index);
+                if (lbl != null && area.Parent != null)
                     lbl.Content = text;
             }));
         }
@@ -179,12 +176,11 @@ namespace Orbit.Core.Client
                     ;
             }
 
-            if (canvas != null)
+            if (area != null)
             {
                 Invoke(new Action(() =>
                 {
-                    foreach (ISceneObject obj in objects)
-                        canvas.Children.Remove(obj.GetGeometry());
+                    area.Clear();
                 }));
             }
 
@@ -223,11 +219,18 @@ namespace Orbit.Core.Client
                 }
             }
 
+            if (obj.GetGeometry() == null)
+            {
+                Logger.Warn("Trying to add geometry object to scene, but it is null -> skipped!");
+                return;
+            }
+
             obj.OnAttach();
             objects.Add(obj);
+
             BeginInvoke(new Action(() =>
             {
-                canvas.Children.Add(obj.GetGeometry());
+                area.Add(obj.GetGeometry(), obj.Category);
             }));
         }
 
@@ -242,22 +245,39 @@ namespace Orbit.Core.Client
         /// <summary>
         /// prida GUI objekt do sceny - nikoliv SceneObject
         /// </summary>
-        public void AttachGraphicalObjectToScene(UIElement obj)
+        public void AttachGraphicalObjectToScene(Drawing obj, DrawingCategory category = DrawingCategory.BACKGROUND)
         {
             BeginInvoke(new Action(() =>
             {
-                canvas.Children.Add(obj);
+                area.Add(obj, category);
             }));
         }
 
         /// <summary>
         /// odstrani jen GUI element
         /// </summary>
-        public void RemoveGraphicalObjectFromScene(UIElement obj)
+        public void RemoveGraphicalObjectFromScene(Drawing obj, DrawingCategory category = DrawingCategory.BACKGROUND)
         {
             BeginInvoke(new Action(() =>
             {
-                canvas.Children.Remove(obj);
+                area.Remove(obj, category);
+            }));
+        }
+
+        public void AttachHeavyweightObjectToScene(UIElement obj)
+        {
+            BeginInvoke(new Action(() =>
+            {
+                obj.IsHitTestVisible = false;
+                (area.Parent as Canvas).Children.Add(obj);
+            }));
+        }
+
+        public void RemoveHeavyweightObjectFromScene(UIElement obj)
+        {
+            BeginInvoke(new Action(() =>
+            {
+                (area.Parent as Canvas).Children.Remove(obj);
             }));
         }
 
@@ -278,7 +298,7 @@ namespace Orbit.Core.Client
             objects.Remove(obj);
             BeginInvoke(new Action(() =>
             {
-                canvas.Children.Remove(obj.GetGeometry());
+                area.Remove(obj.GetGeometry(), obj.Category);
             }));
         }
 
@@ -297,9 +317,19 @@ namespace Orbit.Core.Client
         /* konec manipulace s objekty                                           */
         /************************************************************************/
 
+        /// <summary>
+        /// deprecated,
+        /// pokud mozno pouzijte GameVisualArea pripadne primo metody Attach...ToScene() a Remove...FromScene()
+        /// </summary>
+        /// <returns></returns>
         public Canvas GetCanvas()
         {
-            return canvas;
+            return area.Parent as Canvas;
+        }
+
+        public GameVisualArea GetGameVisualArea()
+        {
+            return area;
         }
 
         public void Run()
@@ -366,6 +396,8 @@ namespace Orbit.Core.Client
             RemoveObjectsMarkedForRemoval();
 
             UpdateGeomtricState();
+
+            area.RunRender();
         }
 
         private void ShowStatistics(float tpf)
@@ -424,7 +456,6 @@ namespace Orbit.Core.Client
 
                     if (obj1.CollisionShape.CollideWith(obj2.CollisionShape))
                         obj1.GetControlsOfType<ICollisionReactionControl>().ForEach(c => c.DoCollideWith(obj2, tpf));
-
                 }
             }
         }
@@ -444,9 +475,9 @@ namespace Orbit.Core.Client
             return players.Find(p => p.GetId() == id);
         }
 
-        public void SetCanvas(Canvas canvas)
+        public void SetGameVisualArea(GameVisualArea gva)
         {
-            this.canvas = canvas;
+            area = gva;
         }
 
         public Random GetRandomGenerator()
@@ -485,7 +516,7 @@ namespace Orbit.Core.Client
         {
             Invoke(new Action(() =>
             {
-                actionBarMgr.ActionBar.OnClick(canvas.PointToScreen(point));
+                actionBarMgr.ActionBar.OnClick(area.PointToScreen(point));
             }));
         }
 
@@ -601,7 +632,7 @@ namespace Orbit.Core.Client
                 GameProperties.Props.SetAndSave(key, hs);
                 Invoke(new Action(() =>
                 {
-                    Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblHighScore");
+                    Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblHighScore");
                     if (lbl != null)
                         lbl.Content = "New HighScore " + hs + "!";
                 }));
@@ -635,12 +666,11 @@ namespace Orbit.Core.Client
             isGameInitialized = false;
             userActionsDisabled = true;
 
-            if (canvas != null)
+            if (area != null)
             {
                 Invoke(new Action(() =>
                 {
-                    foreach (ISceneObject obj in objects)
-                        canvas.Children.Remove(obj.GetGeometry());
+                    area.Clear();
                 }));
             }
 
@@ -675,7 +705,7 @@ namespace Orbit.Core.Client
 
         private void Disconnected()
         {
-            if (canvas == null)
+            if (area == null)
                 return;
 
             string msg;
@@ -685,7 +715,7 @@ namespace Orbit.Core.Client
                 msg = "End of Game";
             Invoke(new Action(() =>
             {
-                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
+                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblEndGame");
                 if (lbl != null)
                     lbl.Content = msg;
             }));
@@ -696,7 +726,7 @@ namespace Orbit.Core.Client
             string text = winner.Data.Name + " wins!";
             Invoke(new Action(() =>
             {
-                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
+                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblEndGame");
                 if (lbl != null)
                     lbl.Content = text;
             }));
@@ -710,7 +740,7 @@ namespace Orbit.Core.Client
             string text = leaver.Data.Name + " left the game!";
             Invoke(new Action(() =>
             {
-                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(canvas, "lblEndGame");
+                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblEndGame");
                 if (lbl != null)
                     lbl.Content = text;
             }));
@@ -718,12 +748,12 @@ namespace Orbit.Core.Client
 
         public void Invoke(Action a)
         {
-            canvas.Dispatcher.Invoke(a);
+            area.Dispatcher.Invoke(a);
         }
 
         public void BeginInvoke(Action a)
         {
-            canvas.Dispatcher.BeginInvoke(a);
+            area.Dispatcher.BeginInvoke(a);
         }
 
         private void CheckAllPlayersReady()
@@ -871,7 +901,7 @@ namespace Orbit.Core.Client
             return data;
         }
 
-        internal void PlayerColorChanged()
+        public void PlayerColorChanged()
         {
             Color newColor = Player.GetChosenColor();
             if (players == null || players.Exists(p => p.GetPlayerColor() == newColor))
@@ -886,7 +916,7 @@ namespace Orbit.Core.Client
             }
         }
 
-        internal void ShowPlayerOverview()
+        public void ShowPlayerOverview()
         {
             List<PlayerOverviewData> data = GetPlayerOverviewData();
 
