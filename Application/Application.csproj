@@ -199,6 +199,7 @@
     <Compile Include="Core\Scene\Controls\Implementations\HookControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\NewtonianMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LinearRotationControl.cs" />
+    <Compile Include="Core\Scene\Entities\HeavyWeight\HeavyWeightSceneObject.cs" />
     <Compile Include="Core\Scene\Entities\ICatchable.cs" />
     <Compile Include="Core\Scene\Entities\IControledDevice.cs" />
     <Compile Include="Core\Scene\Controls\Health\IHpControl.cs" />
@@ -215,7 +216,7 @@
     <Compile Include="Core\Scene\Entities\Unused\Circle.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\PowerHook.cs" />
     <Compile Include="Core\Scene\CollisionShapes\SphereCollisionShape.cs" />
-    <Compile Include="Core\Scene\Entities\Implementations\SphereField.cs" />
+    <Compile Include="Core\Scene\Entities\HeavyWeight\SphereField.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\PercentageArc.cs" />
     <Compile Include="Core\Scene\Controls\Collisions\Implementations\StickyPointCollisionShapeControl.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Line.cs" />

@@ -158,7 +158,7 @@ namespace Orbit.Core.Scene.Entities
             this.geometryElement = geometryElement;
         }
 
-        public void DoRemove(ISceneObject obj)
+        public virtual void DoRemove(ISceneObject obj)
         {
             SceneMgr.RemoveFromSceneDelayed(obj);
 
@@ -166,7 +166,7 @@ namespace Orbit.Core.Scene.Entities
             controls.ForEach(control => control.OnSceneObjectRemove());
         }
 
-        public void DoRemoveMe()
+        public virtual void DoRemoveMe()
         {
             DoRemove(this);
         }
