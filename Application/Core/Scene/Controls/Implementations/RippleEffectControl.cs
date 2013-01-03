@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ShaderEffectLibrary;
+using Orbit.Core.Scene.Entities.HeavyWeight;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -11,9 +12,15 @@ namespace Orbit.Core.Scene.Controls.Implementations
         public float Speed { get; set; }
         private RippleEffect effect;
 
+        private new HeavyWeightSceneObject me;
+
         protected override void InitControl(Entities.ISceneObject me)
         {
             base.InitControl(me);
+            if (me is HeavyWeightSceneObject)
+                this.me = me as HeavyWeightSceneObject;
+            else
+                throw new Exception("Effect controls must be attached to heavyWeight objects");
             AddEffect();
         }
 
@@ -25,7 +32,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 effect.Amplitude = 0.1;
                 effect.Frequency = 180;
                 effect.Phase = 0;
-                //me.GetGeometry().Effect = effect;
+                me.Path.Effect = effect;
             }));
 
         }
@@ -34,12 +41,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
         {
             base.UpdateControl(tpf);
             me.SceneMgr.BeginInvoke(new Action(() => { effect.Phase -= Speed * tpf; }));
-        }
-
-        public override void OnRemove()
-        {
-            base.OnRemove();
-            //TODO odebrat efekt z sceneObjectu
         }
     }
 }

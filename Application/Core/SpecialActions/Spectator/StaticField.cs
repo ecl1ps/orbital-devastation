@@ -7,6 +7,7 @@ using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Helpers;
 using System.Windows.Media;
+using Orbit.Core.Scene.Entities.Implementations.HeavyWeight;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
@@ -50,16 +51,17 @@ namespace Orbit.Core.SpecialActions.Spectator
             StaticFieldControl control = new StaticFieldControl();
             control.Force = 100;
             control.LifeTime = 5;
+            control.Radius = 200;
 
             RippleEffectControl rippleControl = new RippleEffectControl();
             rippleControl.Speed = 15;
             
-            field.AddControl(control);
+            Owner.Device.AddControl(control);
             field.AddControl(rippleControl);
+            field.AddControl(new LimitedLifeControl(5));
             field.AddControl(new PositionCloneControl(Owner.Device));
-            
 
-            SceneMgr.DelayedAttachToScene(field);
+            SceneMgr.AttachHeavyweightSceneObjectToScene(field);
         }
     }
 }
