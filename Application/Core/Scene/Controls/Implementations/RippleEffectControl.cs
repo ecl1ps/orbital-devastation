@@ -6,7 +6,7 @@ using ShaderEffectLibrary;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    class RippleEffectControl : Control
+    public class RippleEffectControl : Control
     {
         public float Speed { get; set; }
         private RippleEffect effect;
@@ -25,7 +25,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 effect.Amplitude = 0.1;
                 effect.Frequency = 180;
                 effect.Phase = 0;
-                me.GetGeometry().Effect = effect;
+                //me.GetGeometry().Effect = effect;
             }));
 
         }
