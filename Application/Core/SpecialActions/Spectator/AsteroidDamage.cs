@@ -37,6 +37,15 @@ namespace Orbit.Core.SpecialActions.Spectator
                 temp.Add(ast);
                 ast.TakeDamage(SharedDef.SPECTATOR_DAMAGE, null);
                 SceneMgr.FloatingTextMgr.AddFloatingText(SharedDef.SPECTATOR_DAMAGE, ast.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE);
+
+                /* TODO dodelat manager na effecty
+                PinchEffectControl effect = new PinchEffectControl();
+                effect.Radius = 0.05f;
+                effect.Speed = 1f;
+                effect.Position = ast.Position;
+
+                ast.AddControl(effect);
+                 */
             }
 
             msg.Write(Owner.GetId());

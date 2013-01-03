@@ -19,7 +19,7 @@ namespace Orbit.Core.SpecialActions.Spectator
         {
             Name = "Static Field";
             Type = SpecialActionType.STATIC_FIELD;
-            ImageSource = "pack://application:,,,/resources/images/icons/asteroid-damage-icon.png";
+            ImageSource = "pack://application:,,,/resources/images/icons/static-field-action.png";
             
             //nastavime parametry
             this.Cooldown = 10; //sekundy

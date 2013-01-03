@@ -16,7 +16,7 @@ namespace Orbit.Core.SpecialActions.Spectator
         {
             Name = "Asteroid growth";
             Type = SpecialActionType.ASTEROID_GROWTH;
-            ImageSource = "pack://application:,,,/resources/images/icons/asteroid-damage-icon.png";
+            ImageSource = "pack://application:,,,/resources/images/icons/asteroid-growth-icon.png";
 
             //nastavime parametry
             this.Cooldown = 3; //sekundy
