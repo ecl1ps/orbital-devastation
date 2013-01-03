@@ -6,6 +6,7 @@ using Orbit.Core.Client;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Client.GameStates;
+using Lidgren.Network;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
@@ -25,7 +26,16 @@ namespace Orbit.Core.SpecialActions.Spectator
 
         protected override void  StartAction(List<Asteroid> afflicted)
         {
-            afflicted.ForEach(aff => growAsteroid(aff));
+            NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+            msg.Write((int)PacketType.OBJECTS_HEAL_AMOUNT);
+
+            msg.Write(Owner.GetId());
+            msg.Write(afflicted.Count);
+            msg.Write(SharedDef.SPECTATOR_HEAL);
+
+            afflicted.ForEach(aff => { growAsteroid(aff); msg.Write(aff.Id); });
+
+            SceneMgr.SendMessage(msg);
         }
 
         private void growAsteroid(Asteroid a)

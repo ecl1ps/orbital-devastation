@@ -717,6 +717,26 @@ namespace Orbit.Core.Client
             }
         }
 
+        private void ReceiveObjectsHeal(NetIncomingMessage msg)
+        {
+            Player owner = GetPlayer(msg.ReadInt32());
+            int count = msg.ReadInt32();
+            int dmg = msg.ReadInt32();
+
+            IDestroyable obj;
+
+            for (int i = 0; i < count; i++)
+            {
+                obj = GetSceneObject(msg.ReadInt64()) as IDestroyable;
+
+                if (obj != null)
+                {
+                    obj.TakeDamage(-dmg, owner.Device);
+                    FloatingTextMgr.AddFloatingText("+" + dmg, obj.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.HEAL);
+                }
+            }
+        }
+
         private void ReceiveObjectsDamage(NetIncomingMessage msg)
         {
             Player owner = GetPlayer(msg.ReadInt32());

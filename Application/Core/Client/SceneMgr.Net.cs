@@ -222,6 +222,9 @@ namespace Orbit.Core.Client
                 case PacketType.OBJECTS_TAKE_DAMAGE:
                     ReceiveObjectsDamage(msg);
                     break;
+                case PacketType.OBJECTS_HEAL_AMOUNT:
+                    ReceiveObjectsHeal(msg);
+                    break;
                 case PacketType.MODULE_COLOR_CHANGE:
                     ReceiveModuleColorChange(msg);
                     break;
