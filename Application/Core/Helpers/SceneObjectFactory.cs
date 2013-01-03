@@ -550,5 +550,16 @@ namespace Orbit.Core.Helpers
 
             return s;
         }
+
+        public static IceShard CreateIceShard(SceneMgr mgr, Vector position, Size size, int texture)
+        {
+            IceShard s = new IceShard(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
+            s.Size = size;
+            s.Position = position;
+            s.TextureId = texture;
+            s.SetGeometry(SceneGeometryFactory.CreateIceShard(s));
+
+            return s;
+        }
     }
 }

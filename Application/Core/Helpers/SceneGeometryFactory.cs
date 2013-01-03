@@ -496,5 +496,27 @@ namespace Orbit.Core.Helpers
 
             return img;
         }
+
+        public static Image CreateIceShard(IceShard s)
+        {
+            Image img = null;
+            s.SceneMgr.Invoke(new Action(() =>
+            {
+                BitmapImage bi = new BitmapImage();
+                bi.BeginInit();
+                bi.UriSource = new Uri("pack://application:,,,/resources/images/ice-shards/broken_ice_" + s.TextureId + ".png");
+                bi.EndInit();
+
+                img = new Image();
+                img.Source = bi;
+                img.Width = s.Size.Width;
+                img.Height = s.Size.Height;
+
+                Canvas.SetLeft(img, s.Position.X);
+                Canvas.SetTop(img, s.Position.Y);
+            }));
+
+            return img;
+        }
     }
 }

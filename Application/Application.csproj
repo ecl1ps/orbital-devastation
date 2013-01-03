@@ -163,6 +163,7 @@
     <Compile Include="Core\Scene\Controls\Health\HpControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\HighlightingControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\MinorAsteroidCollisionReactionControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\PinchEffectControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\PowerlessSingularityControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\RippleEffectControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\SingularityBulletCollisionReactionControl.cs" />
@@ -201,6 +202,7 @@
     <Compile Include="Core\Scene\Controls\Health\IHpControl.cs" />
     <Compile Include="Core\Scene\Entities\IHpBar.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\HighlightingSphere.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\IceShard.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\IceSquare.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\OrbitEllipse.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\MiningModule.cs" />
@@ -483,6 +485,30 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <Resource Include="resources\images\ice-shards\broken_ice_1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\ice-shards\broken_ice_2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\ice-shards\broken_ice_3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\ice-shards\broken_ice_4.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\ice-shards\broken_ice_5.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\ice-shards\broken_ice_6.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\icons\asteroid-growth-icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\icons\static-field-action.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="resources\images\actions\ice-cube.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

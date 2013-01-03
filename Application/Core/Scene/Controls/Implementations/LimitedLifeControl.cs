@@ -7,7 +7,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 {
     class LimitedLifeControl : Control
     {
-        private float timeLeft;
+        protected float timeLeft;
 
         public LimitedLifeControl(float timeToDie)
         {
