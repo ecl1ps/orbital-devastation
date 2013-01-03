@@ -57,7 +57,6 @@ namespace Orbit.Core.Helpers
             a.HasPositionInCenter = false;
 
             DrawingGroup g = null;
-
             a.SceneMgr.Invoke(new Action(() =>
             {
                 BitmapImage bi = new BitmapImage();
@@ -118,7 +117,6 @@ namespace Orbit.Core.Helpers
         public static DrawingGroup CreateBaseImage(Base baze, String url, bool withShader = true)
         {
             DrawingGroup g = null;
-
             baze.SceneMgr.Invoke(new Action(() =>
             {
                 BitmapImage bi = new BitmapImage();
@@ -166,7 +164,6 @@ namespace Orbit.Core.Helpers
             hook.HasPositionInCenter = false;
 
             DrawingGroup g = null;
-
             hook.SceneMgr.Invoke(new Action(() =>
             {
                 BitmapImage bi = new BitmapImage();
@@ -192,7 +189,6 @@ namespace Orbit.Core.Helpers
         public static DrawingGroup CreateLineGeometry(SceneMgr mgr, Color border, double borderThickness, Color fill, Vector positionFrom, Vector positionTo)
         {
             DrawingGroup d = null;
-
             mgr.Invoke(new Action(() =>
             {
                 LineGeometry g = new LineGeometry(positionFrom.ToPoint(), positionTo.ToPoint());
@@ -206,7 +202,6 @@ namespace Orbit.Core.Helpers
         public static DrawingGroup CreatePowerUpImage(StatPowerUp p)
         {
             DrawingGroup g = null;
-
             p.SceneMgr.Invoke(new Action(() =>
             {
                 BitmapImage bi = new BitmapImage();
@@ -275,7 +270,6 @@ namespace Orbit.Core.Helpers
         public static DrawingGroup CreateArcSegments(PercentageArc arc)
         {
             DrawingGroup d = null;
-
             arc.SceneMgr.Invoke(new Action(() =>
             {
                 d = new DrawingGroup();
@@ -292,7 +286,6 @@ namespace Orbit.Core.Helpers
         public static DrawingGroup CreateArcSegments(PercentageEllipse arc)
         {
             DrawingGroup d = null;
-
             arc.SceneMgr.Invoke(new Action(() =>
             {
                 d = new DrawingGroup();
@@ -338,7 +331,6 @@ namespace Orbit.Core.Helpers
             PathFigure figure = new PathFigure();
             figure.StartPoint = point;
 
-
             arc = new ArcSegment();
             arc.SweepDirection = SweepDirection.Clockwise;
             arc.IsLargeArc = true;
@@ -360,7 +352,6 @@ namespace Orbit.Core.Helpers
             m.HasPositionInCenter = false;
 
             DrawingGroup g = null;
-
             m.SceneMgr.Invoke(new Action(() =>
             {
                 BitmapImage bi = new BitmapImage();
@@ -383,69 +374,54 @@ namespace Orbit.Core.Helpers
             return g;
         }
 
-        public static System.Windows.Controls.Image CreateIceCube(IceSquare s)
+        public static DrawingGroup CreateIceCube(IceSquare s)
         {
-            System.Windows.Controls.Image img = null;
+            DrawingGroup g = null;
             s.SceneMgr.Invoke(new Action(() =>
             {
                 BitmapImage bi = new BitmapImage();
                 bi.BeginInit();
                 bi.UriSource = new Uri("pack://application:,,,/resources/images/actions/ice-cube.png");
+                bi.DecodePixelWidth = (int)s.Size.Width * 2;
+                bi.DecodePixelHeight = (int)s.Size.Height * 2;
                 bi.EndInit();
 
-                img = new System.Windows.Controls.Image();
-                img.Source = bi;
-                img.Width = s.Size.Width;
-                img.Height = s.Size.Height;
-
-                System.Windows.Controls.Canvas.SetLeft(img, s.Position.X);
-                System.Windows.Controls.Canvas.SetTop(img, s.Position.Y);
-                System.Windows.Controls.Canvas.SetZIndex(img, -1);
+                g = new DrawingGroup();
+                ImageDrawing img = new ImageDrawing();
+                img.ImageSource = bi;
+                img.Rect = new Rect(s.Size);
+                TransformGroup tg = new TransformGroup();
+                tg.Children.Add(new TranslateTransform(s.Position.X, s.Position.Y));
+                g.Transform = tg;
+                g.Children.Add(img);
             }));
 
-            return img;
+            return g;
         }
 
-        public static System.Windows.Controls.Image CreateIceShard(IceShard s)
+        public static DrawingGroup CreateIceShard(IceShard s)
         {
-            System.Windows.Controls.Image img = null;
+            DrawingGroup g = null;
             s.SceneMgr.Invoke(new Action(() =>
             {
                 BitmapImage bi = new BitmapImage();
                 bi.BeginInit();
                 bi.UriSource = new Uri("pack://application:,,,/resources/images/ice-shards/broken_ice_" + s.TextureId + ".png");
+                bi.DecodePixelWidth = (int)s.Size.Width * 2;
+                bi.DecodePixelHeight = (int)s.Size.Height * 2;
                 bi.EndInit();
 
-                img = new System.Windows.Controls.Image();
-                img.Source = bi;
-                img.Width = s.Size.Width;
-                img.Height = s.Size.Height;
-
-                System.Windows.Controls.Canvas.SetLeft(img, s.Position.X);
-                System.Windows.Controls.Canvas.SetTop(img, s.Position.Y);
+                g = new DrawingGroup();
+                ImageDrawing img = new ImageDrawing();
+                img.ImageSource = bi;
+                img.Rect = new Rect(s.Size);
+                TransformGroup tg = new TransformGroup();
+                tg.Children.Add(new TranslateTransform(s.Position.X, s.Position.Y));
+                g.Transform = tg;
+                g.Children.Add(img);
             }));
 
-            return img;
-        }
-
-        public static System.Windows.Shapes.Path CreateConstantRippedColorEllipseGeometry(Sphere s)
-        {
-            s.HasPositionInCenter = true;
-
-            System.Windows.Shapes.Path path = null;
-            s.SceneMgr.Invoke(new Action(() =>
-            {
-                EllipseGeometry geom = new EllipseGeometry(new Point(), s.Radius, s.Radius);
-                path = new System.Windows.Shapes.Path();
-                path.Data = geom;
-                path.Fill = new SolidColorBrush(s.Color);
-                path.Stroke = Brushes.Black;
-                System.Windows.Controls.Canvas.SetLeft(path, s.Position.X);
-                System.Windows.Controls.Canvas.SetTop(path, s.Position.Y);
-                System.Windows.Controls.Canvas.SetZIndex(path, -10);
-            }));
-
-            return path;
+            return g;
         }
     }
 }

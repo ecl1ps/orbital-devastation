@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    class TemporaryControlRemovalControl : Control
+    public class TemporaryControlRemovalControl : Control
     {
         public List<IControl> ToRemove { get; set; }
         public float Time { get; set; }

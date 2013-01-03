@@ -256,7 +256,6 @@ namespace Orbit.Core.Helpers
             return hook;
         }
 
-
         public static MinorAsteroid CreateSmallAsteroid(SceneMgr mgr, Vector direction, Vector center, int rot, int textureId, int radius,float speed, double rotation)
         {
             MinorAsteroid asteroid = new MinorAsteroid(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
@@ -497,7 +496,7 @@ namespace Orbit.Core.Helpers
             f.Radius = radius;
             f.Color = color;
             f.Position = position;
-            f.SetGeometry(SceneGeometryFactory.CreateConstantRippedColorEllipseGeometry(f));
+            f.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(f));
 
             SphereCollisionShape shape = new SphereCollisionShape();
             shape.Radius = radius;
