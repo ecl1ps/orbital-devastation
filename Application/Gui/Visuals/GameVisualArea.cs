@@ -63,16 +63,6 @@ namespace Orbit.Gui.Visuals
             return children[index];
         }
 
-        public void Add(Visual elem)
-        {
-            children.Add(elem);
-        }
-
-        public void Remove(Visual elem)
-        {
-            children.Remove(elem);
-        }
-
         public void Add(Drawing elem, DrawingCategory cat = DrawingCategory.BACKGROUND)
         {
             (children[(int)cat] as ExtraDrawingVisual).DrawingChildren.Add(elem);

@@ -264,6 +264,22 @@ namespace Orbit.Core.Client
             }));
         }
 
+        public void AttachHeavyweightObjectToScene(UIElement obj)
+        {
+            BeginInvoke(new Action(() =>
+            {
+                (area.Parent as Canvas).Children.Add(obj);
+            }));
+        }
+
+        public void RemoveHeavyweightObjectFromScene(UIElement obj)
+        {
+            BeginInvoke(new Action(() =>
+            {
+                (area.Parent as Canvas).Children.Remove(obj);
+            }));
+        }
+
         /// <summary>
         /// bezpecne odstrani objekt (SceneObject i gui objekt) v dalsim updatu
         /// </summary>
@@ -300,7 +316,11 @@ namespace Orbit.Core.Client
         /* konec manipulace s objekty                                           */
         /************************************************************************/
 
-        // TODO odstranit
+        /// <summary>
+        /// deprecated,
+        /// pokud mozno pouzijte GameVisualArea pripadne primo metody Attach...ToScene() a Remove...FromScene()
+        /// </summary>
+        /// <returns></returns>
         public Canvas GetCanvas()
         {
             return area.Parent as Canvas;
@@ -875,7 +895,7 @@ namespace Orbit.Core.Client
             return data;
         }
 
-        internal void PlayerColorChanged()
+        public void PlayerColorChanged()
         {
             Color newColor = Player.GetChosenColor();
             if (players == null || players.Exists(p => p.GetPlayerColor() == newColor))
@@ -890,7 +910,7 @@ namespace Orbit.Core.Client
             }
         }
 
-        internal void ShowPlayerOverview()
+        public void ShowPlayerOverview()
         {
             List<PlayerOverviewData> data = GetPlayerOverviewData();
 

@@ -38,11 +38,11 @@ namespace Orbit.Core.Client.GameStates
         {
             sceneMgr = mgr;
             SENSITIVITY = float.Parse(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_SENSITIVITY));
-            cursor = initCursorImage(new Uri(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_CURSOR)));
+            InitCursorImage(new Uri(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_CURSOR)));
             this.canvas = mgr.GetCanvas();
         }
 
-        private Image initCursorImage(Uri url)
+        public void InitCursorImage(Uri url)
         {
             Image img = null;
             sceneMgr.Invoke(new Action(() =>
@@ -58,12 +58,7 @@ namespace Orbit.Core.Client.GameStates
                 img.Source = image;
             }));
 
-            return img;
-        }
-
-        public void InitCursorImage(Uri url)
-        {
-            cursor = initCursorImage(url);
+            cursor = img;
         }
 
         public static void Enable(bool enable)
@@ -110,8 +105,7 @@ namespace Orbit.Core.Client.GameStates
 
         private void AttachCustomCursor()
         {
-            // TODO
-            //sceneMgr.AttachGraphicalObjectToScene(cursor, DrawingCategory.GUI);
+            sceneMgr.AttachHeavyweightObjectToScene(cursor);
             sceneMgr.Invoke(new Action(() =>
             {
                 Canvas.SetZIndex(cursor, 500);
@@ -136,8 +130,7 @@ namespace Orbit.Core.Client.GameStates
         {
             sceneMgr.Invoke(new Action(() =>
             {
-                // TODO
-                //sceneMgr.RemoveGraphicalObjectFromScene(cursor, DrawingCategory.GUI);
+                sceneMgr.RemoveHeavyweightObjectFromScene(cursor);
                 PositionNativeCursor();
                 Cursor.Show();
             }));
