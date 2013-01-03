@@ -268,6 +268,7 @@ namespace Orbit.Core.Client
         {
             BeginInvoke(new Action(() =>
             {
+                obj.IsHitTestVisible = false;
                 (area.Parent as Canvas).Children.Add(obj);
             }));
         }
