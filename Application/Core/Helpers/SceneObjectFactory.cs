@@ -16,6 +16,7 @@ using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Scene.CollisionShapes;
 using Orbit.Core.Scene.Controls.Collisions.Implementations;
 using Orbit.Core.Scene.Controls.Health.Implementations;
+using Orbit.Core.Scene.Entities.Implementations.HeavyWeight;
 
 namespace Orbit.Core.Helpers
 {
@@ -496,7 +497,7 @@ namespace Orbit.Core.Helpers
             f.Radius = radius;
             f.Color = color;
             f.Position = position;
-            f.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(f));
+            f.Path = HeavyweightGeometryFactory.CreateConstantColorEllipseGeometry(f);
 
             SphereCollisionShape shape = new SphereCollisionShape();
             shape.Radius = radius;

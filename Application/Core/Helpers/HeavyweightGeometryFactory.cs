@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Media;
+using Orbit.Core.Scene.Entities;
+using System.Windows;
+using System.Windows.Shapes;
+using System.Windows.Controls;
+using Orbit.Core.Scene.Entities.Implementations;
+using Orbit.Core.Scene.Entities.Implementations.HeavyWeight;
 
 namespace Orbit.Core.Helpers
 {
@@ -110,5 +117,25 @@ namespace Orbit.Core.Helpers
 
             return img;
         }*/
+
+        public static Path CreateConstantColorEllipseGeometry(SphereField s)
+        {
+            s.HasPositionInCenter = true;
+
+            Path path = null;
+            s.SceneMgr.Invoke(new Action(() =>
+            {
+                EllipseGeometry geom = new EllipseGeometry(new Point(), s.Radius, s.Radius);
+                path = new Path();
+                path.Data = geom;
+                path.Fill = new SolidColorBrush(s.Color);
+
+                Canvas.SetLeft(path, s.Position.X);
+                Canvas.SetRight(path, s.Position.Y);
+                Canvas.SetZIndex(path, -1);
+            }));
+
+            return path;
+        }
     }
 }
