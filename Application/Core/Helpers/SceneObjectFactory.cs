@@ -31,8 +31,8 @@ namespace Orbit.Core.Helpers
             baze.Size = new Size(plr.GetBaseLocation().Width, plr.GetBaseLocation().Height);
 
             SphereCollisionShape cs = new SphereCollisionShape();
-            cs.Center = new Vector(baze.Center.X, baze.Position.Y + 3.36 * baze.Size.Height);
-            cs.Radius = (int)(baze.Size.Width / 1.4);
+            cs.Center = new Vector(baze.Center.X, baze.Position.Y + 2.5 * baze.Size.Height);
+            cs.Radius = (int)(baze.Size.Width / 1.6);
             baze.CollisionShape = cs;
 
             BaseHealthControl hc = new BaseHealthControl();
@@ -45,30 +45,6 @@ namespace Orbit.Core.Helpers
 
             return baze;
         }
-
-        /*public static StaticShield CreateShield(SceneMgr mgr, Player plr, ISceneObject toFollow)
-        {
-            StaticShield shield = new StaticShield(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
-            shield.Position = toFollow.Position;
-            shield.Color = Colors.AliceBlue;
-            shield.Radius = 10;
-
-            SphereCollisionShape cs = new SphereCollisionShape();
-            cs.Center = shield.Center;
-            cs.Radius = shield.Radius;
-            shield.CollisionShape = cs;
-
-            shield.SetGeometry(SceneGeometryFactory.CreateShield(shield));
-
-            shield.AddControl(new StickySphereCollisionShapeControl());
-
-            shield.AddControl(new LimitedLifeControl(SharedDef.SPECTATOR_SHIELDING_TIME));
-
-            PositionCloneControl pc = new PositionCloneControl(toFollow);
-            shield.AddControl(new PositionCloneControl(toFollow));
-
-            return shield;
-        }*/
 
         public static SingularityMine CreatePowerlessMine(SceneMgr mgr, Vector pos, Vector dir, Player plr)
         {

@@ -105,8 +105,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
             SceneMgr.AttachGraphicalObjectToScene(SceneGeometryFactory.CreateConstantColorRectangleGeometry(sq), DrawingCategory.PROJECTILE_BACKGROUND);
 
             Sphere s = new SimpleSphere(SceneMgr, SceneMgr.GetCurrentPlayer().GetId());
-            s.Position = new Vector(Center.X, Position.Y + 3.36 * Size.Height);
-            s.Radius = (int)(Size.Width / 1.4);
+            s.Position = new Vector(Center.X, Position.Y + 2.5 * Size.Height);
+            s.Radius = (int)(Size.Width / 1.6);
             SceneMgr.AttachGraphicalObjectToScene(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s), DrawingCategory.PROJECTILE_BACKGROUND);
         }
 
