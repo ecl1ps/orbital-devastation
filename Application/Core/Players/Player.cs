@@ -165,14 +165,6 @@ namespace Orbit.Core.Players
                 SceneMgr.FloatingTextMgr.AddFloatingText("+ " + diff, textPos, FloatingTextManager.TIME_LENGTH_3,
                     FloatingTextType.HEAL, FloatingTextManager.SIZE_BIGGER, true);
             }
-
-            SceneMgr.BeginInvoke(new Action(() =>
-            {
-                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(SceneMgr.GetCanvas(),
-                    Data.PlayerPosition == PlayerPosition.LEFT ? "lblIntegrityLeft" : "lblIntegrityRight");
-                if (lbl != null)
-                    lbl.Content = (int)((float)Data.BaseIntegrity / (float)Data.MaxBaseIntegrity * 100.0f) + "%";
-            }));
         }
 
         public void UpdateScore(int amount)
