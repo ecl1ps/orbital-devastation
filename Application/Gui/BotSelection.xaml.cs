@@ -77,5 +77,10 @@ namespace Orbit.Gui
 
             App.Instance.StartSoloGame(s);
         }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            App.Instance.ClearMenus();
+        }
     }
 }
