@@ -13,40 +13,39 @@ namespace Orbit.Core.SpecialActions.Spectator
 {
     class AsteroidDamage : SpectatorAction
     {
-        public AsteroidDamage(SceneMgr mgr, Players.Player owner)
-            : base(mgr, owner)
+        public AsteroidDamage(SceneMgr mgr, Players.Player owner, params ISpectatorAction[] actions)
+            : base(mgr, owner, actions)
         {
             Name = "Asteroid damage";
             Type = SpecialActionType.ASTEROID_DAMAGE;
             ImageSource = "pack://application:,,,/resources/images/icons/asteroid-damage-icon.png";
-            this.control = control;
             
             //nastavime parametry
-            this.Cooldown = 2; //sekundy
-            this.Normal = new RangeGroup(AsteroidType.NORMAL, new Range(2));
-            this.Gold = new RangeGroup(AsteroidType.GOLDEN, new Range());
+            this.Cooldown = 3; //sekundy
+            this.Range = new RangeGroup(new Range());
         }
 
-        public override void StartAction()
+        protected override void StartAction(List<Asteroid> afflicted)
         {
-            if (!control.Enabled)
-                return;
-
-            base.StartAction();
-
             List<IDestroyable> temp = new List<IDestroyable>();
 
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
             msg.Write((int)PacketType.OBJECTS_TAKE_DAMAGE);
 
-            foreach (MiningObject afflicted in lockedObjects)
+            foreach (Asteroid ast in afflicted)
             {
-                if (afflicted.Obj is IDestroyable)
-                {
-                    temp.Add(afflicted.Obj as IDestroyable);
-                    (afflicted.Obj as IDestroyable).TakeDamage(SharedDef.SPECTATOR_DAMAGE, null);
-                    SceneMgr.FloatingTextMgr.AddFloatingText(SharedDef.SPECTATOR_DAMAGE, afflicted.Obj.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE); 
-                }
+                temp.Add(ast);
+                ast.TakeDamage(SharedDef.SPECTATOR_DAMAGE, null);
+                SceneMgr.FloatingTextMgr.AddFloatingText(SharedDef.SPECTATOR_DAMAGE, ast.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE);
+
+                /* TODO dodelat manager na effecty
+                PinchEffectControl effect = new PinchEffectControl();
+                effect.Radius = 0.05f;
+                effect.Speed = 1f;
+                effect.Position = ast.Position;
+
+                ast.AddControl(effect);
+                 */
             }
 
             msg.Write(Owner.GetId());

@@ -22,16 +22,21 @@ namespace Orbit.Core.SpecialActions
         public float Cooldown { get; set; }
         public Color BackgroundColor { get; set; }
 
-        public SpecialAction(SceneMgr mgr, Player owner)
+        private List<ISpecialAction> shared;
+
+        public SpecialAction(SceneMgr mgr, Player owner, params ISpecialAction[] sharedActions)
         {
             Owner = owner;
             SceneMgr = mgr;
+
+            shared = new List<ISpecialAction>(sharedActions);
         }
 
         public virtual void StartAction()
         {
             Owner.AddGoldAndShow((int) -Cost);
-            timer = Cooldown;
+            StartCoolDown();
+            shared.ForEach(a => a.StartCoolDown());
         }
 
         public abstract bool IsReady();
@@ -49,6 +54,22 @@ namespace Orbit.Core.SpecialActions
         public bool IsOnCooldown()
         {
             return timer != 0;
+        }
+
+
+        public void StartCoolDown()
+        {
+            timer = Cooldown;
+        }
+
+        public void AddSharedAction(ISpecialAction a)
+        {
+            shared.Add(a);
+        }
+
+        public void removeSharedAction(ISpecialAction a)
+        {
+            shared.Remove(a);
         }
     }
 }

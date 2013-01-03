@@ -330,7 +330,7 @@ namespace Orbit.Core.Client
                 if (p.IsActivePlayer())
                 {
                     inputMgr = new PlayerInputMgr(p, this, actionBarMgr);
-                    actionBarMgr.CreateActionBarItems(p.GeneratePlayerActions(this));
+                    actionBarMgr.CreateActionBarItems(p.GetActions<IPlayerAction>(this));
                 }
                 else
                 {
@@ -339,11 +339,7 @@ namespace Orbit.Core.Client
                     p.Device.AddControl(mc);
 
                     inputMgr = new SpectatorInputMgr(p, this, p.Device, actionBarMgr);
-                        actionBarMgr.CreateActionBarItems(p.GeneratePlayerActions(this, true));
-
-                        HidingPanel panel = GuiObjectFactory.CreateHidingPanel(this);
-
-                        StateMgr.AddGameState(new SpectatorPanelController(this, panel, p.GenerateSpectatorActions(this), 4));
+                    actionBarMgr.CreateActionBarItems(p.GetActions<ISpectatorAction>(this));
                 }
             }
         }

@@ -43,7 +43,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private SceneMgr sceneMgr;
         private List<CollisionData> recentlyCollided;
 
-        public List<MiningObject> currentlyMining;
+        public List<MiningObject> CurrentlyMining;
         public Player Owner { get; set; }
         public Vector Position { get { return me.Position; } }
 
@@ -64,7 +64,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         protected override void InitControl(ISceneObject me)
         {
             sceneMgr = me.SceneMgr;
-            currentlyMining = new List<MiningObject>();
+            CurrentlyMining = new List<MiningObject>();
             recentlyCollided = new List<CollisionData>();
         }
 
@@ -104,10 +104,10 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 }
             }
 
-            for (int i = currentlyMining.Count - 1; i >= 0; i--)
+            for (int i = CurrentlyMining.Count - 1; i >= 0; i--)
             {
-                if (!IsPresent(currentlyMining[i], collided))
-                    StopLink(currentlyMining[i]);
+                if (!IsPresent(CurrentlyMining[i], collided))
+                    StopLink(CurrentlyMining[i]);
             }
         }
 
@@ -124,7 +124,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         private bool IsPresent(ISceneObject obj)
         {
-            foreach (MiningObject mined in currentlyMining)
+            foreach (MiningObject mined in CurrentlyMining)
             {
                 if (mined.Obj.Id == obj.Id)
                     return true;
@@ -144,20 +144,20 @@ namespace Orbit.Core.Scene.Controls.Implementations
             line.AddControl(new MiningLineControl());
 
             sceneMgr.DelayedAttachToScene(line);
-            currentlyMining.Add(new MiningObject(obj, line));
+            CurrentlyMining.Add(new MiningObject(obj, line));
         }
 
         private void StopLink(MiningObject obj)
         {
             obj.MiningLine.DoRemoveMe();
             obj.MiningLine.Dead = true;
-            currentlyMining.Remove(obj);
+            CurrentlyMining.Remove(obj);
         }
 
         private void RemoveMiningLines()
         {
-            currentlyMining.ForEach(mineObj => mineObj.MiningLine.DoRemoveMe());
-            currentlyMining.Clear();
+            CurrentlyMining.ForEach(mineObj => mineObj.MiningLine.DoRemoveMe());
+            CurrentlyMining.Clear();
         }
 
         public void DoCollideWith(ISceneObject other, float tpf)

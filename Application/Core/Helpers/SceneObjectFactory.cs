@@ -490,5 +490,42 @@ namespace Orbit.Core.Helpers
 
             return ellipse;
         }
+
+        public static SphereField CreateSphereField(SceneMgr mgr, Vector position, int radius, Color color) 
+        {
+            SphereField f = new SphereField(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
+            f.Radius = radius;
+            f.Color = color;
+            f.Position = position;
+            f.SetGeometry(SceneGeometryFactory.CreateConstantRippedColorEllipseGeometry(f));
+
+            SphereCollisionShape shape = new SphereCollisionShape();
+            shape.Radius = radius;
+            shape.Center = f.Center;
+            f.CollisionShape = shape;
+
+            return f;
+        }
+
+        public static IceSquare CreateIceSquare(SceneMgr mgr, Vector position, Size size)
+        {
+            IceSquare s = new IceSquare(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
+            s.Size = size;
+            s.Position = position;
+            s.SetGeometry(SceneGeometryFactory.CreateIceCube(s));
+
+            return s;
+        }
+
+        public static IceShard CreateIceShard(SceneMgr mgr, Vector position, Size size, int texture)
+        {
+            IceShard s = new IceShard(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
+            s.Size = size;
+            s.Position = position;
+            s.TextureId = texture;
+            s.SetGeometry(SceneGeometryFactory.CreateIceShard(s));
+
+            return s;
+        }
     }
 }

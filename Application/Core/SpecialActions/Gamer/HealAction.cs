@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace Orbit.Core.SpecialActions.Gamer
 {
-    class HealAction : SpecialAction
+    class HealAction : SpecialAction, IPlayerAction
     {
         private IHealingKit healingKit;
 

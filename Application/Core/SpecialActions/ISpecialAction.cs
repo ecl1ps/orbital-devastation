@@ -13,6 +13,9 @@ namespace Orbit.Core.SpecialActions
         BRUTAL_GRAVITY,
         ASTEROID_THROW,
         ASTEROID_DAMAGE,
+        ASTEROID_GROWTH,
+        ASTEROID_SLOW,
+        STATIC_FIELD,
         SHIELDING
     }
 
@@ -30,8 +33,14 @@ namespace Orbit.Core.SpecialActions
 
         void StartAction();
 
+        void StartCoolDown();
+
         Boolean IsReady();
 
         Boolean IsOnCooldown();
+
+        void AddSharedAction(ISpecialAction action);
+
+        void removeSharedAction(ISpecialAction action);
     }
 }

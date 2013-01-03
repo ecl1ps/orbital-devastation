@@ -44,5 +44,12 @@ namespace Orbit.Core.Scene.Controls
         protected virtual void InitControl(ISceneObject me) { }
 
         protected virtual void UpdateControl(float tpf) { }
+
+
+        public void Destroy()
+        {
+            OnRemove();
+            me.RemoveControl(this);
+        }
     }
 }

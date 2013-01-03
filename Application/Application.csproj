@@ -127,6 +127,7 @@
     <Compile Include="Core\Client\GameStates\LevelEnvironment.cs" />
     <Compile Include="Core\Client\GameStates\DelayedActionInvoker.cs" />
     <Compile Include="Core\Client\SceneMgr.Message.cs" />
+    <Compile Include="Core\Client\Shaders\AlphaChannelEffect.cs" />
     <Compile Include="Core\Client\Shaders\ConstantColorEffect.cs" />
     <Compile Include="Core\Client\Shaders\CustomColorEffect.cs" />
     <Compile Include="Core\Client\Sounds\FileSound.cs" />
@@ -160,12 +161,15 @@
     <Compile Include="Core\Scene\Controls\Health\Implementations\DestroyHpControl.cs" />
     <Compile Include="Core\Scene\Controls\Health\Implementations\BaseHealthControl.cs" />
     <Compile Include="Core\Scene\Controls\IDamageControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\AsteroidFreezeControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ControlableMiningModuleControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ExcludingExplodingSingularityBulletControl.cs" />
     <Compile Include="Core\Scene\Controls\Health\HpControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\HighlightingControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\MinorAsteroidCollisionReactionControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\PinchEffectControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\PowerlessSingularityControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\RippleEffectControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\SingularityBulletCollisionReactionControl.cs" />
     <Compile Include="Core\Scene\Controls\Collisions\ICollisionShapeUpdater.cs" />
     <Compile Include="Core\Scene\Controls\Collisions\Implementations\StickySphereCollisionShapeControl.cs" />
@@ -185,8 +189,10 @@
     <Compile Include="Core\Scene\Controls\Implementations\PowerHookControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\RespawningObjectControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LimitedReverseDamageControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\StaticFieldControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\StatPowerUpCollisionReactionControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\StretchingLineControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\TemporaryControlRemovalControl.cs" />
     <Compile Include="Core\Scene\Controls\Unused\VectorLineObjectMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DroppingSingularityControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ExplodingSingularityBulletControl.cs" />
@@ -198,6 +204,8 @@
     <Compile Include="Core\Scene\Controls\Health\IHpControl.cs" />
     <Compile Include="Core\Scene\Entities\IHpBar.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\HighlightingSphere.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\IceShard.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\IceSquare.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\OrbitEllipse.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\MiningModule.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\PercentageEllipse.cs" />
@@ -207,6 +215,7 @@
     <Compile Include="Core\Scene\Entities\Unused\Circle.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\PowerHook.cs" />
     <Compile Include="Core\Scene\CollisionShapes\SphereCollisionShape.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\SphereField.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\PercentageArc.cs" />
     <Compile Include="Core\Scene\Controls\Collisions\Implementations\StickyPointCollisionShapeControl.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Line.cs" />
@@ -250,16 +259,18 @@
     <Compile Include="Core\SpecialActions\Gamer\ActiveWeapon.cs" />
     <Compile Include="Core\SpecialActions\Gamer\HealAction.cs" />
     <Compile Include="Core\SpecialActions\Gamer\WeaponUpgrade.cs" />
+    <Compile Include="Core\SpecialActions\Gamer\IPlayerAction.cs" />
     <Compile Include="Core\SpecialActions\Spectator\AsteroidDamage.cs" />
+    <Compile Include="Core\SpecialActions\Spectator\AsteroidGrowth.cs" />
+    <Compile Include="Core\SpecialActions\Spectator\AsteroidSlow.cs" />
     <Compile Include="Core\SpecialActions\Spectator\AsteroidThrow.cs" />
-    <Compile Include="Core\SpecialActions\Spectator\BrutalGravity.cs" />
     <Compile Include="Core\SpecialActions\SpecialAction.cs" />
     <Compile Include="Core\SpecialActions\ISpecialAction.cs" />
     <Compile Include="Core\SpecialActions\Spectator\ISpectatorAction.cs" />
     <Compile Include="Core\SpecialActions\Spectator\Range.cs" />
-    <Compile Include="Core\SpecialActions\Spectator\Shielding.cs" />
     <Compile Include="Core\SpecialActions\Spectator\SpectatorAction.cs" />
     <Compile Include="Core\Server\TournamentSettings.cs" />
+    <Compile Include="Core\SpecialActions\Spectator\StaticField.cs" />
     <Compile Include="Core\Utils\HealingKit.cs" />
     <Compile Include="Core\Utils\IHealingKit.cs" />
     <Compile Include="Core\Weapons\AsteroidMineLauncher.cs" />
@@ -278,10 +289,6 @@
     </Compile>
     <Compile Include="Gui\ActionControllers\ActionController.cs" />
     <Compile Include="Gui\ActionControllers\ActionControllerImpl.cs" />
-    <Compile Include="Gui\ActionControllers\SpectatorPanelController.cs" />
-    <Compile Include="Gui\ActionOverview.xaml.cs">
-      <DependentUpon>ActionOverview.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Gui\BotSelection.xaml.cs">
       <DependentUpon>BotSelection.xaml</DependentUpon>
     </Compile>
@@ -302,9 +309,6 @@
     </Compile>
     <Compile Include="Gui\GameUC.xaml.cs">
       <DependentUpon>GameUC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\HidingPanel.xaml.cs">
-      <DependentUpon>HidingPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\InteractivePanel\IActionOverview.cs" />
     <Compile Include="Gui\InteractivePanel\IInteractivePanel.cs" />
@@ -401,10 +405,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Gui\ActionOverview.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Gui\BotSelection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -434,10 +434,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\GameWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Gui\HidingPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -492,6 +488,36 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <Resource Include="resources\images\ice-shards\broken_ice_1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\ice-shards\broken_ice_2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\ice-shards\broken_ice_3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\ice-shards\broken_ice_4.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\ice-shards\broken_ice_5.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\ice-shards\broken_ice_6.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\icons\asteroid-growth-icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\icons\static-field-action.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\actions\ice-cube.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\icons\asteroid-slow-icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="resources\images\background\metal.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -651,6 +677,12 @@
     <Content Include="logger.config">
       <SubType>Designer</SubType>
     </Content>
+    <Resource Include="resources\shaders\alphaChannelEffect.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\shaders\alphaChannelEffect.ps">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="resources\sounds\background\action.ogg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

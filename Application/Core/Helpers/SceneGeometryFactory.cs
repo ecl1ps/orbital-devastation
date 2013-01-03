@@ -382,5 +382,70 @@ namespace Orbit.Core.Helpers
 
             return g;
         }
+
+        public static System.Windows.Controls.Image CreateIceCube(IceSquare s)
+        {
+            System.Windows.Controls.Image img = null;
+            s.SceneMgr.Invoke(new Action(() =>
+            {
+                BitmapImage bi = new BitmapImage();
+                bi.BeginInit();
+                bi.UriSource = new Uri("pack://application:,,,/resources/images/actions/ice-cube.png");
+                bi.EndInit();
+
+                img = new System.Windows.Controls.Image();
+                img.Source = bi;
+                img.Width = s.Size.Width;
+                img.Height = s.Size.Height;
+
+                System.Windows.Controls.Canvas.SetLeft(img, s.Position.X);
+                System.Windows.Controls.Canvas.SetTop(img, s.Position.Y);
+                System.Windows.Controls.Canvas.SetZIndex(img, -1);
+            }));
+
+            return img;
+        }
+
+        public static System.Windows.Controls.Image CreateIceShard(IceShard s)
+        {
+            System.Windows.Controls.Image img = null;
+            s.SceneMgr.Invoke(new Action(() =>
+            {
+                BitmapImage bi = new BitmapImage();
+                bi.BeginInit();
+                bi.UriSource = new Uri("pack://application:,,,/resources/images/ice-shards/broken_ice_" + s.TextureId + ".png");
+                bi.EndInit();
+
+                img = new System.Windows.Controls.Image();
+                img.Source = bi;
+                img.Width = s.Size.Width;
+                img.Height = s.Size.Height;
+
+                System.Windows.Controls.Canvas.SetLeft(img, s.Position.X);
+                System.Windows.Controls.Canvas.SetTop(img, s.Position.Y);
+            }));
+
+            return img;
+        }
+
+        public static System.Windows.Shapes.Path CreateConstantRippedColorEllipseGeometry(Sphere s)
+        {
+            s.HasPositionInCenter = true;
+
+            System.Windows.Shapes.Path path = null;
+            s.SceneMgr.Invoke(new Action(() =>
+            {
+                EllipseGeometry geom = new EllipseGeometry(new Point(), s.Radius, s.Radius);
+                path = new System.Windows.Shapes.Path();
+                path.Data = geom;
+                path.Fill = new SolidColorBrush(s.Color);
+                path.Stroke = Brushes.Black;
+                System.Windows.Controls.Canvas.SetLeft(path, s.Position.X);
+                System.Windows.Controls.Canvas.SetTop(path, s.Position.Y);
+                System.Windows.Controls.Canvas.SetZIndex(path, -10);
+            }));
+
+            return path;
+        }
     }
 }
