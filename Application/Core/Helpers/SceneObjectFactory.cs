@@ -512,6 +512,7 @@ namespace Orbit.Core.Helpers
             IceSquare s = new IceSquare(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             s.Size = size;
             s.Position = position;
+            s.Category = Gui.Visuals.DrawingCategory.BACKGROUND;
             s.SetGeometry(SceneGeometryFactory.CreateIceCube(s));
 
             return s;
