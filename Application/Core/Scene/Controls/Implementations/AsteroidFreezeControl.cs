@@ -9,16 +9,14 @@ using System.Windows;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    class AsteroidFreezeControl : TemporaryControlRemovalControl
+    public class AsteroidFreezeControl : TemporaryControlRemovalControl
     {
         protected override void InitControl(Entities.ISceneObject me)
         {
             base.InitControl(me);
             me.SceneMgr.BeginInvoke(new Action(() =>
             {
-                AlphaChannelEffect effect = new AlphaChannelEffect();
-                effect.Alpha = 0.5f;
-                me.GetGeometry().Effect = effect;
+                me.GetGeometry().Opacity = 0.5;
             }));
         }
 
@@ -27,8 +25,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             base.OnRemove();
             me.SceneMgr.BeginInvoke(new Action(() =>
             {
-                me.GetGeometry().Effect = null;
-
+                me.GetGeometry().Opacity = 1;
 
                 Random rand = me.SceneMgr.GetRandomGenerator();
 
