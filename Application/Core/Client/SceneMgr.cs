@@ -327,6 +327,11 @@ namespace Orbit.Core.Client
             return area.Parent as Canvas;
         }
 
+        public GameVisualArea GetGameVisualArea()
+        {
+            return area;
+        }
+
         public void Run()
         {
             Stopwatch sw = new Stopwatch();

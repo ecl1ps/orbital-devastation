@@ -9,7 +9,7 @@ using Lidgren.Network;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.CollisionShapes;
 using System.Globalization;
-using System.Windows.Shapes;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Client.GameStates
 {
@@ -58,18 +58,18 @@ namespace Orbit.Core.Client.GameStates
 
         private void GrowFloatingText(FloatingText ft)
         {
-            float newSize = GetNewFontSize(ft.TotalTime - ft.RemainingTime, ft.TotalTime * 0.3f, ft.FontSize);
+            double newScale = GetNewFontScale(ft.TotalTime - ft.RemainingTime, ft.TotalTime * 0.3f, ft.FontSize);
             mgr.BeginInvoke(new Action(() =>
             {
-                ft.GUIObject.FontSize = newSize;
-                Canvas.SetLeft(ft.GUIObject, ft.Position.X - ft.GUIObject.ActualWidth / 2);
-                Canvas.SetTop(ft.GUIObject, ft.Position.Y - ft.GUIObject.ActualHeight / 2);
+                (ft.GUIObject.Transform as TransformGroup).Children.Clear();
+                (ft.GUIObject.Transform as TransformGroup).Children.Add(new ScaleTransform(newScale, newScale));
+                (ft.GUIObject.Transform as TransformGroup).Children.Add(new TranslateTransform(ft.Position.X - ft.CS.Size.Width * newScale / 2, ft.Position.Y - ft.CS.Size.Height * newScale / 2));
             }));
         }
 
-        private float GetNewFontSize(float timeLeft, float timeTotal, float finalSize)
+        private double GetNewFontScale(float timeLeft, float timeTotal, float finalSize)
         {
-            return FastMath.LinearInterpolate(5, finalSize, timeLeft / timeTotal);
+            return FastMath.LinearInterpolate(10, finalSize, timeLeft / timeTotal) / finalSize;
         }
 
         private void FadeFloatingText(FloatingText ft)
@@ -88,22 +88,26 @@ namespace Orbit.Core.Client.GameStates
 
         private void CreateFloatingText(FloatingText ft)
         {
-            TextBlock tb = null;
+            DrawingGroup gr = null;
             mgr.Invoke(new Action(() =>
             {
-                tb = new TextBlock();
-                tb.Text = ft.Text;
-                tb.Foreground = GetColorForType(ft.Type);
-                tb.FontWeight = FontWeights.Bold;
-                tb.FontSize = 5;
-                Canvas.SetLeft(tb, ft.Position.X);
-                Canvas.SetTop(tb, ft.Position.Y);
-                mgr.GetCanvas().Children.Add(tb);
-                FormattedText formtxt = new FormattedText(ft.Text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(tb.FontFamily.Source), ft.FontSize, Brushes.Black);
-                ft.CS.Size = new Size(formtxt.Width, formtxt.Height * 0.8); // nepotrebujeme cely radek i s volnym mistem nahore a dole
+                gr = new DrawingGroup();
+
+                FormattedText finalTxt = new FormattedText(ft.Text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+                    new Typeface("arial"), ft.FontSize, Brushes.Black);
+                finalTxt.SetFontWeight(FontWeights.Bold);
+
+                ft.CS.Size = new Size(finalTxt.Width, finalTxt.Height * 0.8); // nepotrebujeme cely radek i s volnym mistem nahore a dole
+
+                gr.Children.Add(new GeometryDrawing(GetColorForType(ft.Type), null, finalTxt.BuildGeometry(new Point())));
+                gr.Transform = new TransformGroup();
+                double scale = 10 / ft.FontSize;
+                (gr.Transform as TransformGroup).Children.Add(new ScaleTransform(scale, scale));
+                (gr.Transform as TransformGroup).Children.Add(new TranslateTransform(ft.Position.X - ft.CS.Size.Width * scale / 2, ft.Position.Y - ft.CS.Size.Height * scale / 2));
+                mgr.GetGameVisualArea().Add(gr, DrawingCategory.TEXTS);
             }));
 
-            ft.GUIObject = tb;
+            ft.GUIObject = gr;
             ft.FinalPosition = new Vector(ft.Position.X - ft.CS.Size.Width / 2, ft.Position.Y - ft.CS.Size.Height / 2);
             ft.CS.Position = ft.FinalPosition;
             ft.CollisionArea = new Rect(ft.CS.Position.ToPoint(), ft.CS.Size);
@@ -153,8 +157,11 @@ namespace Orbit.Core.Client.GameStates
 
             mgr.Invoke(new Action(() =>
             {
-                Canvas.SetLeft(currentFt.GUIObject, currentFt.Position.X);
-                Canvas.SetTop(currentFt.GUIObject, currentFt.Position.Y);
+                double scale = 10 / currentFt.FontSize;
+                (currentFt.GUIObject.Transform as TransformGroup).Children.Clear();
+                (currentFt.GUIObject.Transform as TransformGroup).Children.Add(new ScaleTransform(scale, scale));
+                (currentFt.GUIObject.Transform as TransformGroup).Children.Add(
+                    new TranslateTransform(currentFt.Position.X - currentFt.CS.Size.Width * scale / 2, currentFt.Position.Y - currentFt.CS.Size.Height * scale / 2));
             }));
         }
 
@@ -196,7 +203,7 @@ namespace Orbit.Core.Client.GameStates
             mgr.Invoke(new Action(() =>
             {
                 RectangleGeometry geom = new RectangleGeometry(ft.CollisionArea);
-                Path path = new Path();
+                System.Windows.Shapes.Path path = new System.Windows.Shapes.Path();
                 path.Data = geom;
                 path.Stroke = Brushes.Black;
                 mgr.GetCanvas().Children.Add(path);
@@ -223,10 +230,7 @@ namespace Orbit.Core.Client.GameStates
 
         private void RemoveFloatingText(FloatingText ft)
         {
-            mgr.BeginInvoke(new Action(() =>
-            {
-                mgr.GetCanvas().Children.Remove(ft.GUIObject);
-            }));
+            mgr.RemoveGraphicalObjectFromScene(ft.GUIObject, Gui.Visuals.DrawingCategory.TEXTS);
             floatingTexts.Remove(ft);
         }
 
@@ -269,7 +273,7 @@ namespace Orbit.Core.Client.GameStates
             public float RemainingTime { get; set; }
             public FloatingTextType Type { get; set; }
             public float FontSize { get; set; }
-            public TextBlock GUIObject { get; set; }
+            public DrawingGroup GUIObject { get; set; }
             public bool Send { get; set; }
             public SquareCollisionShape CS { get; set; }
             public bool LastCollisionMovedUp { get; set; }
