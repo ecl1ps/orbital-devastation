@@ -9,7 +9,7 @@ using Orbit.Core.Scene.Controls.Collisions;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Players;
 using Lidgren.Network;
-
+using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -21,6 +21,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         public Vector HitVector { get; set; } //neposilano
         public bool Returning { get; set; } // neposilano
 
+        protected List<ICatchable> caughtObjects;
         protected Hook hook;
 
         protected override void InitControl(ISceneObject me)
@@ -29,16 +30,18 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             if (me is Hook)
                 hook = me as Hook;
+
+            caughtObjects = new List<ICatchable>();
         }
 
         protected override void UpdateControl(float tpf)
         {
-            if (hook.HasCaughtObject() || Returning)
+            if (HasFullCapacity() || Returning)
             {
                 MoveBackwards(tpf);
 
                 if (IsAtStart())
-                    hook.PulledCaughtObjectToBase();
+                    ProcessObjectsPulledToBase();
             }
             else
             {
@@ -47,66 +50,25 @@ namespace Orbit.Core.Scene.Controls.Implementations
                     Returning = true;
             }
 
-            if (hook is PowerHook)
-                (hook as PowerHook).CaughtObjects.ForEach(obj => MoveWithObject(obj));
-            else if(hook.CaughtObject != null)
-                MoveWithObject(hook.CaughtObject);
-        }
-
-        protected void MoveWithObject(ICatchable obj)
-        {
-            obj.Position = hook.Position + HitVector;
-        }
-
-        protected void MoveForward(float tpf)
-        {
-            hook.Position += (hook.Direction * Speed * tpf);
-        }
-
-        protected void MoveBackwards(float tpf)
-        {
-            // jinak se obcas neco bugne a on leti do nekonecna
-            Vector dirToBase = Origin + new Vector(-hook.Radius, -hook.Radius) - hook.Position;
-            dirToBase.Normalize();
-            hook.Position += (dirToBase * Speed * tpf);
-        }
-
-        protected bool IsAtEnd()
-        {
-            return GetDistanceFromOrigin() > Lenght || OutOfScreen();
-        }
-
-        private bool OutOfScreen()
-        {
-            return hook.Position.X < 0 || hook.Position.Y < 0 ||
-                hook.Position.X > SharedDef.VIEW_PORT_SIZE.Width || hook.Position.Y > SharedDef.VIEW_PORT_SIZE.Height;
-        }
-
-        protected bool IsAtStart()
-        {
-            return GetDistanceFromOrigin() < 15;
-        }
-
-        private double GetDistanceFromOrigin()
-        {
-            return (Origin - hook.Position).Length;
-        }
-
-        public double GetDistanceFromOriginPct()
-        {
-            return GetDistanceFromOrigin() / Lenght;
+            caughtObjects.ForEach(obj => MoveWithObject(obj));
         }
 
         public virtual void DoCollideWith(ISceneObject other, float tpf)
         {
-            if (hook.HasCaughtObject())
+            if (HasFullCapacity())
                 return;
 
-            if ((other is ICatchable && !Returning))
-                CatchObject(other as ICatchable);
+            if (!(other is ICatchable))
+                return;
+
+            // nechyta kdyz se vraci
+            if (Returning)
+                return;
+
+            TryToCatchCollidedObject(other as ICatchable);
         }
 
-        protected virtual void CatchObject(ICatchable caught)
+        protected virtual void TryToCatchCollidedObject(ICatchable caught)
         {
             if (caught == null)
                 return;
@@ -117,14 +79,75 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (!hook.Owner.IsCurrentPlayerOrBot())
                 return;
 
+            HitVector = caught.Position - hook.Position;
+
+            CatchObject(caught, HitVector);
+
+            SendHookHitMsg(caught as ISceneObject);
+
+            if (caught is UnstableAsteroid)
+                return;
+
+            // za unstable se nedostava vubec zadne score
             ProcessScore(caught);
-
-            Vector hitVector = caught.Position - hook.Position;
-
-            Catch(caught, hitVector);
         }
 
-        protected virtual void ProcessScore(ICatchable caught)
+        /// <summary>
+        /// tato metoda je volana kud po kolizi, pokud je vlastnikem soucasny hrac nebo zpravou, pokud neni
+        /// </summary>
+        public void CatchObject(ICatchable caught, Vector hitVector)
+        {
+            if (caught is IDestroyable)
+                (caught as IDestroyable).TakeDamage(0, hook);
+
+            if (caught is UnstableAsteroid)
+                return;
+
+            caughtObjects.Add(caught);
+            caught.Enabled = false;
+
+            // toto je potreba, protoze vektor muze prijit zpravou od jineho hrace
+            HitVector = hitVector;
+        }
+
+        private void SendHookHitMsg(ISceneObject caught)
+        {
+            NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();
+            msg.Write((int)PacketType.HOOK_HIT);
+            msg.Write(me.Id);
+            msg.Write(caught.Id);
+            msg.Write(caught.Position);
+            msg.Write(HitVector);
+            me.SceneMgr.SendMessage(msg);
+        }
+
+        private void ProcessObjectsPulledToBase()
+        {
+            caughtObjects.ForEach(obj => ProccesObjectsJustPulledToBase(obj));
+            me.DoRemoveMe();
+        }
+
+        private void ProccesObjectsJustPulledToBase(ICatchable caught)
+        {
+            if (caught != null && !caught.Dead)
+            {
+                if (caught is IContainsGold)
+                {
+                    AddGoldToOwner((caught as IContainsGold).Gold);
+                    caught.DoRemoveMe();
+                }
+                else
+                {
+                    caught.Enabled = true;
+                    if (caught is IMovable)
+                        (caught as IMovable).Direction = new Vector(0, 1);
+                }
+            }
+
+            me.DoRemoveMe();
+        }
+
+        private void ProcessScore(ICatchable caught)
         {
             if (caught is IContainsGold)
             {
@@ -142,20 +165,58 @@ namespace Orbit.Core.Scene.Controls.Implementations
             }
         }
 
-        public virtual void Catch(ICatchable caught, Vector hitVector)
+        protected virtual void AddGoldToOwner(int gold)
         {
-            if (caught is IDestroyable)
-                (caught as IDestroyable).TakeDamage(0, hook);
+            hook.Owner.AddGoldAndShow(gold);
+        }
 
-            if (caught is UnstableAsteroid)
-                return;
+        protected virtual bool HasFullCapacity()
+        {
+            return caughtObjects.Count > 0;
+        }
 
-            hook.CaughtObject = caught;
-            caught.Enabled = false;
+        private void MoveWithObject(ICatchable obj)
+        {
+            obj.Position = hook.Position + HitVector;
+        }
 
-            HitVector = hitVector;
+        private void MoveForward(float tpf)
+        {
+            hook.Position += (hook.Direction * Speed * tpf);
+        }
 
-            hook.OnCatch();
+        private void MoveBackwards(float tpf)
+        {
+            // jinak se obcas neco bugne a on leti do nekonecna
+            Vector dirToBase = Origin + new Vector(-hook.Radius, -hook.Radius) - hook.Position;
+            dirToBase.Normalize();
+            hook.Position += (dirToBase * Speed * tpf);
+        }
+
+        private bool IsAtEnd()
+        {
+            return GetDistanceFromOrigin() > Lenght || OutOfScreen();
+        }
+
+        private bool OutOfScreen()
+        {
+            return hook.Position.X < 0 || hook.Position.Y < 0 ||
+                hook.Position.X > SharedDef.VIEW_PORT_SIZE.Width || hook.Position.Y > SharedDef.VIEW_PORT_SIZE.Height;
+        }
+
+        private bool IsAtStart()
+        {
+            return GetDistanceFromOrigin() < 15;
+        }
+
+        private double GetDistanceFromOrigin()
+        {
+            return (Origin - hook.Position).Length;
+        }
+
+        private double GetDistanceFromOriginPct()
+        {
+            return GetDistanceFromOrigin() / Lenght;
         }
     }
 }
