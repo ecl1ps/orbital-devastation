@@ -293,6 +293,11 @@ namespace Orbit.Core.Players
             return temp;
         }
 
+        public void ClearActions()
+        {
+            actions = null;
+        }
+
         private void InitActions(SceneMgr mgr)
         {
             if (IsActivePlayer())

@@ -86,11 +86,8 @@ namespace Orbit.Core.Client
             currentPlayer = CreatePlayer();
             currentPlayer.Data.PlayerColor = Player.GetChosenColor();
             players.Add(currentPlayer);
-            StateMgr.AddGameState(currentPlayer);
-            FloatingTextMgr = new FloatingTextManager(this);
-            StateMgr.AddGameState(FloatingTextMgr);
-            LevelEnv = new LevelEnvironment();
-            StateMgr.AddGameState(LevelEnv);
+            AttachStateManagers();
+
 
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
@@ -117,6 +114,15 @@ namespace Orbit.Core.Client
 
             InitNetwork();
             ConnectToServer();
+        }
+
+        private void AttachStateManagers()
+        {
+            StateMgr.AddGameState(currentPlayer);
+            FloatingTextMgr = new FloatingTextManager(this);
+            StateMgr.AddGameState(FloatingTextMgr);
+            LevelEnv = new LevelEnvironment();
+            StateMgr.AddGameState(LevelEnv);
         }
 
         public void InitStaticMouse()
@@ -684,6 +690,11 @@ namespace Orbit.Core.Client
             objects.Clear();
             objectsToRemove.Clear();
             objectsToAdd.Clear();
+
+            foreach (Player p in players)
+                p.ClearActions();
+
+            AttachStateManagers();
 
             players.ForEach(p => p.Data.LobbyReady = false);
 
