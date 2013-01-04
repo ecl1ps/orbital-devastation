@@ -183,6 +183,8 @@ namespace Orbit.Gui
             if (leader)
                 App.Instance.PlayerReady();
 #else
+            ready = true;
+            btnReady.IsEnabled = false;
             App.Instance.PlayerReady();
 #endif
             tbMessage.Focus();
