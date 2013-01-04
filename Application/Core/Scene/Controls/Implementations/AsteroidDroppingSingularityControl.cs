@@ -62,6 +62,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             me.RemoveControlsOfType<HighlightingControl>();
 
             Asteroid ast = new Asteroid(me.SceneMgr, IdMgr.GetNewId(me.SceneMgr.GetCurrentPlayer().GetId()));
+            ast.Gold = 0;
             ast.Radius = 20;
             ast.Position = new Vector(me.Position.X - ast.Radius, me.Position.Y - ast.Radius);
             ast.Direction = (me as IMovable).Direction;
