@@ -33,12 +33,12 @@ namespace Orbit.Core.SpecialActions.Spectator
             msg.Write(afflicted.Count);
             msg.Write(SharedDef.SPECTATOR_HEAL);
 
-            afflicted.ForEach(aff => { growAsteroid(aff); msg.Write(aff.Id); });
+            afflicted.ForEach(aff => { GrowAsteroid(aff); msg.Write(aff.Id); });
 
             SceneMgr.SendMessage(msg);
         }
 
-        private void growAsteroid(Asteroid a)
+        private void GrowAsteroid(Asteroid a)
         {
             int val = SharedDef.SPECTATOR_HEAL;
             a.Radius += val;

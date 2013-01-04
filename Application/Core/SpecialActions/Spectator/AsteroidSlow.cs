@@ -10,6 +10,7 @@ using Orbit.Core.Helpers;
 using System.Windows;
 using Orbit.Core.Client.Shaders;
 using System.Windows.Media;
+using Lidgren.Network;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
@@ -54,6 +55,15 @@ namespace Orbit.Core.SpecialActions.Spectator
 
         protected override void StartAction(List<Asteroid> afflicted)
         {
+            NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+            msg.Write((int)PacketType.OBJECTS_HEAL_AMOUNT);
+
+            msg.Write(Owner.GetId());
+            msg.Write(afflicted.Count);
+            msg.Write(SharedDef.SPECTATOR_HEAL);
+
+            afflicted.ForEach(aff => { Slow(aff); msg.Write(aff.Id); });
+
             afflicted.ForEach(a => Slow(a));
         }
     }
