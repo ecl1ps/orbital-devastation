@@ -833,6 +833,8 @@ namespace Orbit.Core.Client
             for (int i = 0; i < count; i++)
             {
                 a = GetSceneObject(msg.ReadInt64()) as Asteroid;
+                if (a == null)
+                    continue;
 
                 IMovementControl c = a.GetControlOfType<IMovementControl>();
                 LinearRotationControl c1 = a.GetControlOfType<LinearRotationControl>();
