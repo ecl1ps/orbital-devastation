@@ -8,6 +8,7 @@ using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Client.GameStates;
 using System.Windows.Media;
 using Orbit.Core.Scene.Entities;
+using Lidgren.Network;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
@@ -40,7 +41,19 @@ namespace Orbit.Core.SpecialActions.Spectator
             base.StartAction();
 
             StartAction(Range.GetValidGroup(control.CurrentlyMining));
+            SendActionStart();
             
+        }
+
+        private void SendActionStart()
+        {
+            NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+            msg.Write((int)PacketType.SPECTATOR_ACTION_START);
+
+            msg.Write(Owner.GetId());
+            msg.Write(Name);
+
+            SceneMgr.SendMessage(msg);
         }
 
         protected abstract void StartAction(List<Asteroid> afflicted);

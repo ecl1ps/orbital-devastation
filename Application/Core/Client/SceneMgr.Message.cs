@@ -856,6 +856,14 @@ namespace Orbit.Core.Client
             }
         }
 
+        private void ReceivedSpectatorActionStarted(NetIncomingMessage msg)
+        {
+            Player owner = GetPlayer(msg.ReadInt32());
+            String name = msg.ReadString();
+
+            FloatingTextMgr.AddFloatingText("Spectator " + owner.Data.Name + " used: " + name, owner.Device.Position, FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM);
+        }
+
         internal void SendNewTournamentSettings(TournamentSettings s)
         {
             NetOutgoingMessage msg = CreateNetMessage();

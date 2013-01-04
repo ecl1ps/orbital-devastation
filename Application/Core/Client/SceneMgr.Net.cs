@@ -237,6 +237,9 @@ namespace Orbit.Core.Client
                 case PacketType.ASTEROID_SLOW_START:
                     ReceivedSlowActionStarted(msg);
                     break;
+                case PacketType.SPECTATOR_ACTION_START:
+                    ReceivedSpectatorActionStarted(msg);
+                    break;
                 default:
                     Logger.Warn("Received unhandled packet type: " + type);
                     break;
