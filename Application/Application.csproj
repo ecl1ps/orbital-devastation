@@ -349,7 +349,6 @@
     <Compile Include="Core\Scene\Controls\Control.cs" />
     <Compile Include="Core\Scene\Controls\IControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LinearMovementControl.cs" />
-    <Compile Include="Core\Scene\Controls\Implementations\SingularityControl.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Base.cs" />
     <Compile Include="Core\Scene\Entities\IMovable.cs" />
     <Compile Include="Core\Scene\Entities\ISceneObject.cs" />
