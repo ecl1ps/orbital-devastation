@@ -264,7 +264,7 @@ namespace Orbit.Gui
             Grid main = App.WindowInstance.mainGrid;
             ColorPickerUC cp = LogicalTreeHelper.FindLogicalNode(main, "colorPicker") as ColorPickerUC;
             if (cp == null)
-                App.WindowInstance.mainGrid.Children.Add(new ColorPickerUC());
+                App.WindowInstance.menuGrid.Children.Add(new ColorPickerUC());
         }
 
         private void btnSettings_Click(object sender, RoutedEventArgs e)
