@@ -487,19 +487,19 @@ namespace Orbit.Core.Client
             int radius = msg.ReadInt32();
             float speed = msg.ReadFloat();
 
-            SphereField field = SceneObjectFactory.CreateSphereField(this, p.Device.Position, 200, c);
+            SphereField field = SceneObjectFactory.CreateSphereField(this, p.Device.Position, radius, c);
 
             StaticFieldControl control = new StaticFieldControl();
-            control.Force = 100;
-            control.LifeTime = 5;
-            control.Radius = 200;
+            control.Force = force;
+            control.LifeTime = lifeTime;
+            control.Radius = radius;
 
             RippleEffectControl rippleControl = new RippleEffectControl();
-            rippleControl.Speed = 15;
+            rippleControl.Speed = speed;
 
             p.Device.AddControl(control);
             field.AddControl(rippleControl);
-            field.AddControl(new LimitedLifeControl(5));
+            field.AddControl(new LimitedLifeControl(lifeTime));
             field.AddControl(new PositionCloneControl(p.Device));
 
             this.DelayedAttachToScene(field);
