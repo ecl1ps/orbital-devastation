@@ -32,6 +32,11 @@ namespace Orbit.Gui
 
         private void btnSaveName_Click(object sender, RoutedEventArgs e)
         {
+            SavePlayerName();
+        }
+
+        private void SavePlayerName()
+        {
             if (tbPlayerName.Text.Length < 2)
             {
                 tbPlayerName.Text = string.Empty;
@@ -41,7 +46,7 @@ namespace Orbit.Gui
             App.Instance.PlayerName = tbPlayerName.Text;
             App.Instance.PlayerHashId = Player.GenerateNewHashId(tbPlayerName.Text);
             GameProperties.Props.Set(PropertyKey.PLAYER_NAME, tbPlayerName.Text);
-#if DEBUG            
+#if DEBUG
             GameProperties.Props.Set(PropertyKey.AVAILABLE_COLORS, ((int)PlayerColorSet.END - 1).ToString());
             PlayerColorManager.RefreshPlayerColors();
 #endif
@@ -56,6 +61,11 @@ namespace Orbit.Gui
         private void colorPicker_MouseDown(object sender, MouseButtonEventArgs e)
         {
             App.Instance.AddMenu(new ColorPickerUC(true));
+        }
+
+        private void playerSettings_LostFocus(object sender, RoutedEventArgs e)
+        {
+            SavePlayerName();
         }
     }
 }
