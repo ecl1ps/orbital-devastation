@@ -12,22 +12,31 @@ namespace Orbit.Core.Scene.Controls.Implementations
     {
         public override void DoCollideWith(ISceneObject other, float tpf)
         {
-            if (hook.HasCaughtObject())
+            if (HasFullCapacity())
                 return;
 
             if (!(other is ICatchable))
                 return;
 
-            if ((me as PowerHook).CaughtObjects.Count <= hook.Owner.Data.HookMaxCatchedObjCount)
-                CatchObject(other as ICatchable);
+            TryToCatchCollidedObject(other as ICatchable);
         }
 
-        protected override void CatchObject(ICatchable caught)
+        protected override void TryToCatchCollidedObject(ICatchable caught)
         {
-            base.CatchObject(caught);
+            base.TryToCatchCollidedObject(caught);
 
-            if ((me as PowerHook).CaughtObjects.Count == 1)
+            if (caughtObjects.Count == 1)
                 Returning = true;
+        }
+
+        protected override void AddGoldToOwner(int gold)
+        {
+            base.AddGoldToOwner((int)(gold * 1.5));
+        }
+
+        protected override bool HasFullCapacity()
+        {
+            return caughtObjects.Count == hook.Owner.Data.HookMaxCatchedObjCount;
         }
     }
 }

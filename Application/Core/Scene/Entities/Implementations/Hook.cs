@@ -28,7 +28,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
     public class Hook : Sphere, ISendable, IProjectile
     {
         public Player Owner { get; set; } // neposilano
-        public ICatchable CaughtObject { get; set; } // neposilano
         public HookType HookType { get; set; }
         public Vector RopeContactPoint
         {
@@ -59,56 +58,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
             ((lineGeom.Children[0] as GeometryDrawing).Geometry as LineGeometry).EndPoint = RopeContactPoint.ToPoint();
         }
 
-        public virtual void OnCatch()
-        {
-            NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-            msg.Write((int)PacketType.HOOK_HIT);
-            msg.Write(Id);
-            msg.Write(CaughtObject.Id);
-            msg.Write(CaughtObject.Position);
-            msg.Write(GetControlOfType<HookControl>().HitVector);
-            SceneMgr.SendMessage(msg);
-        }
-
-        public virtual void PulledCaughtObjectToBase()
-        {
-            ProccesCaughtObject(CaughtObject);
-        }
-
-        protected virtual void ProccesCaughtObject(ICatchable caught) 
-        {
-            if (caught != null && !caught.Dead)
-            {
-                if (caught is IContainsGold)
-                {
-                    AddGoldToOwner((caught as IContainsGold).Gold);
-                    caught.DoRemoveMe();
-                }
-                else
-                {
-                    caught.Enabled = true;
-                    if (caught is IMovable)
-                        (caught as IMovable).Direction = new Vector(0, 1);
-                }
-            }
-
-            DoRemoveMe();
-            SceneMgr.RemoveGraphicalObjectFromScene(lineGeom, DrawingCategory.PROJECTILE_BACKGROUND);
-        }
-
         public override void OnRemove()
         {
             SceneMgr.RemoveGraphicalObjectFromScene(lineGeom, DrawingCategory.PROJECTILE_BACKGROUND);
-        }
-
-        protected virtual void AddGoldToOwner(int gold) 
-        {
-            Owner.AddGoldAndShow(gold);
-        }
-
-        public virtual bool HasCaughtObject()
-        {
-            return CaughtObject != null;
         }
 
         public void WriteObject(NetOutgoingMessage msg)

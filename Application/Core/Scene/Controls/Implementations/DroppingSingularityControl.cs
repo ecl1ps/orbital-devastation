@@ -85,7 +85,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         public virtual void DoCollideWith(ISceneObject other, float tpf)
         {
-            if ((!(other is Asteroid) && !(other is StatPowerUp)) || !(other is IMovable))
+            if (other is SingularityMine || !(other is IMovable))
                 return;
 
             StartDetonation();

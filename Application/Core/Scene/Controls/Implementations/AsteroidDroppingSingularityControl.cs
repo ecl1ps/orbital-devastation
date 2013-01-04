@@ -12,7 +12,7 @@ using System.Windows;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    class AsteroidDroppingSingularityControl : DroppingSingularityControl
+    public class AsteroidDroppingSingularityControl : DroppingSingularityControl
     {
         private IList<long> collided = new List<long>();
 
@@ -28,6 +28,10 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         public override void DoCollideWith(ISceneObject other, float tpf)
         {
+            // jinak by mohly miny kolidovat navzajem a spawnovat dalsi a dalsi powerless miny
+            if (other is SingularityMine)
+                return;
+
             if (collided.Contains(other.Id))
                 return;
 
@@ -58,6 +62,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             me.RemoveControlsOfType<HighlightingControl>();
 
             Asteroid ast = new Asteroid(me.SceneMgr, IdMgr.GetNewId(me.SceneMgr.GetCurrentPlayer().GetId()));
+            ast.Gold = 0;
             ast.Radius = 20;
             ast.Position = new Vector(me.Position.X - ast.Radius, me.Position.Y - ast.Radius);
             ast.Direction = (me as IMovable).Direction;

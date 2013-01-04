@@ -71,31 +71,6 @@ namespace Orbit.Core.Helpers
             return mine;
         }
 
-        public static SingularityMine CreateSingularityMine(SceneMgr mgr, Point point, Player plr)
-        {
-            SingularityMine mine = new SingularityMine(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
-            mine.Position = point.ToVector();
-            mine.Owner = plr;
-            mine.Color = Colors.BlueViolet;
-            mine.FillBrush = new RadialGradientBrush(Colors.Black, mine.Color);
-
-            SphereCollisionShape cs = new SphereCollisionShape();
-            cs.Center = mine.Center;
-            cs.Radius = mine.Radius;
-            mine.CollisionShape = cs;
-
-            SingularityControl sc = new SingularityControl();
-            sc.Speed = plr.Data.MineGrowthSpeed;
-            sc.Strength = plr.Data.MineStrength;
-            mine.AddControl(sc);
-
-            mine.AddControl(new StickySphereCollisionShapeControl());
-
-            mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
-
-            return mine;
-        }
-
         public static SingularityMine CreateDroppingSingularityMine(SceneMgr mgr, Point point, Player plr)
         {
             SingularityMine mine = new SingularityMine(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));

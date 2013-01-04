@@ -216,11 +216,6 @@ namespace Orbit.Core.Helpers
                     msg.Write(typeof(BouncingSingularityBulletControl).GUID.GetHashCode());
                     msg.WriteObjectExplodingSingularityBulletControl(c as ExplodingSingularityBulletControl);
                 }
-                else if (c is SingularityControl)
-                {
-                    msg.Write(typeof(SingularityControl).GUID.GetHashCode());
-                    msg.WriteObjectSingularityControl(c as SingularityControl);
-                }
                 else if (c is AsteroidDroppingSingularityControl)
                 {
                     msg.Write(typeof(AsteroidDroppingSingularityControl).GUID.GetHashCode());
@@ -342,12 +337,6 @@ namespace Orbit.Core.Helpers
                 {
                     BouncingSingularityBulletControl c = new BouncingSingularityBulletControl();
                     msg.ReadObjectExplodingSingularityBulletControl(c);
-                    controls.Add(c);
-                } 
-                else if (hash == typeof(SingularityControl).GUID.GetHashCode())
-                {
-                    SingularityControl c = new SingularityControl();
-                    msg.ReadObjectSingularityControl(c);
                     controls.Add(c);
                 } 
                 else if (hash == typeof(DroppingSingularityControl).GUID.GetHashCode())
@@ -590,22 +579,6 @@ namespace Orbit.Core.Helpers
             msg.ReadControl(c);
 
             c.RotationSpeed = msg.ReadFloat();
-        }
-
-        public static void WriteObjectSingularityControl(this NetOutgoingMessage msg, SingularityControl c)
-        {
-            msg.WriteControl(c);
-
-            msg.Write(c.Speed);
-            msg.Write(c.Strength);
-        }
-
-        public static void ReadObjectSingularityControl(this NetIncomingMessage msg, SingularityControl c)
-        {
-            msg.ReadControl(c);
-
-            c.Speed = msg.ReadFloat();
-            c.Strength = msg.ReadFloat();
         }
 
         public static void WriteObjectDroppingSingularityControl(this NetOutgoingMessage msg, DroppingSingularityControl c)

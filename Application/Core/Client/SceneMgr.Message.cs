@@ -431,7 +431,7 @@ namespace Orbit.Core.Client
 
                 if (g != null && hook != null && hook.Owner != currentPlayer)
                 {
-                    hook.GetControlOfType<HookControl>().Catch(g, hitVector);
+                    hook.GetControlOfType<HookControl>().CatchObject(g, hitVector);
                     break;
                 }
             }
