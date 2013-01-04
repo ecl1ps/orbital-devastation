@@ -51,28 +51,36 @@ namespace Orbit.Core.Players
 
             Stat pickedStat = GetStatForDeviceTypeAndLevel(type, GetUpgradeLevel(plr, type));
 
-            float addedValue = GenerateAndAddStatToPlayer(pickedStat, plr.Data);
+            Tuple<float, float> valAndPct = GenerateAndAddStatToPlayer(pickedStat, plr.Data);
 
             Vector textPos = new Vector(plr.GetBaseLocation().X + (plr.GetBaseLocation().Width / 2), plr.GetBaseLocation().Y - 40);
-            sceneMgr.FloatingTextMgr.AddFloatingText(pickedStat.text + (addedValue > 0 ? " +" : " ") + addedValue.ToString("0.0") + "%", textPos, FloatingTextManager.TIME_LENGTH_3,
-                FloatingTextType.SYSTEM, 14, true, true);
+            sceneMgr.FloatingTextMgr.AddFloatingText(pickedStat.text + (valAndPct.Item2 > 0 ? " +" : " ") + valAndPct.Item2.ToString("0.0") + "%", textPos,
+                FloatingTextManager.TIME_LENGTH_3, FloatingTextType.SYSTEM, 14, true, true);
 
             NetOutgoingMessage msg = sceneMgr.CreateNetMessage();
             msg.Write((int)PacketType.PLAYER_RECEIVED_POWERUP);
             msg.Write(plr.GetId());
             msg.Write((byte)pickedStat.type);
-            msg.Write(addedValue);
+            msg.Write(valAndPct.Item1);
             sceneMgr.SendMessage(msg);
         }
 
-        private float GenerateAndAddStatToPlayer(Stat stat, PlayerData data)
+        /// <summary>
+        /// prvni hodnota je primo hodnota o kterou se stat zmenil, druha hodnota jsou procenta o ktera se zmenil
+        /// </summary>
+        /// <param name="stat">hodnota o kterou se stat zmenil</param>
+        /// <param name="data">procenta o ktera se stat zmenil</param>
+        /// <returns></returns>
+        private Tuple<float, float> GenerateAndAddStatToPlayer(Stat stat, PlayerData data)
         {
             // ziskame rozmezi min - max
             float val = (float)sceneMgr.GetRandomGenerator().NextDouble() * (stat.max - stat.min) + stat.min;
 
             Logger.Debug("Added stat " + stat.type + " (" + val + ") to player " + data.Name);
 
-            return AddStatToPlayer(data, stat.type, val);
+            float addedPct = AddStatToPlayer(data, stat.type, val);
+
+            return new Tuple<float, float>(val, addedPct);
         }
 
         public float AddStatToPlayer(PlayerData data, PlayerStats type, float val)
@@ -136,7 +144,7 @@ namespace Orbit.Core.Players
                     data.HookSpeed += (int)val;
                     break;
                 case PlayerStats.HEALING_KIT_1_BONUS_HEAL:
-                    pct = data.BonusHeal;
+                    pct = data.MaxBaseIntegrity * SharedDef.HEAL_AMOUNT + data.BonusHeal;
                     data.BonusHeal += (int)val;
                     break;
                 case PlayerStats.HEALING_KIT_1_REPAIR_BASE:
