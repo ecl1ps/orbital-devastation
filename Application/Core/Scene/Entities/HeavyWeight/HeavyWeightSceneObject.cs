@@ -19,7 +19,7 @@ namespace Orbit.Core.Scene.Entities.HeavyWeight
         public override void DoRemove(ISceneObject obj)
         {
             obj.Dead = true;
-            SceneMgr.RemoveHeavyweightSceneObjectFromScene(obj as HeavyWeightSceneObject);
+            SceneMgr.RemoveFromSceneDelayed(obj as HeavyWeightSceneObject);
         }
     }
 }

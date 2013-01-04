@@ -23,6 +23,7 @@ using Orbit.Gui.ActionControllers;
 using Orbit.Core.SpecialActions.Spectator;
 using Orbit.Core.SpecialActions;
 using Orbit.Core.SpecialActions.Gamer;
+using Orbit.Core.Scene.Entities.Implementations.HeavyWeight;
 
 namespace Orbit.Core.Client
 {
@@ -475,6 +476,33 @@ namespace Orbit.Core.Client
             }
 
             SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_EXPLOSION);
+        }
+
+        private void ReceivedStaticFieldAction(NetIncomingMessage msg)
+        {
+            Player p = GetPlayer(msg.ReadInt32());
+            Color c = msg.ReadColor();
+            float force = msg.ReadFloat();
+            float lifeTime = msg.ReadFloat();
+            int radius = msg.ReadInt32();
+            float speed = msg.ReadFloat();
+
+            SphereField field = SceneObjectFactory.CreateSphereField(this, p.Device.Position, 200, c);
+
+            StaticFieldControl control = new StaticFieldControl();
+            control.Force = 100;
+            control.LifeTime = 5;
+            control.Radius = 200;
+
+            RippleEffectControl rippleControl = new RippleEffectControl();
+            rippleControl.Speed = 15;
+
+            p.Device.AddControl(control);
+            field.AddControl(rippleControl);
+            field.AddControl(new LimitedLifeControl(5));
+            field.AddControl(new PositionCloneControl(p.Device));
+
+            this.DelayedAttachToScene(field);
         }
 
         private void ReceivedPlayerWonMsg(NetIncomingMessage msg)

@@ -45,7 +45,6 @@ namespace Orbit.Core.Client
         private List<ISceneObject> objects;
         private List<ISceneObject> objectsToRemove;
         private List<ISceneObject> objectsToAdd;
-        private List<HeavyWeightSceneObject> heavyObjects;
         private List<long> idsToRemove;
         private List<Player> players;
         private Player currentPlayer;
@@ -78,7 +77,6 @@ namespace Orbit.Core.Client
             objects = new List<ISceneObject>();
             objectsToRemove = new List<ISceneObject>();
             objectsToAdd = new List<ISceneObject>();
-            heavyObjects = new List<HeavyWeightSceneObject>();
             idsToRemove = new List<long>();
             randomGenerator = new Random(Environment.TickCount);
             players = new List<Player>(2);
@@ -190,7 +188,6 @@ namespace Orbit.Core.Client
             objectsToRemove.Clear();
             objects.Clear();
             objectsToAdd.Clear();
-            heavyObjects.Clear();
         }
 
         /************************************************************************/
@@ -223,7 +220,7 @@ namespace Orbit.Core.Client
                 }
             }
 
-            if (obj.GetGeometry() == null)
+            if (obj.GetGeometry() == null && !(obj is HeavyWeightSceneObject))
             {
                 Logger.Warn("Trying to add geometry object to scene, but it is null -> skipped!");
                 return;
@@ -234,7 +231,10 @@ namespace Orbit.Core.Client
 
             BeginInvoke(new Action(() =>
             {
-                area.Add(obj.GetGeometry(), obj.Category);
+                if (obj is HeavyWeightSceneObject)
+                    GetCanvas().Children.Add((obj as HeavyWeightSceneObject).Path);
+                else
+                    area.Add(obj.GetGeometry(), obj.Category);
             }));
         }
 
@@ -285,24 +285,6 @@ namespace Orbit.Core.Client
             }));
         }
 
-        public void AttachHeavyweightSceneObjectToScene(HeavyWeightSceneObject obj)
-        {
-            BeginInvoke(new Action(() =>
-            {
-                heavyObjects.Add(obj);
-                (area.Parent as Canvas).Children.Add(obj.Path);
-            }));
-        }
-
-        public void RemoveHeavyweightSceneObjectFromScene(HeavyWeightSceneObject obj)
-        {
-            BeginInvoke(new Action(() =>
-            {
-                heavyObjects.Remove(obj);
-                (area.Parent as Canvas).Children.Remove(obj.Path);
-            }));
-        }
-
         /// <summary>
         /// bezpecne odstrani objekt (SceneObject i gui objekt) v dalsim updatu
         /// </summary>
@@ -320,7 +302,10 @@ namespace Orbit.Core.Client
             objects.Remove(obj);
             BeginInvoke(new Action(() =>
             {
-                area.Remove(obj.GetGeometry(), obj.Category);
+                if (obj is HeavyWeightSceneObject)
+                    GetCanvas().Children.Remove((obj as HeavyWeightSceneObject).Path);
+                else
+                    area.Remove(obj.GetGeometry(), obj.Category);
             }));
         }
 
@@ -446,7 +431,6 @@ namespace Orbit.Core.Client
         {
             Invoke(new Action(() =>
             {
-                heavyObjects.ForEach(obj => obj.UpdateGeometric());
                 foreach (ISceneObject obj in objects)
                     obj.UpdateGeometric();
             }));
@@ -454,7 +438,6 @@ namespace Orbit.Core.Client
 
         public void UpdateSceneObjects(float tpf)
         {
-            heavyObjects.ForEach(obj => obj.Update(tpf));
             foreach (ISceneObject obj in objects)
             {             
                 obj.Update(tpf);

@@ -34,7 +34,7 @@ namespace Orbit.Core.Scene.Entities.Implementations.HeavyWeight
 
         public override bool IsOnScreen(System.Windows.Size screenSize)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public override void UpdateGeometric()

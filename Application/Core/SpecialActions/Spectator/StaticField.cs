@@ -8,6 +8,7 @@ using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Helpers;
 using System.Windows.Media;
 using Orbit.Core.Scene.Entities.Implementations.HeavyWeight;
+using Lidgren.Network;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
@@ -61,7 +62,19 @@ namespace Orbit.Core.SpecialActions.Spectator
             field.AddControl(new LimitedLifeControl(5));
             field.AddControl(new PositionCloneControl(Owner.Device));
 
-            SceneMgr.AttachHeavyweightSceneObjectToScene(field);
+            SceneMgr.DelayedAttachToScene(field);
+
+            NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+            msg.Write((int)PacketType.STATIC_FIELD_START);
+
+            msg.Write(Owner.GetId());
+            msg.Write(color);
+            msg.Write(control.Force);
+            msg.Write(control.LifeTime);
+            msg.Write(control.Radius);
+            msg.Write(rippleControl.Speed);
+
+            SceneMgr.SendMessage(msg);
         }
     }
 }
