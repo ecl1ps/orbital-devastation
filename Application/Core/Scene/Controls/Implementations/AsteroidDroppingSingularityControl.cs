@@ -34,11 +34,10 @@ namespace Orbit.Core.Scene.Controls.Implementations
             collided.Add(other.Id);
 
             base.DoCollideWith(other, tpf);
-            me.SceneMgr.Invoke(new Action(() => {
-                SingularityMine mine = SceneObjectFactory.CreatePowerlessMine(me.SceneMgr, me.Position, meMine.Direction, meMine.Owner);
-                collided.Add(mine.Id);
-                me.SceneMgr.DelayedAttachToScene(mine);
-            }));
+
+            SingularityMine mine = SceneObjectFactory.CreatePowerlessMine(me.SceneMgr, me.Position, meMine.Direction, meMine.Owner);
+            collided.Add(mine.Id);
+            me.SceneMgr.DelayedAttachToScene(mine);
         }
 
         public override void StartDetonation()
