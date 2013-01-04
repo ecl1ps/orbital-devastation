@@ -823,6 +823,39 @@ namespace Orbit.Core.Client
             }));
         }
 
+        private void ReceivedSlowActionStarted(NetIncomingMessage msg)
+        {
+            Player owner = GetPlayer(msg.ReadInt32());
+            int count = msg.ReadInt32();
+            float time = msg.ReadFloat();
+
+            Asteroid a = null;
+            for (int i = 0; i < count; i++)
+            {
+                a = GetSceneObject(msg.ReadInt64()) as Asteroid;
+
+                IMovementControl c = a.GetControlOfType<IMovementControl>();
+                LinearRotationControl c1 = a.GetControlOfType<LinearRotationControl>();
+
+                List<IControl> controls = new List<IControl>();
+                controls.Add(c);
+                controls.Add(c1);
+
+                AsteroidFreezeControl removal = new AsteroidFreezeControl();
+                removal.ToRemove = controls;
+                removal.Time = time;
+
+                a.AddControl(removal);
+
+                // led je posunut o pulku radiusu doleva
+                Vector p = new Vector(a.Position.X - (a.Radius / 2), a.Position.Y - (a.Radius / 2));
+                // potom jeho sirka musi byt prumer + 2 * posunuti (vlevo a vpravo) => r * (2 + 0.5 + 0.5) 
+                IceSquare s = SceneObjectFactory.CreateIceSquare(this, p, new Size(a.Radius * 3, a.Radius * 3));
+                s.AddControl(new LimitedLifeControl(3));
+                DelayedAttachToScene(s);
+            }
+        }
+
         internal void SendNewTournamentSettings(TournamentSettings s)
         {
             NetOutgoingMessage msg = CreateNetMessage();

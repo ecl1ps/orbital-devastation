@@ -234,6 +234,9 @@ namespace Orbit.Core.Client
                 case PacketType.PLAYER_COLOR_CHANGED:
                     ReceivePlayerColorChange(msg);
                     break;
+                case PacketType.ASTEROID_SLOW_START:
+                    ReceivedSlowActionStarted(msg);
+                    break;
                 default:
                     Logger.Warn("Received unhandled packet type: " + type);
                     break;

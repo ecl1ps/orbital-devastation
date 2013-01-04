@@ -85,7 +85,7 @@ namespace Orbit.Core
 
         public const bool ALLOW_SPECTATORS_IN_DUO_MATCH     = false;
 
-        public const int START_GOLD                         = 250;
+        public const int START_GOLD                         = 10000;
 
         //konstanty pro spectatory
         public const float SPECTATOR_MINING_RADIUS          = 200;
@@ -227,5 +227,7 @@ namespace Orbit.Core
         PLAYER_RECONNECTED,
         OBJECTS_HEAL_AMOUNT,
         STATIC_FIELD_START,
+        ASTEROID_SLOW_START,
+        SPECTATOR_ACTION_START,
     }    
 }

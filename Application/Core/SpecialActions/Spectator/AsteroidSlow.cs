@@ -56,15 +56,18 @@ namespace Orbit.Core.SpecialActions.Spectator
         protected override void StartAction(List<Asteroid> afflicted)
         {
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-            msg.Write((int)PacketType.OBJECTS_HEAL_AMOUNT);
+            msg.Write((int)PacketType.ASTEROID_SLOW_START);
 
             msg.Write(Owner.GetId());
             msg.Write(afflicted.Count);
-            msg.Write(SharedDef.SPECTATOR_HEAL);
+            msg.Write(3.0f);
 
-            afflicted.ForEach(aff => { Slow(aff); msg.Write(aff.Id); });
+            afflicted.ForEach(aff => { 
+                Slow(aff); 
+                msg.Write(aff.Id);
+            });
 
-            afflicted.ForEach(a => Slow(a));
+            SceneMgr.SendMessage(msg);
         }
     }
 }
