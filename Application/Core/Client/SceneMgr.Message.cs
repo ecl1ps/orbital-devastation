@@ -908,7 +908,11 @@ namespace Orbit.Core.Client
 
             int count = msg.ReadInt32();
             for (int i = 0; i < count; ++i)
-                c.StartPullingObject(GetSceneObject(msg.ReadInt64()));
+            {
+                ISceneObject obj = GetSceneObject(msg.ReadInt64());
+                if (obj != null)
+                    c.StartPullingObject(obj);
+            }
         }
     }
 }
