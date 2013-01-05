@@ -33,6 +33,8 @@ namespace Orbit.Core.Server
 
         private bool matchCreated;
 
+        private float totalTime = 0;
+
         public GameManager(ServerMgr serverMgr, List<Player> players)
         {
             this.serverMgr = serverMgr;
@@ -92,9 +94,10 @@ namespace Orbit.Core.Server
             if (plr2 != null)
                 plr2.Data.PlayerPosition = firstPlayerPosition == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
 
+            List<Player> spectators = new List<Player>();
             foreach (Player p in players)
-                if (!p.IsActivePlayer())
                     GenerateRandomMiningModulePosition(p);
+                    
         }
 
         private void GenerateRandomMiningModulePosition(Player p)
@@ -102,6 +105,8 @@ namespace Orbit.Core.Server
             p.Data.MiningModuleStartPos = new Vector(
                 serverMgr.GetRandomGenerator().Next(15, (int)SharedDef.ORBIT_AREA.Width - 45),
                 serverMgr.GetRandomGenerator().Next(15, (int)SharedDef.ORBIT_AREA.Height - 45));
+                serverMgr.GetRandomGenerator().Next(15, (int)SharedDef.LOWER_ORBIT_AREA.Width - 45),
+                serverMgr.GetRandomGenerator().Next(15, (int)SharedDef.LOWER_ORBIT_AREA.Height - 45));
         }
 
         private void CreateNewLevel()
@@ -119,7 +124,7 @@ namespace Orbit.Core.Server
             matchCreated = false;
 
             if (serverMgr.GameType == Gametype.TOURNAMENT_GAME)
-                matchManager.OnMatchEnd(plr, endType);
+                matchManager.OnMatchEnd(plr, endType, totalTime, serverMgr);
         }
 
         public void ObjectDestroyed(long id)
@@ -264,6 +269,7 @@ namespace Orbit.Core.Server
                 return;
 
             gameLevel.Update(tpf);
+            totalTime += tpf;
         }
 
         public void PlayerLeft(Player p)
