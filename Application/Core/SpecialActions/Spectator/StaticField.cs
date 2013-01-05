@@ -43,7 +43,7 @@ namespace Orbit.Core.SpecialActions.Spectator
         protected override void StartAction(List<Asteroid> afflicted)
         {
             Color color = new Color();
-            color.A = 100;
+            color.A = 35;
             color.R = 80;
             color.G = 255;
             color.B = 80;
