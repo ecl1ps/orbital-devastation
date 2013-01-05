@@ -57,6 +57,8 @@ namespace Orbit.Core.Client
         private bool playerQuit;
         private GameEnd lastGameEnd;
 
+        private float totalTime;
+
         public SceneMgr()
         {
             StatsMgr = new StatsMgr(this);
@@ -81,6 +83,7 @@ namespace Orbit.Core.Client
             randomGenerator = new Random(Environment.TickCount);
             players = new List<Player>(2);
             statisticsTimer = 0;
+            totalTime = 0;
             StateMgr = new GameStateManager();
 
             currentPlayer = CreatePlayer();
@@ -99,10 +102,6 @@ namespace Orbit.Core.Client
             {
                 Invoke(new Action(() =>
                 {
-                    Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblEndGame");
-                    if (lbl != null)
-                        lbl.Content = "";
-
                     Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblWaiting");
                     if (lblw != null)
                         lblw.Content = "";
@@ -396,6 +395,8 @@ namespace Orbit.Core.Client
             if (GameWindowState != WindowState.IN_GAME)
                 return;
 
+            totalTime += tpf;
+
             ShowStatistics(tpf);
 
             AddObjectsReadyToAdd();
@@ -547,7 +548,7 @@ namespace Orbit.Core.Client
         private void EndGame(Player plr, GameEnd endType)
         {
             if (endType == GameEnd.TOURNAMENT_FINISHED)
-                TournamenFinished(plr);
+                TournamentFinished(plr);
 
             if (gameEnded)
                 return;
@@ -565,9 +566,7 @@ namespace Orbit.Core.Client
             gameEnded = true;
             userActionsDisabled = true;
 
-            if (endType == GameEnd.WIN_GAME)
-                PlayerWon(plr);
-            else if (endType == GameEnd.LEFT_GAME)
+            if (endType == GameEnd.LEFT_GAME)
                 PlayerLeft(plr);
             else if (endType == GameEnd.SERVER_DISCONNECTED)
                 Disconnected();
@@ -643,17 +642,12 @@ namespace Orbit.Core.Client
             {
                 hs = currentPlayer.Data.Score;
                 GameProperties.Props.SetAndSave(key, hs);
-                Invoke(new Action(() =>
-                {
-                    Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblHighScore");
-                    if (lbl != null)
-                        lbl.Content = "New HighScore " + hs + "!";
-                }));
+                CreateFloatingTextMessage("New HighScore " + hs + "!");
             }
 
         }
 
-        private void TournamenFinished(Player winner)
+        private void TournamentFinished(Player winner)
         {
             if (Application.Current == null)
                 return;
@@ -662,12 +656,10 @@ namespace Orbit.Core.Client
 
             lastGameEnd = GameEnd.TOURNAMENT_FINISHED;
 
-            if (winner == null)
-                return;
-
             List<LobbyPlayerData> data = CreateLobbyPlayerData();
-
             LobbyPlayerData winnerData = data.Find(d => d.Id == winner.Data.Id);
+
+            RequestStop();
 
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
@@ -733,23 +725,8 @@ namespace Orbit.Core.Client
                 msg = "Disconnected from the host";
             else
                 msg = "End of Game";
-            Invoke(new Action(() =>
-            {
-                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblEndGame");
-                if (lbl != null)
-                    lbl.Content = msg;
-            }));
-        }
 
-        private void PlayerWon(Player winner)
-        {
-            string text = winner.Data.Name + " wins!";
-            Invoke(new Action(() =>
-            {
-                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblEndGame");
-                if (lbl != null)
-                    lbl.Content = text;
-            }));
+            CreateFloatingTextMessage(msg);
         }
 
         private void PlayerLeft(Player leaver)
@@ -758,12 +735,7 @@ namespace Orbit.Core.Client
                 return;
 
             string text = leaver.Data.Name + " left the game!";
-            Invoke(new Action(() =>
-            {
-                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblEndGame");
-                if (lbl != null)
-                    lbl.Content = text;
-            }));
+            CreateFloatingTextMessage(text);
         }
 
         public void Invoke(Action a)
@@ -944,6 +916,12 @@ namespace Orbit.Core.Client
             {
                 App.Instance.ShowGameOverview(data);
             }));
+        }
+
+        public void CreateFloatingTextMessage(string message)
+        {
+            Vector center = new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2);
+            FloatingTextMgr.AddFloatingText(message, center, FloatingTextManager.TIME_LENGTH_6, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_BIG, true);
         }
     }
 }

@@ -26,6 +26,7 @@ namespace Orbit.Core.Client.GameStates
         public const float TIME_LENGTH_3                 = 1.5f;
         public const float TIME_LENGTH_4                 = 2f;
         public const float TIME_LENGTH_5                 = 3f;
+        public const float TIME_LENGTH_6                 = 6f;
 
         public const float SIZE_SMALL                    = 12;
         public const float SIZE_MEDIUM                   = 16;
