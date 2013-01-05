@@ -10,7 +10,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         public override void HitAsteroid(IDestroyable asteroid)
         {
             base.HitAsteroid(asteroid);
-            if(me.SceneMgr.GetCurrentPlayer().IsActivePlayer())
+            if (me.SceneMgr.GetCurrentPlayer().IsActivePlayer())
                 (me as SingularityBouncingBullet).SpawnNewBullet(asteroid);
         }
     }

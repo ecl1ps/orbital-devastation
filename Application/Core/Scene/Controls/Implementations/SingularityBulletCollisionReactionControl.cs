@@ -22,8 +22,19 @@ namespace Orbit.Core.Scene.Controls.Implementations
             bullet = me as SingularityBullet;
         }
 
-        public virtual void DoCollideWith(Entities.ISceneObject other, float tpf)
+        protected bool CanCollideWithObject(ISceneObject other)
         {
+            if (!(other is Asteroid) && !(other is MiningModule))
+                return false;
+
+            return true;
+        }
+
+        public virtual void DoCollideWith(ISceneObject other, float tpf)
+        {
+            if (!CanCollideWithObject(other))
+                return;
+
             bullet.DoRemoveMe();
 
             if (other is Asteroid)
@@ -73,15 +84,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             asteroid.TakeDamage(bullet.Damage, bullet);
 
-            if (bullet.SceneMgr.GameType != Gametype.SOLO_GAME)
-            {
-                NetOutgoingMessage msg = bullet.SceneMgr.CreateNetMessage();
-                msg.Write((int)PacketType.BULLET_HIT);
-                msg.Write(bullet.Id);
-                msg.Write(asteroid.Id);
-                msg.Write(bullet.Damage);
-                bullet.SceneMgr.SendMessage(msg);
-            }
+            NetOutgoingMessage msg = bullet.SceneMgr.CreateNetMessage();
+            msg.Write((int)PacketType.BULLET_HIT);
+            msg.Write(bullet.Id);
+            msg.Write(asteroid.Id);
+            msg.Write(bullet.Damage);
+            bullet.SceneMgr.SendMessage(msg);
         }
     }
 }

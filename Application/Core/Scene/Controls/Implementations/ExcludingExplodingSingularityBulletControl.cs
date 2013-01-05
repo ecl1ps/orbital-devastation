@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Orbit.Core.Scene.Entities;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -9,8 +10,11 @@ namespace Orbit.Core.Scene.Controls.Implementations
     {
         public List<long> IgnoredObjects = new List<long>();
 
-        public override void DoCollideWith(Entities.ISceneObject other, float tpf)
+        public override void DoCollideWith(ISceneObject other, float tpf)
         {
+            if (!CanCollideWithObject(other))
+                return;
+
             foreach (long id in IgnoredObjects)
                 if (other.Id == id)
                     return;

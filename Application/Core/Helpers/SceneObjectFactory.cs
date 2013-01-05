@@ -143,7 +143,6 @@ namespace Orbit.Core.Helpers
             bullet.Radius = 2;
             bullet.Damage = plr.Data.BulletDamage;
             bullet.Direction = direction;
-            bullet.Direction.Normalize();
             bullet.Color = plr.Data.PlayerColor;
 
             PointCollisionShape cs = new PointCollisionShape();
