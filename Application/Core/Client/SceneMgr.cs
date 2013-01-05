@@ -237,7 +237,7 @@ namespace Orbit.Core.Client
             BeginInvoke(new Action(() =>
             {
                 if (obj is HeavyWeightSceneObject)
-                    GetCanvas().Children.Add((obj as HeavyWeightSceneObject).Path);
+                    GetCanvas().Children.Add((obj as HeavyWeightSceneObject).HeavyWeightGeometry);
                 else
                     area.Add(obj.GetGeometry(), obj.Category);
             }));
@@ -308,7 +308,7 @@ namespace Orbit.Core.Client
             BeginInvoke(new Action(() =>
             {
                 if (obj is HeavyWeightSceneObject)
-                    GetCanvas().Children.Remove((obj as HeavyWeightSceneObject).Path);
+                    GetCanvas().Children.Remove((obj as HeavyWeightSceneObject).HeavyWeightGeometry);
                 else
                     area.Remove(obj.GetGeometry(), obj.Category);
             }));

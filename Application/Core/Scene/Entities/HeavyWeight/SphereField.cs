@@ -38,8 +38,8 @@ namespace Orbit.Core.Scene.Entities.Implementations.HeavyWeight
 
         public override void UpdateGeometric()
         {
-            Canvas.SetLeft(Path, Position.X);
-            Canvas.SetTop(Path, Position.Y);
+            Canvas.SetLeft(HeavyWeightGeometry, Position.X);
+            Canvas.SetTop(HeavyWeightGeometry, Position.Y);
         }
     }
 }

@@ -472,7 +472,7 @@ namespace Orbit.Core.Helpers
             f.Radius = radius;
             f.Color = color;
             f.Position = position;
-            f.Path = HeavyweightGeometryFactory.CreateConstantColorEllipseGeometry(f);
+            f.HeavyWeightGeometry = HeavyweightGeometryFactory.CreateConstantColorEllipseGeometry(f);
 
             SphereCollisionShape shape = new SphereCollisionShape();
             shape.Radius = radius;

@@ -32,7 +32,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 effect.Amplitude = 0.1;
                 effect.Frequency = 180;
                 effect.Phase = 0;
-                me.Path.Effect = effect;
+                me.HeavyWeightGeometry.Effect = effect;
             }));
 
         }
