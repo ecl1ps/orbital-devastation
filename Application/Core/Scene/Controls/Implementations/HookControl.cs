@@ -79,7 +79,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (!hook.Owner.IsCurrentPlayerOrBot())
                 return;
 
-            HitVector = caught.Position - hook.Position;
+            HitVector = (hook.Center - caught.Center) / 2;
 
             CatchObject(caught, HitVector);
 

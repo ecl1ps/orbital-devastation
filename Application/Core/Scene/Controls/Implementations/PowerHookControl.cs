@@ -5,14 +5,30 @@ using System.Text;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Entities;
 using System.Windows;
+using Orbit.Core.Scene.Entities.Implementations.HeavyWeight;
+using Orbit.Core.Helpers;
+using Lidgren.Network;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
     public class PowerHookControl : HookControl
     {
+        public bool ForcePullUsed { get; set; }
+
+        private int maxPulledWeight;
+        private float pullReachDist;
+
+        protected override void InitControl(ISceneObject me)
+        {
+            base.InitControl(me);
+            ForcePullUsed = false;
+            maxPulledWeight = 70;
+            pullReachDist = 100;
+        }
+
         public override void DoCollideWith(ISceneObject other, float tpf)
         {
-            if (HasFullCapacity())
+            if (HasFullCapacity() && !other.HasControlOfType<FollowingControl>())
                 return;
 
             if (!(other is ICatchable))
@@ -37,6 +53,80 @@ namespace Orbit.Core.Scene.Controls.Implementations
         protected override bool HasFullCapacity()
         {
             return caughtObjects.Count == hook.Owner.Data.HookMaxCatchedObjCount;
+        }
+
+        public void EmitForcePullField()
+        {
+            if (ForcePullUsed)
+                return;
+
+            ForcePullUsed = true;
+
+            me.GetControlOfType<HighlightingControl>().Enabled = false;
+
+            List<ISceneObject> nearbyObjects = me.FindNearbyObjects(pullReachDist);
+            IOrderedEnumerable<ISceneObject> ordered = nearbyObjects.OrderBy(o => (me.Center - o.Center).Length);
+
+            List<ISceneObject> pulledObjects = new List<ISceneObject>();
+
+            int pulledWeight = 0;
+            foreach (ISceneObject o in ordered)
+            {
+                if (!(o is Asteroid) && !(o is StatPowerUp))
+                    continue;
+
+                if (o is Asteroid)
+                    pulledWeight += (o as Asteroid).Radius;
+                else
+                    pulledWeight += 10; // pro powerupy
+                
+                if (pulledWeight > maxPulledWeight)
+                    break;
+
+                pulledObjects.Add(o);
+                StartPullingObject(o);
+            }
+
+            SendInfoAboutPull(pulledObjects);
+            ShowForceFieldEffect();
+        }
+
+        private void SendInfoAboutPull(List<ISceneObject> pulledObjects)
+        {
+            NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();
+            msg.Write((int)PacketType.HOOK_FORCE_PULL);
+            msg.Write(me.Id);
+            msg.Write(pulledObjects.Count);
+            foreach (ISceneObject o in pulledObjects)
+                msg.Write(o.Id);
+            me.SceneMgr.SendMessage(msg);
+        }
+
+        public void ShowForceFieldEffect()
+        {
+            ForcePullField f = new ForcePullField(me.SceneMgr, IdMgr.GetNewId(hook.Owner.GetId()));
+            f.Radius = (int)pullReachDist;
+            f.Position = new Vector(me.Center.X - f.Radius, me.Center.Y - f.Radius);
+            f.HeavyWeightGeometry = HeavyweightGeometryFactory.CreateForceField(f);
+
+            PositionCloneControl pcc = new PositionCloneControl(me);
+            pcc.Offset = new Vector(f.Radius, f.Radius);
+            f.AddControl(pcc);
+            float life = 0.3f; // seconds
+            f.AddControl(new LimitedLifeControl(life));
+            f.AddControl(new ShrinkingControl(0, life));
+
+            me.SceneMgr.DelayedAttachToScene(f);
+        }
+
+        public void StartPullingObject(ISceneObject o)
+        {
+            o.GetControlOfType<IMovementControl>().Enabled = false;
+
+            FollowingControl follow = new FollowingControl(me);
+            follow.Speed = Speed * 2;
+
+            o.AddControl(follow);
         }
     }
 }

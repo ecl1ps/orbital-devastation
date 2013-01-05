@@ -156,6 +156,9 @@ namespace Orbit.Core.Client
                 case PacketType.HOOK_HIT:
                     ReceivedHookHitMsg(msg);
                     break;
+                case PacketType.HOOK_FORCE_PULL:
+                    ReceivedHookForcePullMsg(msg);
+                    break;
                 case PacketType.BULLET_HIT:
                     ReceivedBulletHitMsg(msg);
                     break;

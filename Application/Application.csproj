@@ -201,6 +201,7 @@
     <Compile Include="Core\Scene\Controls\Implementations\HookControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\NewtonianMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LinearRotationControl.cs" />
+    <Compile Include="Core\Scene\Entities\HeavyWeight\ForcePullField.cs" />
     <Compile Include="Core\Scene\Entities\HeavyWeight\HeavyWeightSceneObject.cs" />
     <Compile Include="Core\Scene\Entities\ICatchable.cs" />
     <Compile Include="Core\Scene\Entities\IControledDevice.cs" />
@@ -492,6 +493,9 @@
   <ItemGroup>
     <Content Include="favicon.ico" />
     <Resource Include="resources\images\icons\active.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\actions\force_pull.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="resources\images\ice-shards\broken_ice_1.png">

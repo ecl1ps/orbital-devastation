@@ -9,6 +9,7 @@ using System.Windows.Shapes;
 using System.Windows.Controls;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Entities.Implementations.HeavyWeight;
+using System.Windows.Media.Imaging;
 
 namespace Orbit.Core.Helpers
 {
@@ -96,27 +97,30 @@ namespace Orbit.Core.Helpers
             return line;
         }*/
 
-        /*public static Image CreateShield(StaticShield m)
+        public static Image CreateForceField(ForcePullField m)
         {
+            m.HasPositionInCenter = false;
+
             Image img = null;
             m.SceneMgr.Invoke(new Action(() =>
             {
                 BitmapImage bi = new BitmapImage();
                 bi.BeginInit();
-                bi.UriSource = new Uri("pack://application:,,,/resources/images/actions/shield.png");
+                bi.UriSource = new Uri("pack://application:,,,/resources/images/actions/force_pull.png");
                 bi.EndInit();
 
                 img = new Image();
                 img.Source = bi;
                 img.Width = m.Radius * 2;
                 img.Height = m.Radius * 2;
+                img.Opacity = 0.5;
 
                 Canvas.SetLeft(img, m.Position.X);
                 Canvas.SetTop(img, m.Position.Y);
             }));
 
             return img;
-        }*/
+        }
 
         public static Path CreateConstantColorEllipseGeometry(SphereField s)
         {

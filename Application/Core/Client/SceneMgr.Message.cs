@@ -878,7 +878,7 @@ namespace Orbit.Core.Client
             currentPlayer.Data.Score = msg.ReadInt32();
         }
 
-        internal void SendNewTournamentSettings(TournamentSettings s)
+        public void SendNewTournamentSettings(TournamentSettings s)
         {
             NetOutgoingMessage msg = CreateNetMessage();
             msg.Write((int)PacketType.TOURNAMENT_SETTINGS);
@@ -886,11 +886,29 @@ namespace Orbit.Core.Client
             SendMessage(msg);
         }
 
-        internal void ProcessNewTournamentSettings(TournamentSettings s)
+        public void ProcessNewTournamentSettings(TournamentSettings s)
         {
             SendNewTournamentSettings(s);
             players.ForEach(p => { if (!p.Data.LobbyLeader) p.Data.LobbyReady = false; });
             UpdateLobbyPlayers();
+        }
+
+        private void ReceivedHookForcePullMsg(NetIncomingMessage msg)
+        {
+            long id = msg.ReadInt64();
+            PowerHook hook = GetSceneObject(id) as PowerHook;
+            if (hook == null)
+            {
+                Logger.Warn("Received PowerHook Force Pull but hook with id " + id + " wasnt found -> ignored");
+                return;
+            }
+
+            PowerHookControl c = hook.GetControlOfType<PowerHookControl>();
+            c.ShowForceFieldEffect();
+
+            int count = msg.ReadInt32();
+            for (int i = 0; i < count; ++i)
+                c.StartPullingObject(GetSceneObject(msg.ReadInt64()));
         }
     }
 }

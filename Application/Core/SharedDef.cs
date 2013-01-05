@@ -202,6 +202,7 @@ namespace Orbit.Core
 
         SINGULARITY_MINE_HIT,
         HOOK_HIT,
+        HOOK_FORCE_PULL,
         BULLET_HIT,
 
         REMOVE_OBJECT,

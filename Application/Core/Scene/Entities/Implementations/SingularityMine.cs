@@ -14,7 +14,6 @@ using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-
     public class SingularityMine : Sphere, ISendable, IProjectile
     {
         public bool IsVisible { get; set; } // neposilan - pouzivano pouze controlem SingularityControl
