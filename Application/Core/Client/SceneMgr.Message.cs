@@ -870,6 +870,11 @@ namespace Orbit.Core.Client
             FloatingTextMgr.AddFloatingText("Spectator " + owner.Data.Name + " used: " + name, owner.Device.Position, FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM);
         }
 
+        private void ReceivedPlayerScoreUpdate(NetIncomingMessage msg)
+        {
+            currentPlayer.Data.Score = msg.ReadInt32();
+        }
+
         internal void SendNewTournamentSettings(TournamentSettings s)
         {
             NetOutgoingMessage msg = CreateNetMessage();

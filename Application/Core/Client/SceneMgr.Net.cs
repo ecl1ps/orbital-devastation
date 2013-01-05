@@ -219,6 +219,9 @@ namespace Orbit.Core.Client
                 case PacketType.ASTEROIDS_DIRECTIONS_CHANGE:
                     ReceiveAsteroidsDirectionChange(msg);
                     break;
+                case PacketType.PLAYER_SCORE_UPDATE:
+                    ReceivedPlayerScoreUpdate(msg);
+                    break;
                 case PacketType.OBJECTS_TAKE_DAMAGE:
                     ReceiveObjectsDamage(msg);
                     break;
