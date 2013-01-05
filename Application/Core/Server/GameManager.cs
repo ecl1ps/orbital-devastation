@@ -103,8 +103,6 @@ namespace Orbit.Core.Server
         private void GenerateRandomMiningModulePosition(Player p)
         {
             p.Data.MiningModuleStartPos = new Vector(
-                serverMgr.GetRandomGenerator().Next(15, (int)SharedDef.ORBIT_AREA.Width - 45),
-                serverMgr.GetRandomGenerator().Next(15, (int)SharedDef.ORBIT_AREA.Height - 45));
                 serverMgr.GetRandomGenerator().Next(15, (int)SharedDef.LOWER_ORBIT_AREA.Width - 45),
                 serverMgr.GetRandomGenerator().Next(15, (int)SharedDef.LOWER_ORBIT_AREA.Height - 45));
         }
