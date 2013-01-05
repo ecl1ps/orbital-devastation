@@ -575,7 +575,7 @@ namespace Orbit.Core.Client
 
             // po urcitem case zavola metodu CloseGameWindowAndCleanup()
             if (GameWindowState == WindowState.IN_GAME)
-                StateMgr.AddGameState(new DelayedActionInvoker(3.0f, new Action(() => { CloseGameWindowAndCleanup(); })));
+                StateMgr.AddGameState(new DelayedActionInvoker(6.0f, new Action(() => { CloseGameWindowAndCleanup(); })));
             else
                 CloseGameWindowAndCleanup();
         }
