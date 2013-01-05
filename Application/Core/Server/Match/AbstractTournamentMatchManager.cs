@@ -50,8 +50,14 @@ namespace Orbit.Core.Server.Match
             int scoreWin = SharedDef.VICTORY_SCORE_BONUS;
             int scoreLoose = SharedDef.LOOSE_SCORE_BONUS;
 
-            PrepareFloatingTextMessage(plr, "You are victorious. For your brave victory you earned " + scoreWin + " score", server);
-            PrepareFloatingTextMessage(looser, "You lost. For your fierce defense you get " + scoreLoose + " score", server);
+            plr.Data.Score += scoreWin;
+            looser.Data.Score += scoreLoose;
+
+            SendPlayerScore(plr, server);
+            SendPlayerScore(looser, server);
+
+            SendFloatingTextMessage(plr, "You are victorious. For your brave victory you earned " + scoreWin + " score", server);
+            SendFloatingTextMessage(looser, "You lost. For your fierce defense you get " + scoreLoose + " score", server);
         }
 
         protected void SetPlayedTogether(Player plr1, Player plr2)
@@ -133,7 +139,7 @@ namespace Orbit.Core.Server.Match
                 p.Data.Active = false;
         }
 
-        protected void PrepareFloatingTextMessage(Player p, String text, ServerMgr server)
+        protected void SendFloatingTextMessage(Player p, String text, ServerMgr server)
         {
             Vector center = new Vector();
             center.X = SharedDef.VIEW_PORT_SIZE.Width / 2;
@@ -146,6 +152,15 @@ namespace Orbit.Core.Server.Match
             msg.Write(FloatingTextManager.TIME_LENGTH_6);
             msg.Write((byte)FloatingTextType.SYSTEM);
             msg.Write(FloatingTextManager.SIZE_BIGGER);
+
+            server.SendMessage(msg, p);
+        }
+
+        protected void SendPlayerScore(Player p, ServerMgr server)
+        {
+            NetOutgoingMessage msg = server.CreateNetMessage();
+            msg.Write((int)PacketType.PLAYER_SCORE_UPDATE);
+            msg.Write(p.Data.Score);
 
             server.SendMessage(msg, p);
         }

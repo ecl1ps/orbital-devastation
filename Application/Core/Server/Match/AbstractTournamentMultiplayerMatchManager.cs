@@ -138,32 +138,42 @@ namespace Orbit.Core.Server.Match
             {
                 foreach (Player p in players)
                     if (!p.IsActivePlayer())
-                        RewardSpectators(plr, p, time, server);
+                        RewardSpectator(plr, p, time, server);
             }
         }
 
-        private void RewardSpectators(Player winner, Player spectator, float totalTime, ServerMgr server)
+        private void RewardSpectator(Player winner, Player spectator, float totalTime, ServerMgr server)
         {
             //spectator hral nacas
             if (spectator.Data.FriendlyPlayerId == 0)
             {
+                String time = ParseTime(totalTime);
                 int val = (int) (FastMath.LinearInterpolate(0, SharedDef.SPECTATOR_WIN_BONUS, totalTime / SharedDef.SPECTATOR_MAX_TIME_BONUS) * SharedDef.SOLO_SPECTATOR_WIN_MULTIPLY);
                 spectator.Data.Score += val;
-                String time = String.Format("#####.#", totalTime / 60);
-                PrepareFloatingTextMessage(spectator, "Thanks to your efforts game lasted " + totalTime + " minutes . You acquire " + val + " score", server);
+                SendFloatingTextMessage(spectator, "Thanks to your effort game lasted " + time + " . You acquire " + val + " score", server);
             }
             //spectator musel ochranovat hrace
             else if (spectator.Data.FriendlyPlayerId == winner.GetId())
             {
                 int val = SharedDef.SPECTATOR_WIN_BONUS;
                 spectator.Data.Score += val;
-                PrepareFloatingTextMessage(spectator, "You win. You acquire " + val + " score", server);
+                SendFloatingTextMessage(spectator, "You win. You acquire " + val + " score", server);
             }
             //spectator prohral
             else
             {
-                PrepareFloatingTextMessage(spectator, "You loose", server);
+                SendFloatingTextMessage(spectator, "You loose", server);
             }
+
+            SendPlayerScore(spectator, server);
+        }
+
+        private String ParseTime(float value)
+        {
+            int min = (int)(value / 60);
+            int sec = (int) value % 60;
+
+            return min + ":" + sec;
         }
     }
 }
