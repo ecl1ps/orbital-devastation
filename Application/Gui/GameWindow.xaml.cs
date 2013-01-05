@@ -13,6 +13,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Orbit.Core.Client;
 using Orbit.Core.Client.GameStates;
+using System.Windows.Interop;
+using System.Runtime.InteropServices;
 
 namespace Orbit.Gui
 {
@@ -27,10 +29,7 @@ namespace Orbit.Gui
         public GameWindow()
         {
             InitializeComponent();
-#if DEBUG 
-            WindowStyle = WindowStyle.ThreeDBorderWindow;
-#endif
-            
+
             if (WindowStyle == WindowStyle.None)
                 Height = 714;
         }
@@ -242,6 +241,21 @@ namespace Orbit.Gui
         {
             if (GameRunning)
                 StaticMouse.Enable(true);
+        }
+
+        private const int GWL_STYLE = -16;
+        private const int WS_SYSMENU = 0x80000;
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+        [DllImport("user32.dll")]
+        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+        private void mainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            var hwnd = new WindowInteropHelper(this).Handle;
+            SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
     }
 }
