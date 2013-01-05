@@ -7,7 +7,7 @@ using Orbit.Core.Scene.Entities;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    class PositionCloneControl : Control
+    public class PositionCloneControl : Control
     {
         public Vector Offset { get; set; }
 

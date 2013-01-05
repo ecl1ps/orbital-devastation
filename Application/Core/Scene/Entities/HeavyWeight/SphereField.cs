@@ -10,7 +10,7 @@ using Orbit.Core.Scene.Entities.HeavyWeight;
 
 namespace Orbit.Core.Scene.Entities.Implementations.HeavyWeight
 {
-    public class SphereField : HeavyWeightSceneObject
+    public class SphereField : HeavyWeightSceneObject, ISpheric
     {
         public Color Color { get; set; }
         public int Radius { get; set; }
@@ -25,7 +25,6 @@ namespace Orbit.Core.Scene.Entities.Implementations.HeavyWeight
                     return Position; // EllipseGeometry ma Position ve stredu
             }
         }
-
 
         public SphereField(SceneMgr mgr, long id)
             : base(mgr, id)
