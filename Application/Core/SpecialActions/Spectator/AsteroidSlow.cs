@@ -32,7 +32,7 @@ namespace Orbit.Core.SpecialActions.Spectator
         {
             IMovementControl c = ast.GetControlOfType<IMovementControl>();
             LinearRotationControl c1 = ast.GetControlOfType<LinearRotationControl>();
-            if(c == null)
+            if (c == null || c1 == null)
                 return;
 
             List<IControl> controls = new List<IControl>();
