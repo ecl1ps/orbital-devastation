@@ -129,6 +129,7 @@ namespace Orbit.Core.Helpers
                 path = new Path();
                 path.Data = geom;
                 path.Fill = new SolidColorBrush(s.Color);
+                path.Opacity = 0.3;
 
                 Canvas.SetLeft(path, s.Position.X);
                 Canvas.SetRight(path, s.Position.Y);
