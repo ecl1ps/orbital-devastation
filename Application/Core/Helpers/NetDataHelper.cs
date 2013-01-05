@@ -455,7 +455,6 @@ namespace Orbit.Core.Helpers
                 }
                 else
                 {
-                    msg.ReadInt32();
                     Logger.Error("Received unspported control (" + hash + ")!");
                 }
             }
