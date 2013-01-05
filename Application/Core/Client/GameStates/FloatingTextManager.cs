@@ -50,8 +50,8 @@ namespace Orbit.Core.Client.GameStates
                     GrowFloatingText(floatingTexts[i]);
             }
 
-            foreach (FloatingText ft in newFloatingTexts)
-                CreateFloatingText(ft);
+            for (int i = 0; i < newFloatingTexts.Count; ++i)
+                CreateFloatingText(newFloatingTexts[i]);
 
             newFloatingTexts.Clear();
         }
