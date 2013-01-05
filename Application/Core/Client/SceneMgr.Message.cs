@@ -843,6 +843,9 @@ namespace Orbit.Core.Client
                 IMovementControl c = a.GetControlOfType<IMovementControl>();
                 LinearRotationControl c1 = a.GetControlOfType<LinearRotationControl>();
 
+                if (c == null || c1 == null)
+                    return;
+
                 List<IControl> controls = new List<IControl>();
                 controls.Add(c);
                 controls.Add(c1);
