@@ -15,7 +15,7 @@ using Orbit.Core.SpecialActions.Gamer;
 
 namespace Orbit.Core.Weapons
 {
-    class AsteroidMineLauncher : TargetingMineLauncher, IActivableWeapon
+    public class AsteroidMineLauncher : TargetingMineLauncher, IActivableWeapon
     {
         public ActivableData Data { get; set; }
 
@@ -25,7 +25,7 @@ namespace Orbit.Core.Weapons
         {
             Name = "Asteroid Carrier";
             Cost = 750;
-            Data = new ActivableData("Artificial Asteroid", "asteroid-damage-icon.png", 8);
+            Data = new ActivableData("Artificial Asteroid", "active.png", 8);
         }
 
         public override ISpecialAction NextSpecialAction()
