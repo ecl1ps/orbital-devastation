@@ -9,7 +9,7 @@ using Orbit.Core.Scene.Controls.Collisions;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    class StaticFieldControl : Control
+    public class StaticFieldControl : Control, ISpheric
     {
         public float LifeTime { get; set; }
         public float Force { get; set; }

@@ -143,7 +143,6 @@ namespace Orbit.Core.Helpers
             bullet.Radius = 2;
             bullet.Damage = plr.Data.BulletDamage;
             bullet.Direction = direction;
-            bullet.Direction.Normalize();
             bullet.Color = plr.Data.PlayerColor;
 
             PointCollisionShape cs = new PointCollisionShape();
@@ -180,7 +179,8 @@ namespace Orbit.Core.Helpers
 
             hook.SetGeometry(SceneGeometryFactory.CreateHookHead(hook));
 
-            PointCollisionShape cs = new PointCollisionShape();
+            SphereCollisionShape cs = new SphereCollisionShape();
+            cs.Radius = hook.Radius / 2;
             cs.Center = hook.Center;
             hook.CollisionShape = cs;
 
@@ -190,7 +190,7 @@ namespace Orbit.Core.Helpers
             hookControl.Lenght = player.Data.HookLenght;
 
             hook.AddControl(hookControl);
-            hook.AddControl(new StickyPointCollisionShapeControl());
+            hook.AddControl(new StickySphereCollisionShapeControl());
 
             hook.PrepareLine();
             
@@ -211,11 +211,12 @@ namespace Orbit.Core.Helpers
             hook.Position = position;
             hook.Rotation = (float)Vector.AngleBetween(new Vector(0, -1), direction);
             hook.Direction = direction;
-            hook.Color = player.GetPlayerColor();
+            hook.Color = Colors.RoyalBlue;
 
             hook.SetGeometry(SceneGeometryFactory.CreateHookHead(hook));
 
-            PointCollisionShape cs = new PointCollisionShape();
+            SphereCollisionShape cs = new SphereCollisionShape();
+            cs.Radius = hook.Radius / 2;
             cs.Center = hook.Center;
             hook.CollisionShape = cs;
 
@@ -225,7 +226,7 @@ namespace Orbit.Core.Helpers
             hookControl.Lenght = player.Data.HookLenght;
 
             hook.AddControl(hookControl);
-            hook.AddControl(new StickyPointCollisionShapeControl());
+            hook.AddControl(new StickySphereCollisionShapeControl());
 
             hook.PrepareLine();
 
@@ -472,7 +473,7 @@ namespace Orbit.Core.Helpers
             f.Radius = radius;
             f.Color = color;
             f.Position = position;
-            f.Path = HeavyweightGeometryFactory.CreateConstantColorEllipseGeometry(f);
+            f.HeavyWeightGeometry = HeavyweightGeometryFactory.CreateConstantColorEllipseGeometry(f);
 
             SphereCollisionShape shape = new SphereCollisionShape();
             shape.Radius = radius;

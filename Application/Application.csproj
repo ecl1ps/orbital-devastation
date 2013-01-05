@@ -163,6 +163,8 @@
     <Compile Include="Core\Scene\Controls\IDamageControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\AsteroidFreezeControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ControlableMiningModuleControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\ShrinkingControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\FollowingControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ExcludingExplodingSingularityBulletControl.cs" />
     <Compile Include="Core\Scene\Controls\Health\HpControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\HighlightingControl.cs" />
@@ -213,6 +215,7 @@
     <Compile Include="Core\Scene\Entities\Implementations\SimpleSquare.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\SingularityBouncingBullet.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\SimpleSphere.cs" />
+    <Compile Include="Core\Scene\Entities\ISpheric.cs" />
     <Compile Include="Core\Scene\Entities\Unused\Circle.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\PowerHook.cs" />
     <Compile Include="Core\Scene\CollisionShapes\SphereCollisionShape.cs" />
@@ -488,6 +491,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <Resource Include="resources\images\icons\active.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="resources\images\ice-shards\broken_ice_1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

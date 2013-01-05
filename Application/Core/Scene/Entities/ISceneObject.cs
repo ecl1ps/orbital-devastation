@@ -39,6 +39,8 @@ namespace Orbit.Core.Scene.Entities
 
         T GetControlOfType<T>();
 
+        bool HasControlOfType<T>();
+
         List<T> GetControlsOfType<T>();
 
         IList<IControl> GetControlsCopy();
@@ -53,15 +55,20 @@ namespace Orbit.Core.Scene.Entities
 
         void SetGeometry(DrawingGroup geometryElement);
 
+        /// helpers
+
         void DoRemove(ISceneObject obj);
 
         void DoRemoveMe();
 
+        List<ISceneObject> FindNearbyObjects(double radius);
 
         /// hooks
 
         void OnRemove();
 
         void OnAttach();
+
+
     }
 }

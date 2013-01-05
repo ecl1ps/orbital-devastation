@@ -83,7 +83,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         public override void DoCollideWith(ISceneObject other, float tpf)
         {
-            if (!(other is Asteroid))
+            if (!CanCollideWithObject(other))
                 return;
 
             StartDetonation();

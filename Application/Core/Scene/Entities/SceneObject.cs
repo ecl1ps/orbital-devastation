@@ -141,6 +141,16 @@ namespace Orbit.Core.Scene.Entities
             return copyOfControls;
         }
 
+        public bool HasControlOfType<T>()
+        {
+            for (int i = 0; i < controls.Count; ++i)
+            {
+                if (typeof(T).IsAssignableFrom(controls[i].GetType()))
+                    return true;
+            }
+            return false;
+        }
+
         public abstract bool IsOnScreen(Size screenSize);
 
         public abstract void UpdateGeometric();
@@ -171,6 +181,11 @@ namespace Orbit.Core.Scene.Entities
             DoRemove(this);
         }
 
+        public List<ISceneObject> FindNearbyObjects(double radius)
+        {
+            return SceneMgr.GetSceneObjectsInDist(Center, radius);
+        }
+
         public void RemoveControl(IControl control)
         {
             control.OnRemove();
@@ -191,6 +206,5 @@ namespace Orbit.Core.Scene.Entities
         public virtual void OnRemove() { }
 
         public virtual void OnAttach() { }
-
     }
 }

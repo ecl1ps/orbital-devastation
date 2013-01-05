@@ -10,7 +10,7 @@ using Orbit.Core.Scene.Entities.HeavyWeight;
 
 namespace Orbit.Core.Scene.Entities.Implementations.HeavyWeight
 {
-    public class SphereField : HeavyWeightSceneObject
+    public class SphereField : HeavyWeightSceneObject, ISpheric
     {
         public Color Color { get; set; }
         public int Radius { get; set; }
@@ -26,7 +26,6 @@ namespace Orbit.Core.Scene.Entities.Implementations.HeavyWeight
             }
         }
 
-
         public SphereField(SceneMgr mgr, long id)
             : base(mgr, id)
         {
@@ -39,8 +38,8 @@ namespace Orbit.Core.Scene.Entities.Implementations.HeavyWeight
 
         public override void UpdateGeometric()
         {
-            Canvas.SetLeft(Path, Position.X);
-            Canvas.SetTop(Path, Position.Y);
+            Canvas.SetLeft(HeavyWeightGeometry, Position.X);
+            Canvas.SetTop(HeavyWeightGeometry, Position.Y);
         }
     }
 }

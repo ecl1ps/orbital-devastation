@@ -12,7 +12,7 @@ using Orbit.Core.Scene.Entities.Implementations;
 
 namespace Orbit.Core.Scene.Entities
 {
-    public abstract class Sphere : SceneObject
+    public abstract class Sphere : SceneObject, ISpheric
     {
         public Color Color { get; set; }
         public int Radius { get; set; }

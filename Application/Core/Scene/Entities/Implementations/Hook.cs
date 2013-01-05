@@ -74,7 +74,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
             msg.ReadObjectHook(this);
 
-            PointCollisionShape cs = new PointCollisionShape();
+            SphereCollisionShape cs = new SphereCollisionShape();
+            cs.Radius = Radius / 2;
             cs.Center = Center;
             CollisionShape = cs;
 

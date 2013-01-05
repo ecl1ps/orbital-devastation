@@ -234,6 +234,9 @@ namespace Orbit.Core.Server
 
         public void SendMessage(NetOutgoingMessage msg, NetConnection con)
         {
+            if (con == null)
+                return;
+
             server.SendMessage(msg, con, NetDeliveryMethod.ReliableOrdered);
         }
     }

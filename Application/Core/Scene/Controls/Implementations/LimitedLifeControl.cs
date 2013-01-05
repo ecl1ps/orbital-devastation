@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    class LimitedLifeControl : Control
+    public class LimitedLifeControl : Control
     {
         protected float timeLeft;
 

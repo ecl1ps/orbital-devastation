@@ -8,7 +8,7 @@ using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Scene.CollisionShapes
 {
-    public class SphereCollisionShape : ICollisionShape
+    public class SphereCollisionShape : ICollisionShape, ISpheric
     {
         public Vector Center { get; set; }
         public int Radius { get; set; }

@@ -16,7 +16,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
     /// <summary>
     /// unused
     /// </summary>
-    public class Circle : SceneObject
+    public class Circle : SceneObject, ISpheric
     {
         public Color Color { get; set; }
         public int Radius { get; set; }

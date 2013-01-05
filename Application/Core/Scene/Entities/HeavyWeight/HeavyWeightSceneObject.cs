@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Shapes;
 using Orbit.Core.Client;
+using System.Windows;
 
 namespace Orbit.Core.Scene.Entities.HeavyWeight
 {
     public abstract class HeavyWeightSceneObject : SceneObject
     {
-        public Path Path { get; set; }
+        public UIElement HeavyWeightGeometry { get; set; }
 
         public HeavyWeightSceneObject(SceneMgr mgr, long id)
             : base(mgr, id)
