@@ -230,8 +230,7 @@ namespace Orbit.Core.Players
 
         public static string GenerateNewHashId(string name)
         {
-            //string value = name + Environment.CurrentDirectory + Environment.TickCount;
-            string value = name + Environment.CurrentDirectory;
+            string value = name + DateTime.Now;
             MD5 md5 = MD5.Create();
             byte[] inputBytes = Encoding.ASCII.GetBytes(value);
             byte[] hash = md5.ComputeHash(inputBytes);
