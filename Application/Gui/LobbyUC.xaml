@@ -11,7 +11,7 @@
             <RowDefinition Height="139*" />
             <RowDefinition Height="561*" />
         </Grid.RowDefinitions>
-        <Label Name="lblTitle" HorizontalContentAlignment="Center" Width="419" Margin="0,80,0,551" FontFamily="Bauhaus 93" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.RowSpan="2">Tournamnet Lobby</Label>
+        <Label Name="lblTitle" HorizontalContentAlignment="Center" Width="419" Margin="0,80,0,551" FontFamily="Bauhaus 93" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.RowSpan="2">Tournament Lobby</Label>
         <StackPanel Name="spPlayers"  Background="#7D91A0A3" Margin="10,31,370,260" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">
             <!--
             <controls:LobbyPlayer Width="520" Height="45" />
