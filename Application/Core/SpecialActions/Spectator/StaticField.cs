@@ -50,16 +50,16 @@ namespace Orbit.Core.SpecialActions.Spectator
             field = SceneObjectFactory.CreateSphereField(SceneMgr, Owner.Device.Position, 200, color);
             
             StaticFieldControl control = new StaticFieldControl();
-            control.Force = 100;
-            control.LifeTime = 5;
-            control.Radius = 200;
+            control.Force = 120;
+            control.LifeTime = 2;
+            control.Radius = 100;
 
             RippleEffectControl rippleControl = new RippleEffectControl();
             rippleControl.Speed = 15;
             
             Owner.Device.AddControl(control);
             field.AddControl(rippleControl);
-            field.AddControl(new LimitedLifeControl(5));
+            field.AddControl(new LimitedLifeControl(2));
             field.AddControl(new PositionCloneControl(Owner.Device));
 
             SceneMgr.DelayedAttachToScene(field);
