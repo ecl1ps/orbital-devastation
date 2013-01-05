@@ -8,6 +8,7 @@ using Orbit.Core.Players;
 using Orbit.Gui;
 using Orbit.Gui.ActionControllers;
 using System.Windows.Media;
+using Lidgren.Network;
 
 namespace Orbit.Core.SpecialActions.Gamer
 {
@@ -80,7 +81,18 @@ namespace Orbit.Core.SpecialActions.Gamer
                     throw new Exception("unknown weapon type " + currentWeapon.DeviceType.ToString());
             }
 
+            SendPlayerBoughtUpgrade();
+
             LoadWeapon((currentWeapon.NextSpecialAction() as WeaponUpgrade).GetWeapon());
+        }
+
+        private void SendPlayerBoughtUpgrade()
+        {
+            NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+            msg.Write((int)PacketType.PLAYER_BOUGHT_UPGRADE);
+            msg.Write(Owner.GetId());
+            msg.Write((byte)currentWeapon.DeviceType);
+            SceneMgr.SendMessage(msg);
         }
 
         public override bool IsReady()
