@@ -232,5 +232,16 @@ namespace Orbit.Gui
             menuGrid.Children.Add(menu);
         }
 
+        private void mainWindow_Deactivated(object sender, EventArgs e)
+        {
+            if (GameRunning)
+                StaticMouse.Enable(false);
+        }
+
+        private void mainWindow_Activated(object sender, EventArgs e)
+        {
+            if (GameRunning)
+                StaticMouse.Enable(true);
+        }
     }
 }
