@@ -56,8 +56,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
                 if (lifeTime >= SharedDef.BULLET_LIFE_TIME)
                 {
-                    meBullet.SpawnSmallBullets();
-                    meBullet.DoRemoveMe();
+                    if (me.SceneMgr.GetCurrentPlayer().IsActivePlayer())
+                        meBullet.SpawnSmallBullets();
+                        meBullet.DoRemoveMe();
                 }
             }
             else

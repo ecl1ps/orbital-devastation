@@ -402,10 +402,15 @@ namespace Orbit.Core.Client
                 break;
             }
 
+            if (bullet == null)
+                return;
+
             if (target != null)
                 target.TakeDamage(damage, bullet);
             else
                 idsToRemove.Add(aId);
+
+            bullet.DoRemoveMe();
         }
 
         private void ReceivedHookHitMsg(NetIncomingMessage msg)

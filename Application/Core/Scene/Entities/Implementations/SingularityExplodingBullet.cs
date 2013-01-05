@@ -49,7 +49,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             smallBullet.Direction = dir.Rotate(rotation);
             smallBullet.Position = Center;
             smallBullet.Radius = 2;
-            smallBullet.Damage = Damage/2;
+            smallBullet.Damage = Damage / 2;
 
             PointCollisionShape cs = new PointCollisionShape();
             cs.Center = smallBullet.Center;

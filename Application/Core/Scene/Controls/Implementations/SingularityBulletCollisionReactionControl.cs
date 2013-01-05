@@ -24,19 +24,19 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         public virtual void DoCollideWith(Entities.ISceneObject other, float tpf)
         {
+            bullet.DoRemoveMe();
+
             if (other is Asteroid)
             {
                 if (!bullet.Owner.IsCurrentPlayerOrBot())
                     return;
 
                 HitAsteroid(other as IDestroyable);
-                bullet.DoRemoveMe();
             }
             else if (other is IDestroyable)
             {
                 (other as IDestroyable).TakeDamage(bullet.Damage, bullet);
                 bullet.Owner.AddScoreAndShow(ScoreDefines.CANNON_HIT);
-                bullet.DoRemoveMe();
             }
         }
 
