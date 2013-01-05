@@ -923,5 +923,12 @@ namespace Orbit.Core.Client
             Vector center = new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2);
             FloatingTextMgr.AddFloatingText(message, center, FloatingTextManager.TIME_LENGTH_6, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_BIG, true);
         }
+
+        public List<ISceneObject> GetSceneObjectsInDist(Vector position, double radius)
+        {
+            List<ISceneObject> found = new List<ISceneObject>();
+            objects.ForEach(o => { if ((o.Center - position).Length <= radius) found.Add(o); });
+            return found;
+        }
     }
 }
