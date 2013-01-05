@@ -239,5 +239,6 @@ namespace Orbit.Core
         STATIC_FIELD_START,
         ASTEROID_SLOW_START,
         SPECTATOR_ACTION_START,
+        PLAYER_SCORE_UPDATE,
     }    
 }
