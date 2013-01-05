@@ -241,14 +241,14 @@ namespace Orbit.Core.Helpers
                     msg.Write(typeof(LinearRotationControl).GUID.GetHashCode());
                     msg.WriteObjectLinearRotationControl(c as LinearRotationControl);
                 }
-                else if (c is HookControl)
-                {
-                    msg.Write(typeof(HookControl).GUID.GetHashCode());
-                    msg.WriteObjectHookControl(c as HookControl);
-                }
                 else if (c is PowerHookControl)
                 {
                     msg.Write(typeof(PowerHookControl).GUID.GetHashCode());
+                    msg.WriteObjectHookControl(c as HookControl);
+                }
+                else if (c is HookControl)
+                {
+                    msg.Write(typeof(HookControl).GUID.GetHashCode());
                     msg.WriteObjectHookControl(c as HookControl);
                 }
                 else if (c is ExplodingSingularityBulletControl)
@@ -369,15 +369,15 @@ namespace Orbit.Core.Helpers
                     msg.ReadObjectLinearRotationControl(c);
                     controls.Add(c);
                 }
-                else if (hash == typeof(HookControl).GUID.GetHashCode())
-                {
-                    HookControl c = new HookControl();
-                    msg.ReadObjectHookControl(c);
-                    controls.Add(c);
-                }
                 else if (hash == typeof(PowerHookControl).GUID.GetHashCode())
                 {
                     PowerHookControl c = new PowerHookControl();
+                    msg.ReadObjectHookControl(c);
+                    controls.Add(c);
+                }
+                else if (hash == typeof(HookControl).GUID.GetHashCode())
+                {
+                    HookControl c = new HookControl();
                     msg.ReadObjectHookControl(c);
                     controls.Add(c);
                 }
