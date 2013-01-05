@@ -24,7 +24,7 @@ namespace Orbit.Core.SpecialActions.Spectator
 
             //nastavime parametry
             this.Cooldown = 4; //sec
-            this.Range = new RangeGroup(new Range(AsteroidType.NORMAL, 3), new Range(AsteroidType.GOLDEN, 2));
+            this.Range = new RangeGroup(new Range(AsteroidType.NORMAL, 1), new Range(AsteroidType.GOLDEN, 1));
         }
 
         protected override void StartAction(List<Asteroid> afflicted)
