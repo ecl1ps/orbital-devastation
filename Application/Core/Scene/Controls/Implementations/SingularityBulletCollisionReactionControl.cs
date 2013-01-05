@@ -27,6 +27,10 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (!(other is Asteroid) && !(other is MiningModule))
                 return false;
 
+            // nebude hitovat asteroidy, ktere jsou tazeny hookem, ale zaroven to zamezi hitovani vsech disabled objektu
+            if (!other.Enabled)
+                return false;
+
             return true;
         }
 
