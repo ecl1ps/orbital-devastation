@@ -36,7 +36,7 @@ namespace Orbit.Core.Server.Match
             return new Tuple<Player, Player>(nonLeaders.Count > 0 ? nonLeaders[0] : null, nonLeaders.Count > 1 ? nonLeaders[1] : null);
         }
 
-        public void OnMatchEnd(Player plr, GameEnd endType)
+        public void OnMatchEnd(Player plr, GameEnd endType, float totalTime, ServerMgr server)
         {
         }
 

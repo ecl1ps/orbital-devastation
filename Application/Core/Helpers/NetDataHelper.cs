@@ -689,6 +689,7 @@ namespace Orbit.Core.Helpers
             msg.Write(d.WonMatches);
 
             msg.Write(d.MiningModuleStartPos);
+            msg.Write(d.FriendlyPlayerId);
         }
 
         public static void ReadObjectPlayerData(this NetIncomingMessage msg, PlayerData d)
@@ -734,6 +735,7 @@ namespace Orbit.Core.Helpers
             d.WonMatches = msg.ReadInt32();
 
             d.MiningModuleStartPos = msg.ReadVector();
+            d.FriendlyPlayerId = msg.ReadInt32();
         }
 
 

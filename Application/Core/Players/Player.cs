@@ -186,6 +186,13 @@ namespace Orbit.Core.Players
 
         public void Update(float tpf)
         {
+            Player p = SceneMgr.GetPlayer(Data.FriendlyPlayerId);
+            String name = "noone";
+            if (p != null)
+                name = p.Data.Name;
+
+            SceneMgr.ShowStatusText(7, "Protecting: " + name);
+
             // zatim ne pro spectatory
             if (!IsActivePlayer())
                 return;

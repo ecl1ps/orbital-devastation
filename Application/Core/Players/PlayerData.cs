@@ -56,6 +56,8 @@ namespace Orbit.Core.Players
         public int PlayedMatches { get; set; }
         public int WonMatches { get; set; }
 
+        public int FriendlyPlayerId { get; set; }
+
         public PlayerData()
         {
             Score = 0;

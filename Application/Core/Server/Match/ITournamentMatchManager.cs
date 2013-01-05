@@ -14,7 +14,7 @@ namespace Orbit.Core.Server.Match
 
         bool HasRightNumberOfPlayersForStart();
 
-        void OnMatchEnd(Player plr, GameEnd endType);
+        void OnMatchEnd(Player plr, GameEnd endType, float time, ServerMgr server);
 
         void OnPlayerLeave(Player plr, bool gameRunning);
 

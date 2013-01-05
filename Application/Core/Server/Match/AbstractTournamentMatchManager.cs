@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Orbit.Core.Players;
+using System.Windows;
+using Lidgren.Network;
+using Orbit.Core.Client.GameStates;
+using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Server.Match
 {
@@ -32,15 +36,22 @@ namespace Orbit.Core.Server.Match
         public abstract bool HasRightNumberOfPlayersForStart();
 
 
-        public void OnMatchEnd(Player plr, GameEnd endType)
+        public virtual void OnMatchEnd(Player plr, GameEnd endType, float time, ServerMgr server)
         {
             if (endType != GameEnd.WIN_GAME)
                 return;
 
-            SetPlayedTogether(plr, players.Find(p => p.IsActivePlayer() && p.Data.HashId != plr.Data.HashId));
+            Player looser = players.Find(p => p.IsActivePlayer() && p.Data.HashId != plr.Data.HashId);
+            SetPlayedTogether(plr, looser);
             PlayerMatchData d = GetPlayerMatchData(plr);
             d.WonGames += 1;
             plr.Data.WonMatches = d.WonGames;
+
+            int scoreWin = SharedDef.VICTORY_SCORE_BONUS;
+            int scoreLoose = SharedDef.LOOSE_SCORE_BONUS;
+
+            PrepareFloatingTextMessage(plr, "You are victorious. For your brave victory you earned " + scoreWin + " score", server);
+            PrepareFloatingTextMessage(looser, "You lost. For your fierce defense you get " + scoreLoose + " score", server);
         }
 
         protected void SetPlayedTogether(Player plr1, Player plr2)
@@ -122,11 +133,32 @@ namespace Orbit.Core.Server.Match
                 p.Data.Active = false;
         }
 
+        protected void PrepareFloatingTextMessage(Player p, String text, ServerMgr server)
+        {
+            Vector center = new Vector();
+            center.X = SharedDef.VIEW_PORT_SIZE.Width / 2;
+            center.Y = SharedDef.VIEW_PORT_SIZE.Height / 2;
+
+            NetOutgoingMessage msg = server.CreateNetMessage();
+            msg.Write((int)PacketType.FLOATING_TEXT);
+            msg.Write(text);
+            msg.Write(center);
+            msg.Write(FloatingTextManager.TIME_LENGTH_6);
+            msg.Write((byte)FloatingTextType.SYSTEM);
+            msg.Write(FloatingTextManager.SIZE_BIGGER);
+
+            server.SendMessage(msg, p);
+        }
+
         public virtual void OnPlayerLeave(Player plr, bool gameRunning)
         {
         }
 
         public virtual void OnPlayerConnect(Player plr, bool gameRunning)
+        {
+        }
+
+        public virtual void AssignPlayersToSpectators(Tuple<Player, Player> active, List<Player> spectators)
         {
         }
     }
