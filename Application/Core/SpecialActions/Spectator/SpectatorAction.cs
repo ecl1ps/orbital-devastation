@@ -9,6 +9,7 @@ using Orbit.Core.Client.GameStates;
 using System.Windows.Media;
 using Orbit.Core.Scene.Entities;
 using Lidgren.Network;
+using Orbit.Core.Scene.Controls.Health;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
@@ -29,7 +30,17 @@ namespace Orbit.Core.SpecialActions.Spectator
 
         public override bool IsReady()
         {
-            return !IsOnCooldown();
+            return !IsOnCooldown() && HasEnergy();
+        }
+
+        private bool HasEnergy()
+        {
+            HpControl control = Owner.Device.GetControlOfType<HpControl>();
+
+            if(control != null) 
+                return control.Hp == control.MaxHp;
+
+            return true;
         }
 
 
