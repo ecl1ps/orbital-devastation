@@ -658,6 +658,8 @@ namespace Orbit.Core.Client
             if (Application.Current == null)
                 return;
 
+            StaticMouse.Enable(false);
+
             lastGameEnd = GameEnd.TOURNAMENT_FINISHED;
 
             if (winner == null)
