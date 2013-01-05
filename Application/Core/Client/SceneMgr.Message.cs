@@ -220,7 +220,6 @@ namespace Orbit.Core.Client
                 SetGameVisualArea(App.Instance.GetGameArea());
             }));
 
-            InitStaticMouse();
             BeginInvoke(new Action(() =>
             {
                 Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblEndGame");
