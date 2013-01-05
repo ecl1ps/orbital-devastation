@@ -93,7 +93,7 @@ namespace Tests
                 Assert.IsNotNull(selected.Item2, "selected player can't be null");
                 Assert.AreNotEqual(selected.Item1, selected.Item2, "selected players can't be the same");
 
-                mgr.OnMatchEnd(selected.Item1, GameEnd.WIN_GAME);
+                mgr.OnMatchEnd(selected.Item1, GameEnd.WIN_GAME, 30, null);
 
                 Player winner = mgr.GetTournamentWinner();
                 if (i != requiredMatches)
@@ -158,7 +158,7 @@ namespace Tests
                 if (i == leaveAtMatch)
                     mgr.OnPlayerLeave(players[leaverId - 1], true);
 
-                mgr.OnMatchEnd(selected.Item1, GameEnd.WIN_GAME);
+                mgr.OnMatchEnd(selected.Item1, GameEnd.WIN_GAME, 30, null);
 
                 Player winner = mgr.GetTournamentWinner();
                 if (winner != null)
@@ -206,7 +206,7 @@ namespace Tests
                 Assert.IsNotNull(selected.Item2, "selected player can't be null");
                 Assert.AreNotEqual(selected.Item1, selected.Item2, "selected players can't be the same");
 
-                mgr.OnMatchEnd(selected.Item1, GameEnd.WIN_GAME);
+                mgr.OnMatchEnd(selected.Item1, GameEnd.WIN_GAME, 30, null);
 
                 Player winner = mgr.GetTournamentWinner();
                 if (winner != null)
