@@ -18,6 +18,7 @@ namespace Orbit.Core.Weapons
         {
             Cost = 700;
             Name = "Power hook launcher";
+            UpgradeLevel = UpgradeLevel.LEVEL3;
         }
 
         public override ISpecialAction NextSpecialAction()

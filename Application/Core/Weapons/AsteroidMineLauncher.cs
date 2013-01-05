@@ -25,6 +25,7 @@ namespace Orbit.Core.Weapons
         {
             Name = "Asteroid Carrier";
             Cost = 750;
+            UpgradeLevel = UpgradeLevel.LEVEL3;
             Data = new ActivableData("Artificial Asteroid", "active.png", 8);
         }
 
