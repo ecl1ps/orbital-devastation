@@ -123,6 +123,7 @@
     <Compile Include="Core\AI\BotNameAccessor.cs" />
     <Compile Include="Core\AI\HookerBot.cs" />
     <Compile Include="Core\AI\SimpleBot.cs" />
+    <Compile Include="Core\Client\GameStates\AllertMessageManager.cs" />
     <Compile Include="Core\Client\GameStates\FloatingTextManager.cs" />
     <Compile Include="Core\Client\GameStates\LevelEnvironment.cs" />
     <Compile Include="Core\Client\GameStates\DelayedActionInvoker.cs" />
@@ -294,6 +295,9 @@
     </Compile>
     <Compile Include="Gui\ActionControllers\ActionController.cs" />
     <Compile Include="Gui\ActionControllers\ActionControllerImpl.cs" />
+    <Compile Include="Gui\AlertBox.xaml.cs">
+      <DependentUpon>AlertBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\BotSelection.xaml.cs">
       <DependentUpon>BotSelection.xaml</DependentUpon>
     </Compile>
@@ -409,6 +413,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Gui\AlertBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Gui\BotSelection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -497,6 +505,12 @@
     </Resource>
     <Resource Include="resources\images\actions\force_pull.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\background\door_left.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\background\door_right.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="resources\images\ice-shards\broken_ice_1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
