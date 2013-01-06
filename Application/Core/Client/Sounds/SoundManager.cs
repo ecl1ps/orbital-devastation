@@ -24,6 +24,7 @@ namespace Orbit.Core.Client
 
     public class SoundManager
     {
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private static SoundManager instance;
         public static SoundManager Instance
@@ -45,12 +46,19 @@ namespace Orbit.Core.Client
 
         private List<FileSound> music;
         private List<FileSound> sounds;
- 
+
         private SoundManager()
         {
-            soundEngine = new ISoundEngine();
-            musicEngine = new ISoundEngine();
-
+            try
+            {
+                soundEngine = new ISoundEngine();
+                musicEngine = new ISoundEngine();
+            }
+            catch (Exception e)
+            {
+                Logger.Fatal("Couldn't start sound system - probably Windows sound system is not enabled or there are bad sound drivers");
+                throw e;
+            }
             sounds = new List<FileSound>();
             music = new List<FileSound>();
             enabled = true;
