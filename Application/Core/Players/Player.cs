@@ -204,13 +204,35 @@ namespace Orbit.Core.Players
                 informedProtecting = true;
                 ShowProtecting();
             }
-            
+
+            Player p = null;
+            if (IsActivePlayer())
+                p = this;
+            else if (Data.FriendlyPlayerId != 0)
+                p = SceneMgr.GetPlayer(Data.FriendlyPlayerId);
+
+            if (p != null)
+            {
+                if (!informedLowHealth && HasLowHp(p))
+                {
+                    String text;
+                    if(IsActivePlayer())
+                        text = "WARNING! LOW BASE INTEGRITY!";
+                    else
+                        text = "WARNING! YOUR FRIENDLY PLAYER HAS LOW BASE INTEGRITY!";
+
+                    informedLowHealth = true;
+                    SceneMgr.AlertMessageMgr.Show(text, AlertMessageManager.TIME_NORMAL);
+                    SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_ALERT);
+                }
+
+                if (informedLowHealth && !HasLowHp(p))
+                    informedLowHealth = false;
+            }
 
             // zatim ne pro spectatory
             if (!IsActivePlayer())
                 return;
-
-            if (!IsActivePlayer())
 
             scoreUpdateTimer += tpf;
             if (scoreUpdateTimer > 0.3)
@@ -223,16 +245,11 @@ namespace Orbit.Core.Players
                 }
                 scoreUpdateTimer = 0;
             }
+        }
 
-            if (!informedLowHealth && Data.BaseIntegrity <= Data.MaxBaseIntegrity * 0.25)
-            {
-                informedLowHealth = true;
-                SceneMgr.AlertMessageMgr.Show("WARNING! LOW BASE INTEGRITY!", AlertMessageManager.TIME_NORMAL);
-                SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_ALERT);
-            }
-
-            if (informedLowHealth && Data.BaseIntegrity > Data.MaxBaseIntegrity * 0.25)
-                informedLowHealth = false;
+        private bool HasLowHp(Player p)
+        {
+            return p.Data.BaseIntegrity <= p.Data.MaxBaseIntegrity * 0.25;
         }
 
         private void SendScoreAndGoldUpdate()
