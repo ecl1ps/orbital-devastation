@@ -101,8 +101,7 @@ namespace Orbit.Core.Server
 
             gameEnded = false;
 
-            players.ForEach(p => p.Data.LobbyReady = false);
-            players.ForEach(p => p.Data.BaseIntegrity = SharedDef.BASE_MAX_INGERITY);
+            players.ForEach(p => p.Data.Reset());
         }
 
         public void Shutdown()

@@ -19,15 +19,21 @@ namespace Orbit.Core.Players
     /// </summary>
     public class PlayerData
     {
+        // UDAJE HRACE
         public int Id { get; set; }
         public string HashId { get; set; }
         public PlayerType PlayerType { get; set; }
         public BotType BotType { get; set; }
         public string Name { get; set; }
-        public bool Active { get; set; }
-        public PlayerPosition PlayerPosition { get; set; }
         public Color PlayerColor { get; set; }
+
+        /// <summary>
+        /// na klientovi pouzivat funkcni Player.SetGoldAndShow() nebo Player.AddGoldAndShow()
+        /// </summary>
+        public int Gold { get; set; }
         public int Score { get; set; }
+
+        // STATY
         public float MineGrowthSpeed { get; set; }
         public float MineStrength { get; set; }
         public float MineCooldown { get; set; }
@@ -45,28 +51,43 @@ namespace Orbit.Core.Players
         public int LaserDamage { get; set; }
         public float LaserChargingTime { get; set; }
         public float LaserDamageInterval { get; set; }
-        public Vector MiningModuleStartPos { get; set; }
-        /// <summary>
-        /// na klientovi pouzivat funkcni Player.SetGoldAndShow() nebo Player.AddGoldAndShow()
-        /// </summary>
-        public int Gold { get; set; }
-        public bool LobbyReady { get; set; }
+
+        // UDAJE TURNAJE
         public bool LobbyLeader { get; set; }
-        public bool StartReady { get; set; }
         public int PlayedMatches { get; set; }
         public int WonMatches { get; set; }
 
+        // UDAJE ZAPASU
+        public bool LobbyReady { get; set; }
+        public bool StartReady { get; set; }
+        public bool Active { get; set; }
+        public Vector MiningModuleStartPos { get; set; }
         public int FriendlyPlayerId { get; set; }
+        public PlayerPosition PlayerPosition { get; set; }
 
         public PlayerData()
         {
+            Reset();
+            
             Score = 0;
-            Gold = SharedDef.START_GOLD;
+
             PlayerType = PlayerType.HUMAN;
             BotType = BotType.NONE;
+
+            LobbyLeader = false;
+            PlayedMatches = 0;
+            WonMatches = 0;
+        }
+
+        /// <summary>
+        /// zde MUSI byt vsechny atributy, ktere se maji zresetovat pri konci jedne hry turnaje
+        /// </summary>
+        public void Reset()
+        {
+            Gold = SharedDef.START_GOLD;
+
             MaxBaseIntegrity = SharedDef.BASE_MAX_INGERITY;
             BaseIntegrity = MaxBaseIntegrity;
-            PlayerColor = Colors.Black;
             MineGrowthSpeed = SharedDef.MINE_GROWTH_SPEED;
             MineStrength = SharedDef.MINE_STRENGTH;
             MineCooldown = SharedDef.MINE_COOLDOWN;
@@ -82,7 +103,9 @@ namespace Orbit.Core.Players
             LaserDamageInterval = SharedDef.LASER_DMG_INTERVAL;
             LaserChargingTime = SharedDef.LASER_CHARGING_TIME;
             BonusHeal = SharedDef.BONUS_HEAL;
-            MiningModuleStartPos = new Vector(0, 0);
+
+            LobbyReady = false;
+            StartReady = false;
         }
     }
 

@@ -146,6 +146,10 @@ namespace Orbit.Core.Server
 
         private void ReceivedPlayerScoreAndGoldMsg(NetIncomingMessage msg)
         {
+            // neprijimat score a goldy po ukonceni hry (premazalo by to uz zresetovana PlayerData)
+            if (!isInitialized)
+                return;
+
             Player p = GetPlayer(msg.ReadInt32());
             p.Data.Score = msg.ReadInt32();
             p.Data.Gold = msg.ReadInt32();
