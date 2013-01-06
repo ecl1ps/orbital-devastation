@@ -9,6 +9,7 @@ using Orbit.Gui;
 using Orbit.Gui.ActionControllers;
 using System.Windows.Media;
 using Lidgren.Network;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.SpecialActions.Gamer
 {
@@ -83,6 +84,7 @@ namespace Orbit.Core.SpecialActions.Gamer
 
             SendPlayerBoughtUpgrade();
 
+            SceneMgr.AlertMessageMgr.Show("New weapon bought " + Name, AlertMessageManager.TIME_NORMAL);
             LoadWeapon((currentWeapon.NextSpecialAction() as WeaponUpgrade).GetWeapon());
         }
 
