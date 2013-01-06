@@ -110,7 +110,7 @@ namespace Orbit.Core
         public const float SPECTATOR_RESPAWN_TIME           = 8; //sekundy
 
         //Konstanty pro spectator akce
-        public const float SPECTATOR_ASTEROID_THROW_SPEED   = 60;
+        public const float SPECTATOR_ASTEROID_THROW_SPEED   = 120;
         public const float SPECTATOR_SHIELDING_TIME         = 5;
         public const int SPECTATOR_DAMAGE                   = 6;
         public const int SPECTATOR_HEAL                     = 6;

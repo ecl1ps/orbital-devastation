@@ -29,20 +29,19 @@ namespace Orbit.Core.SpecialActions.Spectator
 
         protected override void StartAction(List<Asteroid> afflicted)
         {
-            Vector v = new Vector();
-            v = new Vector(control.Position.X, SharedDef.CANVAS_SIZE.Height) - control.Position;
-            v.Normalize();
-
             int count = 0;
 
+            Vector v;
             foreach (Asteroid ast in afflicted)
             {
-                    IMovementControl mc = ast.GetControlOfType<IMovementControl>();
-                    if (mc != null)
-                        mc.Speed = SharedDef.SPECTATOR_ASTEROID_THROW_SPEED;
+                v = Owner.Device.Position - ast.Position;
+                v = v.NormalizeV();
+                IMovementControl mc = ast.GetControlOfType<IMovementControl>();
+                if (mc != null)
+                    mc.Speed = SharedDef.SPECTATOR_ASTEROID_THROW_SPEED;
 
-                    ast.Direction = v;
-                    count++;
+                ast.Direction = v;
+                count++;
             }
 
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
