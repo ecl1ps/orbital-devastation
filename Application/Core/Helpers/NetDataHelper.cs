@@ -719,15 +719,14 @@ namespace Orbit.Core.Helpers
 
             d.PlayerPosition = (PlayerPosition)msg.ReadByte();
             d.Score = msg.ReadInt32();
+
             if (!d.LobbyLeader)
                 d.LobbyLeader = msg.ReadBoolean();
             else
                 msg.ReadBoolean();
-            // osetreni prepsani noveho stavu starym - stav se iniciuje vlastni zpravou, ale je treba ho dal propagovat
-            if (!d.LobbyReady)
-                d.LobbyReady = msg.ReadBoolean();
-            else
-                msg.ReadBoolean();
+
+            d.LobbyReady = msg.ReadBoolean();
+
             d.StartReady = msg.ReadBoolean();
 
             d.PlayedMatches = msg.ReadInt32();
