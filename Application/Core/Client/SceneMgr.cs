@@ -316,8 +316,10 @@ namespace Orbit.Core.Client
 
         private void RemoveObjectsMarkedForRemoval()
         {
-            foreach (ISceneObject obj in objectsToRemove)
+            ISceneObject obj;
+            for (int i = 0; i < objectsToRemove.Count; ++i)
             {
+                obj = objectsToRemove[i];
                 obj.OnRemove();
                 DirectRemoveFromScene(obj);
             }
@@ -445,8 +447,10 @@ namespace Orbit.Core.Client
 
         public void UpdateSceneObjects(float tpf)
         {
-            foreach (ISceneObject obj in objects)
-            {             
+            ISceneObject obj;
+            for (int i = 0; i < objects.Count; ++i)
+            {
+                obj = objects[i];
                 obj.Update(tpf);
                 if (!obj.IsOnScreen(SharedDef.VIEW_PORT_SIZE))
                     RemoveFromSceneDelayed(obj);
