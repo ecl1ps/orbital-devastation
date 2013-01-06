@@ -89,7 +89,7 @@ namespace Orbit.Core.Server.Match
             if (count > 1)
             {
                 //sesortime podle score
-                spectators.Sort(delegate(Player p1, Player p2) { return p1.Data.Score.CompareTo(p2.Data.Score); });
+                spectators.Sort(delegate(Player p1, Player p2) { return p2.Data.Score.CompareTo(p1.Data.Score); });
 
                 Player weaker;
                 Player stronger;
@@ -98,13 +98,13 @@ namespace Orbit.Core.Server.Match
                 //kdyz jsou na tom stejne tak to neresime (priradime stejne jako kdyz prvni je silnejsi)
                 if (compared == 0 || compared > 1)
                 {
-                    stronger = active.Item1;
-                    weaker = active.Item2;
+                    stronger = active.Item2;
+                    weaker = active.Item1;
                 }
                 else
                 {
-                    stronger = active.Item2;
-                    weaker = active.Item1;
+                    stronger = active.Item1;
+                    weaker = active.Item2;
                 }
 
                 //kdyz je pocet spectatoru sudy priradime kazdemu hraci stejny pocet spectatoru

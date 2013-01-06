@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Controls.Health;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -34,6 +35,16 @@ namespace Orbit.Core.Scene.Controls.Implementations
                         hpControl.RefillHp();
 
                     me.Visible = true;
+
+                    ModuleDamageControl control = me.GetControlOfType<ModuleDamageControl>() as ModuleDamageControl;
+                    if (control == null)
+                        return;
+
+                    control.Vulnerable = false;
+                    me.SceneMgr.StateMgr.AddGameState(new DelayedActionInvoker(2, new Action(() => {
+                        control.Vulnerable = true;
+                    })));
+                    
                 }
                 else
                 {
