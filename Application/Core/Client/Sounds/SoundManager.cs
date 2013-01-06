@@ -77,6 +77,7 @@ namespace Orbit.Core.Client
             sounds.Add(new FileSound(SharedDef.MUSIC_EXPLOSION, "weapons/mine-explosion.ogg"));
             sounds.Add(new FileSound(SharedDef.MUSIC_SHOOT, "weapons/shot.ogg"));
             sounds.Add(new FileSound(SharedDef.MUSIC_DAMAGE_TO_BASE, "misc/crash.ogg"));
+            sounds.Add(new FileSound(SharedDef.MUSIC_ALERT, "misc/alert.ogg"));
 
             sounds.ForEach(sound => {
                 if (sound.SoundType == SoundType.MUSIC)
