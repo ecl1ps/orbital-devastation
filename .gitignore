@@ -1,13 +1,12 @@
-
 Application/obj/
 Application/bin/
 Data/
 *.suo
 *.orig
 Build/
+
 SATTest/bin/*
 SATTest/obj/*
-
 Application/resources/images/icons/arrow-red.png
 Application/resources/images/icons/broken_asteroid.xcf
 Application/resources/images/icons/flame.png
