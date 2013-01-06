@@ -76,7 +76,8 @@ namespace Orbit.Core.Players
         private int lastScoreValue = 0;
         private int lastGoldValue = 0;
 
-        private bool informed = false;
+        private bool informedProtecting = false;
+        private bool informedLowHealth = false;
 
         private List<ISpecialAction> actions = null;
 
@@ -198,9 +199,9 @@ namespace Orbit.Core.Players
 
         public void Update(float tpf)
         {
-            if (!informed && !IsActivePlayer())
+            if (!informedProtecting && !IsActivePlayer())
             {
-                informed = true;
+                informedProtecting = true;
                 ShowProtecting();
             }
             
@@ -208,6 +209,8 @@ namespace Orbit.Core.Players
             // zatim ne pro spectatory
             if (!IsActivePlayer())
                 return;
+
+            if (!IsActivePlayer())
 
             scoreUpdateTimer += tpf;
             if (scoreUpdateTimer > 0.3)
@@ -220,6 +223,16 @@ namespace Orbit.Core.Players
                 }
                 scoreUpdateTimer = 0;
             }
+
+            if (!informedLowHealth && Data.BaseIntegrity <= Data.MaxBaseIntegrity * 0.25)
+            {
+                informedLowHealth = true;
+                SceneMgr.AlertMessageMgr.Show("WARNING! LOW BASE INTEGRITY!", AlertMessageManager.TIME_NORMAL);
+                SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_ALERT);
+            }
+
+            if (informedLowHealth && Data.BaseIntegrity > Data.MaxBaseIntegrity * 0.25)
+                informedLowHealth = false;
         }
 
         private void SendScoreAndGoldUpdate()

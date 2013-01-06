@@ -701,6 +701,9 @@
     <Content Include="logger.config">
       <SubType>Designer</SubType>
     </Content>
+    <Resource Include="resources\sounds\misc\alert.ogg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="resources\shaders\alphaChannelEffect.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

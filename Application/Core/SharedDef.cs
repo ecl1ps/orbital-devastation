@@ -145,6 +145,7 @@ namespace Orbit.Core
         public const string MUSIC_LOSE                      = "lose";
         public const string MUSIC_BACKGROUND_CALM           = "bg_calm";
         public const string MUSIC_BACKGROUND_ACTION         = "bg_action";
+        public const string MUSIC_ALERT                     = "music_alert";
 
         //Texty pro boty
         public const string BOT_LEVEL_1_TEXT = "The easiest bot in this game, recomended for those who just started or for those who seek simple fun with not so much challenge. This bot will never upgrade its weapons and refuse to use hooks.";

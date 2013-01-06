@@ -39,6 +39,7 @@ namespace Orbit.Core.Helpers
             mgr.GetCanvas().Children.Add(box);
             Canvas.SetLeft(box, position.X);
             Canvas.SetTop(box, position.Y);
+            Canvas.SetZIndex(box, 100);
 
             return box;
         }
