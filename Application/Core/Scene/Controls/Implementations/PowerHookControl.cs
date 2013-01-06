@@ -121,7 +121,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         public void StartPullingObject(ISceneObject o)
         {
-            o.GetControlOfType<IMovementControl>().Enabled = false;
+            IMovementControl c = o.GetControlOfType<IMovementControl>();
+            if (c != null)
+                c.Enabled = false;
 
             FollowingControl follow = new FollowingControl(me);
             follow.Speed = Speed * 2;
