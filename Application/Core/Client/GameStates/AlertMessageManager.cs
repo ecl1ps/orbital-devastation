@@ -23,6 +23,12 @@ namespace Orbit.Core.Client.GameStates
 
     public class AlertMessageManager : IGameState
     {
+        public const float TIME_FASTER = 1;
+        public const float TIME_FAST = 2;
+        public const float TIME_NORMAL = 3;
+        public const float TIME_LONG = 4;
+        public const float TIME_LONGER = 5;
+
         private const float STARTING_ENDING_TIME = 0.25f;
 
         public float AnimationTime { get; set; }
