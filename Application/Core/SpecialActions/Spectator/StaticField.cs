@@ -42,24 +42,26 @@ namespace Orbit.Core.SpecialActions.Spectator
 
         protected override void StartAction(List<Asteroid> afflicted)
         {
+            int radius = 100;
+            float lifeTime = 2;
             Color color = new Color();
             color.A = 35;
             color.R = 80;
             color.G = 255;
             color.B = 80;
-            field = SceneObjectFactory.CreateSphereField(SceneMgr, Owner.Device.Position, 200, color);
+            field = SceneObjectFactory.CreateSphereField(SceneMgr, Owner.Device.Position, radius, color);
             
             StaticFieldControl control = new StaticFieldControl();
             control.Force = 120;
-            control.LifeTime = 2;
-            control.Radius = 100;
+            control.LifeTime = lifeTime;
+            control.Radius = radius;
 
             RippleEffectControl rippleControl = new RippleEffectControl();
             rippleControl.Speed = 15;
             
             Owner.Device.AddControl(control);
             field.AddControl(rippleControl);
-            field.AddControl(new LimitedLifeControl(2));
+            field.AddControl(new LimitedLifeControl(lifeTime));
             field.AddControl(new PositionCloneControl(Owner.Device));
 
             SceneMgr.DelayedAttachToScene(field);
