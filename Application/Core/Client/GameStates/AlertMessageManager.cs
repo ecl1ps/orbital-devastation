@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Orbit.Gui;
+using System.Windows;
+using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Client.GameStates
 {
@@ -38,6 +40,21 @@ namespace Orbit.Core.Client.GameStates
             this.mgr = mgr;
             this.messages = new List<AlertMessage>();
             AnimationTime = animationTime;
+
+            InitElement();
+        }
+
+        private void InitElement()
+        {
+            mgr.BeginInvoke(new Action(() =>
+            {
+                element = (AlertBox)LogicalTreeHelper.FindLogicalNode(mgr.GetCanvas(), "AlertBoxUC");
+                if (element == null)
+                {
+                    Size size = SharedDef.VIEW_PORT_SIZE;
+                    GuiObjectFactory.CreateAndAddAlertBox(mgr, new Vector(size.Width * 0.2, size.Height * 0.2));
+                }
+            }));
         }
 
         public void Update(float tpf)
@@ -59,6 +76,7 @@ namespace Orbit.Core.Client.GameStates
                 timer = AnimationTime;
                 ready = false;
                 opening = true;
+                element.SetText(messages[0].Text);
             }
 
             if (timer <= 0)
@@ -111,12 +129,23 @@ namespace Orbit.Core.Client.GameStates
 
         private void Animate(bool open)
         {
-            throw new NotImplementedException();
+            mgr.BeginInvoke(new Action(() => {
+                if (open)
+                    element.OpenDoors(1 - (timer / AnimationTime));
+                else
+                    element.OpenDoors(timer / AnimationTime);
+            }));
         }
 
         private AlertMessage getFirstItem()
         {
-            throw new NotImplementedException();
+            if (messages.Count == 0)
+                return null;
+
+            AlertMessage temp = messages[0];
+            messages.Remove(temp);
+
+            return temp;
         }
 
         public void Show(String text, float time)

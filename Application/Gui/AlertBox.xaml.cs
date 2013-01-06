@@ -20,19 +20,20 @@ namespace Orbit.Gui
     /// </summary>
     public partial class AlertBox : UserControl
     {
-        private double widthLeft;
-        private double widthRight;
+        private double sizeLeft;
+        private double sizeRight;
 
         public AlertBox()
         {
             InitializeComponent();
-            widthLeft = DoorLeft.Width;
-            widthRight = DoorRight.Width;
+            sizeLeft = 180;
+            sizeRight = 180;
         }
 
         public void OpenDoors(double val)
         {
-            DoorLeft.Width = FastMath.LinearInterpolate(widthLeft, 0, val);
+            DoorLeft.Margin = new Thickness(-FastMath.LinearInterpolate(sizeLeft, 0, val), 0, 0, 0);
+            DoorLeft.Margin = new Thickness(0, 0, FastMath.LinearInterpolate(sizeRight, 0, val), 0);
         }
 
         public void Hide(bool hide)
@@ -41,6 +42,11 @@ namespace Orbit.Gui
                 this.Visibility = System.Windows.Visibility.Hidden;
             else
                 this.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        public void SetText(String text)
+        {
+            TextBlock.Text = text;
         }
     }
 }
