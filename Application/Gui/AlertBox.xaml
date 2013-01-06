@@ -5,16 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              Name="AlertBoxUC"
-             d:DesignHeight="400" d:DesignWidth="400">
+             d:DesignHeight="150" d:DesignWidth="150">
     <Canvas>
-        <TextBlock Name="TextBlock" Canvas.Left="45" Canvas.Top="80" Width="308" Text="Testovací text" TextAlignment="Center" FontFamily="Stencil" Height="216" Foreground="Red" FontSize="20" TextWrapping="Wrap">
+        <TextBlock Name="TextBlock" Canvas.Left="5" Canvas.Top="5" Width="140" Height="140" Text="Testovací text" TextAlignment="Center" FontFamily="Stencil" Foreground="Red" FontSize="20" TextWrapping="Wrap">
         </TextBlock>
-        <Grid Name="Panel"  Canvas.Left="0" Canvas.Top="0" Width="400" ClipToBounds="True" Panel.ZIndex="1">
-            <Grid Name="DoorLeft" HorizontalAlignment="Left" Width="225">
-                <Image HorizontalAlignment="Left" Width="225" Height="400" Source="pack://application:,,,/resources/images/background/door_left.png" Margin="0,3,0,0"></Image>
+        <Grid Name="Panel" Canvas.Left="0" Canvas.Top="0" Width="150" ClipToBounds="True" Panel.ZIndex="1">
+            <Grid Name="DoorLeft" HorizontalAlignment="Left" Width="113">
+                <Image HorizontalAlignment="Left" Width="85" Height="150" Source="pack://application:,,,/resources/images/background/door_left.png" Margin="0,2,0,0"></Image>
             </Grid>
-            <Grid Name="DoorRight" HorizontalAlignment="Right" Width="227">
-                <Image HorizontalAlignment="Right" Width="227" Height="400" Source="pack://application:,,,/resources/images/background/door_right.png" Margin="0,-3,0,0"></Image>
+            <Grid Name="DoorRight" HorizontalAlignment="Right" Width="113">
+                <Image HorizontalAlignment="Right" Width="85" Height="150" Source="pack://application:,,,/resources/images/background/door_right.png" Margin="0,-2,0,0"></Image>
             </Grid>
         </Grid>
     </Canvas>

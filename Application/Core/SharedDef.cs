@@ -241,5 +241,7 @@ namespace Orbit.Core
         ASTEROID_SLOW_START,
         SPECTATOR_ACTION_START,
         PLAYER_SCORE_UPDATE,
+        SHOW_ALLERT_MESSAGE,
+
     }    
 }

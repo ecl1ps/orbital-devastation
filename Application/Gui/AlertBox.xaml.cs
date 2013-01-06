@@ -26,14 +26,15 @@ namespace Orbit.Gui
         public AlertBox()
         {
             InitializeComponent();
-            sizeLeft = 180;
-            sizeRight = 180;
+            sizeLeft = 70;
+            sizeRight = 70;
+            Visibility = System.Windows.Visibility.Hidden;
         }
 
         public void OpenDoors(double val)
         {
             DoorLeft.Margin = new Thickness(-FastMath.LinearInterpolate(sizeLeft, 0, val), 0, 0, 0);
-            DoorLeft.Margin = new Thickness(0, 0, FastMath.LinearInterpolate(sizeRight, 0, val), 0);
+            DoorRight.Margin = new Thickness(0, 0, -FastMath.LinearInterpolate(sizeRight, 0, val), 0);
         }
 
         public void Hide(bool hide)

@@ -239,6 +239,7 @@ namespace Orbit.Core.Client
             Player rightPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.RIGHT);
 
             InitStaticMouse();
+            AlertMessageMgr.InitElement();
             App.Instance.SetGameStarted(true);
 
             foreach (Player p in players)

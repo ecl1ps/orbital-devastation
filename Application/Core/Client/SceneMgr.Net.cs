@@ -246,6 +246,9 @@ namespace Orbit.Core.Client
                 case PacketType.SPECTATOR_ACTION_START:
                     ReceivedSpectatorActionStarted(msg);
                     break;
+                case PacketType.SHOW_ALLERT_MESSAGE:
+                    AlertMessageMgr.ReceiveShowMessage(msg);
+                    break;
                 default:
                     Logger.Warn("Received unhandled packet type: " + type);
                     break;

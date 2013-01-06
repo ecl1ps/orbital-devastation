@@ -123,7 +123,7 @@ namespace Orbit.Core.Client
             StateMgr.AddGameState(FloatingTextMgr);
             LevelEnv = new LevelEnvironment();
             StateMgr.AddGameState(LevelEnv);
-            AlertMessageMgr = new AlertMessageManager(this, 2);
+            AlertMessageMgr = new AlertMessageManager(this, 0.5f);
             StateMgr.AddGameState(AlertMessageMgr);
         }
 

@@ -76,6 +76,8 @@ namespace Orbit.Core.Players
         private int lastScoreValue = 0;
         private int lastGoldValue = 0;
 
+        private bool informed = false;
+
         private List<ISpecialAction> actions = null;
 
         public Player(SceneMgr mgr)
@@ -184,14 +186,24 @@ namespace Orbit.Core.Players
             return Data.PlayerColor;
         }
 
-        public void Update(float tpf)
+        public void ShowProtecting()
         {
             Player p = SceneMgr.GetPlayer(Data.FriendlyPlayerId);
             String name = "noone";
             if (p != null)
                 name = p.Data.Name;
 
-            SceneMgr.ShowStatusText(7, "Protecting: " + name);
+            SceneMgr.AlertMessageMgr.Show("You are protecting: " + name, 3);
+        }
+
+        public void Update(float tpf)
+        {
+            if (!informed && !IsActivePlayer())
+            {
+                informed = true;
+                ShowProtecting();
+            }
+            
 
             // zatim ne pro spectatory
             if (!IsActivePlayer())

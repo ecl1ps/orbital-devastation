@@ -55,6 +55,8 @@ namespace Orbit.Core.Players.Input
                 device.IsMovingLeft = down;
             else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_RIGHT)))
                 device.IsMovingRight = down;
+            else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_SHOW_PROTECTING)) && down)
+                plr.ShowProtecting();
         }
     }
 }

@@ -52,7 +52,7 @@ namespace Orbit.Core
             defaults.Add(PropertyKey.PLAYER_ACTION_MOVE_RIGHT, ((int)Key.D).ToString());
             defaults.Add(PropertyKey.PLAYER_ACTION_MOVE_LEFT, ((int)Key.A).ToString());
             defaults.Add(PropertyKey.PLAYER_SHOW_ACTIONS, ((int)Key.Q).ToString());
-            defaults.Add(PropertyKey.PLAYER_SHOW_QUESTS, ((int)Key.E).ToString());
+            defaults.Add(PropertyKey.PLAYER_SHOW_PROTECTING, ((int)Key.E).ToString());
             defaults.Add(PropertyKey.AVAILABLE_COLORS, ((int)PlayerColorSet.BASIC).ToString());
             defaults.Add(PropertyKey.CHOSEN_COLOR, Colors.CornflowerBlue.ToString());
             return defaults;
@@ -91,7 +91,7 @@ namespace Orbit.Core
         PLAYER_ACTION_MOVE_RIGHT,
         PLAYER_ACTION_MOVE_LEFT,
         PLAYER_SHOW_ACTIONS,
-        PLAYER_SHOW_QUESTS,
+        PLAYER_SHOW_PROTECTING,
 
         AVAILABLE_COLORS,
         CHOSEN_COLOR,

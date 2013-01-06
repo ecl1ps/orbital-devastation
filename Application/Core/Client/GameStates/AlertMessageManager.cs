@@ -5,6 +5,7 @@ using System.Text;
 using Orbit.Gui;
 using System.Windows;
 using Orbit.Core.Helpers;
+using Lidgren.Network;
 
 namespace Orbit.Core.Client.GameStates
 {
@@ -22,14 +23,18 @@ namespace Orbit.Core.Client.GameStates
 
     public class AlertMessageManager : IGameState
     {
+        private const float STARTING_ENDING_TIME = 0.25f;
+
         public float AnimationTime { get; set; }
 
         private float timer = 0;
         private AlertBox element = null;
 
+        private bool starting = false;
         private bool opening = false;
         private bool closing = false;
         private bool showing = false;
+        private bool ending = false;
         private bool ready = true;
 
         private SceneMgr mgr;
@@ -40,11 +45,9 @@ namespace Orbit.Core.Client.GameStates
             this.mgr = mgr;
             this.messages = new List<AlertMessage>();
             AnimationTime = animationTime;
-
-            InitElement();
         }
 
-        private void InitElement()
+        public void InitElement()
         {
             mgr.BeginInvoke(new Action(() =>
             {
@@ -52,7 +55,7 @@ namespace Orbit.Core.Client.GameStates
                 if (element == null)
                 {
                     Size size = SharedDef.VIEW_PORT_SIZE;
-                    GuiObjectFactory.CreateAndAddAlertBox(mgr, new Vector(size.Width * 0.2, size.Height * 0.2));
+                    element = GuiObjectFactory.CreateAndAddAlertBox(mgr, new Vector(30, 30));
                 }
             }));
         }
@@ -60,23 +63,52 @@ namespace Orbit.Core.Client.GameStates
         public void Update(float tpf)
         {
             if (ready && messages.Count > 0)
-                Open(tpf);
+                Start(tpf);
+            else if (starting)
+                Start(tpf);
             else if (opening)
                 Open(tpf);
             else if (showing)
                 Display(tpf);
             else if (closing)
                 Close(tpf);
+            else if (ending)
+                Ending(tpf);
+        }
+
+        private void Start(float tpf)
+        {
+            if (!starting)
+            {
+                timer = STARTING_ENDING_TIME;
+                starting = true;
+                ready = false;
+
+                mgr.BeginInvoke(new Action(() =>
+                {
+                    element.Hide(false);
+                }));
+            }
+
+            if (timer <= 0)
+            {
+                starting = false;
+                Open(tpf);
+                return;
+            }
+
+            timer -= tpf;
         }
 
         private void Open(float tpf)
         {
-            if (ready && !opening)
+            if (!opening)
             {
                 timer = AnimationTime;
-                ready = false;
                 opening = true;
-                element.SetText(messages[0].Text);
+                mgr.BeginInvoke(new Action(() => {
+                    element.SetText(messages[0].Text);
+                }));
             }
 
             if (timer <= 0)
@@ -119,7 +151,7 @@ namespace Orbit.Core.Client.GameStates
             if (timer <= 0)
             {
                 closing = false;
-                ready = true;
+                Ending(tpf);
                 return;
             }
 
@@ -127,13 +159,34 @@ namespace Orbit.Core.Client.GameStates
             Animate(false);
         }
 
+        private void Ending(float tpf)
+        {
+            if (!ending)
+            {
+                ending = true;
+                timer = STARTING_ENDING_TIME;
+            }
+
+            if (timer <= 0)
+            {
+                mgr.BeginInvoke(new Action(() => { element.Hide(true); }));
+
+                ending = false;
+                ready = true;
+                return;
+            }
+
+            timer -= tpf;
+        }
+
         private void Animate(bool open)
         {
+            Console.WriteLine(timer / AnimationTime);
             mgr.BeginInvoke(new Action(() => {
                 if (open)
-                    element.OpenDoors(1 - (timer / AnimationTime));
-                else
                     element.OpenDoors(timer / AnimationTime);
+                else
+                    element.OpenDoors(1 - (timer / AnimationTime));
             }));
         }
 
@@ -151,6 +204,21 @@ namespace Orbit.Core.Client.GameStates
         public void Show(String text, float time)
         {
             messages.Add(new AlertMessage(text, time));
+        }
+
+        public NetOutgoingMessage CreateShowMessage(String text, float time)
+        {
+            NetOutgoingMessage msg = mgr.CreateNetMessage();
+            msg.Write((int)PacketType.SHOW_ALLERT_MESSAGE);
+            msg.Write(text);
+            msg.Write(time);
+
+            return msg;
+        }
+
+        public void ReceiveShowMessage(NetIncomingMessage msg)
+        {
+            Show(msg.ReadString(), msg.ReadFloat());
         }
     }
 }
