@@ -33,7 +33,7 @@ namespace Orbit.Core.Scene.Entities
         }
         public bool Dead { get; set; }
         public SceneMgr SceneMgr { get; set; }
-        private bool visible;
+        protected bool visible = true;
         public bool Visible
         {
             get 

@@ -30,6 +30,7 @@ namespace Orbit.Core.Scene.Controls.Health.Implementations
         public HpBarControl(IHpBar bar)
         {
             this.Bar = bar;
+            bar.Visible = true;
         }
 
         protected override void InitControl(Entities.ISceneObject me)
@@ -48,6 +49,8 @@ namespace Orbit.Core.Scene.Controls.Health.Implementations
             else if (p < 0)
                 p = 0;
 
+            if (p != 0 && Enabled)
+                Bar.Visible = true;
             Bar.Percentage = p;
 
             if (me.Dead)
