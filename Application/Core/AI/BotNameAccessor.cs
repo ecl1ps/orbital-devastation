@@ -12,7 +12,6 @@ namespace Orbit.Core.AI
         {
             if (type == BotType.NONE)
                 return null;
-
             switch (type)
             {
                 case BotType.LEVEL1:
