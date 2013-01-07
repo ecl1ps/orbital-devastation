@@ -9,7 +9,7 @@ using Lidgren.Network;
 
 namespace Orbit.Core.Client.GameStates
 {
-    public class AlertMessage 
+    public class AlertMessage
     {
         public String Text { get; set; }
         public float Time { get; set; }
@@ -36,11 +36,13 @@ namespace Orbit.Core.Client.GameStates
         private float timer = 0;
         private AlertBox element = null;
 
+        private bool slippingIn = false;
         private bool starting = false;
         private bool opening = false;
         private bool closing = false;
         private bool showing = false;
         private bool ending = false;
+        private bool slippingOut = false;
         private bool ready = true;
 
         private SceneMgr mgr;
@@ -61,15 +63,15 @@ namespace Orbit.Core.Client.GameStates
                 if (element == null)
                 {
                     Size size = SharedDef.VIEW_PORT_SIZE;
-                    element = GuiObjectFactory.CreateAndAddAlertBox(mgr, new Vector(30, 30));
+                    element = GuiObjectFactory.CreateAndAddAlertBox(mgr, new Vector(5, 0));
                 }
             }));
         }
 
         public void Update(float tpf)
         {
-            if (ready && messages.Count > 0)
-                Start(tpf);
+            if ((ready && messages.Count > 0) || slippingIn)
+                SlipIn(tpf);
             else if (starting)
                 Start(tpf);
             else if (opening)
@@ -80,6 +82,28 @@ namespace Orbit.Core.Client.GameStates
                 Close(tpf);
             else if (ending)
                 Ending(tpf);
+            else if (slippingOut)
+                SlipOut(tpf);
+        }
+
+        private void SlipIn(float tpf)
+        {
+            if (!slippingIn)
+            {
+                timer = AnimationTime;
+                slippingIn = true;
+                ready = false;
+            }
+
+            if (timer <= 0)
+            {
+                slippingIn = false;
+                Start(tpf);
+                return;
+            }
+
+            timer -= tpf;
+            mgr.BeginInvoke(new Action(() => { element.Slip(timer / AnimationTime); }));
         }
 
         private void Start(float tpf)
@@ -89,11 +113,6 @@ namespace Orbit.Core.Client.GameStates
                 timer = STARTING_ENDING_TIME;
                 starting = true;
                 ready = false;
-
-                mgr.BeginInvoke(new Action(() =>
-                {
-                    element.Hide(false);
-                }));
             }
 
             if (timer <= 0)
@@ -112,7 +131,8 @@ namespace Orbit.Core.Client.GameStates
             {
                 timer = AnimationTime;
                 opening = true;
-                mgr.BeginInvoke(new Action(() => {
+                mgr.BeginInvoke(new Action(() =>
+                {
                     element.SetText(messages[0].Text);
                 }));
             }
@@ -175,20 +195,38 @@ namespace Orbit.Core.Client.GameStates
 
             if (timer <= 0)
             {
-                mgr.BeginInvoke(new Action(() => { element.Hide(true); }));
-
                 ending = false;
-                ready = true;
+                SlipOut(tpf);
                 return;
             }
 
             timer -= tpf;
         }
 
+        private void SlipOut(float tpf)
+        {
+            if (!slippingOut)
+            {
+                timer = AnimationTime;
+                slippingOut = true;
+            }
+
+            if (timer <= 0)
+            {
+                slippingOut = false;
+                ready = true;
+                mgr.BeginInvoke(new Action(() => { element.Slip(1); }));
+                return;
+            }
+
+            timer -= tpf;
+            mgr.BeginInvoke(new Action(() => { element.Slip(1 - (timer / AnimationTime)); }));
+        }
+
         private void Animate(bool open)
         {
-            Console.WriteLine(timer / AnimationTime);
-            mgr.BeginInvoke(new Action(() => {
+            mgr.BeginInvoke(new Action(() =>
+            {
                 if (open)
                     element.OpenDoors(timer / AnimationTime);
                 else

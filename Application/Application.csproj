@@ -500,17 +500,20 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
-    <Resource Include="resources\images\icons\active.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\images\actions\force_pull.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Resource Include="resources\images\background\sprocket.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="resources\images\background\door_left.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="resources\images\background\door_right.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\icons\active.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\actions\force_pull.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="resources\images\ice-shards\broken_ice_1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

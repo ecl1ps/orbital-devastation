@@ -23,12 +23,21 @@ namespace Orbit.Gui
         private double sizeLeft;
         private double sizeRight;
 
+        private double minPosition;
+        private double maxPosition;
+        private double maxRotation;
+
         public AlertBox()
         {
             InitializeComponent();
             sizeLeft = 70;
             sizeRight = 70;
-            Visibility = System.Windows.Visibility.Hidden;
+
+            minPosition = -145;
+            maxPosition = 10;
+            maxRotation = 180;
+
+            Slip(1);
         }
 
         public void OpenDoors(double val)
@@ -43,6 +52,15 @@ namespace Orbit.Gui
                 this.Visibility = System.Windows.Visibility.Hidden;
             else
                 this.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        public void Slip(double val)
+        {
+            Canvas.SetTop(Panel, FastMath.LinearInterpolate(maxPosition, minPosition, val));
+            Canvas.SetTop(TextBlock, FastMath.LinearInterpolate(maxPosition, minPosition, val) + 5);
+
+            SprocketLeft.RenderTransform = new RotateTransform(FastMath.LinearInterpolate(0, maxRotation, val), 20, 20);
+            SprocketRight.RenderTransform = new RotateTransform(FastMath.LinearInterpolate(maxRotation, 0, val), 20, 20);
         }
 
         public void SetText(String text)
