@@ -242,6 +242,9 @@ namespace Orbit.Core.Client
             AlertMessageMgr.InitElement();
             App.Instance.SetGameStarted(true);
 
+            if (currentPlayer.IsActivePlayer())
+                ColorizeSpectators(players.FindAll(p => !p.IsActivePlayer()), leftPlr, rightPlr);
+
             foreach (Player p in players)
                 CreateActiveObjectsOfPlayer(p);
 
@@ -280,6 +283,17 @@ namespace Orbit.Core.Client
 #endif
         }
 
+        private void ColorizeSpectators(List<Player> spectators, Player p1, Player p2)
+        {
+            spectators.ForEach(p =>
+            {
+                if (p.Data.FriendlyPlayerId == p1.GetId())
+                    p.Data.PlayerColor = p1.GetPlayerColor();
+                else if (p.Data.FriendlyPlayerId == p2.GetId())
+                    p.Data.PlayerColor = p2.GetPlayerColor();
+            });
+        }
+
         private void ReceivedPlayerReconnectedMsg(NetIncomingMessage msg)
         {
             Player reconnecting = GetPlayer(msg.ReadInt32());
@@ -287,6 +301,15 @@ namespace Orbit.Core.Client
             {
                 Logger.Error("Unknown reconnecting player");
                 return;
+            }
+
+            if (!reconnecting.IsActivePlayer() && currentPlayer.IsActivePlayer())
+            {
+                players.FindAll(p => p.IsActivePlayer()).ForEach(p =>
+                {
+                    if (p.Data.FriendlyPlayerId == p.GetId())
+                        p.Data.PlayerColor = p.GetPlayerColor();
+                });
             }
 
             CreateActiveObjectsOfPlayer(reconnecting);

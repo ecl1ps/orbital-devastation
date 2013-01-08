@@ -649,7 +649,7 @@ namespace Orbit.Core.Client
             {
                 hs = currentPlayer.Data.Score;
                 GameProperties.Props.SetAndSave(key, hs);
-                CreateFloatingTextMessage("New HighScore " + hs + "!");
+                CreateTextMessage("New HighScore " + hs + "!");
             }
 
         }
@@ -733,7 +733,7 @@ namespace Orbit.Core.Client
             else
                 msg = "End of Game";
 
-            CreateFloatingTextMessage(msg);
+            CreateTextMessage(msg);
         }
 
         private void PlayerLeft(Player leaver)
@@ -742,7 +742,7 @@ namespace Orbit.Core.Client
                 return;
 
             string text = leaver.Data.Name + " left the game!";
-            CreateFloatingTextMessage(text);
+            CreateTextMessage(text);
         }
 
         public void Invoke(Action a)
@@ -925,10 +925,9 @@ namespace Orbit.Core.Client
             }));
         }
 
-        public void CreateFloatingTextMessage(string message)
+        public void CreateTextMessage(string message)
         {
-            Vector center = new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2);
-            FloatingTextMgr.AddFloatingText(message, center, FloatingTextManager.TIME_LENGTH_6, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_BIG, true);
+            AlertMessageMgr.Show(message, AlertMessageManager.TIME_NORMAL);
         }
 
         public List<ISceneObject> GetSceneObjectsInDist(Vector position, double radius)
