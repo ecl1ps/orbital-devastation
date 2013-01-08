@@ -10,8 +10,8 @@ using System.Resources;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Orbit")]
-[assembly: AssemblyCopyright("Copyright ©  Jan Novotný 2012")]
+[assembly: AssemblyProduct("OrbitalDevastation")]
+[assembly: AssemblyCopyright("Copyright ©  Jan Novotný, Jakub Hromádka 2012 - 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
