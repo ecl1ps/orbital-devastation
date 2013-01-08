@@ -8,7 +8,7 @@
     <Grid Width="350" Height="350" Background="#dd655D5D">
         <Button Content="Save name" Height="31" HorizontalAlignment="Center" Margin="254,34,12,0" Name="btnSaveName" VerticalAlignment="Top" Width="84" FontFamily="Bauhaus 93" Click="btnSaveName_Click" />
         <Label Content="Player name:" Height="31" HorizontalAlignment="Left" Margin="12,34,0,0" Name="lblName" VerticalAlignment="Top" Width="92" FontSize="14" FontFamily="Bauhaus 93" />
-        <TextBox Height="31" HorizontalAlignment="Right" Margin="0,34,128,0" Name="tbPlayerName" VerticalAlignment="Top" Width="112" OpacityMask="Black" FontFamily="Bauhaus 93" FontSize="14" Background="#FFE5E5E5" />
+        <TextBox Height="31" HorizontalAlignment="Right" Margin="0,34,128,0" Name="tbPlayerName" VerticalAlignment="Top" Width="112" OpacityMask="Black" FontFamily="Bauhaus 93" FontSize="14" Background="#FFE5E5E5" MaxLength="10" />
         <Button Content="Back" FontFamily="Bauhaus 93" Height="31" HorizontalAlignment="Center" Margin="66,280,65,0" Name="btnBack" VerticalAlignment="Top" Width="84" Click="btnBack_Click" />
         <Label Content="Player color:" FontFamily="Bauhaus 93" FontSize="14" Height="31" HorizontalAlignment="Left" Margin="10,80,0,0" Name="label1" VerticalAlignment="Top" Width="92" />
         <Border Width="112" Height="31" BorderThickness="1" Name="colorPickerField" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="2" BorderBrush="black" Margin="110,80,0,0" Background="blue" MouseDown="colorPicker_MouseDown" />
