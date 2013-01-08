@@ -9,8 +9,8 @@
 
     <Canvas x:Name="mainCanvas" MinWidth="400" MinHeight="300" Width="1000" Height="700" HorizontalAlignment="Stretch" VerticalAlignment="Top" MouseDown="OnCanvasMouseClick" MouseUp="OnCanvasMouseClick" MouseMove="OnCanvasMouseMove" >
         <visual:GameVisualArea x:Name="gameArea" IsHitTestVisible="False" Panel.ZIndex="10" />
-        <Label Canvas.Left="4" Canvas.Top="612" Height="30" Name="lblNameLeft" Width="150" Panel.ZIndex="100" FontSize="15" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" IsHitTestVisible="False"></Label>
-        <Label Canvas.Left="840" Canvas.Top="612" Height="30" Name="lblNameRight" Width="150" Panel.ZIndex="100" FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" IsHitTestVisible="False"></Label>
+        <Label Canvas.Left="4" Canvas.Top="605" Height="30" Name="lblNameLeft" Width="150" Panel.ZIndex="100" FontSize="15" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontFamily="Bauhaus 93" Foreground="#FF312E2E" IsHitTestVisible="False"></Label>
+        <Label Canvas.Left="840" Canvas.Top="605" Height="30" Name="lblNameRight" Width="150" Panel.ZIndex="100" FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontFamily="Bauhaus 93" Foreground="#FF312E2E" IsHitTestVisible="False"></Label>
         <Label Canvas.Left="153" Canvas.Top="230" Content="" Height="59" Name="lblWaiting" Width="700" Panel.ZIndex="100" FontSize="22" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Bauhaus 93" IsHitTestVisible="False" />
         <Label Canvas.Left="153" Canvas.Top="210" Content="" Height="59" Name="lblHighScore" Width="700" Panel.ZIndex="100" FontSize="33" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Bauhaus 93" Foreground="#FFED0000" IsHitTestVisible="False" />
 

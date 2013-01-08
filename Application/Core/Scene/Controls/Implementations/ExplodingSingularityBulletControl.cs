@@ -19,11 +19,34 @@ namespace Orbit.Core.Scene.Controls.Implementations
     {
         public float Strength { get; set; }
         public float Speed { get; set; }
-        private float lifeTime;
         private float explodeTime = 0;
         private SingularityExplodingBullet meBullet;
         private IList<long> hitObjects;
         private bool hitSomething;
+
+        private enum Events
+        {
+            DEATH_AND_BULLET_SPAWN
+        }
+
+        protected override void InitControl(ISceneObject me)
+        {
+            base.InitControl(me);
+            if (!(me is SingularityExplodingBullet))
+                throw new InvalidOperationException("Cannot attach SingularityControl to non SingularityExploadingBullet object");
+
+            hitObjects = new List<long>();
+            meBullet = me as SingularityExplodingBullet;
+            hitSomething = false;
+
+            events.AddEvent((int)Events.DEATH_AND_BULLET_SPAWN, new Event(SharedDef.BULLET_LIFE_TIME, EventType.ONE_TIME, new Action(() => { DieAndSpawnBullets(); })));
+        }
+
+        protected override void UpdateControl(float tpf)
+        {
+            if (hitSomething)
+                Grow(tpf);
+        }
 
         private void Grow(float tpf)
         {
@@ -36,33 +59,11 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 meBullet.DoRemoveMe();
         }
 
-        protected override void InitControl(ISceneObject me)
+        private void DieAndSpawnBullets()
         {
-            base.InitControl(me);
-            if (!(me is SingularityExplodingBullet))
-                throw new InvalidOperationException("Cannot attach SingularityControl to non SingularityExploadingBullet object");
-
-            hitObjects = new List<long>();
-            meBullet = me as SingularityExplodingBullet;
-            lifeTime = 0;
-            hitSomething = false;
-        }
-
-        protected override void UpdateControl(float tpf)
-        {
-            if (!hitSomething)
-            {
-                lifeTime += tpf;
-
-                if (lifeTime >= SharedDef.BULLET_LIFE_TIME)
-                {
-                    if (me.SceneMgr.GetCurrentPlayer().IsActivePlayer())
-                        meBullet.SpawnSmallBullets();
-                        meBullet.DoRemoveMe();
-                }
-            }
-            else
-                Grow(tpf);
+            if (me.SceneMgr.GetCurrentPlayer().IsActivePlayer())
+                meBullet.SpawnSmallBullets();
+            meBullet.DoRemoveMe();
         }
 
         public void StartDetonation()
@@ -70,6 +71,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
             // nevybuchne vickrat
             if (hitSomething)
                 return;
+
+            events.RemoveEvent((int)Events.DEATH_AND_BULLET_SPAWN);
 
             hitSomething = true;
             me.GetControlOfType<LinearMovementControl>().Enabled = false;

@@ -875,7 +875,7 @@ namespace Orbit.Core.Client
                 controls.Add(c1);
 
                 AsteroidFreezeControl removal = new AsteroidFreezeControl();
-                removal.ToRemove = controls;
+                removal.ControlsForDisabling = controls;
                 removal.Time = time;
 
                 a.AddControl(removal);

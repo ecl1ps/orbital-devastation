@@ -9,7 +9,7 @@ using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities
 {
-    public interface ISceneObject
+    public interface ISceneObject : IUpdatable
     {
         long Id { get; set; }
 
@@ -28,8 +28,6 @@ namespace Orbit.Core.Scene.Entities
         bool Visible { get; set; }
 
         DrawingCategory Category { get; set; }
-
-        void Update(float tpf);
 
         void AddControl(IControl control);
 

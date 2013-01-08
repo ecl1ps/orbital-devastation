@@ -15,15 +15,22 @@ namespace Orbit.Core.Server.Level
 
         protected ServerMgr mgr;
         protected List<ISceneObject> objects;
-        protected float newStatPowerupTimer;
-        protected float newAsteroidTimer;
+        protected EventProcessor events;
+
+        private enum Events
+        {
+            ADDITIONAL_ASTEROID,
+            NEW_STAT_POWERUP
+        }
 
         public LevelBasic(ServerMgr serverMgr, List<ISceneObject> objs)
         {
             mgr = serverMgr;
             objects = objs;
-            newStatPowerupTimer = 1;
-            newAsteroidTimer = SharedDef.NEW_ASTEROID_TIMER;
+            events = new EventProcessor();
+
+            events.AddEvent((int)Events.ADDITIONAL_ASTEROID, new Event(SharedDef.NEW_ASTEROID_TIMER, EventType.REPEATABLE, new Action(() => CreateAndSendAdditionalAsteroid())));
+            events.AddEvent((int)Events.NEW_STAT_POWERUP, new Event(1, EventType.REPEATABLE, new Action(() => CreateAndSendNewStatPowerup())));
         }
 
         public void CreateLevelObjects()
@@ -34,26 +41,22 @@ namespace Orbit.Core.Server.Level
 
         public void Update(float tpf)
         {
-            if (newAsteroidTimer <= tpf)
-            {
-                Asteroid a = ServerSceneObjectFactory.CreateNewAsteroidOnEdge(mgr, objects.Count % 2 == 0);
-                objects.Add(a);
-                NetOutgoingMessage msg = mgr.CreateNetMessage();
-                a.WriteObject(msg);
-                mgr.BroadcastMessage(msg);
+            events.Update(tpf);
+        }
 
-                newAsteroidTimer = SharedDef.NEW_ASTEROID_TIMER;
-            }
-            else
-                newAsteroidTimer -= tpf;
+        private void CreateAndSendNewStatPowerup()
+        {
+            GameLevelManager.CreateAndSendNewStatPowerup(mgr);
+            events.RescheduleEvent((int)Events.NEW_STAT_POWERUP, mgr.GetRandomGenerator().Next(SharedDef.NEW_STAT_POWERUP_TIMER_MIN, SharedDef.NEW_STAT_POWERUP_TIMER_MAX + 1));
+        }
 
-            if (newStatPowerupTimer <= tpf)
-            {
-                GameLevelManager.CreateAndSendNewStatPowerup(mgr);
-                newStatPowerupTimer = mgr.GetRandomGenerator().Next(SharedDef.NEW_STAT_POWERUP_TIMER_MIN, SharedDef.NEW_STAT_POWERUP_TIMER_MAX + 1);
-            }
-            else
-                newStatPowerupTimer -= tpf;
+        private void CreateAndSendAdditionalAsteroid()
+        {
+            Asteroid a = ServerSceneObjectFactory.CreateNewAsteroidOnEdge(mgr, objects.Count % 2 == 0);
+            objects.Add(a);
+            NetOutgoingMessage msg = mgr.CreateNetMessage();
+            a.WriteObject(msg);
+            mgr.BroadcastMessage(msg);
         }
 
         public virtual void OnStart()

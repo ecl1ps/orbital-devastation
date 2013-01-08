@@ -15,11 +15,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
     {
         public bool Vulnerable { get; set; }
 
-        private float remainingTime;
-
         public LimitedReverseDamageControl(float time) : base()
         {
-            remainingTime = time;
+            events.AddEvent(1, new Event(time, EventType.ONE_TIME, new Action(() => { End(); })));
         }
 
         protected override void InitControl(Entities.ISceneObject me)
@@ -27,14 +25,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
             me.GetControlsOfType<IDamageControl>().ForEach(control => control.Vulnerable = false);
 
             Vulnerable = true;
-        }
-
-        protected override void UpdateControl(float tpf)
-        {
-            remainingTime -= tpf;
-
-            if (remainingTime <= 0)
-                End();
         }
 
         public void ProccessDamage(int damage, Entities.ISceneObject causedBy)

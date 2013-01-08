@@ -15,6 +15,7 @@
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -45,6 +46,7 @@
     <DocumentationFile>
     </DocumentationFile>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -142,6 +144,7 @@
     <Compile Include="Core\Helpers\GuiObjectFactory.cs" />
     <Compile Include="Core\Helpers\HeavyweightGeometryFactory.cs" />
     <Compile Include="Core\Helpers\NetDataHelper.cs" />
+    <Compile Include="Core\IUpdatable.cs" />
     <Compile Include="Core\NetSearcher.cs" />
     <Compile Include="Core\Players\Input\AbstractInputMgr.cs" />
     <Compile Include="Core\Players\Input\SpectatorInputMgr.cs" />
@@ -159,6 +162,7 @@
     <Compile Include="Core\Scene\CollisionShapes\SquareCollisionShape.cs" />
     <Compile Include="Core\Scene\Controls\Collisions\ICollisionReactionControl.cs" />
     <Compile Include="Core\Scene\Controls\Collisions\Implementations\StickySquareCollisionShapeControl.cs" />
+    <Compile Include="Core\EventProcessor.cs" />
     <Compile Include="Core\Scene\Controls\Health\Implementations\DestroyHpControl.cs" />
     <Compile Include="Core\Scene\Controls\Health\Implementations\BaseHealthControl.cs" />
     <Compile Include="Core\Scene\Controls\IDamageControl.cs" />
@@ -195,7 +199,7 @@
     <Compile Include="Core\Scene\Controls\Implementations\StaticFieldControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\StatPowerUpCollisionReactionControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\StretchingLineControl.cs" />
-    <Compile Include="Core\Scene\Controls\Implementations\TemporaryControlRemovalControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\TemporaryControlDisableControl.cs" />
     <Compile Include="Core\Scene\Controls\Unused\VectorLineObjectMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DroppingSingularityControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ExplodingSingularityBulletControl.cs" />
@@ -751,7 +755,8 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>rd "$(ProjectDir)obj" /S /Q
+    <PostBuildEvent>if /I "$(ConfigurationName)" == "Release" Eazfuscator.NET.exe "$(TargetPath)" --msbuild-project-path "$(ProjectPath)" --msbuild-project-configuration "$(ConfigurationName)" --msbuild-project-platform "$(PlatformName)" --msbuild-solution-path "$(SolutionPath)" -n --newline-flush -v 3.3
+rd "$(ProjectDir)obj" /S /Q
 copy "$(TargetDir)$(TargetFileName)" "$(TargetDir)Copy Debug\$(TargetFileName)"
 copy "$(TargetDir)$(TargetFileName)" "$(TargetDir)Copy Debug2\$(TargetFileName)"</PostBuildEvent>
   </PropertyGroup>

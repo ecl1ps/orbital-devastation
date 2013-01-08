@@ -7,18 +7,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
 {
     public class LimitedLifeControl : Control
     {
-        protected float timeLeft;
-
         public LimitedLifeControl(float timeToDie)
         {
-            timeLeft = timeToDie;
-        }
-
-        protected override void UpdateControl(float tpf)
-        {
-            timeLeft -= tpf;
-            if (timeLeft <= 0)
-                me.DoRemoveMe();
+            events.AddEvent(1, new Event(timeToDie, EventType.ONE_TIME, new Action(() => { me.DoRemoveMe(); })));
         }
     }
 }

@@ -18,8 +18,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         protected override void InitControl(Entities.ISceneObject me)
         {
-            base.InitControl(me);
-
             me.SceneMgr.Invoke(new Action(() =>
             {
                 effect = new PinchEffect();
@@ -36,8 +34,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         protected override void UpdateControl(float tpf)
         {
-            base.UpdateControl(tpf);
-
             if (progress > Speed)
                 Destroy();
 
@@ -56,7 +52,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         public override void OnRemove()
         {
-            base.OnRemove();
             me.SceneMgr.Invoke(new Action(() =>
             {
                 me.SceneMgr.GetCanvas().Effect = null;

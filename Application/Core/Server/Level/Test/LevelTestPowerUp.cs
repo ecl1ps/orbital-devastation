@@ -15,13 +15,15 @@ namespace Orbit.Core.Server.Level
 
         private ServerMgr mgr;
         private List<ISceneObject> objects;
-        private float newStatPowerupTimer;
+        private EventProcessor events;
 
         public LevelTestPoweUp(ServerMgr serverMgr, List<ISceneObject> objs)
         {
             mgr = serverMgr;
             objects = objs;
-            newStatPowerupTimer = 1;
+            events = new EventProcessor();
+
+            events.AddEvent(1, new Event(0.2f, EventType.REPEATABLE, new Action(() => GameLevelManager.CreateAndSendNewStatPowerup(mgr))));
         }
 
         public void CreateLevelObjects()
@@ -30,13 +32,7 @@ namespace Orbit.Core.Server.Level
 
         public void Update(float tpf)
         {
-            if (newStatPowerupTimer <= tpf)
-            {
-                GameLevelManager.CreateAndSendNewStatPowerup(mgr);
-                newStatPowerupTimer = 0.2f;
-            }
-            else
-                newStatPowerupTimer -= tpf;
+            events.Update(tpf);
         }
 
         public void OnStart()

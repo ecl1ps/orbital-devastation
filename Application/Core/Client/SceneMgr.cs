@@ -25,7 +25,7 @@ using Orbit.Core.Scene.Entities.HeavyWeight;
 
 namespace Orbit.Core.Client
 {
-    public partial class SceneMgr
+    public partial class SceneMgr : IUpdatable
     {
         private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -234,7 +234,6 @@ namespace Orbit.Core.Client
                 return;
             }
 
-            obj.OnAttach();
             objects.Add(obj);
 
             BeginInvoke(new Action(() =>
@@ -252,6 +251,7 @@ namespace Orbit.Core.Client
         public void DelayedAttachToScene(ISceneObject obj)
         {
             objectsToAdd.Add(obj);
+            obj.OnAttach();
         }
 
         /// <summary>
@@ -299,6 +299,7 @@ namespace Orbit.Core.Client
         public void RemoveFromSceneDelayed(ISceneObject obj)
         {
             obj.Dead = true;
+            obj.OnRemove();
             objectsToRemove.Add(obj);
         }
 
@@ -323,7 +324,6 @@ namespace Orbit.Core.Client
             for (int i = 0; i < objectsToRemove.Count; ++i)
             {
                 obj = objectsToRemove[i];
-                obj.OnRemove();
                 DirectRemoveFromScene(obj);
             }
 
@@ -819,7 +819,6 @@ namespace Orbit.Core.Client
         {
             List<ISceneObject> temp = new List<ISceneObject>();
 
-            //TODO zkusit otocit podminku
             foreach (ISceneObject obj in objects) 
             {
                 if (obj.GetType().IsAssignableFrom(clazz))

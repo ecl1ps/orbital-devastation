@@ -19,7 +19,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
     {
         public float Strength { get; set; }
         public float Speed { get; set; }
-        private float lifeTime;
         protected SingularityMine meMine;
         private IList<long> hitObjects;
         private bool hitSomething;
@@ -36,7 +35,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             hitObjects = new List<long>();
             meMine = me as SingularityMine;
-            lifeTime = 0;
             hitSomething = false;
         }
 
@@ -48,24 +46,19 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (!hitSomething && GetDistToExplosionPct() <= 0)
                 StartDetonation();
 
-            if (!hitSomething)
-                return;
+            if (hitSomething)
+                Grow(tpf);                
+        }
 
-            lifeTime += tpf;
+        private void Die()
+        {
+            if (meMine.Owner.IsCurrentPlayer() && hitObjects.Count > 2)
+                me.SceneMgr.FloatingTextMgr.AddFloatingText(GetMultihitMessage(hitObjects.Count),
+                    meMine.Center, FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG, false, true);
 
-            if (lifeTime >= SharedDef.MINE_LIFE_TIME)
-            {
-                if (meMine.Owner.IsCurrentPlayer() && hitObjects.Count > 2)
-                    me.SceneMgr.FloatingTextMgr.AddFloatingText(GetMultihitMessage(hitObjects.Count),
-                        meMine.Center, FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG, false, true);
-
-                if (meMine.Owner.IsCurrentPlayerOrBot() && hitObjects.Count > 2)
-                    meMine.Owner.AddScoreAndShow((int)Math.Pow(hitObjects.Count, ScoreDefines.MINE_HIT_MULTIPLE_EXPONENT));
-                meMine.DoRemoveMe();
-                return;
-            }
-
-            Grow(tpf);                
+            if (meMine.Owner.IsCurrentPlayerOrBot() && hitObjects.Count > 2)
+                meMine.Owner.AddScoreAndShow((int)Math.Pow(hitObjects.Count, ScoreDefines.MINE_HIT_MULTIPLE_EXPONENT));
+            meMine.DoRemoveMe();
         }
 
         private string GetMultihitMessage(int count)
@@ -137,6 +130,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 return;
 
             hitSomething = true;
+
+            events.AddEvent(1, new Event(SharedDef.MINE_LIFE_TIME, EventType.ONE_TIME, new Action(() => { Die(); })));
 
             SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_EXPLOSION);
 

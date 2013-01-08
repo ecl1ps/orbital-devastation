@@ -7,10 +7,10 @@
              d:DesignHeight="30" d:DesignWidth="650" Margin="0,5,0,0">
     <Border BorderBrush="Black" BorderThickness="1">
         <Grid Width="650">
-            <Label Content="Hooker Maxi Bot" Height="28" HorizontalAlignment="Left" Margin="12,0,0,0" Name="lblName" VerticalAlignment="Center" FontSize="12" />
-            <Label Content="Spectating" Height="28" HorizontalAlignment="Left" Margin="105,0,0,0" Name="lblActive" VerticalAlignment="Center" FontSize="11" />
-            <Label Content="Score: 264831" Height="28" HorizontalAlignment="Left" Margin="171,0,0,0" Name="lblScore" VerticalAlignment="Center" FontSize="11" />
-            <Label Content="Gold: 41646" Height="28" HorizontalAlignment="Right" Margin="0,0,332,0" Name="lblGold" VerticalAlignment="Center" FontSize="11" />
+            <Label Content="MMMMMMMMMM" Height="28" HorizontalAlignment="Left" Margin="12,0,0,0" Name="lblName" VerticalAlignment="Center" FontSize="12" />
+            <Label Content="Spectating" Height="28" HorizontalAlignment="Left" Margin="122,0,0,0" Name="lblActive" VerticalAlignment="Center" FontSize="11" />
+            <Label Content="Score: 264831" Height="28" HorizontalAlignment="Left" Margin="188,0,0,0" Name="lblScore" VerticalAlignment="Center" FontSize="11" />
+            <Label Content="Gold: 41646" Height="28" HorizontalAlignment="Right" Margin="0,0,318,0" Name="lblGold" VerticalAlignment="Center" FontSize="11" />
 
             <Label Content="Mine: III" Height="28" Margin="349,0,252,0" Name="lblMine" VerticalAlignment="Center" FontSize="11" />
             <Label Content="Cannon: III" Height="28" HorizontalAlignment="Left" Margin="394,0,0,0" Name="lblCannon" VerticalAlignment="Center" FontSize="11" />

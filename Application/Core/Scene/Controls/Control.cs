@@ -11,6 +11,8 @@ namespace Orbit.Core.Scene.Controls
         public virtual bool Enabled { get; set; }
 
         private List<Action> actions = new List<Action>();
+        
+        protected EventProcessor events = new EventProcessor();
 
         public Control() 
         {
@@ -26,7 +28,10 @@ namespace Orbit.Core.Scene.Controls
         public void Update(float tpf)
         {
             if (Enabled)
+            {
                 UpdateControl(tpf);
+                events.Update(tpf);
+            }
         }
 
         public virtual void OnSceneObjectRemove()
@@ -39,17 +44,17 @@ namespace Orbit.Core.Scene.Controls
             actions.Add(a);
         }
 
-        public virtual void OnRemove() { }
-
-        protected virtual void InitControl(ISceneObject me) { }
-
-        protected virtual void UpdateControl(float tpf) { }
-
-
         public void Destroy()
         {
             OnRemove();
             me.RemoveControl(this);
         }
+
+
+        public virtual void OnRemove() { }
+
+        protected virtual void InitControl(ISceneObject me) { }
+
+        protected virtual void UpdateControl(float tpf) { }
     }
 }
