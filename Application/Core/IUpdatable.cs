@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Orbit.Core
 {
-    public interface IGameState : IUpdatable
+    public interface IUpdatable
     {
+        void Update(float tpf);
     }
 }
