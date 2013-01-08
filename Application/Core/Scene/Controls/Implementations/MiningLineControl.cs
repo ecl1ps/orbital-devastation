@@ -9,7 +9,7 @@ using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    class MiningEllipse
+    public class MiningEllipse
     {
         public OrbitEllipse Obj { get; set; }
         public float RunningTime { get; set; }
@@ -21,10 +21,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
         }
     }
 
-    class MiningLineControl : Control
+    public class MiningLineControl : Control
     {
         private Line line;
-        private float spawnTime = 0;
 
         protected override void InitControl(Entities.ISceneObject me)
         {
@@ -33,19 +32,11 @@ namespace Orbit.Core.Scene.Controls.Implementations
             else
                 throw new Exception("MiningLineControl must be attached to SolidLine object");
 
-        }
-
-        protected override void UpdateControl(float tpf)
-        {
-            spawnTime -= tpf;
-            if (spawnTime < 0)
-                SpawnNewEllipse();
+            events.AddEvent(1, new Event(SharedDef.SPECTATOR_ORBITS_SPAWN_TIME, EventType.REPEATABLE, new Action(() => { SpawnNewEllipse(); })));
         }
 
         private void SpawnNewEllipse()
         {
-            spawnTime = SharedDef.SPECTATOR_ORBITS_SPAWN_TIME;
-
             OrbitEllipse ellipse = SceneObjectFactory.CreateOrbitEllipse(me.SceneMgr, line.End, 2.5f, 2.5f);
 
             MiningEllipseControl control = new MiningEllipseControl();

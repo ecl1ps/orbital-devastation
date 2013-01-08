@@ -76,7 +76,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         private void UpdateRecentCollisions(float tpf)
         {
-            for(int i = recentlyCollided.Count - 1; i >= 0; i--) 
+            for (int i = recentlyCollided.Count - 1; i >= 0; i--) 
             {
                 recentlyCollided[i].TimeLeft -= tpf;
                 if (recentlyCollided[i].TimeLeft < 0)
