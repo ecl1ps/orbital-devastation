@@ -150,19 +150,19 @@ namespace Orbit.Core.Server.Match
                 String time = ParseTime(totalTime);
                 int val = (int) (FastMath.LinearInterpolate(0, SharedDef.SPECTATOR_WIN_BONUS, totalTime / SharedDef.SPECTATOR_MAX_TIME_BONUS) * SharedDef.SOLO_SPECTATOR_WIN_MULTIPLY);
                 spectator.Data.Score += val;
-                SendFloatingTextMessage(spectator, "Thanks to your effort game lasted " + time + " . You acquire " + val + " score", server);
+                SendTextMessage(spectator, "Thanks to your effort game lasted " + time + " . You acquire " + val + " score", server);
             }
             //spectator musel ochranovat hrace
             else if (spectator.Data.FriendlyPlayerId == winner.GetId())
             {
                 int val = SharedDef.SPECTATOR_WIN_BONUS;
                 spectator.Data.Score += val;
-                SendFloatingTextMessage(spectator, "You win. You acquire " + val + " score", server);
+                SendTextMessage(spectator, "You win. You acquire " + val + " score", server);
             }
             //spectator prohral
             else
             {
-                SendFloatingTextMessage(spectator, "You loose", server);
+                SendTextMessage(spectator, "You loose", server);
             }
 
             SendPlayerScore(spectator, server);

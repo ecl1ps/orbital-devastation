@@ -56,8 +56,8 @@ namespace Orbit.Core.Server.Match
             SendPlayerScore(plr, server);
             SendPlayerScore(looser, server);
 
-            SendFloatingTextMessage(plr, "You are victorious. For your brave victory you earned " + scoreWin + " score", server);
-            SendFloatingTextMessage(looser, "You lost. For your fierce defense you get " + scoreLoose + " score", server);
+            SendTextMessage(plr, "You are victorious. For your brave victory you earned " + scoreWin + " score", server);
+            SendTextMessage(looser, "You lost. For your fierce defense you get " + scoreLoose + " score", server);
         }
 
         protected void SetPlayedTogether(Player plr1, Player plr2)
@@ -139,19 +139,12 @@ namespace Orbit.Core.Server.Match
                 p.Data.Active = false;
         }
 
-        protected void SendFloatingTextMessage(Player p, String text, ServerMgr server)
+        protected void SendTextMessage(Player p, String text, ServerMgr server)
         {
-            Vector center = new Vector();
-            center.X = SharedDef.VIEW_PORT_SIZE.Width / 2;
-            center.Y = SharedDef.VIEW_PORT_SIZE.Height / 2;
-
             NetOutgoingMessage msg = server.CreateNetMessage();
-            msg.Write((int)PacketType.FLOATING_TEXT);
+            msg.Write((int)PacketType.SHOW_ALLERT_MESSAGE);
             msg.Write(text);
-            msg.Write(center);
-            msg.Write(FloatingTextManager.TIME_LENGTH_6);
-            msg.Write((byte)FloatingTextType.SYSTEM);
-            msg.Write(FloatingTextManager.SIZE_BIGGER);
+            msg.Write(AlertMessageManager.TIME_NORMAL);
 
             server.SendMessage(msg, p);
         }
