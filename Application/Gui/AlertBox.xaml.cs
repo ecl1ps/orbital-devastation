@@ -30,11 +30,11 @@ namespace Orbit.Gui
         public AlertBox()
         {
             InitializeComponent();
-            sizeLeft = 70;
-            sizeRight = 70;
+            sizeLeft = 260;
+            sizeRight = 260;
 
-            minPosition = -145;
-            maxPosition = 10;
+            minPosition = -90;
+            maxPosition = 5;
             maxRotation = 180;
 
             Slip(1);
@@ -44,6 +44,7 @@ namespace Orbit.Gui
         {
             DoorLeft.Margin = new Thickness(-FastMath.LinearInterpolate(sizeLeft, 0, val), 0, 0, 0);
             DoorRight.Margin = new Thickness(0, 0, -FastMath.LinearInterpolate(sizeRight, 0, val), 0);
+            RotateSprockets(val);
         }
 
         public void Hide(bool hide)
@@ -58,7 +59,11 @@ namespace Orbit.Gui
         {
             Canvas.SetTop(Panel, FastMath.LinearInterpolate(maxPosition, minPosition, val));
             Canvas.SetTop(TextBlock, FastMath.LinearInterpolate(maxPosition, minPosition, val) + 5);
+            RotateSprockets(val);
+        }
 
+        private void RotateSprockets(double val)
+        {
             SprocketLeft.RenderTransform = new RotateTransform(FastMath.LinearInterpolate(0, maxRotation, val), 20, 20);
             SprocketRight.RenderTransform = new RotateTransform(FastMath.LinearInterpolate(maxRotation, 0, val), 20, 20);
         }

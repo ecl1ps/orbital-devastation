@@ -500,13 +500,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
-    <Resource Include="resources\images\background\sprocket.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="resources\images\background\door_left.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="resources\images\background\door_right.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\background\sprocket.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="resources\images\icons\active.png">
