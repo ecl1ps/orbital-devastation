@@ -285,6 +285,9 @@ namespace Orbit.Core.Client
 
         private void ColorizeSpectators(List<Player> spectators, Player p1, Player p2)
         {
+            if (p1 == null || p2 == null)
+                return;
+
             spectators.ForEach(p =>
             {
                 if (p.Data.FriendlyPlayerId == p1.GetId())
@@ -745,8 +748,11 @@ namespace Orbit.Core.Client
         private void ReceiveModuleDamage(NetIncomingMessage msg)
         {
             Player player = GetPlayer(msg.ReadInt32());
-            player.Device.TakeDamage(msg.ReadInt32(), null);
             player.Device.GetControlOfType<IHpControl>().Hp = msg.ReadInt32();
+            
+            HpRegenControl control = player.Device.GetControlOfType<HpRegenControl>();
+            if (control != null)
+                control.TakeHit();
         }
 
         private void ChangeMoveState(NetIncomingMessage msg)

@@ -89,8 +89,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (!CanCollideWithObject(other))
                 return;
 
-            StartDetonation();
-
             if (meBullet.SceneMgr.GameType != Gametype.SOLO_GAME && !meBullet.Owner.IsCurrentPlayer())
                 return;
 
@@ -108,6 +106,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             if (!(other is UnstableAsteroid))
             {
+                if (other.GetControlOfType<ModuleDamageControl>() != null && !other.GetControlOfType<ModuleDamageControl>().Vulnerable)
+                    return;
+
                 float speed = 0;
                 IMovementControl control = other.GetControlOfType<IMovementControl>();
 
@@ -139,8 +140,13 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 if (!(me as SingularityBullet).Owner.IsCurrentPlayerOrBot())
                     return;
 
+                if (other.GetControlOfType<ModuleDamageControl>() != null && !other.GetControlOfType<ModuleDamageControl>().Vulnerable)
+                    return;
+
                 HitAsteroid(other as IDestroyable);
             }
+
+            StartDetonation();
         }
     }
 }

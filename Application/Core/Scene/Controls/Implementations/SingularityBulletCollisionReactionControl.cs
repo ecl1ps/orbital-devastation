@@ -39,17 +39,27 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (!CanCollideWithObject(other))
                 return;
 
-            bullet.DoRemoveMe();
-
             if (other is Asteroid)
             {
+                bullet.DoRemoveMe();
                 if (!bullet.Owner.IsCurrentPlayerOrBot())
                     return;
 
                 HitAsteroid(other as IDestroyable);
             }
+            else if (other is MiningModule)
+            {
+                ModuleDamageControl control = other.GetControlOfType<ModuleDamageControl>();
+                if (!control.Vulnerable)
+                    return;
+
+                (other as IDestroyable).TakeDamage(bullet.Damage, bullet);
+                bullet.DoRemoveMe();
+
+            }
             else if (other is IDestroyable)
             {
+                bullet.DoRemoveMe();
                 (other as IDestroyable).TakeDamage(bullet.Damage, bullet);
                 bullet.Owner.AddScoreAndShow(ScoreDefines.CANNON_HIT);
             }

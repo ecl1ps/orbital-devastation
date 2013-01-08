@@ -7,6 +7,7 @@ using Orbit.Core.Scene.Entities.Implementations;
 using Lidgren.Network;
 using Orbit.Core.Scene.Controls.Health;
 using Orbit.Core.Scene.Controls.Health.Implementations;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -32,27 +33,30 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (!Vulnerable)
                 return;
 
-            Hp -= damage;
-            HpRegenControl control = module.GetControlOfType<HpRegenControl>();
-            if (control != null)
-                control.TakeHit();
+            if (causedBy is SingularityBullet && !(causedBy as SingularityBullet).Owner.IsCurrentPlayer())
+                return;
 
-            if (module.Owner.IsCurrentPlayer())
-            {
+                Hp -= damage;
+                HpRegenControl control = module.GetControlOfType<HpRegenControl>();
+                if (control != null)
+                    control.TakeHit();
+
                 NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();
                 msg.Write((int)PacketType.MINING_MODULE_DMG_TAKEN);
                 msg.Write(module.Owner.GetId());
-                msg.Write(damage);
                 msg.Write(Hp);
-
+                
                 me.SceneMgr.SendMessage(msg);
-            }
+
+                if (causedBy is SingularityBullet && me.SceneMgr.GetCurrentPlayer().IsActivePlayer())
+                    me.SceneMgr.FloatingTextMgr.AddFloatingText(damage, me.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE, FloatingTextManager.SIZE_SMALL, false, true);
         }
 
         protected override void OnDeath()
         {
             module.GetControlOfType<HpBarControl>().Bar.Percentage = 0;
             module.GetControlOfType<RespawningObjectControl>().Die(SharedDef.SPECTATOR_RESPAWN_TIME);
+            Vulnerable = false;
         }
     }
 }
