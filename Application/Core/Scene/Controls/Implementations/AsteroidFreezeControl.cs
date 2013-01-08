@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    public class AsteroidFreezeControl : TemporaryControlRemovalControl
+    public class AsteroidFreezeControl : TemporaryControlDisableControl
     {
         protected override void InitControl(Entities.ISceneObject me)
         {

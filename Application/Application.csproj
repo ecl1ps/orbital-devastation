@@ -199,7 +199,7 @@
     <Compile Include="Core\Scene\Controls\Implementations\StaticFieldControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\StatPowerUpCollisionReactionControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\StretchingLineControl.cs" />
-    <Compile Include="Core\Scene\Controls\Implementations\TemporaryControlRemovalControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\TemporaryControlDisableControl.cs" />
     <Compile Include="Core\Scene\Controls\Unused\VectorLineObjectMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DroppingSingularityControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ExplodingSingularityBulletControl.cs" />
