@@ -19,7 +19,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         protected override void InitControl(ISceneObject me)
         {
-            base.InitControl(me);
             shape = new SphereCollisionShape();
             shape.Radius = 200;
 
@@ -28,7 +27,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         protected override void UpdateControl(float tpf)
         {
-            base.UpdateControl(tpf);
             shape.Center = me.Center;
 
             foreach (ISceneObject obj in me.SceneMgr.GetSceneObjects())

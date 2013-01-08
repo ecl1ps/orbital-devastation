@@ -19,27 +19,28 @@ namespace Orbit.Core.Scene.Controls.Implementations
         public IContainsGold Obj { get; set; }
         public Line MiningLine { get; set; }
 
-        public MiningObject(IContainsGold obj, Line line) : this()
+        public MiningObject(IContainsGold obj, Line line)
+            : this()
         {
             Obj = obj;
             MiningLine = line;
         }
     }
 
-    class CollisionData
-    {
-        public ISceneObject Obj { get; set; }
-        public float TimeLeft { get; set; }
-
-        public CollisionData(ISceneObject obj)
-        {
-            Obj = obj;
-            TimeLeft = SharedDef.SPECTATOR_COLLISION_INTERVAL;
-        }
-    }
-
     public class MiningModuleControl : Control, ICollisionReactionControl
     {
+        private class CollisionData
+        {
+            public ISceneObject Obj { get; set; }
+            public float TimeLeft { get; set; }
+
+            public CollisionData(ISceneObject obj)
+            {
+                Obj = obj;
+                TimeLeft = SharedDef.SPECTATOR_COLLISION_INTERVAL;
+            }
+        }
+
         private SceneMgr sceneMgr;
         private List<CollisionData> recentlyCollided;
 

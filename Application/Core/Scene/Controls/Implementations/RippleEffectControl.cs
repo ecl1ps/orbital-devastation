@@ -16,7 +16,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         protected override void InitControl(Entities.ISceneObject me)
         {
-            base.InitControl(me);
             if (me is HeavyWeightSceneObject)
                 this.me = me as HeavyWeightSceneObject;
             else
@@ -39,7 +38,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         protected override void UpdateControl(float tpf)
         {
-            base.UpdateControl(tpf);
             me.SceneMgr.BeginInvoke(new Action(() => { effect.Phase -= Speed * tpf; }));
         }
     }
