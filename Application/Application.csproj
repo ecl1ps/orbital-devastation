@@ -162,6 +162,7 @@
     <Compile Include="Core\Scene\CollisionShapes\SquareCollisionShape.cs" />
     <Compile Include="Core\Scene\Controls\Collisions\ICollisionReactionControl.cs" />
     <Compile Include="Core\Scene\Controls\Collisions\Implementations\StickySquareCollisionShapeControl.cs" />
+    <Compile Include="Core\EventProcessor.cs" />
     <Compile Include="Core\Scene\Controls\Health\Implementations\DestroyHpControl.cs" />
     <Compile Include="Core\Scene\Controls\Health\Implementations\BaseHealthControl.cs" />
     <Compile Include="Core\Scene\Controls\IDamageControl.cs" />
