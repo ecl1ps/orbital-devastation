@@ -63,7 +63,7 @@ namespace Orbit.Core.Client.GameStates
                 if (element == null)
                 {
                     Size size = SharedDef.VIEW_PORT_SIZE;
-                    element = GuiObjectFactory.CreateAndAddAlertBox(mgr, new Vector(0, 0));
+                    element = GuiObjectFactory.CreateAndAddAlertBox(mgr, new Vector((SharedDef.VIEW_PORT_SIZE.Width - 395) / 2, 0));
                 }
             }));
         }

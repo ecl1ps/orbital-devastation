@@ -199,10 +199,21 @@ namespace Orbit.Core.Players
 
         public void Update(float tpf)
         {
-            if (!informedProtecting && !IsActivePlayer())
+            if (!informedProtecting)
             {
                 informedProtecting = true;
-                ShowProtecting();
+                if (IsActivePlayer())
+                {
+                    String text;
+                    if (GetPosition() == PlayerPosition.LEFT)
+                        text = "Protect your base! You are on LEFT side";
+                    else
+                        text = "Protect your base! You are on RIGHT side";
+
+                    SceneMgr.AlertMessageMgr.Show(text, AlertMessageManager.TIME_NORMAL);
+                }
+                else
+                    ShowProtecting();
             }
 
             Player p = null;

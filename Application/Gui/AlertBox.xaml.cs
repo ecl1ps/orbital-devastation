@@ -30,10 +30,10 @@ namespace Orbit.Gui
         public AlertBox()
         {
             InitializeComponent();
-            sizeLeft = 260;
-            sizeRight = 260;
+            sizeLeft = 190;
+            sizeRight = 190;
 
-            minPosition = -90;
+            minPosition = -60;
             maxPosition = 5;
             maxRotation = 180;
 
@@ -64,8 +64,8 @@ namespace Orbit.Gui
 
         private void RotateSprockets(double val)
         {
-            SprocketLeft.RenderTransform = new RotateTransform(FastMath.LinearInterpolate(0, maxRotation, val), 20, 20);
-            SprocketRight.RenderTransform = new RotateTransform(FastMath.LinearInterpolate(maxRotation, 0, val), 20, 20);
+            SprocketLeft.RenderTransform = new RotateTransform(FastMath.LinearInterpolate(0, maxRotation, val), 15, 15);
+            SprocketRight.RenderTransform = new RotateTransform(FastMath.LinearInterpolate(maxRotation, 0, val), 15, 15);
         }
 
         public void SetText(String text)
