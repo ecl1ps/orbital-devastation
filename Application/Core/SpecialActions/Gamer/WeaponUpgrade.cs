@@ -84,7 +84,7 @@ namespace Orbit.Core.SpecialActions.Gamer
 
             SendPlayerBoughtUpgrade();
 
-            SceneMgr.AlertMessageMgr.Show("New weapon bought " + Name, AlertMessageManager.TIME_NORMAL);
+            SceneMgr.AlertMessageMgr.Show("New weapon bought: " + Name, AlertMessageManager.TIME_NORMAL);
             LoadWeapon((currentWeapon.NextSpecialAction() as WeaponUpgrade).GetWeapon());
         }
 
