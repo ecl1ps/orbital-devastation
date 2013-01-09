@@ -8,7 +8,7 @@
     <Canvas Height="80" Width="395">
         <Image Name="SprocketLeft" Height="30" Panel.ZIndex="10" Source="pack://application:,,,/resources/images/background/sprocket.png" Canvas.Left="-13" Canvas.Top="-15"></Image>
         <Image Name="SprocketRight" Height="30" Panel.ZIndex="10" Source="pack://application:,,,/resources/images/background/sprocket.png" Canvas.Left="378" Canvas.Top="-15"></Image>
-        <TextBlock Name="TextBlock" Canvas.Left="20" Canvas.Top="15" Width="355" Height="60" Text="Testovací text" TextAlignment="Center" FontFamily="Stencil" Foreground="#FFC7C7C7" FontSize="20" TextWrapping="Wrap">
+        <TextBlock Name="TextBlock" Background="#934A4A4A" Canvas.Left="20" Canvas.Top="15" Width="355" Height="60" Text="Testovací text" TextAlignment="Center" FontFamily="Stencil" Foreground="#FFC7C7C7" FontSize="20" TextWrapping="Wrap">
         </TextBlock>
         <Grid Name="Panel" Canvas.Left="0" Canvas.Top="10" Height="70" Width="395" ClipToBounds="True" Panel.ZIndex="1">
             <Grid Name="DoorLeft" HorizontalAlignment="Left" Height="70">
