@@ -39,6 +39,7 @@ namespace Orbit.Gui
             }));
         }
 
+        [System.Reflection.ObfuscationAttribute(Feature = "renaming")]
         private void OnActionBarClick(object sender, MouseButtonEventArgs e)
         {
             Point p = e.GetPosition(ActionBarUC);
