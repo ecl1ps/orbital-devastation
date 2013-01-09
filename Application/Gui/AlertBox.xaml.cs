@@ -44,6 +44,8 @@ namespace Orbit.Gui
         {
             if (val > 1)
                 val = 1;
+            else if (val < 0)
+                val = 0;
 
             DoorLeft.Margin = new Thickness(-FastMath.LinearInterpolate(sizeLeft, 0, val), 0, 0, 0);
             DoorRight.Margin = new Thickness(0, 0, -FastMath.LinearInterpolate(sizeRight, 0, val), 0);
@@ -62,9 +64,12 @@ namespace Orbit.Gui
         {
             if (val > 1)
                 val = 1;
+            else if (val < 0)
+                val = 0;
 
             Canvas.SetTop(Panel, FastMath.LinearInterpolate(maxPosition, minPosition, val));
             Canvas.SetTop(TextBlock, FastMath.LinearInterpolate(maxPosition, minPosition, val) + 5);
+            Canvas.SetTop(Background, FastMath.LinearInterpolate(maxPosition, minPosition, val) + 5);
             RotateSprockets(val);
         }
 
