@@ -45,7 +45,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 msg.Write((int)PacketType.MINING_MODULE_DMG_TAKEN);
                 msg.Write(module.Owner.GetId());
                 msg.Write(Hp);
-                
+                msg.Write(damage);
+    
                 me.SceneMgr.SendMessage(msg);
 
                 if (causedBy is SingularityBullet && me.SceneMgr.GetCurrentPlayer().IsActivePlayer())

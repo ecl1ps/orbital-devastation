@@ -45,6 +45,9 @@ namespace Orbit.Core.Weapons
             if (IsReady()) {
                 SpawnHook(point);
                 ReloadTime = Owner.Data.HookCooldown;
+                
+                if(Owner.IsCurrentPlayer())
+                    SceneMgr.StatisticsMgr.HookFired++;
             }
         }
 

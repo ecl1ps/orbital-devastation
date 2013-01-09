@@ -46,6 +46,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                     return;
 
                 HitAsteroid(other as IDestroyable);
+                addHitStat();
             }
             else if (other is MiningModule)
             {
@@ -55,6 +56,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
                 (other as IDestroyable).TakeDamage(bullet.Damage, bullet);
                 bullet.DoRemoveMe();
+                addHitStat();
 
             }
             else if (other is IDestroyable)
@@ -62,7 +64,14 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 bullet.DoRemoveMe();
                 (other as IDestroyable).TakeDamage(bullet.Damage, bullet);
                 bullet.Owner.AddScoreAndShow(ScoreDefines.CANNON_HIT);
+                addHitStat();
             }
+        }
+
+        protected void addHitStat()
+        {
+            if (bullet.Owner.IsCurrentPlayer())
+                me.SceneMgr.StatisticsMgr.BulletHit++;
         }
 
         public virtual void HitAsteroid(IDestroyable asteroid)

@@ -51,6 +51,9 @@ namespace Orbit.Core.Weapons
             {
                 SpawnMine(point);
                 ReloadTime = Owner.Data.MineCooldown;
+
+                if (Owner.IsCurrentPlayer())
+                    SceneMgr.StatisticsMgr.MineFired++;
             }
         }
 

@@ -90,6 +90,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             // za unstable se nedostava vubec zadne score
             ProcessScore(caught);
+            me.SceneMgr.StatisticsMgr.HookHit++;
         }
 
         /// <summary>

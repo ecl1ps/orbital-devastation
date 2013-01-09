@@ -37,6 +37,7 @@ namespace Orbit.Core.SpecialActions
             Owner.AddGoldAndShow((int) -Cost);
             StartCoolDown();
             shared.ForEach(a => a.StartCoolDown());
+            SceneMgr.StatisticsMgr.Actions.Add(this);
         }
 
         public abstract bool IsReady();

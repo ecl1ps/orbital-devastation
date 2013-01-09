@@ -34,6 +34,8 @@ namespace Orbit.Core.Utils
                 owner.ChangeBaseIntegrity(heal + owner.Data.BonusHeal, true);
                 Cost *= SharedDef.HEAL_MULTIPLY_COEF;
                 SendMessageWithHeal();
+
+                mgr.StatisticsMgr.Healed += heal;
         }
 
         private void SendMessageWithHeal()

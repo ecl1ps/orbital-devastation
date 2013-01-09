@@ -144,6 +144,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                     return;
 
                 HitAsteroid(other as IDestroyable);
+                me.SceneMgr.StatisticsMgr.BulletHit++;
             }
 
             StartDetonation();
