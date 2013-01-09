@@ -51,45 +51,34 @@ namespace Orbit.Gui
             if (asLeader && !settingsLocked)
             {
                 List<ComboData> data = new List<ComboData>();
-                // pridani produkcnich manageru
                 foreach (MatchManagerType t in Enum.GetValues(typeof(MatchManagerType)))
                 {
                     MatchManagerInfo i = MatchManagerInfoAccessor.GetInfo(t);
+#if DEBUG   // v debugu pridat vsechny managery
+                    data.Add(new ComboData { Id = t, Name = i.Text });
+#else
                     if (!i.IsDebug)
                         data.Add(new ComboData { Id = t, Name = i.Text });
+#endif
                 }
 
-#if DEBUG
-                // pridani testovacich manageru
-                foreach (MatchManagerType t in Enum.GetValues(typeof(MatchManagerType)))
-                {
-                    MatchManagerInfo i = MatchManagerInfoAccessor.GetInfo(t);
-                    if (i.IsDebug)
-                        data.Add(new ComboData { Id = t, Name = i.Text });
-                }
-#endif
                 cbType.ItemsSource = data;
                 cbType.DisplayMemberPath = "Name";
                 cbType.SelectedValuePath = "Id";
                 cbType.SelectedValue = MatchManagerType.WINS_THEN_SCORE;
 
                 data = new List<ComboData>();
-                // pridani produkcnich map
                 foreach (GameLevel l in Enum.GetValues(typeof(GameLevel)))
                 {
                     LevelInfo i = LevelInfoAccessor.GetInfo(l);
+#if DEBUG   // v debugu pridat vsechny mapy
+                    data.Add(new ComboData { Id = l, Name = i.Text });
+#else
                     if (!i.IsDebug)
                         data.Add(new ComboData { Id = l, Name = i.Text });
-                }
-#if DEBUG
-                // pridani testovacich map
-                foreach (GameLevel l in Enum.GetValues(typeof(GameLevel)))
-                {
-                    LevelInfo i = LevelInfoAccessor.GetInfo(l);
-                    if (i.IsDebug)
-                        data.Add(new ComboData { Id = l, Name = i.Text });
-                }
 #endif
+
+                }
 
                 cbMap.ItemsSource = data;
                 cbMap.DisplayMemberPath = "Name";
@@ -132,6 +121,7 @@ namespace Orbit.Gui
 #endif
         }
 
+        [System.Reflection.ObfuscationAttribute(Feature = "properties renaming")]
         class ComboData
         {
             public object Id { get; set; }
