@@ -26,6 +26,23 @@ namespace Orbit.Core.Client.GameStates
         private float time = 0;
         public float Time {get {return time;}}
 
+        public StatisticsManager()
+        {
+            BulletFired = 0;
+            BulletHit = 0;
+            MineFired = 0;
+            MineHit = 0;
+            HookFired = 0;
+            HookHit = 0;
+
+            Healed = 0;
+            GoldEarned = 0;
+            DamageTaken = 0;
+
+            Actions = new List<ISpecialAction>();
+            Stats = new List<Stat>();
+        }
+
         public void Update(float tpf)
         {
             time += tpf;
