@@ -59,6 +59,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Orbit.App</StartupObject>
@@ -147,6 +148,7 @@
     <Compile Include="Core\Helpers\NetDataHelper.cs" />
     <Compile Include="Core\IUpdatable.cs" />
     <Compile Include="Core\NetSearcher.cs" />
+    <Compile Include="Core\ObfuscationSymbols.cs" />
     <Compile Include="Core\Players\Input\AbstractInputMgr.cs" />
     <Compile Include="Core\Players\Input\SpectatorInputMgr.cs" />
     <Compile Include="Core\Players\Input\IInputMgr.cs" />
