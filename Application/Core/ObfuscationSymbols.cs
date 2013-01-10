@@ -14,8 +14,6 @@ using System.Reflection;
 [assembly: Obfuscation(Feature = "embed ShaderEffectLibrary.dll", Exclude = false)]
 [assembly: Obfuscation(Feature = "embed log4net.dll", Exclude = false)]
 
-//[assembly: Obfuscation(Feature = "encrypt resources logger.config", Exclude = false)]
-
 // zapnuti debugovani v release
 //[assembly: Obfuscation(Feature = "debug", Exclude = false)]
 //[assembly: Obfuscation(Feature = "debug renaming", Exclude = false)]

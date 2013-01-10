@@ -20,12 +20,7 @@ using System.Net.Sockets;
 using Orbit.Core.Server.Match;
 using Orbit.Core.Server.Level;
 using Orbit.Gui.Visuals;
-
-#if DEBUG
-[assembly: log4net.Config.XmlConfigurator(ConfigFile = "logger.config")]
-#else
-[assembly: log4net.Config.XmlConfigurator(ConfigFile = "logger.config")]
-#endif
+using System.Reflection;
 
 namespace Orbit
 {
@@ -72,6 +67,12 @@ namespace Orbit
 
         protected override void OnStartup(StartupEventArgs e)
         {
+#if DEBUG
+            log4net.Config.XmlConfigurator.Configure(Assembly.GetExecutingAssembly().GetManifestResourceStream("Orbit.logger.config"));
+#else
+            log4net.Config.XmlConfigurator.Configure(Assembly.GetExecutingAssembly().GetManifestResourceStream("Orbit.logger.config"));
+#endif
+
             if (!File.Exists(SharedDef.CONFIG_FILE))
                 GameProperties.Props.Save();
 

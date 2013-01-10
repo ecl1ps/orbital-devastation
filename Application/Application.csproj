@@ -114,9 +114,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TransitionEffects">
-      <HintPath>lib\TransitionEffects.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -708,10 +705,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <Content Include="logger.config">
+    <EmbeddedResource Include="logger.config">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Resource Include="resources\sounds\misc\alert.ogg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
