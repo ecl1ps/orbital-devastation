@@ -74,8 +74,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                         highlighter.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(
                             me.SceneMgr, (highlighter as Sphere).Radius, border, center, Colors.Transparent, me.Position));
 
-                    PositionCloneControl pcc = new PositionCloneControl(me);
-                    highlighter.AddControl(pcc);
+                    highlighter.AddControl(new CenterCloneControl(me));
 
                     highlighter.Visible = false;
 

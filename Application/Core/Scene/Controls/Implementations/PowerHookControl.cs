@@ -109,9 +109,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             f.Position = new Vector(me.Center.X - f.Radius, me.Center.Y - f.Radius);
             f.HeavyWeightGeometry = HeavyweightGeometryFactory.CreateForceField(f);
 
-            PositionCloneControl pcc = new PositionCloneControl(me);
-            pcc.Offset = new Vector(f.Radius, f.Radius);
-            f.AddControl(pcc);
+            f.AddControl(new CenterCloneControl(me));
             float life = 0.3f; // seconds
             f.AddControl(new LimitedLifeControl(life));
             f.AddControl(new ShrinkingControl(0, life));

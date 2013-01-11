@@ -193,7 +193,7 @@
     <Compile Include="Core\Scene\Controls\Implementations\MiningLineControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\MiningModuleControl.cs" />
     <Compile Include="Core\Scene\Controls\Health\Implementations\ModuleDamageControl.cs" />
-    <Compile Include="Core\Scene\Controls\Implementations\PositionCloneControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\CenterCloneControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\PowerHookControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\RespawningObjectControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LimitedReverseDamageControl.cs" />

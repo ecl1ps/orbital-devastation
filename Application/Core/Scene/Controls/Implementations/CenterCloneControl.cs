@@ -7,14 +7,15 @@ using Orbit.Core.Scene.Entities;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
-    public class PositionCloneControl : Control
+    public class CenterCloneControl : Control
     {
         public Vector Offset { get; set; }
 
         private ISceneObject toFollow;
 
-        public PositionCloneControl(ISceneObject toFollow)
+        public CenterCloneControl(ISceneObject toFollow)
         {
+            Offset = new Vector(0, 0);
             this.toFollow = toFollow;
         }
 
@@ -25,11 +26,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         protected override void UpdateControl(float tpf)
         {
-            if (Offset == null)
-                Offset = new Vector(0, 0);
-
-            Vector position = toFollow is Sphere ? toFollow.Center - Offset : toFollow.Position - Offset;
-            me.Position = position;
+            // stredy objektu jsou na sobe - pri dalsim posunuti se pouzije offset
+            me.Position = toFollow.Center - (me.Center - me.Position) + Offset;
         }
     }
 }

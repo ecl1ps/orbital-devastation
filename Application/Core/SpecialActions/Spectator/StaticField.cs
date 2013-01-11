@@ -63,7 +63,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             Owner.Device.AddControl(control);
             field.AddControl(rippleControl);
             field.AddControl(new LimitedLifeControl(lifeTime));
-            field.AddControl(new PositionCloneControl(Owner.Device));
+            field.AddControl(new CenterCloneControl(Owner.Device));
 
             SceneMgr.DelayedAttachToScene(field);
 

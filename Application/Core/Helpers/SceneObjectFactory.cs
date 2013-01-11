@@ -447,7 +447,7 @@ namespace Orbit.Core.Helpers
             arc.Color = owner.GetPlayerColor();
             arc.Radius = module.Radius + 5;
 
-            PositionCloneControl pControl = new PositionCloneControl(module);
+            CenterCloneControl pControl = new CenterCloneControl(module);
             arc.AddControl(pControl);
 
             HpBarControl hControl = new HpBarControl(arc);

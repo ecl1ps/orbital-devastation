@@ -531,7 +531,7 @@ namespace Orbit.Core.Client
             p.Device.AddControl(control);
             field.AddControl(rippleControl);
             field.AddControl(new LimitedLifeControl(lifeTime));
-            field.AddControl(new PositionCloneControl(p.Device));
+            field.AddControl(new CenterCloneControl(p.Device));
 
             this.DelayedAttachToScene(field);
         }
