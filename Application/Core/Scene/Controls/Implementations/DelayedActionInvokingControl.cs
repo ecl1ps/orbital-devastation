@@ -26,7 +26,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             {
                 action.Invoke();
                 if (remove)
-                    me.DoRemoveMe();
+                    me.RemoveControl(this);
                 elapsedTime = 0.0f;
             }
         }
