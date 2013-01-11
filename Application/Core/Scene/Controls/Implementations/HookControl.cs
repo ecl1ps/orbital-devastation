@@ -79,7 +79,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (!hook.Owner.IsCurrentPlayerOrBot())
                 return;
 
-            HitVector = (hook.Center - caught.Center) / 2;
+            HitVector = (hook.Position - caught.Position) * 0.9;
 
             CatchObject(caught, HitVector);
 
@@ -178,7 +178,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         private void MoveWithObject(ICatchable obj)
         {
-            obj.Position = hook.Position + HitVector;
+            obj.Position = hook.Position - HitVector;
         }
 
         private void MoveForward(float tpf)
