@@ -168,6 +168,7 @@
     <Compile Include="Core\Scene\Controls\IDamageControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\AsteroidFreezeControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ControlableMiningModuleControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\DelayedActionInvokingControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ShrinkingControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\FollowingControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ExcludingExplodingSingularityBulletControl.cs" />

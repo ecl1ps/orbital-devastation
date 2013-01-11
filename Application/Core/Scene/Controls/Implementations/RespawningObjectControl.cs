@@ -41,10 +41,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                         return;
 
                     control.Vulnerable = false;
-                    me.SceneMgr.StateMgr.AddGameState(new DelayedActionInvoker(2, new Action(() => {
-                        control.Vulnerable = true;
-                    })));
-                    
+                    me.AddControl(new DelayedActionInvokingControl(2, true, new Action(() => control.Vulnerable = true)));                    
                 }
                 else
                 {
