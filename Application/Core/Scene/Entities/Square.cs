@@ -15,20 +15,17 @@ namespace Orbit.Core.Scene.Entities
     public abstract class Square : SceneObject
     {
         public Size Size { get; set; }
-        public override Vector Center
-        {
-            get
-            {
-                return new Vector(Position.X + Size.Width / 2, Position.Y + Size.Height / 2);
-            }
-        }
+        public override Vector Center { get { return new Vector(Position.X + Size.Width / 2, Position.Y + Size.Height / 2); } }
 
         public Square(SceneMgr mgr, long id)
             : base(mgr, id)
         {
         }
 
-        public sealed override void UpdateGeometric()
+        /// <summary>
+        /// prepisujte jen pokud je to nezbytne, jinak pouzijte UpdateGeometricState()!
+        /// </summary>
+        public override void UpdateGeometric()
         {
             (geometryElement.Transform as TransformGroup).Children.Clear();
             (geometryElement.Transform as TransformGroup).Children.Add(new RotateTransform(Rotation, Size.Width / 2, Size.Height / 2));
@@ -45,10 +42,11 @@ namespace Orbit.Core.Scene.Entities
 
         public override bool IsOnScreen(Size screenSize)
         {
-            if (Position.X + 2 * Size.Width + 5 < 0 || Position.Y + Size.Height + 5 < 0)
+            // objekt se odstrani az je jakoby dvakrat mimo obrazovku (dvakrat jeho sirka resp vyska)
+            if (Position.X <= (- Size.Width * 2) || Position.Y <= (- Size.Height * 2))
                 return false;
 
-            if ((Position.X - Size.Width - 5 > screenSize.Width) || (Position.Y + 5 > screenSize.Height))
+            if (Position.X >= screenSize.Width + Size.Width || Position.Y >= screenSize.Height + Size.Height)
                 return false;
 
             return true;

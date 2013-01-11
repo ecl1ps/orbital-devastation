@@ -20,6 +20,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
     {
         public Color Color { get; set; }
         public int Radius { get; set; }
+        public override Vector Center { get { return new Vector(Position.X + Radius, Position.Y + Radius); } }
 
         public Circle(SceneMgr mgr, long id)
             : base(mgr, id)

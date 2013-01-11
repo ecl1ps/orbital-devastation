@@ -24,17 +24,11 @@ namespace Orbit.Core.Scene.Entities
         public Vector Direction { get; set; }
         public float Rotation { get; set; }
         public DrawingCategory Category { get; set; }
-        public virtual Vector Center
-        {
-            get
-            {
-                return Position;
-            }
-        }
+        public abstract Vector Center { get; }
         public bool Dead { get; set; }
         public SceneMgr SceneMgr { get; set; }
-        protected bool visible = true;
-        public bool Visible
+        protected bool visible;
+        public virtual bool Visible
         {
             get 
             { 
@@ -76,6 +70,7 @@ namespace Orbit.Core.Scene.Entities
             Dead = false;
             SceneMgr = mgr;
             Id = id;
+            visible = true;
             Category = DrawingCategory.BACKGROUND;
         }
 
@@ -160,7 +155,7 @@ namespace Orbit.Core.Scene.Entities
             return geometryElement;
         }
 
-        public void SetGeometry(DrawingGroup geometryElement)
+        public virtual void SetGeometry(DrawingGroup geometryElement)
         {
             // zajisti, ze se spravne nastavi meta property
             visible = false;

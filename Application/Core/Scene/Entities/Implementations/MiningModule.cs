@@ -22,7 +22,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
             : base(mgr, id)
         {
             this.Owner = owner;
-            HasPositionInCenter = false;
             Category = DrawingCategory.PLAYER_OBJECTS;
         }
 

@@ -430,8 +430,8 @@ namespace Orbit.Core.Helpers
             c.A = 0x55;
             arc.Color = c;
             arc.FullAngle = (float) Math.PI;
-            arc.A = (float)owner.Baze.Size.Width / 2 + 2;
-            arc.B = (float)owner.Baze.Size.Height + 3; //hack kvuli neeliptickym rozmerum baze
+            arc.Width = (float)owner.Baze.Size.Width / 2 + 2;
+            arc.Height = (float)owner.Baze.Size.Height + 3; //hack kvuli neeliptickym rozmerum baze
 
             arc.Position = owner.Baze.Position + (new Vector(owner.Baze.Size.Width / 2, owner.Baze.Size.Height));
             arc.StartPoint = new Point(0, owner.Baze.Size.Height + 3);

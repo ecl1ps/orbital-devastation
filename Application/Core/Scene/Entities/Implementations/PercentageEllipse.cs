@@ -12,8 +12,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
 {
     public class PercentageEllipse : SceneObject, IHpBar
     {
-        public float A { get; set; }
-        public float B { get; set; }
+        public float Width { get; set; }
+        public float Height { get; set; }
         public float FullAngle { get; set; }
         public float Percentage { get; set; }
         public Point StartPoint { get; set; }
@@ -21,6 +21,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         private bool colorChanged = false;
         private Color color;
         public Color Color { get { return color; } set { color = value; colorChanged = true; } }
+        public override Vector Center { get { return new Vector(Position.X + Width / 2, Position.Y + Height / 2); } }
 
         private ArcSegment arc;
 
@@ -33,13 +34,13 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public Point ComputeEllipsePoint(float angle)
         {
-            double x = A * Math.Cos(angle);
-            double y = B * Math.Sin(angle);
+            double x = Width * Math.Cos(angle);
+            double y = Height * Math.Sin(angle);
 
             return new Point(x, y);
         }
 
-        public override bool IsOnScreen(System.Windows.Size screenSize)
+        public override bool IsOnScreen(Size screenSize)
         {
             return true;
         }

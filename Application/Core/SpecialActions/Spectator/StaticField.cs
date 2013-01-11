@@ -9,6 +9,7 @@ using Orbit.Core.Helpers;
 using System.Windows.Media;
 using Orbit.Core.Scene.Entities.Implementations.HeavyWeight;
 using Lidgren.Network;
+using System.Windows;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
@@ -49,7 +50,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             color.R = 80;
             color.G = 255;
             color.B = 80;
-            field = SceneObjectFactory.CreateSphereField(SceneMgr, Owner.Device.Position, radius, color);
+            field = SceneObjectFactory.CreateSphereField(SceneMgr, Owner.Device.Center - new Vector(radius, radius), radius, color);
             
             StaticFieldControl control = new StaticFieldControl();
             control.Force = 120;

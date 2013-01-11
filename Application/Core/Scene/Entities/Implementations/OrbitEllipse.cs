@@ -14,6 +14,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
     {
         public float RadiusX { get; set; }
         public float RadiusY { get; set; }
+        public override Vector Center { get { return new Vector(Position.X + RadiusX, Position.Y + RadiusY); } }
 
         public OrbitEllipse(SceneMgr mgr, long id, float radiusX, float radiusY)
             : base(mgr, id)

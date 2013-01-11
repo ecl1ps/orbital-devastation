@@ -207,11 +207,12 @@
     <Compile Include="Core\Scene\Controls\Implementations\HookControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\NewtonianMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LinearRotationControl.cs" />
+    <Compile Include="Core\Scene\Entities\HeavyweightSphere.cs" />
     <Compile Include="Core\Scene\Entities\HeavyWeight\ForcePullField.cs" />
-    <Compile Include="Core\Scene\Entities\HeavyWeight\HeavyWeightSceneObject.cs" />
     <Compile Include="Core\Scene\Entities\ICatchable.cs" />
     <Compile Include="Core\Scene\Entities\IControledDevice.cs" />
     <Compile Include="Core\Scene\Controls\Health\IHpControl.cs" />
+    <Compile Include="Core\Scene\Entities\IHeavyWeightSceneObject.cs" />
     <Compile Include="Core\Scene\Entities\IHpBar.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\HighlightingSphere.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\IceShard.cs" />

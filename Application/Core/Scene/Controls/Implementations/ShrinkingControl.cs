@@ -17,7 +17,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private int startingRadius;
         private int finalRadius;
         private ISpheric sphere;
-        private bool shouldAdjustPos;
 
         public ShrinkingControl(int finalRadius, float overTime)
         {
@@ -36,13 +35,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             sphere = obj as ISpheric;
             startingRadius = sphere.Radius;
-
-            PropertyInfo hasPositionInCenter = sphere.GetType().GetProperty("HasPositionInCenter");
-            if (hasPositionInCenter == null)
-                shouldAdjustPos = true;
-            else
-                shouldAdjustPos = !(bool)hasPositionInCenter.GetValue(sphere, null);
-                
         }
 
         protected override void UpdateControl(float tpf)
@@ -54,13 +46,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             int newRadius = (int)FastMath.LinearInterpolate(finalRadius, startingRadius, currentTime / overTime);
 
-            if (shouldAdjustPos)
-            {
-                me.Position = new Vector(me.Position.X + sphere.Radius - newRadius, me.Position.Y + sphere.Radius - newRadius);
-                PositionCloneControl pcc = me.GetControlOfType<PositionCloneControl>();
-                if (pcc != null)
-                    pcc.Offset = new Vector(pcc.Offset.X - (sphere.Radius - newRadius), pcc.Offset.Y - (sphere.Radius - newRadius));
-            }
+            // posunuti pozice, aby stary a novy stred zustaly vizualne na stejnem miste - smrstovani probiha ze vsech stran do stredu
+            me.Position = new Vector(me.Position.X + sphere.Radius - newRadius, me.Position.Y + sphere.Radius - newRadius);
 
             sphere.Radius = newRadius;
         }

@@ -18,6 +18,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
     public class VectorLine : SceneObject, IMovable
     {
         public Color Color { get; set; }
+        public override Vector Center { get { return new Vector(Position.X, Position.Y); } }
 
         public VectorLine(SceneMgr mgr, long id)
             : base(mgr, id)

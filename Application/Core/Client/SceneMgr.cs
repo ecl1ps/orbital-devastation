@@ -21,7 +21,6 @@ using Orbit.Core.Players.Input;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Controls.Collisions;
 using Orbit.Gui.Visuals;
-using Orbit.Core.Scene.Entities.HeavyWeight;
 
 namespace Orbit.Core.Client
 {
@@ -231,7 +230,7 @@ namespace Orbit.Core.Client
                 }
             }
 
-            if (obj.GetGeometry() == null && !(obj is HeavyWeightSceneObject))
+            if (obj.GetGeometry() == null && !(obj is IHeavyWeightSceneObject))
             {
                 Logger.Warn("Trying to add geometry object to scene, but it is null -> skipped!");
                 return;
@@ -241,8 +240,8 @@ namespace Orbit.Core.Client
 
             BeginInvoke(new Action(() =>
             {
-                if (obj is HeavyWeightSceneObject)
-                    GetCanvas().Children.Add((obj as HeavyWeightSceneObject).HeavyWeightGeometry);
+                if (obj is IHeavyWeightSceneObject)
+                    GetCanvas().Children.Add((obj as IHeavyWeightSceneObject).HeavyWeightGeometry);
                 else
                     area.Add(obj.GetGeometry(), obj.Category);
             }));
@@ -314,8 +313,8 @@ namespace Orbit.Core.Client
             objects.Remove(obj);
             BeginInvoke(new Action(() =>
             {
-                if (obj is HeavyWeightSceneObject)
-                    GetCanvas().Children.Remove((obj as HeavyWeightSceneObject).HeavyWeightGeometry);
+                if (obj is IHeavyWeightSceneObject)
+                    GetCanvas().Children.Remove((obj as IHeavyWeightSceneObject).HeavyWeightGeometry);
                 else
                     area.Remove(obj.GetGeometry(), obj.Category);
             }));

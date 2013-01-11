@@ -99,8 +99,6 @@ namespace Orbit.Core.Helpers
 
         public static Image CreateForceField(ForcePullField m)
         {
-            m.HasPositionInCenter = false;
-
             Image img = null;
             m.SceneMgr.Invoke(new Action(() =>
             {
@@ -115,8 +113,11 @@ namespace Orbit.Core.Helpers
                 img.Height = m.Radius * 2;
                 img.Opacity = 0.5;
 
-                Canvas.SetLeft(img, m.Position.X);
-                Canvas.SetTop(img, m.Position.Y);
+                TransformGroup tg = new TransformGroup();
+                tg.Children.Add(new TranslateTransform(m.Position.X, m.Position.Y));
+                img.RenderTransform = tg;
+
+                Canvas.SetZIndex(img, 1);
             }));
 
             return img;
@@ -124,18 +125,18 @@ namespace Orbit.Core.Helpers
 
         public static Path CreateConstantColorEllipseGeometry(SphereField s)
         {
-            s.HasPositionInCenter = true;
-
             Path path = null;
             s.SceneMgr.Invoke(new Action(() =>
             {
-                EllipseGeometry geom = new EllipseGeometry(new Point(), s.Radius, s.Radius);
+                EllipseGeometry geom = new EllipseGeometry(new Point(s.Radius, s.Radius), s.Radius, s.Radius);
                 path = new Path();
                 path.Data = geom;
                 path.Fill = new SolidColorBrush(s.Color);
 
-                Canvas.SetLeft(path, s.Position.X);
-                Canvas.SetRight(path, s.Position.Y);
+                TransformGroup tg = new TransformGroup();
+                tg.Children.Add(new TranslateTransform(s.Position.X, s.Position.Y));
+                path.RenderTransform = tg;
+
                 Canvas.SetZIndex(path, -1);
             }));
 

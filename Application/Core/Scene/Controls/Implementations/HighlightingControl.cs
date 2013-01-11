@@ -7,6 +7,7 @@ using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Helpers;
 using System.Windows.Media;
 using System.Windows.Controls;
+using System.Windows;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -59,7 +60,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 {
                     highlighter = new HighlightingSphere(me.SceneMgr, IdMgr.GetNewId(me.SceneMgr.GetCurrentPlayer().GetId()));
                     highlighter.Position = me.Position;
-                    (highlighter as Sphere).HasPositionInCenter = true;
                     (highlighter as Sphere).Radius = (me as Sphere).Radius + 10;
                     (highlighter as Sphere).Color = (me as Sphere).Color;
                     Color border = (me as Sphere).Color;

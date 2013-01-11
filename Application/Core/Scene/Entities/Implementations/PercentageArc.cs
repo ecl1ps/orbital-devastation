@@ -19,6 +19,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         private bool colorChanged = false;
         private Color color;
         public Color Color { get { return color; } set { color = value; colorChanged = true; } }
+        public override Vector Center { get { return new Vector(Position.X + Radius, Position.Y + Radius); } }
 
         private ArcSegment arc;
 

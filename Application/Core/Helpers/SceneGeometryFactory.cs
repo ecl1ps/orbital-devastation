@@ -18,12 +18,10 @@ namespace Orbit.Core.Helpers
     {
         public static DrawingGroup CreateConstantColorEllipseGeometry(Sphere s)
         {
-            s.HasPositionInCenter = true;
-
             DrawingGroup d = null;
             s.SceneMgr.Invoke(new Action(() =>
             {
-                EllipseGeometry geom = new EllipseGeometry(new Point(), s.Radius, s.Radius);
+                EllipseGeometry geom = new EllipseGeometry(new Point(s.Radius, s.Radius), s.Radius, s.Radius);
                 d = new DrawingGroup();
                 d.Children.Add(new GeometryDrawing(new SolidColorBrush(s.Color), new Pen(Brushes.Black, 1), geom));
 
@@ -40,7 +38,7 @@ namespace Orbit.Core.Helpers
             DrawingGroup d = null;
             mgr.Invoke(new Action(() =>
             {
-                EllipseGeometry geom = new EllipseGeometry(new Point(), radius, radius);
+                EllipseGeometry geom = new EllipseGeometry(new Point(radius, radius), radius, radius);
                 d = new DrawingGroup();
                 d.Children.Add(new GeometryDrawing(new RadialGradientBrush(end, start), new Pen(new SolidColorBrush(stroke), 1), geom));
 
@@ -54,8 +52,6 @@ namespace Orbit.Core.Helpers
 
         public static DrawingGroup CreateAsteroidImage(Asteroid a)
         {
-            a.HasPositionInCenter = false;
-
             DrawingGroup g = null;
             a.SceneMgr.Invoke(new Action(() =>
             {
@@ -90,12 +86,10 @@ namespace Orbit.Core.Helpers
 
         public static DrawingGroup CreateRadialGradientEllipseGeometry(SingularityMine mine)
         {
-            mine.HasPositionInCenter = true;
-
             DrawingGroup d = null;
             mine.SceneMgr.Invoke(new Action(() =>
             {
-                EllipseGeometry geom = new EllipseGeometry(new Point(), mine.Radius, mine.Radius);
+                EllipseGeometry geom = new EllipseGeometry(new Point(mine.Radius, mine.Radius), mine.Radius, mine.Radius);
                 d = new DrawingGroup();
                 d.Children.Add(new GeometryDrawing(mine.FillBrush, new Pen(mine.BorderBrush, 1), geom));
 
@@ -161,8 +155,6 @@ namespace Orbit.Core.Helpers
 
         public static DrawingGroup CreateHookHead(Hook hook)
         {
-            hook.HasPositionInCenter = false;
-
             DrawingGroup g = null;
             hook.SceneMgr.Invoke(new Action(() =>
             {
@@ -255,7 +247,7 @@ namespace Orbit.Core.Helpers
             DrawingGroup d = null;
             e.SceneMgr.Invoke(new Action(() =>
             {
-                EllipseGeometry geom = new EllipseGeometry(new Point(), e.RadiusX, e.RadiusY);
+                EllipseGeometry geom = new EllipseGeometry(new Point(e.RadiusX, e.RadiusY), e.RadiusX, e.RadiusY);
                 d = new DrawingGroup();
                 d.Children.Add(new GeometryDrawing(Brushes.Black, null, geom));
 
@@ -309,7 +301,7 @@ namespace Orbit.Core.Helpers
             arc = new ArcSegment();
             arc.SweepDirection = SweepDirection.Clockwise;
             arc.IsLargeArc = true;
-            arc.Size = new Size(e.A, e.B);
+            arc.Size = new Size(e.Width, e.Height);
             arc.Point = e.ComputeEllipsePoint(0);
 
             e.SetArc(arc);
@@ -343,14 +335,13 @@ namespace Orbit.Core.Helpers
 
             PathGeometry geom = new PathGeometry();
             geom.Figures.Add(figure);
+            geom.Transform = new TranslateTransform(a.Radius, a.Radius);
 
             return geom;
         }
 
         public static DrawingGroup CrateMiningModule(MiningModule m)
         {
-            m.HasPositionInCenter = false;
-
             DrawingGroup g = null;
             m.SceneMgr.Invoke(new Action(() =>
             {
