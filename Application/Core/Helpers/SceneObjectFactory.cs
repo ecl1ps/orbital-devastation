@@ -65,6 +65,7 @@ namespace Orbit.Core.Helpers
             PowerlessSingularityControl sc = new PowerlessSingularityControl();
             sc.Speed = plr.Data.MineGrowthSpeed;
             sc.Strength = plr.Data.MineStrength;
+            sc.StatsReported = true;
             mine.AddControl(sc);
 
             mine.AddControl(new StickySphereCollisionShapeControl());

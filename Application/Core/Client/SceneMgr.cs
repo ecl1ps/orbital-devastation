@@ -22,7 +22,6 @@ using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Controls.Collisions;
 using Orbit.Gui.Visuals;
 using Orbit.Core.Helpers;
-using Orbit.Core.Helpers;
 using Orbit.Gui.ActionControllers;
 
 namespace Orbit.Core.Client
@@ -61,7 +60,10 @@ namespace Orbit.Core.Client
         private bool playerQuit;
         private GameEnd lastGameEnd;
 
+        private Player winner;
+
         private float totalTime;
+        private bool stopUpdating = false;
 
         public SceneMgr()
         {
@@ -74,7 +76,9 @@ namespace Orbit.Core.Client
 
         public void Init(Gametype gameType)
         {
+            winner = null;
             GameType = gameType;
+            stopUpdating = false;
             gameEnded = false;
             isGameInitialized = false;
             userActionsDisabled = true;
@@ -409,19 +413,22 @@ namespace Orbit.Core.Client
 
             ShowStatistics(tpf);
 
-            AddObjectsReadyToAdd();
-
             StateMgr.Update(tpf);
 
-            UpdateSceneObjects(tpf);
-            RemoveObjectsMarkedForRemoval();
+            if (!stopUpdating)
+            {
+                AddObjectsReadyToAdd();
 
-            CheckCollisions(tpf);
-            RemoveObjectsMarkedForRemoval();
+                UpdateSceneObjects(tpf);
+                RemoveObjectsMarkedForRemoval();
 
-            UpdateGeomtricState();
+                CheckCollisions(tpf);
+                RemoveObjectsMarkedForRemoval();
 
-            area.RunRender();
+                UpdateGeomtricState();
+
+                area.RunRender();
+            }
         }
 
         private void ShowStatistics(float tpf)
@@ -559,11 +566,14 @@ namespace Orbit.Core.Client
 
         private void EndGame(Player plr, GameEnd endType)
         {
-            if (endType == GameEnd.TOURNAMENT_FINISHED)
-                TournamentFinished(plr);
-
             if (gameEnded)
                 return;
+
+            lastGameEnd = endType;
+            winner = plr;
+
+            if (endType == GameEnd.TOURNAMENT_FINISHED)
+                gameEnded = true;
 
             if (Application.Current != null)
                 Application.Current.Dispatcher.Invoke(new Action(() =>
@@ -575,7 +585,6 @@ namespace Orbit.Core.Client
                 CheckHighScore();
 
             isGameInitialized = true;
-            gameEnded = true;
             userActionsDisabled = true;
 
             if (endType == GameEnd.LEFT_GAME)
@@ -583,29 +592,39 @@ namespace Orbit.Core.Client
             else if (endType == GameEnd.SERVER_DISCONNECTED)
                 Disconnected();
 
-            lastGameEnd = endType;
+            StatisticsMgr.GameEnded = true;
 
-            ShowEndGameStats();
-
-                StateMgr.AddGameState(new DelayedActionInvoker(6.0f, new Action(() => CloseGameWindowAndCleanup())));
+            if(GameWindowState == WindowState.IN_LOBBY)
+                CloseGameWindowAndCleanup();
+            else
+                ShowEndGameStats(endType, plr);
         }
 
-        private void ShowEndGameStats()
+        private void ShowEndGameStats(GameEnd endType, Player winner)
         {
+            //zrusime static mouse a zabranime dalsimu update - hrac pozna ze je konec
             StaticMouse.Enable(false);
-
-            objects.Clear();
-            objectsToRemove.Clear();
-            objectsToAdd.Clear();
+            stopUpdating = true;
 
             Invoke(new Action(() =>
             {
-                EndGameStats statsWindow = GuiObjectFactory.createAndAddPlayerStatsUc(this, new Vector(0, 100));
-                PlayerStatsUC playerStats = new PlayerStatsUC();
-                statsWindow.setStats(playerStats);
+                EndGameStats statsWindow = GuiObjectFactory.createAndAddPlayerStatsUc(this, new Vector((SharedDef.VIEW_PORT_SIZE.Width - 800) /2, (SharedDef.VIEW_PORT_SIZE.Height - 500) / 2));
+                if (currentPlayer.IsActivePlayer())
+                {
+                    PlayerStatsUC playerStats = new PlayerStatsUC();
+                    statsWindow.setStats(playerStats);
 
-                PlayerStatisticsController controller = new PlayerStatisticsController(this, playerStats);
-                StateMgr.AddGameState(controller);
+                    PlayerStatisticsController controller = new PlayerStatisticsController(this, statsWindow, playerStats);
+                    StateMgr.AddGameState(controller);
+                }
+                else
+                {
+                    SpectatorStatsUC playerStats = new SpectatorStatsUC();
+                    statsWindow.setStats(playerStats);
+
+                    SpectatorStatisticController controller = new SpectatorStatisticController(this, statsWindow, playerStats);
+                    StateMgr.AddGameState(controller);
+                }
             }));
         }
 
@@ -675,7 +694,7 @@ namespace Orbit.Core.Client
 
         }
 
-        private void TournamentFinished(Player winner)
+        public void TournamentFinished(Player winner)
         {
             if (Application.Current == null)
                 return;
@@ -687,6 +706,7 @@ namespace Orbit.Core.Client
             List<LobbyPlayerData> data = CreateLobbyPlayerData();
             LobbyPlayerData winnerData = data.Find(d => d.Id == winner.Data.Id);
 
+            //CloseGameWindowAndCleanup();
             RequestStop();
 
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
@@ -717,6 +737,7 @@ namespace Orbit.Core.Client
                 p.ClearActions();
 
             AttachStateManagers();
+            stopUpdating = false;
 
             players.ForEach(p => p.Data.LobbyReady = false);
 
@@ -955,6 +976,16 @@ namespace Orbit.Core.Client
             List<ISceneObject> found = new List<ISceneObject>();
             objects.ForEach(o => { if ((o.Center - position).Length <= radius) found.Add(o); });
             return found;
+        }
+
+        public GameEnd GetLastGameEnd()
+        {
+            return lastGameEnd;
+        }
+
+        public Player GetWinner()
+        {
+            return winner;
         }
     }
 }

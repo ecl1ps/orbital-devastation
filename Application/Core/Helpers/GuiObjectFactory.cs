@@ -51,7 +51,7 @@ namespace Orbit.Core.Helpers
             mgr.GetCanvas().Children.Add(stats);
             Canvas.SetLeft(stats, position.X);
             Canvas.SetTop(stats, position.Y);
-            Canvas.SetZIndex(stats, 100);
+            Canvas.SetZIndex(stats, 200);
 
             return stats;
         }

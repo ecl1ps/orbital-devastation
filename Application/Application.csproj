@@ -302,6 +302,7 @@
     <Compile Include="Gui\ActionControllers\ActionController.cs" />
     <Compile Include="Gui\ActionControllers\ActionControllerImpl.cs" />
     <Compile Include="Gui\ActionControllers\PlayerStatisticsController.cs" />
+    <Compile Include="Gui\ActionControllers\SpectatorStatisticController.cs" />
     <Compile Include="Gui\ActionControllers\StatisticController.cs" />
     <Compile Include="Gui\AlertBox.xaml.cs">
       <DependentUpon>AlertBox.xaml</DependentUpon>
@@ -361,6 +362,9 @@
     </Compile>
     <Compile Include="Gui\SoundOptions.xaml.cs">
       <DependentUpon>SoundOptions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\SpectatorStatsUC.xaml.cs">
+      <DependentUpon>SpectatorStatsUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\StatisticsUC.xaml.cs">
       <DependentUpon>StatisticsUC.xaml</DependentUpon>
@@ -512,6 +516,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\SoundOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\SpectatorStatsUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

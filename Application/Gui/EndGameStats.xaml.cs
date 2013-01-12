@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Orbit.Core.Client;
+using Orbit.Core;
+using Orbit.Core.Players;
 
 namespace Orbit.Gui
 {
@@ -35,9 +37,23 @@ namespace Orbit.Gui
             Canvas.SetTop(elem, 60);
         }
 
+        public void SetTime(String time)
+        {
+            Time.Text = time;
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            mgr.CloseGameWindowAndCleanup();
+            HideStats();
+        }
+
+        public void HideStats()
+        {
+            GameEnd endType = mgr.GetLastGameEnd();
+            if (endType != GameEnd.TOURNAMENT_FINISHED)
+                mgr.CloseGameWindowAndCleanup();
+            else
+                mgr.TournamentFinished(mgr.GetWinner());
         }
     }
 }

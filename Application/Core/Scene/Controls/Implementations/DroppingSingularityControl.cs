@@ -17,6 +17,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 {
     public class DroppingSingularityControl : Control, ICollisionReactionControl
     {
+        public bool StatsReported { get; set; }
         public float Strength { get; set; }
         public float Speed { get; set; }
         protected SingularityMine meMine;
@@ -47,7 +48,14 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 StartDetonation();
 
             if (hitSomething)
-                Grow(tpf);                
+            {
+                Grow(tpf);
+                if (!StatsReported && meMine.Owner == me.SceneMgr.GetCurrentPlayer())
+                {
+                    me.SceneMgr.StatisticsMgr.MineHit++;
+                    StatsReported = true;
+                }
+            }
         }
 
         private void Die()

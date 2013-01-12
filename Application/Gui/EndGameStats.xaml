@@ -5,8 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="800">
-    <Canvas Name="Root" Background="#FFB1B1B1">
+    <Canvas Name="Root" Background="#B4808080" Height="500" Width="800">
         <Label FontFamily="Arial" FontSize="28" FontWeight="Bold" Canvas.Left="12" Canvas.Top="12">Statistics for last game</Label>
+        <TextBlock Name="Time" FontFamily="Arial" FontSize="28" FontWeight="Bold" Canvas.Left="757" Canvas.Top="17"></TextBlock>
         <Button Canvas.Left="681" Canvas.Top="452" Height="36" Width="107" FontFamily="Bauhaus 93" Click="Button_Click">Close</Button>
         <Image Panel.ZIndex="-1" Width="200" Source="pack://application:,,,/resources/images/background/singularity-sign.png" Canvas.Left="17" Canvas.Top="278" SnapsToDevicePixels="False">
             <Image.RenderTransform>

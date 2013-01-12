@@ -9,16 +9,17 @@ namespace Orbit.Gui.ActionControllers
 {
     public abstract class StatisticController : IGameState
     {
-        protected float time = 2;
+        private const float SHOW_TIME = 1;
+        protected float time = SHOW_TIME;
         protected bool waitingToEnd = false;
 
         protected SceneMgr mgr;
-        protected PlayerStatsUC window;
+        protected EndGameStats statsWindow;
 
-        public StatisticController(SceneMgr mgr, PlayerStatsUC window)
+        public StatisticController(SceneMgr mgr, EndGameStats statsWindow)
         {
             this.mgr = mgr;
-            this.window = window;
+            this.statsWindow = statsWindow;
         }
 
         public virtual void Update(float tpf)
@@ -26,14 +27,34 @@ namespace Orbit.Gui.ActionControllers
             if (time <= 0 && HasNext() && !waitingToEnd)
             {
                 Next();
-                time = 2;
-            }
+                time = SHOW_TIME;            }
             else if (time <= 0 && !waitingToEnd)
-                time = 60;
+            {
+                time = 30;
+                waitingToEnd = true;
+            }
             else if (time <= 0 && waitingToEnd)
-                mgr.CloseGameWindowAndCleanup();
+                statsWindow.HideStats();
 
             time -= tpf;
+
+            if (waitingToEnd)
+                UpdateTime();
+        }
+
+        private void UpdateTime()
+        {
+            mgr.BeginInvoke(new Action(() => statsWindow.SetTime(time.ToString("00"))));
+        }
+
+        protected double ComputePercents() {
+            double val = time / SHOW_TIME;
+            if (val > 1)
+                val = 1;
+            if (val < 0)
+                val = 0;
+
+            return val;
         }
 
         protected abstract void Next();

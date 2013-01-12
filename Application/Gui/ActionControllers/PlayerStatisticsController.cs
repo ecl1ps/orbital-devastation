@@ -12,6 +12,7 @@ namespace Orbit.Gui.ActionControllers
     class PlayerStatisticsController : StatisticController
     {
         private int step = 0;
+        private PlayerStatsUC window;
 
         private float loadTime = 0;
         private int multipleStatsStep = 0;
@@ -27,9 +28,10 @@ namespace Orbit.Gui.ActionControllers
         private String favAction = "";
         private String favPowerup = "";
 
-        public PlayerStatisticsController(SceneMgr mgr, PlayerStatsUC window)
-            : base(mgr, window)
+        public PlayerStatisticsController(SceneMgr mgr, EndGameStats stats, PlayerStatsUC window)
+            : base(mgr, stats)
         {
+            this.window = window;
         }
 
         protected override bool HasNext()
@@ -102,7 +104,7 @@ namespace Orbit.Gui.ActionControllers
             }
 
             Stat first = mgr.StatisticsMgr.Stats.GroupBy(item => item).OrderByDescending(g => g.Count()).Select(g => g.Key).First();
-            favPowerup = first.ToString();
+            favPowerup = first.text;
             time = 0;
         }
 
@@ -122,27 +124,58 @@ namespace Orbit.Gui.ActionControllers
 
         private void LoadPowerups(float tpf)
         {
-            powerups = FastMath.LinearInterpolate(mgr.StatisticsMgr.Stats.Count, 0, time / 2).ToString("###");
+            if (mgr.StatisticsMgr.Stats.Count == 0)
+            {
+                time = 0;
+                powerups = "0";
+                return;
+            }
+            powerups = FastMath.LinearInterpolate(mgr.StatisticsMgr.Stats.Count, 0, ComputePercents()).ToString("###");
         }
 
         private void LoadActions(float tpf)
         {
-            actions = FastMath.LinearInterpolate(mgr.StatisticsMgr.Actions.Count, 0, time / 2).ToString("###");
+            if (mgr.StatisticsMgr.Actions.Count == 0)
+            {
+                time = 0;
+                actions = "0";
+                return;
+            }
+
+            actions = FastMath.LinearInterpolate(mgr.StatisticsMgr.Actions.Count, 0, ComputePercents()).ToString("###");
         }
 
         private void LoadGold(float tpf)
         {
-            gold = FastMath.LinearInterpolate(mgr.StatisticsMgr.GoldEarned, 0, time / 2).ToString(".#");
+            if (mgr.StatisticsMgr.GoldEarned == 0)
+            {
+                time = 0;
+                gold = "0";
+                return;
+            }
+            gold = FastMath.LinearInterpolate(mgr.StatisticsMgr.GoldEarned, 0, ComputePercents()).ToString(".#");
         }
 
         private void LoadHeal(float tpf)
         {
-            heal = FastMath.LinearInterpolate(mgr.StatisticsMgr.Healed, 0, time / 2).ToString(".#");
+            if (mgr.StatisticsMgr.Healed == 0)
+            {
+                time = 0;
+                heal = "0";
+                return;
+            }
+            heal = FastMath.LinearInterpolate(mgr.StatisticsMgr.Healed, 0, ComputePercents()).ToString(".#");
         }
 
         private void LoadDamage(float tpf)
         {
-            damage = FastMath.LinearInterpolate(mgr.StatisticsMgr.DamageTaken, 0, time / 2).ToString(".#");
+            if (mgr.StatisticsMgr.DamageTaken == 0)
+            {
+                time = 0;
+                damage = "0";
+                return;
+            }
+            damage = FastMath.LinearInterpolate(mgr.StatisticsMgr.DamageTaken, 0, ComputePercents()).ToString(".#");
         }
 
         private void LoadHook(float tpf)
@@ -157,6 +190,8 @@ namespace Orbit.Gui.ActionControllers
                         hook += " / " + mgr.StatisticsMgr.HookHit;
                     else if (multipleStatsStep == 3) {
                         double val = mgr.StatisticsMgr.HookHit / mgr.StatisticsMgr.HookFired;
+                        if (Double.IsNaN(val))
+                            val = 0;
                         hook += " / " + val.ToString("#0.##%");
                     }
                 }
@@ -177,6 +212,8 @@ namespace Orbit.Gui.ActionControllers
                         bullet += " / " + mgr.StatisticsMgr.BulletHit;
                     else if (multipleStatsStep == 3) {
                         double val = mgr.StatisticsMgr.BulletHit / mgr.StatisticsMgr.BulletFired;
+                        if (Double.IsNaN(val))
+                            val = 0;
                         bullet += " / " + val.ToString("#0.##%");
                     }
                 }
@@ -196,6 +233,8 @@ namespace Orbit.Gui.ActionControllers
                     mine += " / " + mgr.StatisticsMgr.MineHit;
                 else if (multipleStatsStep == 3) {
                     double val = mgr.StatisticsMgr.MineHit / mgr.StatisticsMgr.MineFired;
+                    if (Double.IsNaN(val))
+                        val = 0;
                     mine += " / " + val.ToString("#0.##%");
                 }
             }

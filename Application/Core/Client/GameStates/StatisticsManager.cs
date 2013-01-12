@@ -9,6 +9,8 @@ namespace Orbit.Core.Client.GameStates
 {
     public class StatisticsManager : IGameState
     {
+        public bool GameEnded { get; set; }
+
         public float BulletFired { get; set; }
         public float BulletHit { get; set; }
         public float MineFired { get; set; }
@@ -19,6 +21,7 @@ namespace Orbit.Core.Client.GameStates
         public float Healed { get; set; }
         public float GoldEarned { get; set; }
         public float DamageTaken { get; set; }
+        public float DeadTime { get; set; }
 
         public List<ISpecialAction> Actions { get; set; }
         public List<Stat> Stats { get; set; }
@@ -28,6 +31,8 @@ namespace Orbit.Core.Client.GameStates
 
         public StatisticsManager()
         {
+            GameEnded = false;
+
             BulletFired = 0;
             BulletHit = 0;
             MineFired = 0;
@@ -38,6 +43,7 @@ namespace Orbit.Core.Client.GameStates
             Healed = 0;
             GoldEarned = 0;
             DamageTaken = 0;
+            DeadTime = 0;
 
             Actions = new List<ISpecialAction>();
             Stats = new List<Stat>();
@@ -45,7 +51,8 @@ namespace Orbit.Core.Client.GameStates
 
         public void Update(float tpf)
         {
-            time += tpf;
+            if(!GameEnded)
+                time += tpf;
         }
     }
 }
