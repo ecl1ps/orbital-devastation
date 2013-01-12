@@ -59,7 +59,7 @@ namespace Orbit.Core.Scene.Entities
 
         void DoRemoveMe();
 
-        List<ISceneObject> FindNearbyObjects(double radius);
+        List<ISceneObject> FindNearbyObjects<T>(double radius);
 
         /// hooks
 

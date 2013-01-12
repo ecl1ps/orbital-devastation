@@ -971,10 +971,10 @@ namespace Orbit.Core.Client
             AlertMessageMgr.Show(message, AlertMessageManager.TIME_INFINITE);
         }
 
-        public List<ISceneObject> GetSceneObjectsInDist(Vector position, double radius)
+        public List<ISceneObject> GetSceneObjectsInDist<T>(Vector position, double radius)
         {
             List<ISceneObject> found = new List<ISceneObject>();
-            objects.ForEach(o => { if ((o.Center - position).Length <= radius) found.Add(o); });
+            objects.ForEach(o => { if (o is T && (o.Center - position).Length <= radius) found.Add(o); });
             return found;
         }
 

@@ -176,9 +176,9 @@ namespace Orbit.Core.Scene.Entities
             DoRemove(this);
         }
 
-        public List<ISceneObject> FindNearbyObjects(double radius)
+        public List<ISceneObject> FindNearbyObjects<T>(double radius)
         {
-            return SceneMgr.GetSceneObjectsInDist(Center, radius);
+            return SceneMgr.GetSceneObjectsInDist<T>(Center, radius);
         }
 
         public void RemoveControl(IControl control)
