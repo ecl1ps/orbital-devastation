@@ -69,7 +69,7 @@ namespace Orbit.Gui
 
             Canvas.SetTop(Panel, FastMath.LinearInterpolate(maxPosition, minPosition, val));
             Canvas.SetTop(TextBlock, FastMath.LinearInterpolate(maxPosition, minPosition, val) + 5);
-            Canvas.SetTop(Background, FastMath.LinearInterpolate(maxPosition, minPosition, val) + 5);
+            Canvas.SetTop(BackgroundBlock, FastMath.LinearInterpolate(maxPosition, minPosition, val) + 5);
             RotateSprockets(val);
         }
 
