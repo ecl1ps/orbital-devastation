@@ -594,7 +594,7 @@ namespace Orbit.Core.Client
             else if (endType == GameEnd.SERVER_DISCONNECTED)
                 Disconnected();
 
-            if(GameWindowState == WindowState.IN_LOBBY)
+            if (GameWindowState == WindowState.IN_LOBBY)
                 CloseGameWindowAndCleanup();
             else
                 ShowEndGameStats(endType, plr);
@@ -773,7 +773,7 @@ namespace Orbit.Core.Client
 
         private void Disconnected()
         {
-            if (area == null)
+            if (area == null || stopUpdating)
                 return;
 
             string msg;
