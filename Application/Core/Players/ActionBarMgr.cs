@@ -65,8 +65,9 @@ namespace Orbit.Core.Players
             mgr.GetCurrentPlayer().ShowGold();
             actions.ForEach(action => action.Update(tpf));
 
-            foreach (WindowController windowController in windows)
+            for (int i = 0; i < windows.Count; ++i)
             {
+                WindowController windowController = windows[i];
                 windowController.Controller.Update(windowController.Window, tpf);
                 if (windowController.Controller.Action.IsReady())
                     windowController.Window.Activate();
