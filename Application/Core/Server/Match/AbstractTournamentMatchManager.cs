@@ -56,8 +56,8 @@ namespace Orbit.Core.Server.Match
             SendPlayerScore(plr, server);
             SendPlayerScore(looser, server);
 
-            SendTextMessage(plr, "You are victorious. For your brave victory you earned " + scoreWin + " score", server);
-            SendTextMessage(looser, "You lost. For your fierce defense you get " + scoreLoose + " score", server);
+            SendTextMessage(plr, "You are victorious. You get " + scoreWin + " score", server);
+            SendTextMessage(looser, "You lost. You get " + scoreLoose + " score", server);
         }
 
         protected void SetPlayedTogether(Player plr1, Player plr2)
@@ -144,7 +144,7 @@ namespace Orbit.Core.Server.Match
             NetOutgoingMessage msg = server.CreateNetMessage();
             msg.Write((int)PacketType.SHOW_ALLERT_MESSAGE);
             msg.Write(text);
-            msg.Write(AlertMessageManager.TIME_NORMAL);
+            msg.Write(AlertMessageManager.TIME_INFINITE);
 
             server.SendMessage(msg, p);
         }

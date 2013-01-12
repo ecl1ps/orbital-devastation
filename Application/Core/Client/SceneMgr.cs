@@ -968,7 +968,7 @@ namespace Orbit.Core.Client
 
         public void CreateTextMessage(string message)
         {
-            AlertMessageMgr.Show(message, AlertMessageManager.TIME_NORMAL);
+            AlertMessageMgr.Show(message, AlertMessageManager.TIME_INFINITE);
         }
 
         public List<ISceneObject> GetSceneObjectsInDist(Vector position, double radius)

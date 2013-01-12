@@ -28,6 +28,7 @@ namespace Orbit.Core.Client.GameStates
         public const float TIME_NORMAL = 3;
         public const float TIME_LONG = 4;
         public const float TIME_LONGER = 5;
+        public const float TIME_INFINITE = float.MaxValue;
 
         private const float STARTING_ENDING_TIME = 0.25f;
 
