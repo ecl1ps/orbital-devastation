@@ -16,6 +16,7 @@ using System.Windows.Input;
 using Orbit.Core;
 using Orbit.Core.Scene;
 using Orbit.Core.Server.Match;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.Server
 {
@@ -239,6 +240,7 @@ namespace Orbit.Core.Server
             NetOutgoingMessage msg = CreateNetMessage();
             msg.Write((int)PacketType.SCORE_QUERY);
             BroadcastMessage(msg);
+            StateMgr.AddGameState(new DelayedActionInvoker(3, new Action(() => SkipWaitingForScoreQueryResponse())));
         }
 
         private void PlayerWon(Player winner)
