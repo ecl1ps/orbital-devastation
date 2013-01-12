@@ -595,7 +595,7 @@ namespace Orbit.Core.Client
                 Disconnected();
 
             if (GameWindowState == WindowState.IN_LOBBY)
-                CloseGameWindowAndCleanup();
+                CloseGameWindowAndCleanup(true);
             else
                 ShowEndGameStats(endType, plr);
         }
@@ -628,7 +628,7 @@ namespace Orbit.Core.Client
             }));
         }
 
-        public void CloseGameWindowAndCleanup()
+        public void CloseGameWindowAndCleanup(bool forceQuit = false)
         {
             if (GameType != Gametype.TOURNAMENT_GAME || lastGameEnd == GameEnd.SERVER_DISCONNECTED || lastGameEnd == GameEnd.TOURNAMENT_FINISHED)
                 RequestStop();
@@ -638,10 +638,11 @@ namespace Orbit.Core.Client
             if (Application.Current == null)
                 return;
 
-            if (GameType == Gametype.TOURNAMENT_GAME && lastGameEnd != GameEnd.SERVER_DISCONNECTED && lastGameEnd != GameEnd.TOURNAMENT_FINISHED)
-                TournamentGameEnded();
-            else if (lastGameEnd != GameEnd.TOURNAMENT_FINISHED)
+            if (lastGameEnd != GameEnd.TOURNAMENT_FINISHED || forceQuit)
                 NormalGameEnded();
+            else if (GameType == Gametype.TOURNAMENT_GAME && lastGameEnd != GameEnd.SERVER_DISCONNECTED && lastGameEnd != GameEnd.TOURNAMENT_FINISHED)
+                TournamentGameEnded();
+            
         }
 
         public void PlayerQuitGame()
