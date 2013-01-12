@@ -35,7 +35,8 @@ namespace Orbit.Core.Utils
                 Cost *= SharedDef.HEAL_MULTIPLY_COEF;
                 SendMessageWithHeal();
 
-                mgr.StatisticsMgr.Healed += heal;
+                if(mgr.GetCurrentPlayer().IsActivePlayer())
+                    mgr.StatisticsMgr.Healed += heal;
         }
 
         private void SendMessageWithHeal()

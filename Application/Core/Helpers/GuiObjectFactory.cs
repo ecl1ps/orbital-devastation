@@ -43,5 +43,17 @@ namespace Orbit.Core.Helpers
 
             return box;
         }
+
+        public static EndGameStats createAndAddPlayerStatsUc(SceneMgr mgr, Vector position)
+        {
+            EndGameStats stats = new EndGameStats(mgr);
+
+            mgr.GetCanvas().Children.Add(stats);
+            Canvas.SetLeft(stats, position.X);
+            Canvas.SetTop(stats, position.Y);
+            Canvas.SetZIndex(stats, 100);
+
+            return stats;
+        }
     }
 }

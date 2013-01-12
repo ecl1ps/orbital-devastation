@@ -21,6 +21,8 @@ using Orbit.Core.Players.Input;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Controls.Collisions;
 using Orbit.Gui.Visuals;
+using Orbit.Core.Helpers;
+using Orbit.Gui.ActionControllers;
 
 namespace Orbit.Core.Client
 {
@@ -582,11 +584,28 @@ namespace Orbit.Core.Client
 
             lastGameEnd = endType;
 
-            // po urcitem case zavola metodu CloseGameWindowAndCleanup()
-            if (GameWindowState == WindowState.IN_GAME)
+            ShowEndGameStats();
+
                 StateMgr.AddGameState(new DelayedActionInvoker(6.0f, new Action(() => CloseGameWindowAndCleanup())));
-            else
-                CloseGameWindowAndCleanup();
+        }
+
+        private void ShowEndGameStats()
+        {
+            StaticMouse.Enable(false);
+
+            objects.Clear();
+            objectsToRemove.Clear();
+            objectsToAdd.Clear();
+
+            Invoke(new Action(() =>
+            {
+                EndGameStats statsWindow = GuiObjectFactory.createAndAddPlayerStatsUc(this, new Vector(0, 100));
+                PlayerStatsUC playerStats = new PlayerStatsUC();
+                statsWindow.setStats(playerStats);
+
+                PlayerStatisticsController controller = new PlayerStatisticsController(this, playerStats);
+                StateMgr.AddGameState(controller);
+            }));
         }
 
         public void CloseGameWindowAndCleanup()
@@ -595,7 +614,6 @@ namespace Orbit.Core.Client
                 RequestStop();
 
             StateMgr.Clear();
-            StaticMouse.Enable(false);
 
             if (Application.Current == null)
                 return;

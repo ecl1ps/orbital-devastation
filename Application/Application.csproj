@@ -301,6 +301,8 @@
     </Compile>
     <Compile Include="Gui\ActionControllers\ActionController.cs" />
     <Compile Include="Gui\ActionControllers\ActionControllerImpl.cs" />
+    <Compile Include="Gui\ActionControllers\PlayerStatisticsController.cs" />
+    <Compile Include="Gui\ActionControllers\StatisticController.cs" />
     <Compile Include="Gui\AlertBox.xaml.cs">
       <DependentUpon>AlertBox.xaml</DependentUpon>
     </Compile>
@@ -312,6 +314,9 @@
     </Compile>
     <Compile Include="Gui\ColorPickerUC.xaml.cs">
       <DependentUpon>ColorPickerUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\EndGameStats.xaml.cs">
+      <DependentUpon>EndGameStats.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\EscMenu.xaml.cs">
       <DependentUpon>EscMenu.xaml</DependentUpon>
@@ -347,6 +352,9 @@
     </Compile>
     <Compile Include="Gui\PlayerSettings.xaml.cs">
       <DependentUpon>PlayerSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\PlayerStatsUC.xaml.cs">
+      <DependentUpon>PlayerStatsUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\ScoreboardUC.xaml.cs">
       <DependentUpon>ScoreboardUC.xaml</DependentUpon>
@@ -435,6 +443,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Gui\EndGameStats.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Gui\EscMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -491,6 +503,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Gui\PlayerStatsUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Gui\ScoreboardUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -506,6 +522,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <Resource Include="resources\images\background\singularity-sign.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="resources\images\background\door_left.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

@@ -666,7 +666,7 @@ namespace Orbit.Core.Client
 
         private void ReceivedPlayerReceivedPowerUpMsg(NetIncomingMessage msg)
         {
-            StatsMgr.AddStatToPlayer(GetPlayer(msg.ReadInt32()).Data, (PlayerStats)msg.ReadByte(), msg.ReadFloat());
+            StatsMgr.AddStatToPlayer(GetPlayer(msg.ReadInt32()).Data, (Orbit.Core.Players.PlayerStats)msg.ReadByte(), msg.ReadFloat());
         }
 
         private void ReceivedPlayerReadyMsg(NetIncomingMessage msg)
@@ -681,7 +681,7 @@ namespace Orbit.Core.Client
         {
             if (objects.Count > 2)
             {
-                Logger.Error("Receiving AllAsteroids packet but already have " + objects.Count + " objects");
+                Logger.Error("Receiving All Asteroids packet but already have " + objects.Count + " objects");
                 return;
             }
 
