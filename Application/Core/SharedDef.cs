@@ -26,6 +26,7 @@ namespace Orbit.Core
         public const int MAX_POWERUP_SPEED                  = 150;
 
         public const int ASTEROID_THRESHOLD_RADIUS          = 10;
+        public const int ASTEROID_MAX_GROWN_RADIUS          = 35;
 
         public const int FIRST_COSMICAL_SPEED               = 120;
 
@@ -69,6 +70,7 @@ namespace Orbit.Core
         public const float BULLET_EXPLODE_DURATION          = 0.3f;
         public const float BULLET_EXPLOSION_STRENGTH        = 50;
         public const float BULLET_EXPLOSION_SPEED           = 0.6f;
+        public const int BULLET_ACTIVE_SHRAPNEL_COUNT       = 3;
 
         public const int HOOK_LENGHT                        = 420;
         public const int HOOK_SPEED                         = 150;
@@ -112,7 +114,7 @@ namespace Orbit.Core
         public const float SPECTATOR_ASTEROID_THROW_SPEED   = 120;
         public const float SPECTATOR_SHIELDING_TIME         = 5;
         public const int SPECTATOR_DAMAGE                   = 6;
-        public const int SPECTATOR_HEAL                     = 6;
+        public const int SPECTATOR_GROWTH                   = 6;
 
         /// <summary>
         /// velikost canvasu je zaroven velikost celeho okna

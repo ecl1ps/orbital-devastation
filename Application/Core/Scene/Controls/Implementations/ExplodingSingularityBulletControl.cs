@@ -20,7 +20,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         public float Strength { get; set; }
         public float Speed { get; set; }
         private float explodeTime = 0;
-        private SingularityExplodingBullet meBullet;
+        protected SingularityExplodingBullet meBullet;
         private IList<long> hitObjects;
         private bool hitSomething;
 

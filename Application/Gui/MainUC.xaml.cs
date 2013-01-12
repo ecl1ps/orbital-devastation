@@ -25,6 +25,7 @@ namespace Orbit.Gui
             InitializeComponent();
 #if !DEBUG
             spMenu.Children.Remove(btnConnectToLocalhost);
+            spMenu.Children.Remove(btnPlayAsSpectator);
 #endif
         }
 
@@ -73,6 +74,21 @@ namespace Orbit.Gui
         private void btnShowOptions_Click(object sender, RoutedEventArgs e)
         {
             App.Instance.AddMenu(new OptionsMenu());
+        }
+
+        private void btnPlayAsSpectator_Click(object sender, RoutedEventArgs e)
+        {
+            App.Instance.StartTournamentLobby();
+
+            App.Instance.GetSceneMgr().Enqueue(new Action(() =>
+            {
+                App.Instance.GetSceneMgr().GetCurrentPlayer().Data.LobbyReady = true;
+                App.Instance.GetSceneMgr().SendPlayerReadyMessage();
+                TournamentSettings s = new TournamentSettings(true);
+                s.MMType = Orbit.Core.Server.Match.MatchManagerType.TEST_LEADER_SPECTATOR;
+                App.Instance.GetSceneMgr().ProcessNewTournamentSettings(s);
+                App.Instance.GetSceneMgr().SendStartGameRequest();
+            }));
         }
     }
 }

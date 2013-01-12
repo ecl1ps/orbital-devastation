@@ -766,7 +766,7 @@ namespace Orbit.Core.Client
 
         private void NormalGameEnded()
         {
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 App.Instance.GameEnded();
             }));

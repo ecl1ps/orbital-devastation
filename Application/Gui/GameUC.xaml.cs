@@ -42,6 +42,10 @@ namespace Orbit.Gui
         [System.Reflection.ObfuscationAttribute(Feature = "renaming")]
         private void OnActionBarClick(object sender, MouseButtonEventArgs e)
         {
+            // okno je zavirano a mouse click event je nejak zpozden - zpusobi to jinak crash
+            if ((((ActionBarUC.Parent as Grid).Parent as Canvas).Parent as GameUC).Parent == null)
+                return;
+
             Point p = e.GetPosition(ActionBarUC);
 
             (ActionBarUC as ActionBar).OnClick(ActionBarUC.PointToScreen(p));

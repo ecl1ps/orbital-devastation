@@ -17,7 +17,7 @@ using Orbit.Core.SpecialActions;
 
 namespace Orbit.Core.Players
 {
-    class WindowController {
+    public class WindowController {
         public ActionUC Window { get; set; }
         public ActionController<ActionUC> Controller { get; set; }
 

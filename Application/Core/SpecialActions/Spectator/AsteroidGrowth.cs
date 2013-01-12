@@ -31,7 +31,7 @@ namespace Orbit.Core.SpecialActions.Spectator
 
             msg.Write(Owner.GetId());
             msg.Write(afflicted.Count);
-            msg.Write(SharedDef.SPECTATOR_HEAL);
+            msg.Write(SharedDef.SPECTATOR_GROWTH);
 
             afflicted.ForEach(aff => { GrowAsteroid(aff); msg.Write(aff.Id); });
 
@@ -40,8 +40,10 @@ namespace Orbit.Core.SpecialActions.Spectator
 
         private void GrowAsteroid(Asteroid a)
         {
-            int val = SharedDef.SPECTATOR_HEAL;
+            int val = SharedDef.SPECTATOR_GROWTH;
             a.Radius += val;
+            if (a.Radius > SharedDef.ASTEROID_MAX_GROWN_RADIUS)
+                a.Radius = SharedDef.ASTEROID_MAX_GROWN_RADIUS;
             SceneMgr.FloatingTextMgr.AddFloatingText("+" + val, a.Position, FloatingTextManager.TIME_LENGTH_3, Client.GameStates.FloatingTextType.HEAL);
         }
     }

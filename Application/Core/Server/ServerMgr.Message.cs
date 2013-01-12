@@ -112,6 +112,16 @@ namespace Orbit.Core.Server
             }
         }
 
+        private void SkipWaitingForScoreQueryResponse()
+        {
+            if (savedEndGameAction != null)
+            {
+                // EndGame() s hracem, ktery vyhral
+                savedEndGameAction.Invoke();
+                savedEndGameAction = null;
+            }
+        }
+
         private void ReceivedPlayerReadyMsg(NetIncomingMessage msg)
         {
             Player p = GetPlayer(msg.SenderConnection);
