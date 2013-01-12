@@ -32,7 +32,7 @@
                     </LinearGradientBrush>
                 </Button.Background>
                 </Button>
-                <Button Content="Connect To Game" Name="btnFindHostedGame" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="15" Click="btnFindHostedGame_Click">
+                <Button Content="Connect to Game" Name="btnFindHostedGame" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="15" Click="btnFindHostedGame_Click">
                     <Button.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="Black" Offset="1" />
@@ -40,7 +40,7 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
-            <Button Content="Connect To Localhost" Name="btnConnectToLocalhost" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="14" Click="btnConnectToLocalhost_Click">
+            <Button Content="Connect to Localhost" Name="btnConnectToLocalhost" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="14" Click="btnConnectToLocalhost_Click">
                 <Button.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="Black" Offset="1" />
@@ -48,6 +48,14 @@
                     </LinearGradientBrush>
                 </Button.Background>
             </Button>
+            <Button Content="Play as Spectator" Name="btnPlayAsSpectator" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="15" Click="btnPlayAsSpectator_Click">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black" Offset="1" />
+                        <GradientStop Color="#80FFFFFF" Offset="0" />
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>            
             <Button Content="Repeat last game" Name="btnRepeatGame" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="15" Click="btnRepeatGame_Click" Visibility="Collapsed">
                 <Button.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
