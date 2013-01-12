@@ -436,7 +436,8 @@ namespace Orbit.Core.Client
             else
                 idsToRemove.Add(aId);
 
-            bullet.DoRemoveMe();
+            if (!(bullet is SingularityExplodingBullet))
+                bullet.DoRemoveMe();
         }
 
         private void ReceivedHookHitMsg(NetIncomingMessage msg)
