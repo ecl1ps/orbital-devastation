@@ -59,7 +59,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             me.GetControlOfType<HighlightingControl>().Enabled = false;
 
-            List<ISceneObject> nearbyObjects = me.FindNearbyObjects(hook.Owner.Data.HookActivePullReachDistance);
+            List<ISceneObject> nearbyObjects = me.FindNearbyObjects<ISceneObject>(hook.Owner.Data.HookActivePullReachDistance);
             IOrderedEnumerable<ISceneObject> ordered = nearbyObjects.OrderBy(o => (me.Center - o.Center).Length);
 
             List<ISceneObject> pulledObjects = new List<ISceneObject>();

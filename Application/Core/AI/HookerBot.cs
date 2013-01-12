@@ -54,88 +54,13 @@ namespace Orbit.Core.AI
             CheckHeal();
         }
 
-        // debug
-        /*private Asteroid last;
-        private VectorLine asteroidMovementLine;
-        private VectorLine cLine;
-        private Circle pX1;*/
-
-        private Asteroid nearest;
-        private double v1;
-        private double v2;
-        private Vector cVec;
-        private Vector dVec;
-        private double c;
-        private double cosAlpha;
-        private double D;
-        private double sqrtD;
-        private double x1;
-        private Vector contactPoint1;
-        private IMovementControl movementControl;
-
         private void ShootHook()
         {
-            nearest = GetNearestAsteroid();
+            Asteroid nearest = GetNearestAsteroid();
             if (nearest == null)
                 return;
 
-            // rychlost hooku
-            v1 = me.Data.HookSpeed;
-            // rychlost objektu
-            movementControl = nearest.GetControlOfType<IMovementControl>();
-            v2 = movementControl == null ? 0 : movementControl.Speed;
-            // vektor od objketu k launcheru hooku
-            cVec = baseLauncherPosition - nearest.Center;
-            // vektor smeru objektu
-            dVec = (nearest as IMovable).Direction;
-
-            /*if (last == null || nearest.Id != last.Id)
-            {
-                last = nearest;
-                if (asteroidMovementLine != null)
-                {
-                    (asteroidMovementLine.GetControlOfType(typeof(VectorLineObjectMovementControl)) as VectorLineObjectMovementControl).Parent = nearest;
-                }
-                else
-                {
-                    asteroidMovementLine = SceneObjectFactory.CreateVectorLine(sceneMgr, nearest.Center, dVec, Colors.Yellow, nearest);
-                    sceneMgr.DelayedAttachToScene(asteroidMovementLine);
-                }
-            }         
-            if (cLine != null)
-                cLine.DoRemoveMe();
-            cLine = SceneObjectFactory.CreateVectorLine(sceneMgr, nearest.Center, cVec, Colors.Green);
-            sceneMgr.DelayedAttachToScene(cLine);*/
-
-            // vzdalenost mezi launcherem a objektem
-            c = cVec.Length;
-            // cosinus uhlu, ktery sviraji vektory pohybu objektu a smeru k launcheru
-            cosAlpha = (cVec.X * dVec.X + cVec.Y * dVec.Y) / (cVec.Length * dVec.Length);
-
-            // diskriminant pro kvadratickou rovnici cosinovy vety
-            D = Math.Pow(2 * c * cosAlpha, 2) - 4 * c * c * (1 - Math.Pow(v1 / v2, 2));
-            // nebyl nalezen trojuhelnik (komplexni cisla)
-            if (D < 0)
-                return;
-
-            sqrtD = Math.Sqrt(D);
-
-            // kvadraticka rovnice cosinovy vety
-            // odectenim D ziskame bod pred telesem, prictenim bychom ziskali bod za telesem (ve smeru jeho pohybu)
-            x1 = (2 * c * cosAlpha - sqrtD) / (2 - 2 * Math.Pow(v1 / v2, 2));
-
-            dVec.Normalize();
-
-            // bod do ktereho je potreba strelit
-            contactPoint1 = nearest.Center + (dVec * x1);
-
-            /*if (pX1 == null || pX1.Dead)
-            {
-                pX1 = SceneObjectFactory.CreateCircle(sceneMgr, contactPoint1, Colors.Blue);
-                sceneMgr.DelayedAttachToScene(pX1);
-            }
-            pX1.Position = contactPoint1;
-            sceneMgr.ShowStatusText(7, "x1 " + ((int)contactPoint1.X) + " " + ((int)contactPoint1.Y));*/
+            Vector contactPoint1 = AIUtils.ComputeDestinationPositionToHitTarget(nearest, me.Data.HookSpeed, baseLauncherPosition, me.SceneMgr.GetRandomGenerator());
 
             // nestrili, pokud tam nedosahne
             if ((baseLauncherPosition - contactPoint1).Length > me.Data.HookLenght)

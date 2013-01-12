@@ -120,6 +120,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Core\AI\AIUtils.cs" />
     <Compile Include="Core\AI\BotNameAccessor.cs" />
     <Compile Include="Core\AI\HookerBot.cs" />
     <Compile Include="Core\AI\SimpleBot.cs" />

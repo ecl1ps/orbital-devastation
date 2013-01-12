@@ -8,14 +8,14 @@ namespace Orbit.Core
     public class FastMath
     {
 
-        public static float LinearInterpolate(float value1, float value2, float amount)
+        public static float LinearInterpolate(float from, float to, float percentage)
         {
-            return value1 + (value2 - value1) * amount; //xna
+            return from + (to - from) * percentage; //xna
         }
 
-        public static double LinearInterpolate(double y1, double y2, double mu)
+        public static double LinearInterpolate(double from, double to, double percentage)
         {
-            return (y1 * (1 - mu) + y2 * mu); // paul bourke
+            return (from * (1 - percentage) + to * percentage); // paul bourke
         }
 
         public static int Factorial(int input)
@@ -45,6 +45,16 @@ namespace Orbit.Core
             }
 
             return answer;
+        }
+
+        /// <summary>
+        /// vrati nahodnou rotaci 0 - 2PI v radianech
+        /// </summary>
+        /// <param name="randomGenerator"></param>
+        /// <returns></returns>
+        public static double GetRandomRotation(Random randomGenerator)
+        {
+            return randomGenerator.NextDouble() * Math.PI * 2;
         }
     }
 }
