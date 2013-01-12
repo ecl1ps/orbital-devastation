@@ -30,8 +30,8 @@ namespace Orbit.Core.Players
             { PlayerStats.HOOK_1_LENGTH, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_LENGTH, "Hook length", +40f, +80f)},
             { PlayerStats.HOOK_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_COOLDOWN, "Hook cooldown", -0.1f, -0.3f)},
 
-            { PlayerStats.HEALING_KIT_1_REPAIR_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_REPAIR_BASE, "Base repair", +25f, +35f)},
-            { PlayerStats.HEALING_KIT_1_FORTIFY_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_FORTIFY_BASE, "Base fortify", +15f, +25f)},
+            { PlayerStats.HEALING_KIT_1_REPAIR_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_REPAIR_BASE, "Base repair", +10f, +15f)},
+            { PlayerStats.HEALING_KIT_1_FORTIFY_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_FORTIFY_BASE, "Base fortify", +10f, +15f)},
             { PlayerStats.HEALING_KIT_1_BONUS_HEAL, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_BONUS_HEAL, "Heal Bonus", +1, +5)}
         };
     

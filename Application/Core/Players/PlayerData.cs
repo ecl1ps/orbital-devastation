@@ -48,6 +48,8 @@ namespace Orbit.Core.Players
         public int BaseIntegrity { get; set; }
         public int MaxBaseIntegrity { get; set; }
         public int BonusHeal { get; set; }
+        public int HookActivePullableWeight { get; set; }
+        public float HookActivePullReachDistance { get; set; }
 
         // UDAJE TURNAJE
         public bool LobbyLeader { get; set; }
@@ -97,6 +99,8 @@ namespace Orbit.Core.Players
             HookCooldown = SharedDef.HOOK_COOLDOWN;
             HookMaxCatchedObjCount = SharedDef.HOOK_MAX_OBJ_COUNT;
             BonusHeal = SharedDef.BONUS_HEAL;
+            HookActivePullableWeight = SharedDef.HOOK_ACTIVE_PULLABLE_WEIGHT;
+            HookActivePullReachDistance = SharedDef.HOOK_ACTIVE_PULL_REACH_DIST;
 
             LobbyReady = false;
             StartReady = false;

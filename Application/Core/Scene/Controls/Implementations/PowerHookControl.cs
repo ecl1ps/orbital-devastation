@@ -15,15 +15,10 @@ namespace Orbit.Core.Scene.Controls.Implementations
     {
         public bool ForcePullUsed { get; set; }
 
-        private int maxPulledWeight;
-        private float pullReachDist;
-
         protected override void InitControl(ISceneObject me)
         {
             base.InitControl(me);
             ForcePullUsed = false;
-            maxPulledWeight = 70;
-            pullReachDist = 100;
         }
 
         public override void DoCollideWith(ISceneObject other, float tpf)
@@ -64,7 +59,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             me.GetControlOfType<HighlightingControl>().Enabled = false;
 
-            List<ISceneObject> nearbyObjects = me.FindNearbyObjects(pullReachDist);
+            List<ISceneObject> nearbyObjects = me.FindNearbyObjects(hook.Owner.Data.HookActivePullReachDistance);
             IOrderedEnumerable<ISceneObject> ordered = nearbyObjects.OrderBy(o => (me.Center - o.Center).Length);
 
             List<ISceneObject> pulledObjects = new List<ISceneObject>();
@@ -79,8 +74,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
                     pulledWeight += (o as Asteroid).Radius;
                 else
                     pulledWeight += 10; // pro powerupy
-                
-                if (pulledWeight > maxPulledWeight)
+
+                if (pulledWeight > hook.Owner.Data.HookActivePullableWeight)
                     break;
 
                 pulledObjects.Add(o);
@@ -105,7 +100,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         public void ShowForceFieldEffect()
         {
             ForcePullField f = new ForcePullField(me.SceneMgr, IdMgr.GetNewId(hook.Owner.GetId()));
-            f.Radius = (int)pullReachDist;
+            f.Radius = (int)hook.Owner.Data.HookActivePullReachDistance;
             f.Position = new Vector(me.Center.X - f.Radius, me.Center.Y - f.Radius);
             f.HeavyWeightGeometry = HeavyweightGeometryFactory.CreateForceField(f);
 
