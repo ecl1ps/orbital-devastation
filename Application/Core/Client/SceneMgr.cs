@@ -566,14 +566,14 @@ namespace Orbit.Core.Client
 
         private void EndGame(Player plr, GameEnd endType)
         {
+            if (endType == GameEnd.TOURNAMENT_FINISHED)
+            {
+                lastGameEnd = endType;
+                winner = plr;
+            }
+
             if (gameEnded)
                 return;
-
-            lastGameEnd = endType;
-            winner = plr;
-
-            if (endType == GameEnd.TOURNAMENT_FINISHED)
-                gameEnded = true;
 
             if (Application.Current != null)
                 Application.Current.Dispatcher.Invoke(new Action(() =>
@@ -582,17 +582,17 @@ namespace Orbit.Core.Client
                 }));
 
             if (endType == GameEnd.WIN_GAME)
-                CheckHighScore();
+                CheckHighScore(plr);
 
             isGameInitialized = true;
             userActionsDisabled = true;
+            StatisticsMgr.GameEnded = true;
+            gameEnded = true;
 
             if (endType == GameEnd.LEFT_GAME)
                 PlayerLeft(plr);
             else if (endType == GameEnd.SERVER_DISCONNECTED)
                 Disconnected();
-
-            StatisticsMgr.GameEnded = true;
 
             if(GameWindowState == WindowState.IN_LOBBY)
                 CloseGameWindowAndCleanup();
@@ -650,7 +650,7 @@ namespace Orbit.Core.Client
             serverConnection.Disconnect("Quit");
         }
 
-        private void CheckHighScore()
+        private void CheckHighScore(Player winner)
         {
             // zatim jen pro solo a 1v1 hry
             if (GameType != Gametype.SOLO_GAME && GameType != Gametype.MULTIPLAYER_GAME)
@@ -690,6 +690,13 @@ namespace Orbit.Core.Client
                 hs = currentPlayer.Data.Score;
                 GameProperties.Props.SetAndSave(key, hs);
                 CreateTextMessage("New HighScore " + hs + "!");
+            }
+            else
+            {
+                if (GetCurrentPlayer() == winner)
+                    CreateTextMessage("You win! Congratulations");
+                else
+                    CreateTextMessage("You lost!");
             }
 
         }
