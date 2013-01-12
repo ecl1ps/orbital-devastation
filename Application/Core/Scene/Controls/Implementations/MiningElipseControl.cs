@@ -37,8 +37,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
             double travellingLenght = travellingDirection.Length;
             travellingDirection = travellingDirection.NormalizeV();
             float timeProgress = time / SharedDef.SPECTATOR_ORBITS_TRAVELLING_TIME;
-
-            me.Position = LineToFollow.End + (travellingDirection * (travellingLenght * timeProgress));
+            
+            me.Position = (LineToFollow.End + (travellingDirection * (travellingLenght * timeProgress))) + (me.Position - me.Center);
         }
     }
 }
