@@ -28,7 +28,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             HpBarControl c = me.GetControlOfType<HpBarControl>();
             if (c != null)
             {
-                rightBottomOffset = (c.Bar as PercentageArc).Radius * 2;
+                rightBottomOffset = (c.Bar as MiningModuleIntegrityBar).Radius * 2;
 
                 leftTopOffset = rightBottomOffset / 2 - (me as MiningModule).Radius;
 

@@ -219,7 +219,7 @@
     <Compile Include="Core\Scene\Entities\Implementations\IceSquare.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\OrbitEllipse.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\MiningModule.cs" />
-    <Compile Include="Core\Scene\Entities\Implementations\PercentageEllipse.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\BaseIntegrityBar.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\SimpleSquare.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\SingularityBouncingBullet.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\SimpleSphere.cs" />
@@ -228,7 +228,7 @@
     <Compile Include="Core\Scene\Entities\Implementations\PowerHook.cs" />
     <Compile Include="Core\Scene\CollisionShapes\SphereCollisionShape.cs" />
     <Compile Include="Core\Scene\Entities\HeavyWeight\SphereField.cs" />
-    <Compile Include="Core\Scene\Entities\Implementations\PercentageArc.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\MiningModuleIntegrityBar.cs" />
     <Compile Include="Core\Scene\Controls\Collisions\Implementations\StickyPointCollisionShapeControl.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Line.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\StatPowerUp.cs" />

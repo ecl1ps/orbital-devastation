@@ -332,7 +332,7 @@ namespace Orbit.Core.Client
                 p.SetBaseIntegrity(p.GetBaseIntegrity());
                 p.Baze = SceneObjectFactory.CreateBase(this, p);
 
-                PercentageEllipse ellipse = SceneObjectFactory.CreatePercentageEllipse(this, p);
+                BaseIntegrityBar ellipse = SceneObjectFactory.CreateBaseIntegrityBar(this, p);
 
                 HpBarControl control = new HpBarControl(ellipse);
                 p.Baze.AddControl(control);
@@ -344,7 +344,7 @@ namespace Orbit.Core.Client
             {
                 MiningModule obj = SceneObjectFactory.CreateMiningModule(this, p.Data.MiningModuleStartPos, p);
                 DelayedAttachToScene(obj);
-                DelayedAttachToScene(SceneObjectFactory.CreatePercentageArc(this, obj, p));
+                DelayedAttachToScene(SceneObjectFactory.CreateMiningModuleIntegrityBar(this, obj, p));
 
                 p.Device = obj;
             }

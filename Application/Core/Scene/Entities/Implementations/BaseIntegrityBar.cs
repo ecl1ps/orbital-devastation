@@ -10,7 +10,7 @@ using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    public class PercentageEllipse : SceneObject, IHpBar
+    public class BaseIntegrityBar : SceneObject, IHpBar
     {
         public float Width { get; set; }
         public float Height { get; set; }
@@ -25,7 +25,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         private ArcSegment arc;
 
-        public PercentageEllipse(SceneMgr mgr, long id)
+        public BaseIntegrityBar(SceneMgr mgr, long id)
             : base(mgr, id)
         {
             Percentage = 1;

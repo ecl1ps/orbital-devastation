@@ -259,7 +259,7 @@ namespace Orbit.Core.Helpers
             return d;
         }
 
-        public static DrawingGroup CreateArcSegments(PercentageArc arc)
+        public static DrawingGroup CreateArcSegments(MiningModuleIntegrityBar arc)
         {
             DrawingGroup d = null;
             arc.SceneMgr.Invoke(new Action(() =>
@@ -275,7 +275,7 @@ namespace Orbit.Core.Helpers
             return d;
         }
 
-        public static DrawingGroup CreateArcSegments(PercentageEllipse arc)
+        public static DrawingGroup CreateArcSegments(BaseIntegrityBar arc)
         {
             DrawingGroup d = null;
             arc.SceneMgr.Invoke(new Action(() =>
@@ -291,7 +291,7 @@ namespace Orbit.Core.Helpers
             return d;
         }
 
-        private static PathGeometry CreateArc(PercentageEllipse e)
+        private static PathGeometry CreateArc(BaseIntegrityBar e)
         {
             ArcSegment arc = new ArcSegment();
 
@@ -314,7 +314,7 @@ namespace Orbit.Core.Helpers
             return geom;
         }
 
-        private static PathGeometry CreateArc(PercentageArc a)
+        private static PathGeometry CreateArc(MiningModuleIntegrityBar a)
         {
             ArcSegment arc = new ArcSegment();
             Point point = new Point(a.Radius, 0);

@@ -423,9 +423,9 @@ namespace Orbit.Core.Helpers
             return module;
         }
 
-        public static PercentageEllipse CreatePercentageEllipse(SceneMgr mgr, Player owner)
+        public static BaseIntegrityBar CreateBaseIntegrityBar(SceneMgr mgr, Player owner)
         {
-            PercentageEllipse arc = new PercentageEllipse(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
+            BaseIntegrityBar arc = new BaseIntegrityBar(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             Color c = owner.GetPlayerColor();
             c.A = 0x55;
             arc.Color = c;
@@ -441,9 +441,9 @@ namespace Orbit.Core.Helpers
             return arc;
         }
 
-        public static PercentageArc CreatePercentageArc(SceneMgr mgr, MiningModule module, Player owner)
+        public static MiningModuleIntegrityBar CreateMiningModuleIntegrityBar(SceneMgr mgr, MiningModule module, Player owner)
         {
-            PercentageArc arc = new PercentageArc(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
+            MiningModuleIntegrityBar arc = new MiningModuleIntegrityBar(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             arc.Color = owner.GetPlayerColor();
             arc.Radius = module.Radius + 5;
 

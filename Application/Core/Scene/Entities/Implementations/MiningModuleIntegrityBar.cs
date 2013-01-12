@@ -10,7 +10,7 @@ using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    public class PercentageArc : SceneObject, IHpBar, ISpheric
+    public class MiningModuleIntegrityBar : SceneObject, IHpBar, ISpheric
     {
         public int Radius { get; set; }
         public float Percentage { get; set; }
@@ -23,7 +23,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         private ArcSegment arc;
 
-        public PercentageArc(SceneMgr mgr, long id)
+        public MiningModuleIntegrityBar(SceneMgr mgr, long id)
             : base(mgr, id)
         {
             Percentage = 1;
