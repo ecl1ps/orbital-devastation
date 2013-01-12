@@ -69,6 +69,7 @@ namespace Orbit.Core
         public const float BULLET_EXPLODE_DURATION          = 0.3f;
         public const float BULLET_EXPLOSION_STRENGTH        = 50;
         public const float BULLET_EXPLOSION_SPEED           = 0.6f;
+        public const int BULLET_ACTIVE_SHRAPNEL_COUNT       = 3;
 
         public const int HOOK_LENGHT                        = 420;
         public const int HOOK_SPEED                         = 150;
