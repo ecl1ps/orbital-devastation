@@ -19,7 +19,7 @@ namespace Orbit.Gui.ActionControllers
         private String favAction = "";
         private String damage = "";
 
-        public SpectatorStatisticController(SceneMgr mgr, EndGameStats stats, SpectatorStatsUC window) : base(mgr, stats)
+        public SpectatorStatisticController(SceneMgr mgr, EndGameStats stats, bool limited, SpectatorStatsUC window) : base(mgr, stats, limited)
         {
             this.window = window;
         }

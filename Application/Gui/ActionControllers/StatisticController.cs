@@ -10,16 +10,18 @@ namespace Orbit.Gui.ActionControllers
     public abstract class StatisticController : IGameState
     {
         private const float SHOW_TIME = 1;
+        private bool limited;
         protected float time = SHOW_TIME;
         protected bool waitingToEnd = false;
 
         protected SceneMgr mgr;
         protected EndGameStats statsWindow;
 
-        public StatisticController(SceneMgr mgr, EndGameStats statsWindow)
+        public StatisticController(SceneMgr mgr, EndGameStats statsWindow, bool limited)
         {
             this.mgr = mgr;
             this.statsWindow = statsWindow;
+            this.limited = limited;
         }
 
         public virtual void Update(float tpf)
@@ -28,7 +30,7 @@ namespace Orbit.Gui.ActionControllers
             {
                 Next();
                 time = SHOW_TIME;            }
-            else if (time <= 0 && !waitingToEnd)
+            else if (time <= 0 && !waitingToEnd && limited)
             {
                 time = 30;
                 waitingToEnd = true;

@@ -28,8 +28,8 @@ namespace Orbit.Gui.ActionControllers
         private String favAction = "";
         private String favPowerup = "";
 
-        public PlayerStatisticsController(SceneMgr mgr, EndGameStats stats, PlayerStatsUC window)
-            : base(mgr, stats)
+        public PlayerStatisticsController(SceneMgr mgr, EndGameStats stats, bool limited, PlayerStatsUC window)
+            : base(mgr, stats, limited)
         {
             this.window = window;
         }
