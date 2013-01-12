@@ -26,16 +26,12 @@ namespace Orbit.Core.Players
             { PlayerStats.CANNON_1_DAMAGE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.CANNON_1_DAMAGE, "Cannon damage", +1f, +2f)},
             { PlayerStats.CANNON_1_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.CANNON_1_SPEED, "Cannon bullet speed", +30f, +100f)},
 
-            { PlayerStats.CANNON_3_CHARGE_TIME, new Stat(UpgradeLevel.LEVEL3, PlayerStats.CANNON_3_CHARGE_TIME, "Laser charging time", -0.03f, -0.05f)},
-            { PlayerStats.CANNON_3_DAMAGE, new Stat(UpgradeLevel.LEVEL3, PlayerStats.CANNON_3_DAMAGE, "Laser damage", +1f, +2f)},
-            { PlayerStats.CANNON_3_DAMAGE_INTERVAL, new Stat(UpgradeLevel.LEVEL3, PlayerStats.CANNON_3_DAMAGE_INTERVAL, "Laser damage interval", -0.01f, -0.03f)},
-
             { PlayerStats.HOOK_1_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_SPEED, "Hook speed", +20f, +40f)},
             { PlayerStats.HOOK_1_LENGTH, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_LENGTH, "Hook length", +40f, +80f)},
             { PlayerStats.HOOK_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_COOLDOWN, "Hook cooldown", -0.1f, -0.3f)},
 
-            { PlayerStats.HEALING_KIT_1_REPAIR_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_REPAIR_BASE, "Base repair", +25f, +35f)},
-            { PlayerStats.HEALING_KIT_1_FORTIFY_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_FORTIFY_BASE, "Base fortify", +15f, +25f)},
+            { PlayerStats.HEALING_KIT_1_REPAIR_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_REPAIR_BASE, "Base repair", +10f, +15f)},
+            { PlayerStats.HEALING_KIT_1_FORTIFY_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_FORTIFY_BASE, "Base fortify", +10f, +15f)},
             { PlayerStats.HEALING_KIT_1_BONUS_HEAL, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_BONUS_HEAL, "Heal Bonus", +1, +5)}
         };
     
@@ -119,18 +115,6 @@ namespace Orbit.Core.Players
                     pct = data.BulletSpeed;
                     data.BulletSpeed += (int)val;
                     break;
-                case PlayerStats.CANNON_3_CHARGE_TIME:
-                    pct = data.LaserChargingTime;
-                    data.LaserChargingTime += val;
-                    break;
-                case PlayerStats.CANNON_3_DAMAGE:
-                    pct = data.LaserDamage;
-                    data.LaserDamage += (int)val;
-                    break;
-                case PlayerStats.CANNON_3_DAMAGE_INTERVAL:
-                    pct = data.LaserDamageInterval;
-                    data.LaserDamageInterval += val;
-                    break;
 
                 case PlayerStats.HOOK_1_COOLDOWN:
                     pct = data.HookCooldown;
@@ -201,7 +185,6 @@ namespace Orbit.Core.Players
                     switch (upgradeLevel)
                     {
                         case UpgradeLevel.LEVEL3:
-                            return allStats[(PlayerStats)sceneMgr.GetRandomGenerator().Next((int)PlayerStats.CANNON_3_MIN + 1, (int)PlayerStats.CANNON_3_MAX)];
                         case UpgradeLevel.LEVEL1:
                         case UpgradeLevel.LEVEL2:
                         default:
@@ -291,9 +274,6 @@ namespace Orbit.Core.Players
         CANNON_2_MAX,
 
         CANNON_3_MIN,
-        CANNON_3_CHARGE_TIME,
-        CANNON_3_DAMAGE,
-        CANNON_3_DAMAGE_INTERVAL,
         CANNON_3_MAX,
 
         HOOK_1_MIN,

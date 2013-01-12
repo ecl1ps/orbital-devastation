@@ -62,7 +62,7 @@ namespace Orbit.Core
         public const int MAX_GRAVITY_HEIGHT                 = 100;
         public const float STABLE_ORBIT_RELATIVE            = 0.9f;
 
-        public const int BULLET_SPEED                       = 300;
+        public const int BULLET_SPEED                       = 400;
         public const float BULLET_COOLDOWN                  = MINE_COOLDOWN / 2;
         public const int BULLET_DMG                         = 5;
         public const float BULLET_LIFE_TIME                 = 1f;
@@ -70,14 +70,13 @@ namespace Orbit.Core
         public const float BULLET_EXPLOSION_STRENGTH        = 50;
         public const float BULLET_EXPLOSION_SPEED           = 0.6f;
 
-        public const float LASER_CHARGING_TIME              = 0.5f;
-        public const int LASER_DMG                          = 4;
-        public const float LASER_DMG_INTERVAL               = 0.10f;
-
         public const int HOOK_LENGHT                        = 420;
         public const int HOOK_SPEED                         = 150;
-        public const float HOOK_COOLDOWN                    = MINE_COOLDOWN;
+        public const float HOOK_COOLDOWN                    = 1.5f;
         public const int HOOK_MAX_OBJ_COUNT                 = 2;
+
+        public const int HOOK_ACTIVE_PULLABLE_WEIGHT        = 40;
+        public const float HOOK_ACTIVE_PULL_REACH_DIST      = 100f;
 
         public const int HEAL_MULTIPLY_COEF                 = 2;
         public const float HEAL_AMOUNT                      = 0.25f; //procenta
