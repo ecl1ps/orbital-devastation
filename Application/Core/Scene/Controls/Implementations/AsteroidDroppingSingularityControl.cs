@@ -51,6 +51,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             base.StartDetonation();
             Detonated = true;
+            me.GetControlOfType<HighlightingControl>().Enabled = false;
         }
 
         public void SpawnAsteroid()
