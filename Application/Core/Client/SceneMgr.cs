@@ -606,26 +606,7 @@ namespace Orbit.Core.Client
             StaticMouse.Enable(false);
             stopUpdating = true;
 
-            Invoke(new Action(() =>
-            {
-                EndGameStats statsWindow = GuiObjectFactory.createAndAddPlayerStatsUc(this, new Vector((SharedDef.VIEW_PORT_SIZE.Width - 800) /2, (SharedDef.VIEW_PORT_SIZE.Height - 500) / 2));
-                if (currentPlayer.IsActivePlayer())
-                {
-                    PlayerStatsUC playerStats = new PlayerStatsUC();
-                    statsWindow.setStats(playerStats);
-
-                    PlayerStatisticsController controller = new PlayerStatisticsController(this, statsWindow, playerStats);
-                    StateMgr.AddGameState(controller);
-                }
-                else
-                {
-                    SpectatorStatsUC playerStats = new SpectatorStatsUC();
-                    statsWindow.setStats(playerStats);
-
-                    SpectatorStatisticController controller = new SpectatorStatisticController(this, statsWindow, playerStats);
-                    StateMgr.AddGameState(controller);
-                }
-            }));
+            Invoke(new Action(() => GuiObjectFactory.CreateAndAddPlayerStatsUc(this, currentPlayer.IsActivePlayer(), new Vector((SharedDef.VIEW_PORT_SIZE.Width - 800) / 2, (SharedDef.VIEW_PORT_SIZE.Height - 500) / 2))));
         }
 
         public void CloseGameWindowAndCleanup(bool forceQuit = false)

@@ -44,9 +44,9 @@ namespace Orbit.Core.Helpers
             return box;
         }
 
-        public static EndGameStats createAndAddPlayerStatsUc(SceneMgr mgr, Vector position)
+        public static EndGameStats CreateAndAddPlayerStatsUc(SceneMgr mgr, bool isPlayer, Vector position)
         {
-            EndGameStats stats = new EndGameStats(mgr);
+            EndGameStats stats = CreatePlayerStatsUC(mgr, isPlayer, true);
 
             mgr.GetCanvas().Children.Add(stats);
             Canvas.SetLeft(stats, position.X);
@@ -54,6 +54,34 @@ namespace Orbit.Core.Helpers
             Canvas.SetZIndex(stats, 200);
 
             return stats;
+        }
+
+        public static EndGameStats CreatePlayerStatsUC(SceneMgr mgr, bool isPlayer, bool limited)
+        {
+            EndGameStats statsWindow;
+            if (limited)
+                statsWindow = new EndGameStats(mgr);
+            else
+                statsWindow = new EndGameStats(null);
+
+            if (isPlayer)
+            {
+                PlayerStatsUC playerStats = new PlayerStatsUC();
+                statsWindow.setStats(playerStats);
+
+                PlayerStatisticsController controller = new PlayerStatisticsController(mgr, statsWindow, limited, playerStats);
+                mgr.StateMgr.AddGameState(controller);
+            }
+            else
+            {
+                SpectatorStatsUC playerStats = new SpectatorStatsUC();
+                statsWindow.setStats(playerStats);
+
+                SpectatorStatisticController controller = new SpectatorStatisticController(mgr, statsWindow, limited, playerStats);
+                mgr.StateMgr.AddGameState(controller);
+            }
+
+            return statsWindow;
         }
     }
 }
