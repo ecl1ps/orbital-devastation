@@ -45,6 +45,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             ExcludingExplodingSingularityBulletControl c = new ExcludingExplodingSingularityBulletControl();
             c.Speed = SharedDef.BULLET_EXPLOSION_SPEED;
             c.Strength = SharedDef.BULLET_EXPLOSION_STRENGTH;
+            c.StatReported = true;
             if (ignored != null)
                 c.IgnoredObjects.Add(ignored.Id);
             bullet.AddControl(c);
