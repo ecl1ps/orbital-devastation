@@ -63,7 +63,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
             nmc.Speed = GetControlOfType<LinearMovementControl>().Speed;
             smallBullet.AddControl(nmc);
 
-            smallBullet.AddControl(new SingularityBulletCollisionReactionControl());
+            SingularityBulletCollisionReactionControl cc = new SingularityBulletCollisionReactionControl();
+            cc.StatReported = true;
+            smallBullet.AddControl(cc);
             smallBullet.AddControl(new StickyPointCollisionShapeControl());
 
             SceneMgr.DelayedAttachToScene(smallBullet);

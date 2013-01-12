@@ -37,6 +37,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             bullet.CollisionShape = cs;
 
             ExcludingExplodingSingularityBulletControl c = new ExcludingExplodingSingularityBulletControl();
+            c.StatReported = true;
             c.Speed = SharedDef.BULLET_EXPLOSION_SPEED;
             c.Strength = SharedDef.BULLET_EXPLOSION_STRENGTH;
             c.IgnoredObjects.Add(collidedWith.Id);

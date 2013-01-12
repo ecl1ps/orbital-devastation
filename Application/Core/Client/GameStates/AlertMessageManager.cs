@@ -104,7 +104,8 @@ namespace Orbit.Core.Client.GameStates
             }
 
             timer -= tpf;
-            mgr.BeginInvoke(new Action(() => { element.Slip(timer / AnimationTime); }));
+            if(element != null)
+                mgr.BeginInvoke(new Action(() => { element.Slip(timer / AnimationTime); }));
         }
 
         private void Start(float tpf)

@@ -14,6 +14,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
 {
     public class SingularityBulletCollisionReactionControl : Control, ICollisionReactionControl
     {
+        protected bool statReported = false;
+        public bool StatReported { get { return statReported; } set { statReported = value; } }
+
         private bool hit = false;
         private SingularityBullet bullet;
 
@@ -70,8 +73,11 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         protected void addHitStat()
         {
-            if (bullet.Owner.IsCurrentPlayer())
+            if (me.SceneMgr.GetCurrentPlayer() == bullet.Owner && !StatReported)
+            {
                 me.SceneMgr.StatisticsMgr.BulletHit++;
+                StatReported = true;
+            }
         }
 
         public virtual void HitAsteroid(IDestroyable asteroid)
