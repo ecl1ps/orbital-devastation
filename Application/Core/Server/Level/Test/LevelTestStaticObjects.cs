@@ -83,5 +83,9 @@ namespace Orbit.Core.Server.Level
         public void CreateBots(List<Player> players, int suggestedCount, BotType type)
         {
         }
+
+        public void OnObjectDestroyed(ISceneObject obj)
+        {
+        }
     }
 }

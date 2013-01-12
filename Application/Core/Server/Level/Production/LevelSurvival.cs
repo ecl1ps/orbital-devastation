@@ -6,12 +6,14 @@ using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Entities.Implementations;
 using Lidgren.Network;
 using Orbit.Core.Players;
+using System.Windows;
+using Orbit.Core.Scene.CollisionShapes;
 
 namespace Orbit.Core.Server.Level
 {
-    public class LevelBasic : IGameLevel
+    public class LevelSurvival : IGameLevel
     {
-        public static readonly LevelInfo Info = new LevelInfo(false, "Basic map");
+        public static readonly LevelInfo Info = new LevelInfo(false, "Survival map");
 
         protected ServerMgr mgr;
         protected List<ISceneObject> objects;
@@ -19,24 +21,24 @@ namespace Orbit.Core.Server.Level
 
         private enum Events
         {
-            ADDITIONAL_ASTEROID,
+            NEW_ASTEROID,
             NEW_STAT_POWERUP
         }
 
-        public LevelBasic(ServerMgr serverMgr, List<ISceneObject> objs)
+        public LevelSurvival(ServerMgr serverMgr, List<ISceneObject> objs)
         {
             mgr = serverMgr;
             objects = objs;
             events = new EventProcessor();
 
-            events.AddEvent((int)Events.ADDITIONAL_ASTEROID, new Event(SharedDef.NEW_ASTEROID_TIMER, EventType.REPEATABLE, new Action(() => CreateAndSendAdditionalAsteroid())));
+            events.AddEvent((int)Events.NEW_ASTEROID, new Event(SharedDef.LEVEL_SURVIVAL_ASTEROID_TIMER, EventType.REPEATABLE, new Action(() => CreateAndSendNewAsteroid())));
             events.AddEvent((int)Events.NEW_STAT_POWERUP, new Event(1, EventType.REPEATABLE, new Action(() => CreateAndSendNewStatPowerup())));
         }
 
         public void CreateLevelObjects()
         {
-            for (int i = 0; i < SharedDef.ASTEROID_COUNT; ++i)
-                objects.Add(ServerSceneObjectFactory.CreateNewRandomAsteroid(mgr, i % 2 == 0));
+            for (int i = 0; i < SharedDef.LEVEL_SURVIVAL_ASTEROID_COUNT; ++i)
+                objects.Add(CreateNewAsteroidAbove());
         }
 
         public void Update(float tpf)
@@ -50,13 +52,23 @@ namespace Orbit.Core.Server.Level
             events.RescheduleEvent((int)Events.NEW_STAT_POWERUP, mgr.GetRandomGenerator().Next(SharedDef.NEW_STAT_POWERUP_TIMER_MIN, SharedDef.NEW_STAT_POWERUP_TIMER_MAX + 1));
         }
 
-        private void CreateAndSendAdditionalAsteroid()
+        private void CreateAndSendNewAsteroid()
         {
-            Asteroid a = ServerSceneObjectFactory.CreateNewAsteroidOnEdge(mgr, objects.Count % 2 == 0);
-            objects.Add(a);
+            Asteroid a = CreateNewAsteroidAbove();
             NetOutgoingMessage msg = mgr.CreateNetMessage();
             a.WriteObject(msg);
             mgr.BroadcastMessage(msg);
+        }
+
+        public Asteroid CreateNewAsteroidAbove()
+        {
+            Asteroid s = ServerSceneObjectFactory.CreateNewRandomAsteroid(mgr, true);
+
+            s.Position = new Vector(mgr.GetRandomGenerator().Next((int)(SharedDef.VIEW_PORT_SIZE.Width - s.Radius * 2)), -s.Radius * 4);
+            (s.CollisionShape as SphereCollisionShape).Center = s.Center;
+            s.Direction = new Vector(0, 1).Rotate(mgr.GetRandomGenerator().Next(40) - 20, false); // -20° - +20°
+
+            return s;
         }
 
         public virtual void OnStart()
@@ -73,12 +85,6 @@ namespace Orbit.Core.Server.Level
 
         public void OnObjectDestroyed(ISceneObject obj)
         {
-            if (!(obj is Asteroid))
-                return;
-
-            obj = ServerSceneObjectFactory.CreateNewAsteroidOnEdge(mgr, (obj as Asteroid).IsHeadingRight);
-            GameLevelManager.SendNewObject(mgr, obj);
-            objects.Add(obj);
         }
     }
 }

@@ -6,6 +6,7 @@ using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Weapons;
 using System.Windows;
 using Orbit.Core.Players;
+using Orbit.Core.Scene.Entities;
 
 namespace Orbit.Core.Server.Level
 {
@@ -33,6 +34,10 @@ namespace Orbit.Core.Server.Level
         }
 
         public void CreateBots(List<Player> players, int suggestedCount, BotType type)
+        {
+        }
+
+        public void OnObjectDestroyed(ISceneObject obj)
         {
         }
     }

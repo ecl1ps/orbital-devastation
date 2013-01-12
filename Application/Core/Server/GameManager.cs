@@ -126,19 +126,13 @@ namespace Orbit.Core.Server
         }
 
         public void ObjectDestroyed(long id)
-        {
+        {            
             ISceneObject obj = objects.Find(o => o.Id == id);
             if (obj == null)
                 return;
 
             objects.Remove(obj);
-
-            if (obj is Asteroid)
-            {
-                obj = ServerSceneObjectFactory.CreateNewAsteroidOnEdge(serverMgr, (obj as Asteroid).IsHeadingRight);
-                GameLevelManager.SendNewObject(serverMgr, obj);
-                objects.Add(obj);
-            }
+            gameLevel.OnObjectDestroyed(obj);
         }
 
         private void SendMatchData()
