@@ -81,7 +81,7 @@ namespace Orbit.Core.Server
                     continue;
 
                 outmsg.Write(plr.GetId());
-                outmsg.WriteObjectPlayerData(plr.Data);
+                plr.Data.WriteObject(outmsg);
             }
 
             return outmsg;

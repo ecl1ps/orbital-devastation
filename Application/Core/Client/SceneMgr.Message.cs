@@ -126,7 +126,7 @@ namespace Orbit.Core.Client
                     plr = CreatePlayer();
                     players.Add(plr);
 
-                    msg.ReadObjectPlayerData(plr.Data);
+                    plr.Data.ReadObject(msg);
 
                     if (plr.Data.PlayerType == PlayerType.BOT)
                         CreateAndAddBot(plr);
@@ -136,7 +136,7 @@ namespace Orbit.Core.Client
                             FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
                 }
                 else // hrace uz zname, ale mohl se zmenit jeho stav na active a take se mohly zmenit dalsi player data
-                    msg.ReadObjectPlayerData(plr.Data);
+                    plr.Data.ReadObject(msg);
 
                 newPlrs.Add(plr.GetId());
             }
