@@ -26,6 +26,7 @@ namespace Orbit.Core
         public const int MAX_POWERUP_SPEED                  = 150;
 
         public const int ASTEROID_THRESHOLD_RADIUS          = 10;
+        public const int ASTEROID_MAX_GROWN_RADIUS          = 35;
 
         public const int FIRST_COSMICAL_SPEED               = 120;
 
@@ -113,7 +114,7 @@ namespace Orbit.Core
         public const float SPECTATOR_ASTEROID_THROW_SPEED   = 120;
         public const float SPECTATOR_SHIELDING_TIME         = 5;
         public const int SPECTATOR_DAMAGE                   = 6;
-        public const int SPECTATOR_HEAL                     = 6;
+        public const int SPECTATOR_GROWTH                   = 6;
 
         /// <summary>
         /// velikost canvasu je zaroven velikost celeho okna
