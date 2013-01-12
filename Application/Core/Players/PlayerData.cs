@@ -48,9 +48,6 @@ namespace Orbit.Core.Players
         public int BaseIntegrity { get; set; }
         public int MaxBaseIntegrity { get; set; }
         public int BonusHeal { get; set; }
-        public int LaserDamage { get; set; }
-        public float LaserChargingTime { get; set; }
-        public float LaserDamageInterval { get; set; }
 
         // UDAJE TURNAJE
         public bool LobbyLeader { get; set; }
@@ -99,9 +96,6 @@ namespace Orbit.Core.Players
             HookSpeed = SharedDef.HOOK_SPEED;
             HookCooldown = SharedDef.HOOK_COOLDOWN;
             HookMaxCatchedObjCount = SharedDef.HOOK_MAX_OBJ_COUNT;
-            LaserDamage = SharedDef.LASER_DMG;
-            LaserDamageInterval = SharedDef.LASER_DMG_INTERVAL;
-            LaserChargingTime = SharedDef.LASER_CHARGING_TIME;
             BonusHeal = SharedDef.BONUS_HEAL;
 
             LobbyReady = false;

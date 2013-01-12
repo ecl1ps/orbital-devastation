@@ -70,10 +70,6 @@ namespace Orbit.Core
         public const float BULLET_EXPLOSION_STRENGTH        = 50;
         public const float BULLET_EXPLOSION_SPEED           = 0.6f;
 
-        public const float LASER_CHARGING_TIME              = 0.5f;
-        public const int LASER_DMG                          = 4;
-        public const float LASER_DMG_INTERVAL               = 0.10f;
-
         public const int HOOK_LENGHT                        = 420;
         public const int HOOK_SPEED                         = 150;
         public const float HOOK_COOLDOWN                    = MINE_COOLDOWN;
