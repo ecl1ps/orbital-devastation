@@ -58,7 +58,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public Base(SceneMgr mgr, long id)
             : base(mgr, id)
         {
-            Category = DrawingCategory.BACKGROUND;
+            Category = DrawingCategory.ASTEROIDS;
         }
 
         public void LoadImages()
@@ -90,8 +90,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         private void ChangeGeometry(DrawingGroup geometry)
         {
-            SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry(), DrawingCategory.BACKGROUND);
-            SceneMgr.AttachGraphicalObjectToScene(geometry, DrawingCategory.BACKGROUND);
+            SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry(), Category);
+            SceneMgr.AttachGraphicalObjectToScene(geometry, Category);
             SetGeometry(geometry);
 
             //VisualiseBase();
@@ -113,13 +113,13 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public override void  OnRemove()
         {
             base.OnRemove();
-            SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry(), DrawingCategory.BACKGROUND);
-            SceneMgr.RemoveGraphicalObjectFromScene(background, DrawingCategory.BACKGROUND);
+            SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry(), Category);
+            SceneMgr.RemoveGraphicalObjectFromScene(background, Category);
         }
 
         public override void OnAttach()
         {
-            SceneMgr.AttachGraphicalObjectToScene(background, DrawingCategory.BACKGROUND);
+            SceneMgr.AttachGraphicalObjectToScene(background, Category);
             //VisualiseBase();
         }
     }
