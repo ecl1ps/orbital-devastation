@@ -96,6 +96,9 @@ namespace Orbit.Core.Client
         }
 
         private void Disable(bool value) {
+            if (enabled == value)
+                return;
+
             enabled = value;
 
             if (!value)
