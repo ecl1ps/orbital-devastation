@@ -18,6 +18,7 @@ namespace Orbit.Core.Server.Level
         protected ServerMgr mgr;
         protected List<ISceneObject> objects;
         protected EventProcessor events;
+        private float newAsteroidTimer;
 
         private enum Events
         {
@@ -31,7 +32,9 @@ namespace Orbit.Core.Server.Level
             objects = objs;
             events = new EventProcessor();
 
-            events.AddEvent((int)Events.NEW_ASTEROID, new Event(SharedDef.LEVEL_SURVIVAL_ASTEROID_TIMER, EventType.REPEATABLE, new Action(() => CreateAndSendNewAsteroid())));
+            newAsteroidTimer = SharedDef.LEVEL_SURVIVAL_ASTEROID_TIMER;
+
+            events.AddEvent((int)Events.NEW_ASTEROID, new Event(newAsteroidTimer, EventType.REPEATABLE, new Action(() => CreateAndSendNewAsteroid())));
             events.AddEvent((int)Events.NEW_STAT_POWERUP, new Event(1, EventType.REPEATABLE, new Action(() => CreateAndSendNewStatPowerup())));
         }
 
@@ -58,6 +61,11 @@ namespace Orbit.Core.Server.Level
             NetOutgoingMessage msg = mgr.CreateNetMessage();
             a.WriteObject(msg);
             mgr.BroadcastMessage(msg);
+
+            if (newAsteroidTimer > SharedDef.LEVEL_SURVIVAL_ASTEROID_TIMER_CAP)
+                newAsteroidTimer *= 0.999f;
+
+            events.RescheduleEvent((int)Events.NEW_ASTEROID, newAsteroidTimer);
         }
 
         public Asteroid CreateNewAsteroidAbove()
