@@ -118,18 +118,7 @@ namespace Orbit.Core.AI
 
         private void CannonShoot()
         {
-            double xMin = 0, xMax = 0;
-            if (me.GetPosition() == PlayerPosition.LEFT)
-            {
-                xMin = SharedDef.VIEW_PORT_SIZE.Width * 0.25;
-                xMax = SharedDef.VIEW_PORT_SIZE.Width;
-            }
-            else
-            {
-                xMin = 0;
-                xMax = SharedDef.VIEW_PORT_SIZE.Width * 0.75;
-            }
-            me.Canoon.Shoot(new Point(sceneMgr.GetRandomGenerator().Next((int)xMin, (int)xMax), 0));
+            me.Canoon.Shoot(new Point(sceneMgr.GetRandomGenerator().Next(0, (int)SharedDef.VIEW_PORT_SIZE.Width), 0));
         }
     }
 }
