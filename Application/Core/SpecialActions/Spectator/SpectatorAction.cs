@@ -30,7 +30,7 @@ namespace Orbit.Core.SpecialActions.Spectator
 
         public override bool IsReady()
         {
-            return !IsOnCooldown() && HasEnergy();
+            return !IsOnCooldown() && HasEnergy() && Range.GetValidGroup(control.CurrentlyMining).Count > 0;
         }
 
         private bool HasEnergy()
