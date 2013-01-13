@@ -39,6 +39,9 @@ namespace Orbit.Core.Client
         public WindowState GameWindowState { get { return gameWindowState; } set { gameWindowState = value; } }
         public StatisticsManager StatisticsMgr { get; set; }
 
+        private StatisticsManager lastGameStats = null;
+        public StatisticsManager LastGameStats { get { return lastGameStats; } }
+
         private volatile WindowState gameWindowState;
 
         private GameVisualArea area;
@@ -64,6 +67,8 @@ namespace Orbit.Core.Client
 
         private float totalTime;
         private bool stopUpdating = false;
+
+        public bool IsGameInitalized { get { return isGameInitialized; } }
 
         public SceneMgr()
         {
@@ -588,6 +593,9 @@ namespace Orbit.Core.Client
             userActionsDisabled = true;
             StatisticsMgr.GameEnded = true;
             gameEnded = true;
+            lastGameEnd = endType;
+            winner = plr;
+            lastGameStats = StatisticsMgr;
 
             if (endType == GameEnd.LEFT_GAME)
                 PlayerLeft(plr);
@@ -619,10 +627,12 @@ namespace Orbit.Core.Client
             if (Application.Current == null)
                 return;
 
-            if (lastGameEnd != GameEnd.TOURNAMENT_FINISHED || forceQuit)
+            if (forceQuit)
                 NormalGameEnded();
             else if (GameType == Gametype.TOURNAMENT_GAME && lastGameEnd != GameEnd.SERVER_DISCONNECTED && lastGameEnd != GameEnd.TOURNAMENT_FINISHED)
                 TournamentGameEnded();
+            else if(lastGameEnd != GameEnd.TOURNAMENT_FINISHED)
+                NormalGameEnded();
             
         }
 
