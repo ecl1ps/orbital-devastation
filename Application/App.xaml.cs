@@ -215,6 +215,7 @@ namespace Orbit
         public void FocusWindow()
         {
             MainWindow.WindowState = System.Windows.WindowState.Normal;
+            MainWindow.Activate();
             MainWindow.Focus();
             MainWindow.BringIntoView();
         }
