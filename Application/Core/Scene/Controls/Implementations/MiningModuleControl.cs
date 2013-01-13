@@ -89,20 +89,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
         {
             List<ISceneObject> collided = new List<ISceneObject>();
 
-            foreach (ISceneObject obj in sceneMgr.GetSceneObjects(typeof(Asteroid)))
+            foreach (ISceneObject obj in me.FindNearbyObjects<Asteroid>(SharedDef.SPECTATOR_MINING_RADIUS))
             {
-                if (!(obj is IContainsGold))
-                    continue;
+                collided.Add(obj);
 
-                Vector center = (obj is Sphere) ? (obj as Sphere).Center : obj.Position;
-
-                if ((center - me.Position).Length < SharedDef.SPECTATOR_MINING_RADIUS)
-                {
-                    collided.Add(obj);
-
-                    if (!IsPresent(obj))
-                        InitNewLink(obj as IContainsGold);
-                }
+                if (!IsPresent(obj))
+                    InitNewLink(obj as IContainsGold);
             }
 
             for (int i = CurrentlyMining.Count - 1; i >= 0; i--)
@@ -174,7 +166,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
                 int damage = (other as Asteroid).Radius;
 
-                sceneMgr.FloatingTextMgr.AddFloatingText(damage, me.Center + ((other.Center - me.Center) / 2), FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE);
+                //sceneMgr.FloatingTextMgr.AddFloatingText(damage, me.Center + ((other.Center - me.Center) / 2), FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE);
 
                 (me as IDestroyable).TakeDamage(damage, other);
                 recentlyCollided.Add(new CollisionData(other));

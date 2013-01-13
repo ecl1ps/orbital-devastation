@@ -69,6 +69,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
             if (from is IProjectile)
                 Destroyer = (from as IProjectile).Owner.GetId();
+            else if (from is MiningModule)
+                Destroyer = (from as MiningModule).Owner.GetId();
 
             base.TakeDamage(damage, from);
             DoRemoveMe();

@@ -41,7 +41,7 @@ namespace Orbit.Core.SpecialActions.Spectator
 
             AsteroidFreezeControl removal = new AsteroidFreezeControl();
             removal.ControlsForDisabling = controls;
-            removal.Time = 3;
+            removal.Time = 1.5f;
 
             ast.AddControl(removal);
             
@@ -49,7 +49,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             Vector p = new Vector(ast.Position.X - (ast.Radius / 2), ast.Position.Y - (ast.Radius / 2));
             // potom jeho sirka musi byt prumer + 2 * posunuti (vlevo a vpravo) => r * (2 + 0.5 + 0.5) 
             IceSquare s = SceneObjectFactory.CreateIceSquare(SceneMgr, p, new Size(ast.Radius * 3, ast.Radius * 3)); 
-            s.AddControl(new LimitedLifeControl(3));
+            s.AddControl(new LimitedLifeControl(1.5f));
             SceneMgr.DelayedAttachToScene(s);
         }
 

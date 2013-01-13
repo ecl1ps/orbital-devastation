@@ -35,7 +35,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             foreach (Asteroid ast in afflicted)
             {
                 temp.Add(ast);
-                ast.TakeDamage(SharedDef.SPECTATOR_DAMAGE, null);
+                ast.TakeDamage(SharedDef.SPECTATOR_DAMAGE, Owner.Device);
                 SceneMgr.FloatingTextMgr.AddFloatingText(SharedDef.SPECTATOR_DAMAGE, ast.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE);
 
                 /* TODO dodelat manager na effecty

@@ -51,9 +51,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             msg.Write(damage);
 
             me.SceneMgr.SendMessage(msg);
-
-            if (causedBy is SingularityBullet && me.SceneMgr.GetCurrentPlayer().IsActivePlayer())
-                me.SceneMgr.FloatingTextMgr.AddFloatingText(damage, me.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE, FloatingTextManager.SIZE_SMALL, false, true);
+            me.SceneMgr.FloatingTextMgr.AddFloatingText(damage, me.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE, FloatingTextManager.SIZE_SMALL, false, true);
         }
 
         protected override void OnDeath()
