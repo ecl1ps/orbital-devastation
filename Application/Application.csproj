@@ -251,6 +251,7 @@
     <Compile Include="Core\Helpers\SceneObjectFactory.cs" />
     <Compile Include="Core\IGameState.cs" />
     <Compile Include="Core\Server\Level\LevelInfo.cs" />
+    <Compile Include="Core\Server\Level\Production\LevelSurvival.cs" />
     <Compile Include="Core\Server\Level\Production\LevelBasic.cs" />
     <Compile Include="Core\Server\Match\AbstractTournamentMultiplayerMatchManager.cs" />
     <Compile Include="Core\Server\Match\MatchManagerInfo.cs" />

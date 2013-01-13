@@ -82,6 +82,14 @@ namespace Orbit.Core.Server.Level
 
         public void CreateBots(List<Player> players, int suggestedCount, BotType type)
         {
+            for (int i = 0; i < suggestedCount; ++i)
+            {
+                players.Add(GameLevelManager.CreateBot(type, players));
+            }
+        }
+
+        public void OnObjectDestroyed(ISceneObject obj)
+        {
         }
     }
 }

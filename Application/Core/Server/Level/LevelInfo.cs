@@ -25,6 +25,8 @@ namespace Orbit.Core.Server.Level
             {
                 case GameLevel.BASIC_MAP:
                     return LevelBasic.Info;
+                case GameLevel.SURVIVAL_MAP:
+                    return LevelSurvival.Info;
                 case GameLevel.TEST_BASE_COLLISIONS:
                     return LevelTestBaseCollisions.Info;
                 case GameLevel.TEST_EMPTY:

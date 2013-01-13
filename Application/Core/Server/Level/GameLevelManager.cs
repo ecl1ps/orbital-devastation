@@ -15,6 +15,7 @@ namespace Orbit.Core.Server.Level
     public enum GameLevel
     {
         BASIC_MAP,
+        SURVIVAL_MAP,
 
         TEST_EMPTY,
         TEST_BASE_COLLISIONS,
@@ -33,6 +34,9 @@ namespace Orbit.Core.Server.Level
             {
                 case GameLevel.BASIC_MAP:
                     newLvl = new LevelBasic(mgr, objects);
+                    break;
+                case GameLevel.SURVIVAL_MAP:
+                    newLvl = new LevelSurvival(mgr, objects);
                     break;
 
                 // testovaci

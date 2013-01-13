@@ -159,6 +159,8 @@ namespace Orbit.Core.Server
 
                 ProcessActionQueue();
 
+                StateMgr.Update(tpf);
+
                 if (tpf >= 0.001 && isInitialized)
                     Update(tpf);
 
@@ -196,8 +198,6 @@ namespace Orbit.Core.Server
         public void Update(float tpf)
         {
             CheckPlayerStates();
-
-            StateMgr.Update(tpf);
         }
 
         public Player GetPlayer(int id)
@@ -240,7 +240,7 @@ namespace Orbit.Core.Server
             NetOutgoingMessage msg = CreateNetMessage();
             msg.Write((int)PacketType.SCORE_QUERY);
             BroadcastMessage(msg);
-            StateMgr.AddGameState(new DelayedActionInvoker(3, new Action(() => SkipWaitingForScoreQueryResponse())));
+            StateMgr.AddGameState(new DelayedActionInvoker(1, new Action(() => SkipWaitingForScoreQueryResponse())));
         }
 
         private void PlayerWon(Player winner)
