@@ -30,10 +30,10 @@ namespace Orbit.Gui
         public AlertBox()
         {
             InitializeComponent();
-            sizeLeft = 190;
-            sizeRight = 190;
+            sizeLeft = 175;
+            sizeRight = 175;
 
-            minPosition = -60;
+            minPosition = -63;
             maxPosition = 5;
             maxRotation = 180;
 
