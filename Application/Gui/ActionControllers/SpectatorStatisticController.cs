@@ -66,62 +66,62 @@ namespace Orbit.Gui.ActionControllers
 
         protected void LoadFavAction()
         {
-            if (mgr.StatisticsMgr.Actions.Count == 0)
+            if (mgr.LastGameStats.Actions.Count == 0)
             {
                 favAction = "No data";
                 time = 0;
                 return;
             }
 
-            ISpecialAction first = mgr.StatisticsMgr.Actions.GroupBy(item => item).OrderByDescending(g => g.Count()).Select(g => g.Key).First();
+            ISpecialAction first = mgr.LastGameStats.Actions.GroupBy(item => item).OrderByDescending(g => g.Count()).Select(g => g.Key).First();
             favAction = first.Name;
             time = 0;
         }
 
         protected void LoadActionsUsed()
         {
-            if (mgr.StatisticsMgr.Actions.Count == 0)
+            if (mgr.LastGameStats.Actions.Count == 0)
             {
                 time = 0;
                 actionsUsed = "0";
                 return;
             }
 
-            actionsUsed = FastMath.LinearInterpolate(mgr.StatisticsMgr.Actions.Count, 0, ComputePercents()).ToString("###");
+            actionsUsed = FastMath.LinearInterpolate(mgr.LastGameStats.Actions.Count, 0, ComputePercents()).ToString("###");
         }
 
         protected void LoadDamage()
         {
-            if (mgr.StatisticsMgr.DamageTaken == 0)
+            if (mgr.LastGameStats.DamageTaken == 0)
             {
                 time = 0;
                 damage = "0";
                 return;
             }
-            damage = FastMath.LinearInterpolate(mgr.StatisticsMgr.DamageTaken, 0, ComputePercents()).ToString(".#");
+            damage = FastMath.LinearInterpolate(mgr.LastGameStats.DamageTaken, 0, ComputePercents()).ToString(".#");
         }
 
         protected void LoadDeadTime()
         {
-            if (mgr.StatisticsMgr.DeadTime == 0)
+            if (mgr.LastGameStats.DeadTime == 0)
             {
                 time = 0;
                 deadTime = "0";
                 return;
             }
-            deadTime = FastMath.LinearInterpolate(mgr.StatisticsMgr.DeadTime, 0, ComputePercents()).ToString(".#");
+            deadTime = FastMath.LinearInterpolate(mgr.LastGameStats.DeadTime, 0, ComputePercents()).ToString(".#");
         }
 
         protected void LoadGameTime()
         {
-            if (mgr.StatisticsMgr.Time == 0)
+            if (mgr.LastGameStats.Time == 0)
             {
                 time = 0;
                 damage = "0";
                 return;
             }
 
-            gameTime = FastMath.LinearInterpolate(mgr.StatisticsMgr.Time, 0, ComputePercents()).ToString(".#");
+            gameTime = FastMath.LinearInterpolate(mgr.LastGameStats.Time, 0, ComputePercents()).ToString(".#");
         }
     }
 }

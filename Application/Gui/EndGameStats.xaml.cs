@@ -50,7 +50,10 @@ namespace Orbit.Gui
         public void HideStats()
         {
             if (mgr == null)
+            {
                 Visibility = Visibility.Collapsed;
+                return; 
+            }
 
             GameEnd endType = mgr.GetLastGameEnd();
             if (endType != GameEnd.TOURNAMENT_FINISHED)

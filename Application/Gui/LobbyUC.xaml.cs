@@ -17,6 +17,7 @@ using Orbit.Core;
 using Orbit.Core.Server.Level;
 using Orbit.Core.Players;
 using Orbit.Core.AI;
+using Orbit.Core.Helpers;
 
 namespace Orbit.Gui
 {
@@ -36,6 +37,7 @@ namespace Orbit.Gui
             InitializeComponent();
 
             btnReady.IsEnabled = false;
+            btnStats.IsEnabled = App.Instance.GetSceneMgr().LastGameStats != null;
 
             if (asLeader)
             {
@@ -360,6 +362,12 @@ namespace Orbit.Gui
             {
                 tbBotCount.Text = "0";
             }
+        }
+
+        private void btnStats_Click(object sender, RoutedEventArgs e)
+        {
+            EndGameStats stats = GuiObjectFactory.CreatePlayerStatsUC(App.Instance.GetSceneMgr(), App.Instance.GetSceneMgr().GetCurrentPlayer().IsActivePlayer(), false);
+            App.Instance.AddMenu(stats);
         }
     }
 }

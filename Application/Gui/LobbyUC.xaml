@@ -79,7 +79,15 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Button Content="Change color" FontFamily="Bauhaus 93" FontSize="16" Height="28" HorizontalAlignment="Center" Margin="652,316,119,0" Name="btnColor" VerticalAlignment="Top" Width="129" Grid.Row="1" Click="btnColor_Click">
+        <Button Content="Change color" FontFamily="Bauhaus 93" FontSize="16" Height="28" HorizontalAlignment="Center" Margin="555,316,216,0" Name="btnColor" VerticalAlignment="Top" Width="129" Grid.Row="1" Click="btnColor_Click">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="1" />
+                    <GradientStop Color="#80FFFFFF" Offset="0" />
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <Button Content="Last statistics" FontFamily="Bauhaus 93" FontSize="16" Height="28" HorizontalAlignment="Center" Margin="759,316,12,0" Name="btnStats" VerticalAlignment="Top" Width="129" Grid.Row="1" Click="btnStats_Click">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="1" />

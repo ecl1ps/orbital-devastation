@@ -50,6 +50,11 @@ namespace Orbit.Gui
             //TODO: zobrazit jen pokud hrac klikne na svou barvu - jinak to evokuje pocit, ze muze upravit barvu ostatnich hracu...
             App.Instance.AddMenu(new ColorPickerUC());
         }
+
+        private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 
     public class LobbyPlayerData
