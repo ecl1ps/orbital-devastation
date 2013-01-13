@@ -30,13 +30,10 @@ namespace Orbit.Core.Utils
 
         public void Heal()
         {
-                int heal = (int) (owner.Data.MaxBaseIntegrity * SharedDef.HEAL_AMOUNT);
-                owner.ChangeBaseIntegrity(heal + owner.Data.BonusHeal, true);
+                int heal = (int) (owner.Data.MaxBaseIntegrity * SharedDef.HEAL_AMOUNT) + owner.Data.BonusHeal;
+                owner.ChangeBaseIntegrity(heal, true);
                 Cost *= SharedDef.HEAL_MULTIPLY_COEF;
                 SendMessageWithHeal();
-
-                if (owner.IsCurrentPlayer() && !owner.IsBot())
-                    mgr.StatisticsMgr.Healed += heal;
         }
 
         private void SendMessageWithHeal()

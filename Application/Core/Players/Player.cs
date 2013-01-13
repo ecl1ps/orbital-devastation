@@ -162,6 +162,10 @@ namespace Orbit.Core.Players
                 amount = 0;
 
             Data.BaseIntegrity = amount;
+
+            if (IsCurrentPlayer())
+                SceneMgr.StatisticsMgr.Healed += diff;
+
             if (Baze != null)
                 Baze.OnIntegrityChange();
 
