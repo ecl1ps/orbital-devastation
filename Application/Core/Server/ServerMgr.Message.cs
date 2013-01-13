@@ -98,6 +98,9 @@ namespace Orbit.Core.Server
 
         private void ReceivedScoreQueryResponseMsg(NetIncomingMessage msg)
         {
+            if (savedEndGameAction == null)
+                return;
+
             Player p = GetPlayer(msg.ReadInt32());
             p.Data.Score = msg.ReadInt32();
 

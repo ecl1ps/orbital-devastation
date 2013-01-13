@@ -66,7 +66,7 @@ namespace Orbit.Core.Server.Level
 
             s.Position = new Vector(mgr.GetRandomGenerator().Next((int)(SharedDef.VIEW_PORT_SIZE.Width - s.Radius * 2)), -s.Radius * 4);
             (s.CollisionShape as SphereCollisionShape).Center = s.Center;
-            s.Direction = new Vector(0, 1).Rotate(mgr.GetRandomGenerator().Next(40) - 20, false); // -20° - +20°
+            s.Direction = new Vector(0, 1).Rotate(mgr.GetRandomGenerator().Next(60) - 30, false); // -30° - +30°
 
             return s;
         }

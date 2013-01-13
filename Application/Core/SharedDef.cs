@@ -154,7 +154,7 @@ namespace Orbit.Core
 
         public const string SALT                            = "Kj5dfO0OR";
 
-        public const int LEVEL_SURVIVAL_ASTEROID_COUNT      = 10;
+        public const int LEVEL_SURVIVAL_ASTEROID_COUNT      = 8;
         public const float LEVEL_SURVIVAL_ASTEROID_TIMER    = 0.4f;
     }
 

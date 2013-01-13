@@ -44,8 +44,9 @@ namespace Orbit.Core.Server.Match
             Player looser = players.Find(p => p.IsActivePlayer() && p.Data.HashId != plr.Data.HashId);
             SetPlayedTogether(plr, looser);
             PlayerMatchData d = GetPlayerMatchData(plr);
-            d.WonGames += 1;
-            plr.Data.WonMatches = d.WonGames;
+            if (d != null)
+                d.WonGames += 1;
+            plr.Data.WonMatches++;
 
             int scoreWin = SharedDef.VICTORY_SCORE_BONUS;
             int scoreLoose = SharedDef.LOOSE_SCORE_BONUS;
@@ -63,10 +64,12 @@ namespace Orbit.Core.Server.Match
         protected void SetPlayedTogether(Player plr1, Player plr2)
         {
             PlayerMatchData d = GetPlayerMatchData(plr1);
-            d.playedWith.Add(plr2.Data.HashId);
+            if (d != null)
+                d.playedWith.Add(plr2.Data.HashId);
             plr1.Data.PlayedMatches += 1;
             d = GetPlayerMatchData(plr2);
-            d.playedWith.Add(plr1.Data.HashId);
+            if (d != null)
+                d.playedWith.Add(plr1.Data.HashId);
             plr2.Data.PlayedMatches += 1;
         }
 
