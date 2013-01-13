@@ -29,6 +29,8 @@ namespace Orbit
     /// </summary>
     public partial class App : Application
     {
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private SceneMgr sceneMgr;
         private ServerMgr server;
         private static GameWindow mainWindow;
@@ -62,7 +64,17 @@ namespace Orbit
             app.lastServerAddress = "127.0.0.1";
             app.lastGameType = Gametype.NONE;
             mainWindow = new GameWindow();
+#if !DEBUG
+            try {
+#endif
             app.Run(mainWindow);
+#if !DEBUG
+            } 
+            catch (Exception e)
+            {
+                Logger.Fatal(e);
+            }
+#endif
         }
 
         protected override void OnStartup(StartupEventArgs e)
