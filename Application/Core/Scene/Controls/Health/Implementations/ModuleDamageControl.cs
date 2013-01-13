@@ -33,27 +33,27 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (!Vulnerable)
                 return;
 
+            if (causedBy is SingularityBullet && !(causedBy as SingularityBullet).Owner.IsCurrentPlayerOrBot())
+                return;
+
             if (module.Owner.IsCurrentPlayer())
                 me.SceneMgr.StatisticsMgr.DamageTaken += damage;
 
-            if (causedBy is SingularityBullet && !(causedBy as SingularityBullet).Owner.IsCurrentPlayer())
-                return;
+            Hp -= damage;
+            HpRegenControl control = module.GetControlOfType<HpRegenControl>();
+            if (control != null)
+                control.TakeHit();
 
-                Hp -= damage;
-                HpRegenControl control = module.GetControlOfType<HpRegenControl>();
-                if (control != null)
-                    control.TakeHit();
+            NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();
+            msg.Write((int)PacketType.MINING_MODULE_DMG_TAKEN);
+            msg.Write(module.Owner.GetId());
+            msg.Write(Hp);
+            msg.Write(damage);
 
-                NetOutgoingMessage msg = me.SceneMgr.CreateNetMessage();
-                msg.Write((int)PacketType.MINING_MODULE_DMG_TAKEN);
-                msg.Write(module.Owner.GetId());
-                msg.Write(Hp);
-                msg.Write(damage);
-    
-                me.SceneMgr.SendMessage(msg);
+            me.SceneMgr.SendMessage(msg);
 
-                if (causedBy is SingularityBullet && me.SceneMgr.GetCurrentPlayer().IsActivePlayer())
-                    me.SceneMgr.FloatingTextMgr.AddFloatingText(damage, me.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE, FloatingTextManager.SIZE_SMALL, false, true);
+            if (causedBy is SingularityBullet && me.SceneMgr.GetCurrentPlayer().IsActivePlayer())
+                me.SceneMgr.FloatingTextMgr.AddFloatingText(damage, me.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE, FloatingTextManager.SIZE_SMALL, false, true);
         }
 
         protected override void OnDeath()

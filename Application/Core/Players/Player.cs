@@ -323,7 +323,7 @@ namespace Orbit.Core.Players
 
         public bool IsCurrentPlayerOrBot()
         {
-            return GetId() == SceneMgr.GetCurrentPlayer().GetId() || Data.PlayerType == PlayerType.BOT;
+            return IsCurrentPlayer() || IsBot();
         }
 
         public List<ISpecialAction> GetActions<T>(SceneMgr mgr)
