@@ -50,7 +50,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (hitSomething)
             {
                 Grow(tpf);
-                if (!StatsReported && meMine.Owner == me.SceneMgr.GetCurrentPlayer())
+                if (!StatsReported && meMine.Owner.IsCurrentPlayer())
                 {
                     me.SceneMgr.StatisticsMgr.MineHit++;
                     StatsReported = true;
