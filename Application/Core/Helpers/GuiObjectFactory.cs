@@ -69,7 +69,12 @@ namespace Orbit.Core.Helpers
                 PlayerStatsUC playerStats = new PlayerStatsUC();
                 statsWindow.setStats(playerStats);
 
-                PlayerStatisticsController controller = new PlayerStatisticsController(mgr, statsWindow, limited, playerStats);
+
+                PlayerStatisticsController controller;
+                if (limited)
+                    controller = new PlayerStatisticsController(mgr, statsWindow, limited, playerStats);
+                else
+                    controller = new InstaPlayerStatisticsController(mgr, statsWindow, limited, playerStats);
                 mgr.StateMgr.AddGameState(controller);
             }
             else
@@ -77,7 +82,12 @@ namespace Orbit.Core.Helpers
                 SpectatorStatsUC playerStats = new SpectatorStatsUC();
                 statsWindow.setStats(playerStats);
 
-                SpectatorStatisticController controller = new SpectatorStatisticController(mgr, statsWindow, limited, playerStats);
+                SpectatorStatisticController controller;
+                if (limited)
+                    controller = new SpectatorStatisticController(mgr, statsWindow, limited, playerStats);
+                else
+                    controller = new InstaSpectatorStatisticsController(mgr, statsWindow, limited, playerStats);
+
                 mgr.StateMgr.AddGameState(controller);
             }
 

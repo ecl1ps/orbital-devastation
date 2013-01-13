@@ -180,7 +180,16 @@ namespace Orbit.Gui.ActionControllers
 
         protected void LoadHook(float tpf)
         {
-               if (loadTime <= 0)
+                if (tpf == 0)
+                {
+                    hook += mgr.LastGameStats.HookFired;
+                    hook += " / " + mgr.LastGameStats.HookHit;
+                    double val = mgr.LastGameStats.HookHit / mgr.LastGameStats.HookFired;
+                    if (Double.IsNaN(val))
+                        val = 0;
+                    hook += " / " + val.ToString("#0.##%");
+                }
+               else if (loadTime <= 0)
                 {
                     loadTime = 2 / 3;
                     multipleStatsStep++;
@@ -195,15 +204,6 @@ namespace Orbit.Gui.ActionControllers
                         hook += " / " + val.ToString("#0.##%");
                     }
                 }
-               else if (tpf == 0)
-               {
-                   hook += mgr.LastGameStats.HookFired;
-                   hook += " / " + mgr.LastGameStats.HookHit;
-                   double val = mgr.LastGameStats.HookHit / mgr.LastGameStats.HookFired;
-                   if (Double.IsNaN(val))
-                       val = 0;
-                   hook += " / " + val.ToString("#0.##%");
-               }
 
             loadTime -= tpf;
             
@@ -211,7 +211,16 @@ namespace Orbit.Gui.ActionControllers
 
         protected void LoadBullet(float tpf)
         {
-               if (loadTime <= 0)
+                if (tpf == 0)
+                {
+                    bullet += mgr.LastGameStats.BulletFired;
+                    bullet += " / " + mgr.LastGameStats.BulletHit;
+                    double val = mgr.LastGameStats.BulletHit / mgr.LastGameStats.BulletFired;
+                    if (Double.IsNaN(val))
+                        val = 0;
+                    bullet += " / " + val.ToString("#0.##%");
+                }
+               else if (loadTime <= 0)
                 {
                     loadTime = 2 / 3;
                     multipleStatsStep++;
@@ -226,22 +235,22 @@ namespace Orbit.Gui.ActionControllers
                         bullet += " / " + val.ToString("#0.##%");
                     }
                 }
-               else if (tpf == 0)
-               {
-                   bullet += mgr.LastGameStats.BulletFired;
-                   bullet += " / " + mgr.LastGameStats.BulletHit;
-                   double val = mgr.LastGameStats.BulletHit / mgr.LastGameStats.BulletFired;
-                   if (Double.IsNaN(val))
-                       val = 0;
-                   bullet += " / " + val.ToString("#0.##%");
-               }
 
             loadTime -= tpf;
         }
 
         protected void LoadMine(float tpf)
         {
-            if (loadTime <= 0)
+            if (tpf == 0)
+            {
+                mine += mgr.LastGameStats.MineFired;
+                mine += " / " + mgr.LastGameStats.MineHit;
+                double val = mgr.LastGameStats.MineHit / mgr.LastGameStats.MineFired;
+                if (Double.IsNaN(val))
+                    val = 0;
+                mine += " / " + val.ToString("#0.##%");
+            }
+            else if (loadTime <= 0)
             {
                 loadTime = 2 / 3;
                 multipleStatsStep++;
@@ -255,15 +264,6 @@ namespace Orbit.Gui.ActionControllers
                         val = 0;
                     mine += " / " + val.ToString("#0.##%");
                 }
-            }
-            else if (tpf == 0)
-            {
-                mine += mgr.LastGameStats.MineFired;
-                mine += " / " + mgr.LastGameStats.MineHit;
-                double val = mgr.LastGameStats.MineHit / mgr.LastGameStats.MineFired;
-                if (Double.IsNaN(val))
-                    val = 0;
-                mine += " / " + val.ToString("#0.##%");
             }
 
             loadTime -= tpf;

@@ -23,19 +23,6 @@ namespace Orbit.Gui.ActionControllers
             this.statsWindow = statsWindow;
             this.limited = limited;
 
-            if (!mgr.IsGameInitalized)
-                LoadAllStats();
-        }
-
-        private void LoadAllStats()
-        {
-            time = 0;
-            while (HasNext())
-            {
-                Next();
-                Update(0);
-            }
-            SetData();
         }
 
         public virtual void Update(float tpf)
@@ -77,7 +64,5 @@ namespace Orbit.Gui.ActionControllers
         protected abstract void Next();
 
         protected abstract bool HasNext();
-
-        protected abstract void SetData();
     }
 }

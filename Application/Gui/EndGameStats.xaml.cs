@@ -51,7 +51,7 @@ namespace Orbit.Gui
         {
             if (mgr == null)
             {
-                Visibility = Visibility.Collapsed;
+                App.Instance.ClearMenus();
                 return; 
             }
 
