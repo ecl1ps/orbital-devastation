@@ -29,9 +29,6 @@ namespace Orbit.Gui
         public GameWindow()
         {
             InitializeComponent();
-
-            if (WindowStyle == WindowStyle.None)
-                Height = 714;
         }
 
         #region ScaleValue Dependency Property
@@ -103,12 +100,8 @@ namespace Orbit.Gui
             // event musi byt navazany na hodnoty velikosti okna (jinak scale stale preskakuje)
             // ale hodnoty, se kterymi se pocita, musi byt zmensene na velikost osahu okna (okno: 1020*740, obsah okna: 1000*700)
             // pokud nema okno listu s krizkem, tak je potreba okno nastavit mensim a misto 40 bodu listy pouzit 14
-            double xScale = (ActualWidth - 14) / 1000f;
-            double yScale;
-            if (WindowStyle != WindowStyle.None)
-                yScale = (ActualHeight - 40) / 700f;
-            else
-                yScale = (ActualHeight - 14) / 700f;
+            double xScale = (ActualWidth - 2) / 1000f;
+            double yScale = (ActualHeight - 17) / 700f;
 
             ScaleValueX = (double)OnCoerceScaleValue(mainContainerGrid, xScale);
             ScaleValueY = (double)OnCoerceScaleValue(mainContainerGrid, yScale);
@@ -243,19 +236,9 @@ namespace Orbit.Gui
                 StaticMouse.Enable(true);
         }
 
-        private const int GWL_STYLE = -16;
-        private const int WS_SYSMENU = 0x80000;
-
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
-
-        [DllImport("user32.dll")]
-        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-
-        private void mainWindow_Loaded(object sender, RoutedEventArgs e)
+        private void dragbar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var hwnd = new WindowInteropHelper(this).Handle;
-            SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
+            DragMove();
         }
     }
 }

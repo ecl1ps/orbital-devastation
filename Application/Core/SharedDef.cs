@@ -40,7 +40,7 @@ namespace Orbit.Core
         public const int ASTEROID_GOLD_CHANCE               = 25; // (0 - 100)
         public const int ASTEROID_UNSTABLE_CHANCE           = 50; // 25 procent musi se brat ohled na sance ostatnich mozna dodelat nejaky dopocitani. Ale co s normalnima potom?
 
-        public const int BASE_MAX_INGERITY                  = 1;
+        public const int BASE_MAX_INGERITY                  = 100;
 
         public const int NEW_STAT_POWERUP_TIMER_MIN         = 2; // seconds
         public const int NEW_STAT_POWERUP_TIMER_MAX         = 4; // seconds

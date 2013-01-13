@@ -7,32 +7,9 @@
              d:DesignWidth="1000" d:DesignHeight="700"  Width="1000" Height="700" Name="mainUC">
     
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center" ShowGridLines="False" Width="1000" Height="700">
-        <StackPanel Margin="20,0,788,0" Background="#FFBDBDC4" Name="spMenu">
-            <Button Content="Start Practise game" Name="btnSinglePlayer" Margin="0,50,0,5" Height="33"  Width="150" Click="btnSinglePlayer_Click" FontFamily="Bauhaus 93" FontSize="15">
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black" Offset="1" />
-                        <GradientStop Color="#80FFFFFF" Offset="0" />
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
-            <Button Content="Host Quick Game" Name="btnQuickGame" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="15" Click="btnQuickGame_Click">
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black" Offset="1" />
-                        <GradientStop Color="#80FFFFFF" Offset="0" />
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>            
-            <Button Content="Host Tournament" Name="btnHostTournament" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="15" Click="btnHostTournament_Click">
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black" Offset="1" />
-                        <GradientStop Color="#80FFFFFF" Offset="0" />
-                    </LinearGradientBrush>
-                </Button.Background>
-                </Button>
-                <Button Content="Connect to Game" Name="btnFindHostedGame" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="15" Click="btnFindHostedGame_Click">
+        <Border Margin="20,-1,780,-2" BorderThickness="1" BorderBrush="Black" Background="DarkGray" Padding="1">
+            <StackPanel Name="spMenu" >
+                <Button Content="Start Practise game" Name="btnSinglePlayer" Margin="0,50,0,5" Height="33"  Width="150" Click="btnSinglePlayer_Click" FontFamily="Bauhaus 93" FontSize="15">
                     <Button.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="Black" Offset="1" />
@@ -40,47 +17,31 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
-            <Button Content="Connect to Localhost" Name="btnConnectToLocalhost" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="14" Click="btnConnectToLocalhost_Click">
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black" Offset="1" />
-                        <GradientStop Color="#80FFFFFF" Offset="0" />
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
-            <Button Content="Play as Spectator" Name="btnPlayAsSpectator" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="15" Click="btnPlayAsSpectator_Click">
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black" Offset="1" />
-                        <GradientStop Color="#80FFFFFF" Offset="0" />
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>            
-            <Button Content="Repeat last game" Name="btnRepeatGame" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="15" Click="btnRepeatGame_Click" Visibility="Collapsed">
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black" Offset="1" />
-                        <GradientStop Color="#80FFFFFF" Offset="0" />
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
-            <Button Content="Options" Name="btnShowOptions" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="15" Click="btnShowOptions_Click">
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black" Offset="1" />
-                        <GradientStop Color="#80FFFFFF" Offset="0" />
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>            
-            <Button Content="Statistics" Name="btnShowStatistics" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="15" Click="btnShowStatistics_Click">
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black" Offset="1" />
-                        <GradientStop Color="#80FFFFFF" Offset="0" />
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
-            <Button Content="Exit Game" Name="btnExit" Margin="0,50,0,5" Height="33" Width="150" FontFamily="Bauhaus 93" FontSize="15" Click="btnExit_Click">
+                <Button Content="Host Quick Game" Name="btnQuickGame" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="15" Click="btnQuickGame_Click">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black" Offset="1" />
+                            <GradientStop Color="#80FFFFFF" Offset="0" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>            
+                <Button Content="Host Tournament" Name="btnHostTournament" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="15" Click="btnHostTournament_Click">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black" Offset="1" />
+                            <GradientStop Color="#80FFFFFF" Offset="0" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                    </Button>
+                    <Button Content="Connect to Game" Name="btnFindHostedGame" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="15" Click="btnFindHostedGame_Click">
+                        <Button.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="Black" Offset="1" />
+                                <GradientStop Color="#80FFFFFF" Offset="0" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                <Button Content="Connect to Localhost" Name="btnConnectToLocalhost" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="14" Click="btnConnectToLocalhost_Click">
                     <Button.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="Black" Offset="1" />
@@ -88,9 +49,50 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
+                <Button Content="Play as Spectator" Name="btnPlayAsSpectator" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="15" Click="btnPlayAsSpectator_Click">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black" Offset="1" />
+                            <GradientStop Color="#80FFFFFF" Offset="0" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>            
+                <Button Content="Repeat last game" Name="btnRepeatGame" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="15" Click="btnRepeatGame_Click" Visibility="Collapsed">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black" Offset="1" />
+                            <GradientStop Color="#80FFFFFF" Offset="0" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button Content="Options" Name="btnShowOptions" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="15" Click="btnShowOptions_Click">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black" Offset="1" />
+                            <GradientStop Color="#80FFFFFF" Offset="0" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>            
+                <Button Content="Statistics" Name="btnShowStatistics" Margin="0,5,0,5" Height="33"  Width="150" FontFamily="Bauhaus 93" FontSize="15" Click="btnShowStatistics_Click">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black" Offset="1" />
+                            <GradientStop Color="#80FFFFFF" Offset="0" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button Content="Exit Game" Name="btnExit" Margin="0,50,0,5" Height="33" Width="150" FontFamily="Bauhaus 93" FontSize="15" Click="btnExit_Click">
+                        <Button.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="Black" Offset="1" />
+                                <GradientStop Color="#80FFFFFF" Offset="0" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
 
 
-        </StackPanel>
+            </StackPanel>
+        </Border>
         <TextBlock Height="258" Name="tbTitle" Text="Orbital Devastation" VerticalAlignment="Center" Width="466" IsHitTestVisible="False" FontSize="80" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow" TextAlignment="Center" Panel.ZIndex="-1" FontFamily="Bauhaus 93" Margin="363,116,171,326"><TextBlock.Background><RadialGradientBrush><GradientStop Color="Black" Offset="0" /><GradientStop Color="#67FCFCFC" Offset="0.512" /><GradientStop Color="#FF7E7E7E" Offset="0" /></RadialGradientBrush></TextBlock.Background></TextBlock>
         <Label Content="Alpha version" Height="28" HorizontalAlignment="Left" Margin="888,672,0,0" Name="label1" VerticalAlignment="Top" Width="100" />
     </Grid>
