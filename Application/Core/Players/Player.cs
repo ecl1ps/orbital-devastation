@@ -99,7 +99,8 @@ namespace Orbit.Core.Players
             if (gold > 0)
             {
                 AddScoreAndShow((int)(gold * ScoreDefines.GOLD_TAKEN));
-                SceneMgr.StatisticsMgr.GoldEarned += gold;
+                if (IsCurrentPlayer())
+                    SceneMgr.StatisticsMgr.GoldEarned += gold;
             }
 
             Data.Gold += gold;

@@ -54,7 +54,7 @@ namespace Orbit.Core.Weapons
                 SpawnBullet(point);
                 ReloadTime = Owner.Data.BulletCooldown;
                 SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_SHOOT);
-                if(Owner.IsCurrentPlayer())
+                if (Owner.IsCurrentPlayer())
                     SceneMgr.StatisticsMgr.BulletFired++;
             }
         }

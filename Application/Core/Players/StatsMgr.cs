@@ -46,7 +46,8 @@ namespace Orbit.Core.Players
                 return;
 
             Stat pickedStat = GetStatForDeviceTypeAndLevel(type, GetUpgradeLevel(plr, type));
-            sceneMgr.StatisticsMgr.Stats.Add(pickedStat);
+            if (plr.IsCurrentPlayer())
+                sceneMgr.StatisticsMgr.Stats.Add(pickedStat);
 
             Tuple<float, float> valAndPct = GenerateAndAddStatToPlayer(pickedStat, plr.Data);
 

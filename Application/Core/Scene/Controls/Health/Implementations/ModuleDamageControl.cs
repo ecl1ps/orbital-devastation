@@ -33,7 +33,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (!Vulnerable)
                 return;
 
-            me.SceneMgr.StatisticsMgr.DamageTaken += damage;
+            if (module.Owner.IsCurrentPlayer())
+                me.SceneMgr.StatisticsMgr.DamageTaken += damage;
 
             if (causedBy is SingularityBullet && !(causedBy as SingularityBullet).Owner.IsCurrentPlayer())
                 return;
@@ -59,7 +60,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         {
             if (me is MiningModule)
             {
-                if((me as MiningModule).Owner == me.SceneMgr.GetCurrentPlayer())
+                if((me as MiningModule).Owner.IsCurrentPlayer())
                     me.SceneMgr.StatisticsMgr.DeadTime += SharedDef.SPECTATOR_RESPAWN_TIME;
             }
 

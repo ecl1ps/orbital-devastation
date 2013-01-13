@@ -35,7 +35,7 @@ namespace Orbit.Core.Utils
                 Cost *= SharedDef.HEAL_MULTIPLY_COEF;
                 SendMessageWithHeal();
 
-                if(owner == mgr.GetCurrentPlayer() && !owner.IsBot())
+                if (owner.IsCurrentPlayer() && !owner.IsBot())
                     mgr.StatisticsMgr.Healed += heal;
         }
 
