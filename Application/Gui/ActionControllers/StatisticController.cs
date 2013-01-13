@@ -49,7 +49,7 @@ namespace Orbit.Gui.ActionControllers
             mgr.BeginInvoke(new Action(() => statsWindow.SetTime(time.ToString("00"))));
         }
 
-        protected double ComputePercents() {
+        protected virtual double ComputePercents() {
             double val = time / SHOW_TIME;
             if (val > 1)
                 val = 1;

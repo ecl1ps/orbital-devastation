@@ -59,12 +59,12 @@ namespace Orbit.Gui.ActionControllers
             SetData();
         }
 
-        private void SetData()
+        protected void SetData()
         {
             mgr.BeginInvoke(new Action(() => window.SetData(gameTime, deadTime, actionsUsed, favAction, damage)));
         }
 
-        private void LoadFavAction()
+        protected void LoadFavAction()
         {
             if (mgr.StatisticsMgr.Actions.Count == 0)
             {
@@ -78,7 +78,7 @@ namespace Orbit.Gui.ActionControllers
             time = 0;
         }
 
-        private void LoadActionsUsed()
+        protected void LoadActionsUsed()
         {
             if (mgr.StatisticsMgr.Actions.Count == 0)
             {
@@ -90,7 +90,7 @@ namespace Orbit.Gui.ActionControllers
             actionsUsed = FastMath.LinearInterpolate(mgr.StatisticsMgr.Actions.Count, 0, ComputePercents()).ToString("###");
         }
 
-        private void LoadDamage()
+        protected void LoadDamage()
         {
             if (mgr.StatisticsMgr.DamageTaken == 0)
             {
@@ -101,7 +101,7 @@ namespace Orbit.Gui.ActionControllers
             damage = FastMath.LinearInterpolate(mgr.StatisticsMgr.DamageTaken, 0, ComputePercents()).ToString(".#");
         }
 
-        private void LoadDeadTime()
+        protected void LoadDeadTime()
         {
             if (mgr.StatisticsMgr.DeadTime == 0)
             {
@@ -112,7 +112,7 @@ namespace Orbit.Gui.ActionControllers
             deadTime = FastMath.LinearInterpolate(mgr.StatisticsMgr.DeadTime, 0, ComputePercents()).ToString(".#");
         }
 
-        private void LoadGameTime()
+        protected void LoadGameTime()
         {
             if (mgr.StatisticsMgr.Time == 0)
             {

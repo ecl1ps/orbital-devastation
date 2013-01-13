@@ -61,32 +61,32 @@ namespace Orbit.Gui.ActionControllers
                     LoadHook(tpf);
                     break;
                 case 3:
-                    LoadDamage(tpf);
+                    LoadDamage();
                     break;
                 case 4:
-                    LoadHeal(tpf);
+                    LoadHeal();
                     break;
                 case 5:
-                    LoadGold(tpf);
+                    LoadGold();
                     break;
                 case 6:
-                    LoadActions(tpf);
+                    LoadActions();
                     break;
                 case 7:
-                    LoadPowerups(tpf);
+                    LoadPowerups();
                     break;
                 case 8:
-                    LoadFavAction(tpf);
+                    LoadFavAction();
                     break;
                 case 9:
-                    LoadFavPowerup(tpf);
+                    LoadFavPowerup();
                     break;
             }
 
             SetData();
         }
 
-        private void SetData()
+        protected void SetData()
         {
             mgr.BeginInvoke(new Action(() =>
             {
@@ -94,7 +94,7 @@ namespace Orbit.Gui.ActionControllers
             }));
         }
 
-        private void LoadFavPowerup(float tpf)
+        protected void LoadFavPowerup()
         {
             if (mgr.StatisticsMgr.Stats.Count == 0)
             {
@@ -108,7 +108,7 @@ namespace Orbit.Gui.ActionControllers
             time = 0;
         }
 
-        private void LoadFavAction(float tpf)
+        protected void LoadFavAction()
         {
             if(mgr.StatisticsMgr.Actions.Count == 0) 
             {
@@ -122,7 +122,7 @@ namespace Orbit.Gui.ActionControllers
             time = 0;
         }
 
-        private void LoadPowerups(float tpf)
+        protected void LoadPowerups()
         {
             if (mgr.StatisticsMgr.Stats.Count == 0)
             {
@@ -133,7 +133,7 @@ namespace Orbit.Gui.ActionControllers
             powerups = FastMath.LinearInterpolate(mgr.StatisticsMgr.Stats.Count, 0, ComputePercents()).ToString("###");
         }
 
-        private void LoadActions(float tpf)
+        protected void LoadActions()
         {
             if (mgr.StatisticsMgr.Actions.Count == 0)
             {
@@ -145,7 +145,7 @@ namespace Orbit.Gui.ActionControllers
             actions = FastMath.LinearInterpolate(mgr.StatisticsMgr.Actions.Count, 0, ComputePercents()).ToString("###");
         }
 
-        private void LoadGold(float tpf)
+        protected void LoadGold()
         {
             if (mgr.StatisticsMgr.GoldEarned == 0)
             {
@@ -156,7 +156,7 @@ namespace Orbit.Gui.ActionControllers
             gold = FastMath.LinearInterpolate(mgr.StatisticsMgr.GoldEarned, 0, ComputePercents()).ToString(".#");
         }
 
-        private void LoadHeal(float tpf)
+        protected void LoadHeal()
         {
             if (mgr.StatisticsMgr.Healed == 0)
             {
@@ -167,7 +167,7 @@ namespace Orbit.Gui.ActionControllers
             heal = FastMath.LinearInterpolate(mgr.StatisticsMgr.Healed, 0, ComputePercents()).ToString(".#");
         }
 
-        private void LoadDamage(float tpf)
+        protected void LoadDamage()
         {
             if (mgr.StatisticsMgr.DamageTaken == 0)
             {
@@ -178,7 +178,7 @@ namespace Orbit.Gui.ActionControllers
             damage = FastMath.LinearInterpolate(mgr.StatisticsMgr.DamageTaken, 0, ComputePercents()).ToString(".#");
         }
 
-        private void LoadHook(float tpf)
+        protected void LoadHook(float tpf)
         {
                if (loadTime <= 0)
                 {
@@ -200,7 +200,7 @@ namespace Orbit.Gui.ActionControllers
             
         }
 
-        private void LoadBullet(float tpf)
+        protected void LoadBullet(float tpf)
         {
                if (loadTime <= 0)
                 {
@@ -221,7 +221,7 @@ namespace Orbit.Gui.ActionControllers
             loadTime -= tpf;
         }
 
-        private void LoadMine(float tpf)
+        protected void LoadMine(float tpf)
         {
             if (loadTime <= 0)
             {
