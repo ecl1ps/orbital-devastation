@@ -159,9 +159,9 @@ namespace Orbit.Gui
 
         private void btnReady_Click(object sender, RoutedEventArgs e)
         {
-            ready = true;
-            btnReady.IsEnabled = false;
-            App.Instance.PlayerReady();
+            ready = !ready;
+            btnReady.Content = ready ? "Not ready" : "Ready";
+            App.Instance.PlayerReady(ready);
         }
 
         public void AllReady(bool ready = true)
@@ -172,13 +172,13 @@ namespace Orbit.Gui
 
         private void lobbyWindow_Loaded(object sender, RoutedEventArgs e)
         {
-#if !DEBUG
-            if (leader)
-                App.Instance.PlayerReady();
-#else
+#if DEBUG
             ready = true;
-            btnReady.IsEnabled = false;
-            App.Instance.PlayerReady();
+            btnReady.Content = "Not ready";
+            App.Instance.PlayerReady(true);
+#else
+            if (leader)
+                App.Instance.PlayerReady(true);
 #endif
             tbMessage.Focus();
         }
@@ -201,7 +201,7 @@ namespace Orbit.Gui
             }
             else
             {
-                if (!ready && receivedSettings)
+                if (receivedSettings)
                     btnReady.IsEnabled = true;
                 lblColorNotice.Visibility = Visibility.Hidden;
             }

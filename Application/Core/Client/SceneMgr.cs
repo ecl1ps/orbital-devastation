@@ -746,7 +746,7 @@ namespace Orbit.Core.Client
             if (currentPlayer.Data.LobbyLeader)
             {
                 currentPlayer.Data.LobbyReady = true;
-                SendPlayerReadyMessage();
+                SendPlayerReadyMessage(true);
             }
         }
 

@@ -112,7 +112,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void  OnRemove()
         {
-            base.OnRemove();
             SceneMgr.RemoveGraphicalObjectFromScene(GetGeometry(), Category);
             SceneMgr.RemoveGraphicalObjectFromScene(background, Category);
         }

@@ -341,13 +341,13 @@ namespace Orbit
             }
         }
 
-        public void PlayerReady()
+        public void PlayerReady(bool ready)
         {
             sceneMgr.Enqueue(new Action(() =>
             {
-                sceneMgr.GetCurrentPlayer().Data.LobbyReady = true;
-                sceneMgr.SendChatMessage("I am ready");
-                sceneMgr.SendPlayerReadyMessage();
+                sceneMgr.GetCurrentPlayer().Data.LobbyReady = ready;
+                sceneMgr.SendChatMessage(ready ? "I am ready" : "Wait, I am not ready");
+                sceneMgr.SendPlayerReadyMessage(ready);
             }));
         }
 

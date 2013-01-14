@@ -94,11 +94,12 @@ namespace Orbit.Core.Client
             SendMessage(msg);
         }
 
-        public void SendPlayerReadyMessage()
+        public void SendPlayerReadyMessage(bool ready)
         {
             NetOutgoingMessage msg = CreateNetMessage();
             msg.Write((int)PacketType.PLAYER_READY);
             msg.Write(currentPlayer.GetId());
+            msg.Write(ready);
             msg.Write(currentPlayer.Data.LobbyLeader);
             SendMessage(msg);
         }
@@ -673,7 +674,7 @@ namespace Orbit.Core.Client
         private void ReceivedPlayerReadyMsg(NetIncomingMessage msg)
         {
             Player pl = GetPlayer(msg.ReadInt32());
-            pl.Data.LobbyReady = true;
+            pl.Data.LobbyReady = msg.ReadBoolean();
             UpdateLobbyPlayers();
             CheckAllPlayersReady();
         }

@@ -83,7 +83,7 @@ namespace Orbit.Gui
             App.Instance.GetSceneMgr().Enqueue(new Action(() =>
             {
                 App.Instance.GetSceneMgr().GetCurrentPlayer().Data.LobbyReady = true;
-                App.Instance.GetSceneMgr().SendPlayerReadyMessage();
+                App.Instance.GetSceneMgr().SendPlayerReadyMessage(true);
                 TournamentSettings s = new TournamentSettings(true);
                 s.MMType = Orbit.Core.Server.Match.MatchManagerType.TEST_LEADER_SPECTATOR;
                 App.Instance.GetSceneMgr().ProcessNewTournamentSettings(s);
