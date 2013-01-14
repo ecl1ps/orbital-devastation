@@ -25,7 +25,7 @@
                             ScaleY="{Binding ElementName=mainWindow, Path=ScaleValueY}" />
             </Grid.LayoutTransform>
             <Grid Height="15" Background="Black" VerticalAlignment="Top" MouseLeftButtonDown="dragbar_MouseLeftButtonDown"></Grid>
-            <Grid Name="mainGrid" VerticalAlignment="Center" HorizontalAlignment="Center" Width="1000" Height="700" Margin="0,15,0,0">
+            <Grid Name="mainGrid" VerticalAlignment="Center" HorizontalAlignment="Center" Width="1000" Height="700" Margin="0,15,0,0" ClipToBounds="True">
                 <controls:MainUC />
             </Grid>
             <Grid Name="menuGrid" VerticalAlignment="Center" HorizontalAlignment="Center" ></Grid>
