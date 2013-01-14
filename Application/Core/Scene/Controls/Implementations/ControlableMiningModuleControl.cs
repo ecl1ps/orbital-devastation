@@ -49,7 +49,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             if (IsMovingTop && (me.Position.Y - botVector.Y - leftTopOffset) > 0)
                 me.Position -= botVector;
-            if (IsMovingDown && (me.Position.Y + botVector.Y + rightBottomOffset) < PlayerBaseLocation.GetBaseLocation(PlayerPosition.LEFT).Top - 100)
+            if (IsMovingDown && (me.Position.Y + botVector.Y + rightBottomOffset) < PlayerBaseLocation.GetBaseLocation(PlayerPosition.LEFT).Top - 30)
                 me.Position += botVector;
             if (IsMovingLeft && (me.Position.X - rightVector.X - leftTopOffset) > 0)
                 me.Position -= rightVector;
