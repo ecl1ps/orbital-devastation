@@ -61,11 +61,11 @@ namespace Orbit.Core.Weapons
 
         private void RemoveLine()
         {
-            lineGeom = null;
-            SceneMgr.BeginInvoke(new Action(() =>
+            SceneMgr.Invoke(new Action(() =>
             {
                 SceneMgr.RemoveGraphicalObjectFromScene(lineGeom, DrawingCategory.PROJECTILE_BACKGROUND);
             }));
+            lineGeom = null;
         }
 
         private void PrepareLine()
