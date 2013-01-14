@@ -6,6 +6,8 @@ using Orbit.Core.Players;
 using Orbit.Core.Client;
 using Lidgren.Network;
 using System.Windows.Media;
+using Orbit.Core.Scene.Entities;
+using Orbit.Core.Helpers;
 
 namespace Orbit.Core.SpecialActions
 {
@@ -37,7 +39,7 @@ namespace Orbit.Core.SpecialActions
             Owner.AddGoldAndShow((int) -Cost);
             StartCoolDown();
             shared.ForEach(a => a.StartCoolDown());
-            SceneMgr.StatisticsMgr.Actions.Add(this);
+            Owner.Statistics.Actions.Add(this);
         }
 
         public abstract bool IsReady();
@@ -71,6 +73,28 @@ namespace Orbit.Core.SpecialActions
         public void removeSharedAction(ISpecialAction a)
         {
             shared.Remove(a);
+        }
+
+        public void WriteObject(NetOutgoingMessage msg)
+        {
+            msg.Write(Owner.GetId());
+            msg.Write(Name);
+            msg.Write(ImageSource);
+            msg.Write((int)Type);
+            msg.Write(Cost);
+            msg.Write(Cooldown);
+            msg.Write(BackgroundColor);
+        }
+
+        public void ReadObject(NetIncomingMessage msg)
+        {
+            Owner = SceneMgr.GetPlayer(msg.ReadInt32());
+            Name = msg.ReadString();
+            ImageSource = msg.ReadString();
+            Type = (SpecialActionType)msg.ReadInt32();
+            Cost = msg.ReadFloat();
+            Cooldown = msg.ReadFloat();
+            BackgroundColor = msg.ReadColor();
         }
     }
 }

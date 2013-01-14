@@ -36,8 +36,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (causedBy is SingularityBullet && !(causedBy as SingularityBullet).Owner.IsCurrentPlayerOrBot())
                 return;
 
-            if (module.Owner.IsCurrentPlayer())
-                me.SceneMgr.StatisticsMgr.DamageTaken += damage;
+            module.Owner.Statistics.DamageTaken += damage;
 
             Hp -= damage;
             HpRegenControl control = module.GetControlOfType<HpRegenControl>();
@@ -57,10 +56,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         protected override void OnDeath()
         {
             if (me is MiningModule)
-            {
-                if((me as MiningModule).Owner.IsCurrentPlayer())
-                    me.SceneMgr.StatisticsMgr.DeadTime += SharedDef.SPECTATOR_RESPAWN_TIME;
-            }
+                module.Owner.Statistics.DeadTime += SharedDef.SPECTATOR_RESPAWN_TIME;
 
             module.GetControlOfType<HpBarControl>().Bar.Percentage = 0;
             module.GetControlOfType<RespawningObjectControl>().Die(SharedDef.SPECTATOR_RESPAWN_TIME);

@@ -37,7 +37,8 @@ namespace Orbit.Gui
             InitializeComponent();
 
             btnReady.IsEnabled = false;
-            btnStats.IsEnabled = App.Instance.GetSceneMgr().LastGameStats != null;
+            if (!settingsLocked)
+                btnStats.IsEnabled = false;
 
             if (asLeader)
             {
@@ -366,7 +367,7 @@ namespace Orbit.Gui
 
         private void btnStats_Click(object sender, RoutedEventArgs e)
         {
-            EndGameStats stats = GuiObjectFactory.CreatePlayerStatsUC(App.Instance.GetSceneMgr(), App.Instance.GetSceneMgr().GetCurrentPlayer().IsActivePlayer(), false);
+            EndGameStats stats = GuiObjectFactory.CreatePlayerStatsUC(App.Instance.GetSceneMgr(), App.Instance.GetSceneMgr().GetCurrentPlayer(), App.Instance.GetSceneMgr().GetCurrentPlayer().IsActivePlayer(), false);
             App.Instance.AddMenu(stats);
         }
     }

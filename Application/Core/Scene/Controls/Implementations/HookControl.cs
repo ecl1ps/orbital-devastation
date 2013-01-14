@@ -24,6 +24,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
         protected List<ICatchable> caughtObjects;
         protected Hook hook;
 
+        private bool reportedStatistics = false;
+
         protected override void InitControl(ISceneObject me)
         {
             Returning = false;
@@ -90,8 +92,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             // za unstable se nedostava vubec zadne score
             ProcessScore(caught);
-            if (hook.Owner.IsCurrentPlayer())
-                me.SceneMgr.StatisticsMgr.HookHit++;
+
+            if (!reportedStatistics)
+            {
+                reportedStatistics = true;
+                (me as Hook).Owner.Statistics.HookHit++;
+            }
         }
 
         /// <summary>

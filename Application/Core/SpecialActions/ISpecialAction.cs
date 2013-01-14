@@ -5,6 +5,7 @@ using System.Text;
 using Orbit.Core.Players;
 using Orbit.Core.Client;
 using System.Windows.Media;
+using Orbit.Core.Scene.Entities;
 
 namespace Orbit.Core.SpecialActions
 {
@@ -19,7 +20,7 @@ namespace Orbit.Core.SpecialActions
         SHIELDING
     }
 
-    public interface ISpecialAction : IGameState
+    public interface ISpecialAction : IGameState, ISendable
     {
         Player Owner { get; set; }
         SceneMgr SceneMgr { get; set; }

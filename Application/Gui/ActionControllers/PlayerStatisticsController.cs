@@ -28,8 +28,8 @@ namespace Orbit.Gui.ActionControllers
         private String favAction = "";
         private String favPowerup = "";
 
-        public PlayerStatisticsController(SceneMgr mgr, EndGameStats stats, bool limited, PlayerStatsUC window)
-            : base(mgr, stats, limited)
+        public PlayerStatisticsController(SceneMgr mgr, Player owner, EndGameStats stats, bool limited, PlayerStatsUC window)
+            : base(mgr, owner, stats, limited)
         {
             this.window = window;
         }
@@ -96,95 +96,95 @@ namespace Orbit.Gui.ActionControllers
 
         protected void LoadFavPowerup()
         {
-            if (mgr.LastGameStats.Stats.Count == 0)
+            if (owner.Statistics.Stats.Count == 0)
             {
                 favPowerup = "No data";
                 time = 0;
                 return;
             }
 
-            Stat first = mgr.LastGameStats.Stats.GroupBy(item => item).OrderByDescending(g => g.Count()).Select(g => g.Key).First();
+            Stat first = owner.Statistics.Stats.GroupBy(item => item).OrderByDescending(g => g.Count()).Select(g => g.Key).First();
             favPowerup = first.text;
             time = 0;
         }
 
         protected void LoadFavAction()
         {
-            if(mgr.LastGameStats.Actions.Count == 0) 
+            if(owner.Statistics.Actions.Count == 0) 
             {
                 favAction = "No data";
                 time = 0;
                 return;
             }
 
-            ISpecialAction first = mgr.LastGameStats.Actions.GroupBy(item => item).OrderByDescending(g => g.Count()).Select(g => g.Key).First();
+            ISpecialAction first = owner.Statistics.Actions.GroupBy(item => item).OrderByDescending(g => g.Count()).Select(g => g.Key).First();
             favAction = first.Name;
             time = 0;
         }
 
         protected void LoadPowerups()
         {
-            if (mgr.LastGameStats.Stats.Count == 0)
+            if (owner.Statistics.Stats.Count == 0)
             {
                 time = 0;
                 powerups = "0";
                 return;
             }
-            powerups = FastMath.LinearInterpolate(mgr.LastGameStats.Stats.Count, 0, ComputePercents()).ToString("###");
+            powerups = FastMath.LinearInterpolate(owner.Statistics.Stats.Count, 0, ComputePercents()).ToString("###");
         }
 
         protected void LoadActions()
         {
-            if (mgr.LastGameStats.Actions.Count == 0)
+            if (owner.Statistics.Actions.Count == 0)
             {
                 time = 0;
                 actions = "0";
                 return;
             }
 
-            actions = FastMath.LinearInterpolate(mgr.LastGameStats.Actions.Count, 0, ComputePercents()).ToString("###");
+            actions = FastMath.LinearInterpolate(owner.Statistics.Actions.Count, 0, ComputePercents()).ToString("###");
         }
 
         protected void LoadGold()
         {
-            if (mgr.LastGameStats.GoldEarned == 0)
+            if (owner.Statistics.GoldEarned == 0)
             {
                 time = 0;
                 gold = "0";
                 return;
             }
-            gold = FastMath.LinearInterpolate(mgr.LastGameStats.GoldEarned, 0, ComputePercents()).ToString(".#");
+            gold = FastMath.LinearInterpolate(owner.Statistics.GoldEarned, 0, ComputePercents()).ToString(".#");
         }
 
         protected void LoadHeal()
         {
-            if (mgr.LastGameStats.Healed == 0)
+            if (owner.Statistics.Healed == 0)
             {
                 time = 0;
                 heal = "0";
                 return;
             }
-            heal = FastMath.LinearInterpolate(mgr.LastGameStats.Healed, 0, ComputePercents()).ToString(".#");
+            heal = FastMath.LinearInterpolate(owner.Statistics.Healed, 0, ComputePercents()).ToString(".#");
         }
 
         protected void LoadDamage()
         {
-            if (mgr.LastGameStats.DamageTaken == 0)
+            if (owner.Statistics.DamageTaken == 0)
             {
                 time = 0;
                 damage = "0";
                 return;
             }
-            damage = FastMath.LinearInterpolate(mgr.LastGameStats.DamageTaken, 0, ComputePercents()).ToString(".#");
+            damage = FastMath.LinearInterpolate(owner.Statistics.DamageTaken, 0, ComputePercents()).ToString(".#");
         }
 
         protected void LoadHook(float tpf)
         {
                 if (tpf == 0)
                 {
-                    hook += mgr.LastGameStats.HookFired;
-                    hook += " / " + mgr.LastGameStats.HookHit;
-                    double val = mgr.LastGameStats.HookHit / mgr.LastGameStats.HookFired;
+                    hook += owner.Statistics.HookFired;
+                    hook += " / " + owner.Statistics.HookHit;
+                    double val = owner.Statistics.HookHit / owner.Statistics.HookFired;
                     if (Double.IsNaN(val))
                         val = 0;
                     hook += " / " + val.ToString("#0.##%");
@@ -194,11 +194,11 @@ namespace Orbit.Gui.ActionControllers
                     loadTime = 2 / 3;
                     multipleStatsStep++;
                     if (multipleStatsStep == 1)
-                        hook += mgr.LastGameStats.HookFired;
+                        hook += owner.Statistics.HookFired;
                     else if (multipleStatsStep == 2)
-                        hook += " / " + mgr.LastGameStats.HookHit;
+                        hook += " / " + owner.Statistics.HookHit;
                     else if (multipleStatsStep == 3) {
-                        double val = mgr.LastGameStats.HookHit / mgr.LastGameStats.HookFired;
+                        double val = owner.Statistics.HookHit / owner.Statistics.HookFired;
                         if (Double.IsNaN(val))
                             val = 0;
                         hook += " / " + val.ToString("#0.##%");
@@ -213,9 +213,9 @@ namespace Orbit.Gui.ActionControllers
         {
                 if (tpf == 0)
                 {
-                    bullet += mgr.LastGameStats.BulletFired;
-                    bullet += " / " + mgr.LastGameStats.BulletHit;
-                    double val = mgr.LastGameStats.BulletHit / mgr.LastGameStats.BulletFired;
+                    bullet += owner.Statistics.BulletFired;
+                    bullet += " / " + owner.Statistics.BulletHit;
+                    double val = owner.Statistics.BulletHit / owner.Statistics.BulletFired;
                     if (Double.IsNaN(val))
                         val = 0;
                     bullet += " / " + val.ToString("#0.##%");
@@ -225,11 +225,11 @@ namespace Orbit.Gui.ActionControllers
                     loadTime = 2 / 3;
                     multipleStatsStep++;
                     if (multipleStatsStep == 1)
-                        bullet += mgr.LastGameStats.BulletFired;
+                        bullet += owner.Statistics.BulletFired;
                     else if (multipleStatsStep == 2)
-                        bullet += " / " + mgr.LastGameStats.BulletHit;
+                        bullet += " / " + owner.Statistics.BulletHit;
                     else if (multipleStatsStep == 3) {
-                        double val = mgr.LastGameStats.BulletHit / mgr.LastGameStats.BulletFired;
+                        double val = owner.Statistics.BulletHit / owner.Statistics.BulletFired;
                         if (Double.IsNaN(val))
                             val = 0;
                         bullet += " / " + val.ToString("#0.##%");
@@ -243,9 +243,9 @@ namespace Orbit.Gui.ActionControllers
         {
             if (tpf == 0)
             {
-                mine += mgr.LastGameStats.MineFired;
-                mine += " / " + mgr.LastGameStats.MineHit;
-                double val = mgr.LastGameStats.MineHit / mgr.LastGameStats.MineFired;
+                mine += owner.Statistics.MineFired;
+                mine += " / " + owner.Statistics.MineHit;
+                double val = owner.Statistics.MineHit / owner.Statistics.MineFired;
                 if (Double.IsNaN(val))
                     val = 0;
                 mine += " / " + val.ToString("#0.##%");
@@ -255,11 +255,11 @@ namespace Orbit.Gui.ActionControllers
                 loadTime = 2 / 3;
                 multipleStatsStep++;
                 if (multipleStatsStep == 1)
-                    mine += mgr.LastGameStats.MineFired;
+                    mine += owner.Statistics.MineFired;
                 else if (multipleStatsStep == 2)
-                    mine += " / " + mgr.LastGameStats.MineHit;
+                    mine += " / " + owner.Statistics.MineHit;
                 else if (multipleStatsStep == 3) {
-                    double val = mgr.LastGameStats.MineHit / mgr.LastGameStats.MineFired;
+                    double val = owner.Statistics.MineHit / owner.Statistics.MineFired;
                     if (Double.IsNaN(val))
                         val = 0;
                     mine += " / " + val.ToString("#0.##%");

@@ -37,10 +37,6 @@ namespace Orbit.Core.Client
         public LevelEnvironment LevelEnv { get; set; }
         public AlertMessageManager AlertMessageMgr { get; set; }
         public WindowState GameWindowState { get { return gameWindowState; } set { gameWindowState = value; } }
-        public StatisticsManager StatisticsMgr { get; set; }
-
-        private StatisticsManager lastGameStats = null;
-        public StatisticsManager LastGameStats { get { return lastGameStats; } }
 
         private volatile WindowState gameWindowState;
 
@@ -137,8 +133,6 @@ namespace Orbit.Core.Client
             StateMgr.AddGameState(LevelEnv);
             AlertMessageMgr = new AlertMessageManager(this, 0.5f);
             StateMgr.AddGameState(AlertMessageMgr);
-            StatisticsMgr = new StatisticsManager();
-            StateMgr.AddGameState(StatisticsMgr);
         }
 
         public void InitStaticMouse()
@@ -591,11 +585,11 @@ namespace Orbit.Core.Client
 
             isGameInitialized = true;
             userActionsDisabled = true;
-            StatisticsMgr.GameEnded = true;
             gameEnded = true;
             lastGameEnd = endType;
             winner = plr;
-            lastGameStats = StatisticsMgr;
+
+            players.ForEach(p => p.Statistics.GameEnded = true);
 
             if (endType == GameEnd.LEFT_GAME)
                 PlayerLeft(plr);
@@ -614,7 +608,7 @@ namespace Orbit.Core.Client
             StaticMouse.Enable(false);
             stopUpdating = true;
 
-            Invoke(new Action(() => GuiObjectFactory.CreateAndAddPlayerStatsUc(this, currentPlayer.IsActivePlayer(), new Vector((SharedDef.VIEW_PORT_SIZE.Width - 800) / 2, (SharedDef.VIEW_PORT_SIZE.Height - 500) / 2))));
+            Invoke(new Action(() => GuiObjectFactory.CreateAndAddPlayerStatsUc(this, currentPlayer, currentPlayer.IsActivePlayer(), new Vector((SharedDef.VIEW_PORT_SIZE.Width - 800) / 2, (SharedDef.VIEW_PORT_SIZE.Height - 500) / 2))));
         }
 
         public void CloseGameWindowAndCleanup(bool forceQuit = false)

@@ -26,6 +26,7 @@ namespace Orbit.Core.Players
     {
         public SceneMgr SceneMgr { get; set; }
         public PlayerData Data { get; set; }
+        public StatisticsManager Statistics { get; set; }
         public NetConnection Connection { get; set; }
         public Base Baze  { get; set; }
         public MiningModule Device { get; set; }
@@ -85,6 +86,8 @@ namespace Orbit.Core.Players
         {
             SceneMgr = mgr;
             Shooting = false;
+            Statistics = new StatisticsManager();
+            Statistics.Owner = this;
         }
 
         public void SetGoldAndShow(int gold)
@@ -99,8 +102,7 @@ namespace Orbit.Core.Players
             if (gold > 0)
             {
                 AddScoreAndShow((int)(gold * ScoreDefines.GOLD_TAKEN));
-                if (IsCurrentPlayer())
-                    SceneMgr.StatisticsMgr.GoldEarned += gold;
+                Statistics.GoldEarned += gold;
             }
 
             Data.Gold += gold;
@@ -162,9 +164,9 @@ namespace Orbit.Core.Players
                 amount = 0;
 
             Data.BaseIntegrity = amount;
-
-            if (IsCurrentPlayer())
-                SceneMgr.StatisticsMgr.Healed += diff;
+                
+            if(diff > 0)
+                Statistics.Healed += diff;
 
             if (Baze != null)
                 Baze.OnIntegrityChange();
@@ -207,6 +209,7 @@ namespace Orbit.Core.Players
 
         public void Update(float tpf)
         {
+            Statistics.Update(tpf);
             if (!informedProtecting)
             {
                 informedProtecting = true;

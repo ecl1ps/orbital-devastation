@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Orbit.Core;
 using Orbit.Core.Client;
+using Orbit.Core.Players;
 
 namespace Orbit.Gui.ActionControllers
 {
@@ -16,13 +17,14 @@ namespace Orbit.Gui.ActionControllers
 
         protected SceneMgr mgr;
         protected EndGameStats statsWindow;
+        protected Player owner;
 
-        public StatisticController(SceneMgr mgr, EndGameStats statsWindow, bool limited)
+        public StatisticController(SceneMgr mgr, Player owner, EndGameStats statsWindow, bool limited)
         {
             this.mgr = mgr;
+            this.owner = owner;
             this.statsWindow = statsWindow;
             this.limited = limited;
-
         }
 
         public virtual void Update(float tpf)

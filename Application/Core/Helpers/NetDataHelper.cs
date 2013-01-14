@@ -20,6 +20,10 @@ using Orbit.Core.Scene.Controls.Health;
 using Orbit.Core.Server.Match;
 using Orbit.Core.Server;
 using Orbit.Core.Server.Level;
+using Orbit.Core.SpecialActions;
+using Orbit.Core.SpecialActions.Gamer;
+using Orbit.Core.SpecialActions.Spectator;
+using Orbit.Core.Utils;
 
 namespace Orbit.Core.Helpers
 {
@@ -721,6 +725,124 @@ namespace Orbit.Core.Helpers
             s.BotType = (BotType)msg.ReadInt32();
             s.BotCount = msg.ReadInt32();
             return s;
+        }
+
+        public static void WriteSpecialActions(this NetOutgoingMessage msg, List<ISpecialAction> actions) 
+        {
+            msg.Write(actions.Count);
+            actions.ForEach(action => WriteSpecialAction(msg, action));
+        }
+
+        private static void WriteSpecialAction(NetOutgoingMessage msg, ISpecialAction action)
+        {
+            if (action is HealAction)
+            {
+                msg.Write(typeof(HealAction).GUID.GetHashCode());
+                action.WriteObject(msg);
+            }
+            else if (action is ActiveWeapon)
+            {
+                msg.Write(typeof(ActiveWeapon).GUID.GetHashCode());
+                action.WriteObject(msg);
+            }
+            else if (action is WeaponUpgrade)
+            {
+                msg.Write(typeof(WeaponUpgrade).GUID.GetHashCode());
+                action.WriteObject(msg);
+            }
+            else if (action is AsteroidDamage)
+            {
+                msg.Write(typeof(AsteroidDamage).GUID.GetHashCode());
+                action.WriteObject(msg);
+            }
+            else if (action is AsteroidGrowth)
+            {
+                msg.Write(typeof(AsteroidGrowth).GUID.GetHashCode());
+                action.WriteObject(msg);
+            }
+            else if (action is AsteroidSlow)
+            {
+                msg.Write(typeof(AsteroidSlow).GUID.GetHashCode());
+                action.WriteObject(msg);
+            }
+            else if (action is AsteroidThrow)
+            {
+                msg.Write(typeof(AsteroidThrow).GUID.GetHashCode());
+                action.WriteObject(msg);
+            }
+            else if (action is StaticField)
+            {
+                msg.Write(typeof(StaticField).GUID.GetHashCode());
+                action.WriteObject(msg);
+            }
+            else
+            {
+                msg.Write(0);
+                Logger.Error("Sending unspported action (" + action.Name + ")!");
+            }
+        }
+        
+        private static ISpecialAction ReadSpecialAction(NetIncomingMessage msg, SceneMgr mgr)
+        {
+            //chtelo by to aby kazdej objekt implementoval sendable takhle nektery akce nepujdou pouzit
+            ISpecialAction action = null;
+            int hash = msg.ReadInt32();
+            if (hash == typeof(HealAction).GUID.GetHashCode())
+                action = new HealAction(null, mgr, null);
+            else if (hash == typeof(ActiveWeapon).GUID.GetHashCode())
+                action = new ActiveWeapon(null);
+            else if (hash == typeof(WeaponUpgrade).GUID.GetHashCode())
+                action = new WeaponUpgrade(null);
+            else if (hash == typeof(AsteroidDamage).GUID.GetHashCode())
+                action = new AsteroidDamage(mgr, null);
+            else if (hash == typeof(AsteroidGrowth).GUID.GetHashCode())
+                action = new AsteroidGrowth(mgr, null);
+            else if (hash == typeof(AsteroidSlow).GUID.GetHashCode())
+                action = new AsteroidSlow(mgr, null);
+            else if (hash == typeof(AsteroidThrow).GUID.GetHashCode())
+                action = new AsteroidThrow(mgr, null);
+            else if (hash == typeof(StaticField).GUID.GetHashCode())
+                action = new StaticField(mgr, null);
+
+            if (action != null)
+                action.ReadObject(msg);
+            return action;
+        }
+
+        public static List<ISpecialAction> ReadSpecialActions(this NetIncomingMessage msg, SceneMgr mgr)
+        {
+            int count = msg.ReadInt32();
+            List<ISpecialAction> temp = new List<ISpecialAction>();
+            ISpecialAction action = null;
+            for (int i = 0; i < count; i++)
+            {
+                action = ReadSpecialAction(msg, mgr);
+                if (action != null)
+                    temp.Add(action);
+            }
+
+            return temp;
+        }
+
+        public static void WriteStats(this NetOutgoingMessage msg, List<Stat> stats)
+        {
+            msg.Write(stats.Count);
+            stats.ForEach(stat => stat.WriteObject(msg));
+        }
+
+        public static List<Stat> ReadStats(this NetIncomingMessage msg)
+        {
+            int count = msg.ReadInt32();
+
+            List<Stat> temp = new List<Stat>();
+            Stat stat;
+            for (int i = 0; i < count; i++)
+            {
+                stat = new Stat();
+                stat.ReadObject(msg);
+            }
+
+            return temp;
         }
     }
 }

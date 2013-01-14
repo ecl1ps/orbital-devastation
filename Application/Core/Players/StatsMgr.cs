@@ -7,6 +7,7 @@ using Orbit.Core.Client;
 using Lidgren.Network;
 using System.Windows;
 using Orbit.Core.Client.GameStates;
+using Orbit.Core.Scene.Entities;
 
 namespace Orbit.Core.Players
 { 
@@ -46,8 +47,7 @@ namespace Orbit.Core.Players
                 return;
 
             Stat pickedStat = GetStatForDeviceTypeAndLevel(type, GetUpgradeLevel(plr, type));
-            if (plr.IsCurrentPlayer())
-                sceneMgr.StatisticsMgr.Stats.Add(pickedStat);
+                plr.Statistics.Stats.Add(pickedStat);
 
             Tuple<float, float> valAndPct = GenerateAndAddStatToPlayer(pickedStat, plr.Data);
 
@@ -232,7 +232,7 @@ namespace Orbit.Core.Players
         }
     }
 
-    public struct Stat
+    public struct Stat : ISendable
     {
         public UpgradeLevel level;
         public PlayerStats type;
@@ -247,6 +247,24 @@ namespace Orbit.Core.Players
             this.text = text;
             this.min = min;
             this.max = max;
+        }
+
+        public void WriteObject(NetOutgoingMessage msg)
+        {
+            msg.Write((int)level);
+            msg.Write((int)type);
+            msg.Write(text);
+            msg.Write(min);
+            msg.Write(max);
+        }
+
+        public void ReadObject(NetIncomingMessage msg)
+        {
+            level = (UpgradeLevel)msg.ReadInt32();
+            type = (PlayerStats)msg.ReadInt32();
+            text = msg.ReadString();
+            min = msg.ReadFloat();
+            max = msg.ReadFloat();
         }
     }
 

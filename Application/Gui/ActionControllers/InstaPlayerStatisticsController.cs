@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Orbit.Core.Client;
+using Orbit.Core.Players;
 
 namespace Orbit.Gui.ActionControllers
 {
     class InstaPlayerStatisticsController : PlayerStatisticsController
     {
-        public InstaPlayerStatisticsController(SceneMgr mgr, EndGameStats stats, bool limited, PlayerStatsUC window)
-            : base(mgr, stats, limited, window)
+        public InstaPlayerStatisticsController(SceneMgr mgr, Player owner, EndGameStats stats, bool limited, PlayerStatsUC window)
+            : base(mgr, owner, stats, limited, window)
         {
             LoadHook(0);
             LoadMine(0);

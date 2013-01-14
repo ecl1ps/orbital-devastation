@@ -73,9 +73,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         protected void addHitStat()
         {
-            if (bullet.Owner.IsCurrentPlayer() && !StatReported)
+            if (!StatReported)
             {
-                me.SceneMgr.StatisticsMgr.BulletHit++;
+                (me as IProjectile).Owner.Statistics.BulletHit++;
                 StatReported = true;
             }
         }

@@ -44,9 +44,9 @@ namespace Orbit.Core.Helpers
             return box;
         }
 
-        public static EndGameStats CreateAndAddPlayerStatsUc(SceneMgr mgr, bool isPlayer, Vector position)
+        public static EndGameStats CreateAndAddPlayerStatsUc(SceneMgr mgr, Player owner, bool isPlayer, Vector position)
         {
-            EndGameStats stats = CreatePlayerStatsUC(mgr, isPlayer, true);
+            EndGameStats stats = CreatePlayerStatsUC(mgr, owner, isPlayer, true);
 
             mgr.GetCanvas().Children.Add(stats);
             Canvas.SetLeft(stats, position.X);
@@ -56,7 +56,7 @@ namespace Orbit.Core.Helpers
             return stats;
         }
 
-        public static EndGameStats CreatePlayerStatsUC(SceneMgr mgr, bool isPlayer, bool limited)
+        public static EndGameStats CreatePlayerStatsUC(SceneMgr mgr, Player owner, bool isPlayer, bool limited)
         {
             EndGameStats statsWindow;
             if (limited)
@@ -72,9 +72,9 @@ namespace Orbit.Core.Helpers
 
                 PlayerStatisticsController controller;
                 if (limited)
-                    controller = new PlayerStatisticsController(mgr, statsWindow, limited, playerStats);
+                    controller = new PlayerStatisticsController(mgr, owner, statsWindow, limited, playerStats);
                 else
-                    controller = new InstaPlayerStatisticsController(mgr, statsWindow, limited, playerStats);
+                    controller = new InstaPlayerStatisticsController(mgr, owner, statsWindow, limited, playerStats);
                 mgr.StateMgr.AddGameState(controller);
             }
             else
@@ -84,9 +84,9 @@ namespace Orbit.Core.Helpers
 
                 SpectatorStatisticController controller;
                 if (limited)
-                    controller = new SpectatorStatisticController(mgr, statsWindow, limited, playerStats);
+                    controller = new SpectatorStatisticController(mgr, owner, statsWindow, limited, playerStats);
                 else
-                    controller = new InstaSpectatorStatisticsController(mgr, statsWindow, limited, playerStats);
+                    controller = new InstaSpectatorStatisticsController(mgr, owner, statsWindow, limited, playerStats);
 
                 mgr.StateMgr.AddGameState(controller);
             }

@@ -752,8 +752,7 @@ namespace Orbit.Core.Client
             player.Device.GetControlOfType<IHpControl>().Hp = msg.ReadInt32();
             int damage = msg.ReadInt32();
 
-            if (player.IsCurrentPlayer())
-                StatisticsMgr.DamageTaken += damage;
+            player.Statistics.DamageTaken += damage;
             
             HpRegenControl control = player.Device.GetControlOfType<HpRegenControl>();
             if (control != null)
