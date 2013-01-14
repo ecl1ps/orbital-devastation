@@ -16,6 +16,7 @@ namespace Orbit.Core
         public int RoundCount { get; set; }
         public BotType BotType { get; set; }
         public int BotCount { get; set; }
+        public int PlayedMatches { get; set; }
 
         public TournamentSettings(bool withDefaults = false)
         {
@@ -27,6 +28,7 @@ namespace Orbit.Core
             RoundCount = 1;
             BotType = SharedDef.DEFAULT_BOT;
             BotCount = 0;
+            PlayedMatches = 0;
         }
     }
 }

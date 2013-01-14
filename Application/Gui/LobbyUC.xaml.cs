@@ -29,6 +29,7 @@ namespace Orbit.Gui
         private bool leader;
         private bool ready;
         private bool receivedSettings;
+        private int round;
 
         public LobbyUC(bool asLeader, bool settingsLocked = false)
         {
@@ -306,6 +307,7 @@ namespace Orbit.Gui
             lblType.Content = MatchManagerInfoAccessor.GetInfo(s.MMType).Text;
             lblMap.Content = LevelInfoAccessor.GetInfo(s.Level).Text;
             lblRounds.Content = s.RoundCount.ToString();
+            round = s.PlayedMatches;
             UpdateMatchCount(s.RoundCount);
 
             // TODO: mozna se pozdeji pridaji boti i pro normalni hrace - potom se zde musi zobrazit, kdyz prijde zprava
@@ -347,6 +349,8 @@ namespace Orbit.Gui
                 lblMatches.Content = "(" + matches.ToString() + " matches)";
             else
                 lblMatches.Content = "(" + matches.ToString() + " match)";
+
+            lblMatchNumber.Content = "Match " + (round + 1) + " of " + matches;
         }
 
         private void tbBotCount_TextChanged(object sender, TextChangedEventArgs e)
