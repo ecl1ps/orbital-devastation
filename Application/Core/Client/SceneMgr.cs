@@ -58,6 +58,7 @@ namespace Orbit.Core.Client
         private IInputMgr inputMgr;
         private bool playerQuit;
         private GameEnd lastGameEnd;
+        private TournamentSettings lastTournamentSettings;
 
         private Player winner;
 
@@ -732,16 +733,16 @@ namespace Orbit.Core.Client
             AttachStateManagers();
             stopUpdating = false;
 
-            players.ForEach(p => p.Data.LobbyReady = false);
-
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 App.Instance.CreateLobbyGui(currentPlayer.Data.LobbyLeader, true);
+                LobbyUC lobby = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
+                if (lobby != null)
+                    lobby.UpdateTournamentSettings(lastTournamentSettings);
             }));
 
             SendPlayerDataRequestMessage();
-            SendTournamentSettingsRequest();
-
+            
             if (currentPlayer.Data.LobbyLeader)
             {
                 currentPlayer.Data.LobbyReady = true;

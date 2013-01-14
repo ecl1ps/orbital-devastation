@@ -667,7 +667,7 @@ namespace Orbit.Core.Client
 
         private void ReceivedPlayerReceivedPowerUpMsg(NetIncomingMessage msg)
         {
-            StatsMgr.AddStatToPlayer(GetPlayer(msg.ReadInt32()).Data, (Orbit.Core.Players.PlayerStats)msg.ReadByte(), msg.ReadFloat());
+            StatsMgr.AddStatToPlayer(GetPlayer(msg.ReadInt32()).Data, (PlayerStats)msg.ReadByte(), msg.ReadFloat());
         }
 
         private void ReceivedPlayerReadyMsg(NetIncomingMessage msg)
@@ -846,7 +846,7 @@ namespace Orbit.Core.Client
         private void ReceivedTournamentSettingsMsg(NetIncomingMessage msg)
         {
             players.ForEach(p => { if (!p.Data.LobbyLeader) p.Data.LobbyReady = false; });
-            TournamentSettings s = msg.ReadTournamentSettings();
+            lastTournamentSettings = msg.ReadTournamentSettings();
 
             List<LobbyPlayerData> data = CreateLobbyPlayerData();
 
@@ -855,7 +855,7 @@ namespace Orbit.Core.Client
                 LobbyUC lobby = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
                 if (lobby != null)
                 {
-                    lobby.UpdateTournamentSettings(s);
+                    lobby.UpdateTournamentSettings(lastTournamentSettings);
                     lobby.UpdateShownPlayers(data);
                 }
             }));
@@ -922,6 +922,7 @@ namespace Orbit.Core.Client
 
         public void ProcessNewTournamentSettings(TournamentSettings s)
         {
+            lastTournamentSettings = s;
             SendNewTournamentSettings(s);
             players.ForEach(p => { if (!p.Data.LobbyLeader) p.Data.LobbyReady = false; });
             UpdateLobbyPlayers();
