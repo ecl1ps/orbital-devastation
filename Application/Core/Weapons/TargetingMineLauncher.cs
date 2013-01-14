@@ -24,7 +24,7 @@ namespace Orbit.Core.Weapons
         protected Point startPoint;
         protected Point endPoint;
         protected bool targeting = false;
-        private DrawingGroup lineGeom;
+        private DrawingGroup lineGeom = null;
 
         public TargetingMineLauncher(SceneMgr mgr, Player player) : base(mgr, player)
         {
@@ -61,7 +61,8 @@ namespace Orbit.Core.Weapons
 
         private void RemoveLine()
         {
-            SceneMgr.Invoke(new Action(() =>
+            lineGeom = null;
+            SceneMgr.BeginInvoke(new Action(() =>
             {
                 SceneMgr.RemoveGraphicalObjectFromScene(lineGeom, DrawingCategory.PROJECTILE_BACKGROUND);
             }));
@@ -69,6 +70,9 @@ namespace Orbit.Core.Weapons
 
         private void PrepareLine()
         {
+            if (lineGeom != null)
+                RemoveLine();
+
             lineGeom = SceneGeometryFactory.CreateLineGeometry(SceneMgr, Colors.Crimson, 1, Colors.Red, startPoint.ToVector(), endPoint.ToVector());
             SceneMgr.AttachGraphicalObjectToScene(lineGeom, DrawingCategory.PROJECTILE_BACKGROUND);
         }
