@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" Name="escMenu" Width="350" Height="350" BorderBrush="Black" BorderThickness="1">
-    <Grid Width="350" Height="350" Background="#dd655D5D" >
+    <Grid Width="350" Height="350" Background="#FF6F6F6F" >
         <Button Content="Options" Height="31" HorizontalAlignment="Center" Margin="0,40,0,0" Name="btnOptions" VerticalAlignment="Top" Width="84" FontFamily="Bauhaus 93" Click="btnOptions_Click" />
         <Button Content="Main Menu" Height="31" HorizontalAlignment="Center" Margin="0,90,0,0" Name="btnMainMenu" VerticalAlignment="Top" Width="84" FontFamily="Bauhaus 93" Click="btnMainMenu_Click" />
         <Button Content="Exit Game" Height="31" HorizontalAlignment="Center" Margin="0,140,0,0" Name="btnExit" VerticalAlignment="Top" Width="84" Click="btnExit_Click" FontFamily="Bauhaus 93" />

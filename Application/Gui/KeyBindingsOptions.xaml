@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" Name="keyBindingsMenu" Width="350" Height="350" BorderBrush="Black" BorderThickness="1" KeyDown="Grid_KeyDown">
 
-    <Grid Width="350" Height="350" Background="#dd655D5D">
+    <Grid Width="350" Height="350" Background="#FF6F6F6F">
         <Grid Width="310" Height="320" KeyDown="Grid_KeyDown" Margin="15" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="25" />

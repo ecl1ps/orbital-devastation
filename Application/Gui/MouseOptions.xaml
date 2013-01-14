@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" Name="mouseMenu" Width="350" Height="350" BorderBrush="Black" BorderThickness="1">
-    
-    <Grid Width="350" Height="350" Background="#dd655D5D">
+
+    <Grid Width="350" Height="350" Background="#FF6F6F6F">
         <Label Height="25" Width="100" FontFamily="Bauhaus 93" Content="Cursor icon" Margin="12,65,238,261" />
         <ToggleButton Name="MouseIcon1" Height="25" Width="25" Margin="0,68,126,255" HorizontalAlignment="Right" Click="MouseIcon1_Click">
             <Image Source="pack://application:,,,/resources/images/mouse/targeting_icon2.png" /> 

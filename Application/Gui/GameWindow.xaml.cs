@@ -101,10 +101,10 @@ namespace Orbit.Gui
             // ale hodnoty, se kterymi se pocita, musi byt zmensene na velikost osahu okna (okno: 1020*740, obsah okna: 1000*700)
             // pokud nema okno listu s krizkem, tak je potreba okno nastavit mensim a misto 40 bodu listy pouzit 14
             double xScale = (ActualWidth - 2) / 1000f;
-            double yScale = (ActualHeight - 17) / 700f;
+            double yScale = (ActualHeight - 12) / 700f;
 
-            ScaleValueX = (double)OnCoerceScaleValue(mainContainerGrid, xScale);
-            ScaleValueY = (double)OnCoerceScaleValue(mainContainerGrid, yScale);
+            ScaleValueX = (double)OnCoerceScaleValue(contentGrid, xScale);
+            ScaleValueY = (double)OnCoerceScaleValue(contentGrid, yScale);
         }
 
         private void OnClose(object sender, System.ComponentModel.CancelEventArgs e)

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              BorderBrush="Black" BorderThickness="1" Name="colorPicker">
-    <Grid Width="350" Height="350" Background="#dd655D5D">
+    <Grid Width="350" Height="350" Background="#FF6F6F6F">
         <ScrollViewer Height="150" Width="256" Margin="0,30,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
             <WrapPanel Width="240" Name="spColors" Orientation="Horizontal" Background="#DD585454" />
         </ScrollViewer>
