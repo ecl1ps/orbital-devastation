@@ -107,8 +107,8 @@ namespace Orbit.Core.Server
             p.Data.SpecialColor = friend != null ? friend.Data.PlayerColor : p.Data.PlayerColor;
 
             p.Data.MiningModuleStartPos = new Vector(
-                serverMgr.GetRandomGenerator().Next(15, (int)SharedDef.LOWER_ORBIT_AREA.Width - 45),
-                serverMgr.GetRandomGenerator().Next(15, (int)SharedDef.LOWER_ORBIT_AREA.Height - 45));
+                serverMgr.GetRandomGenerator().Next(0, (int)SharedDef.VIEW_PORT_SIZE.Width - 30),
+                serverMgr.GetRandomGenerator().Next((int)SharedDef.LOWER_ORBIT_AREA.Top + 60, (int)PlayerBaseLocation.GetBaseLocation(PlayerPosition.LEFT).Top - 100));
         }
 
         private void CreateNewLevel()
