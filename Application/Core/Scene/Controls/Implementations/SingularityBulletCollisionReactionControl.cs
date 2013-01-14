@@ -30,6 +30,10 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (!(other is Asteroid) && !(other is MiningModule))
                 return false;
 
+            // vypnuti friendly fire
+            if (other is MiningModule && (other as MiningModule).Owner.IsFriendOf(bullet.Owner))
+                return false;
+
             // nebude hitovat asteroidy, ktere jsou tazeny hookem, ale zaroven to zamezi hitovani vsech disabled objektu
             if (!other.Enabled)
                 return false;

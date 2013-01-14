@@ -113,6 +113,7 @@ namespace Orbit.Core.Players
 
             LobbyReady = false;
             StartReady = false;
+            FriendlyPlayerId = 0;
         }
 
         public void WriteObject(NetOutgoingMessage msg)

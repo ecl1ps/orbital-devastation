@@ -289,16 +289,6 @@ namespace Orbit.Core.Players
             return Data.Id;
         }
 
-        public bool IsActivePlayer()
-        {
-            return Data.Active;
-        }
-
-        public bool IsCurrentPlayer()
-        {
-            return GetId() == SceneMgr.GetCurrentPlayer().GetId();
-        }
-
         public static string GenerateNewHashId(string name)
         {
             string value = name + DateTime.Now;
@@ -313,14 +303,19 @@ namespace Orbit.Core.Players
             return sb.ToString();
         }
 
-        public bool IsOnlineOrBot()
-        {
-            return (Data.PlayerType == PlayerType.BOT) || (Connection != null && (Connection.Status == NetConnectionStatus.Connected || Connection.Status == NetConnectionStatus.RespondedAwaitingApproval));
-        }
-
         public Rect GetBaseLocation()
         {
             return PlayerBaseLocation.GetBaseLocation(Data.PlayerPosition);
+        }
+
+        public bool IsActivePlayer()
+        {
+            return Data.Active;
+        }
+
+        public bool IsCurrentPlayer()
+        {
+            return GetId() == SceneMgr.GetCurrentPlayer().GetId();
         }
 
         public bool IsBot()
@@ -331,6 +326,16 @@ namespace Orbit.Core.Players
         public bool IsCurrentPlayerOrBot()
         {
             return IsCurrentPlayer() || IsBot();
+        }
+
+        public bool IsFriendOf(Player p)
+        {
+            return Data.FriendlyPlayerId == p.GetId();
+        }
+
+        public bool IsOnlineOrBot()
+        {
+            return IsBot() || (Connection != null && (Connection.Status == NetConnectionStatus.Connected || Connection.Status == NetConnectionStatus.RespondedAwaitingApproval));
         }
 
         public List<ISpecialAction> GetActions<T>(SceneMgr mgr)
