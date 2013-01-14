@@ -445,7 +445,7 @@ namespace Orbit.Core.Helpers
         public static MiningModuleIntegrityBar CreateMiningModuleIntegrityBar(SceneMgr mgr, MiningModule module, Player owner)
         {
             MiningModuleIntegrityBar arc = new MiningModuleIntegrityBar(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
-            arc.Color = owner.GetPlayerColor();
+            arc.Color = owner.Data.SpecialColor;
             arc.Radius = module.Radius + 5;
 
             CenterCloneControl pControl = new CenterCloneControl(module);

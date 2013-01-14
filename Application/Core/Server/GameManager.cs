@@ -94,14 +94,18 @@ namespace Orbit.Core.Server
             if (plr2 != null)
                 plr2.Data.PlayerPosition = firstPlayerPosition == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
 
-            List<Player> spectators = new List<Player>();
             foreach (Player p in players)
-                    GenerateRandomMiningModulePosition(p);
-                    
+                GenerateMiningModulePositionAndColor(p);
         }
 
-        private void GenerateRandomMiningModulePosition(Player p)
+        private void GenerateMiningModulePositionAndColor(Player p)
         {
+            if (p.IsActivePlayer())
+                return;
+
+            Player friend = players.Find(other => other.GetId() == p.Data.FriendlyPlayerId);
+            p.Data.SpecialColor = friend != null ? friend.Data.PlayerColor : p.Data.PlayerColor;
+
             p.Data.MiningModuleStartPos = new Vector(
                 serverMgr.GetRandomGenerator().Next(15, (int)SharedDef.LOWER_ORBIT_AREA.Width - 45),
                 serverMgr.GetRandomGenerator().Next(15, (int)SharedDef.LOWER_ORBIT_AREA.Height - 45));

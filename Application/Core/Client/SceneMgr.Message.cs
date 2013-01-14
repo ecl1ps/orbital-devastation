@@ -244,9 +244,6 @@ namespace Orbit.Core.Client
             AlertMessageMgr.InitElement();
             App.Instance.SetGameStarted(true);
 
-            if (currentPlayer.IsActivePlayer())
-                ColorizeSpectators(players.FindAll(p => !p.IsActivePlayer()), leftPlr, rightPlr);
-
             foreach (Player p in players)
                 CreateActiveObjectsOfPlayer(p);
 
@@ -280,25 +277,6 @@ namespace Orbit.Core.Client
             Application.Current.Dispatcher.BeginInvoke(new Action(() => {
                 App.Instance.FocusWindow();
             }));
-
-#if !DEBUG
-            // TODO: prehrat zvuk misto pipnuti
-            Console.Beep(300, 200);
-#endif
-        }
-
-        private void ColorizeSpectators(List<Player> spectators, Player p1, Player p2)
-        {
-            if (p1 == null || p2 == null)
-                return;
-
-            spectators.ForEach(p =>
-            {
-                if (p.Data.FriendlyPlayerId == p1.GetId())
-                    p.Data.PlayerColor = p1.GetPlayerColor();
-                else if (p.Data.FriendlyPlayerId == p2.GetId())
-                    p.Data.PlayerColor = p2.GetPlayerColor();
-            });
         }
 
         private void ReceivedPlayerReconnectedMsg(NetIncomingMessage msg)

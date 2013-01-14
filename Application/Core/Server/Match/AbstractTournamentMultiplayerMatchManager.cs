@@ -114,16 +114,22 @@ namespace Orbit.Core.Server.Match
                     {
                         //spectatorovi vejs (ma vetsi score) priradime slabsiho hrace
                         spectators[i].Data.FriendlyPlayerId = weaker.GetId();
+                        weaker.Data.FriendlyPlayerId = spectators[i].GetId();
                         spectators[i + 1].Data.FriendlyPlayerId = stronger.GetId();
+                        stronger.Data.FriendlyPlayerId = spectators[i + 1].GetId();
                     }
                 }
                 //lichy pocet = nejlepsi spectator bude solo
                 else
                 {
+                    spectators[0].Data.FriendlyPlayerId = 0;
+
                     for (int i = 1; i < spectators.Count; i += 2)
                     {
                         spectators[i].Data.FriendlyPlayerId = weaker.GetId();
+                        weaker.Data.FriendlyPlayerId = spectators[i].GetId();
                         spectators[i + 1].Data.FriendlyPlayerId = stronger.GetId();
+                        stronger.Data.FriendlyPlayerId = spectators[i + 1].GetId();
                     }
                 }
             }

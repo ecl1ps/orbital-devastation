@@ -165,7 +165,7 @@ namespace Orbit.Core.Players
 
             Data.BaseIntegrity = amount;
                 
-            if(diff > 0)
+            if (diff > 0)
                 Statistics.Healed += diff;
 
             if (Baze != null)

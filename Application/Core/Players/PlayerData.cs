@@ -24,6 +24,7 @@ namespace Orbit.Core.Players
         public int Id { get; set; }
         public string HashId { get; set; }
         public string Name { get; set; }
+        public Color SpecialColor { get; set; }
         public Color PlayerColor { get; set; }
         public PlayerType PlayerType { get; set; }
         public BotType BotType { get; set; }
@@ -121,6 +122,7 @@ namespace Orbit.Core.Players
             msg.Write(Id);
             msg.Write(HashId);
             msg.Write(Name);
+            msg.Write(SpecialColor);
             msg.Write(PlayerColor);
             msg.Write((byte)PlayerType);
             msg.Write((byte)BotType);
@@ -166,6 +168,7 @@ namespace Orbit.Core.Players
             Id = msg.ReadInt32();
             HashId = msg.ReadString();
             Name = msg.ReadString();
+            SpecialColor = msg.ReadColor();
             PlayerColor = msg.ReadColor();
             PlayerType = (PlayerType)msg.ReadByte();
             BotType = (BotType)msg.ReadByte();
