@@ -32,7 +32,7 @@ namespace Orbit.Gui
             if (withoutReadyIndicator)
                 readyState.Visibility = Visibility.Hidden;
             else if (data.Leader)
-                readyState.Fill = new SolidColorBrush(Color.FromRgb(0x37, 0x00, 0xC8));
+                readyState.Fill = new SolidColorBrush(Color.FromRgb(0x10, 0x00, 0xef));
             else if (data.Ready)
                 readyState.Fill = new SolidColorBrush(Color.FromRgb(0x00, 0xC0, 0x00));
             else

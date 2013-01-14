@@ -634,6 +634,7 @@ namespace Orbit.Core.Client
         public void PlayerQuitGame()
         {
             playerQuit = true;
+            SendChatMessage(GetCurrentPlayer().Data.Name + " left the lobby", true);
             serverConnection.Disconnect("Quit");
         }
 
@@ -741,6 +742,7 @@ namespace Orbit.Core.Client
                     lobby.UpdateTournamentSettings(lastTournamentSettings);
             }));
 
+            SendChatMessage(GetCurrentPlayer().Data.Name + " joined the lobby");
             SendPlayerDataRequestMessage();
             
             if (currentPlayer.Data.LobbyLeader)
@@ -778,8 +780,10 @@ namespace Orbit.Core.Client
             if (leaver == null)
                 return;
 
-            string text = leaver.Data.Name + " left the game!";
-            CreateTextMessage(text);
+            if (GameWindowState == WindowState.IN_LOBBY)
+                ShowChatMessage(leaver.Data.Name + " left the lobby");
+            else
+                CreateTextMessage(leaver.Data.Name + " left the game!");
         }
 
         public void Invoke(Action a)
@@ -865,11 +869,13 @@ namespace Orbit.Core.Client
             return temp;
         }
 
-        public void SendChatMessage(string message)
+        public void SendChatMessage(string message, bool withoutPlayerName = false)
         {
             NetOutgoingMessage msg = CreateNetMessage();
             msg.Write((int)PacketType.CHAT_MESSAGE);
-            msg.Write(currentPlayer.Data.Name + ": " + message);
+            if (!withoutPlayerName)
+                message = currentPlayer.Data.Name + ": " + message;
+            msg.Write(message);
             SendMessage(msg);
         }
 

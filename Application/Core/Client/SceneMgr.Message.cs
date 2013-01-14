@@ -62,6 +62,7 @@ namespace Orbit.Core.Client
                         App.Instance.CreateLobbyGui(false);
                     }));
                     SendTournamentSettingsRequest();
+                    SendChatMessage(GetCurrentPlayer().Data.Name + " joined the lobby", true);
                 }
             }
 
