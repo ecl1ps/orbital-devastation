@@ -33,8 +33,8 @@ namespace Orbit.Core
             defaults.Add(PropertyKey.STATIC_MOUSE_CURSOR, "pack://application:,,,/resources/images/mouse/targeting_icon2.png");
             defaults.Add(PropertyKey.STATIC_MOUSE_SENSITIVITY, "1");
             defaults.Add(PropertyKey.MUSIC_ENABLED, true.ToString());
-            defaults.Add(PropertyKey.MUSIC_VOLUME, "0,3");
-            defaults.Add(PropertyKey.SOUNDS_VOLUME, "0,2");
+            defaults.Add(PropertyKey.MUSIC_VOLUME, "0,2");
+            defaults.Add(PropertyKey.SOUNDS_VOLUME, "0,1");
             defaults.Add(PropertyKey.USED_SERVERS, "");
             defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO1, "0");
             defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO2, "0");

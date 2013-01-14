@@ -141,7 +141,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             events.AddEvent(1, new Event(SharedDef.MINE_LIFE_TIME, EventType.ONE_TIME, new Action(() => { Die(); })));
 
-            SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_EXPLOSION);
+            //SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_EXPLOSION);
 
             IMovementControl c = me.GetControlOfType<IMovementControl>();
             if (c != null)

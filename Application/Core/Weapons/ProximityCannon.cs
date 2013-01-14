@@ -53,7 +53,7 @@ namespace Orbit.Core.Weapons
             {
                 SpawnBullet(point);
                 ReloadTime = Owner.Data.BulletCooldown;
-                SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_SHOOT);
+                //SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_SHOOT);
                 Owner.Statistics.BulletFired++;
             }
         }

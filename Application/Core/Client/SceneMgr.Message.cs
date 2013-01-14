@@ -509,7 +509,7 @@ namespace Orbit.Core.Client
                     control.Speed = speed;
             }
 
-            SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_EXPLOSION);
+            //SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_EXPLOSION);
         }
 
         private void ReceivedStaticFieldAction(NetIncomingMessage msg)
@@ -599,7 +599,7 @@ namespace Orbit.Core.Client
             DelayedAttachToScene(s);
             SyncReceivedObject(s, msg);
 
-            SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_SHOOT);
+            //SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_SHOOT);
         }
 
         private void ReceivedNewSingularityMineMsg(NetIncomingMessage msg)

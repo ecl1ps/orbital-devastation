@@ -136,6 +136,9 @@ namespace Orbit.Core
                             list[k] = value;
                         else
                             list.Add(k, value);
+
+                        if (k == PropertyKey.PLAYER_NAME && value.Length > 10)
+                            Reload("", GameProperties.GetDefaultConfigValues());
                     }
                     catch { }
                 }
