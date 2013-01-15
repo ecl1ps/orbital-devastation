@@ -603,7 +603,10 @@ namespace Orbit.Core.Client
             players.ForEach(p => p.Statistics.GameEnded = true);
 
             if (endType == GameEnd.LEFT_GAME)
+            {
                 PlayerLeft(plr);
+                return;
+            }
             else if (endType == GameEnd.SERVER_DISCONNECTED)
                 Disconnected();
 
