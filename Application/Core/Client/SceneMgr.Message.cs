@@ -129,6 +129,7 @@ namespace Orbit.Core.Client
                     players.Add(plr);
 
                     plr.Data.ReadObject(msg);
+                    plr.Statistics.ReadObject(msg);
 
                     if (plr.Data.PlayerType == PlayerType.BOT)
                         CreateAndAddBot(plr);
