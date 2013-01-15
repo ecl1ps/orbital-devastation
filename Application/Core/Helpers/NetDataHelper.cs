@@ -840,6 +840,7 @@ namespace Orbit.Core.Helpers
             {
                 stat = new Stat();
                 stat.ReadObject(msg);
+                temp.Add(stat);
             }
 
             return temp;
