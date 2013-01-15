@@ -137,8 +137,12 @@ namespace Orbit.Core.Client
                             new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
                             FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
                 }
-                else // hrace uz zname, ale mohl se zmenit jeho stav na active a take se mohly zmenit dalsi player data
+                else
+                {
+                    // hrace uz zname, ale mohl se zmenit jeho stav na active a take se mohly zmenit dalsi player data
                     plr.Data.ReadObject(msg);
+                    plr.Statistics.ReadObject(msg);
+                }
 
                 newPlrs.Add(plr.GetId());
             }
@@ -535,6 +539,7 @@ namespace Orbit.Core.Client
             scoreMsg.Write((int)PacketType.SCORE_QUERY_RESPONSE);
             scoreMsg.Write(currentPlayer.GetId());
             scoreMsg.Write(currentPlayer.Data.Score);
+            currentPlayer.Statistics.WriteObject(scoreMsg);
             SendMessage(scoreMsg);
         }
 

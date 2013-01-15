@@ -44,6 +44,17 @@ namespace Orbit.Core.Helpers
             return box;
         }
 
+        public static StatisticsTabbedPanel CreateStatisticsTabbedPanel(SceneMgr mgr)
+        {
+            StatisticsTabbedPanel panel = new StatisticsTabbedPanel();
+
+            List<Player> players = mgr.GetPlayers();
+
+            players.ForEach(player => panel.AddItem(CreatePlayerStatsUC(mgr, player, player.IsActivePlayer(), false), player.Data.Name));
+
+            return panel;
+        }
+
         public static EndGameStats CreateAndAddPlayerStatsUc(SceneMgr mgr, Player owner, bool isPlayer, Vector position)
         {
             EndGameStats stats = CreatePlayerStatsUC(mgr, owner, isPlayer, true);

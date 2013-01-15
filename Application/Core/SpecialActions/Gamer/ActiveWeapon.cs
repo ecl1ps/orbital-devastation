@@ -14,6 +14,12 @@ namespace Orbit.Core.SpecialActions.Gamer
     {
         private IActivableWeapon weapon;
 
+        public ActiveWeapon() : base(null, null)
+        {
+            Cost = 0;
+            BackgroundColor = Colors.PaleTurquoise;
+        }
+
         public ActiveWeapon(IActivableWeapon weapon)
             : base(weapon.SceneMgr, weapon.Owner)
         {
@@ -37,6 +43,18 @@ namespace Orbit.Core.SpecialActions.Gamer
         public override bool IsReady()
         {
             return !IsOnCooldown() && weapon.IsActivableReady();
+        }
+
+        public override void ReadObject(Lidgren.Network.NetIncomingMessage msg)
+        {
+            base.ReadObject(msg);
+            Name = msg.ReadString();
+        }
+
+        public override void WriteObject(Lidgren.Network.NetOutgoingMessage msg)
+        {
+            base.WriteObject(msg);
+            msg.Write(Name);
         }
     }
 }

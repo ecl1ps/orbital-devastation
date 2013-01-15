@@ -371,7 +371,7 @@ namespace Orbit.Gui
 
         private void btnStats_Click(object sender, RoutedEventArgs e)
         {
-            EndGameStats stats = GuiObjectFactory.CreatePlayerStatsUC(App.Instance.GetSceneMgr(), App.Instance.GetSceneMgr().GetCurrentPlayer(), App.Instance.GetSceneMgr().GetCurrentPlayer().IsActivePlayer(), false);
+            StatisticsTabbedPanel stats = GuiObjectFactory.CreateStatisticsTabbedPanel(App.Instance.GetSceneMgr());
             App.Instance.AddMenu(stats);
         }
     }

@@ -82,6 +82,7 @@ namespace Orbit.Core.Server
 
                 outmsg.Write(plr.GetId());
                 plr.Data.WriteObject(outmsg);
+                plr.Statistics.WriteObject(outmsg);
             }
 
             return outmsg;
@@ -103,6 +104,7 @@ namespace Orbit.Core.Server
 
             Player p = GetPlayer(msg.ReadInt32());
             p.Data.Score = msg.ReadInt32();
+            p.Statistics.ReadObject(msg);
 
             if (!playersRespondedScore.Contains(p.GetId()))
                 playersRespondedScore.Add(p.GetId());

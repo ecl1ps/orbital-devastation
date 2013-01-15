@@ -17,6 +17,14 @@ namespace Orbit.Core.SpecialActions.Gamer
     {
         private IWeapon currentWeapon;
 
+        public WeaponUpgrade()
+            : base(null, null)
+        {
+            ImageSource = "pack://application:,,,/resources/images/icons/upgrade.png";
+            BackgroundColor = Colors.AntiqueWhite;
+            Cooldown = 0;
+        }
+
         public WeaponUpgrade(IWeapon weapon) : base(weapon.SceneMgr, weapon.Owner)
         {
             LoadWeapon(weapon);
@@ -105,6 +113,18 @@ namespace Orbit.Core.SpecialActions.Gamer
         public IWeapon GetWeapon()
         {
             return currentWeapon;
+        }
+
+        public override void ReadObject(NetIncomingMessage msg)
+        {
+            base.ReadObject(msg);
+            Name = msg.ReadString();
+        }
+
+        public override void WriteObject(NetOutgoingMessage msg)
+        {
+            base.WriteObject(msg);
+            msg.Write(Name);
         }
     }
 }

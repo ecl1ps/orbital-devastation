@@ -790,9 +790,9 @@ namespace Orbit.Core.Helpers
             if (hash == typeof(HealAction).GUID.GetHashCode())
                 action = new HealAction(null, mgr, null);
             else if (hash == typeof(ActiveWeapon).GUID.GetHashCode())
-                action = new ActiveWeapon(null);
+                action = new ActiveWeapon();
             else if (hash == typeof(WeaponUpgrade).GUID.GetHashCode())
-                action = new WeaponUpgrade(null);
+                action = new WeaponUpgrade();
             else if (hash == typeof(AsteroidDamage).GUID.GetHashCode())
                 action = new AsteroidDamage(mgr, null);
             else if (hash == typeof(AsteroidGrowth).GUID.GetHashCode())

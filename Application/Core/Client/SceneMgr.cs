@@ -508,6 +508,11 @@ namespace Orbit.Core.Client
             return players.Find(p => p.GetId() == id);
         }
 
+        public List<Player> GetPlayers()
+        {
+            return players;
+        }
+
         public void SetGameVisualArea(GameVisualArea gva)
         {
             area = gva;

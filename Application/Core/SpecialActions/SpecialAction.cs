@@ -75,9 +75,8 @@ namespace Orbit.Core.SpecialActions
             shared.Remove(a);
         }
 
-        public void WriteObject(NetOutgoingMessage msg)
+        public virtual void WriteObject(NetOutgoingMessage msg)
         {
-            msg.Write(Owner.GetId());
             msg.Write(Name);
             msg.Write(ImageSource);
             msg.Write((int)Type);
@@ -86,9 +85,8 @@ namespace Orbit.Core.SpecialActions
             msg.Write(BackgroundColor);
         }
 
-        public void ReadObject(NetIncomingMessage msg)
+        public virtual void ReadObject(NetIncomingMessage msg)
         {
-            Owner = SceneMgr.GetPlayer(msg.ReadInt32());
             Name = msg.ReadString();
             ImageSource = msg.ReadString();
             Type = (SpecialActionType)msg.ReadInt32();
