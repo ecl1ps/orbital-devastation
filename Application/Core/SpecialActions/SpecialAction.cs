@@ -24,7 +24,7 @@ namespace Orbit.Core.SpecialActions
         public float Cooldown { get; set; }
         public Color BackgroundColor { get; set; }
 
-        private List<ISpecialAction> shared;
+        protected List<ISpecialAction> shared;
 
         public SpecialAction(SceneMgr mgr, Player owner, params ISpecialAction[] sharedActions)
         {

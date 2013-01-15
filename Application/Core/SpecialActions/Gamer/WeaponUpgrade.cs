@@ -25,6 +25,15 @@ namespace Orbit.Core.SpecialActions.Gamer
             Cooldown = 0;
         }
 
+        public WeaponUpgrade(WeaponUpgrade upgrade) : base(upgrade.SceneMgr, upgrade.Owner)
+        {
+            ImageSource = upgrade.ImageSource;
+            BackgroundColor = upgrade.BackgroundColor;
+            Cooldown = upgrade.Cooldown;
+
+            LoadWeapon(upgrade.GetWeapon());
+        }
+
         public WeaponUpgrade(IWeapon weapon) : base(weapon.SceneMgr, weapon.Owner)
         {
             LoadWeapon(weapon);
@@ -54,7 +63,9 @@ namespace Orbit.Core.SpecialActions.Gamer
         {
             if (IsReady())
             {
-                base.StartAction();
+                StartCoolDown();
+                Owner.Statistics.Actions.Add(new WeaponUpgrade(this));
+                shared.ForEach(a => a.StartCoolDown());
                 UpgradeWeapon();
                 LoadActivableActionIfAvailable();
             }
