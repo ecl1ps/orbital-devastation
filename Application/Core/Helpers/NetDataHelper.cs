@@ -788,7 +788,7 @@ namespace Orbit.Core.Helpers
             ISpecialAction action = null;
             int hash = msg.ReadInt32();
             if (hash == typeof(HealAction).GUID.GetHashCode())
-                action = new HealAction(null, mgr, null);
+                action = new HealAction();
             else if (hash == typeof(ActiveWeapon).GUID.GetHashCode())
                 action = new ActiveWeapon();
             else if (hash == typeof(WeaponUpgrade).GUID.GetHashCode())

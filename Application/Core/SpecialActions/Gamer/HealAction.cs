@@ -13,6 +13,15 @@ namespace Orbit.Core.SpecialActions.Gamer
     {
         private IHealingKit healingKit;
 
+        public HealAction()
+            : base(null, null)
+        {
+            Name = "Repair base";
+            ImageSource = "pack://application:,,,/resources/images/icons/heal-icon.png";
+            BackgroundColor = Color.FromRgb(0xED, 0xFC, 0xE5);
+            Cooldown = 1; //sekunda
+        }
+
         public HealAction(IHealingKit healingKit, SceneMgr mgr, Player plr) : base(mgr, plr)
         {
             this.healingKit = healingKit;
