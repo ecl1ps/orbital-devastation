@@ -247,7 +247,8 @@ namespace Orbit.Core.Client
             foreach (Player p in players)
                 CreateActiveObjectsOfPlayer(p);
 
-            lastTournamentSettings.PlayedMatches++;
+            if (lastTournamentSettings != null)
+                lastTournamentSettings.PlayedMatches++;
 
             Invoke(new Action(() =>
             {
