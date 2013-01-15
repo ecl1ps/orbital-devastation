@@ -577,7 +577,12 @@ namespace Orbit.Core.Client
                 winner = plr;
             }
 
-            if (gameEnded)
+            if (gameEnded && endType == GameEnd.SERVER_DISCONNECTED && (plr == null || plr.Data.LobbyLeader))
+            {
+                lastGameEnd = endType;
+                return;
+            }
+            else if (gameEnded)
                 return;
 
             if (Application.Current != null)
