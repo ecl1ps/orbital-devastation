@@ -17,11 +17,10 @@ namespace Orbit.Core.Players.Input
     public class SpectatorInputMgr : AbstractInputMgr
     {
         private Player plr;
-        private SceneMgr mgr;
         private IControledDevice device;
         private MiningModuleControl miningControl;
 
-        public SpectatorInputMgr(Player p, SceneMgr sceneMgr, ISceneObject obj, ActionBarMgr actionMgr) : base(actionMgr)
+        public SpectatorInputMgr(Player p, SceneMgr sceneMgr, ISceneObject obj, ActionBarMgr actionMgr) : base(actionMgr, sceneMgr)
         {
             IControledDevice d = obj.GetControlOfType<IControledDevice>();
             MiningModuleControl mc = obj.GetControlOfType<MiningModuleControl>();
@@ -32,19 +31,15 @@ namespace Orbit.Core.Players.Input
                 throw new Exception("U must inicialize SpectatorInputManager with object containg IControledDevice control");
             
             plr = p;
-            mgr = sceneMgr;
             device = d;
             miningControl = mc;
         }
 
-        public override void OnCanvasClick(Point point, MouseButtonEventArgs e)
-        {
-            base.OnCanvasClick(point, e);
-        }
-
-
         public override void OnKeyEvent(KeyEventArgs e)
         {
+            if (sceneMgr.UserActionsDisabled)
+                return;
+
             base.OnKeyEvent(e);
             bool down = e.IsDown;
             if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_TOP)))

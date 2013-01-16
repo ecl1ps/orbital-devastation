@@ -16,6 +16,9 @@ namespace Orbit.Gui.ActionControllers
 
         public override void ActionClicked(ActionUC window)
         {
+            if (sceneMgr.UserActionsDisabled)
+                return;
+
             if (Action.IsReady())
                 Action.StartAction();
 

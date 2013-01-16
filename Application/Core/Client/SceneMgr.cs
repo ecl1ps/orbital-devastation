@@ -37,7 +37,7 @@ namespace Orbit.Core.Client
         public LevelEnvironment LevelEnv { get; set; }
         public AlertMessageManager AlertMessageMgr { get; set; }
         public WindowState GameWindowState { get { return gameWindowState; } set { gameWindowState = value; } }
-
+        public bool UserActionsDisabled { get { return userActionsDisabled; } }
         private volatile WindowState gameWindowState;
 
         private GameVisualArea area;

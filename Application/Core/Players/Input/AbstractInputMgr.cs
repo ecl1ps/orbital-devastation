@@ -3,21 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
+using Orbit.Core.Client;
 
 namespace Orbit.Core.Players.Input
 {
     public abstract class AbstractInputMgr : IInputMgr
     {
         protected ActionBarMgr actionBarMgr;
+        protected SceneMgr sceneMgr;
 
-        public AbstractInputMgr(ActionBarMgr mgr)
+        public AbstractInputMgr(ActionBarMgr actionBarMgr, SceneMgr sceneMgr)
         {
-            actionBarMgr = mgr;
+            this.actionBarMgr = actionBarMgr;
+            this.sceneMgr = sceneMgr;
         }
 
         public virtual void OnKeyEvent(System.Windows.Input.KeyEventArgs e)
         {
-            if (!e.IsDown)
+            if (!e.IsDown || sceneMgr.UserActionsDisabled)
                 return;
 
             if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_1)))

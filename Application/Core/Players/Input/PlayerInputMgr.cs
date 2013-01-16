@@ -11,16 +11,17 @@ namespace Orbit.Core.Players.Input
     public class PlayerInputMgr : AbstractInputMgr
     {
         private Player plr;
-        private SceneMgr mgr;
 
-        public PlayerInputMgr(Player p, SceneMgr sceneMgr, ActionBarMgr actionMgr) : base(actionMgr) 
+        public PlayerInputMgr(Player p, SceneMgr sceneMgr, ActionBarMgr actionMgr) : base(actionMgr, sceneMgr) 
         {
             plr = p;
-            mgr = sceneMgr;
         }
 
         public override void OnCanvasClick(Point point, MouseButtonEventArgs e)
         {
+            if (sceneMgr.UserActionsDisabled)
+                return;
+
             base.OnCanvasClick(point, e);
             if (e.ChangedButton == MouseButton.Left)
                 plr.Mine.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
