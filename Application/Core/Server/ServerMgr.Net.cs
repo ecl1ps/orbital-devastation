@@ -177,10 +177,20 @@ namespace Orbit.Core.Server
                     GetPlayer(msg.ReadInt32()).Data.PlayerColor = msg.ReadColor();
                     ForwardMessage(msg);
                     break;
+                case PacketType.PLAYER_KICK_REQUEST:
+                    ReceivedPlayerKickRequest(msg.ReadInt32());
+                    break;
                 default:
                     ForwardMessage(msg);
                     break;
             }
+        }
+
+        private void ReceivedPlayerKickRequest(int id)
+        {
+            Player p = GetPlayer(id);
+            if (p != null)
+                p.Connection.Disconnect("kicked");
         }
 
         private void SyncReceivedObject(ISceneObject o, NetIncomingMessage msg)

@@ -938,5 +938,17 @@ namespace Orbit.Core.Client
                     c.StartPullingObject(obj);
             }
         }
+
+        public void RequestKickPlayer(int playerId)
+        {
+            NetOutgoingMessage msg = CreateNetMessage();
+            msg.Write((int)PacketType.PLAYER_KICK_REQUEST);
+            msg.Write(playerId);
+            SendMessage(msg);
+
+            Player kicked = GetPlayer(playerId);
+            if (kicked != null)
+                SendChatMessage(kicked.Data.Name + " has been kicked by the leader", true);
+        }
     }
 }

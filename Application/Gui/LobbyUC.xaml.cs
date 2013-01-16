@@ -81,7 +81,6 @@ namespace Orbit.Gui
                     if (!i.IsDebug)
                         data.Add(new ComboData { Id = l, Name = i.Text });
 #endif
-
                 }
 
                 cbMap.ItemsSource = data;
@@ -236,7 +235,12 @@ namespace Orbit.Gui
         {
             // TODO: ted se jich vejde 6
             if (spPlayers.Children.Count < 6)
-                spPlayers.Children.Add(new LobbyPlayer(data));
+            {
+                LobbyPlayer p = new LobbyPlayer(data);
+                if (leader)
+                    p.EnableKickButton();
+                spPlayers.Children.Add(p);
+            }
         }
 
         private void btnLeave_Click(object sender, RoutedEventArgs e)

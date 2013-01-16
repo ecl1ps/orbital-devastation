@@ -13,6 +13,7 @@
             <Label Content="0" FontFamily="Bauhaus 93" FontSize="15" Height="30" HorizontalAlignment="Right" Margin="0,8,46,7" Name="lblScore" VerticalAlignment="Center" Width="68" />
             <Ellipse Height="10" HorizontalAlignment="Left" Margin="22,18,0,0" Name="readyState" Stroke="Black" VerticalAlignment="Top" Width="10" Fill="#FFC00000" StrokeThickness="2"/>
             <Border Width="30" Height="15" BorderThickness="2" Name="ColorBox" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="2" BorderBrush="black" Margin="173,15,0,0" Background="blue" MouseDown="ColorPick" />
+            <Image Name="btnKick" Width="20" Margin="478,0,22,0" Source="pack://application:,,,/resources/images/icons/kick_button_simple.png" MouseDown="btnKick_MouseDown" Visibility="Collapsed"></Image>
         </Grid>
     </Border>
 </UserControl>

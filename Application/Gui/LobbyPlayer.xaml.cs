@@ -20,6 +20,7 @@ namespace Orbit.Gui
     public partial class LobbyPlayer : UserControl
     {
         public int PlayerId { get; set; }
+        public bool currentPlayer;
 
         public LobbyPlayer()
         {
@@ -43,17 +44,24 @@ namespace Orbit.Gui
             lblScore.Content = data.Score;
             lblWins.Content = "Won/Played: " + data.Won + "/" + data.Played;
             ColorBox.Background = new SolidColorBrush(data.Color);
+            currentPlayer = data.CurrentPlayer;
         }
 
         private void ColorPick(object sender, MouseButtonEventArgs e)
         {
-            //TODO: zobrazit jen pokud hrac klikne na svou barvu - jinak to evokuje pocit, ze muze upravit barvu ostatnich hracu...
-            App.Instance.AddMenu(new ColorPickerUC());
+            if (currentPlayer)
+                App.Instance.AddMenu(new ColorPickerUC());
         }
 
-        private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        public void EnableKickButton()
         {
+            if (!currentPlayer)
+                btnKick.Visibility = Visibility.Visible;
+        }
 
+        private void btnKick_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            App.Instance.GetSceneMgr().Enqueue(new Action(() => App.Instance.GetSceneMgr().RequestKickPlayer(PlayerId)));
         }
     }
 
@@ -62,17 +70,19 @@ namespace Orbit.Gui
         public int Id { get; set; }
         public string Name { get; set; }
         public int Score { get; set; }
+        public bool CurrentPlayer { get; set; }
         public bool Leader { get; set; }
         public bool Ready { get; set; }
         public int Played { get; set; }
         public int Won { get; set; }
         public Color Color { get; set; }
 
-        public LobbyPlayerData(int id, string name, int score, bool leader, bool ready, int played, int won, Color c)
+        public LobbyPlayerData(int id, string name, int score, bool currentPlayer, bool leader, bool ready, int played, int won, Color c)
         {
             Id = id;
             Name = name;
             Score = score;
+            CurrentPlayer = currentPlayer;
             Leader = leader;
             Ready = ready;
             Played = played;

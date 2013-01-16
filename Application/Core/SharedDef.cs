@@ -186,6 +186,7 @@ namespace Orbit.Core
     {
         PLAYER_CONNECT,
         PLAYER_ID_HAIL,
+        PLAYER_KICK_REQUEST,
 
         TOURNAMENT_STARTING,
 
@@ -246,6 +247,5 @@ namespace Orbit.Core
         SPECTATOR_ACTION_START,
         PLAYER_SCORE_UPDATE,
         SHOW_ALLERT_MESSAGE,
-
     }    
 }
