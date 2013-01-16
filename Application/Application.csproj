@@ -335,6 +335,9 @@
     <Compile Include="Gui\GameUC.xaml.cs">
       <DependentUpon>GameUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\InfoUC.xaml.cs">
+      <DependentUpon>InfoUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\InteractivePanel\IActionOverview.cs" />
     <Compile Include="Gui\InteractivePanel\IInteractivePanel.cs" />
     <Compile Include="Gui\KeyBindingsOptions.xaml.cs">
@@ -477,6 +480,10 @@
     <Page Include="Gui\GameWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Gui\InfoUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\KeyBindingsOptions.xaml">
       <SubType>Designer</SubType>

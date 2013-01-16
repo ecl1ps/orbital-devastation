@@ -19,6 +19,7 @@ using Orbit.Core.AI;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Controls.Health.Implementations;
 using Orbit.Core.Scene.Controls.Health;
+using Orbit.Gui;
 
 namespace Orbit.Core.Client
 {
@@ -80,7 +81,7 @@ namespace Orbit.Core.Client
                         ProcessIncomingDataMessage(msg);
                         break;
                     case NetIncomingMessageType.StatusChanged:
-                        switch (msg.SenderConnection.Status)
+                        switch ((NetConnectionStatus)msg.ReadByte())
                         {
                             case NetConnectionStatus.None:
                             case NetConnectionStatus.InitiatedConnect:
@@ -91,6 +92,9 @@ namespace Orbit.Core.Client
                                 break;
                             case NetConnectionStatus.Disconnected:
                             case NetConnectionStatus.Disconnecting:
+                                string reason = msg.ReadString();
+                                if (reason == "kicked") // musi byt delayed - az v dalsim updatu - jinak zavreni oken premaze i info okno
+                                    Enqueue(new Action(() => Application.Current.Dispatcher.Invoke(new Action(() => App.Instance.AddMenu(new InfoUC("You have been kicked out of the server."))))));
                                 EndGame(null, GameEnd.SERVER_DISCONNECTED);
                                 break;
                         }

@@ -132,6 +132,7 @@ namespace Orbit
             catch (SocketException)
             {
                 ShowStartScreen();
+                AddMenu(new InfoUC("Your port is already in use. Server is probably already running on your machine."));
                 return false;
             }
 
