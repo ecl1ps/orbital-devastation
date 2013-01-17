@@ -17,6 +17,7 @@ using Orbit.Core.Scene.CollisionShapes;
 using Orbit.Core.Scene.Controls.Collisions.Implementations;
 using Orbit.Core.Scene.Controls.Health.Implementations;
 using Orbit.Core.Scene.Entities.Implementations.HeavyWeight;
+using Orbit.Core.Scene.Entities.HeavyWeight;
 
 namespace Orbit.Core.Helpers
 {

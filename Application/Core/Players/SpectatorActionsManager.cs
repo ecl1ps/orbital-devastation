@@ -9,6 +9,8 @@ using Orbit.Core.Scene.Controls.Implementations;
 using System.Windows.Media;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.Controls;
+using System.Windows.Media.Effects;
+using Orbit.Core.Scene.Entities.HeavyWeight;
 
 namespace Orbit.Core.Players
 {
@@ -90,7 +92,7 @@ namespace Orbit.Core.Players
         private void StartAnimation(Asteroid target, float time, Color color, bool towardsMe)
         {
             Line line = new Line(Owner.SceneMgr, IdMgr.GetNewId(Owner.GetId()), Owner.Device.Position, target.Position, color, 1);
-            Line strong = new Line(Owner.SceneMgr, IdMgr.GetNewId(Owner.GetId()), Owner.Device.Position, target.Position, color, 3);
+            HeavyweightLine strong = new HeavyweightLine(Owner.SceneMgr, IdMgr.GetNewId(Owner.GetId()), Owner.Device.Position, target.Position, color, 4);
 
             //OrbitEllipse s = SceneObjectFactory.CreateOrbitEllipse(Owner.SceneMgr, Owner.Device.Position, 3, 3, color);
 
@@ -116,7 +118,6 @@ namespace Orbit.Core.Players
             //tc.TravellingTime = time;
             //tc.LineToFollow = line;
 
-           
             line.AddControl(c);
             line.AddControl(new LimitedLifeControl(time));
             strong.AddControl(tc);

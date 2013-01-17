@@ -142,5 +142,20 @@ namespace Orbit.Core.Helpers
 
             return path;
         }
+
+        public static System.Windows.Shapes.Line CreateLineGeometry(Vector start, Vector end, Color color, int width)
+        {
+            System.Windows.Shapes.Line line = null;
+            
+            line = new System.Windows.Shapes.Line();
+            line.Stroke = new SolidColorBrush(color);
+            line.X1 = start.X;
+            line.Y1 = start.Y;
+            line.X2 = end.X;
+            line.Y2 = end.Y;
+            line.StrokeThickness = width;
+
+            return line;
+        }
     }
 }

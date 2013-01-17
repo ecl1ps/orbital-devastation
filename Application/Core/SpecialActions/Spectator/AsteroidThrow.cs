@@ -26,7 +26,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             //nastavime parametry
             this.Cooldown = 4; //sec
             this.CastingTime = 0.5f; //sec;
-            this.CastingColor = Colors.Yellow;
+            this.CastingColor = Colors.Orange;
             this.Range = new RangeGroup(new Range(AsteroidType.NORMAL, 1), new Range(AsteroidType.GOLDEN, 1), new Range(AsteroidType.UNSTABLE, 1), new Range(AsteroidType.SPAWNED, 2));
         }
 
