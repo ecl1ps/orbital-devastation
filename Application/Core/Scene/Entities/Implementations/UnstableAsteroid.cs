@@ -72,9 +72,12 @@ namespace Orbit.Core.Scene.Entities.Implementations
             else if (from is MiningModule)
                 Destroyer = (from as MiningModule).Owner.GetId();
 
-            base.TakeDamage(damage, from);
+            if (SceneMgr.GetCurrentPlayer().GetId() == Destroyer)
+                SceneMgr.FloatingTextMgr.AddFloatingText(damage, Center, FloatingTextManager.TIME_LENGTH_1, FloatingTextType.DAMAGE);
+
             DoRemoveMe();
-            SpawnSmallMeteors((int)(Radius * 0.7f));
+            if (Radius > SharedDef.ASTEROID_THRESHOLD_RADIUS)
+                SpawnSmallMeteors((int)(Radius * 0.5f));
         }
 
         /// <summary>
