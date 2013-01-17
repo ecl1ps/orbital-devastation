@@ -91,7 +91,7 @@
     </Reference>
     <Reference Include="Lidgren.Network, Version=2012.1.7.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\Lidgren.Network.dll</HintPath>
+      <HintPath>lib\Lidgren - debug\Lidgren.Network.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>lib\log4net.dll</HintPath>

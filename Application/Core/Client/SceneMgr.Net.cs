@@ -69,7 +69,7 @@ namespace Orbit.Core.Client
             // write external address of host to request introduction to
             IPEndPoint hostEp = new IPEndPoint(NetUtility.Resolve(serverAddress), SharedDef.PORT_NUMBER);
             om.Write(hostEp);
-            om.Write("mytoken");
+            om.Write("orbitalUb3rT00k3n");
 
             client.SendUnconnectedMessage(om, new IPEndPoint(NetUtility.Resolve(SharedDef.MASTER_SERVER_ADDRESS), SharedDef.MASTER_SERVER_PORT_NUMBER));
         }
@@ -402,7 +402,7 @@ namespace Orbit.Core.Client
 
         public void SendMessage(NetOutgoingMessage msg)
         {
-            if (serverConnection != null && serverConnection.Status != NetConnectionStatus.Connected)
+            if (serverConnection == null || serverConnection.Status != NetConnectionStatus.Connected)
                 pendingMessages.Enqueue(msg);
             else
                 client.SendMessage(msg, serverConnection, NetDeliveryMethod.ReliableOrdered);

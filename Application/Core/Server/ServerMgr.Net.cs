@@ -29,6 +29,7 @@ namespace Orbit.Core.Server
             NetPeerConfiguration conf = new NetPeerConfiguration("Orbit");
             conf.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
             conf.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
+            conf.EnableMessageType(NetIncomingMessageType.NatIntroductionSuccess);
             conf.Port = SharedDef.PORT_NUMBER;
 
 #if DEBUG
@@ -72,6 +73,10 @@ namespace Orbit.Core.Server
             {
                 switch (msg.MessageType)
                 {
+                    case NetIncomingMessageType.NatIntroductionSuccess:
+                        string token = msg.ReadString();
+                        Logger.Info("Nat introduction success to " + msg.SenderEndpoint + " token is: " + token);
+                        break;
                     case NetIncomingMessageType.VerboseDebugMessage:
                     case NetIncomingMessageType.DebugMessage:
                     case NetIncomingMessageType.WarningMessage:

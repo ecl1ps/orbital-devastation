@@ -58,8 +58,9 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Lidgren.Network">
-      <HintPath>..\Application\lib\Lidgren.Network.dll</HintPath>
+    <Reference Include="Lidgren.Network, Version=2012.1.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Application\lib\Lidgren - debug\Lidgren.Network.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\Application\lib\log4net.dll</HintPath>
