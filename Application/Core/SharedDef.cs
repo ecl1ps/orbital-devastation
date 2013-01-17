@@ -5,13 +5,21 @@ using Orbit.Core.Players;
 using Orbit.Core.Server.Level;
 namespace Orbit.Core
 {
-    class SharedDef
+    public class SharedDef
     {
         // Application
         public const long MINIMUM_UPDATE_TIME               = 17;
 
         public const int PORT_NUMBER                        = 40;
+        public const string LOCALHOST_ADDRESS               = "127.0.0.1";
 
+        // Master Server
+        public const int MASTER_SERVER_PORT_NUMBER          = 48888;
+        //public const string MASTER_SERVER_ADDRESS           = LOCALHOST_ADDRESS;
+        public const string MASTER_SERVER_ADDRESS           = "77.236.211.123";
+
+
+        // Score
         public const int VICTORY_SCORE_BONUS                = 2000;
         public const int LOOSE_SCORE_BONUS                  = 200;
 
@@ -44,9 +52,6 @@ namespace Orbit.Core
 
         public const int NEW_STAT_POWERUP_TIMER_MIN         = 2; // seconds
         public const int NEW_STAT_POWERUP_TIMER_MAX         = 4; // seconds
-
-        // pouzito pouze v SingularityControl
-        public const float MINE_INVISIBILITY_TIME           = 0.5f;
 
         public const float MINE_LIFE_TIME                   = 0.3f;
 
@@ -247,5 +252,17 @@ namespace Orbit.Core
         SPECTATOR_ACTION_START,
         PLAYER_SCORE_UPDATE,
         SHOW_ALLERT_MESSAGE,
-    }    
+    }
+
+    public enum MasterServerPacketType
+    {
+        REGISTER_TOURNAMENT,
+        UNREGISTER_TOURNAMENT,
+        REQUEST_TOURNAMENT_LIST,
+        RESPONSE_TOURNAMENT_LIST,
+        REQUEST_INTRODUCTION,
+
+        REQUEST_QUICK_MATCH,
+        UNREGISTER_HOST,
+    }
 }

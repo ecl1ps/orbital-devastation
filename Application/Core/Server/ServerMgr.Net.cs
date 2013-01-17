@@ -16,6 +16,7 @@ using Orbit.Core.Scene;
 using Orbit.Core;
 using Orbit.Core.Helpers;
 using Orbit.Core.Server.Match;
+using System.Net;
 
 namespace Orbit.Core.Server
 {
@@ -44,9 +45,21 @@ namespace Orbit.Core.Server
 #if VERBOSE
             conf.EnableMessageType(NetIncomingMessageType.VerboseDebugMessage);
 #endif
-
             server = new NetServer(conf);
             server.Start();
+            RegisterOnMasterServer();
+        }
+
+        public void RegisterOnMasterServer()
+        {
+            NetOutgoingMessage regMsg = server.CreateMessage();
+            regMsg.Write((byte)MasterServerPacketType.REGISTER_TOURNAMENT);
+            IPAddress mask;
+            IPAddress adr = NetUtility.GetMyAddress(out mask);
+            regMsg.Write(new IPEndPoint(adr, SharedDef.PORT_NUMBER));
+
+            Logger.Info("Sending registration to master server");
+            server.SendUnconnectedMessage(regMsg, NetUtility.Resolve(SharedDef.MASTER_SERVER_ADDRESS, SharedDef.MASTER_SERVER_PORT_NUMBER));
         }
 
         private void ProcessMessages()
@@ -67,7 +80,6 @@ namespace Orbit.Core.Server
                         break;
                     case NetIncomingMessageType.DiscoveryRequest:
                         NetOutgoingMessage response = server.CreateMessage();
-                        response.Write((byte)GameType);
 
                         // jmeno serveru
                         Application.Current.Dispatcher.Invoke(new Action(() =>

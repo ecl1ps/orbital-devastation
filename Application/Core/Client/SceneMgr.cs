@@ -76,7 +76,7 @@ namespace Orbit.Core.Client
             GameWindowState = WindowState.IN_MAIN_MENU;
         }
 
-        public void Init(Gametype gameType)
+        public void Init(Gametype gameType, bool requireNatIntroduction = false)
         {
             winner = null;
             GameType = gameType;
@@ -122,7 +122,10 @@ namespace Orbit.Core.Client
                 SetMainInfoText("Establishing connection...");
 
             InitNetwork();
-            ConnectToServer();
+            if (requireNatIntroduction)
+                RequestNATIntroduction();
+            else
+                ConnectToServer();
         }
 
         private void AttachStateManagers()

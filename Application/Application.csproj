@@ -145,7 +145,7 @@
     <Compile Include="Core\Helpers\HeavyweightGeometryFactory.cs" />
     <Compile Include="Core\Helpers\NetDataHelper.cs" />
     <Compile Include="Core\IUpdatable.cs" />
-    <Compile Include="Core\NetSearcher.cs" />
+    <Compile Include="Core\Net\NetSearcher.cs" />
     <Compile Include="Core\ObfuscationSymbols.cs" />
     <Compile Include="Core\Players\Input\AbstractInputMgr.cs" />
     <Compile Include="Core\Players\Input\SpectatorInputMgr.cs" />

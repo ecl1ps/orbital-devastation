@@ -16,6 +16,7 @@ using Orbit.Core;
 using System.Text.RegularExpressions;
 using Lidgren.Network;
 using System.Net;
+using Orbit.Core.Net;
 
 namespace Orbit.Gui
 {
@@ -57,6 +58,7 @@ namespace Orbit.Gui
 
             searchingThread = new Thread(new ThreadStart(searcher.Run));
             searchingThread.IsBackground = true;
+            searchingThread.Name = "NetSearcherThread";
             searchingThread.Start();
             searcher.StartNewSearch();
         }
@@ -86,7 +88,8 @@ namespace Orbit.Gui
                         SaveUsedServerAdresses();
                     }
                     App.Instance.CreateGameGui();
-                    App.Instance.ConnectToGame(ip.Trim());
+                    //App.Instance.ConnectToGame(ip.Trim());
+                    App.Instance.ConnectToGame(ip.Trim(), true);
                 }));
             }
         }

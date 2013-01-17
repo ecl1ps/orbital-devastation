@@ -20,6 +20,7 @@ using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Controls.Health.Implementations;
 using Orbit.Core.Scene.Controls.Health;
 using Orbit.Gui;
+using System.Net;
 
 namespace Orbit.Core.Client
 {
@@ -36,6 +37,7 @@ namespace Orbit.Core.Client
             pendingMessages = new Queue<NetOutgoingMessage>();
             NetPeerConfiguration conf = new NetPeerConfiguration("Orbit");
 
+            conf.EnableMessageType(NetIncomingMessageType.NatIntroductionSuccess);
 #if DEBUG
             /*conf.SimulatedMinimumLatency = 0.1f; // 100ms
             conf.SimulatedRandomLatency = 0.05f; // +- 50ms*/
@@ -53,6 +55,68 @@ namespace Orbit.Core.Client
 
             client = new NetClient(conf);
             client.Start();
+        }
+
+        public void RequestNATIntroduction()
+        {
+            NetOutgoingMessage om = client.CreateMessage();
+            om.Write((byte)MasterServerPacketType.REQUEST_INTRODUCTION);
+
+            // write internal ipendpoint
+            IPAddress mask;
+            om.Write(new IPEndPoint(NetUtility.GetMyAddress(out mask), client.Port));
+
+            // write external address of host to request introduction to
+            IPEndPoint hostEp = new IPEndPoint(NetUtility.Resolve(serverAddress), SharedDef.PORT_NUMBER);
+            om.Write(hostEp);
+            om.Write("mytoken");
+
+            client.SendUnconnectedMessage(om, new IPEndPoint(NetUtility.Resolve(SharedDef.MASTER_SERVER_ADDRESS), SharedDef.MASTER_SERVER_PORT_NUMBER));
+        }
+
+        private void ConnectToServer()
+        {
+            NetOutgoingMessage msg = client.CreateMessage();
+            msg.Write((int)PacketType.PLAYER_CONNECT);
+            msg.Write(GetCurrentPlayer().Data.Name);
+            msg.Write(GetCurrentPlayer().Data.HashId);
+            msg.Write(GetCurrentPlayer().Data.PlayerColor);
+
+            serverConnection = client.Connect(serverAddress, SharedDef.PORT_NUMBER, msg);
+        }
+
+        private void ClientConnectionConnected(NetIncomingMessage msg)
+        {
+            currentPlayer.Data.Id = msg.SenderConnection.RemoteHailMessage.ReadInt32();
+            // pokud uz takove jmeno na serveru existuje, tak obdrzime nove
+            currentPlayer.Data.Name = msg.SenderConnection.RemoteHailMessage.ReadString();
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                App.Instance.PlayerName = currentPlayer.Data.Name;
+            }));
+            // pokud je hra zakladana pres lobby, tak o tom musi vedet i klient, ktery ji nezakladal
+            Gametype serverType = (Gametype)msg.SenderConnection.RemoteHailMessage.ReadByte();
+            tournametRunnig = msg.SenderConnection.RemoteHailMessage.ReadBoolean();
+            if (GameType != Gametype.TOURNAMENT_GAME && serverType == Gametype.TOURNAMENT_GAME)
+            {
+                GameType = serverType;
+                if (!tournametRunnig)
+                {
+                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                    {
+                        App.Instance.CreateLobbyGui(false);
+                    }));
+                    SendTournamentSettingsRequest();
+                    SendChatMessage(GetCurrentPlayer().Data.Name + " joined the lobby", true);
+                }
+            }
+
+            while (pendingMessages.Count != 0)
+                SendMessage(pendingMessages.Dequeue());
+
+            Logger.Debug("LOGIN confirmed (id: " + IdMgr.GetHighId(GetCurrentPlayer().Data.Id) + ")");
+
+            SendPlayerDataRequestMessage();
         }
 
         private void ProcessMessages()
@@ -76,6 +140,11 @@ namespace Orbit.Core.Client
                     // If incoming message is Request for connection approval
                     // This is the very first packet/message that is sent from client
                     case NetIncomingMessageType.ConnectionApproval:                   
+                        break;
+                    case NetIncomingMessageType.NatIntroductionSuccess:
+                        string token = msg.ReadString();
+                        Logger.Info("Nat introduction success to " + msg.SenderEndpoint + " token is: " + token);
+                        ConnectToServer();
                         break;
                     case NetIncomingMessageType.Data:
                         ProcessIncomingDataMessage(msg);

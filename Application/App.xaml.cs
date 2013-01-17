@@ -21,6 +21,8 @@ using Orbit.Core.Server.Match;
 using Orbit.Core.Server.Level;
 using Orbit.Gui.Visuals;
 using System.Reflection;
+using System.Net;
+using Lidgren.Network;
 
 namespace Orbit
 {
@@ -143,10 +145,13 @@ namespace Orbit
             return true;
         }
 
-        private void StartGame(Gametype type)
+        private void StartGame(Gametype type, bool requireNatIntroduction = false)
         {
-            SoundManager.Instance.StopAllSounds();
-            SoundManager.Instance.StartPlayingInfinite(SharedDef.MUSIC_BACKGROUND_ACTION);
+            if (type != Gametype.TOURNAMENT_GAME)
+            {
+                SoundManager.Instance.StopAllSounds();
+                SoundManager.Instance.StartPlayingInfinite(SharedDef.MUSIC_BACKGROUND_ACTION);
+            }
 
             StartGameThread();
 
@@ -157,7 +162,7 @@ namespace Orbit
 
             sceneMgr.Enqueue(new Action(() =>
             {
-                sceneMgr.Init(type);
+                sceneMgr.Init(type, requireNatIntroduction);
             }));
         }
 
@@ -168,7 +173,7 @@ namespace Orbit
 
             hostedLastgame = true;
 
-            sceneMgr.SetRemoteServerAddress("127.0.0.1");
+            sceneMgr.SetRemoteServerAddress(SharedDef.LOCALHOST_ADDRESS);
 
             StartGame(Gametype.MULTIPLAYER_GAME);
 
@@ -186,7 +191,7 @@ namespace Orbit
             if (!StartLocalServer(Gametype.TOURNAMENT_GAME))
                 return;
 
-            sceneMgr.SetRemoteServerAddress("127.0.0.1");
+            sceneMgr.SetRemoteServerAddress(SharedDef.LOCALHOST_ADDRESS);
 
             StartGame(Gametype.TOURNAMENT_GAME);
 
@@ -236,12 +241,12 @@ namespace Orbit
             sceneMgr.GameWindowState = Orbit.Core.WindowState.IN_LOBBY;
         }
 
-        public void ConnectToGame(string serverAddress)
+        public void ConnectToGame(string serverAddress, bool remote = false)
         {
             hostedLastgame = false;
             lastServerAddress = serverAddress;
             sceneMgr.SetRemoteServerAddress(serverAddress);
-            StartGame(Gametype.MULTIPLAYER_GAME);
+            StartGame(Gametype.MULTIPLAYER_GAME, remote);
         }
 
         private void StartGameThread()
@@ -421,6 +426,6 @@ namespace Orbit
             ClearMenus();
             ClearWindows();
             mainWindow.mainGrid.Children.Add(window);
-        }           
+        }
     }
 }

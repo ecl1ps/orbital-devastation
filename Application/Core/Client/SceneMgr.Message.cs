@@ -29,51 +29,6 @@ namespace Orbit.Core.Client
 {
     public partial class SceneMgr
     {
-        private void ConnectToServer()
-        {
-            NetOutgoingMessage msg = client.CreateMessage();
-            msg.Write((int)PacketType.PLAYER_CONNECT);
-            msg.Write(GetCurrentPlayer().Data.Name);
-            msg.Write(GetCurrentPlayer().Data.HashId);
-            msg.Write(GetCurrentPlayer().Data.PlayerColor);
-
-            serverConnection = client.Connect(serverAddress, SharedDef.PORT_NUMBER, msg);
-        }
-
-        private void ClientConnectionConnected(NetIncomingMessage msg)
-        {
-            currentPlayer.Data.Id = msg.SenderConnection.RemoteHailMessage.ReadInt32();
-            // pokud uz takove jmeno na serveru existuje, tak obdrzime nove
-            currentPlayer.Data.Name = msg.SenderConnection.RemoteHailMessage.ReadString();
-            Application.Current.Dispatcher.Invoke(new Action(() =>
-            {
-                App.Instance.PlayerName = currentPlayer.Data.Name;
-            }));
-            // pokud je hra zakladana pres lobby, tak o tom musi vedet i klient, ktery ji nezakladal
-            Gametype serverType = (Gametype)msg.SenderConnection.RemoteHailMessage.ReadByte();
-            tournametRunnig = msg.SenderConnection.RemoteHailMessage.ReadBoolean();
-            if (GameType != Gametype.TOURNAMENT_GAME && serverType == Gametype.TOURNAMENT_GAME)
-            {
-                GameType = serverType;
-                if (!tournametRunnig)
-                {
-                    Application.Current.Dispatcher.Invoke(new Action(() =>
-                    {
-                        App.Instance.CreateLobbyGui(false);
-                    }));
-                    SendTournamentSettingsRequest();
-                    SendChatMessage(GetCurrentPlayer().Data.Name + " joined the lobby", true);
-                }
-            }
-
-            while (pendingMessages.Count != 0)
-                SendMessage(pendingMessages.Dequeue());
-
-            Logger.Debug("LOGIN confirmed (id: " + IdMgr.GetHighId(GetCurrentPlayer().Data.Id) + ")");
-
-            SendPlayerDataRequestMessage();
-        }
-
         private void SendTournamentSettingsRequest()
         {
             NetOutgoingMessage reqmsg = CreateNetMessage();
