@@ -128,6 +128,7 @@
     <Compile Include="Core\Client\GameStates\FloatingTextManager.cs" />
     <Compile Include="Core\Client\GameStates\LevelEnvironment.cs" />
     <Compile Include="Core\Client\GameStates\DelayedActionInvoker.cs" />
+    <Compile Include="Core\Players\SpectatorActionsManager.cs" />
     <Compile Include="Core\Players\StatisticsManager.cs" />
     <Compile Include="Core\Client\SceneMgr.Message.cs" />
     <Compile Include="Core\Client\Shaders\AlphaChannelEffect.cs" />
@@ -170,6 +171,7 @@
     <Compile Include="Core\Scene\Controls\Implementations\AsteroidFreezeControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ControlableMiningModuleControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DelayedActionInvokingControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\LineTravelingControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ShrinkingControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\FollowingControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ExcludingExplodingSingularityBulletControl.cs" />
@@ -202,6 +204,7 @@
     <Compile Include="Core\Scene\Controls\Implementations\StatPowerUpCollisionReactionControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\StretchingLineControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\TemporaryControlDisableControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\TimeStretchingControl.cs" />
     <Compile Include="Core\Scene\Controls\Unused\VectorLineObjectMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DroppingSingularityControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ExplodingSingularityBulletControl.cs" />

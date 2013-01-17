@@ -8,6 +8,7 @@ using Orbit.Core.Scene.Entities;
 using Lidgren.Network;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Entities.Implementations;
+using System.Windows.Media;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
@@ -22,10 +23,12 @@ namespace Orbit.Core.SpecialActions.Spectator
             
             //nastavime parametry
             this.Cooldown = 3; //sekundy
+            this.CastingTime = 0.5f;
+            this.CastingColor = Colors.Red;
             this.Range = new RangeGroup(new Range());
         }
 
-        protected override void StartAction(List<Asteroid> afflicted)
+        public override void StartAction(List<Asteroid> afflicted)
         {
             List<IDestroyable> temp = new List<IDestroyable>();
 

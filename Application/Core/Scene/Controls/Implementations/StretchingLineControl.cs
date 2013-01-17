@@ -33,7 +33,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                     Enabled = true;
             }
         }
-        private Line line;
+        protected Line line;
 
         protected override void InitControl(ISceneObject me)
         {
@@ -58,7 +58,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             UpdateLine();
         }
 
-        private void UpdateLine()
+        protected virtual void UpdateLine()
         {
             if (firstObj is Sphere)
                 line.Start = (FirstObj as Sphere).Center;

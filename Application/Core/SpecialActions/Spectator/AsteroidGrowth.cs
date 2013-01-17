@@ -7,6 +7,7 @@ using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Client.GameStates;
 using Lidgren.Network;
+using System.Windows.Media;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
@@ -21,10 +22,12 @@ namespace Orbit.Core.SpecialActions.Spectator
 
             //nastavime parametry
             this.Cooldown = 3; //sekundy
+            this.CastingTime = 0.5f;
+            this.CastingColor = Colors.Green;
             this.Range = new RangeGroup(new Range(AsteroidType.NORMAL, 2), new Range(AsteroidType.GOLDEN, 1), new Range(AsteroidType.UNSTABLE, 1), new Range(AsteroidType.SPAWNED, 1));
         }
 
-        protected override void  StartAction(List<Asteroid> afflicted)
+        public override void  StartAction(List<Asteroid> afflicted)
         {
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
             msg.Write((int)PacketType.OBJECTS_HEAL_AMOUNT);

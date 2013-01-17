@@ -459,10 +459,11 @@ namespace Orbit.Core.Helpers
             return arc;
         }
 
-        public static OrbitEllipse CreateOrbitEllipse(SceneMgr mgr, Vector position, float radiusX, float radiusY)
+        public static OrbitEllipse CreateOrbitEllipse(SceneMgr mgr, Vector position, float radiusX, float radiusY, Color color)
         {
             OrbitEllipse ellipse = new OrbitEllipse(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()), radiusX, radiusY);
             ellipse.Position = position;
+            ellipse.Color = color;
             ellipse.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(ellipse));
 
             return ellipse;

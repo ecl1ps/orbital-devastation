@@ -27,6 +27,7 @@ namespace Orbit.Core.Players
         public SceneMgr SceneMgr { get; set; }
         public PlayerData Data { get; set; }
         public StatisticsManager Statistics { get; set; }
+        public SpectatorActionsManager SpectatorActionMgr { get; set; }
         public NetConnection Connection { get; set; }
         public Base Baze  { get; set; }
         public MiningModule Device { get; set; }
@@ -88,6 +89,9 @@ namespace Orbit.Core.Players
             Shooting = false;
             Statistics = new StatisticsManager();
             Statistics.Owner = this;
+
+            SpectatorActionMgr = new SpectatorActionsManager();
+            SpectatorActionMgr.Owner = this;
         }
 
         public void SetGoldAndShow(int gold)
@@ -210,6 +214,7 @@ namespace Orbit.Core.Players
         public void Update(float tpf)
         {
             Statistics.Update(tpf);
+            SpectatorActionMgr.Update(tpf);
             if (!informedProtecting)
             {
                 informedProtecting = true;

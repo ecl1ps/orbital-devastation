@@ -6,6 +6,7 @@ using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Entities.Implementations;
 using System.Windows;
 using Orbit.Core.Helpers;
+using System.Windows.Media;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -37,7 +38,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         private void SpawnNewEllipse()
         {
-            OrbitEllipse ellipse = SceneObjectFactory.CreateOrbitEllipse(me.SceneMgr, line.End, 2.5f, 2.5f);
+            OrbitEllipse ellipse = SceneObjectFactory.CreateOrbitEllipse(me.SceneMgr, line.End, 2.5f, 2.5f, Colors.Black);
 
             MiningEllipseControl control = new MiningEllipseControl();
             control.LineToFollow = line;

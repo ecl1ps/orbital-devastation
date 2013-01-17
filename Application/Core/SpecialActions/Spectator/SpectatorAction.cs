@@ -21,11 +21,16 @@ namespace Orbit.Core.SpecialActions.Spectator
 
         public float CastingTime { get; set; }
 
+        public Color CastingColor { get; set; }
+
+        public bool TowardsMe { get; set; }
+
         public SpectatorAction(SceneMgr mgr, Players.Player owner, params ISpectatorAction[] actions)
             : base(mgr, owner, actions)
         {
             this.control = owner.Device.GetControlOfType<MiningModuleControl>();
             BackgroundColor = Colors.Bisque;
+            TowardsMe = false;
         }
 
         public override bool IsReady()
@@ -51,7 +56,8 @@ namespace Orbit.Core.SpecialActions.Spectator
 
             base.StartAction();
 
-            StartAction(Range.GetValidGroup(control.CurrentlyMining));
+            //StartAction(Range.GetValidGroup(control.CurrentlyMining));
+            Owner.SpectatorActionMgr.ScheduleAction(this, Range.GetValidGroup(control.CurrentlyMining));
             SendActionStart();
             
         }
@@ -67,7 +73,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             SceneMgr.SendMessage(msg);
         }
 
-        protected abstract void StartAction(List<Asteroid> afflicted);
+        public abstract void StartAction(List<Asteroid> afflicted);
    
     }
 }

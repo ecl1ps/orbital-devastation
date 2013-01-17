@@ -10,6 +10,7 @@ using Orbit.Core.Scene.Entities.Implementations;
 using Lidgren.Network;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.Controls;
+using System.Windows.Media;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
@@ -24,10 +25,12 @@ namespace Orbit.Core.SpecialActions.Spectator
 
             //nastavime parametry
             this.Cooldown = 4; //sec
+            this.CastingTime = 0.5f; //sec;
+            this.CastingColor = Colors.Yellow;
             this.Range = new RangeGroup(new Range(AsteroidType.NORMAL, 1), new Range(AsteroidType.GOLDEN, 1), new Range(AsteroidType.UNSTABLE, 1), new Range(AsteroidType.SPAWNED, 2));
         }
 
-        protected override void StartAction(List<Asteroid> afflicted)
+        public override void StartAction(List<Asteroid> afflicted)
         {
             int count = 0;
 

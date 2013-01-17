@@ -26,6 +26,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             
             //nastavime parametry
             this.Cooldown = 10; //sekundy
+            this.CastingTime = 0;
             this.Range = new RangeGroup(new Range());
         }
 
@@ -41,7 +42,7 @@ namespace Orbit.Core.SpecialActions.Spectator
                 this.RemainingCooldown = Cooldown;
         }
 
-        protected override void StartAction(List<Asteroid> afflicted)
+        public override void StartAction(List<Asteroid> afflicted)
         {
             int radius = 100;
             float lifeTime = 2;

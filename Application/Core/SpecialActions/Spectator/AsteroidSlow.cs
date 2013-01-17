@@ -25,6 +25,8 @@ namespace Orbit.Core.SpecialActions.Spectator
 
             //nastavime parametry
             this.Cooldown = 8; //sekundy
+            this.CastingTime = 0.5f;
+            this.CastingColor = Colors.Blue;
             this.Range = new RangeGroup(new Range(AsteroidType.NORMAL, 2), new Range(AsteroidType.GOLDEN, 1), new Range(AsteroidType.UNSTABLE, 1), new Range(AsteroidType.SPAWNED, 1));
         }
 
@@ -53,7 +55,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             SceneMgr.DelayedAttachToScene(s);
         }
 
-        protected override void StartAction(List<Asteroid> afflicted)
+        public override void StartAction(List<Asteroid> afflicted)
         {
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
             msg.Write((int)PacketType.ASTEROID_SLOW_START);

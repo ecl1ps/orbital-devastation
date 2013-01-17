@@ -249,7 +249,7 @@ namespace Orbit.Core.Helpers
             {
                 EllipseGeometry geom = new EllipseGeometry(new Point(e.RadiusX, e.RadiusY), e.RadiusX, e.RadiusY);
                 d = new DrawingGroup();
-                d.Children.Add(new GeometryDrawing(Brushes.Black, null, geom));
+                d.Children.Add(new GeometryDrawing(new SolidColorBrush(e.Color), null, geom));
 
                 TransformGroup tg = new TransformGroup();
                 tg.Children.Add(new TranslateTransform(e.Position.X, e.Position.Y));
