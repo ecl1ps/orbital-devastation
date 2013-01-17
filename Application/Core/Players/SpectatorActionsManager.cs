@@ -61,7 +61,6 @@ namespace Orbit.Core.Players
 
         private void EnableDevice(bool enable)
         {
-            Owner.Device.GetControlOfType<ControlableDeviceControl>().Enabled = enable;
             Control c = Owner.Device.GetControlOfType<MiningModuleControl>();
             if (c != null)
                 c.Enabled = enable;
@@ -92,7 +91,7 @@ namespace Orbit.Core.Players
         private void StartAnimation(Asteroid target, float time, Color color, bool towardsMe)
         {
             Line line = new Line(Owner.SceneMgr, IdMgr.GetNewId(Owner.GetId()), Owner.Device.Position, target.Position, color, 1);
-            HeavyweightLine strong = new HeavyweightLine(Owner.SceneMgr, IdMgr.GetNewId(Owner.GetId()), Owner.Device.Position, target.Position, color, 4);
+            HeavyweightLine strong = new HeavyweightLine(Owner.SceneMgr, IdMgr.GetNewId(Owner.GetId()), Owner.Device.Position, target.Position, color, 2);
 
             //OrbitEllipse s = SceneObjectFactory.CreateOrbitEllipse(Owner.SceneMgr, Owner.Device.Position, 3, 3, color);
 
