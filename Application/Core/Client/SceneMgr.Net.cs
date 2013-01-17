@@ -402,7 +402,7 @@ namespace Orbit.Core.Client
 
         public void SendMessage(NetOutgoingMessage msg)
         {
-            if (serverConnection.Status != NetConnectionStatus.Connected)
+            if (serverConnection != null && serverConnection.Status != NetConnectionStatus.Connected)
                 pendingMessages.Enqueue(msg);
             else
                 client.SendMessage(msg, serverConnection, NetDeliveryMethod.ReliableOrdered);
