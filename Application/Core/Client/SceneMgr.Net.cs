@@ -144,6 +144,7 @@ namespace Orbit.Core.Client
                     case NetIncomingMessageType.NatIntroductionSuccess:
                         string token = msg.ReadString();
                         Logger.Info("Nat introduction success to " + msg.SenderEndpoint + " token is: " + token);
+                        serverAddress = msg.SenderEndpoint.Address.ToString();
                         ConnectToServer();
                         break;
                     case NetIncomingMessageType.Data:
