@@ -33,8 +33,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             line.Start = FirstObj.Center;
             line.End = (FirstObj.Center + (travellingDirection * (travellingLenght * timeProgress)));
-
-            Console.WriteLine(timeProgress);
         }
     }
 }
