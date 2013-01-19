@@ -351,7 +351,7 @@ namespace Orbit.Core.Client
                 if (p.IsActivePlayer())
                 {
                     inputMgr = new PlayerInputMgr(p, this, actionBarMgr);
-                    actionBarMgr.CreateActionBarItems(p.GetActions<IPlayerAction>(this));
+                    actionBarMgr.CreateActionBarItems(p.GetActions<IPlayerAction>(this), false);
                 }
                 else
                 {
@@ -360,7 +360,7 @@ namespace Orbit.Core.Client
                     p.Device.AddControl(mc);
 
                     inputMgr = new SpectatorInputMgr(p, this, p.Device, actionBarMgr);
-                    actionBarMgr.CreateActionBarItems(p.GetActions<ISpectatorAction>(this));
+                    actionBarMgr.CreateActionBarItems(p.GetActions<ISpectatorAction>(this), true);
                 }
             }
         }

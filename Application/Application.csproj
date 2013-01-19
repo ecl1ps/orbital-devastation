@@ -310,6 +310,7 @@
     <Compile Include="Gui\ActionControllers\InstaPlayerStatisticsController.cs" />
     <Compile Include="Gui\ActionControllers\InstaSpectatorStatisticsController.cs" />
     <Compile Include="Gui\ActionControllers\PlayerStatisticsController.cs" />
+    <Compile Include="Gui\ActionControllers\SpectatorActionController.cs" />
     <Compile Include="Gui\ActionControllers\SpectatorStatisticController.cs" />
     <Compile Include="Gui\ActionControllers\StatisticController.cs" />
     <Compile Include="Gui\AlertBox.xaml.cs">

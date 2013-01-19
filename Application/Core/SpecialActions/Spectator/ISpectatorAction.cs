@@ -11,6 +11,8 @@ namespace Orbit.Core.SpecialActions.Spectator
 
         Range Range { get; set; }
 
+        int RangeCount { get; }
+
         bool IsExact();
 
     }

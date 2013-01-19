@@ -22,6 +22,13 @@ namespace Orbit.Core.SpecialActions.Spectator
         public float CastingTime { get; set; }
         public Color CastingColor { get; set; }
         public bool TowardsMe { get; set; }
+        public int RangeCount
+        {
+            get
+            {
+                return (Range.Maximum - Range.Minimum) - control.CurrentlyMining.Count;
+            }
+        }
 
         public SpectatorAction(SceneMgr mgr, Players.Player owner, params ISpectatorAction[] actions)
             : base(mgr, owner, actions)

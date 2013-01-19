@@ -42,7 +42,7 @@ namespace Orbit.Core.Players
             windows = new List<WindowController>();
         }
 
-        public void CreateActionBarItems(List<ISpecialAction> actions)
+        public void CreateActionBarItems(List<ISpecialAction> actions, bool spectator)
         {
             this.actions = actions;
             mgr.Invoke(new Action(() =>
@@ -53,7 +53,7 @@ namespace Orbit.Core.Players
 
                 foreach (ISpecialAction action in actions)
                 {
-                    controller = new ActionControllerImpl(mgr, action);
+                    controller = spectator ? new SpectatorActionController(mgr, action) : new ActionControllerImpl(mgr, action);
                     window = GuiObjectFactory.CreateAndAddActionUC(mgr, ActionBar, controller);
                     windows.Add(new WindowController(window, controller));
                 }

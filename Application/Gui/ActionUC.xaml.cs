@@ -16,6 +16,7 @@ using Orbit.Core.Scene;
 using Orbit.Gui.ActionControllers;
 using Orbit.Core.Client;
 using ShaderEffectLibrary;
+using System.Windows.Media.Effects;
 
 namespace Orbit.Gui
 {
@@ -23,6 +24,7 @@ namespace Orbit.Gui
     {
         private ActionController<ActionUC> controller;
         private bool active = true;
+        private bool spectatorMode = false;
 
         private ActionUC(ActionController<ActionUC> c)
         {
@@ -205,6 +207,37 @@ namespace Orbit.Gui
                 controller.CreatePriceText(this);
                 controller.CreateImageUriString(this);
             }));
+        }
+
+        public void SetCountText(String text)
+        {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                Count.Text = text;
+            }));
+        }
+
+        public void Highlight(bool b)
+        {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (b)
+                    Border.Visibility = Visibility.Visible;
+                else
+                    Border.Visibility = Visibility.Hidden;
+            }));
+        }
+
+        public void SpectatorMode()
+        {
+            Asteroid.Visibility = Visibility.Visible;
+            Canvas.SetLeft(ButtonImage, 0);
+            spectatorMode = true;
+        }
+
+        public bool IsSpectatorMode()
+        {
+            return spectatorMode;
         }
     }
 }
