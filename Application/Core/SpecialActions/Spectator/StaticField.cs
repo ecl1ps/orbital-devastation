@@ -30,6 +30,14 @@ namespace Orbit.Core.SpecialActions.Spectator
             this.Range = new Range();
         }
 
+        public override int RangeCount
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
         public override bool IsReady()
         {
             return base.IsReady() && (field == null || field.Dead);

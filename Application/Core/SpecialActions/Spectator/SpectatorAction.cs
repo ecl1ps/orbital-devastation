@@ -22,7 +22,7 @@ namespace Orbit.Core.SpecialActions.Spectator
         public float CastingTime { get; set; }
         public Color CastingColor { get; set; }
         public bool TowardsMe { get; set; }
-        public int RangeCount
+        public virtual int RangeCount
         {
             get
             {
