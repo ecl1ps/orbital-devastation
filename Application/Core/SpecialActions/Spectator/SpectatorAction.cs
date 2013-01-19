@@ -17,7 +17,7 @@ namespace Orbit.Core.SpecialActions.Spectator
     {
         protected MiningModuleControl control;
 
-        public RangeGroup Range { get; set; }
+        public Range Range { get; set; }
 
         public float CastingTime { get; set; }
 

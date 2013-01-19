@@ -27,7 +27,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             this.Cooldown = 8; //sekundy
             this.CastingTime = 0.5f;
             this.CastingColor = Colors.Blue;
-            this.Range = new RangeGroup(new Range(AsteroidType.NORMAL, 2), new Range(AsteroidType.GOLDEN, 1), new Range(AsteroidType.UNSTABLE, 1), new Range(AsteroidType.SPAWNED, 1));
+            this.Range = new Range(3);
         }
 
         private void Slow(Asteroid ast)

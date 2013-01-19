@@ -9,7 +9,7 @@ namespace Orbit.Core.SpecialActions.Spectator
     {
         float CastingTime { get; set; }
 
-        RangeGroup Range { get; set; }
+        Range Range { get; set; }
 
     }
 }

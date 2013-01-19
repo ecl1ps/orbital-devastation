@@ -27,7 +27,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             this.Cooldown = 4; //sec
             this.CastingTime = 0.5f; //sec;
             this.CastingColor = Colors.Orange;
-            this.Range = new RangeGroup(new Range(AsteroidType.NORMAL, 1), new Range(AsteroidType.GOLDEN, 1), new Range(AsteroidType.UNSTABLE, 1), new Range(AsteroidType.SPAWNED, 2));
+            this.Range = new Range(5);
         }
 
         public override void StartAction(List<Asteroid> afflicted)

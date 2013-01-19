@@ -25,7 +25,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             this.Cooldown = 3; //sekundy
             this.CastingTime = 0.5f;
             this.CastingColor = Colors.Red;
-            this.Range = new RangeGroup(new Range());
+            this.Range = new Range(3);
         }
 
         public override void StartAction(List<Asteroid> afflicted)

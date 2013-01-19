@@ -27,7 +27,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             //nastavime parametry
             this.Cooldown = 10; //sekundy
             this.CastingTime = 0;
-            this.Range = new RangeGroup(new Range());
+            this.Range = new Range();
         }
 
         public override bool IsReady()
@@ -54,7 +54,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             field = SceneObjectFactory.CreateSphereField(SceneMgr, Owner.Device.Center - new Vector(radius, radius), radius, color);
             
             StaticFieldControl control = new StaticFieldControl();
-            control.Force = 120;
+            control.Force = 140;
             control.LifeTime = lifeTime;
             control.Radius = radius;
 
@@ -65,7 +65,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             field.AddControl(rippleControl);
             field.AddControl(new LimitedLifeControl(lifeTime));
             field.AddControl(new CenterCloneControl(Owner.Device));
-
+            
             SceneMgr.DelayedAttachToScene(field);
 
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
