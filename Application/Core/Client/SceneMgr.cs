@@ -597,7 +597,7 @@ namespace Orbit.Core.Client
             if (endType == GameEnd.WIN_GAME)
                 CheckHighScore(plr);
 
-            isGameInitialized = true;
+            //isGameInitialized = true;
             userActionsDisabled = true;
             gameEnded = true;
             lastGameEnd = endType;
@@ -613,7 +613,7 @@ namespace Orbit.Core.Client
             else if (endType == GameEnd.SERVER_DISCONNECTED)
                 Disconnected();
 
-            if (GameWindowState == WindowState.IN_LOBBY)
+            if (GameWindowState == WindowState.IN_LOBBY && endType != GameEnd.TOURNAMENT_FINISHED || !IsGameInitalized)
                 CloseGameWindowAndCleanup(true);
             else
                 ShowEndGameStats(endType, plr);
