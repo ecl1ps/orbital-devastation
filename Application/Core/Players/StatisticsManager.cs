@@ -28,6 +28,7 @@ namespace Orbit.Core.Players
         public float DamageTaken { get; set; }
         public float DeadTime { get; set; }
 
+        public int PoweredActions { get; set; }
         public List<ISpecialAction> Actions { get; set; }
         public List<Stat> Stats { get; set; }
 
@@ -49,6 +50,7 @@ namespace Orbit.Core.Players
             GoldEarned = 0;
             DamageTaken = 0;
             DeadTime = 0;
+            PoweredActions = 0;
 
             Actions = new List<ISpecialAction>();
             Stats = new List<Stat>();
@@ -73,6 +75,7 @@ namespace Orbit.Core.Players
             msg.Write(DamageTaken);
             msg.Write(DeadTime);
             msg.Write(Time);
+            msg.Write(PoweredActions);
 
             msg.WriteSpecialActions(Actions);
             msg.WriteStats(Stats);
@@ -91,6 +94,7 @@ namespace Orbit.Core.Players
             DamageTaken = msg.ReadFloat();
             DeadTime = msg.ReadFloat();
             time = msg.ReadFloat();
+            PoweredActions = msg.ReadInt32();
 
             Actions = msg.ReadSpecialActions(Owner.SceneMgr);
             Stats = msg.ReadStats();

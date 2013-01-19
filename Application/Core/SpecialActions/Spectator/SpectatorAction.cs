@@ -67,9 +67,12 @@ namespace Orbit.Core.SpecialActions.Spectator
             SendActionStart();
 
             if (exact)
+            {
+                Owner.Statistics.PoweredActions++;
                 SceneMgr.FloatingTextMgr.AddFloatingText("Powered action!", control.Position,
                     FloatingTextManager.TIME_LENGTH_3, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM,
                     true, true);
+            }
         }
 
         private void SendActionStart()
