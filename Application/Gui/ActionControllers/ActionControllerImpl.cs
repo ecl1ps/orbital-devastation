@@ -64,7 +64,7 @@ namespace Orbit.Gui.ActionControllers
         private void ComputeCooldown(ActionUC window)
         {
             float perc = (Action.RemainingCooldown / Action.Cooldown);
-            window.SetShadeWidth(30 * perc);
+            window.SetShadeWidth(42 * perc);
         }
     }
 }
