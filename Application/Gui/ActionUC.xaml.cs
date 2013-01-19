@@ -230,9 +230,12 @@ namespace Orbit.Gui
 
         public void SpectatorMode()
         {
-            Asteroid.Visibility = Visibility.Visible;
-            Canvas.SetLeft(ButtonImage, 0);
-            spectatorMode = true;
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                Asteroid.Visibility = Visibility.Visible;
+                Canvas.SetLeft(ButtonImage, 0);
+                spectatorMode = true;
+            }));
         }
 
         public bool IsSpectatorMode()
