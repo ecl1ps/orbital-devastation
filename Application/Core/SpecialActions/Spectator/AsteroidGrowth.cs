@@ -13,6 +13,8 @@ namespace Orbit.Core.SpecialActions.Spectator
 {
     class AsteroidGrowth : SpectatorAction
     {
+        protected float exactBonus;
+
         public AsteroidGrowth(SceneMgr mgr, Players.Player owner, params ISpectatorAction[] actions)
             : base(mgr, owner, actions)
         {
@@ -25,9 +27,10 @@ namespace Orbit.Core.SpecialActions.Spectator
             this.CastingTime = 0.5f;
             this.CastingColor = Colors.Green;
             this.Range = new Range(4);
+            this.exactBonus = 1.2f;
         }
 
-        public override void  StartAction(List<Asteroid> afflicted)
+        public override void  StartAction(List<Asteroid> afflicted, bool exact)
         {
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
             msg.Write((int)PacketType.OBJECTS_HEAL_AMOUNT);
@@ -36,14 +39,14 @@ namespace Orbit.Core.SpecialActions.Spectator
             msg.Write(afflicted.Count);
             msg.Write(SharedDef.SPECTATOR_GROWTH);
 
-            afflicted.ForEach(aff => { GrowAsteroid(aff); msg.Write(aff.Id); });
+            afflicted.ForEach(aff => { GrowAsteroid(aff, exact); msg.Write(aff.Id); });
 
             SceneMgr.SendMessage(msg);
         }
 
-        private void GrowAsteroid(Asteroid a)
+        private void GrowAsteroid(Asteroid a, bool exact)
         {
-            int val = SharedDef.SPECTATOR_GROWTH;
+            int val = (int) (exact ? SharedDef.SPECTATOR_GROWTH * exactBonus : SharedDef.SPECTATOR_GROWTH);
             a.Radius += val;
             if (a.Radius > SharedDef.ASTEROID_MAX_GROWN_RADIUS)
                 a.Radius = SharedDef.ASTEROID_MAX_GROWN_RADIUS;

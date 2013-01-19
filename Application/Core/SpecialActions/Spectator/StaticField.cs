@@ -42,7 +42,12 @@ namespace Orbit.Core.SpecialActions.Spectator
                 this.RemainingCooldown = Cooldown;
         }
 
-        public override void StartAction(List<Asteroid> afflicted)
+        public override bool IsExact()
+        {
+            return false;
+        }
+
+        public override void StartAction(List<Asteroid> afflicted, bool exact)
         {
             int radius = 100;
             float lifeTime = 2;

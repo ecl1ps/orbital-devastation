@@ -16,6 +16,8 @@ namespace Orbit.Core.SpecialActions.Spectator
 {
     public class AsteroidSlow : SpectatorAction
     {
+        protected float exactBonus;
+
         public AsteroidSlow(SceneMgr mgr, Players.Player owner)
             : base(mgr, owner)
         {
@@ -28,14 +30,17 @@ namespace Orbit.Core.SpecialActions.Spectator
             this.CastingTime = 0.5f;
             this.CastingColor = Colors.Blue;
             this.Range = new Range(3);
+            this.exactBonus = 1.2f;
         }
 
-        private void Slow(Asteroid ast)
+        private void Slow(Asteroid ast, bool exact)
         {
             IMovementControl c = ast.GetControlOfType<IMovementControl>();
             LinearRotationControl c1 = ast.GetControlOfType<LinearRotationControl>();
             if (c == null || c1 == null)
                 return;
+
+            float time = exact ? 1.5f * exactBonus : 1.5f;
 
             List<IControl> controls = new List<IControl>();
             controls.Add(c);
@@ -43,7 +48,7 @@ namespace Orbit.Core.SpecialActions.Spectator
 
             AsteroidFreezeControl removal = new AsteroidFreezeControl();
             removal.ControlsForDisabling = controls;
-            removal.Time = 1.5f;
+            removal.Time = time;
 
             ast.AddControl(removal);
             
@@ -51,11 +56,11 @@ namespace Orbit.Core.SpecialActions.Spectator
             Vector p = new Vector(ast.Position.X - (ast.Radius / 2), ast.Position.Y - (ast.Radius / 2));
             // potom jeho sirka musi byt prumer + 2 * posunuti (vlevo a vpravo) => r * (2 + 0.5 + 0.5) 
             IceSquare s = SceneObjectFactory.CreateIceSquare(SceneMgr, p, new Size(ast.Radius * 3, ast.Radius * 3)); 
-            s.AddControl(new LimitedLifeControl(1.5f));
+            s.AddControl(new LimitedLifeControl(time));
             SceneMgr.DelayedAttachToScene(s);
         }
 
-        public override void StartAction(List<Asteroid> afflicted)
+        public override void StartAction(List<Asteroid> afflicted, bool exact)
         {
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
             msg.Write((int)PacketType.ASTEROID_SLOW_START);
@@ -65,7 +70,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             msg.Write(3.0f);
 
             afflicted.ForEach(aff => { 
-                Slow(aff); 
+                Slow(aff, exact); 
                 msg.Write(aff.Id);
             });
 

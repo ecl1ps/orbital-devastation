@@ -14,6 +14,8 @@ namespace Orbit.Core.SpecialActions.Spectator
 {
     class AsteroidDamage : SpectatorAction
     {
+        protected float exactBonus;
+
         public AsteroidDamage(SceneMgr mgr, Players.Player owner, params ISpectatorAction[] actions)
             : base(mgr, owner, actions)
         {
@@ -26,34 +28,27 @@ namespace Orbit.Core.SpecialActions.Spectator
             this.CastingTime = 0.5f;
             this.CastingColor = Colors.Red;
             this.Range = new Range(3);
+            this.exactBonus = 1.2f;
         }
 
-        public override void StartAction(List<Asteroid> afflicted)
+        public override void StartAction(List<Asteroid> afflicted, bool exact)
         {
             List<IDestroyable> temp = new List<IDestroyable>();
 
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
             msg.Write((int)PacketType.OBJECTS_TAKE_DAMAGE);
 
+            int damage = (int) (exact ? SharedDef.SPECTATOR_DAMAGE * exactBonus : SharedDef.SPECTATOR_DAMAGE);
             foreach (Asteroid ast in afflicted)
             {
                 temp.Add(ast);
-                ast.TakeDamage(SharedDef.SPECTATOR_DAMAGE, Owner.Device);
-                SceneMgr.FloatingTextMgr.AddFloatingText(SharedDef.SPECTATOR_DAMAGE, ast.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE);
-
-                /* TODO dodelat manager na effecty
-                PinchEffectControl effect = new PinchEffectControl();
-                effect.Radius = 0.05f;
-                effect.Speed = 1f;
-                effect.Position = ast.Position;
-
-                ast.AddControl(effect);
-                 */
+                ast.TakeDamage(damage, Owner.Device);
+                SceneMgr.FloatingTextMgr.AddFloatingText(damage, ast.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE);
             }
 
             msg.Write(Owner.GetId());
             msg.Write(temp.Count);
-            msg.Write(SharedDef.SPECTATOR_DAMAGE);
+            msg.Write(damage);
             temp.ForEach(obj => msg.Write(obj.Id));
 
             SceneMgr.SendMessage(msg);

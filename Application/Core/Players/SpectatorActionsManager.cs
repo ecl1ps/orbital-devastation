@@ -18,11 +18,13 @@ namespace Orbit.Core.Players
     {
         public SpectatorAction action;
         public List<Asteroid> targets;
+        public bool exact;
 
-        public ActionObjects(SpectatorAction action, List<Asteroid> objects)
+        public ActionObjects(SpectatorAction action, List<Asteroid> objects, bool exact)
         {
             this.action = action;
             this.targets = objects;
+            this.exact = exact;
         }
     }
 
@@ -70,7 +72,7 @@ namespace Orbit.Core.Players
 
         private void CastAction()
         {
-            action.action.StartAction(action.targets);
+            action.action.StartAction(action.targets, action.exact);
             LoadAnotherAction();
         }
 
@@ -128,9 +130,9 @@ namespace Orbit.Core.Players
             this.time = time;
         }
 
-        public void ScheduleAction(SpectatorAction action, List<Asteroid> targets)
+        public void ScheduleAction(SpectatorAction action, List<Asteroid> targets, bool exact)
         {
-            actions.Enqueue(new ActionObjects(action, targets));
+            actions.Enqueue(new ActionObjects(action, targets, exact));
         }
 
     }
