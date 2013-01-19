@@ -235,23 +235,20 @@ namespace Orbit.Core.Client
                 case PacketType.OBJECTS_HEAL_AMOUNT:
                     ReceiveObjectsHeal(msg);
                     break;
-                case PacketType.STATIC_FIELD_START:
-                    ReceivedStaticFieldAction(msg);
-                    break;
                 case PacketType.MODULE_COLOR_CHANGE:
                     ReceiveModuleColorChange(msg);
                     break;
                 case PacketType.PLAYER_COLOR_CHANGED:
                     ReceivePlayerColorChange(msg);
                     break;
-                case PacketType.ASTEROID_SLOW_START:
-                    ReceivedSlowActionStarted(msg);
-                    break;
                 case PacketType.SPECTATOR_ACTION_START:
                     ReceivedSpectatorActionStarted(msg);
                     break;
                 case PacketType.SHOW_ALLERT_MESSAGE:
                     AlertMessageMgr.ReceiveShowMessage(msg);
+                    break;
+                case PacketType.SCHEDULE_SPECTATOR_ACTION:
+                    ReceivedActionScheduleMsg(msg);
                     break;
                 default:
                     Logger.Warn("Received unhandled packet type: " + type);

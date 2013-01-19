@@ -114,6 +114,12 @@ namespace Orbit.Core.Client
             SendMessage(msg);
         }
 
+        private void ReceivedActionScheduleMsg(NetIncomingMessage msg)
+        {
+            Player owner = GetPlayer(msg.ReadInt32());
+            SpectatorActionMgr.ReceiveActionScheduleMessage(msg, owner);
+        }
+
         private void ReceivedAllPlayerDataMsg(NetIncomingMessage msg)
         {
             int playerCount = msg.ReadInt32();
@@ -498,33 +504,6 @@ namespace Orbit.Core.Client
             //SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_EXPLOSION);
         }
 
-        private void ReceivedStaticFieldAction(NetIncomingMessage msg)
-        {
-            Player p = GetPlayer(msg.ReadInt32());
-            Color c = msg.ReadColor();
-            float force = msg.ReadFloat();
-            float lifeTime = msg.ReadFloat();
-            int radius = msg.ReadInt32();
-            float speed = msg.ReadFloat();
-
-            SphereField field = SceneObjectFactory.CreateSphereField(this, p.Device.Position, radius, c);
-
-            StaticFieldControl control = new StaticFieldControl();
-            control.Force = force;
-            control.LifeTime = lifeTime;
-            control.Radius = radius;
-
-            RippleEffectControl rippleControl = new RippleEffectControl();
-            rippleControl.Speed = speed;
-
-            p.Device.AddControl(control);
-            field.AddControl(rippleControl);
-            field.AddControl(new LimitedLifeControl(lifeTime));
-            field.AddControl(new CenterCloneControl(p.Device));
-
-            this.DelayedAttachToScene(field);
-        }
-
         private void ReceivedPlayerWonMsg(NetIncomingMessage msg)
         {
             Player winner = GetPlayer(msg.ReadInt32());
@@ -848,44 +827,6 @@ namespace Orbit.Core.Client
                     lobby.UpdateShownPlayers(data);
                 }
             }));
-        }
-
-        private void ReceivedSlowActionStarted(NetIncomingMessage msg)
-        {
-            Player owner = GetPlayer(msg.ReadInt32());
-            int count = msg.ReadInt32();
-            float time = msg.ReadFloat();
-
-            Asteroid a = null;
-            for (int i = 0; i < count; i++)
-            {
-                a = GetSceneObject(msg.ReadInt64()) as Asteroid;
-                if (a == null)
-                    continue;
-
-                IMovementControl c = a.GetControlOfType<IMovementControl>();
-                LinearRotationControl c1 = a.GetControlOfType<LinearRotationControl>();
-
-                if (c == null || c1 == null)
-                    return;
-
-                List<IControl> controls = new List<IControl>();
-                controls.Add(c);
-                controls.Add(c1);
-
-                AsteroidFreezeControl removal = new AsteroidFreezeControl();
-                removal.ControlsForDisabling = controls;
-                removal.Time = time;
-
-                a.AddControl(removal);
-
-                // led je posunut o pulku radiusu doleva
-                Vector p = new Vector(a.Position.X - (a.Radius / 2), a.Position.Y - (a.Radius / 2));
-                // potom jeho sirka musi byt prumer + 2 * posunuti (vlevo a vpravo) => r * (2 + 0.5 + 0.5) 
-                IceSquare s = SceneObjectFactory.CreateIceSquare(this, p, new Size(a.Radius * 3, a.Radius * 3));
-                s.AddControl(new LimitedLifeControl(3));
-                DelayedAttachToScene(s);
-            }
         }
 
         private void ReceivedSpectatorActionStarted(NetIncomingMessage msg)

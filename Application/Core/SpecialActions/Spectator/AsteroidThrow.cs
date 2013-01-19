@@ -50,18 +50,6 @@ namespace Orbit.Core.SpecialActions.Spectator
                 ast.Direction = v;
                 count++;
             }
-
-            NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-            msg.Write((int)PacketType.ASTEROIDS_DIRECTIONS_CHANGE);
-            msg.Write(count);
-
-            foreach (Asteroid ast in afflicted)
-            {
-                msg.Write(ast.Id);
-                msg.Write(ast.Direction);
-            }
-
-            SceneMgr.SendMessage(msg);
         }
     }
 }

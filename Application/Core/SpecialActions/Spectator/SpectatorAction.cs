@@ -63,8 +63,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             List<Asteroid> group = Range.GetValidGroup(control.CurrentlyMining);
             bool exact = IsExact();
 
-            Owner.SpectatorActionMgr.ScheduleAction(this, group, exact);
-            SendActionStart();
+            Owner.SceneMgr.SpectatorActionMgr.ScheduleAction(this, group, exact);
 
             if (exact)
             {
@@ -73,17 +72,6 @@ namespace Orbit.Core.SpecialActions.Spectator
                     FloatingTextManager.TIME_LENGTH_3, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM,
                     true, true);
             }
-        }
-
-        private void SendActionStart()
-        {
-            NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-            msg.Write((int)PacketType.SPECTATOR_ACTION_START);
-
-            msg.Write(Owner.GetId());
-            msg.Write(Name);
-
-            SceneMgr.SendMessage(msg);
         }
 
         public abstract void StartAction(List<Asteroid> afflicted, bool exact);

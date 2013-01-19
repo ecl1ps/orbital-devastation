@@ -11,8 +11,10 @@ using Orbit.Core.Helpers;
 using Orbit.Core.Scene.Controls;
 using System.Windows.Media.Effects;
 using Orbit.Core.Scene.Entities.HeavyWeight;
+using Lidgren.Network;
+using Orbit.Core.Players;
 
-namespace Orbit.Core.Players
+namespace Orbit.Core.Client.GameStates
 {
     public class ActionObjects 
     {
@@ -30,11 +32,9 @@ namespace Orbit.Core.Players
 
     public class SpectatorActionsManager : IGameState
     {
-        public Player Owner { get; set; }
         private Queue<ActionObjects> actions;
 
         private ActionObjects action = null;
-        private bool lockedDevice = false;
         private float time = 0;
 
         public SpectatorActionsManager()
@@ -53,27 +53,24 @@ namespace Orbit.Core.Players
             if (action == null && actions.Count > 0)
                 LoadAnotherAction();
 
-            if (action != null && !lockedDevice)
-                EnableDevice(false);
-            else if (lockedDevice)
-                EnableDevice(true);
-
             time -= tpf;
-        }
-
-        private void EnableDevice(bool enable)
-        {
-            Control c = Owner.Device.GetControlOfType<MiningModuleControl>();
-            if (c != null)
-                c.Enabled = enable;
-
-            lockedDevice = !enable;
         }
 
         private void CastAction()
         {
             action.action.StartAction(action.targets, action.exact);
             LoadAnotherAction();
+        }
+
+        private void SendActionStart(ISpectatorAction action)
+        {
+            NetOutgoingMessage msg = action.Owner.SceneMgr.CreateNetMessage();
+            msg.Write((int)PacketType.SPECTATOR_ACTION_START);
+
+            msg.Write(action.Owner.GetId());
+            msg.Write(action.Name);
+
+            action.Owner.SceneMgr.SendMessage(msg);
         }
 
         private void LoadAnotherAction()
@@ -92,8 +89,8 @@ namespace Orbit.Core.Players
 
         private void StartAnimation(Asteroid target, float time, Color color, bool towardsMe)
         {
-            Line line = new Line(Owner.SceneMgr, IdMgr.GetNewId(Owner.GetId()), Owner.Device.Position, target.Position, color, 1);
-            HeavyweightLine strong = new HeavyweightLine(Owner.SceneMgr, IdMgr.GetNewId(Owner.GetId()), Owner.Device.Position, target.Position, color, 2);
+            Line line = new Line(action.action.Owner.SceneMgr, IdMgr.GetNewId(action.action.Owner.GetId()), action.action.Owner.Device.Position, target.Position, color, 1);
+            HeavyweightLine strong = new HeavyweightLine(action.action.SceneMgr, IdMgr.GetNewId(action.action.Owner.GetId()), action.action.Owner.Device.Position, target.Position, color, 2);
 
             //OrbitEllipse s = SceneObjectFactory.CreateOrbitEllipse(Owner.SceneMgr, Owner.Device.Position, 3, 3, color);
 
@@ -103,16 +100,16 @@ namespace Orbit.Core.Players
             if (towardsMe)
             {
                 c.SecondObj = target;
-                c.FirstObj = Owner.Device;
+                c.FirstObj = action.action.Owner.Device;
                 tc.FirstObj = target;
-                tc.SecondObj = Owner.Device;
+                tc.SecondObj = action.action.Owner.Device;
             }
             else
             {
                 c.FirstObj = target;
-                c.SecondObj = Owner.Device;
+                c.SecondObj = action.action.Owner.Device;
                 tc.SecondObj = target;
-                tc.FirstObj = Owner.Device;
+                tc.FirstObj = action.action.Owner.Device;
             }
 
             //LineTravelingControl tc = new LineTravelingControl();
@@ -124,15 +121,47 @@ namespace Orbit.Core.Players
             strong.AddControl(tc);
             strong.AddControl(new LimitedLifeControl(time));
 
-            Owner.SceneMgr.DelayedAttachToScene(line);
-            Owner.SceneMgr.DelayedAttachToScene(strong);
+            action.action.Owner.SceneMgr.DelayedAttachToScene(line);
+            action.action.Owner.SceneMgr.DelayedAttachToScene(strong);
 
             this.time = time;
         }
 
-        public void ScheduleAction(SpectatorAction action, List<Asteroid> targets, bool exact)
+        public void ScheduleAction(SpectatorAction action, List<Asteroid> targets, bool exact, bool send = true)
         {
-            actions.Enqueue(new ActionObjects(action, targets, exact));
+            ActionObjects a = new ActionObjects(action, targets, exact);
+            actions.Enqueue(a);
+
+            if (send)
+                SendActionScheduleMessage(action, targets, exact);
+        }
+
+        public void SendActionScheduleMessage(SpectatorAction action, List<Asteroid> targets, bool exact)
+        {
+            NetOutgoingMessage msg = action.Owner.SceneMgr.CreateNetMessage();
+            msg.Write((int)PacketType.SCHEDULE_SPECTATOR_ACTION);
+            msg.Write(action.Owner.GetId());
+            msg.Write(exact);
+            msg.WriteSpecialAction(action);
+            msg.Write(targets.Count);
+            targets.ForEach(a => msg.Write(a.Id));
+
+            action.Owner.SceneMgr.SendMessage(msg);
+        }
+
+        public void ReceiveActionScheduleMessage(NetIncomingMessage msg, Player owner)
+        {
+            bool exact = msg.ReadBoolean();
+            SpectatorAction action = msg.ReadSpecialAction(owner.SceneMgr, owner) as SpectatorAction;
+
+            int count = msg.ReadInt32();
+            Console.WriteLine("msg accepted " + count);
+            List<Asteroid> temp = new List<Asteroid>();
+            for (int i = 0; i < count; i++)
+                temp.Add(owner.SceneMgr.GetSceneObject(msg.ReadInt64()) as Asteroid);
+
+            action.CastingTime -= ((msg.SenderConnection.AverageRoundtripTime / 2) / 1000);
+            ScheduleAction(action, temp, exact, false);
         }
 
     }

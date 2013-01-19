@@ -36,6 +36,7 @@ namespace Orbit.Core.Client
         public GameStateManager StateMgr { get; set; }
         public LevelEnvironment LevelEnv { get; set; }
         public AlertMessageManager AlertMessageMgr { get; set; }
+        public SpectatorActionsManager SpectatorActionMgr { get; set; }
         public WindowState GameWindowState { get { return gameWindowState; } set { gameWindowState = value; } }
         public bool UserActionsDisabled { get { return userActionsDisabled; } }
         private volatile WindowState gameWindowState;
@@ -134,6 +135,8 @@ namespace Orbit.Core.Client
             StateMgr.AddGameState(LevelEnv);
             AlertMessageMgr = new AlertMessageManager(this, 0.5f);
             StateMgr.AddGameState(AlertMessageMgr);
+            SpectatorActionMgr = new SpectatorActionsManager();
+            StateMgr.AddGameState(SpectatorActionMgr);
         }
 
         public void InitStaticMouse()

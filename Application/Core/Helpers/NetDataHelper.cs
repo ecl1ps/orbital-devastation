@@ -730,10 +730,10 @@ namespace Orbit.Core.Helpers
         public static void WriteSpecialActions(this NetOutgoingMessage msg, List<ISpecialAction> actions) 
         {
             msg.Write(actions.Count);
-            actions.ForEach(action => WriteSpecialAction(msg, action));
+            actions.ForEach(action => msg.WriteSpecialAction(action));
         }
 
-        private static void WriteSpecialAction(NetOutgoingMessage msg, ISpecialAction action)
+        public static void WriteSpecialAction(this NetOutgoingMessage msg, ISpecialAction action)
         {
             if (action is HealAction)
             {
@@ -782,7 +782,7 @@ namespace Orbit.Core.Helpers
             }
         }
         
-        private static ISpecialAction ReadSpecialAction(NetIncomingMessage msg, SceneMgr mgr)
+        public static ISpecialAction ReadSpecialAction(this NetIncomingMessage msg, SceneMgr mgr, Player owner = null)
         {
             //chtelo by to aby kazdej objekt implementoval sendable takhle nektery akce nepujdou pouzit
             ISpecialAction action = null;
@@ -794,15 +794,15 @@ namespace Orbit.Core.Helpers
             else if (hash == typeof(WeaponUpgrade).GUID.GetHashCode())
                 action = new WeaponUpgrade();
             else if (hash == typeof(AsteroidDamage).GUID.GetHashCode())
-                action = new AsteroidDamage(mgr, null);
+                action = new AsteroidDamage(mgr, owner);
             else if (hash == typeof(AsteroidGrowth).GUID.GetHashCode())
-                action = new AsteroidGrowth(mgr, null);
+                action = new AsteroidGrowth(mgr, owner);
             else if (hash == typeof(AsteroidSlow).GUID.GetHashCode())
-                action = new AsteroidSlow(mgr, null);
+                action = new AsteroidSlow(mgr, owner);
             else if (hash == typeof(AsteroidThrow).GUID.GetHashCode())
-                action = new AsteroidThrow(mgr, null);
+                action = new AsteroidThrow(mgr, owner);
             else if (hash == typeof(StaticField).GUID.GetHashCode())
-                action = new StaticField(mgr, null);
+                action = new StaticField(mgr, owner);
 
             if (action != null)
                 action.ReadObject(msg);
@@ -816,7 +816,7 @@ namespace Orbit.Core.Helpers
             ISpecialAction action = null;
             for (int i = 0; i < count; i++)
             {
-                action = ReadSpecialAction(msg, mgr);
+                action = msg.ReadSpecialAction(mgr);
                 if (action != null)
                     temp.Add(action);
             }

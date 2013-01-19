@@ -128,7 +128,7 @@
     <Compile Include="Core\Client\GameStates\FloatingTextManager.cs" />
     <Compile Include="Core\Client\GameStates\LevelEnvironment.cs" />
     <Compile Include="Core\Client\GameStates\DelayedActionInvoker.cs" />
-    <Compile Include="Core\Players\SpectatorActionsManager.cs" />
+    <Compile Include="Core\Client\GameStates\SpectatorActionsManager.cs" />
     <Compile Include="Core\Players\StatisticsManager.cs" />
     <Compile Include="Core\Client\SceneMgr.Message.cs" />
     <Compile Include="Core\Client\Shaders\AlphaChannelEffect.cs" />

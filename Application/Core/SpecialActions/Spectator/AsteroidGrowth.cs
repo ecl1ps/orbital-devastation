@@ -32,16 +32,7 @@ namespace Orbit.Core.SpecialActions.Spectator
 
         public override void  StartAction(List<Asteroid> afflicted, bool exact)
         {
-            NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-            msg.Write((int)PacketType.OBJECTS_HEAL_AMOUNT);
-
-            msg.Write(Owner.GetId());
-            msg.Write(afflicted.Count);
-            msg.Write(SharedDef.SPECTATOR_GROWTH);
-
-            afflicted.ForEach(aff => { GrowAsteroid(aff, exact); msg.Write(aff.Id); });
-
-            SceneMgr.SendMessage(msg);
+            afflicted.ForEach(aff => GrowAsteroid(aff, exact));
         }
 
         private void GrowAsteroid(Asteroid a, bool exact)

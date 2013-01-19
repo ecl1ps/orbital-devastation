@@ -62,19 +62,9 @@ namespace Orbit.Core.SpecialActions.Spectator
 
         public override void StartAction(List<Asteroid> afflicted, bool exact)
         {
-            NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-            msg.Write((int)PacketType.ASTEROID_SLOW_START);
-
-            msg.Write(Owner.GetId());
-            msg.Write(afflicted.Count);
-            msg.Write(3.0f);
-
             afflicted.ForEach(aff => { 
                 Slow(aff, exact); 
-                msg.Write(aff.Id);
             });
-
-            SceneMgr.SendMessage(msg);
         }
     }
 }

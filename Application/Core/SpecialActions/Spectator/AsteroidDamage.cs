@@ -33,25 +33,12 @@ namespace Orbit.Core.SpecialActions.Spectator
 
         public override void StartAction(List<Asteroid> afflicted, bool exact)
         {
-            List<IDestroyable> temp = new List<IDestroyable>();
-
-            NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-            msg.Write((int)PacketType.OBJECTS_TAKE_DAMAGE);
-
             int damage = (int) (exact ? SharedDef.SPECTATOR_DAMAGE * exactBonus : SharedDef.SPECTATOR_DAMAGE);
             foreach (Asteroid ast in afflicted)
             {
-                temp.Add(ast);
                 ast.TakeDamage(damage, Owner.Device);
                 SceneMgr.FloatingTextMgr.AddFloatingText(damage, ast.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE);
             }
-
-            msg.Write(Owner.GetId());
-            msg.Write(temp.Count);
-            msg.Write(damage);
-            temp.ForEach(obj => msg.Write(obj.Id));
-
-            SceneMgr.SendMessage(msg);
         }
     }
 }

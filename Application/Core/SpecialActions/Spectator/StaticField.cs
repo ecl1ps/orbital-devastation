@@ -72,18 +72,6 @@ namespace Orbit.Core.SpecialActions.Spectator
             field.AddControl(new CenterCloneControl(Owner.Device));
             
             SceneMgr.DelayedAttachToScene(field);
-
-            NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-            msg.Write((int)PacketType.STATIC_FIELD_START);
-
-            msg.Write(Owner.GetId());
-            msg.Write(color);
-            msg.Write(control.Force);
-            msg.Write(control.LifeTime);
-            msg.Write(control.Radius);
-            msg.Write(rippleControl.Speed);
-
-            SceneMgr.SendMessage(msg);
         }
     }
 }
