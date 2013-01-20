@@ -540,7 +540,7 @@ namespace Orbit.Core.Helpers
             s.Radius = 6;
             s.Category = DrawingCategory.PLAYER_OBJECTS;
 
-            Vector offset = new Vector(parent.Radius + 10, 0).Rotate(rotation);
+            Vector offset = new Vector(parent.Radius + 15, 0).Rotate(rotation);
             s.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(a.SceneMgr, s.Radius, begin, end, stroke, parent.Center + offset, 1));
 
             CenterCloneControl ccc = new CenterCloneControl(parent);
