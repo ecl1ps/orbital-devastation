@@ -57,7 +57,7 @@ namespace Orbit.Core.Client.GameStates
 
             if (action != null && !lockedDevice)
                 EnableDevice(false);
-            else if (lockedDevice)
+            else if (lockedDevice && action == null)
                 EnableDevice(true);
 
             time -= tpf;
@@ -65,6 +65,8 @@ namespace Orbit.Core.Client.GameStates
 
         private void EnableDevice(bool enable)
         {
+            Console.WriteLine("enable");
+
             if(!enable)
                 lastOwner = action.action.Owner;
 
