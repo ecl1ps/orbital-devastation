@@ -34,6 +34,7 @@ namespace Orbit.Core.Players
         /// </summary>
         public int Gold { get; set; }
         public int Score { get; set; }
+        public int MatchPoints { get; set; }
 
         // STATY
         public float MineGrowthSpeed { get; set; }
@@ -74,6 +75,7 @@ namespace Orbit.Core.Players
         {
             Reset();
             
+            MatchPoints = 0;
             Score = 0;
 
             PlayerType = PlayerType.HUMAN;
@@ -128,6 +130,7 @@ namespace Orbit.Core.Players
             msg.Write((byte)BotType);
 
             msg.Write(Gold);
+            msg.Write(MatchPoints);
             msg.Write(Score);
 
             msg.Write(MineCooldown);
@@ -174,6 +177,7 @@ namespace Orbit.Core.Players
             BotType = (BotType)msg.ReadByte();
 
             Gold = msg.ReadInt32();
+            MatchPoints = msg.ReadInt32();
             Score = msg.ReadInt32();
 
             MineCooldown = msg.ReadFloat();

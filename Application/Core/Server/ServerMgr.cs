@@ -38,12 +38,14 @@ namespace Orbit.Core.Server
         public Gametype GameType { get; set; }
         public GameStateManager StateMgr { get; set; }
         public TournamentSettings TournamentSettings { get; set; }
+        public float Time { get; set; }
 
         public ServerMgr()
         {
             statsMgr = new StatsMgr(null);
             isInitialized = false;
             shouldQuit = false;
+            Time = 0;
         }
 
         public void Init(Gametype gameType)
@@ -73,7 +75,7 @@ namespace Orbit.Core.Server
                 NetOutgoingMessage msg = CreateNetMessage();
                 msg.Write((int)PacketType.PLAYER_SCORE_AND_GOLD);
                 msg.Write(p.GetId());
-                msg.Write(p.Data.Score);
+                msg.Write(p.Data.MatchPoints);
                 msg.Write(p.Data.Gold);
                 BroadcastMessage(msg, p);
             }
@@ -169,6 +171,8 @@ namespace Orbit.Core.Server
                 {
                     Thread.Sleep((int)(SharedDef.MINIMUM_UPDATE_TIME - elapsedMs));
 		        }
+
+                Time += tpf;
             }
 
             sw.Stop();

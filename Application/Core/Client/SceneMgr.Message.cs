@@ -370,7 +370,7 @@ namespace Orbit.Core.Client
             Player p = GetPlayer(msg.ReadInt32());
             if (p != null && !p.IsCurrentPlayer())
             {
-                p.Data.Score = msg.ReadInt32();
+                p.Data.MatchPoints = msg.ReadInt32();
                 p.Data.Gold = msg.ReadInt32();
             }
         }
@@ -519,7 +519,7 @@ namespace Orbit.Core.Client
             NetOutgoingMessage scoreMsg = CreateNetMessage();
             scoreMsg.Write((int)PacketType.SCORE_QUERY_RESPONSE);
             scoreMsg.Write(currentPlayer.GetId());
-            scoreMsg.Write(currentPlayer.Data.Score);
+            scoreMsg.Write(currentPlayer.Data.MatchPoints);
             currentPlayer.Statistics.WriteObject(scoreMsg);
             SendMessage(scoreMsg);
         }
@@ -839,6 +839,7 @@ namespace Orbit.Core.Client
 
         private void ReceivedPlayerScoreUpdate(NetIncomingMessage msg)
         {
+            currentPlayer.Data.MatchPoints = msg.ReadInt32();
             currentPlayer.Data.Score = msg.ReadInt32();
         }
 

@@ -103,7 +103,7 @@ namespace Orbit.Core.Server
                 return;
 
             Player p = GetPlayer(msg.ReadInt32());
-            p.Data.Score = msg.ReadInt32();
+            p.Data.MatchPoints = msg.ReadInt32();
             p.Statistics.ReadObject(msg);
 
             if (!playersRespondedScore.Contains(p.GetId()))
@@ -167,7 +167,7 @@ namespace Orbit.Core.Server
                 return;
 
             Player p = GetPlayer(msg.ReadInt32());
-            p.Data.Score = msg.ReadInt32();
+            p.Data.MatchPoints = msg.ReadInt32();
             p.Data.Gold = msg.ReadInt32();
             ForwardMessage(msg);
         }

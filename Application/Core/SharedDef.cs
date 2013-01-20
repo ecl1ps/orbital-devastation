@@ -12,8 +12,16 @@ namespace Orbit.Core
 
         public const int PORT_NUMBER                        = 40;
 
-        public const int VICTORY_SCORE_BONUS                = 2000;
-        public const int LOOSE_SCORE_BONUS                  = 200;
+        public const int VICTORY_MAX_SCORE                  = 1300;
+        public const int VICTORY_MIN_SCORE                  = 1000;
+
+        public const int LOOSE_MAX_SCORE                    = 500;
+        public const int LOOSE_MIN_SCORE                    = 200;
+
+        public const int MIN_TIME                           = 180;
+        public const int MAX_TIME                           = 1200;
+
+        public const float SPECTATOR_SCORE_BONUS            = 0.5f;
 
         // Scene
         public const int MIN_ASTEROID_RADIUS                = 10;
@@ -96,8 +104,6 @@ namespace Orbit.Core
 #endif
 
         //konstanty pro spectatory
-        public const int SPECTATOR_WIN_BONUS                = 500;
-        public const float SOLO_SPECTATOR_WIN_MULTIPLY      = 2;
         public const float SPECTATOR_MAX_TIME_BONUS         = 60 * 30; // pul hodiny
         public const float SPECTATOR_MINING_RADIUS          = 200;
         public const float SPECTATOR_MODULE_SPEED           = 150;

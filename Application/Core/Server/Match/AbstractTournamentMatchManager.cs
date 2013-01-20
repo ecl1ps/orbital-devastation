@@ -43,22 +43,7 @@ namespace Orbit.Core.Server.Match
 
             Player looser = players.Find(p => p.IsActivePlayer() && p.Data.HashId != plr.Data.HashId);
             SetPlayedTogether(plr, looser);
-            PlayerMatchData d = GetPlayerMatchData(plr);
-            if (d != null)
-                d.WonGames += 1;
-            plr.Data.WonMatches++;
-
-            int scoreWin = SharedDef.VICTORY_SCORE_BONUS;
-            int scoreLoose = SharedDef.LOOSE_SCORE_BONUS;
-
-            plr.Data.Score += scoreWin;
-            looser.Data.Score += scoreLoose;
-
-            SendPlayerScore(plr, server);
-            SendPlayerScore(looser, server);
-
-            SendTextMessage(plr, "You are victorious. You get " + scoreWin + " score", server);
-            SendTextMessage(looser, "You lost. You get " + scoreLoose + " score", server);
+            RewardPlayers(plr, looser, server);
         }
 
         protected void SetPlayedTogether(Player plr1, Player plr2)
@@ -156,6 +141,7 @@ namespace Orbit.Core.Server.Match
         {
             NetOutgoingMessage msg = server.CreateNetMessage();
             msg.Write((int)PacketType.PLAYER_SCORE_UPDATE);
+            msg.Write(p.Data.MatchPoints);
             msg.Write(p.Data.Score);
 
             server.SendMessage(msg, p);
@@ -170,6 +156,10 @@ namespace Orbit.Core.Server.Match
         }
 
         public virtual void AssignPlayersToSpectators(Tuple<Player, Player> active, List<Player> spectators)
+        {
+        }
+
+        protected virtual void RewardPlayers(Player winner, Player looser, ServerMgr server)
         {
         }
     }

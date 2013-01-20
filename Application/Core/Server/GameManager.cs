@@ -44,9 +44,6 @@ namespace Orbit.Core.Server
 
             switch (serverMgr.TournamentSettings.MMType)
             {
-                case MatchManagerType.WINS_THEN_SCORE:
-                    matchManager = new WinsThenScoreMatchManager(players, serverMgr.GetRandomGenerator(), serverMgr.TournamentSettings.RoundCount);
-                    break;
                 case MatchManagerType.ONLY_SCORE:
                     matchManager = new ScoreMatchManager(players, serverMgr.GetRandomGenerator(), serverMgr.TournamentSettings.RoundCount);
                     break;

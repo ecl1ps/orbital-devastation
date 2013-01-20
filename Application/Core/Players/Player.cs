@@ -121,13 +121,13 @@ namespace Orbit.Core.Players
 
         public void AddScoreAndShow(int score)
         {
-            Data.Score += score;
+            Data.MatchPoints += score;
 
-            if (Data.Score <= 0)
+            if (Data.MatchPoints <= 0)
                 return;
 
             if (IsCurrentPlayer() && IsActivePlayer())
-                SceneMgr.ShowStatusText(5, "Score: " + Data.Score);
+                SceneMgr.ShowStatusText(5, "Score: " + Data.MatchPoints);
         }
 
         public void CreateWeapons()
@@ -184,7 +184,7 @@ namespace Orbit.Core.Players
 
         public void UpdateScore(int amount)
         {
-            Data.Score += amount;
+            Data.MatchPoints += amount;
         }
 
         public PlayerPosition GetPosition()
@@ -259,9 +259,9 @@ namespace Orbit.Core.Players
             scoreUpdateTimer += tpf;
             if (scoreUpdateTimer > 0.3)
             {
-                if (lastScoreValue != Data.Score || lastGoldValue != Data.Gold)
+                if (lastScoreValue != Data.MatchPoints || lastGoldValue != Data.Gold)
                 {
-                    lastScoreValue = Data.Score;
+                    lastScoreValue = Data.MatchPoints;
                     lastGoldValue = (int) Data.Gold;
                     SendScoreAndGoldUpdate();
                 }
@@ -279,7 +279,7 @@ namespace Orbit.Core.Players
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
             msg.Write((int)PacketType.PLAYER_SCORE_AND_GOLD);
             msg.Write(GetId());
-            msg.Write(Data.Score);
+            msg.Write(Data.MatchPoints);
             msg.Write(Data.Gold);
             SceneMgr.SendMessage(msg);
         }

@@ -690,9 +690,9 @@ namespace Orbit.Core.Client
             }
 
             int hs = int.Parse(GameProperties.Props.Get(key));
-            if (hs < currentPlayer.Data.Score)
+            if (hs < currentPlayer.Data.MatchPoints)
             {
-                hs = currentPlayer.Data.Score;
+                hs = currentPlayer.Data.MatchPoints;
                 GameProperties.Props.SetAndSave(key, hs);
                 CreateTextMessage("New HighScore " + hs + "!");
             }
@@ -914,7 +914,7 @@ namespace Orbit.Core.Client
         private List<LobbyPlayerData> CreateLobbyPlayerData()
         {
             List<LobbyPlayerData> data = new List<LobbyPlayerData>();
-            players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score, p.GetId() == GetCurrentPlayer().GetId(), 
+            players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.MatchPoints, p.GetId() == GetCurrentPlayer().GetId(), 
                 p.Data.LobbyLeader, p.Data.LobbyReady, p.Data.PlayedMatches, p.Data.WonMatches, p.Data.PlayerColor)));
             return data;
         }
@@ -950,10 +950,10 @@ namespace Orbit.Core.Client
             foreach (Player p in players)
             {
                 if (p.IsActivePlayer())
-                    data.Add(new PlayerOverviewData(p.Data.Name, p.Data.Score, p.Data.Gold, p.Data.Active, p.Data.PlayedMatches, p.Data.WonMatches,
+                    data.Add(new PlayerOverviewData(p.Data.Name, p.Data.MatchPoints, p.Data.Gold, p.Data.Active, p.Data.PlayedMatches, p.Data.WonMatches,
                         p.Mine.UpgradeLevel, p.Canoon.UpgradeLevel, p.Hook.UpgradeLevel));
                 else
-                    data.Add(new PlayerOverviewData(p.Data.Name, p.Data.Score, p.Data.Gold, p.Data.Active, p.Data.PlayedMatches, p.Data.WonMatches,
+                    data.Add(new PlayerOverviewData(p.Data.Name, p.Data.MatchPoints, p.Data.Gold, p.Data.Active, p.Data.PlayedMatches, p.Data.WonMatches,
                         UpgradeLevel.LEVEL_NONE, UpgradeLevel.LEVEL_NONE, UpgradeLevel.LEVEL_NONE));
             }
             return data;

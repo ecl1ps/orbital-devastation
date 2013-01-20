@@ -23,8 +23,6 @@ namespace Orbit.Core.Server.Match
         {
             switch (type)
             {
-                case MatchManagerType.WINS_THEN_SCORE:
-                    return WinsThenScoreMatchManager.Info;
                 case MatchManagerType.ONLY_SCORE:
                     return ScoreMatchManager.Info;
                 case MatchManagerType.SKIRMISH:

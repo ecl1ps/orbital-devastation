@@ -69,7 +69,7 @@ namespace Orbit.Gui
                 cbType.ItemsSource = data;
                 cbType.DisplayMemberPath = "Name";
                 cbType.SelectedValuePath = "Id";
-                cbType.SelectedValue = MatchManagerType.WINS_THEN_SCORE;
+                cbType.SelectedValue = MatchManagerType.ONLY_SCORE;
 
                 data = new List<ComboData>();
                 foreach (GameLevel l in Enum.GetValues(typeof(GameLevel)))

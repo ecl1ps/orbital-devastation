@@ -23,7 +23,6 @@ namespace Orbit.Core.Server.Match
 
     public enum MatchManagerType
     {
-        WINS_THEN_SCORE,
         ONLY_SCORE,
         SKIRMISH,
         QUICK_GAME,

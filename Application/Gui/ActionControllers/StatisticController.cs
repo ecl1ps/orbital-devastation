@@ -63,6 +63,14 @@ namespace Orbit.Gui.ActionControllers
             return val;
         }
 
+        protected String ParseTime(float value)
+        {
+            int min = (int)(value / 60);
+            int sec = (int)value % 60;
+
+            return min + ":" + sec;
+        }
+
         protected abstract void Next();
 
         protected abstract bool HasNext();

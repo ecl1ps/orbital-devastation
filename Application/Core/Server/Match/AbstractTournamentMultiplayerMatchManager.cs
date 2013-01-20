@@ -89,12 +89,12 @@ namespace Orbit.Core.Server.Match
             if (count > 1)
             {
                 //sesortime podle score
-                spectators.Sort(delegate(Player p1, Player p2) { return p2.Data.Score.CompareTo(p1.Data.Score); });
+                spectators.Sort(delegate(Player p1, Player p2) { return p2.Data.MatchPoints.CompareTo(p1.Data.MatchPoints); });
 
                 Player weaker;
                 Player stronger;
                 //porovname jejich score, podle toho urcime kdo je lepsi / horsi
-                int compared = active.Item1.Data.Score.CompareTo(active.Item2.Data.Score);
+                int compared = active.Item1.Data.MatchPoints.CompareTo(active.Item2.Data.MatchPoints);
                 //kdyz jsou na tom stejne tak to neresime (priradime stejne jako kdyz prvni je silnejsi)
                 if (compared == 0 || compared > 1)
                 {
@@ -138,40 +138,81 @@ namespace Orbit.Core.Server.Match
         public override void OnMatchEnd(Player plr, GameEnd endType, float time, ServerMgr server)
         {
             base.OnMatchEnd(plr, endType, time, server);
+        }
 
-            //kdyz vyhrajeme tak dostanu viteze
-            if (endType == GameEnd.WIN_GAME)
+        protected override void RewardPlayers(Player winner, Player looser, ServerMgr server)
+        {
+            winner.Data.WonMatches++;
+            int scoreWin = ComputeScoreWinner(winner, looser, server.Time);
+            int scoreLoose = ComputeScoreLooser(winner, looser, server.Time);
+
+            winner.Data.Score += scoreWin;
+            looser.Data.Score += scoreLoose;
+
+            SendPlayerScore(winner, server);
+            SendPlayerScore(looser, server);
+
+            SendTextMessage(winner, "You are victorious. You get " + scoreWin + " score", server);
+            SendTextMessage(looser, "You lost. You get " + scoreLoose + " score", server);
+
+            foreach (Player p in players)
             {
-                foreach (Player p in players)
-                    if (!p.IsActivePlayer())
-                        RewardSpectator(plr, p, time, server);
+                p.Data.MatchPoints = 0;
+                if (!p.IsActivePlayer())
+                    RewardSpectator(winner, p, scoreWin, scoreLoose, server.Time, server);
             }
         }
 
-        private void RewardSpectator(Player winner, Player spectator, float totalTime, ServerMgr server)
+        protected void RewardSpectator(Player winner, Player spectator, int winnerScore, int looserScore, float totalTime, ServerMgr server)
         {
             //spectator hral nacas
             if (spectator.Data.FriendlyPlayerId == 0)
             {
                 String time = ParseTime(totalTime);
-                int val = (int) (FastMath.LinearInterpolate(0, SharedDef.SPECTATOR_WIN_BONUS, totalTime / SharedDef.SPECTATOR_MAX_TIME_BONUS) * SharedDef.SOLO_SPECTATOR_WIN_MULTIPLY);
-                spectator.Data.Score += val;
+                int val = 100;
+                spectator.Data.MatchPoints += val;
                 SendTextMessage(spectator, "Thanks to your effort game lasted " + time + " . You acquire " + val + " score", server);
             }
             //spectator musel ochranovat hrace
             else if (spectator.Data.FriendlyPlayerId == winner.GetId())
             {
-                int val = SharedDef.SPECTATOR_WIN_BONUS;
+                int val = (int) (winnerScore * SharedDef.SPECTATOR_SCORE_BONUS);
                 spectator.Data.Score += val;
                 SendTextMessage(spectator, "You win. You acquire " + val + " score", server);
             }
             //spectator prohral
             else
             {
-                SendTextMessage(spectator, "You loose", server);
+                int val = (int)(looserScore * SharedDef.SPECTATOR_SCORE_BONUS);
+                spectator.Data.Score += val;
+                SendTextMessage(spectator, "You lost. You acquire " + val + " score", server);
             }
 
             SendPlayerScore(spectator, server);
+        }
+
+        private int ComputeScoreWinner(Player me, Player other, float time)
+        {
+            double timeCoef = FastMath.LinearInterpolate(1, 0.5, ComputeTimePerc(time));
+            float pointsCoef = other.Data.MatchPoints != 0 ? Math.Min(me.Data.MatchPoints / other.Data.MatchPoints, 1) : 1;
+            return (int) (FastMath.LinearInterpolate(SharedDef.VICTORY_MIN_SCORE, SharedDef.VICTORY_MAX_SCORE, pointsCoef) * timeCoef);
+        }
+
+        private int ComputeScoreLooser(Player me, Player other, float time)
+        {
+            double timeCoef = FastMath.LinearInterpolate(0.5, 1, ComputeTimePerc(time));
+            float pointsCoef = other.Data.MatchPoints != 0 ? Math.Min(me.Data.MatchPoints / other.Data.MatchPoints, 1) : 1;
+            return (int)(FastMath.LinearInterpolate(SharedDef.LOOSE_MIN_SCORE, SharedDef.LOOSE_MAX_SCORE, pointsCoef) * timeCoef);
+        }
+
+        private double ComputeTimePerc(float time)
+        {
+            if (time < SharedDef.MIN_TIME)
+                return 0;
+            else if (time > SharedDef.MAX_TIME)
+                return 1;
+
+            return (time - SharedDef.MIN_TIME) / (SharedDef.MAX_TIME - SharedDef.MIN_TIME);
         }
 
         private String ParseTime(float value)
