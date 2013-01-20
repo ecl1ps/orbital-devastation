@@ -582,7 +582,8 @@ namespace Orbit.Core.Client
 
             if (gameEnded && endType == GameEnd.SERVER_DISCONNECTED && (plr == null || plr.Data.LobbyLeader))
             {
-                lastGameEnd = endType;
+                if(lastGameEnd != GameEnd.TOURNAMENT_FINISHED)
+                    lastGameEnd = endType;
                 return;
             }
             else if (gameEnded)
