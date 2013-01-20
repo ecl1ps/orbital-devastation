@@ -165,7 +165,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 hook.Owner.AddScoreAndShow(ScoreDefines.HOOK_HIT);
             }
 
-            if (GetDistanceFromOriginPct() > 0.9)
+            if (!reportedStatistics && GetDistanceFromOriginPct() > 0.9)
             {
                 hook.SceneMgr.FloatingTextMgr.AddFloatingText("Max range!", hook.Center,
                     FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG, false, true);
