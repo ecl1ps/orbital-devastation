@@ -190,7 +190,15 @@ namespace Orbit.Core.Server
         {
             Player p = GetPlayer(id);
             if (p != null)
-                p.Connection.Disconnect("kicked");
+            {
+                if (p.Connection != null)
+                    p.Connection.Disconnect("kicked");
+                else
+                {
+                    players.Remove(p); // bot
+                    SendPlayerLeftMessage(p);
+                }
+            }
         }
 
         private void SyncReceivedObject(ISceneObject o, NetIncomingMessage msg)
