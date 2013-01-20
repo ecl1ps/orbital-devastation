@@ -7,7 +7,7 @@
              d:DesignWidth="1000" d:DesignHeight="700"  Width="1000" Height="700" Name="mainUC">
     
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center" ShowGridLines="False" Width="1000" Height="700">
-        <Border Margin="20,-1,780,-2" BorderThickness="1" BorderBrush="Black" Background="DarkGray" Padding="1">
+        <Border Margin="20,-1,780,-2" BorderThickness="1" BorderBrush="#FF550055" Background="DarkGray" SnapsToDevicePixels="True">
             <StackPanel Name="spMenu" >
                 <Button Content="Start Practise game" Name="btnSinglePlayer" Margin="0,50,0,5" Height="33"  Width="150" Click="btnSinglePlayer_Click" FontFamily="Bauhaus 93" FontSize="15">
                     <Button.Background>

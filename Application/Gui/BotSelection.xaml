@@ -3,10 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="350" d:DesignWidth="350"
-             x:Name="botSelection">
-    <Grid Width="350" Height="350" Background="#FF6F6F6F">
+             mc:Ignorable="d" Width="350" Height="350" BorderBrush="#FF550055" Background="#FF6F6F6F" BorderThickness="1" Name="botSelection">
+    <Grid>
         <ToggleButton Name="EasyBotButton" Height="31" Width="84" Content="Easy bot" Margin="128,12,138,307" Click="BotSelectionEvent"></ToggleButton>
         <ToggleButton Name="HookerBotButton" Height="31" Width="84" Content="Hooker bot" Margin="128,49,138,270" Click="BotSelectionEvent" ></ToggleButton>
         <ToggleButton Name="MedicoreBotButton" IsEnabled="False" Height="31" Width="84" Content="Medicore bot" Margin="128,86,138,233" Click="BotSelectionEvent"></ToggleButton>

@@ -6,12 +6,12 @@
              xmlns:controls="clr-namespace:Orbit.Gui"
              Closing="OnClose" Name="mainWindow" AllowsTransparency="True"
              WindowStyle="None" Title="Orbital Devastation" WindowStartupLocation="CenterScreen" KeyDown="OnKeyDown" Icon="/OrbitalDevastation;component/resources/images/rock/rock_normal_6.png"
-             Width="1000" Height="710" KeyUp="OnKeyUp" Deactivated="mainWindow_Deactivated" Activated="mainWindow_Activated" ResizeMode="CanResizeWithGrip">
+             Width="1000" Height="710" KeyUp="OnKeyUp" Deactivated="mainWindow_Deactivated" Activated="mainWindow_Activated" ResizeMode="CanResizeWithGrip" SnapsToDevicePixels="True">
 
     <Window.Resources>
         <LinearGradientBrush x:Key="WindowFrameBrush" StartPoint="0,0" EndPoint="0,1">
             <GradientStop Color="Black" Offset="0"/>
-            <GradientStop Color="#FF6F6F6F" Offset="1"/>
+            <GradientStop Color="#FF550055" Offset="1"/>
         </LinearGradientBrush>
     </Window.Resources>
 
@@ -21,7 +21,9 @@
                 <RowDefinition Height="10"></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Height="10" Background="#FF6F6F6F" VerticalAlignment="Top" MouseLeftButtonDown="dragbar_MouseLeftButtonDown"></Grid>
+            <Border Grid.Row="0" Height="10" Background="#FF6F6F6F" BorderThickness="0,0,0,1" BorderBrush="#FF450045"  VerticalAlignment="Top" >
+                <Grid MouseLeftButtonDown="dragbar_MouseLeftButtonDown"></Grid>                
+            </Border>
             <Grid Grid.Row="1" Name="contentGrid" VerticalAlignment="Center" HorizontalAlignment="Center" Width="1000" Height="700" ClipToBounds="True">
                 <Grid.LayoutTransform>
                     <ScaleTransform x:Name="ApplicationScaleTransform"
