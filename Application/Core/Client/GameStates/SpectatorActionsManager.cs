@@ -89,6 +89,11 @@ namespace Orbit.Core.Client.GameStates
 
         private void StartAnimation(Asteroid target, float time, Color color, bool towardsMe)
         {
+            this.time = time;
+
+            if (target == null)
+                return;
+
             Line line = new Line(action.action.Owner.SceneMgr, IdMgr.GetNewId(action.action.Owner.GetId()), action.action.Owner.Device.Position, target.Position, color, 1);
             HeavyweightLine strong = new HeavyweightLine(action.action.SceneMgr, IdMgr.GetNewId(action.action.Owner.GetId()), action.action.Owner.Device.Position, target.Position, color, 2);
 
@@ -123,8 +128,6 @@ namespace Orbit.Core.Client.GameStates
 
             action.action.Owner.SceneMgr.DelayedAttachToScene(line);
             action.action.Owner.SceneMgr.DelayedAttachToScene(strong);
-
-            this.time = time;
         }
 
         public void ScheduleAction(SpectatorAction action, List<Asteroid> targets, bool exact, bool send = true)

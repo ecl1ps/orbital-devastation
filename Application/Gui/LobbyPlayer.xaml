@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="45" d:DesignWidth="520">
-    <Border Width="500" Height="35" BorderThickness="2" CornerRadius="5" BorderBrush="black" Margin="10, 5, 10, 5">
+    <Border Name="border" Width="500" Height="35" BorderThickness="2" CornerRadius="5" BorderBrush="black" Margin="10, 5, 10, 5">
         <Grid Width="520" Height="45" HorizontalAlignment="Center" VerticalAlignment="Center" >
             <Label Content="MMMMMMMMMM" Height="30" HorizontalAlignment="Left" Name="lblName" VerticalAlignment="Center" Width="132" Margin="38,10,0,10" FontFamily="Bauhaus 93" FontSize="15" FontWeight="Normal"></Label>
             <Label Content="Score:" Height="30" Margin="357,8,110,7" Name="lblScoreText" VerticalAlignment="Center" FontFamily="Bauhaus 93" FontSize="15" />

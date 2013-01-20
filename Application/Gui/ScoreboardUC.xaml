@@ -9,7 +9,7 @@
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
         <Label Name="lblTitle" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="450" Margin="0,36,0,507" FontFamily="Bauhaus 93" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" >Tournament Scoreboard</Label>
         <Label Name="lblWinner" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="450" Margin="0,110,0,433" FontFamily="Bauhaus 93" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" >Player is winner!</Label>
-        <StackPanel Name="spResults"  Background="#7D91A0A3" Margin="0,-100,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Name="spResults" Margin="0,-100,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
         </StackPanel>
         <Button Content="Close" Height="28" HorizontalAlignment="Center" Margin="0,500,0,0" FontFamily="Bauhaus 93" FontSize="16" Name="btnClose" VerticalAlignment="Top" Width="129" Click="btnClose_Click">
             <Button.Background>

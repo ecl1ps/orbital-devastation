@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Media.Effects;
 
 namespace Orbit.Gui
 {
@@ -27,8 +28,39 @@ namespace Orbit.Gui
 
             IEnumerable<LobbyPlayerData> sortedData = data.OrderByDescending(p => p.Won).ThenByDescending(p => p.Score);
 
+            LobbyPlayer element;
+            int i = 0;
             foreach (LobbyPlayerData d in sortedData)
-                spResults.Children.Add(new LobbyPlayer(d, true));
+            {
+                element = new LobbyPlayer(d, true);
+                spResults.Children.Add(element);
+                PrepareWinnerColors(element, i);
+                i++;
+            }
+        }
+
+        private void PrepareWinnerColors(LobbyPlayer elem, int order)
+        {
+            Color c;
+            if (order == 0)
+                c = Colors.Gold;
+            else if (order == 1)
+                c = Colors.Silver;
+            else if (order == 2)
+                c = Color.FromRgb(140, 120, 83);
+            else
+                c = Colors.LightGray;
+
+            elem.border.Background = new SolidColorBrush(c);
+            if (order < 3)
+            {
+                DropShadowEffect effect = new DropShadowEffect();
+                effect.Color = c;
+                effect.BlurRadius = 10;
+                effect.Direction = 0;
+                
+            //    elem.border.Effect = effect;
+            }
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
