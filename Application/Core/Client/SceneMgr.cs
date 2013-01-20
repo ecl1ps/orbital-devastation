@@ -914,7 +914,7 @@ namespace Orbit.Core.Client
         private List<LobbyPlayerData> CreateLobbyPlayerData()
         {
             List<LobbyPlayerData> data = new List<LobbyPlayerData>();
-            players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.MatchPoints, p.GetId() == GetCurrentPlayer().GetId(), 
+            players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score, p.GetId() == GetCurrentPlayer().GetId(), 
                 p.Data.LobbyLeader, p.Data.LobbyReady, p.Data.PlayedMatches, p.Data.WonMatches, p.Data.PlayerColor)));
             return data;
         }

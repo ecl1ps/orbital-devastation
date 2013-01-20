@@ -92,6 +92,7 @@ namespace Orbit.Core.Players
         public void Reset()
         {
             Gold = SharedDef.START_GOLD;
+            MatchPoints = 0;
 
             MaxBaseIntegrity = SharedDef.BASE_MAX_INGERITY;
             BaseIntegrity = MaxBaseIntegrity;

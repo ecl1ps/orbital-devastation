@@ -144,7 +144,7 @@ namespace Orbit.Core.Server.Match
         {
             winner.Data.WonMatches++;
             int scoreWin = ComputeScoreWinner(winner, looser, server.Time);
-            int scoreLoose = ComputeScoreLooser(winner, looser, server.Time);
+            int scoreLoose = ComputeScoreLooser(looser, winner, server.Time);
 
             winner.Data.Score += scoreWin;
             looser.Data.Score += scoreLoose;

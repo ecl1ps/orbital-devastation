@@ -15,7 +15,7 @@
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <RunPostBuildEvent>Always</RunPostBuildEvent>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -269,7 +269,6 @@
     <Compile Include="Core\Server\Level\Test\LevelTestBaseCollisions.cs" />
     <Compile Include="Core\Server\Level\Test\LevelTestStaticObjects.cs" />
     <Compile Include="Core\Server\Match\AbstractTournamentMatchManager.cs" />
-    <Compile Include="Core\Server\Match\Production\WinsThenScoreMatchManager.cs" />
     <Compile Include="Core\Server\Match\ITournamentMatchManager.cs" />
     <Compile Include="Core\Server\Match\PlayerMatchData.cs" />
     <Compile Include="Core\Server\Match\Production\ScoreMatchManager.cs" />
@@ -814,10 +813,11 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-      copy "$(TargetDir)$(TargetFileName)" "$(TargetDir)Copy\$(TargetFileName)"
-      copy "$(TargetDir)$(TargetFileName)" "$(TargetDir)Copy2\$(TargetFileName)"
+copy "$(TargetDir)$(TargetFileName)" "$(TargetDir)Copy\$(TargetFileName)"
+copy "$(TargetDir)$(TargetFileName)" "$(TargetDir)Copy2\$(TargetFileName)"
+copy "$(TargetDir)$(TargetFileName)" "$(TargetDir)Copy3\$(TargetFileName)"
       if /I "$(ConfigurationName)" == "Release" Eazfuscator.NET.exe "$(TargetPath)" --msbuild-project-path "$(ProjectPath)" --msbuild-project-configuration "$(ConfigurationName)" --msbuild-project-platform "$(PlatformName)" --msbuild-solution-path "$(SolutionPath)" -n --newline-flush -v 3.3
-    </PostBuildEvent>
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
