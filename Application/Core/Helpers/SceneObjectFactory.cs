@@ -18,6 +18,9 @@ using Orbit.Core.Scene.Controls.Collisions.Implementations;
 using Orbit.Core.Scene.Controls.Health.Implementations;
 using Orbit.Core.Scene.Entities.Implementations.HeavyWeight;
 using Orbit.Core.Scene.Entities.HeavyWeight;
+using Orbit.Core.SpecialActions.Spectator;
+using Orbit.Gui.Visuals;
+using Orbit.Core.SpecialActions;
 
 namespace Orbit.Core.Helpers
 {
@@ -56,7 +59,7 @@ namespace Orbit.Core.Helpers
             mine.Radius = 2;
             mine.Direction = dir;
             mine.Color = Colors.BlueViolet;
-            mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
+            mine.SetGeometry(SceneGeometryFactory.CreateSolidColorEllipseGeometry(mine));
                 
             SphereCollisionShape cs = new SphereCollisionShape();
             cs.Center = mine.Center;
@@ -98,7 +101,7 @@ namespace Orbit.Core.Helpers
 
             mine.AddControl(new StickySphereCollisionShapeControl());
 
-            mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
+            mine.SetGeometry(SceneGeometryFactory.CreateSolidColorEllipseGeometry(mine));
 
             return mine;
         }
@@ -128,7 +131,7 @@ namespace Orbit.Core.Helpers
 
             mine.AddControl(new StickySphereCollisionShapeControl());
 
-            mine.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(mine));
+            mine.SetGeometry(SceneGeometryFactory.CreateSolidColorEllipseGeometry(mine));
 
             return mine;
         }
@@ -491,7 +494,7 @@ namespace Orbit.Core.Helpers
             IceSquare s = new IceSquare(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             s.Size = size;
             s.Position = position;
-            s.Category = Gui.Visuals.DrawingCategory.BACKGROUND;
+            s.Category = DrawingCategory.BACKGROUND;
             s.SetGeometry(SceneGeometryFactory.CreateIceCube(s));
 
             return s;
@@ -504,6 +507,45 @@ namespace Orbit.Core.Helpers
             s.Position = position;
             s.TextureId = texture;
             s.SetGeometry(SceneGeometryFactory.CreateIceShard(s));
+
+            return s;
+        }
+
+        public static void CreateSpectatorActionReadinessIndicators(Player p)
+        {
+            List<ISpecialAction> actions = p.GetActions<ISpectatorAction>();
+            for (int i = 0; i < actions.Count; ++i)
+            {
+                ISpectatorAction a = (ISpectatorAction)actions[i];
+                double rotation = ((2 * Math.PI / actions.Count) * i) + Math.PI / (actions.Count * 2) + Math.PI;
+
+                SpectatorActionIndicatorControl saic = new SpectatorActionIndicatorControl();
+                saic.Action = a;
+                saic.Indicator = SceneObjectFactory.SpectatorActionReadinessIndicator(a, p.Device, rotation, Colors.Transparent, a.CastingColor, Colors.Transparent);
+                Color strokeColor = a.CastingColor;
+                strokeColor.A = 0x60;
+                saic.ExactIndicator = SceneObjectFactory.SpectatorActionReadinessIndicator(a, p.Device, rotation, Colors.Transparent, Colors.Transparent, strokeColor);
+
+                p.SceneMgr.DelayedAttachToScene(saic.Indicator);
+                p.SceneMgr.DelayedAttachToScene(saic.ExactIndicator);
+
+                p.Device.AddControl(saic);
+            }
+        }
+
+        public static ISceneObject SpectatorActionReadinessIndicator(ISpectatorAction a, MiningModule parent, double rotation, Color begin, Color end, Color stroke)
+        {
+            SimpleSphere s = new SimpleSphere(a.SceneMgr, IdMgr.GetNewId(a.SceneMgr.GetCurrentPlayer().GetId()));
+            s.Color = a.CastingColor;
+            s.Radius = 6;
+            s.Category = DrawingCategory.PLAYER_OBJECTS;
+
+            Vector offset = new Vector(parent.Radius + 15, 0).Rotate(rotation);
+            s.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(a.SceneMgr, s.Radius, begin, end, stroke, parent.Center + offset, 1));
+
+            CenterCloneControl ccc = new CenterCloneControl(parent);
+            ccc.Offset = offset;
+            s.AddControl(ccc);
 
             return s;
         }

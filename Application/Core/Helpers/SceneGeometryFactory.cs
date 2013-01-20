@@ -33,14 +33,14 @@ namespace Orbit.Core.Helpers
             return d;
         }
 
-        public static DrawingGroup CreateRadialGradientEllipseGeometry(SceneMgr mgr, int radius, Color start, Color end, Color stroke, Vector position)
+        public static DrawingGroup CreateRadialGradientEllipseGeometry(SceneMgr mgr, int radius, Color start, Color end, Color stroke, Vector position, double strokeThickness)
         {
             DrawingGroup d = null;
             mgr.Invoke(new Action(() =>
             {
                 EllipseGeometry geom = new EllipseGeometry(new Point(radius, radius), radius, radius);
                 d = new DrawingGroup();
-                d.Children.Add(new GeometryDrawing(new RadialGradientBrush(end, start), new Pen(new SolidColorBrush(stroke), 1), geom));
+                d.Children.Add(new GeometryDrawing(new RadialGradientBrush(end, start), new Pen(new SolidColorBrush(stroke), strokeThickness), geom));
 
                 TransformGroup tg = new TransformGroup();
                 tg.Children.Add(new TranslateTransform(position.X, position.Y));
@@ -84,7 +84,7 @@ namespace Orbit.Core.Helpers
             return g;
         }
 
-        public static DrawingGroup CreateRadialGradientEllipseGeometry(SingularityMine mine)
+        public static DrawingGroup CreateSolidColorEllipseGeometry(SingularityMine mine)
         {
             DrawingGroup d = null;
             mine.SceneMgr.Invoke(new Action(() =>

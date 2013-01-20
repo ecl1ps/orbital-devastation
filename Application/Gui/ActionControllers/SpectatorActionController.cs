@@ -41,7 +41,7 @@ namespace Orbit.Gui.ActionControllers
                 window.SetCountText(count.ToString());
             }
 
-            window.Highlight(count == 0);
+            //window.Highlight(count == 0);
         }
     }
 }
