@@ -36,6 +36,8 @@ namespace Orbit.Core.Client.GameStates
 
         private ActionObjects action = null;
         private float time = 0;
+        private bool lockedDevice = false;
+        private Player lastOwner = null;
 
         public SpectatorActionsManager()
         {
@@ -53,7 +55,24 @@ namespace Orbit.Core.Client.GameStates
             if (action == null && actions.Count > 0)
                 LoadAnotherAction();
 
+            if (action != null && !lockedDevice)
+                EnableDevice(false);
+            else if (lockedDevice)
+                EnableDevice(true);
+
             time -= tpf;
+        }
+
+        private void EnableDevice(bool enable)
+        {
+            if(!enable)
+                lastOwner = action.action.Owner;
+
+            Control c = lastOwner.Device.GetControlOfType<MiningModuleControl>();
+            if (c != null)
+                c.Enabled = enable;
+
+            lockedDevice = !enable;
         }
 
         private void CastAction()
