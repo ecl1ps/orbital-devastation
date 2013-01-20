@@ -69,10 +69,10 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
                     if (IsCircle)
                         highlighter.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(
-                            me.SceneMgr, (highlighter as Sphere).Radius, Colors.Transparent, Colors.Transparent, (me as Sphere).Color, me.Position));
+                            me.SceneMgr, (highlighter as Sphere).Radius, Colors.Transparent, Colors.Transparent, (me as Sphere).Color, me.Position, 1));
                     else
                         highlighter.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(
-                            me.SceneMgr, (highlighter as Sphere).Radius, border, center, Colors.Transparent, me.Position));
+                            me.SceneMgr, (highlighter as Sphere).Radius, border, center, Colors.Transparent, me.Position, 1));
 
                     highlighter.AddControl(new CenterCloneControl(me));
 

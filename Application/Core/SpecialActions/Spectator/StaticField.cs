@@ -28,6 +28,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             this.Cooldown = 10; //sekundy
             this.CastingTime = 0;
             this.Range = new Range();
+            this.CastingColor = Colors.MediumTurquoise;
         }
 
         public override int RangeCount

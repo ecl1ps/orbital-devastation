@@ -157,10 +157,10 @@ namespace Orbit.Core.Scene.Entities
 
         public virtual void SetGeometry(DrawingGroup geometryElement)
         {
+            this.geometryElement = geometryElement;
             // zajisti, ze se spravne nastavi meta property
             visible = false;
             Visible = true;
-            this.geometryElement = geometryElement;
         }
 
         public virtual void DoRemove(ISceneObject obj)

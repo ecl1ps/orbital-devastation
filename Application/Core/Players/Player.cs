@@ -252,7 +252,6 @@ namespace Orbit.Core.Players
                     informedLowHealth = false;
             }
 
-            // zatim ne pro spectatory
             if (!IsActivePlayer())
                 return;
 
@@ -338,10 +337,10 @@ namespace Orbit.Core.Players
             return IsBot() || (Connection != null && (Connection.Status == NetConnectionStatus.Connected || Connection.Status == NetConnectionStatus.RespondedAwaitingApproval));
         }
 
-        public List<ISpecialAction> GetActions<T>(SceneMgr mgr)
+        public List<ISpecialAction> GetActions<T>()
         {
             if (actions == null)
-                InitActions(mgr);
+                InitActions();
 
             List<ISpecialAction> temp = new List<ISpecialAction>();
             foreach (ISpecialAction action in actions)
@@ -353,10 +352,10 @@ namespace Orbit.Core.Players
             return temp;
         }
 
-        public List<T> GetActionsTyped<T>(SceneMgr mgr)
+        public List<T> GetActionsTyped<T>()
         {
             if (actions == null)
-                InitActions(mgr);
+                InitActions();
 
             List<T> temp = new List<T>();
             foreach (ISpecialAction action in actions)
@@ -373,18 +372,18 @@ namespace Orbit.Core.Players
             actions = null;
         }
 
-        private void InitActions(SceneMgr mgr)
+        private void InitActions()
         {
             if (IsActivePlayer())
-                actions = GeneratePlayerActions(mgr);
+                actions = GeneratePlayerActions();
             else
-                actions = GenerateSpectatorActions(mgr);
+                actions = GenerateSpectatorActions();
         }
 
-        private List<ISpecialAction> GeneratePlayerActions(SceneMgr mgr)
+        private List<ISpecialAction> GeneratePlayerActions()
         {
             actions = new List<ISpecialAction>();
-            actions.Add(new HealAction(HealingKit, mgr, this));
+            actions.Add(new HealAction(HealingKit, SceneMgr, this));
             actions.Add(new WeaponUpgrade(Hook));
             actions.Add(new WeaponUpgrade(Mine));
             actions.Add(new WeaponUpgrade(Canoon));
@@ -392,15 +391,15 @@ namespace Orbit.Core.Players
             return actions;
         }
 
-        private List<ISpecialAction> GenerateSpectatorActions(SceneMgr mgr)
+        private List<ISpecialAction> GenerateSpectatorActions()
         {
             actions = new List<ISpecialAction>();
 
-            actions.Add(new AsteroidThrow(mgr, this));
-            actions.Add(new AsteroidDamage(mgr, this));
-            actions.Add(new AsteroidGrowth(mgr, this));
-            actions.Add(new AsteroidSlow(mgr, this));
-            actions.Add(new StaticField(mgr, this));
+            actions.Add(new AsteroidThrow(SceneMgr, this));
+            actions.Add(new AsteroidDamage(SceneMgr, this));
+            actions.Add(new AsteroidGrowth(SceneMgr, this));
+            actions.Add(new AsteroidSlow(SceneMgr, this));
+            actions.Add(new StaticField(SceneMgr, this));
 
             return actions;
         }

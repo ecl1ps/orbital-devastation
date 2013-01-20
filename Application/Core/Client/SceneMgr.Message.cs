@@ -351,7 +351,7 @@ namespace Orbit.Core.Client
                 if (p.IsActivePlayer())
                 {
                     inputMgr = new PlayerInputMgr(p, this, actionBarMgr);
-                    actionBarMgr.CreateActionBarItems(p.GetActions<IPlayerAction>(this), false);
+                    actionBarMgr.CreateActionBarItems(p.GetActions<IPlayerAction>(), false);
                 }
                 else
                 {
@@ -360,7 +360,8 @@ namespace Orbit.Core.Client
                     p.Device.AddControl(mc);
 
                     inputMgr = new SpectatorInputMgr(p, this, p.Device, actionBarMgr);
-                    actionBarMgr.CreateActionBarItems(p.GetActions<ISpectatorAction>(this), true);
+                    actionBarMgr.CreateActionBarItems(p.GetActions<ISpectatorAction>(), true);
+                    SceneObjectFactory.CreateSpectatorActionReadinessIndicators(p);
                 }
             }
         }
@@ -573,7 +574,7 @@ namespace Orbit.Core.Client
             SingularityMine s = new SingularityMine(this, -1);
             s.ReadObject(msg);
             s.Owner = GetOpponentPlayer();
-            s.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(s));
+            s.SetGeometry(SceneGeometryFactory.CreateSolidColorEllipseGeometry(s));
             DelayedAttachToScene(s);
             SyncReceivedObject(s, msg);
         }
