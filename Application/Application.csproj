@@ -200,6 +200,7 @@
     <Compile Include="Core\Scene\Controls\Implementations\PowerHookControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\RespawningObjectControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LimitedReverseDamageControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\SpectatorActionIndicatorControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\StaticFieldControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\StatPowerUpCollisionReactionControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\StretchingLineControl.cs" />
