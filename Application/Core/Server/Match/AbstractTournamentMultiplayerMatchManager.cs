@@ -169,7 +169,7 @@ namespace Orbit.Core.Server.Match
             if (spectator.Data.FriendlyPlayerId == 0)
             {
                 String time = ParseTime(totalTime);
-                int val = 100;
+                int val = (int) FastMath.LinearInterpolate(SharedDef.SOLO_SPECTATOR_MIN_SCORE, SharedDef.SOLO_SPECTATOR_MAX_SCORE, ComputeTimePerc(totalTime, SharedDef.SOLO_SPECTATOR_MAX_TIME, SharedDef.SOLO_SPECTATOR_MIN_TIME));
                 spectator.Data.MatchPoints += val;
                 SendTextMessage(spectator, "Thanks to your effort game lasted " + time + " . You acquire " + val + " score", server);
             }
@@ -193,26 +193,32 @@ namespace Orbit.Core.Server.Match
 
         private int ComputeScoreWinner(Player me, Player other, float time)
         {
-            double timeCoef = FastMath.LinearInterpolate(1, 0.5, ComputeTimePerc(time));
+            double timeCoef = FastMath.LinearInterpolate(1, 0.5, ComputeTimePerc(time, SharedDef.MAX_TIME, SharedDef.MIN_TIME));
             float pointsCoef = other.Data.MatchPoints != 0 ? Math.Min(me.Data.MatchPoints / other.Data.MatchPoints, 1) : 1;
             return (int) (FastMath.LinearInterpolate(SharedDef.VICTORY_MIN_SCORE, SharedDef.VICTORY_MAX_SCORE, pointsCoef) * timeCoef);
         }
 
         private int ComputeScoreLooser(Player me, Player other, float time)
         {
-            double timeCoef = FastMath.LinearInterpolate(0.5, 1, ComputeTimePerc(time));
+            double timeCoef = FastMath.LinearInterpolate(0.5, 1, ComputeTimePerc(time, SharedDef.MAX_TIME, SharedDef.MIN_TIME));
             float pointsCoef = other.Data.MatchPoints != 0 ? Math.Min(me.Data.MatchPoints / other.Data.MatchPoints, 1) : 1;
             return (int)(FastMath.LinearInterpolate(SharedDef.LOOSE_MIN_SCORE, SharedDef.LOOSE_MAX_SCORE, pointsCoef) * timeCoef);
         }
 
-        private double ComputeTimePerc(float time)
+        private double ComputeTimePerc(float time, float maxTime, float minTime)
         {
             if (time < SharedDef.MIN_TIME)
                 return 0;
             else if (time > SharedDef.MAX_TIME)
                 return 1;
 
-            return (time - SharedDef.MIN_TIME) / (SharedDef.MAX_TIME - SharedDef.MIN_TIME);
+            double val = (time - minTime) / (maxTime - minTime);
+            if (val > 1)
+                val = 1;
+            else if (val < 0)
+                val = 0;
+
+            return val;
         }
 
         private String ParseTime(float value)
