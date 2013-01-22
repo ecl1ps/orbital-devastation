@@ -172,6 +172,7 @@
     <Compile Include="Core\Scene\Controls\Implementations\ControlableMiningModuleControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DelayedActionInvokingControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LineTravelingControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\MovementDirectionControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ShrinkingControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\FollowingControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ExcludingExplodingSingularityBulletControl.cs" />
@@ -220,6 +221,7 @@
     <Compile Include="Core\Scene\Controls\Health\IHpControl.cs" />
     <Compile Include="Core\Scene\Entities\IHeavyWeightSceneObject.cs" />
     <Compile Include="Core\Scene\Entities\IHpBar.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\AlphaChangingControl.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\HighlightingSphere.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\IceShard.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\IceSquare.cs" />
@@ -255,6 +257,10 @@
     <Compile Include="Core\Helpers\SceneGeometryFactory.cs" />
     <Compile Include="Core\Helpers\SceneObjectFactory.cs" />
     <Compile Include="Core\IGameState.cs" />
+    <Compile Include="Core\Scene\Particles\AbstractParticleFactory.cs" />
+    <Compile Include="Core\Scene\Particles\Implementations\ParticleEmmitor.cs" />
+    <Compile Include="Core\Scene\Particles\Implementations\ParticleSphereFactory.cs" />
+    <Compile Include="Core\Scene\Particles\IParticleFactory.cs" />
     <Compile Include="Core\Server\Level\LevelInfo.cs" />
     <Compile Include="Core\Server\Level\Production\LevelSurvival.cs" />
     <Compile Include="Core\Server\Level\Production\LevelBasic.cs" />
@@ -813,11 +819,10 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-copy "$(TargetDir)$(TargetFileName)" "$(TargetDir)Copy\$(TargetFileName)"
+    <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "$(TargetDir)Copy\$(TargetFileName)"
 copy "$(TargetDir)$(TargetFileName)" "$(TargetDir)Copy2\$(TargetFileName)"
 copy "$(TargetDir)$(TargetFileName)" "$(TargetDir)Copy3\$(TargetFileName)"
-      if /I "$(ConfigurationName)" == "Release" Eazfuscator.NET.exe "$(TargetPath)" --msbuild-project-path "$(ProjectPath)" --msbuild-project-configuration "$(ConfigurationName)" --msbuild-project-platform "$(PlatformName)" --msbuild-solution-path "$(SolutionPath)" -n --newline-flush -v 3.3
+ if /I "$(ConfigurationName)" == "Release" Eazfuscator.NET.exe "$(TargetPath)" --msbuild-project-path "$(ProjectPath)" --msbuild-project-configuration "$(ConfigurationName)" --msbuild-project-platform "$(PlatformName)" --msbuild-solution-path "$(SolutionPath)" -n --newline-flush -v 3.3
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
