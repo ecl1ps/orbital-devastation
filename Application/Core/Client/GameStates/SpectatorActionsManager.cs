@@ -65,8 +65,6 @@ namespace Orbit.Core.Client.GameStates
 
         private void EnableDevice(bool enable)
         {
-            Console.WriteLine("enable");
-
             if(!enable)
                 lastOwner = action.action.Owner;
 
