@@ -23,6 +23,7 @@ using Orbit.Core.Scene.Controls.Collisions;
 using Orbit.Gui.Visuals;
 using Orbit.Core.Helpers;
 using Orbit.Gui.ActionControllers;
+using Orbit.Core.Scene.Particles.Implementations;
 
 namespace Orbit.Core.Client
 {
@@ -240,7 +241,7 @@ namespace Orbit.Core.Client
                 }
             }
 
-            if (obj.GetGeometry() == null && !(obj is IHeavyWeightSceneObject))
+            if (obj.GetGeometry() == null && !(obj is IHeavyWeightSceneObject) && !(obj is ParticleEmmitor))
             {
                 Logger.Warn("Trying to add geometry object to scene, but it is null -> skipped!");
                 return;
@@ -252,7 +253,7 @@ namespace Orbit.Core.Client
             {
                 if (obj is IHeavyWeightSceneObject)
                     GetCanvas().Children.Add((obj as IHeavyWeightSceneObject).HeavyWeightGeometry);
-                else
+                else if(!(obj is ParticleEmmitor))
                     area.Add(obj.GetGeometry(), obj.Category);
             }));
         }

@@ -74,7 +74,7 @@ namespace Orbit.Core.Scene.Entities
             Category = DrawingCategory.BACKGROUND;
         }
 
-        public void Update(float tpf)
+        public virtual void Update(float tpf)
         {
             UpdateControls(tpf);
         }
