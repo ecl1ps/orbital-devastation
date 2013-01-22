@@ -18,8 +18,14 @@ namespace Orbit.Core
         public const int LOOSE_MAX_SCORE                    = 500;
         public const int LOOSE_MIN_SCORE                    = 200;
 
-        public const int MIN_TIME                           = 180;
-        public const int MAX_TIME                           = 1200;
+        public const float MIN_TIME                         = 180;
+        public const float MAX_TIME                         = 1200;
+
+        public const int SOLO_SPECTATOR_MAX_SCORE           = 1500;
+        public const int SOLO_SPECTATOR_MIN_SCORE           = 0;
+
+        public const float SOLO_SPECTATOR_MIN_TIME            = 0;
+        public const float SOLO_SPECTATOR_MAX_TIME            = 1800;
 
         public const float SPECTATOR_SCORE_BONUS            = 0.5f;
 
