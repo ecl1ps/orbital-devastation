@@ -6,6 +6,7 @@ using Orbit.Core.Scene.Entities;
 using System.Windows;
 using Orbit.Core.Client;
 using Orbit.Core.Scene.Controls.Implementations;
+using Orbit.Core.Scene.Controls;
 
 namespace Orbit.Core.Scene.Particles.Implementations
 {
@@ -116,6 +117,16 @@ namespace Orbit.Core.Scene.Particles.Implementations
             time -= tpf;
         }
 
+        public void PrepareParticles(int num)
+        {
+            for (int i = 0; i < num; i++)
+            {
+                double size = FastMath.LinearInterpolate(MinSize, MaxSize, rand.NextDouble());
+                IMovable obj = Factory.CreateParticle((int)size);
+                deadObjects.Add(obj);
+            }
+        }
+
         protected void SpawnParticle()
         {
             if (!SpawnDeadParticle())
@@ -151,6 +162,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
 
         protected void AttachControls(IMovable obj)
         {
+            obj.RemoveControlsOfType<IControl>();
             double angle = FastMath.LinearInterpolate(MinAngle, MaxAngle, rand.NextDouble());
             double force = FastMath.LinearInterpolate(MinForce, MaxForce, rand.NextDouble());
             double life = FastMath.LinearInterpolate(MinLife, MaxLife, rand.NextDouble());
@@ -159,13 +171,8 @@ namespace Orbit.Core.Scene.Particles.Implementations
             obj.Direction = EmmitingDirection.Rotate(angle);
             LinearMovementControl mc = new LinearMovementControl();
             mc.Speed = (float)force;
-            AlphaChangingControl ac = new AlphaChangingControl();
-            ac.Time = (float)life;
-            ac.MinAlpha = MinAlpha;
-            ac.MaxAlpha = MaxAlpha;
 
             obj.AddControl(mc);
-            //obj.AddControl(ac);
             obj.AddControl(new LimitedLifeControl((float)life));
         }
 
@@ -173,11 +180,10 @@ namespace Orbit.Core.Scene.Particles.Implementations
         {
             double size = FastMath.LinearInterpolate(MinSize, MaxSize, rand.NextDouble());
             IMovable obj = Factory.CreateParticle((int)size);
-
-            AttachControls(obj);
+            livingObjects.Add(obj);
 
             SceneMgr.DelayedAttachToScene(obj);
-            livingObjects.Add(obj);
+            AttachControls(obj);
         }
     }
 }

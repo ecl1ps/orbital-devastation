@@ -27,12 +27,13 @@ namespace Orbit.Core.Players.Input
             emmitor.MinForce = 50;
             emmitor.MaxForce = 70;
             emmitor.MinLife = 0.2f;
-            emmitor.MaxLife = 1;
+            emmitor.MaxLife = 3;
             emmitor.Position = new Vector(500, 500);
             emmitor.MinSize = 2;
             emmitor.MaxSize = 6;
             emmitor.MaxAlpha = 0.6f;
             emmitor.Amount = 100;
+            emmitor.Infinite = true;
             emmitor.Enabled = false;
 
             ParticleSphereFactory f = new ParticleSphereFactory();
