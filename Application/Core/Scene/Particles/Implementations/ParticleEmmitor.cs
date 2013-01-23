@@ -14,6 +14,9 @@ namespace Orbit.Core.Scene.Particles.Implementations
         private Random rand;
         private float timeLap = 0;
         private float time = 0;
+        private List<IMovable> deadObjects;
+        private List<IMovable> livingObjects;
+        private int amount = 0;
 
         private IParticleFactory factory;
         public IParticleFactory Factory { get { return factory; } set { value.Init(this); factory = value; } }
@@ -33,6 +36,20 @@ namespace Orbit.Core.Scene.Particles.Implementations
         public bool FireAll { get; set; }
         public bool Infinite { get; set; }
 
+        public override bool Enabled
+        {
+            get
+            {
+                return base.Enabled;
+            }
+            set
+            {
+                if (value)
+                    amount = Amount;
+                base.Enabled = value;
+            }
+        }
+
         public ParticleEmmitor(SceneMgr mgr, long id) : base(mgr, id)
         {
             MinAngle = 0;
@@ -43,8 +60,11 @@ namespace Orbit.Core.Scene.Particles.Implementations
             MinSize = 0;
             MaxAlpha = 0;
             MinAlpha = 0;
+            Enabled = false;
 
             rand = mgr.GetRandomGenerator();
+            livingObjects = new List<IMovable>();
+            deadObjects = new List<IMovable>();
         }
 
         public override System.Windows.Vector Center
@@ -70,7 +90,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
                 for (int i = 0; i < Amount; i++)
                     SpawnParticle();
 
-                DoRemoveMe();
+                Enabled = false;
                 return;
             }
 
@@ -83,13 +103,13 @@ namespace Orbit.Core.Scene.Particles.Implementations
             if (time <= 0)
             {
                 SpawnParticle();
-                Amount--;
+                amount--;
                 time = timeLap;
             }
 
-            if (Amount <= 0 && !Infinite)
+            if (amount <= 0 && !Infinite)
             {
-                DoRemoveMe();
+                Enabled = false;
                 return;
             }
 
@@ -98,28 +118,66 @@ namespace Orbit.Core.Scene.Particles.Implementations
 
         protected void SpawnParticle()
         {
+            if (!SpawnDeadParticle())
+            {
+                List<IMovable> temp = livingObjects.FindAll(obj => obj.Dead);
+                if (temp.Count > 0)
+                {
+                    foreach (IMovable obj in temp) {
+                        deadObjects.Add(obj);
+                        livingObjects.Remove(obj);
+                    }
+                }
+
+                if (!SpawnDeadParticle())
+                    CreateArticle();
+            }
+
+        }
+
+        protected bool SpawnDeadParticle()
+        {
+            if (deadObjects.Count == 0)
+                return false;
+
+            IMovable obj = deadObjects[0];
+            AttachControls(obj);
+
+            SceneMgr.DelayedAttachToScene(obj);
+            deadObjects.RemoveAt(0);
+
+            return true;
+        }
+
+        protected void AttachControls(IMovable obj)
+        {
             double angle = FastMath.LinearInterpolate(MinAngle, MaxAngle, rand.NextDouble());
             double force = FastMath.LinearInterpolate(MinForce, MaxForce, rand.NextDouble());
             double life = FastMath.LinearInterpolate(MinLife, MaxLife, rand.NextDouble());
-            double size = FastMath.LinearInterpolate(MinSize, MaxSize, rand.NextDouble());
 
-            IMovable obj = Factory.CreateParticle((int) size);
             obj.Position = Position;
-
             obj.Direction = EmmitingDirection.Rotate(angle);
             LinearMovementControl mc = new LinearMovementControl();
-            mc.Speed = (float) force;
+            mc.Speed = (float)force;
             AlphaChangingControl ac = new AlphaChangingControl();
-            ac.Time = (float) life;
+            ac.Time = (float)life;
             ac.MinAlpha = MinAlpha;
             ac.MaxAlpha = MaxAlpha;
 
             obj.AddControl(mc);
             //obj.AddControl(ac);
-            obj.AddControl(new LimitedLifeControl((float) life));
-
-            SceneMgr.DelayedAttachToScene(obj);
+            obj.AddControl(new LimitedLifeControl((float)life));
         }
 
+        protected void CreateArticle()
+        {
+            double size = FastMath.LinearInterpolate(MinSize, MaxSize, rand.NextDouble());
+            IMovable obj = Factory.CreateParticle((int)size);
+
+            AttachControls(obj);
+
+            SceneMgr.DelayedAttachToScene(obj);
+            livingObjects.Add(obj);
+        }
     }
 }

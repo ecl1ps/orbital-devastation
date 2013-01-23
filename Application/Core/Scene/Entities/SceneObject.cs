@@ -50,8 +50,8 @@ namespace Orbit.Core.Scene.Entities
                 visible = value;
             } 
         }
-        private bool enabled = true;
-        public bool Enabled {
+        protected bool enabled = true;
+        public virtual bool Enabled {
             get
             {
                 return enabled;
@@ -76,7 +76,8 @@ namespace Orbit.Core.Scene.Entities
 
         public virtual void Update(float tpf)
         {
-            UpdateControls(tpf);
+            if(Enabled)
+                UpdateControls(tpf);
         }
 
         private void UpdateControls(float tpf)
