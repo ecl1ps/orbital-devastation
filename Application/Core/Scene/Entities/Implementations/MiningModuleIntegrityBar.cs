@@ -28,7 +28,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
             Percentage = 1;
             Category = DrawingCategory.PLAYER_OBJECTS;
-            visible = true;
         }
 
         public Point ComputePointOnCircle(double angle)
@@ -47,12 +46,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void UpdateGeometric()
         {
-            if (Visible)
-                geometryElement.Opacity = 1;
-            else
-                geometryElement.Opacity = 0;
-                
-
             if (arc.IsLargeArc && Percentage < 0.5)
                 arc.IsLargeArc = false;
             else if (!arc.IsLargeArc && Percentage > 0.5)
