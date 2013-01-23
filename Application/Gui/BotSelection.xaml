@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" Width="350" Height="350" BorderBrush="#FF550055" Background="#FF6F6F6F" BorderThickness="1" Name="botSelection">
+             Name="botSelection" mc:Ignorable="d" Style="{StaticResource optionsStyle}">
     <Grid>
         <ToggleButton Name="EasyBotButton" Height="31" Width="84" Content="Easy bot" Margin="128,12,138,307" Click="BotSelectionEvent"></ToggleButton>
         <ToggleButton Name="HookerBotButton" Height="31" Width="84" Content="Hooker bot" Margin="128,49,138,270" Click="BotSelectionEvent" ></ToggleButton>
@@ -11,7 +11,7 @@
         <ToggleButton Name="HardcoreBotButton" IsEnabled="False" Height="31" Width="84" Content="Hardcore bot" Margin="128,123,138,196" Click="BotSelectionEvent"></ToggleButton>
         <ToggleButton Name="NightmareBotButton" IsEnabled="False" Height="31" Width="84" Content="Nightmare bot" Margin="128,160,138,159" Click="BotSelectionEvent"></ToggleButton>
         <TextBlock Name="TextArea" Height="100" Width="320" Margin="0,197,0,53" TextAlignment="Center" TextWrapping="Wrap" Text="Choose one difficulty please."></TextBlock>
-        <Button Name="StartGameButton" IsEnabled="False" Height="31" Width="84" Content="Start Game" Margin="185,300,81,0" Click="StartGame"></Button>
-        <Button Content="Back" Height="31" Margin="84,300,182,0" Name="btnBack" Width="84" Click="btnBack_Click" />
+        <Button Name="StartGameButton" IsEnabled="False" Content="Start Game" Margin="187,300,71,0" Click="StartGame"></Button>
+        <Button Content="Back" Margin="76,300,182,0" Name="btnBack" Click="btnBack_Click" />
     </Grid>
 </UserControl>

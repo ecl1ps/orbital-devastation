@@ -20,9 +20,9 @@ namespace Orbit.Gui
     /// <summary>
     /// Interaction logic for OptionsMenu.xaml
     /// </summary>
-    public partial class OptionsMenu : UserControl
+    public partial class OptionsUC : UserControl
     {
-        public OptionsMenu()
+        public OptionsUC()
         {
             InitializeComponent();
         }

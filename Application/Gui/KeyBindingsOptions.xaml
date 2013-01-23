@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" Name="keyBindingsMenu" Width="350" Height="350" BorderBrush="Black" BorderThickness="1" KeyDown="Grid_KeyDown">
+             Name="keyBindingsMenu" mc:Ignorable="d" Style="{StaticResource optionsStyle}" KeyDown="Grid_KeyDown">             
 
-    <Grid Width="350" Height="350" Background="#FF6F6F6F">
-        <Grid Width="310" Height="320" KeyDown="Grid_KeyDown" Margin="15" >
+    <Grid>
+        <Grid KeyDown="Grid_KeyDown" Margin="15" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="25" />
                 <RowDefinition Height="25" />
@@ -52,7 +52,7 @@
             <TextBlock Name="ShowActions" TextAlignment="Right"  Grid.Row="9" Grid.Column="2" MouseDown="ShowActions_MouseDoubleClick">e</TextBlock>
             <TextBlock Name="ShowProtecting" TextAlignment="Right"  Grid.Row="10" Grid.Column="2" MouseDown="ShowProtecting_MouseDoubleClick">q</TextBlock>
 
-            <Button Content="Back" Grid.Column="1" Grid.Row="9" FontFamily="Bauhaus 93" Height="31" HorizontalAlignment="Center" Name="btnBack" VerticalAlignment="Center" Width="84" Click="btnBack_Click" Margin="24,58,22,6" />
         </Grid>
+        <Button Content="Back" Name="btnBack" VerticalAlignment="Bottom" Click="btnBack_Click" Margin="0,0,0,30" />
     </Grid>
 </UserControl>
