@@ -19,8 +19,7 @@
                                 </Border.Background>
                                 <Label HorizontalAlignment="Center" VerticalAlignment="Center" 
                                        Content="{TemplateBinding Button.Content}" 
-                                       FontSize="{TemplateBinding Button.FontSize}" 
-                                       FontFamily="Bauhaus 93" />
+                                       FontSize="{TemplateBinding Button.FontSize}" />
                             </Border>
                         </Grid>
                         <ControlTemplate.Triggers>
@@ -29,15 +28,12 @@
                                     <StopStoryboard BeginStoryboardName="leaveBorderAnimation" />
                                     <BeginStoryboard x:Name="enterBorderAnimation">
                                         <Storyboard>
-                                            <ColorAnimation To="#FF550055" Duration="0:0:0.2" 
+                                            <ColorAnimation To="#FF550055" Duration="0:0:0.1" 
                                                             Storyboard.TargetName="buttonBorderColor"
                                                             Storyboard.TargetProperty="Color" />
-                                            <ColorAnimation To="WhiteSmoke" Duration="0:0:0.2" 
+                                            <ColorAnimation To="WhiteSmoke" Duration="0:0:0.1" 
                                                             Storyboard.TargetName="buttonBackground"
                                                             Storyboard.TargetProperty="Color" />
-                                            <ThicknessAnimation To="2" Duration="0:0:0.2" 
-                                                            Storyboard.TargetName="buttonBorder"
-                                                            Storyboard.TargetProperty="BorderThickness" />
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </EventTrigger.Actions>
@@ -47,15 +43,12 @@
                                     <StopStoryboard BeginStoryboardName="enterBorderAnimation" />
                                     <BeginStoryboard x:Name="leaveBorderAnimation">
                                         <Storyboard>
-                                            <ColorAnimation To="Black" Duration="0:0:0.2" 
+                                            <ColorAnimation To="Black" Duration="0:0:0.1" 
                                                             Storyboard.TargetName="buttonBorderColor"
                                                             Storyboard.TargetProperty="Color" />
-                                            <ColorAnimation To="LightGray" Duration="0:0:0.2" 
+                                            <ColorAnimation To="LightGray" Duration="0:0:0.1" 
                                                             Storyboard.TargetName="buttonBackground"
-                                                            Storyboard.TargetProperty="Color" />
-                                            <ThicknessAnimation To="1.5" Duration="0:0:0.2" 
-                                                            Storyboard.TargetName="buttonBorder"
-                                                            Storyboard.TargetProperty="BorderThickness" />                                            
+                                                            Storyboard.TargetProperty="Color" />                                          
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </EventTrigger.Actions>
@@ -75,8 +68,9 @@
             <Setter Property="VerticalAlignment" Value="Top" />
         </Style>
 
-        <!--Color x:Name="darkPurple" A="0xff" R="0x55" G="0x00" B="0x55" /-->
-
+        <Color x:Key="darkPurple" >#FF550055</Color>
+        <SolidColorBrush x:Key="darkPurpleBrush" Color="{StaticResource darkPurple}"/>
+        
         <!-- DEFAULTNI NASTAVENI STYLU VSEM OPTIONS USERCONTROL KTERE POUZIVAJI optionsStyle -->
         <Style TargetType="{x:Type UserControl}" x:Key="optionsStyle">
             <Setter Property="Width" Value="350" />
@@ -84,8 +78,29 @@
             <Setter Property="BorderBrush" Value="#FF550055" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Background" Value="Gray" />
-            <Setter Property="Opacity" Value="0.95" />
+            <Setter Property="Opacity" Value="0.98" />
         </Style>
-        
+
+        <!-- DEFAULTNI NASTAVENI STYLU VSEM POPISKUM -->
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="FontFamily" Value="Bauhaus 93" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />            
+        </Style>
+
+        <!-- DEFAULTNI NASTAVENI STYLU VSEM TEXTBLOCKUM -->
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="Bauhaus 93" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+
+        <!-- DEFAULTNI NASTAVENI STYLU VSEM TEXTBOXUM -->
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="FontFamily" Value="Bauhaus 93" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+
     </Application.Resources>
 </Application>

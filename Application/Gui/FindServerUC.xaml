@@ -3,27 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignWidth="1000" d:DesignHeight="700" Width="1000" Height="700" >
+             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="700" Width="1000" Height="700" >
+    
+    <UserControl.Resources>
+        <Style BasedOn="{StaticResource buttonStyle}" TargetType="{x:Type Button}">
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Height" Value="33" />
+            <Setter Property="Width" Value="130" />
+        </Style>
+    </UserControl.Resources>
+    
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="807" Height="703">
-        <Border BorderBrush="Silver" BorderThickness="1" Height="698" HorizontalAlignment="Left" Name="borderLeft" VerticalAlignment="Top" Width="390" Margin="5,5,0,0">
+        <Border BorderBrush="LightGray" BorderThickness="1" Height="698" HorizontalAlignment="Left" Name="borderLeft" VerticalAlignment="Top" Width="390" Margin="5,5,0,0">
             <Grid HorizontalAlignment="Center" Width="324">
                 <ListBox Height="205" Margin="6,114,6,0" Name="lbxFoundServers" VerticalAlignment="Top" MouseDoubleClick="lbxFoundServers_MouseDoubleClick" />
-                <Button Content="Find LAN Servers" Height="22" Margin="0,54,0,0" Name="btnFindServers" VerticalAlignment="Top" Width="134" Click="btnFindServers_Click" />
+                <Button Content="Find LAN Servers" Margin="90,46,104,616" Name="btnFindServers" Click="btnFindServers_Click" />
                 <ListBox Height="205" Margin="6,447,6,0" Name="lbxUsedServers" VerticalAlignment="Top" MouseDoubleClick="lbxUsedServers_MouseDoubleClick" />
-                <Label Content="Last Used Server Adresses" Height="28" HorizontalAlignment="Center" Margin="0,392,0,0" Name="label2" VerticalAlignment="Top" />
-                <Button Content="Remove" Height="23" HorizontalAlignment="Right" Margin="0,664,57,0" Name="btnRemove" VerticalAlignment="Top" Width="75" Click="btnRemove_Click" />
-                <Button Content="Connect" Height="23" HorizontalAlignment="Left" Margin="88,664,0,0" Name="btnConnectToSaved" VerticalAlignment="Top" Width="75" Click="btnConnectToSaved_Click" />
-                <Label Content="Selected: " Height="28" HorizontalAlignment="Left" Margin="18,661,0,0" Name="lblSelected" VerticalAlignment="Top" />
+                <Label Content="Last Used Server Addresses" HorizontalAlignment="Center" Margin="0,392,0,0" />
+                <Button Content="Remove" Margin="90,657,154,6" Name="btnRemove" Width="Auto" Click="btnRemove_Click" />
+                <Button Content="Connect" Margin="196,657,48,6" Name="btnConnectToSaved" Width="Auto" Click="btnConnectToSaved_Click" />
+                <Label Content="Selected: " Margin="18,661,0,0" Name="lblSelected" />
             </Grid>
         </Border>
-        <Border BorderBrush="Silver" BorderThickness="1" Height="698" HorizontalAlignment="Right" Name="borderRight" VerticalAlignment="Top" Width="395" Margin="0,5,5,0">
+        <Border BorderBrush="LightGray" BorderThickness="1" Height="698" HorizontalAlignment="Right" Name="borderRight" VerticalAlignment="Top" Width="395" Margin="0,5,5,0">
             <Grid  HorizontalAlignment="Center">
-                <Button Content="Connect to Server" Height="22" Margin="0,178,0,0" Name="btnDirectConnect" VerticalAlignment="Top" Width="132" Click="btnDirectConnect_Click" HorizontalAlignment="Center"/>
-                <TextBox Height="24" HorizontalAlignment="Center" Margin="0,140,0,0" Name="tbServerAddress" VerticalAlignment="Top" Width="132" Text="127.0.0.1" KeyDown="tbServerAddress_KeyDown" />
-                <Label Content="IP or Domain Address" Height="23" HorizontalAlignment="Center" Margin="0,111,0,0" Name="label1" VerticalAlignment="Top" Width="132" />
-                <Label Content="" Height="27" HorizontalAlignment="Center" Margin="0,83,0,0" Name="lblAddressStatus" VerticalAlignment="Top" Width="132" FontStyle="Normal" />
-                <Button Content="Back" Height="22" HorizontalAlignment="Center" Margin="0,664,0,0" Name="btnBack" VerticalAlignment="Top" Width="132" Click="btnBack_Click" />
+                <Button Content="Connect to Server" Margin="0,180,2,482" Name="btnDirectConnect" Click="btnDirectConnect_Click" />
+                <TextBox Height="24" Margin="0,140,0,0" Name="tbServerAddress" Width="130" Text="127.0.0.1" KeyDown="tbServerAddress_KeyDown" />
+                <Label Content="IP or Domain Address" Margin="0,111,0,0" Width="132" />
+                <Label Content="" Margin="0,83,0,0" Name="lblAddressStatus" Width="132" />
+                <Button Content="Back" Margin="0,653,2,10" Name="btnBack" Click="btnBack_Click" />
             </Grid>
         </Border>
         
