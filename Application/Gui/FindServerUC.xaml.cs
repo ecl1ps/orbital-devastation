@@ -98,7 +98,7 @@ namespace Orbit.Gui
 
         private void TryToConnect()
         {
-            if (tbServerAddress.Text.Equals(""))
+            if (String.IsNullOrWhiteSpace(tbServerAddress.Text))
             {
                 lblAddressStatus.Content = "Specify the address";
                 lblAddressStatus.Foreground = Brushes.Red;

@@ -7,13 +7,15 @@ namespace Orbit.Core.Server.Level
 {
     public class LevelInfo
     {
-        public bool IsDebug { get; set; }
-        public string Text { get; set; }
+        private bool isDebug;
+        public bool IsDebug { get { return isDebug; } }
+        private string text;
+        public string Text { get { return text; } }
 
         public LevelInfo(bool isUsedForDebug, string text)
         {
-            IsDebug = isUsedForDebug;
-            Text = text;
+            isDebug = isUsedForDebug;
+            this.text = text;
         }
     }
 

@@ -90,7 +90,8 @@ namespace Orbit
 
             PlayerName = GameProperties.Props.Get(PropertyKey.PLAYER_NAME);
             PlayerHashId = GameProperties.Props.Get(PropertyKey.PLAYER_HASH_ID);
-            Boolean.TryParse(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_ENABLED), out StaticMouse.ALLOWED);
+            if (!Boolean.TryParse(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_ENABLED), out StaticMouse.ALLOWED))
+                StaticMouse.ALLOWED = false;
 
             sceneMgr = new SceneMgr();
             SoundManager.Instance.StartPlayingInfinite(SharedDef.MUSIC_BACKGROUND_CALM);

@@ -30,7 +30,7 @@ namespace Orbit.Core.Scene.Controls.Health
                 hp = amount;
         }
 
-        public virtual void RefillHp()
+        public void RefillHp()
         {
             hp = MaxHp;
         }

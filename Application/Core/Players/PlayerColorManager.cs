@@ -108,12 +108,13 @@ namespace Orbit.Core.Players
 
     public enum PlayerColorSet
     {
-        BASIC = 1,
-        TUTORIAL_FINISHED = 2,
-        REWARD_1 = 4,
-        REWARD_2 = 8,
-        ALL = 16,
+        NONE                = 0,
+        BASIC               = 1,
+        TUTORIAL_FINISHED   = 2,
+        REWARD_1            = 4,
+        REWARD_2            = 8,
+        ALL                 = 16,
 
-        END = 32
+        END                 = 32
     }
 }

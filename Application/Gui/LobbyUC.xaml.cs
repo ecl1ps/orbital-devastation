@@ -141,8 +141,9 @@ namespace Orbit.Gui
 
         private void SendMessage()
         {
-            if (tbMessage.Text == "")
+            if (String.IsNullOrWhiteSpace(tbMessage.Text))
                 return;
+
             App.Instance.SendChatMessage(tbMessage.Text);
             lvChat.Items.Add(App.Instance.PlayerName + ": " + tbMessage.Text);
             lvChat.ScrollIntoView(lvChat.Items[lvChat.Items.Count - 1]);
