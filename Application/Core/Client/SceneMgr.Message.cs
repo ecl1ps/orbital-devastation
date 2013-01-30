@@ -835,7 +835,7 @@ namespace Orbit.Core.Client
             Player owner = GetPlayer(msg.ReadInt32());
             String name = msg.ReadString();
 
-            FloatingTextMgr.AddFloatingText(Strings.game_spectator + " " + owner.Data.Name + " " + Strings.game_spectator_used + " " + name, 
+            FloatingTextMgr.AddFloatingText(String.Format(Strings.game_spectator_used, owner.Data.Name, name), 
                 owner.Device.Position, FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM);
         }
 

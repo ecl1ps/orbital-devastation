@@ -443,9 +443,9 @@ namespace Orbit.Core.Client
 
             statisticsTimer = 0;
 
-            ShowStatusText(1, Strings.misc_tpf + " " + tpf + " " + Strings.misc_fps + " " + (int)(1.0f / tpf));
+            ShowStatusText(1, String.Format(Strings.misc_fps, tpf, (int)(1.0f / tpf)));
             if (GameType != Gametype.SOLO_GAME && GetCurrentPlayer().Connection != null)
-                ShowStatusText(2, Strings.misc_latency + " " + GetCurrentPlayer().Connection.AverageRoundtripTime);
+                ShowStatusText(2, String.Format(Strings.misc_latency, GetCurrentPlayer().Connection.AverageRoundtripTime / 2));
         }
 
         private void ProcessActionQueue()
@@ -695,7 +695,7 @@ namespace Orbit.Core.Client
             {
                 hs = currentPlayer.Data.MatchPoints;
                 GameProperties.Props.SetAndSave(key, hs);
-                CreateTextMessage(Strings.game_new_highscore + " " + hs + "!");
+                CreateTextMessage(String.Format(Strings.game_new_highscore, hs));
             }
             else
             {
@@ -799,9 +799,9 @@ namespace Orbit.Core.Client
                 return;
 
             if (GameWindowState == WindowState.IN_LOBBY)
-                ShowChatMessage(leaver.Data.Name + " " + Strings.lobby_left);
+                ShowChatMessage(String.Format(Strings.game_left, leaver.Data.Name));
             else
-                CreateTextMessage(leaver.Data.Name + " " + Strings.game_left);
+                CreateTextMessage(String.Format(Strings.game_left, leaver.Data.Name));
         }
 
         public void Invoke(Action a)

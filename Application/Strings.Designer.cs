@@ -70,7 +70,7 @@ namespace Orbit {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to left the game!.
+        ///   Looks up a localized string similar to {0} left the game!.
         /// </summary>
         public static string game_left {
             get {
@@ -88,7 +88,7 @@ namespace Orbit {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New HighScore.
+        ///   Looks up a localized string similar to New HighScore {0}!.
         /// </summary>
         public static string game_new_highscore {
             get {
@@ -97,7 +97,7 @@ namespace Orbit {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to has disconnected.
+        ///   Looks up a localized string similar to {0} has disconnected.
         /// </summary>
         public static string game_other_left {
             get {
@@ -106,16 +106,7 @@ namespace Orbit {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Spectator.
-        /// </summary>
-        public static string game_spectator {
-            get {
-                return ResourceManager.GetString("game_spectator", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to used:.
+        ///   Looks up a localized string similar to Spectator {0} used: {1}.
         /// </summary>
         public static string game_spectator_used {
             get {
@@ -133,7 +124,7 @@ namespace Orbit {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to joined the lobby.
+        ///   Looks up a localized string similar to {0} joined the lobby.
         /// </summary>
         public static string lobby_joined {
             get {
@@ -142,7 +133,7 @@ namespace Orbit {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to left the lobby.
+        ///   Looks up a localized string similar to {0} left the lobby.
         /// </summary>
         public static string lobby_left {
             get {
@@ -151,7 +142,7 @@ namespace Orbit {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to has been kicked by the leader.
+        ///   Looks up a localized string similar to {0} has been kicked by the leader.
         /// </summary>
         public static string lobby_player_kicked {
             get {
@@ -160,7 +151,7 @@ namespace Orbit {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to FPS:.
+        ///   Looks up a localized string similar to FPS: {0} TPF: {1}.
         /// </summary>
         public static string misc_fps {
             get {
@@ -169,20 +160,11 @@ namespace Orbit {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Latency:.
+        ///   Looks up a localized string similar to Latency: {0}.
         /// </summary>
         public static string misc_latency {
             get {
                 return ResourceManager.GetString("misc_latency", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to TPF:.
-        /// </summary>
-        public static string misc_tpf {
-            get {
-                return ResourceManager.GetString("misc_tpf", resourceCulture);
             }
         }
         
@@ -201,15 +183,6 @@ namespace Orbit {
         public static string networking_disconnected {
             get {
                 return ResourceManager.GetString("networking_disconnected", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to kicked.
-        /// </summary>
-        public static string networking_kicked {
-            get {
-                return ResourceManager.GetString("networking_kicked", resourceCulture);
             }
         }
         

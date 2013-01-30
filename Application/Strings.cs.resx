@@ -117,7 +117,61 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="test" xml:space="preserve">
-    <value>Test CS</value>
+  <data name="game_end" xml:space="preserve">
+    <value>Konec hry</value>
+  </data>
+  <data name="game_left" xml:space="preserve">
+    <value>{0} opustil hru!</value>
+    <comment>0 = player name</comment>
+  </data>
+  <data name="game_lost" xml:space="preserve">
+    <value>Prohrál jsi!</value>
+  </data>
+  <data name="game_new_highscore" xml:space="preserve">
+    <value>Nový rekord {0}!</value>
+    <comment>0 = highscore value</comment>
+  </data>
+  <data name="game_other_left" xml:space="preserve">
+    <value>{0} se odpojil</value>
+    <comment>0 = player name</comment>
+  </data>
+  <data name="game_spectator_used" xml:space="preserve">
+    <value>Pozorovatel {0} použil: {1}</value>
+    <comment>0 = player name, 1 = action name</comment>
+  </data>
+  <data name="game_won" xml:space="preserve">
+    <value>Vyhrál jsi! Gratulace</value>
+  </data>
+  <data name="lobby_joined" xml:space="preserve">
+    <value>{0} se připojil do místnosti</value>
+    <comment>0 = player name</comment>
+  </data>
+  <data name="lobby_left" xml:space="preserve">
+    <value>{0} opustil místnost</value>
+    <comment>0 = player name</comment>
+  </data>
+  <data name="lobby_player_kicked" xml:space="preserve">
+    <value>{0} byl vyhozen pořadatelem</value>
+    <comment>0 = player name</comment>
+  </data>
+  <data name="misc_fps" xml:space="preserve">
+    <value>FPS: {0} TPF: {1}</value>
+    <comment>0 = frame per second, 1 = time per frame</comment>
+  </data>
+  <data name="misc_latency" xml:space="preserve">
+    <value>Latence:</value>
+    <comment>0 = internet latency</comment>
+  </data>
+  <data name="networking_client_connection_close" xml:space="preserve">
+    <value>Klient ukončil spojení</value>
+  </data>
+  <data name="networking_disconnected" xml:space="preserve">
+    <value>Odpojeno od hostitele</value>
+  </data>
+  <data name="networking_server_quit" xml:space="preserve">
+    <value>Konec</value>
+  </data>
+  <data name="networking_waiting" xml:space="preserve">
+    <value>Vytváření spojení...</value>
   </data>
 </root>
