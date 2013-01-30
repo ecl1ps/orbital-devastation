@@ -61,7 +61,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
             MinSize = 0;
             MaxAlpha = 0;
             MinAlpha = 0;
-            Enabled = false;
+            base.Enabled = false;
 
             rand = mgr.GetRandomGenerator();
             livingObjects = new List<IMovable>();

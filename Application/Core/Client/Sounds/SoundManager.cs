@@ -22,7 +22,7 @@ namespace Orbit.Core.Client
         public ISound Sound { get; set; }
     }
 
-    public class SoundManager
+    public class SoundManager : IDisposable
     {
         private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -38,6 +38,7 @@ namespace Orbit.Core.Client
             }
         }
 
+        private bool disposed = false;
         private ISoundEngine soundEngine;
         private ISoundEngine musicEngine;
         
@@ -57,7 +58,7 @@ namespace Orbit.Core.Client
             catch (Exception e)
             {
                 Logger.Fatal("Couldn't start sound system - probably Windows sound system is not enabled or there are bad sound drivers");
-                throw e;
+                throw;
             }
             sounds = new List<FileSound>();
             music = new List<FileSound>();
@@ -262,6 +263,29 @@ namespace Orbit.Core.Client
             message.Write(sound);
 
             return message;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                if (soundEngine != null)
+                    soundEngine.Dispose();
+
+                if (musicEngine != null)
+                    musicEngine.Dispose();
+            }
+
+            disposed = true;
         }
     }
 }

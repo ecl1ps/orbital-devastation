@@ -8,7 +8,8 @@ namespace Orbit.Core.Scene.Controls
     {
         protected ISceneObject me;
 
-        public virtual bool Enabled { get; set; }
+        private bool enabled;
+        public virtual bool Enabled { get { return enabled; } set { enabled = value; } }
 
         private List<Action> actions = new List<Action>();
         
@@ -16,7 +17,7 @@ namespace Orbit.Core.Scene.Controls
 
         public Control() 
         {
-            Enabled = true; 
+            enabled = true; 
         }
 
         public void Init(ISceneObject me)
