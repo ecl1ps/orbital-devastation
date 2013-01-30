@@ -51,7 +51,7 @@
                 <ComboBox HorizontalAlignment="Right" Margin="0,181,12,0" Name="cbBot" VerticalAlignment="Top" Width="226" SelectionChanged="SelectionChanged" />
             </Grid>
         </Border>
-        <ListView Height="148" HorizontalAlignment="Left" Margin="12,367,0,0" Name="lvChat" VerticalAlignment="Top" Width="879" Grid.Row="1" />
+        <ListView BorderBrush="{StaticResource darkPurpleBrush}"  Height="148" HorizontalAlignment="Left" Margin="12,367,0,0" Name="lvChat" VerticalAlignment="Top" Width="879" Grid.Row="1" />
         <Button Content="Start Game" Margin="89,316,681,212" Name="btnStartGame" Click="btnStartGame_Click" IsEnabled="False" Grid.Row="1" />
         <Button Content="Ready" Margin="89,316,681,212" Name="btnReady" Click="btnReady_Click" Grid.Row="1" Width="Auto" />
         <Button Content="Leave room" Margin="338,316,432,212" Name="btnLeave" Click="btnLeave_Click" Grid.Row="1" />

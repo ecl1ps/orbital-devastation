@@ -7,13 +7,13 @@
 
     <Grid>
         <Label Height="25" Width="100" FontFamily="Bauhaus 93" Content="Cursor icon" Margin="12,65,238,261" />
-        <ToggleButton Name="MouseIcon1" Height="25" Width="25" Margin="0,68,126,255" HorizontalAlignment="Right" Click="MouseIcon1_Click">
+        <ToggleButton Name="MouseIcon1" Height="25" Width="25" Margin="0,68,126,0" HorizontalAlignment="Right" Click="MouseIcon1_Click">
             <Image Source="pack://application:,,,/resources/images/mouse/targeting_icon2.png" /> 
         </ToggleButton>
-        <ToggleButton Name="MouseIcon2" Height="25" Width="25" Margin="168,68,0,257" HorizontalAlignment="Left" Click="MouseIcon2_Click">
+        <ToggleButton Name="MouseIcon2" Height="25" Width="25" Margin="168,68,0,0" HorizontalAlignment="Left" Click="MouseIcon2_Click">
             <Image Source="pack://application:,,,/resources/images/mouse/targeting_icon.png" />
         </ToggleButton>
-        <ToggleButton Name="MouseIcon3" Height="25" Width="25" Margin="135,68,0,257" HorizontalAlignment="Left" Click="MouseIcon3_Click" >
+        <ToggleButton Name="MouseIcon3" Height="25" Width="25" Margin="135,68,0,0" HorizontalAlignment="Left" Click="MouseIcon3_Click" >
             <Image Source="pack://application:,,,/resources/images/mouse/targeting_icon3.png" />
         </ToggleButton>
         <Label Height="25" Width="100" FontFamily="Bauhaus 93" Content="Mouse Sensitivity" Margin="12,118,238,206" />
