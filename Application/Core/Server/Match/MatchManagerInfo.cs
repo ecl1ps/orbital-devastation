@@ -7,13 +7,15 @@ namespace Orbit.Core.Server.Match
 {
     public class MatchManagerInfo
     {
-        public bool IsDebug { get; set; }
-        public string Text { get; set; }
+        private bool isDebug;
+        public bool IsDebug { get { return isDebug; } }
+        private string text;
+        public string Text { get { return text; } }
 
         public MatchManagerInfo(bool isUsedForDebug, string text)
         {
-            IsDebug = isUsedForDebug;
-            Text = text;
+            isDebug = isUsedForDebug;
+            this.text = text;
         }
     }
 
