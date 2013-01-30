@@ -8,6 +8,13 @@
              d:DesignWidth="1000" d:DesignHeight="700" Width="1000" Height="700" Loaded="lobbyWindow_Loaded">
     
     <UserControl.Resources>
+        <Style BasedOn="{StaticResource comboBoxStyle}" TargetType="{x:Type ComboBox}">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Height" Value="23" />
+            <Setter Property="Width" Value="226" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
         <Style BasedOn="{StaticResource buttonStyle}" TargetType="{x:Type Button}">
             <Setter Property="FontSize" Value="15" />
             <Setter Property="Height" Value="33" />
@@ -36,8 +43,8 @@
                 <Label Content="Settings" FontSize="25" HorizontalAlignment="Center" />
                 <Label Content="Type: " Margin="24,45,0,0" />
                 <Label Content="Map: " Margin="25,108,0,0" />
-                <ComboBox Height="23" HorizontalAlignment="Left" Margin="97,50,0,0" Name="cbType" VerticalAlignment="Top" Width="226" SelectionChanged="SelectionChanged" />
-                <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,113,12,0" Name="cbMap" VerticalAlignment="Top" Width="226" SelectionChanged="SelectionChanged" />
+                <ComboBox Height="23" Margin="0,50,12,0" Name="cbType" SelectionChanged="SelectionChanged" />
+                <ComboBox Height="23" Margin="0,113,12,0" Name="cbMap" SelectionChanged="SelectionChanged" />
                 <Label Content="---" Margin="97,47,0,0" Name="lblType" Visibility="Hidden" />
                 <Label Content="---" Margin="97,111,0,0" Name="lblMap" Visibility="Hidden" />
                 <Button Content="Confirm settings" Margin="98,225,107,10" Name="btnSettings" Click="btnSettings_Click" Width="Auto" />
@@ -48,7 +55,7 @@
                 <Label Content="Bot count: " Margin="24,142,0,0" Name="lblBotCount" />
                 <TextBox AcceptsTab="True" HorizontalContentAlignment="Right" Margin="97,147,0,0" MaxLength="2" Name="tbBotCount" TabIndex="4" Text="0" Width="37" TextChanged="tbBotCount_TextChanged" />
                 <Label Content="Bot level: " Margin="24,176,0,0" Name="lblBot" />
-                <ComboBox HorizontalAlignment="Right" Margin="0,181,12,0" Name="cbBot" VerticalAlignment="Top" Width="226" SelectionChanged="SelectionChanged" />
+                <ComboBox Margin="0,181,12,0" Name="cbBot" SelectionChanged="SelectionChanged" />
             </Grid>
         </Border>
         <ListView BorderBrush="{StaticResource darkPurpleBrush}"  Height="148" HorizontalAlignment="Left" Margin="12,367,0,0" Name="lvChat" VerticalAlignment="Top" Width="879" Grid.Row="1" />
