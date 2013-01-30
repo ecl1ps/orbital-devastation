@@ -117,7 +117,61 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="test" xml:space="preserve">
-    <value>Test default</value>
+  <data name="game_end" xml:space="preserve">
+    <value>End of Game</value>
+  </data>
+  <data name="game_left" xml:space="preserve">
+    <value>left the game!</value>
+  </data>
+  <data name="game_lost" xml:space="preserve">
+    <value>You lost!</value>
+  </data>
+  <data name="game_new_highscore" xml:space="preserve">
+    <value>New HighScore</value>
+  </data>
+  <data name="game_other_left" xml:space="preserve">
+    <value>has disconnected</value>
+  </data>
+  <data name="game_spectator" xml:space="preserve">
+    <value>Spectator</value>
+  </data>
+  <data name="game_spectator_used" xml:space="preserve">
+    <value>used:</value>
+  </data>
+  <data name="game_won" xml:space="preserve">
+    <value>You win! Congratulations</value>
+  </data>
+  <data name="lobby_joined" xml:space="preserve">
+    <value>joined the lobby</value>
+  </data>
+  <data name="lobby_left" xml:space="preserve">
+    <value>left the lobby</value>
+  </data>
+  <data name="lobby_player_kicked" xml:space="preserve">
+    <value>has been kicked by the leader</value>
+  </data>
+  <data name="misc_fps" xml:space="preserve">
+    <value>FPS:</value>
+  </data>
+  <data name="misc_latency" xml:space="preserve">
+    <value>Latency:</value>
+  </data>
+  <data name="misc_tpf" xml:space="preserve">
+    <value>TPF:</value>
+  </data>
+  <data name="networking_client_connection_close" xml:space="preserve">
+    <value>Client closed connection</value>
+  </data>
+  <data name="networking_disconnected" xml:space="preserve">
+    <value>Disconnected from the host</value>
+  </data>
+  <data name="networking_kicked" xml:space="preserve">
+    <value>kicked</value>
+  </data>
+  <data name="networking_server_quit" xml:space="preserve">
+    <value>Quit</value>
+  </data>
+  <data name="networking_waiting" xml:space="preserve">
+    <value>Establishing connection...</value>
   </data>
 </root>

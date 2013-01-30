@@ -60,7 +60,7 @@ namespace Orbit
         [STAThread]
         public static void Main(string[] args)
         {
-            SetLocalization("cs");
+            SetLocalization("en");
 
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en");
 

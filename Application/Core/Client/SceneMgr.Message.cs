@@ -62,7 +62,7 @@ namespace Orbit.Core.Client
                         App.Instance.CreateLobbyGui(false);
                     }));
                     SendTournamentSettingsRequest();
-                    SendChatMessage(GetCurrentPlayer().Data.Name + " joined the lobby", true);
+                    SendChatMessage(GetCurrentPlayer().Data.Name + " " + Strings.lobby_joined, true);
                 }
             }
 
@@ -182,7 +182,7 @@ namespace Orbit.Core.Client
 
             if (GameType == Gametype.TOURNAMENT_GAME && !disconnected.IsActivePlayer())
             {
-                FloatingTextMgr.AddFloatingText(disconnected.Data.Name + " has disconnected",
+                FloatingTextMgr.AddFloatingText(disconnected.Data.Name + " " + Strings.game_other_left,
                     new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
                     FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
             }
@@ -278,10 +278,10 @@ namespace Orbit.Core.Client
                 }
             }));
 
-            if (currentPlayer.IsActivePlayer())
+            /*if (currentPlayer.IsActivePlayer())
                 ShowStatusText(3, "You are on the " + (currentPlayer.GetPosition() == PlayerPosition.LEFT ? "left" : "right"));
             else
-                ShowStatusText(3, "You are Spectator");
+                ShowStatusText(3, "You are Spectator");*/
 
             SetMainInfoText("");
             userActionsDisabled = false;
@@ -835,7 +835,8 @@ namespace Orbit.Core.Client
             Player owner = GetPlayer(msg.ReadInt32());
             String name = msg.ReadString();
 
-            FloatingTextMgr.AddFloatingText("Spectator " + owner.Data.Name + " used: " + name, owner.Device.Position, FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM);
+            FloatingTextMgr.AddFloatingText(Strings.game_spectator + " " + owner.Data.Name + " " + Strings.game_spectator_used + " " + name, 
+                owner.Device.Position, FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM);
         }
 
         private void ReceivedPlayerScoreUpdate(NetIncomingMessage msg)
@@ -866,7 +867,7 @@ namespace Orbit.Core.Client
             PowerHook hook = GetSceneObject(id) as PowerHook;
             if (hook == null)
             {
-                Logger.Warn("Received PowerHook Force Pull but hook with id " + id + " wasnt found -> ignored");
+                Logger.Warn("Received PowerHook Force Pull but hook with id " + id + " wasn't found -> ignored");
                 return;
             }
 
@@ -891,7 +892,7 @@ namespace Orbit.Core.Client
 
             Player kicked = GetPlayer(playerId);
             if (kicked != null)
-                SendChatMessage(kicked.Data.Name + " has been kicked by the leader", true);
+                SendChatMessage(kicked.Data.Name + " " + Strings.lobby_player_kicked, true);
         }
     }
 }

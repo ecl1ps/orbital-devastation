@@ -61,11 +61,173 @@ namespace Orbit {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Test default.
+        ///   Looks up a localized string similar to End of Game.
         /// </summary>
-        public static string test {
+        public static string game_end {
             get {
-                return ResourceManager.GetString("test", resourceCulture);
+                return ResourceManager.GetString("game_end", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to left the game!.
+        /// </summary>
+        public static string game_left {
+            get {
+                return ResourceManager.GetString("game_left", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You lost!.
+        /// </summary>
+        public static string game_lost {
+            get {
+                return ResourceManager.GetString("game_lost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New HighScore.
+        /// </summary>
+        public static string game_new_highscore {
+            get {
+                return ResourceManager.GetString("game_new_highscore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to has disconnected.
+        /// </summary>
+        public static string game_other_left {
+            get {
+                return ResourceManager.GetString("game_other_left", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spectator.
+        /// </summary>
+        public static string game_spectator {
+            get {
+                return ResourceManager.GetString("game_spectator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to used:.
+        /// </summary>
+        public static string game_spectator_used {
+            get {
+                return ResourceManager.GetString("game_spectator_used", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You win! Congratulations.
+        /// </summary>
+        public static string game_won {
+            get {
+                return ResourceManager.GetString("game_won", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to joined the lobby.
+        /// </summary>
+        public static string lobby_joined {
+            get {
+                return ResourceManager.GetString("lobby_joined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to left the lobby.
+        /// </summary>
+        public static string lobby_left {
+            get {
+                return ResourceManager.GetString("lobby_left", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to has been kicked by the leader.
+        /// </summary>
+        public static string lobby_player_kicked {
+            get {
+                return ResourceManager.GetString("lobby_player_kicked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FPS:.
+        /// </summary>
+        public static string misc_fps {
+            get {
+                return ResourceManager.GetString("misc_fps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Latency:.
+        /// </summary>
+        public static string misc_latency {
+            get {
+                return ResourceManager.GetString("misc_latency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TPF:.
+        /// </summary>
+        public static string misc_tpf {
+            get {
+                return ResourceManager.GetString("misc_tpf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Client closed connection.
+        /// </summary>
+        public static string networking_client_connection_close {
+            get {
+                return ResourceManager.GetString("networking_client_connection_close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disconnected from the host.
+        /// </summary>
+        public static string networking_disconnected {
+            get {
+                return ResourceManager.GetString("networking_disconnected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to kicked.
+        /// </summary>
+        public static string networking_kicked {
+            get {
+                return ResourceManager.GetString("networking_kicked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quit.
+        /// </summary>
+        public static string networking_server_quit {
+            get {
+                return ResourceManager.GetString("networking_server_quit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Establishing connection....
+        /// </summary>
+        public static string networking_waiting {
+            get {
+                return ResourceManager.GetString("networking_waiting", resourceCulture);
             }
         }
     }
