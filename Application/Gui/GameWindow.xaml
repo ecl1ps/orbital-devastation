@@ -20,10 +20,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="10"></RowDefinition>
                 <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-            <Border Grid.Row="0" Height="10" Background="#FF6F6F6F" BorderThickness="0,0,0,1" BorderBrush="{StaticResource darkPurpleBrush}"  VerticalAlignment="Top" >
-                <Grid MouseLeftButtonDown="dragbar_MouseLeftButtonDown"></Grid>                
-            </Border>
+            </Grid.RowDefinitions>            
+            <Border Grid.Row="0" Height="10" MouseLeftButtonDown="dragbar_MouseLeftButtonDown" Background="#FF6F6F6F" BorderThickness="0,0,0,1" BorderBrush="#FF450045"  VerticalAlignment="Top" IsManipulationEnabled="True" />            
             <Grid Grid.Row="1" Name="contentGrid" VerticalAlignment="Center" HorizontalAlignment="Center" Width="1000" Height="700" ClipToBounds="True">
                 <Grid.LayoutTransform>
                     <ScaleTransform x:Name="ApplicationScaleTransform"
