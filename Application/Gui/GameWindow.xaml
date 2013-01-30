@@ -1,12 +1,16 @@
 ﻿<Window x:Class="Orbit.Gui.GameWindow"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:controls="clr-namespace:Orbit.Gui"
-             Closing="OnClose" Name="mainWindow" AllowsTransparency="True"
-             WindowStyle="None" Title="Orbital Devastation" WindowStartupLocation="CenterScreen" KeyDown="OnKeyDown" Icon="/OrbitalDevastation;component/resources/images/rock/rock_normal_6.png"
-             Width="1000" Height="710" KeyUp="OnKeyUp" Deactivated="mainWindow_Deactivated" Activated="mainWindow_Activated" ResizeMode="CanResizeWithGrip" SnapsToDevicePixels="True">
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+            xmlns:controls="clr-namespace:Orbit.Gui"
+            xmlns:lex="http://wpflocalizeextension.codeplex.com"
+            lex:ResxLocalizationProvider.DefaultAssembly="OrbitalDevastation"  
+            lex:ResxLocalizationProvider.DefaultDictionary="Strings"   
+            lex:LocalizeDictionary.DesignCulture="en"        
+            Closing="OnClose" Name="mainWindow" AllowsTransparency="True"
+            WindowStyle="None" Title="Orbital Devastation" WindowStartupLocation="CenterScreen" KeyDown="OnKeyDown" Icon="/OrbitalDevastation;component/resources/images/rock/rock_normal_6.png"
+            Width="1000" Height="710" KeyUp="OnKeyUp" Deactivated="mainWindow_Deactivated" Activated="mainWindow_Activated" ResizeMode="CanResizeWithGrip" SnapsToDevicePixels="True">
 
     <Window.Resources>
         <LinearGradientBrush x:Key="WindowFrameBrush" StartPoint="0,0" EndPoint="0,1">

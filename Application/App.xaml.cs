@@ -21,6 +21,7 @@ using Orbit.Core.Server.Match;
 using Orbit.Core.Server.Level;
 using Orbit.Gui.Visuals;
 using System.Reflection;
+using System.Globalization;
 
 namespace Orbit
 {
@@ -59,6 +60,8 @@ namespace Orbit
         [STAThread]
         public static void Main(string[] args)
         {
+            WPFLocalizeExtension.Engine.LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo("en");
+
             App app = new App();
             app.InitializeComponent();
             app.lastServerAddress = "127.0.0.1";
