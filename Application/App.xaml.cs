@@ -60,7 +60,9 @@ namespace Orbit
         [STAThread]
         public static void Main(string[] args)
         {
-            WPFLocalizeExtension.Engine.LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo("en");
+            SetLocalization("cs");
+
+            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en");
 
             App app = new App();
             app.InitializeComponent();
@@ -78,6 +80,12 @@ namespace Orbit
                 Logger.Fatal(e);
             }
 #endif
+        }
+
+        public static void SetLocalization(string locale)
+        {
+            WPFLocalizeExtension.Engine.LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo(locale);
+            Strings.Culture = CultureInfo.GetCultureInfo(locale);
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -142,6 +150,7 @@ namespace Orbit
             Thread serverThread = new Thread(new ThreadStart(server.Run));
             serverThread.IsBackground = false;
             serverThread.Name = "Server Thread";
+            serverThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
             serverThread.Start();
             return true;
         }
@@ -252,6 +261,7 @@ namespace Orbit
             Thread gameThread = new Thread(new ThreadStart(sceneMgr.Run));
             gameThread.IsBackground = false;
             gameThread.Name = "Game Thread";
+            gameThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
             gameThread.Start();
         }
 

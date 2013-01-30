@@ -6,6 +6,7 @@ using Orbit.Core.Client.Sounds;
 using System.Timers;
 using IrrKlang;
 using Lidgren.Network;
+using System.Globalization;
 
 namespace Orbit.Core.Client
 {
@@ -70,11 +71,20 @@ namespace Orbit.Core.Client
         private void LoadSettings()
         {
             Enabled = bool.Parse(GameProperties.Props.Get(PropertyKey.MUSIC_ENABLED));
-
             float soundValue = float.Parse(GameProperties.Props.Get(PropertyKey.SOUNDS_VOLUME));
+            if (soundValue < 0 || soundValue > 1)
+            {
+                Logger.Warn("Couldn't parse sound volume, probably bad localization stuff (dot vs comma)");
+                soundValue = 0;
+            }
             SetSoundVolume(soundValue);
 
             float musicValue = float.Parse(GameProperties.Props.Get(PropertyKey.MUSIC_VOLUME));
+            if (musicValue < 0 || musicValue > 1)
+            {
+                Logger.Warn("Couldn't parse music volume, probably bad localization stuff (dot vs comma)");
+                musicValue = 0;
+            }
             SetMusicVolume(musicValue);
         }
 
