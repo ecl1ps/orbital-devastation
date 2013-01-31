@@ -24,6 +24,7 @@ using Orbit.Gui.Visuals;
 using Orbit.Core.Helpers;
 using Orbit.Gui.ActionControllers;
 using Orbit.Core.Scene.Particles.Implementations;
+using System.Globalization;
 
 namespace Orbit.Core.Client
 {
@@ -690,7 +691,7 @@ namespace Orbit.Core.Client
                 }
             }
 
-            int hs = int.Parse(GameProperties.Props.Get(key));
+            int hs = int.Parse(GameProperties.Props.Get(key), CultureInfo.InvariantCulture);
             if (hs < currentPlayer.Data.MatchPoints)
             {
                 hs = currentPlayer.Data.MatchPoints;

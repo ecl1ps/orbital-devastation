@@ -72,7 +72,7 @@ namespace Orbit.Core.Client
         private void LoadSettings()
         {
             Enabled = bool.Parse(GameProperties.Props.Get(PropertyKey.MUSIC_ENABLED));
-            float soundValue = float.Parse(GameProperties.Props.Get(PropertyKey.SOUNDS_VOLUME));
+            float soundValue = float.Parse(GameProperties.Props.Get(PropertyKey.SOUNDS_VOLUME), CultureInfo.InvariantCulture);
             if (soundValue < 0 || soundValue > 1)
             {
                 Logger.Warn("Couldn't parse sound volume, probably bad localization stuff (dot vs comma)");
@@ -80,7 +80,7 @@ namespace Orbit.Core.Client
             }
             SetSoundVolume(soundValue);
 
-            float musicValue = float.Parse(GameProperties.Props.Get(PropertyKey.MUSIC_VOLUME));
+            float musicValue = float.Parse(GameProperties.Props.Get(PropertyKey.MUSIC_VOLUME), CultureInfo.InvariantCulture);
             if (musicValue < 0 || musicValue > 1)
             {
                 Logger.Warn("Couldn't parse music volume, probably bad localization stuff (dot vs comma)");
@@ -119,7 +119,7 @@ namespace Orbit.Core.Client
             }
             else
             {
-                SetMusicVolume(float.Parse(GameProperties.Props.Get(PropertyKey.MUSIC_VOLUME)));
+                SetMusicVolume(float.Parse(GameProperties.Props.Get(PropertyKey.MUSIC_VOLUME), CultureInfo.InvariantCulture));
                 music.ForEach(sound => StartPlayingInfinite(sound));
             }
         }

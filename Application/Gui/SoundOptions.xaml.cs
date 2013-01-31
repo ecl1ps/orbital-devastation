@@ -15,6 +15,7 @@ using System.Windows.Controls.Primitives;
 using Orbit.Core.Client;
 using Orbit.Core.Client.Sounds;
 using Orbit.Core;
+using System.Globalization;
 
 namespace Orbit.Gui
 {
@@ -33,11 +34,11 @@ namespace Orbit.Gui
         {
             EnableSounds(SoundManager.Instance.Enabled);
 
-            float soundVolume = float.Parse(GameProperties.Props.Get(PropertyKey.SOUNDS_VOLUME));
+            float soundVolume = float.Parse(GameProperties.Props.Get(PropertyKey.SOUNDS_VOLUME), CultureInfo.InvariantCulture);
             SoundSlider.Value = soundVolume * 100;
             SoundValue.Text = (soundVolume * 100).ToString("0.##");
 
-            float musicVolume = float.Parse(GameProperties.Props.Get(PropertyKey.MUSIC_VOLUME));
+            float musicVolume = float.Parse(GameProperties.Props.Get(PropertyKey.MUSIC_VOLUME), CultureInfo.InvariantCulture);
             BackgroundSlider.Value = musicVolume * 100;
             BackgroundValue.Text = (musicVolume * 100).ToString("0.##");
         }
