@@ -11,6 +11,7 @@ using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.SpecialActions.Spectator;
 using Orbit.Gui.InteractivePanel;
 using Orbit.Gui;
+using System.Globalization;
 
 namespace Orbit.Core.Players.Input
 {
@@ -26,9 +27,9 @@ namespace Orbit.Core.Players.Input
             MiningModuleControl mc = obj.GetControlOfType<MiningModuleControl>();
 
             if (mc == null)
-                throw new Exception("U must inicialize SpectatorInputManager with object containg MiningModuleControl");
+                throw new Exception("You must initialize SpectatorInputManager with object containig MiningModuleControl");
             if (d == null)
-                throw new Exception("U must inicialize SpectatorInputManager with object containg IControledDevice control");
+                throw new Exception("You must initialize SpectatorInputManager with object containig IControledDevice control");
             
             plr = p;
             device = d;
@@ -42,15 +43,15 @@ namespace Orbit.Core.Players.Input
 
             base.OnKeyEvent(e);
             bool down = e.IsDown;
-            if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_TOP)))
+            if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_TOP), CultureInfo.InvariantCulture))
                 device.IsMovingTop = down;
-            else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_BOT)))
+            else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_BOT), CultureInfo.InvariantCulture))
                 device.IsMovingDown = down;
-            else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_LEFT)))
+            else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_LEFT), CultureInfo.InvariantCulture))
                 device.IsMovingLeft = down;
-            else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_RIGHT)))
+            else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_RIGHT), CultureInfo.InvariantCulture))
                 device.IsMovingRight = down;
-            else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_SHOW_PROTECTING)) && down)
+            else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_SHOW_PROTECTING), CultureInfo.InvariantCulture) && down)
                 plr.ShowProtecting();
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -65,7 +66,7 @@ namespace Orbit.Gui
 
         private Key ParseKey(String key)
         {
-            return (Key) Int32.Parse(key);
+            return (Key)Int32.Parse(key, CultureInfo.InvariantCulture);
         }
 
         private String ParseString(String key)
@@ -155,7 +156,7 @@ namespace Orbit.Gui
 
             foreach (KeyLabel actual in bindings) {
                 if (toFill.Key != actual.Key
-                        && k == int.Parse(GameProperties.Props.Get(actual.Key)))
+                        && k == int.Parse(GameProperties.Props.Get(actual.Key), CultureInfo.InvariantCulture))
                 {
                     GameProperties.Props.SetAndSave(actual.Key, (int) Key.None);
                     actual.Label.Text = ParseString(GameProperties.Props.Get(actual.Key));

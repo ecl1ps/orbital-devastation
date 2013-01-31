@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
              mc:Ignorable="d" Width="1000" Height="700" Name="mainUC">
     
     <UserControl.Resources>
@@ -19,7 +20,7 @@
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center" ShowGridLines="False" Width="1000" Height="700">
         <Border Margin="20,-1,780,-2" BorderThickness="1" BorderBrush="{StaticResource darkPurpleBrush}" Background="DarkGray" SnapsToDevicePixels="True">
             <StackPanel Name="spMenu" >
-                <Button Content="Start Practice game" Name="btnSinglePlayer" Margin="0,50,0,5" Click="btnSinglePlayer_Click"/>
+                <Button Content="Practise Game" Name="btnSinglePlayer" Click="btnSinglePlayer_Click"/>
                 <Button Content="Host Quick Game" Name="btnQuickGame" Click="btnQuickGame_Click"/>
                 <Button Content="Host Tournament" Name="btnHostTournament" Click="btnHostTournament_Click"/>
                 <Button Content="Connect to Game" Name="btnFindHostedGame" Click="btnFindHostedGame_Click"/>

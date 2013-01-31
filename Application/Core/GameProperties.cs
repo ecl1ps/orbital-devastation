@@ -5,6 +5,7 @@ using System.Text;
 using Orbit.Core.Players;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Globalization;
 
 namespace Orbit.Core
 {
@@ -31,17 +32,17 @@ namespace Orbit.Core
             defaults.Add(PropertyKey.PLAYER_HASH_ID, Player.GenerateNewHashId("Player"));
             defaults.Add(PropertyKey.STATIC_MOUSE_ENABLED, true.ToString());
             defaults.Add(PropertyKey.STATIC_MOUSE_CURSOR, "pack://application:,,,/resources/images/mouse/targeting_icon2.png");
-            defaults.Add(PropertyKey.STATIC_MOUSE_SENSITIVITY, "1");
+            defaults.Add(PropertyKey.STATIC_MOUSE_SENSITIVITY, 1.ToString(CultureInfo.InvariantCulture));
             defaults.Add(PropertyKey.MUSIC_ENABLED, true.ToString());
-            defaults.Add(PropertyKey.MUSIC_VOLUME, "0,2");
-            defaults.Add(PropertyKey.SOUNDS_VOLUME, "0,1");
+            defaults.Add(PropertyKey.MUSIC_VOLUME, 0.1.ToString(CultureInfo.InvariantCulture));
+            defaults.Add(PropertyKey.SOUNDS_VOLUME, 0.05.ToString(CultureInfo.InvariantCulture));
             defaults.Add(PropertyKey.USED_SERVERS, "");
-            defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO1, "0");
-            defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO2, "0");
-            defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO3, "0");
-            defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO4, "0");
-            defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO5, "0");
-            defaults.Add(PropertyKey.PLAYER_HIGHSCORE_QUICK_GAME, "0");
+            defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO1, 0.ToString(CultureInfo.InvariantCulture));
+            defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO2, 0.ToString(CultureInfo.InvariantCulture));
+            defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO3, 0.ToString(CultureInfo.InvariantCulture));
+            defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO4, 0.ToString(CultureInfo.InvariantCulture));
+            defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO5, 0.ToString(CultureInfo.InvariantCulture));
+            defaults.Add(PropertyKey.PLAYER_HIGHSCORE_QUICK_GAME, 0.ToString(CultureInfo.InvariantCulture));
             defaults.Add(PropertyKey.PLAYER_ACTION_1, ((int)Key.D1).ToString());
             defaults.Add(PropertyKey.PLAYER_ACTION_2, ((int)Key.D2).ToString());
             defaults.Add(PropertyKey.PLAYER_ACTION_3, ((int)Key.D3).ToString());

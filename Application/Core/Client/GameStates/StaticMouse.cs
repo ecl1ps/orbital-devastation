@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using Orbit.Gui.Visuals;
+using System.Globalization;
 
 namespace Orbit.Core.Client.GameStates
 {
@@ -37,7 +38,7 @@ namespace Orbit.Core.Client.GameStates
         private StaticMouse(SceneMgr mgr)
         {
             sceneMgr = mgr;
-            SENSITIVITY = float.Parse(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_SENSITIVITY));
+            SENSITIVITY = float.Parse(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_SENSITIVITY), CultureInfo.InvariantCulture);
             InitCursorImage(new Uri(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_CURSOR)));
             this.canvas = mgr.GetCanvas();
         }

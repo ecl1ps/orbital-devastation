@@ -18,6 +18,7 @@ using Orbit.Core.Server.Level;
 using Orbit.Core.Players;
 using Orbit.Core.AI;
 using Orbit.Core.Helpers;
+using System.Globalization;
 
 namespace Orbit.Gui
 {
@@ -211,9 +212,9 @@ namespace Orbit.Gui
             try
             {
                 if (tbRounds.Visibility == Visibility.Visible)
-                    rounds = int.Parse(tbRounds.Text);
+                    rounds = int.Parse(tbRounds.Text, CultureInfo.InvariantCulture);
                 else
-                    rounds = int.Parse((string)lblRounds.Content);
+                    rounds = int.Parse((string)lblRounds.Content, CultureInfo.InvariantCulture);
                 if (rounds < 1)
                     throw new Exception();
             }
@@ -280,7 +281,7 @@ namespace Orbit.Gui
             s.Level = (GameLevel)cbMap.SelectedValue;
             try
             {
-                s.RoundCount = int.Parse(tbRounds.Text);
+                s.RoundCount = int.Parse(tbRounds.Text, CultureInfo.InvariantCulture);
                 if (s.RoundCount < 1)
                     throw new Exception();
             }
@@ -297,7 +298,7 @@ namespace Orbit.Gui
 #else
             try
             {
-                s.BotCount = int.Parse(tbBotCount.Text);
+            	s.BotCount = int.Parse(tbBotCount.Text, CultureInfo.InvariantCulture);
             }
             catch (Exception)
             {
@@ -336,7 +337,7 @@ namespace Orbit.Gui
             int rounds = 1;
             try
             {
-                rounds = int.Parse(tbRounds.Text);
+                rounds = int.Parse(tbRounds.Text, CultureInfo.InvariantCulture);
                 if (rounds < 1)
                     throw new Exception();
                 UpdateMatchCount(rounds);
@@ -371,7 +372,7 @@ namespace Orbit.Gui
             int bots = 0;
             try
             {
-                bots = int.Parse(tbBotCount.Text);
+                bots = int.Parse(tbBotCount.Text, CultureInfo.InvariantCulture);
                 if (bots < 0 || bots > 2)
                     throw new Exception();
                 btnSettings.IsEnabled = true;
