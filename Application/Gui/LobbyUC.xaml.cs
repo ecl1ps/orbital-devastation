@@ -295,7 +295,15 @@ namespace Orbit.Gui
             s.BotCount = 0;
             s.BotType = SharedDef.DEFAULT_BOT;
 #else
-            s.BotCount = int.Parse(tbBotCount.Text);
+            try
+            {
+                s.BotCount = int.Parse(tbBotCount.Text);
+            }
+            catch (Exception)
+            {
+                s.BotCount = 0;
+            }
+            
             s.BotType = (BotType)cbBot.SelectedValue;
 #endif
 
@@ -370,7 +378,8 @@ namespace Orbit.Gui
             }
             catch (Exception)
             {
-                tbBotCount.Text = "0";
+                if (!String.IsNullOrWhiteSpace(tbBotCount.Text))
+                    tbBotCount.Text = "0";
             }
         }
 

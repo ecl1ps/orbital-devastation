@@ -3,12 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="30" d:DesignWidth="138">
+             mc:Ignorable="d" d:DesignHeight="30" d:DesignWidth="138">
+
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBlock}">
+        </Style>
+    </UserControl.Resources>
     
     <Canvas Width="138" Height="30">
         <Border Name="Border" Visibility="Hidden" Canvas.Top="-5" Canvas.Left="5" CornerRadius="10" Width="128" Height="11" Background="Red" BorderBrush="Black" />
-        <Border CornerRadius="0.95" BorderBrush="Black" BorderThickness="1">
+  
+        <Border CornerRadius="0" BorderBrush="Black" BorderThickness="1">
             <Grid Background="Gray">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="42"/>

@@ -363,8 +363,8 @@
     <Compile Include="Gui\MouseOptions.xaml.cs">
       <DependentUpon>MouseOptions.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Gui\OptionsMenu.xaml.cs">
-      <DependentUpon>OptionsMenu.xaml</DependentUpon>
+    <Compile Include="Gui\OptionsUC.xaml.cs">
+      <DependentUpon>OptionsUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\PlayerOverview.xaml.cs">
       <DependentUpon>PlayerOverview.xaml</DependentUpon>
@@ -512,7 +512,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Gui\OptionsMenu.xaml">
+    <Page Include="Gui\OptionsUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -554,6 +554,45 @@
     </Page>
     <Page Include="Gui\StatisticsUC.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="resources\styles\Button.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="resources\styles\ComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="resources\styles\CheckBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="resources\styles\Slider.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="resources\styles\UserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="resources\styles\TextBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="resources\styles\TextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="resources\styles\Label.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="resources\styles\ToggleButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="resources\styles\Shared.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

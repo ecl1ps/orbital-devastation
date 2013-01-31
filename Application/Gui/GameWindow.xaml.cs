@@ -145,7 +145,7 @@ namespace Orbit.Gui
                     {
                         ShowOptionsMenu();
                     }
-                    else if ((uc = LogicalTreeHelper.FindLogicalNode(menuGrid, "optionsMenu") as UIElement) != null)
+                    else if ((uc = LogicalTreeHelper.FindLogicalNode(menuGrid, "optionsUC") as UIElement) != null)
                     {
                         AddMenu(new EscMenu());
                         if (GameRunning)
@@ -183,7 +183,7 @@ namespace Orbit.Gui
 
         public void ShowOptionsMenu()
         {
-            AddMenu(new OptionsMenu());
+            AddMenu(new OptionsUC());
             if (GameRunning)
                 StaticMouse.Enable(false);
         }
