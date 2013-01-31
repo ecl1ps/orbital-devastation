@@ -59,7 +59,6 @@
                     <ControlTemplate.Triggers>
                         <EventTrigger RoutedEvent="Button.MouseEnter">
                             <EventTrigger.Actions>
-                                <StopStoryboard BeginStoryboardName="leaveBorderAnimation" />
                                 <BeginStoryboard x:Name="enterBorderAnimation">
                                     <Storyboard>
                                         <ColorAnimation To="{StaticResource darkPurple}" Duration="0:0:0.1" 
@@ -71,7 +70,6 @@
                         </EventTrigger>
                         <EventTrigger RoutedEvent="Button.MouseLeave">
                             <EventTrigger.Actions>
-                                <StopStoryboard BeginStoryboardName="enterBorderAnimation" />
                                 <BeginStoryboard x:Name="leaveBorderAnimation">
                                     <Storyboard>
                                         <ColorAnimation To="Black" Duration="0:0:0.1" 
