@@ -5,7 +5,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
-    <Grid Height="300" Width="600" Background="#BFB7B7B7">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="FontFamily" Value="Arial Unicode MS" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="BorderBrush" Value="{StaticResource darkPurpleBrush}" />
+            <Setter Property="BorderThickness" Value="0,0,0,1" />
+            <Setter Property="Width" Value="350" />
+        </Style>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="Arial Unicode MS" />
+            <Setter Property="FontSize" Value="15" />
+        </Style>        
+    </UserControl.Resources>
+    
+    <Grid Height="300" Width="600" Background="LightGray">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400" />
             <ColumnDefinition Width="200" />
@@ -24,26 +38,26 @@
 
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" FontFamily="Arial Unicode MS" FontSize="15" BorderBrush="#FF6C6C6C" BorderThickness="0,0,0,1">Singularity Mine - Fired / Hit / Accuracy</Label>
-        <Label Grid.Row="1" Grid.Column="0" FontFamily="Arial Unicode MS" FontSize="15" BorderBrush="#FF6C6C6C" BorderThickness="0,0,0,1">Singularity Bullet - Fired / Hit / Accuracy</Label>
-        <Label Grid.Row="2" Grid.Column="0" FontFamily="Arial Unicode MS" FontSize="15" BorderBrush="#FF6C6C6C" BorderThickness="0,0,0,1">Hook - Fired / Hit / Accuracy</Label>
-        <Label Grid.Row="3" Grid.Column="0" FontFamily="Arial Unicode MS" FontSize="15" BorderBrush="#FF6C6C6C" BorderThickness="0,0,0,1">Damage suffered</Label>
-        <Label Grid.Row="4" Grid.Column="0" FontFamily="Arial Unicode MS" FontSize="15" BorderBrush="#FF6C6C6C" BorderThickness="0,0,0,1">Total heal</Label>
-        <Label Grid.Row="5" Grid.Column="0" FontFamily="Arial Unicode MS" FontSize="15" BorderBrush="#FF6C6C6C" BorderThickness="0,0,0,1">Gold earned</Label>
-        <Label Grid.Row="6" Grid.Column="0" FontFamily="Arial Unicode MS" FontSize="15" BorderBrush="#FF6C6C6C" BorderThickness="0,0,0,1">Actions used</Label>
-        <Label Grid.Row="7" Grid.Column="0" FontFamily="Arial Unicode MS" FontSize="15" BorderBrush="#FF6C6C6C" BorderThickness="0,0,0,1">Powerup picked</Label>
-        <Label Grid.Row="8" Grid.Column="0" FontFamily="Arial Unicode MS" FontSize="15" BorderBrush="#FF6C6C6C" BorderThickness="0,0,0,1">Favorite action</Label>
-        <Label Grid.Row="9" Grid.Column="0" FontFamily="Arial Unicode MS" FontSize="15" BorderBrush="#FF6C6C6C" BorderThickness="0,0,0,1">Favorite powerup</Label>
+        <Label Grid.Row="0" Grid.Column="0">Singularity Mine - Fired / Hit / Accuracy</Label>
+        <Label Grid.Row="1" Grid.Column="0">Singularity Bullet - Fired / Hit / Accuracy</Label>
+        <Label Grid.Row="2" Grid.Column="0">Hook - Fired / Hit / Accuracy</Label>
+        <Label Grid.Row="3" Grid.Column="0">Damage suffered</Label>
+        <Label Grid.Row="4" Grid.Column="0">Total heal</Label>
+        <Label Grid.Row="5" Grid.Column="0">Gold earned</Label>
+        <Label Grid.Row="6" Grid.Column="0">Actions used</Label>
+        <Label Grid.Row="7" Grid.Column="0">Powerup picked</Label>
+        <Label Grid.Row="8" Grid.Column="0">Favorite action</Label>
+        <Label Grid.Row="9" Grid.Column="0">Favorite powerup</Label>
 
-        <TextBlock Name="MineStats" Grid.Row="0" Grid.Column="1" FontFamily="Arial Unicode MS" FontSize="15"/>
-        <TextBlock Name="BulletStats" Grid.Row="1" Grid.Column="1" FontFamily="Arial Unicode MS" FontSize="15"/>
-        <TextBlock Name="HookStats" Grid.Row="2" Grid.Column="1" FontFamily="Arial Unicode MS" FontSize="15"/>
-        <TextBlock Name="Damage" Grid.Row="3" Grid.Column="1" FontFamily="Arial Unicode MS" FontSize="15"/>
-        <TextBlock Name="Heal" Grid.Row="4" Grid.Column="1" FontFamily="Arial Unicode MS" FontSize="15"/>
-        <TextBlock Name="Gold" Grid.Row="5" Grid.Column="1" FontFamily="Arial Unicode MS" FontSize="15"/>
-        <TextBlock Name="Actions" Grid.Row="6" Grid.Column="1" FontFamily="Arial Unicode MS" FontSize="15"/>
-        <TextBlock Name="Powerup" Grid.Row="7" Grid.Column="1" FontFamily="Arial Unicode MS" FontSize="15"/>
-        <TextBlock Name="FavAction" Grid.Row="8" Grid.Column="1" FontFamily="Arial Unicode MS" FontSize="15"/>
-        <TextBlock Name="FavPowerup" Grid.Row="9" Grid.Column="1" FontFamily="Arial Unicode MS" FontSize="15"/>
+        <TextBlock Name="MineStats" Grid.Row="0" Grid.Column="1"/>
+        <TextBlock Name="BulletStats" Grid.Row="1" Grid.Column="1"/>
+        <TextBlock Name="HookStats" Grid.Row="2" Grid.Column="1"/>
+        <TextBlock Name="Damage" Grid.Row="3" Grid.Column="1"/>
+        <TextBlock Name="Heal" Grid.Row="4" Grid.Column="1"/>
+        <TextBlock Name="Gold" Grid.Row="5" Grid.Column="1"/>
+        <TextBlock Name="Actions" Grid.Row="6" Grid.Column="1"/>
+        <TextBlock Name="Powerup" Grid.Row="7" Grid.Column="1"/>
+        <TextBlock Name="FavAction" Grid.Row="8" Grid.Column="1"/>
+        <TextBlock Name="FavPowerup" Grid.Row="9" Grid.Column="1"/>
     </Grid>
 </UserControl>
