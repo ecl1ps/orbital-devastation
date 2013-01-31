@@ -27,17 +27,17 @@
                 <ColumnDefinition Width="90" />
             </Grid.ColumnDefinitions>
 
-            <TextBlock FontFamily="Bauhaus 93" Grid.Row="0" Grid.Column="0">Action 1</TextBlock>
-            <TextBlock FontFamily="Bauhaus 93" Grid.Row="1" Grid.Column="0">Action 2</TextBlock>
-            <TextBlock FontFamily="Bauhaus 93" Grid.Row="2" Grid.Column="0">Action 3</TextBlock>
-            <TextBlock FontFamily="Bauhaus 93" Grid.Row="3" Grid.Column="0">Action 4</TextBlock>
-            <TextBlock FontFamily="Bauhaus 93" Grid.Row="4" Grid.Column="0">Action 5</TextBlock>
-            <TextBlock FontFamily="Bauhaus 93" Grid.Row="5" Grid.Column="0">Move top</TextBlock>
-            <TextBlock FontFamily="Bauhaus 93" Grid.Row="6" Grid.Column="0">Move bottom</TextBlock>
-            <TextBlock FontFamily="Bauhaus 93" Grid.Row="7" Grid.Column="0">Move left</TextBlock>
-            <TextBlock FontFamily="Bauhaus 93" Grid.Row="8" Grid.Column="0">Move right</TextBlock>
-            <TextBlock FontFamily="Bauhaus 93" Grid.Row="9" Grid.Column="0">Show actions</TextBlock>
-            <TextBlock FontFamily="Bauhaus 93" Grid.Row="10" Grid.Column="0">Show protecting</TextBlock>
+            <TextBlock Grid.Row="0" Grid.Column="0">Action 1</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="0">Action 2</TextBlock>
+            <TextBlock Grid.Row="2" Grid.Column="0">Action 3</TextBlock>
+            <TextBlock Grid.Row="3" Grid.Column="0">Action 4</TextBlock>
+            <TextBlock Grid.Row="4" Grid.Column="0">Action 5</TextBlock>
+            <TextBlock Grid.Row="5" Grid.Column="0">Move top</TextBlock>
+            <TextBlock Grid.Row="6" Grid.Column="0">Move bottom</TextBlock>
+            <TextBlock Grid.Row="7" Grid.Column="0">Move left</TextBlock>
+            <TextBlock Grid.Row="8" Grid.Column="0">Move right</TextBlock>
+            <TextBlock Grid.Row="9" Grid.Column="0">Show actions</TextBlock>
+            <TextBlock Grid.Row="10" Grid.Column="0">Show protecting</TextBlock>
 
 
             <TextBlock Name="Action1" TextAlignment="Right"  Grid.Row="0" Grid.Column="2" KeyDown="Grid_KeyDown" MouseDown="Action1_MouseDoubleClick">1</TextBlock>

@@ -6,15 +6,15 @@
              Name="soundMenu" mc:Ignorable="d" Style="{StaticResource optionsStyle}">             
 
     <Grid>
-        <TextBlock Name="SoundValue" Height="20" FontFamily="Bauhaus 93" Text="100" TextAlignment="Right" Margin="12,143,281,0" VerticalAlignment="Top" />
-        <TextBlock Name="BackgroundValue" Height="20" FontFamily="Bauhaus 93" Text="100" TextAlignment="Right" Margin="12,81,281,0" VerticalAlignment="Top" />
-        <Label Content="Background volume"  Height="25" FontFamily="Bauhaus 93" Margin="12,50,223,274" />
-        <Slider Name="BackgroundSlider"  Height="25" Margin="75,81,12,244" Maximum="100" ValueChanged="BackgroundVolumeChanged" />
-        <Label Content="Effect volume" FontFamily="Bauhaus 93" Height="25" Margin="12,112,223,213" />
+        <TextBlock Name="SoundValue" Text="100" TextAlignment="Right" Margin="188,168,0,0" />
+        <TextBlock Name="BackgroundValue" Text="100" TextAlignment="Right" Margin="188,106,0,0" />
+        <Label Content="Background volume" Margin="12,50,223,274" />
+        <Slider Name="BackgroundSlider" Height="25" Margin="75,81,12,244" Maximum="100" ValueChanged="BackgroundVolumeChanged" />
+        <Label Content="Effect volume" Margin="12,112,223,213" />
         <Slider Name="SoundSlider" Height="25" Margin="75,143,12,182" Maximum="100" ValueChanged="SoundVolumeChanged" />
-        <Label Content="Sounds enabled" FontFamily="Bauhaus 93" Height="25" Margin="12,19,0,306" Width="115" HorizontalAlignment="Left" />
-        <CheckBox Height="16" HorizontalAlignment="Left" Margin="134,24,0,0" Name="soundEnabled" VerticalAlignment="Top" Checked="soundEnabled_Checked" Unchecked="soundEnabled_Unchecked" />
+        <Label Content="Sounds enabled" Margin="12,19,0,306" />
+        <CheckBox HorizontalAlignment="Left" Margin="134,24,0,0" Name="soundEnabled" VerticalAlignment="Top" Checked="soundEnabled_Checked" Unchecked="soundEnabled_Unchecked" />
 
-        <Button Content="Back" Margin="0,0,0,30" VerticalAlignment="Bottom"  Name="btnBack" Click="btnBack_Click" />
+        <Button Content="Back" Margin="0,0,0,30" VerticalAlignment="Bottom" Name="btnBack" Click="btnBack_Click" />
     </Grid>
 </UserControl>

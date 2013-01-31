@@ -6,7 +6,7 @@
              Name="mouseMenu" mc:Ignorable="d" Style="{StaticResource optionsStyle}">             
 
     <Grid>
-        <Label Height="25" Width="100" FontFamily="Bauhaus 93" Content="Cursor icon" Margin="12,65,238,261" />
+        <Label Content="Cursor icon" Margin="12,65,238,261" />
         <ToggleButton Name="MouseIcon1" Height="25" Width="25" Margin="0,68,126,0" HorizontalAlignment="Right" Click="MouseIcon1_Click">
             <Image Source="pack://application:,,,/resources/images/mouse/targeting_icon2.png" /> 
         </ToggleButton>
@@ -16,12 +16,12 @@
         <ToggleButton Name="MouseIcon3" Height="25" Width="25" Margin="135,68,0,0" HorizontalAlignment="Left" Click="MouseIcon3_Click" >
             <Image Source="pack://application:,,,/resources/images/mouse/targeting_icon3.png" />
         </ToggleButton>
-        <Label Height="25" Width="100" FontFamily="Bauhaus 93" Content="Mouse Sensitivity" Margin="12,118,238,206" />
-        <TextBlock Name="SensitivityLabel" Height="20" FontFamily="Bauhaus 93" TextAlignment="Right" VerticalAlignment="Bottom" Text="1" Margin="221,0,102,179" />
+        <Label Content="Mouse Sensitivity" Margin="12,118,238,206" />
+        <TextBlock Name="SensitivityLabel" TextAlignment="Right" VerticalAlignment="Bottom" Text="1" Margin="221,0,102,179" />
         <Slider Name="SensitivitySlider" Height="25" Maximum="100" Margin="135,120,7,206" ValueChanged="SensitivityChange" />
-        <CheckBox Height="16" HorizontalAlignment="Left" Margin="135,28,0,0" Name="mouseEnabled" VerticalAlignment="Top" Unchecked="mouseEnabled_Unchecked" Checked="mouseEnabled_Checked" IsThreeState="False" />
-        <Label Content="Static mouse active" FontFamily="Bauhaus 93" Height="25" Margin="12,24,218,301" />
+        <CheckBox Name="mouseEnabled" Unchecked="mouseEnabled_Unchecked" Checked="mouseEnabled_Checked" IsThreeState="False" Margin="135,31,198,303"  />
+        <Label Content="Static mouse active" Margin="12,24,218,301" />
 
-        <Button Content="Back" Margin="0,0,0,30" VerticalAlignment="Bottom"  Name="btnBack" Click="btnBack_Click" />
+        <Button Content="Back" Margin="0,0,0,30" VerticalAlignment="Bottom" Name="btnBack" Click="btnBack_Click" />
     </Grid>
 </UserControl>
