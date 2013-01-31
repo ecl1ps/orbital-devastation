@@ -8,4 +8,7 @@
     <Color x:Key="lighterGray">#FFE5E5E5</Color>
     <SolidColorBrush x:Key="lighterGrayBrush" Color="{StaticResource lighterGray}"/>
 
+    <Color x:Key="darkestGray">#FF333333</Color>
+    <SolidColorBrush x:Key="darkestGrayBrush" Color="{StaticResource darkestGray}"/>
+
 </ResourceDictionary>

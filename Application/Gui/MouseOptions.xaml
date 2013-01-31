@@ -18,7 +18,7 @@
         </ToggleButton>
         <Label Content="Mouse Sensitivity" Margin="12,118,238,206" />
         <TextBlock Name="SensitivityLabel" TextAlignment="Right" VerticalAlignment="Bottom" Text="1" Margin="221,0,102,179" />
-        <Slider Name="SensitivitySlider" Height="25" Maximum="100" Margin="135,120,7,206" ValueChanged="SensitivityChange" />
+        <Slider Name="SensitivitySlider" Maximum="100" Margin="135,120,7,206" ValueChanged="SensitivityChange" />
         <CheckBox Name="mouseEnabled" Unchecked="mouseEnabled_Unchecked" Checked="mouseEnabled_Checked" IsThreeState="False" Margin="135,31,198,303"  />
         <Label Content="Static mouse active" Margin="12,24,218,301" />
 
