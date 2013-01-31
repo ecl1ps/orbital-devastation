@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Security.Policy;
 using System.Security.Cryptography;
+using System.Globalization;
 
 namespace Orbit.Core
 {
@@ -62,7 +63,7 @@ namespace Orbit.Core
             {
                 foreach (PropertyKey prop in list.Keys.ToArray())
                     if (!String.IsNullOrWhiteSpace(list[prop]))
-                        file.WriteLine(prop + "=" + list[prop]);
+                        file.WriteLine(prop + "=" + list[prop].ToString(CultureInfo.InvariantCulture));
             }
         }
 
@@ -116,7 +117,6 @@ namespace Orbit.Core
                 if ((!String.IsNullOrEmpty(line)) &&
                     (!line.StartsWith(";")) &&
                     (!line.StartsWith("#")) &&
-                    (!line.StartsWith("'")) &&
                     (line.Contains('=')))
                 {
                     int index = line.IndexOf('=');

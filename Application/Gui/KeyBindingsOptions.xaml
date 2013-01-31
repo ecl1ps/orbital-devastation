@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" Name="keyBindingsMenu" Width="350" Height="350" BorderBrush="Black" BorderThickness="1" KeyDown="Grid_KeyDown">
+             Name="keyBindingsMenu" mc:Ignorable="d" Style="{StaticResource optionsStyle}" KeyDown="Grid_KeyDown">             
 
-    <Grid Width="350" Height="350" Background="#FF6F6F6F">
-        <Grid Width="310" Height="320" KeyDown="Grid_KeyDown" Margin="15" >
+    <Grid>
+        <Grid KeyDown="Grid_KeyDown" Margin="15" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="25" />
                 <RowDefinition Height="25" />
@@ -27,17 +27,17 @@
                 <ColumnDefinition Width="90" />
             </Grid.ColumnDefinitions>
 
-            <TextBlock FontFamily="Bauhaus 93" Grid.Row="0" Grid.Column="0">Action 1</TextBlock>
-            <TextBlock FontFamily="Bauhaus 93" Grid.Row="1" Grid.Column="0">Action 2</TextBlock>
-            <TextBlock FontFamily="Bauhaus 93" Grid.Row="2" Grid.Column="0">Action 3</TextBlock>
-            <TextBlock FontFamily="Bauhaus 93" Grid.Row="3" Grid.Column="0">Action 4</TextBlock>
-            <TextBlock FontFamily="Bauhaus 93" Grid.Row="4" Grid.Column="0">Action 5</TextBlock>
-            <TextBlock FontFamily="Bauhaus 93" Grid.Row="5" Grid.Column="0">Move top</TextBlock>
-            <TextBlock FontFamily="Bauhaus 93" Grid.Row="6" Grid.Column="0">Move bottom</TextBlock>
-            <TextBlock FontFamily="Bauhaus 93" Grid.Row="7" Grid.Column="0">Move left</TextBlock>
-            <TextBlock FontFamily="Bauhaus 93" Grid.Row="8" Grid.Column="0">Move right</TextBlock>
-            <TextBlock FontFamily="Bauhaus 93" Grid.Row="9" Grid.Column="0">Show actions</TextBlock>
-            <TextBlock FontFamily="Bauhaus 93" Grid.Row="10" Grid.Column="0">Show protecting</TextBlock>
+            <TextBlock Grid.Row="0" Grid.Column="0">Action 1</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="0">Action 2</TextBlock>
+            <TextBlock Grid.Row="2" Grid.Column="0">Action 3</TextBlock>
+            <TextBlock Grid.Row="3" Grid.Column="0">Action 4</TextBlock>
+            <TextBlock Grid.Row="4" Grid.Column="0">Action 5</TextBlock>
+            <TextBlock Grid.Row="5" Grid.Column="0">Move top</TextBlock>
+            <TextBlock Grid.Row="6" Grid.Column="0">Move bottom</TextBlock>
+            <TextBlock Grid.Row="7" Grid.Column="0">Move left</TextBlock>
+            <TextBlock Grid.Row="8" Grid.Column="0">Move right</TextBlock>
+            <TextBlock Grid.Row="9" Grid.Column="0">Show actions</TextBlock>
+            <TextBlock Grid.Row="10" Grid.Column="0">Show protecting</TextBlock>
 
 
             <TextBlock Name="Action1" TextAlignment="Right"  Grid.Row="0" Grid.Column="2" KeyDown="Grid_KeyDown" MouseDown="Action1_MouseDoubleClick">1</TextBlock>
@@ -52,7 +52,7 @@
             <TextBlock Name="ShowActions" TextAlignment="Right"  Grid.Row="9" Grid.Column="2" MouseDown="ShowActions_MouseDoubleClick">e</TextBlock>
             <TextBlock Name="ShowProtecting" TextAlignment="Right"  Grid.Row="10" Grid.Column="2" MouseDown="ShowProtecting_MouseDoubleClick">q</TextBlock>
 
-            <Button Content="Back" Grid.Column="1" Grid.Row="9" FontFamily="Bauhaus 93" Height="31" HorizontalAlignment="Center" Name="btnBack" VerticalAlignment="Center" Width="84" Click="btnBack_Click" Margin="24,58,22,6" />
         </Grid>
+        <Button Content="Back" Name="btnBack" VerticalAlignment="Bottom" Click="btnBack_Click" Margin="0,0,0,30" />
     </Grid>
 </UserControl>

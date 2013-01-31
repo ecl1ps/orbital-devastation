@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 using System.Windows.Media;
+using System.Globalization;
 
 namespace Orbit.Core.Players
 {
@@ -69,7 +70,7 @@ namespace Orbit.Core.Players
         private void LoadPlayerColors()
         {
             playerColors = new List<Color>();
-            int plrMask = int.Parse(GameProperties.Props.Get(PropertyKey.AVAILABLE_COLORS));
+            int plrMask = int.Parse(GameProperties.Props.Get(PropertyKey.AVAILABLE_COLORS), CultureInfo.InvariantCulture);
             int mask = 1;
             do
             {
@@ -90,7 +91,7 @@ namespace Orbit.Core.Players
         private void AddColorSetReal(PlayerColorSet set)
         {
             AddColors(set);
-            int plrMask = int.Parse(GameProperties.Props.Get(PropertyKey.AVAILABLE_COLORS));
+            int plrMask = int.Parse(GameProperties.Props.Get(PropertyKey.AVAILABLE_COLORS), CultureInfo.InvariantCulture);
             plrMask |= (int)set;
             GameProperties.Props.SetAndSave(PropertyKey.AVAILABLE_COLORS, plrMask);
         }
@@ -108,12 +109,13 @@ namespace Orbit.Core.Players
 
     public enum PlayerColorSet
     {
-        BASIC = 1,
-        TUTORIAL_FINISHED = 2,
-        REWARD_1 = 4,
-        REWARD_2 = 8,
-        ALL = 16,
+        NONE                = 0,
+        BASIC               = 1,
+        TUTORIAL_FINISHED   = 2,
+        REWARD_1            = 4,
+        REWARD_2            = 8,
+        ALL                 = 16,
 
-        END = 32
+        END                 = 32
     }
 }

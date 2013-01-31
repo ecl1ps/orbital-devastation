@@ -6,96 +6,68 @@
              xmlns:controls="clr-namespace:Orbit.Gui"
              mc:Ignorable="d" Name="lobbyWindow"
              d:DesignWidth="1000" d:DesignHeight="700" Width="1000" Height="700" Loaded="lobbyWindow_Loaded">
+    
+    <UserControl.Resources>
+        <Style BasedOn="{StaticResource comboBoxStyle}" TargetType="{x:Type ComboBox}">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Height" Value="23" />
+            <Setter Property="Width" Value="226" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+        <Style BasedOn="{StaticResource buttonStyle}" TargetType="{x:Type Button}">
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Width" Value="130" />
+        </Style>
+    </UserControl.Resources>
+    
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="700" Width="900">
         <Grid.RowDefinitions>
             <RowDefinition Height="139*" />
             <RowDefinition Height="561*" />
         </Grid.RowDefinitions>
-        <Label Name="lblTitle" HorizontalContentAlignment="Center" Width="419" Margin="0,35" FontFamily="Bauhaus 93" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center">Tournament Lobby</Label>
-        <StackPanel Name="spPlayers"  Background="#7D91A0A3" Margin="10,31,370,260" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">
-            <!--
-            <controls:LobbyPlayer Width="520" Height="45" />
-            <controls:LobbyPlayer Width="520" Height="45"/>
-            <controls:LobbyPlayer Width="520" Height="45"/>
-            <controls:LobbyPlayer Width="520" Height="45"/>
-            -->
-        </StackPanel>
-        <Grid Name="gridGameInfo" Background="#FFE5E5E5" Margin="555,31,10,260" Grid.Row="1" >
-            <Label HorizontalContentAlignment="Center" Width="200" FontFamily="Bauhaus 93" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Top" >Settings</Label>
-            <Label Content="Type: " HorizontalAlignment="Left" Margin="24,45,0,0" Height="28" VerticalAlignment="Top" />
-            <Label Content="Map: " Height="28" HorizontalAlignment="Left" Margin="25,108,0,0" VerticalAlignment="Top" />
-            <ComboBox Height="23" HorizontalAlignment="Left" Margin="97,50,0,0" Name="cbType" VerticalAlignment="Top" Width="226" SelectionChanged="SelectionChanged" />
-            <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,113,12,0" Name="cbMap" VerticalAlignment="Top" Width="226" SelectionChanged="SelectionChanged" />
-            <Label Content="---" Height="28" HorizontalAlignment="Left" Margin="97,47,0,0" Name="lblType" VerticalAlignment="Top" Width="226" Visibility="Hidden" />
-            <Label Content="---" Height="28" HorizontalAlignment="Left" Margin="97,111,0,0" Name="lblMap" VerticalAlignment="Top" Width="226" Visibility="Hidden" />
-            <Button Content="Confirm settings" FontFamily="Bauhaus 93" FontSize="16" Height="28" HorizontalAlignment="Center" Margin="97,221,109,0" Name="btnSettings" VerticalAlignment="Top" Width="129" Click="btnSettings_Click">
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black" Offset="1" />
-                        <GradientStop Color="#80FFFFFF" Offset="0" />
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
-            <Label Content="Rounds: " Height="28" HorizontalAlignment="Left" Margin="24,79,0,0" VerticalAlignment="Top" />
-            <TextBox Text="1" Height="23" HorizontalAlignment="Left" Margin="97,81,0,0" Name="tbRounds" VerticalAlignment="Top" Width="37" AcceptsTab="True" MaxLength="2" HorizontalContentAlignment="Right" TabIndex="2" TextChanged="tbRounds_TextChanged" />
-            <Label Content="(1 match)" Height="28" HorizontalAlignment="Left" Margin="140,79,0,0" Name="lblMatches" VerticalAlignment="Top" Width="86" />
-            <Label Content="1" Height="28" HorizontalAlignment="Left" Margin="97,79,0,0" Name="lblRounds" VerticalAlignment="Top" Width="37" Visibility="Hidden" />
-            <Label Content="Bot count: " Height="28" HorizontalAlignment="Left" Margin="24,142,0,0" VerticalAlignment="Top" Name="lblBotCount" />
-            <TextBox AcceptsTab="True" Height="23" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="97,147,0,0" MaxLength="2" Name="tbBotCount" TabIndex="4" Text="0" VerticalAlignment="Top" Width="37" TextChanged="tbBotCount_TextChanged" />
-            <Label Content="Bot level: " Height="28" HorizontalAlignment="Left" Margin="24,176,0,0" VerticalAlignment="Top" Name="lblBot" />
-            <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,181,12,0" Name="cbBot" VerticalAlignment="Top" Width="226" SelectionChanged="SelectionChanged" />
-        </Grid>
-        <ListView Height="148" HorizontalAlignment="Left" Margin="12,367,0,0" Name="lvChat" VerticalAlignment="Top" Width="879" Grid.Row="1" />
-        <Button Content="Start Game" Height="28" HorizontalAlignment="Center" Margin="91,316,680,0" FontFamily="Bauhaus 93" FontSize="16" Name="btnStartGame" VerticalAlignment="Top" Width="129" Click="btnStartGame_Click" IsEnabled="False" Grid.Row="1">
-            <Button.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="1" />
-                    <GradientStop Color="#80FFFFFF" Offset="0" />
-                </LinearGradientBrush>
-            </Button.Background>
-        </Button>
-        <Button Content="Ready" Height="28" HorizontalAlignment="Center" Margin="91,316,680,0" FontFamily="Bauhaus 93" FontSize="16" Name="btnReady" VerticalAlignment="Top" Width="129" Click="btnReady_Click" Grid.Row="1">
-            <Button.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="1" />
-                    <GradientStop Color="#80FFFFFF" Offset="0" />
-                </LinearGradientBrush>
-            </Button.Background>
-        </Button>
-        <Button Content="Leave room" Height="28" HorizontalAlignment="Center" Margin="347,316,423,0" FontFamily="Bauhaus 93" FontSize="16" Name="btnLeave" VerticalAlignment="Top" Width="129" Click="btnLeave_Click" Grid.Row="1">
-            <Button.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="1" />
-                    <GradientStop Color="#80FFFFFF" Offset="0" />
-                </LinearGradientBrush>
-            </Button.Background>
-        </Button>
-        <TextBox Height="22" HorizontalAlignment="Left" Margin="12,523,0,0" Name="tbMessage" VerticalAlignment="Top" Width="731" KeyDown="tbMessage_KeyDown" Grid.Row="1" />
-        <Button Content="Send Message" FontFamily="Bauhaus 93" FontSize="14" Height="24" HorizontalAlignment="Center" Margin="749,521,9,0" Name="btnSendMessage" VerticalAlignment="Top" Width="142" Grid.Row="1" Click="btnSendMessage_Click">
-            <Button.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="1" />
-                    <GradientStop Color="#80FFFFFF" Offset="0" />
-                </LinearGradientBrush>
-            </Button.Background>
-        </Button>
-        <Button Content="Change color" FontFamily="Bauhaus 93" FontSize="16" Height="28" HorizontalAlignment="Center" Margin="555,316,216,0" Name="btnColor" VerticalAlignment="Top" Width="129" Grid.Row="1" Click="btnColor_Click">
-            <Button.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="1" />
-                    <GradientStop Color="#80FFFFFF" Offset="0" />
-                </LinearGradientBrush>
-            </Button.Background>
-        </Button>
-        <Button Content="Last statistics" FontFamily="Bauhaus 93" FontSize="16" Height="28" HorizontalAlignment="Center" Margin="759,316,12,0" Name="btnStats" VerticalAlignment="Top" Width="129" Grid.Row="1" Click="btnStats_Click">
-            <Button.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="1" />
-                    <GradientStop Color="#80FFFFFF" Offset="0" />
-                </LinearGradientBrush>
-            </Button.Background>
-        </Button>
-        <Label Content="Color must me unique." Grid.Row="1" Height="28" HorizontalAlignment="Left" Margin="89,340,0,0" Name="lblColorNotice" VerticalAlignment="Top" Foreground="#FFFF0A0A" Visibility="Hidden" />
-        <Label Content="" FontFamily="Bauhaus 93" FontSize="20" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="188,124,539,536" Name="lblMatchNumber" VerticalAlignment="Center" Width="173" Grid.RowSpan="2" />
+        <Label Name="lblTitle" HorizontalContentAlignment="Center" Width="419" Margin="0,35" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center">Tournament Lobby</Label>
+        <Border BorderThickness="1" BorderBrush="{StaticResource darkPurpleBrush}" Background="Gainsboro" Margin="10,31,365,260" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">
+            <StackPanel Name="spPlayers" >
+                <!--
+                <controls:LobbyPlayer Width="520" Height="45" />
+                <controls:LobbyPlayer Width="520" Height="45"/>
+                <controls:LobbyPlayer Width="520" Height="45"/>
+                <controls:LobbyPlayer Width="520" Height="45"/>
+                -->
+            </StackPanel>
+        </Border>
+        <Border BorderThickness="1" BorderBrush="{StaticResource darkPurpleBrush}" Background="Gainsboro" Margin="555,31,10,260" Grid.Row="1">
+            <Grid Name="gridGameInfo"  >
+                <Label Content="Settings" FontSize="25" HorizontalAlignment="Center" />
+                <Label Content="Type: " Margin="24,45,0,0" />
+                <Label Content="Map: " Margin="25,108,0,0" />
+                <ComboBox Height="23" Margin="0,50,12,0" Name="cbType" SelectionChanged="SelectionChanged" />
+                <ComboBox Height="23" Margin="0,113,12,0" Name="cbMap" SelectionChanged="SelectionChanged" />
+                <Label Content="---" Margin="97,47,0,0" Name="lblType" Visibility="Hidden" />
+                <Label Content="---" Margin="97,111,0,0" Name="lblMap" Visibility="Hidden" />
+                <Button Content="Confirm settings" Margin="98,225,107,10" Name="btnSettings" Click="btnSettings_Click" Width="Auto" />
+                <Label Content="Rounds: " Margin="24,79,0,0" />
+                <TextBox Text="1" Margin="95,81,0,0" Name="tbRounds" Width="35" AcceptsTab="True" MaxLength="2" HorizontalContentAlignment="Right" TabIndex="2" TextChanged="tbRounds_TextChanged" />
+                <Label Content="(1 match)" Margin="140,79,0,0" Name="lblMatches" Width="86" />
+                <Label Content="1" Margin="97,79,0,0" Name="lblRounds" Width="37" Visibility="Hidden" />
+                <Label Content="Bot count: " Margin="24,142,0,0" Name="lblBotCount" />
+                <TextBox AcceptsTab="True" HorizontalContentAlignment="Right" Margin="95,145,0,0" MaxLength="2" Name="tbBotCount" TabIndex="4" Text="0" Width="35" TextChanged="tbBotCount_TextChanged" />
+                <Label Content="Bot level: " Margin="24,176,0,0" Name="lblBot" />
+                <ComboBox Margin="0,181,12,0" Name="cbBot" SelectionChanged="SelectionChanged" />
+            </Grid>
+        </Border>
+        <ListView BorderBrush="{StaticResource darkPurpleBrush}"  Height="148" HorizontalAlignment="Left" Margin="12,367,0,0" Name="lvChat" VerticalAlignment="Top" Width="879" Grid.Row="1" />
+        <Button Content="Start Game" Margin="89,316,681,212" Name="btnStartGame" Click="btnStartGame_Click" IsEnabled="False" Grid.Row="1" />
+        <Button Content="Ready" Margin="89,316,681,212" Name="btnReady" Click="btnReady_Click" Grid.Row="1" Width="Auto" />
+        <Button Content="Leave room" Margin="338,316,432,212" Name="btnLeave" Click="btnLeave_Click" Grid.Row="1" />
+        <TextBox Height="25" Margin="12,525,154,10" Name="tbMessage" Width="734" KeyDown="tbMessage_KeyDown" Grid.Row="1" />
+        <Button Content="Send Message" FontSize="12" Height="25" Margin="761,523,9,13" Name="btnSendMessage"  Grid.Row="1" Click="btnSendMessage_Click" />
+        <Button Content="Change color" Margin="555,316,215,212" Name="btnColor" Grid.Row="1" Click="btnColor_Click" />
+        <Button Content="Last statistics" Margin="760,316,10,212" Name="btnStats" Grid.Row="1" Click="btnStats_Click" Width="Auto" />
+        
+        <Label Content="Color must me unique." Grid.Row="1" Margin="89,344,0,0" Name="lblColorNotice" Foreground="#FFFF0A0A" Visibility="Hidden" />
+        <Label Content="" FontSize="20" Margin="227,126,0,0" Name="lblMatchNumber" Grid.RowSpan="2" />
     </Grid>
 </UserControl>

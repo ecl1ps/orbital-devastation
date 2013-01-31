@@ -24,6 +24,7 @@ using Orbit.Gui.Visuals;
 using Orbit.Core.Helpers;
 using Orbit.Gui.ActionControllers;
 using Orbit.Core.Scene.Particles.Implementations;
+using System.Globalization;
 
 namespace Orbit.Core.Client
 {
@@ -121,7 +122,7 @@ namespace Orbit.Core.Client
             }
 
             if (gameType == Gametype.MULTIPLAYER_GAME)
-                SetMainInfoText("Establishing connection...");
+                SetMainInfoText(Strings.networking_waiting);
 
             InitNetwork();
             ConnectToServer();
@@ -192,7 +193,7 @@ namespace Orbit.Core.Client
                 SendMessage(msg);
 
                 client.FlushSendQueue();
-                client.Disconnect("Client closed connection");
+                client.Disconnect(Strings.networking_client_connection_close);
                 // bussy wait for shutdown
                 while (client.ConnectionStatus != NetConnectionStatus.Disconnected && client.ConnectionStatus != NetConnectionStatus.None)
                     ;
@@ -443,9 +444,9 @@ namespace Orbit.Core.Client
 
             statisticsTimer = 0;
 
-            ShowStatusText(1, "TPF: " + tpf + " FPS: " + (int)(1.0f / tpf));
+            ShowStatusText(1, String.Format(Strings.misc_fps, tpf, (int)(1.0f / tpf)));
             if (GameType != Gametype.SOLO_GAME && GetCurrentPlayer().Connection != null)
-                ShowStatusText(2, "LATENCY: " + GetCurrentPlayer().Connection.AverageRoundtripTime);
+                ShowStatusText(2, String.Format(Strings.misc_latency, GetCurrentPlayer().Connection.AverageRoundtripTime / 2));
         }
 
         private void ProcessActionQueue()
@@ -652,8 +653,8 @@ namespace Orbit.Core.Client
         public void PlayerQuitGame()
         {
             playerQuit = true;
-            SendChatMessage(GetCurrentPlayer().Data.Name + " left the lobby", true);
-            serverConnection.Disconnect("Quit");
+            SendChatMessage(GetCurrentPlayer().Data.Name + " " + Strings.lobby_left, true);
+            serverConnection.Disconnect(Strings.networking_server_quit);
         }
 
         private void CheckHighScore(Player winner)
@@ -690,19 +691,19 @@ namespace Orbit.Core.Client
                 }
             }
 
-            int hs = int.Parse(GameProperties.Props.Get(key));
+            int hs = int.Parse(GameProperties.Props.Get(key), CultureInfo.InvariantCulture);
             if (hs < currentPlayer.Data.MatchPoints)
             {
                 hs = currentPlayer.Data.MatchPoints;
                 GameProperties.Props.SetAndSave(key, hs);
-                CreateTextMessage("New HighScore " + hs + "!");
+                CreateTextMessage(String.Format(Strings.game_new_highscore, hs));
             }
             else
             {
                 if (GetCurrentPlayer() == winner)
-                    CreateTextMessage("You win! Congratulations");
+                    CreateTextMessage(Strings.game_won);
                 else
-                    CreateTextMessage("You lost!");
+                    CreateTextMessage(Strings.game_lost);
             }
 
         }
@@ -760,7 +761,7 @@ namespace Orbit.Core.Client
                     lobby.UpdateTournamentSettings(lastTournamentSettings);
             }));
 
-            SendChatMessage(GetCurrentPlayer().Data.Name + " joined the lobby");
+            SendChatMessage(GetCurrentPlayer().Data.Name + " " + Strings.lobby_joined);
             SendPlayerDataRequestMessage();
             
             if (currentPlayer.Data.LobbyLeader)
@@ -786,9 +787,9 @@ namespace Orbit.Core.Client
 
             string msg;
             if (!playerQuit)
-                msg = "Disconnected from the host";
+                msg = Strings.networking_disconnected;
             else
-                msg = "End of Game";
+                msg = Strings.game_end;
 
             CreateTextMessage(msg);
         }
@@ -799,9 +800,9 @@ namespace Orbit.Core.Client
                 return;
 
             if (GameWindowState == WindowState.IN_LOBBY)
-                ShowChatMessage(leaver.Data.Name + " left the lobby");
+                ShowChatMessage(String.Format(Strings.game_left, leaver.Data.Name));
             else
-                CreateTextMessage(leaver.Data.Name + " left the game!");
+                CreateTextMessage(String.Format(Strings.game_left, leaver.Data.Name));
         }
 
         public void Invoke(Action a)

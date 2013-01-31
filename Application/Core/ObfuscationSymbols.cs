@@ -12,6 +12,8 @@ using System.Reflection;
 [assembly: Obfuscation(Feature = "embed irrKlang.NET4.dll", Exclude = false)]
 [assembly: Obfuscation(Feature = "embed ShaderEffectLibrary.dll", Exclude = false)]
 [assembly: Obfuscation(Feature = "embed log4net.dll", Exclude = false)]
+[assembly: Obfuscation(Feature = "embed WPFLocalizeExtension.dll", Exclude = false)]
+[assembly: Obfuscation(Feature = "embed XAMLMarkupExtensions.dll", Exclude = false)]
 
 // zapnuti debugovani v release
 //[assembly: Obfuscation(Feature = "debug", Exclude = false)]

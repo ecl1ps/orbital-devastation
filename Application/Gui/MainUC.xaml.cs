@@ -73,7 +73,7 @@ namespace Orbit.Gui
 
         private void btnShowOptions_Click(object sender, RoutedEventArgs e)
         {
-            App.Instance.AddMenu(new OptionsMenu());
+            App.Instance.AddMenu(new OptionsUC());
         }
 
         private void btnPlayAsSpectator_Click(object sender, RoutedEventArgs e)

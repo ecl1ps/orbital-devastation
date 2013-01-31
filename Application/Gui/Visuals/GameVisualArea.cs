@@ -86,13 +86,8 @@ namespace Orbit.Gui.Visuals
 
     public class ExtraDrawingVisual : DrawingVisual
     {
-        public DrawingCollection DrawingChildren { get; set; }
-
-        public ExtraDrawingVisual()
-            : base()
-        {
-            DrawingChildren = new DrawingCollection();
-        }
+        private DrawingCollection dc = new DrawingCollection();
+        public DrawingCollection DrawingChildren { get { return dc; } }
     }
 
     /// <summary>

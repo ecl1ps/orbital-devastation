@@ -34,14 +34,14 @@ namespace Orbit.Gui
         private void SetValues()
         {
             ChangeMouseButton(Boolean.Parse(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_ENABLED)));
-            double sensitivity = Double.Parse(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_SENSITIVITY));
+            double sensitivity = Double.Parse(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_SENSITIVITY), CultureInfo.InvariantCulture);
             SensitivitySlider.Value = 50 - ((1 - sensitivity) * 100);
             SensitivityLabel.Text = sensitivity.ToString("0.00", CultureInfo.InvariantCulture);
 
-            ParseSelectedIcon();
+            SelectSelectedIcon();
         }
 
-        private void ParseSelectedIcon()
+        private void SelectSelectedIcon()
         {
             String url = GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_CURSOR);
 
@@ -72,7 +72,9 @@ namespace Orbit.Gui
 
         private void ChangeMouseButton(bool enabled)
         {
-            UntoggleButtons();
+            UntoggleButtons(null);
+            if (enabled)
+                SelectSelectedIcon();
 
             MouseIcon1.IsEnabled = enabled;
             MouseIcon2.IsEnabled = enabled;
@@ -83,11 +85,14 @@ namespace Orbit.Gui
             mouseEnabled.IsChecked = enabled;
         }
 
-        private void UntoggleButtons()
+        private void UntoggleButtons(ToggleButton except)
         {
-            MouseIcon1.IsChecked = false;
-            MouseIcon2.IsChecked = false;
-            MouseIcon3.IsChecked = false;
+            if (MouseIcon1 != except)
+                MouseIcon1.IsChecked = false;
+            if (MouseIcon2 != except)
+                MouseIcon2.IsChecked = false;
+            if (MouseIcon3 != except)
+                MouseIcon3.IsChecked = false;
         }
 
         private void MouseIcon1_Click(object sender, RoutedEventArgs e)
@@ -107,7 +112,7 @@ namespace Orbit.Gui
 
         private void ProccesCursorIconChange(RoutedEventArgs e, Uri uri)
         {
-            UntoggleButtons();
+            UntoggleButtons(e.Source as ToggleButton);
             mouseEnabled.IsChecked = true;
 
             if (StaticMouse.Instance != null)

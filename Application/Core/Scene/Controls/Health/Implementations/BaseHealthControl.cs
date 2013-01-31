@@ -11,7 +11,7 @@ using Orbit.Core.Client;
 
 namespace Orbit.Core.Scene.Controls.Health.Implementations
 {
-    class BaseHealthControl : Control, IHpControl
+    public class BaseHealthControl : Control, IHpControl
     {
         private Base baze;
 

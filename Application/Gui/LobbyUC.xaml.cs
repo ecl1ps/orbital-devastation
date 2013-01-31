@@ -18,6 +18,7 @@ using Orbit.Core.Server.Level;
 using Orbit.Core.Players;
 using Orbit.Core.AI;
 using Orbit.Core.Helpers;
+using System.Globalization;
 
 namespace Orbit.Gui
 {
@@ -141,8 +142,9 @@ namespace Orbit.Gui
 
         private void SendMessage()
         {
-            if (tbMessage.Text == "")
+            if (String.IsNullOrWhiteSpace(tbMessage.Text))
                 return;
+
             App.Instance.SendChatMessage(tbMessage.Text);
             lvChat.Items.Add(App.Instance.PlayerName + ": " + tbMessage.Text);
             lvChat.ScrollIntoView(lvChat.Items[lvChat.Items.Count - 1]);
@@ -210,9 +212,9 @@ namespace Orbit.Gui
             try
             {
                 if (tbRounds.Visibility == Visibility.Visible)
-                    rounds = int.Parse(tbRounds.Text);
+                    rounds = int.Parse(tbRounds.Text, CultureInfo.InvariantCulture);
                 else
-                    rounds = int.Parse((string)lblRounds.Content);
+                    rounds = int.Parse((string)lblRounds.Content, CultureInfo.InvariantCulture);
                 if (rounds < 1)
                     throw new Exception();
             }
@@ -279,7 +281,7 @@ namespace Orbit.Gui
             s.Level = (GameLevel)cbMap.SelectedValue;
             try
             {
-                s.RoundCount = int.Parse(tbRounds.Text);
+                s.RoundCount = int.Parse(tbRounds.Text, CultureInfo.InvariantCulture);
                 if (s.RoundCount < 1)
                     throw new Exception();
             }
@@ -294,7 +296,15 @@ namespace Orbit.Gui
             s.BotCount = 0;
             s.BotType = SharedDef.DEFAULT_BOT;
 #else
-            s.BotCount = int.Parse(tbBotCount.Text);
+            try
+            {
+            	s.BotCount = int.Parse(tbBotCount.Text, CultureInfo.InvariantCulture);
+            }
+            catch (Exception)
+            {
+                s.BotCount = 0;
+            }
+            
             s.BotType = (BotType)cbBot.SelectedValue;
 #endif
 
@@ -327,7 +337,7 @@ namespace Orbit.Gui
             int rounds = 1;
             try
             {
-                rounds = int.Parse(tbRounds.Text);
+                rounds = int.Parse(tbRounds.Text, CultureInfo.InvariantCulture);
                 if (rounds < 1)
                     throw new Exception();
                 UpdateMatchCount(rounds);
@@ -362,14 +372,15 @@ namespace Orbit.Gui
             int bots = 0;
             try
             {
-                bots = int.Parse(tbBotCount.Text);
+                bots = int.Parse(tbBotCount.Text, CultureInfo.InvariantCulture);
                 if (bots < 0 || bots > 2)
                     throw new Exception();
                 btnSettings.IsEnabled = true;
             }
             catch (Exception)
             {
-                tbBotCount.Text = "0";
+                if (!String.IsNullOrWhiteSpace(tbBotCount.Text))
+                    tbBotCount.Text = "0";
             }
         }
 

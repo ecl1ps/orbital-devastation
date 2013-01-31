@@ -168,7 +168,7 @@ namespace Orbit.Core.Server.Match
             //spectator hral nacas
             if (spectator.Data.FriendlyPlayerId == 0)
             {
-                String time = ParseTime(totalTime);
+                String time = FormatTime(totalTime);
                 int val = (int) FastMath.LinearInterpolate(SharedDef.SOLO_SPECTATOR_MIN_SCORE, SharedDef.SOLO_SPECTATOR_MAX_SCORE, ComputeTimePerc(totalTime, SharedDef.SOLO_SPECTATOR_MAX_TIME, SharedDef.SOLO_SPECTATOR_MIN_TIME));
                 spectator.Data.MatchPoints += val;
                 SendTextMessage(spectator, "Thanks to your effort game lasted " + time + " . You acquire " + val + " score", server);
@@ -221,7 +221,7 @@ namespace Orbit.Core.Server.Match
             return val;
         }
 
-        private String ParseTime(float value)
+        private String FormatTime(float value)
         {
             int min = (int)(value / 60);
             int sec = (int) value % 60;

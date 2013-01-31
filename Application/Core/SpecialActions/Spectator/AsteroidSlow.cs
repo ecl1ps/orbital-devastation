@@ -47,7 +47,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             controls.Add(c1);
 
             AsteroidFreezeControl removal = new AsteroidFreezeControl();
-            removal.ControlsForDisabling = controls;
+            removal.SetControlsForDisable(controls);
             removal.Time = time;
 
             ast.AddControl(removal);

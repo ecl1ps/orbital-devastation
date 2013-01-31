@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
@@ -23,15 +24,15 @@ namespace Orbit.Core.Players.Input
             if (!e.IsDown || sceneMgr.UserActionsDisabled)
                 return;
 
-            if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_1)))
+            if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_1), CultureInfo.InvariantCulture))
                 actionBarMgr.Click(0);
-            else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_2)))
+            else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_2), CultureInfo.InvariantCulture))
                 actionBarMgr.Click(1);
-            else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_3)))
+            else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_3), CultureInfo.InvariantCulture))
                 actionBarMgr.Click(2);
-            else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_4)))
+            else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_4), CultureInfo.InvariantCulture))
                 actionBarMgr.Click(3);
-            else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_5)))
+            else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_5), CultureInfo.InvariantCulture))
                 actionBarMgr.Click(4);
 
         }
