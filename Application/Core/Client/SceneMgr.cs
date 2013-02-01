@@ -254,9 +254,16 @@ namespace Orbit.Core.Client
             {
                 if (obj is IHeavyWeightSceneObject)
                     GetCanvas().Children.Add((obj as IHeavyWeightSceneObject).HeavyWeightGeometry);
-                else if(!(obj is ParticleEmmitor))
+                else if (obj is ParticleEmmitor)
+                    (obj as ParticleEmmitor).Init(GetParticleArea());
+                else if (!(obj is ParticleEmmitor))
                     area.Add(obj.GetGeometry(), obj.Category);
             }));
+        }
+
+        private ParticleArea GetParticleArea()
+        {
+            return LogicalTreeHelper.FindLogicalNode(GetCanvas(), "particleArea") as ParticleArea;
         }
 
         /// <summary>
@@ -312,6 +319,8 @@ namespace Orbit.Core.Client
         /// </summary>
         public void RemoveFromSceneDelayed(ISceneObject obj)
         {
+            if (obj is ParticleEmmitor)
+                Console.WriteLine("removing");
             obj.Dead = true;
             obj.OnRemove();
             objectsToRemove.Add(obj);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Orbit.Core.Client;
+using System.Windows;
 
 namespace Orbit.Core.Scene.Particles
 {
@@ -15,6 +16,6 @@ namespace Orbit.Core.Scene.Particles
             SceneMgr = emmitor.SceneMgr;
         }
 
-        public abstract Entities.IMovable CreateParticle(int size);
+        public abstract UIElement CreateParticle(int size);
     }
 }

@@ -1,7 +1,11 @@
-﻿<UserControl x:Class="Orbit.Gui.ParticleTest"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Width="1000" Height="700" BorderThickness="0.0">
+﻿<UserControl x:Class="Orbit.Gui.ParticleArea"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             Name="particleArea"
+             Width="1000" Height="700" BorderThickness="0.0">
     <Grid>
         <Viewport3D Name="World">
             <Viewport3D.Camera>
@@ -18,6 +22,5 @@
                 </ModelVisual3D>
             </Viewport3D.Children>
         </Viewport3D>
-        <TextBlock Name="fps" Margin="200" > text</TextBlock>
     </Grid>
 </UserControl>

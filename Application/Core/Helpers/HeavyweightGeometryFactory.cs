@@ -143,6 +143,19 @@ namespace Orbit.Core.Helpers
             return path;
         }
 
+        public static UIElement CreateConstantColorCircleGeometry(double radius, Color color)
+        {
+            Ellipse e = new Ellipse();
+            e.Width = radius;
+            e.Height = radius;
+            SolidColorBrush b = new SolidColorBrush(color);
+            e.Fill = b;
+            e.Measure(new System.Windows.Size(radius, radius));
+            e.Arrange(new Rect(0, 0, radius, radius));
+
+            return e;
+        }
+
         public static System.Windows.Shapes.Line CreateLineGeometry(Vector start, Vector end, Color color, int width)
         {
             System.Windows.Shapes.Line line = null;

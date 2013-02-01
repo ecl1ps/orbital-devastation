@@ -13,13 +13,10 @@ namespace Orbit.Core.Scene.Particles.Implementations
     {
         public Color Color { get; set; }
 
-        public override IMovable CreateParticle(int size)
-        {
-            OrbitEllipse s = new OrbitEllipse(SceneMgr, IdMgr.GetNewId(SceneMgr.GetCurrentPlayer().GetId()), size, size);
-            s.Color = Color;
-            s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
 
-            return s;
+        public override System.Windows.UIElement CreateParticle(int size)
+        {
+            return HeavyweightGeometryFactory.CreateConstantColorCircleGeometry(size, Color);
         }
     }
 }

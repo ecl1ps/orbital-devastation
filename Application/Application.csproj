@@ -375,8 +375,8 @@
     <Compile Include="Gui\OptionsUC.xaml.cs">
       <DependentUpon>OptionsUC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Gui\ParticleTest.xaml.cs">
-      <DependentUpon>ParticleTest.xaml</DependentUpon>
+    <Compile Include="Gui\ParticleArea.xaml.cs">
+      <DependentUpon>ParticleArea.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\PlayerOverview.xaml.cs">
       <DependentUpon>PlayerOverview.xaml</DependentUpon>
@@ -547,7 +547,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Gui\ParticleTest.xaml">
+    <Page Include="Gui\ParticleArea.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
