@@ -9,7 +9,7 @@
     <Grid>
         <Viewport3D Name="World">
             <Viewport3D.Camera>
-                <PerspectiveCamera Position="0,0,0" LookDirection="0,0, -1" UpDirection="0,1,0" FieldOfView="60" />
+                <PerspectiveCamera Position="0,0,0" LookDirection="0,0, -1" UpDirection="0,-1,0" FieldOfView="60" />
             </Viewport3D.Camera>
 
             <Viewport3D.Children>

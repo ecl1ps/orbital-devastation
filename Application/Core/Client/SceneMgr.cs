@@ -25,10 +25,10 @@ using Orbit.Core.Helpers;
 using Orbit.Gui.ActionControllers;
 using Orbit.Core.Scene.Particles.Implementations;
 using System.Globalization;
+using Orbit.Core.Client.Interfaces;
 
 namespace Orbit.Core.Client
 {
-    public partial class SceneMgr : IUpdatable
     {
         private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -43,6 +43,7 @@ namespace Orbit.Core.Client
         public bool UserActionsDisabled { get { return userActionsDisabled; } }
         private volatile WindowState gameWindowState;
 
+        private ParticleArea particleArea;
         private GameVisualArea area;
         private bool isGameInitialized;
         private bool userActionsDisabled;
@@ -263,7 +264,13 @@ namespace Orbit.Core.Client
 
         private ParticleArea GetParticleArea()
         {
-            return LogicalTreeHelper.FindLogicalNode(GetCanvas(), "particleArea") as ParticleArea;
+            if (particleArea == null)
+            {
+                ParticleArea.FrameTimer.Dispatcher.Invoke(new Action(() => {
+                    particleArea = LogicalTreeHelper.FindLogicalNode(GetCanvas(), "particleArea") as ParticleArea;
+                }));
+            }
+            return particleArea;
         }
 
         /// <summary>
@@ -273,6 +280,11 @@ namespace Orbit.Core.Client
         {
             objectsToAdd.Add(obj);
             obj.OnAttach();
+        }
+
+        public void DelayedAttachToScene(ParticleEmmitor e)
+        {
+            GetParticleArea().AddEmmitor(e);
         }
 
         /// <summary>
@@ -319,11 +331,14 @@ namespace Orbit.Core.Client
         /// </summary>
         public void RemoveFromSceneDelayed(ISceneObject obj)
         {
-            if (obj is ParticleEmmitor)
-                Console.WriteLine("removing");
             obj.Dead = true;
             obj.OnRemove();
             objectsToRemove.Add(obj);
+        }
+
+        public void RemoveFromSceneDelay(ParticleEmmitor e)
+        {
+            GetParticleArea().RemoveEmmitor(e);
         }
 
         /// <summary>

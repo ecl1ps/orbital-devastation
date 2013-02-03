@@ -21,7 +21,7 @@ namespace Orbit.Core.Players.Input
 
             emmitor = new ParticleEmmitor(sceneMgr, IdMgr.GetNewId(plr.GetId()));
             emmitor.EmitingTime = 2f;
-            emmitor.EmmitingDirection = new Vector(0, 1);
+            emmitor.EmmitingDirection = new Vector(0, -1);
             emmitor.MinAngle = (float)(-Math.PI / 30);
             emmitor.MaxAngle = (float)(Math.PI / 30);
             emmitor.MinForce = 2;

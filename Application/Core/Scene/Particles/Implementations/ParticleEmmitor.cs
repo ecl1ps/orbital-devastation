@@ -139,6 +139,9 @@ namespace Orbit.Core.Scene.Particles.Implementations
 
         public override void UpdateGeometric()
         {
+            if (model == null)
+                return;
+
             Point3DCollection positions = new Point3DCollection();
             Int32Collection indices = new Int32Collection();
             PointCollection texcoords = new PointCollection();
