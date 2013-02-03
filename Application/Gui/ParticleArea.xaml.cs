@@ -21,6 +21,7 @@ namespace Orbit.Gui
     /// <summary>
     /// Interaction logic for ParticleArea.xaml
     /// </summary>
+    public partial class ParticleArea : UserControl, Invoker
     {
         private int currentTick;
         private int lastTick;
