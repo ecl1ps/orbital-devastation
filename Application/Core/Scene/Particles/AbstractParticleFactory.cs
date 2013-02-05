@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Orbit.Core.Client;
 using System.Windows;
+using Orbit.Core.Scene.Entities;
+using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Scene.Particles
 {
@@ -16,6 +18,11 @@ namespace Orbit.Core.Scene.Particles
             SceneMgr = emmitor.SceneMgr;
         }
 
-        public abstract UIElement CreateParticle(int size);
+        public abstract UIElement CreateParticle();
+
+        public abstract void WriteObject(Lidgren.Network.NetOutgoingMessage msg);
+
+        public abstract void ReadObject(Lidgren.Network.NetIncomingMessage msg);
+
     }
 }

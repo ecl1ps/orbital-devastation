@@ -8,9 +8,9 @@ using System.Windows;
 
 namespace Orbit.Core.Scene.Particles
 {
-    public interface IParticleFactory
+    public interface IParticleFactory : ISendable
     {
-        UIElement CreateParticle(int size);
+        UIElement CreateParticle();
 
         void Init(ParticleEmmitor emmitor);
     }

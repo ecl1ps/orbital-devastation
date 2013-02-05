@@ -258,5 +258,6 @@ namespace Orbit.Core
         PLAYER_SCORE_UPDATE,
         SHOW_ALLERT_MESSAGE,
         SCHEDULE_SPECTATOR_ACTION,
+        PARTICLE_EMMITOR_CREATE,
     }    
 }

@@ -250,6 +250,9 @@ namespace Orbit.Core.Client
                 case PacketType.SCHEDULE_SPECTATOR_ACTION:
                     ReceivedActionScheduleMsg(msg);
                     break;
+                case PacketType.PARTICLE_EMMITOR_CREATE:
+                    ReceivedEmmitorSpawn(msg);
+                    break;
                 default:
                     Logger.Warn("Received unhandled packet type: " + type);
                     break;

@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Orbit.Gui;
+using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Scene.Particles.Implementations
 {
@@ -26,16 +27,19 @@ namespace Orbit.Core.Scene.Particles.Implementations
         public double Size { get; set; }
     }
 
-    public class ParticleEmmitor : SceneObject
+    public class ParticleEmmitor : SceneObject, ISendable
     {
         private Random rand;
         private float timeLap = 0;
         private float time = 0;
-        private Nullable<Vector> toConvert = null;
         private List<Particle> particles;
         private int amount = 0;
         private Viewport3D viewPort;
         private GeometryModel3D model;
+        private bool started;
+
+        private Vector positionToSet;
+        private Vector currentPosition;
 
         private IParticleFactory factory;
         public IParticleFactory Factory { get { return factory; } set { value.Init(this); factory = value; } }
@@ -49,8 +53,6 @@ namespace Orbit.Core.Scene.Particles.Implementations
         public float MinLife { get; set; }
         public float MaxSize { get; set; }
         public float MinSize { get; set; }
-        public float MaxAlpha { get; set; }
-        public float MinAlpha { get; set; }
         public int Amount { get; set; }
         public bool FireAll { get; set; }
         public bool Infinite { get; set; }
@@ -60,11 +62,11 @@ namespace Orbit.Core.Scene.Particles.Implementations
         {
             get
             {
-                return To2DPoint(position);
+                return started ? currentPosition : positionToSet;
             }
             set
             {
-                this.position = To3DPoint(value);
+                this.positionToSet = value;
             }
         }
 
@@ -91,12 +93,13 @@ namespace Orbit.Core.Scene.Particles.Implementations
             MinForce = 0;
             MaxSize = 0;
             MinSize = 0;
-            MaxAlpha = 0;
-            MinAlpha = 0;
-            base.Enabled = false;
+            positionToSet = new Vector(0, 0);
+            started = false;
+            //base.Enabled = false;
 
-            rand = mgr.GetRandomGenerator();
             particles = new List<Particle>();
+            if (mgr != null)
+                rand = mgr.GetRandomGenerator();
         }
 
         public void Init(ParticleArea a)
@@ -106,7 +109,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
                 model = new GeometryModel3D();
                 model.Geometry = new MeshGeometry3D();
 
-                UIElement elem = factory.CreateParticle(10);
+                UIElement elem = factory.CreateParticle();
 
                 System.Windows.Media.Brush brush = null;
 
@@ -121,9 +124,6 @@ namespace Orbit.Core.Scene.Particles.Implementations
 
                 this.viewPort = a.ViewPort;
                 a.WorldModels.Children.Add(model);
-
-                if (toConvert != null)
-                    Position = toConvert.Value;
             }));
         }
 
@@ -187,12 +187,6 @@ namespace Orbit.Core.Scene.Particles.Implementations
 
         public Point3D To3DPoint(Vector point)
         {
-            if (viewPort == null)
-            {
-                toConvert = point;
-                return new Point3D();
-            }
-
             LineRange r = new LineRange();
             ViewportInfo.Point2DtoPoint3D(viewPort, point.ToPoint(), out r);
 
@@ -207,6 +201,14 @@ namespace Orbit.Core.Scene.Particles.Implementations
         public override void Update(float tpf)
         {
             base.Update(tpf);
+            if (viewPort == null)
+                return;
+
+            position = To3DPoint(positionToSet);
+            currentPosition = To2DPoint(position);
+
+            started = true;
+
             if (FireAll)
             {
                 for (int i = 0; i < Amount; i++)
@@ -263,6 +265,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
             double angle = FastMath.LinearInterpolate(MinAngle, MaxAngle, rand.NextDouble());
             double force = FastMath.LinearInterpolate(MinForce, MaxForce, rand.NextDouble());
             double life = FastMath.LinearInterpolate(MinLife, MaxLife, rand.NextDouble());
+            double size = FastMath.LinearInterpolate(MinSize, MaxSize, rand.NextDouble());
 
             Particle p = new Particle();
             p.Life = life;
@@ -270,9 +273,59 @@ namespace Orbit.Core.Scene.Particles.Implementations
             p.Position = position;
             
             p.Direction = EmmitingDirection.Rotate(angle);
-            p.Size = 4;
+            p.Size = size;
 
             particles.Add(p);
+        }
+
+        public void WriteObject(Lidgren.Network.NetOutgoingMessage msg)
+        {
+            msg.Write((int) PacketType.PARTICLE_EMMITOR_CREATE);
+            msg.Write(Id);
+            msg.Write(EmmitingDirection);
+            msg.Write(EmitingTime);
+            msg.Write(MinAngle);
+            msg.Write(MaxAngle);
+            msg.Write(MaxForce);
+            msg.Write(MinForce);
+            msg.Write(MaxLife);
+            msg.Write(MinLife);
+            msg.Write(MaxSize);
+            msg.Write(MinSize);
+            msg.Write(Amount);
+            msg.Write(FireAll);
+            msg.Write(Infinite);
+            msg.Write(Position);
+            msg.Write(Direction);
+
+            NetDataHelper.WriteParticleFactory(msg, factory);
+            NetDataHelper.WriteControls(msg, GetControlsCopy());
+        }
+
+        public void ReadObject(Lidgren.Network.NetIncomingMessage msg)
+        {
+            Id = msg.ReadInt64();
+            EmmitingDirection = msg.ReadVector();
+            EmitingTime = msg.ReadFloat();
+            MinAngle = msg.ReadFloat();
+            MaxAngle = msg.ReadFloat();
+            MaxForce = msg.ReadFloat();
+            MinForce = msg.ReadFloat();
+            MaxLife = msg.ReadFloat();
+            MinLife = msg.ReadFloat();
+            MaxSize = msg.ReadFloat();
+            MinSize = msg.ReadFloat();
+            Amount = msg.ReadInt32();
+            FireAll = msg.ReadBoolean();
+            Infinite = msg.ReadBoolean();
+            Position = msg.ReadVector();
+            Direction = msg.ReadVector();
+
+            Factory = NetDataHelper.ReadParticleFactory(msg);
+            IList<IControl> controls = NetDataHelper.ReadControls(msg);
+
+            foreach (IControl control in controls)
+                AddControl(control);
         }
     }
 }

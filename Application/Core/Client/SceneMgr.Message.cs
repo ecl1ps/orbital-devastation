@@ -24,6 +24,7 @@ using Orbit.Core.SpecialActions.Spectator;
 using Orbit.Core.SpecialActions;
 using Orbit.Core.SpecialActions.Gamer;
 using Orbit.Core.Scene.Entities.Implementations.HeavyWeight;
+using Orbit.Core.Scene.Particles.Implementations;
 
 namespace Orbit.Core.Client
 {
@@ -112,6 +113,14 @@ namespace Orbit.Core.Client
             msg.Write(currentPlayer.GetId());
             msg.Write(currentPlayer.GetPlayerColor());
             SendMessage(msg);
+        }
+
+        private void ReceivedEmmitorSpawn(NetIncomingMessage msg)
+        {
+            ParticleEmmitor e = new ParticleEmmitor(this, 0);
+            e.ReadObject(msg);
+
+            DelayedAttachToScene(e);
         }
 
         private void ReceivedActionScheduleMsg(NetIncomingMessage msg)
