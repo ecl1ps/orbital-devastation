@@ -68,7 +68,6 @@ namespace Orbit.Gui
 
         private void Update(float tpf)
         {
-            Console.WriteLine(tpf);
             AddEmmitors();
 
             emmitors.ForEach(e => e.Update(tpf));
