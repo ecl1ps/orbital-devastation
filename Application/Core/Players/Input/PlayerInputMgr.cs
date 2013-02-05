@@ -18,29 +18,6 @@ namespace Orbit.Core.Players.Input
         public PlayerInputMgr(Player p, SceneMgr sceneMgr, ActionBarMgr actionMgr) : base(actionMgr, sceneMgr) 
         {
             plr = p;
-
-            emmitor = new ParticleEmmitor(sceneMgr, IdMgr.GetNewId(plr.GetId()));
-            emmitor.EmitingTime = 2f;
-            emmitor.EmmitingDirection = new Vector(0, -1);
-            emmitor.MinAngle = (float)(-Math.PI / 30);
-            emmitor.MaxAngle = (float)(Math.PI / 30);
-            emmitor.MinForce = 2;
-            emmitor.MaxForce = 4;
-            emmitor.MinLife = 3f;
-            emmitor.MaxLife = 3.5f;
-            emmitor.Position = new Vector(500, 500);
-            emmitor.MinSize = 3;
-            emmitor.MaxSize = 4;
-            emmitor.MaxAlpha = 0.6f;
-            emmitor.Amount = 80;
-            emmitor.Infinite = true;
-            emmitor.Enabled = false;
-
-            ParticleSphereFactory f = new ParticleSphereFactory();
-            f.Color = Color.FromArgb(20, 0, 0, 0);
-            emmitor.Factory = f;
-
-            sceneMgr.DelayedAttachToScene(emmitor);
         }
 
         public override void OnKeyEvent(KeyEventArgs e)
