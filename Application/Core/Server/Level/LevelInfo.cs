@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Orbit.Core.Server.Level.Test;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,6 +38,8 @@ namespace Orbit.Core.Server.Level
                     return LevelTestPoweUp.Info;
                 case GameLevel.TEST_STATIC_OBJ:
                     return LevelTestStaticObjects.Info;
+                case GameLevel.TEST_PARTICLES:
+                    return LevelTestParticles.Info;
                 default:
                     throw new Exception("Level " + level.ToString() + " has not supported Info property");
             }

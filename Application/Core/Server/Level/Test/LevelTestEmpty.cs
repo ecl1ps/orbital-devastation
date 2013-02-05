@@ -14,26 +14,26 @@ namespace Orbit.Core.Server.Level
     {
         public static readonly LevelInfo Info = new LevelInfo(true, "[TEST] Empty map");
 
-        private ServerMgr mgr;
+        protected ServerMgr mgr;
 
         public LevelTestEmpty(ServerMgr serverMgr)
         {
             mgr = serverMgr;
         }
 
-        public void CreateLevelObjects()
+        public virtual void CreateLevelObjects()
         {
         }
 
-        public void Update(float tpf)
+        public virtual void Update(float tpf)
         {
         }
 
-        public void OnStart()
+        public virtual void OnStart()
         {
         }
 
-        public void CreateBots(List<Player> players, int suggestedCount, BotType type)
+        public virtual void CreateBots(List<Player> players, int suggestedCount, BotType type)
         {
             for (int i = 0; i < suggestedCount; ++i)
             {
@@ -41,7 +41,7 @@ namespace Orbit.Core.Server.Level
             }
         }
 
-        public void OnObjectDestroyed(ISceneObject obj)
+        public virtual void OnObjectDestroyed(ISceneObject obj)
         {
         }
     }

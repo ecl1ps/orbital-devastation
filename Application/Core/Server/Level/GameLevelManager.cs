@@ -9,6 +9,7 @@ using Lidgren.Network;
 using Orbit.Core.Players;
 using System.Windows.Media;
 using Orbit.Core.AI;
+using Orbit.Core.Server.Level.Test;
 
 namespace Orbit.Core.Server.Level
 {
@@ -21,6 +22,7 @@ namespace Orbit.Core.Server.Level
         TEST_BASE_COLLISIONS,
         TEST_POWERUPS,
         TEST_STATIC_OBJ,
+        TEST_PARTICLES
     }
 
     public static class GameLevelManager
@@ -51,6 +53,9 @@ namespace Orbit.Core.Server.Level
                     break;
                 case GameLevel.TEST_STATIC_OBJ:
                     newLvl = new LevelTestStaticObjects(mgr);
+                    break;
+                case GameLevel.TEST_PARTICLES:
+                    newLvl = new LevelTestParticles(mgr);
                     break;
             }
 
