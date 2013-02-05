@@ -9,13 +9,9 @@ using Orbit.Core.Players;
 
 namespace Orbit.Core.Server.Level
 {
-    public class LevelBasic : IGameLevel
+    public class LevelBasic : AbstractGameLevel
     {
         public static readonly LevelInfo Info = new LevelInfo(false, "Basic map");
-
-        protected ServerMgr mgr;
-        protected List<ISceneObject> objects;
-        protected EventProcessor events;
 
         private enum Events
         {
@@ -23,25 +19,16 @@ namespace Orbit.Core.Server.Level
             NEW_STAT_POWERUP
         }
 
-        public LevelBasic(ServerMgr serverMgr, List<ISceneObject> objs)
+        public LevelBasic(ServerMgr serverMgr) : base(serverMgr)
         {
-            mgr = serverMgr;
-            objects = objs;
-            events = new EventProcessor();
-
             events.AddEvent((int)Events.ADDITIONAL_ASTEROID, new Event(SharedDef.NEW_ASTEROID_TIMER, EventType.REPEATABLE, new Action(() => CreateAndSendAdditionalAsteroid())));
             events.AddEvent((int)Events.NEW_STAT_POWERUP, new Event(1, EventType.REPEATABLE, new Action(() => CreateAndSendNewStatPowerup())));
         }
 
-        public void CreateLevelObjects()
+        protected override void CreateLevelObjects()
         {
             for (int i = 0; i < SharedDef.ASTEROID_COUNT; ++i)
                 objects.Add(ServerSceneObjectFactory.CreateNewRandomAsteroid(mgr, i % 2 == 0));
-        }
-
-        public void Update(float tpf)
-        {
-            events.Update(tpf);
         }
 
         private void CreateAndSendNewStatPowerup()
@@ -59,11 +46,7 @@ namespace Orbit.Core.Server.Level
             mgr.BroadcastMessage(msg);
         }
 
-        public virtual void OnStart()
-        {
-        }
-
-        public void CreateBots(List<Player> players, int suggestedCount, BotType type)
+        public override void CreateBots(List<Player> players, int suggestedCount, BotType type)
         {
             for (int i = 0; i < suggestedCount; ++i)
             {
@@ -71,7 +54,7 @@ namespace Orbit.Core.Server.Level
             }
         }
 
-        public void OnObjectDestroyed(ISceneObject obj)
+        public override void OnObjectDestroyed(ISceneObject obj)
         {
             if (!(obj is Asteroid))
                 return;

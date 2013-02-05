@@ -11,26 +11,15 @@ using Orbit.Core.Scene.Controls.Implementations;
 
 namespace Orbit.Core.Server.Level
 {
-    public class LevelTestStaticObjects : IGameLevel
+    public class LevelTestStaticObjects : AbstractGameLevel
     {
         public static readonly LevelInfo Info = new LevelInfo(true, "[TEST] Static objects");
 
-        private ServerMgr mgr;
-
-        public LevelTestStaticObjects(ServerMgr serverMgr)
-        {
-            mgr = serverMgr;
-        }
-
-        public void CreateLevelObjects()
+        public LevelTestStaticObjects(ServerMgr serverMgr) : base(serverMgr)
         {
         }
 
-        public void Update(float tpf)
-        {
-        }
-
-        public void OnStart()
+        public override void OnStart()
         {
             Rect baseLoc = PlayerBaseLocation.GetBaseLocation(PlayerPosition.LEFT);
 
@@ -80,16 +69,12 @@ namespace Orbit.Core.Server.Level
             return p;
         }
 
-        public void CreateBots(List<Player> players, int suggestedCount, BotType type)
+        public override void CreateBots(List<Player> players, int suggestedCount, BotType type)
         {
             for (int i = 0; i < suggestedCount; ++i)
             {
                 players.Add(GameLevelManager.CreateBot(type, players));
             }
-        }
-
-        public void OnObjectDestroyed(ISceneObject obj)
-        {
         }
     }
 }

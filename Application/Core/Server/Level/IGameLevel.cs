@@ -9,13 +9,15 @@ namespace Orbit.Core.Server.Level
 {
     public interface IGameLevel
     {
-        void CreateLevelObjects();
+        List<ISceneObject> GetLevelObjects();
 
         void Update(float tpf);
 
         void OnStart();
 
         void CreateBots(List<Player> players, int suggestedCount, BotType type);
+
+        void ObjectDestroyed(long id);
 
         void OnObjectDestroyed(ISceneObject obj);
     }

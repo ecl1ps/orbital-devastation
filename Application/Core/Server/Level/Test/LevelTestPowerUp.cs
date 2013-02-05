@@ -9,46 +9,21 @@ using Orbit.Core.Players;
 
 namespace Orbit.Core.Server.Level
 {
-    public class LevelTestPoweUp : IGameLevel
+    public class LevelTestPoweUp : AbstractGameLevel
     {
         public static readonly LevelInfo Info = new LevelInfo(true, "[TEST] Powerups");
 
-        private ServerMgr mgr;
-        private List<ISceneObject> objects;
-        private EventProcessor events;
-
-        public LevelTestPoweUp(ServerMgr serverMgr, List<ISceneObject> objs)
+        public LevelTestPoweUp(ServerMgr serverMgr) : base(serverMgr)
         {
-            mgr = serverMgr;
-            objects = objs;
-            events = new EventProcessor();
-
             events.AddEvent(1, new Event(0.2f, EventType.REPEATABLE, new Action(() => GameLevelManager.CreateAndSendNewStatPowerup(mgr))));
         }
 
-        public void CreateLevelObjects()
-        {
-        }
-
-        public void Update(float tpf)
-        {
-            events.Update(tpf);
-        }
-
-        public void OnStart()
-        {
-        }
-
-        public void CreateBots(List<Player> players, int suggestedCount, BotType type)
+        public override void CreateBots(List<Player> players, int suggestedCount, BotType type)
         {
             for (int i = 0; i < suggestedCount; ++i)
             {
                 players.Add(GameLevelManager.CreateBot(type, players));
             }
-        }
-
-        public void OnObjectDestroyed(ISceneObject obj)
-        {
         }
     }
 }

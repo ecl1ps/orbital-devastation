@@ -11,28 +11,15 @@ using Lidgren.Network;
 
 namespace Orbit.Core.Server.Level
 {
-    public class LevelTestBaseCollisions : IGameLevel
+    public class LevelTestBaseCollisions : AbstractGameLevel
     {
         public static readonly LevelInfo Info = new LevelInfo(true, "[TEST] Base collisions");
 
-        private ServerMgr mgr;
-
-        public LevelTestBaseCollisions(ServerMgr serverMgr)
+        public LevelTestBaseCollisions(ServerMgr serverMgr) : base(serverMgr)
         {
-            mgr = serverMgr;
         }
 
-        public void CreateLevelObjects()
-        {
-
-        }
-
-        public void Update(float tpf)
-        {
-
-        }
-
-        public void OnStart()
+        public override void OnStart()
         {
             Rect baseLoc = PlayerBaseLocation.GetBaseLocation(PlayerPosition.LEFT);
 
@@ -61,16 +48,12 @@ namespace Orbit.Core.Server.Level
             return p;
         }
 
-        public void CreateBots(List<Player> players, int suggestedCount, BotType type)
+        public override void CreateBots(List<Player> players, int suggestedCount, BotType type)
         {
             for (int i = 0; i < suggestedCount; ++i)
             {
                 players.Add(GameLevelManager.CreateBot(type, players));
             }
-        }
-
-        public void OnObjectDestroyed(ISceneObject obj)
-        {
         }
     }
 }
