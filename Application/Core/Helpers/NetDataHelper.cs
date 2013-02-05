@@ -24,6 +24,8 @@ using Orbit.Core.SpecialActions;
 using Orbit.Core.SpecialActions.Gamer;
 using Orbit.Core.SpecialActions.Spectator;
 using Orbit.Core.Utils;
+using Orbit.Core.Scene.Particles;
+using Orbit.Core.Scene.Particles.Implementations;
 
 namespace Orbit.Core.Helpers
 {
@@ -844,6 +846,34 @@ namespace Orbit.Core.Helpers
             }
 
             return temp;
+        }
+
+        public static void WriteParticleFactory(this NetOutgoingMessage msg, IParticleFactory f)
+        {
+            if (f is ParticleSphereFactory)
+            {
+                msg.Write(typeof(ParticleSphereFactory).GUID.GetHashCode());
+            }
+            else
+            {
+                msg.Write(0);
+                Logger.Error("Sending unspported factory (" + f.GetType().Name + ")!");
+            }
+
+            f.WriteObject(msg);
+        }
+
+        public static IParticleFactory ReadParticleFactory(this NetIncomingMessage msg)
+        {
+            IParticleFactory f = null;
+            int hash = msg.ReadInt32();
+            if (hash == typeof(ParticleSphereFactory).GUID.GetHashCode())
+                f = new ParticleSphereFactory();
+            else
+                Logger.Error("Rading unspported factory!");
+
+            f.ReadObject(msg);
+            return f;
         }
     }
 }
