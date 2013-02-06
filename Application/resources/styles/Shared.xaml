@@ -11,4 +11,7 @@
     <Color x:Key="darkestGray">#FF333333</Color>
     <SolidColorBrush x:Key="darkestGrayBrush" Color="{StaticResource darkestGray}"/>
 
+    <!--FontFamily x:Key="mainFont">/resources/fonts/#Baby Face</FontFamily-->
+    <FontFamily x:Key="mainFont">#Bauhaus 93</FontFamily>
+    
 </ResourceDictionary>

@@ -6,7 +6,9 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="{x:Type Label}">
-        <Setter Property="FontFamily" Value="Bauhaus 93" />
+        <Setter Property="FontFamily" Value="{StaticResource mainFont}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Top" />
     </Style>
