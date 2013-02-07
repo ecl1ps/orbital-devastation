@@ -16,6 +16,7 @@
                                 BorderBrush="{TemplateBinding BorderBrush}" 
                                 BorderThickness="{TemplateBinding BorderThickness}" 
                                 Padding="{TemplateBinding Padding}" 
+                                Width="{TemplateBinding Width}"
                                 VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                 HorizontalAlignment="{TemplateBinding HorizontalAlignment}" 
                                 CornerRadius="0">
