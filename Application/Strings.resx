@@ -174,4 +174,40 @@
   <data name="networking_waiting" xml:space="preserve">
     <value>Establishing connection...</value>
   </data>
+  <data name="ui_connect_to_game" xml:space="preserve">
+    <value>Connect to Game</value>
+  </data>
+  <data name="ui_connect_to_localhost" xml:space="preserve">
+    <value>Connect to Localhost</value>
+  </data>
+  <data name="ui_exit_game" xml:space="preserve">
+    <value>Exit Game</value>
+  </data>
+  <data name="ui_game_name" xml:space="preserve">
+    <value>Orbital Devastation</value>
+  </data>
+  <data name="ui_host_tournament" xml:space="preserve">
+    <value>Host Tournament</value>
+  </data>
+  <data name="ui_options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="ui_play_as_spectator" xml:space="preserve">
+    <value>Play as Spectator</value>
+  </data>
+  <data name="ui_practise_game" xml:space="preserve">
+    <value>Practise Game</value>
+  </data>
+  <data name="ui_quick_game" xml:space="preserve">
+    <value>Host Quick Game</value>
+  </data>
+  <data name="ui_repeat_last_game" xml:space="preserve">
+    <value>Repeat last game</value>
+  </data>
+  <data name="ui_statistics" xml:space="preserve">
+    <value>Statistics</value>
+  </data>
+  <data name="ui_version" xml:space="preserve">
+    <value>Alpha version</value>
+  </data>
 </root>

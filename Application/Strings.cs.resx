@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -173,5 +173,41 @@
   </data>
   <data name="networking_waiting" xml:space="preserve">
     <value>Vytváření spojení...</value>
+  </data>
+  <data name="ui_connect_to_game" xml:space="preserve">
+    <value>Připojit ke hře</value>
+  </data>
+  <data name="ui_connect_to_localhost" xml:space="preserve">
+    <value>Připojit k localhostu</value>
+  </data>
+  <data name="ui_exit_game" xml:space="preserve">
+    <value>Konec hry</value>
+  </data>
+  <data name="ui_game_name" xml:space="preserve">
+    <value>Orbital Devastation</value>
+  </data>
+  <data name="ui_host_tournament" xml:space="preserve">
+    <value>Pořádat turnaj</value>
+  </data>
+  <data name="ui_options" xml:space="preserve">
+    <value>Možnosti</value>
+  </data>
+  <data name="ui_play_as_spectator" xml:space="preserve">
+    <value>Hrát za pozorovatele</value>
+  </data>
+  <data name="ui_practise_game" xml:space="preserve">
+    <value>Cvičná hra</value>
+  </data>
+  <data name="ui_quick_game" xml:space="preserve">
+    <value>Rychlá hra</value>
+  </data>
+  <data name="ui_repeat_last_game" xml:space="preserve">
+    <value>Opakovat poslední hru</value>
+  </data>
+  <data name="ui_statistics" xml:space="preserve">
+    <value>Statistiky</value>
+  </data>
+  <data name="ui_version" xml:space="preserve">
+    <value>Alfa verze</value>
   </data>
 </root>

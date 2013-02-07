@@ -427,11 +427,6 @@
       <DependentUpon>ActionUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\Client\Shaders\ColorReplaceEffect.cs" />
-    <Compile Include="Strings.cs.Designer.cs">
-      <DependentUpon>Strings.cs.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -825,11 +820,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Strings.cs.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.cs.Designer.cs</LastGenOutput>
+      <DependentUpon>Strings.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     </EmbeddedResource>
     <EmbeddedResource Include="Strings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
+      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
