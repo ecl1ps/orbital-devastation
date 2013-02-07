@@ -139,6 +139,7 @@
     <Compile Include="Core\Client\GameStates\DelayedActionInvoker.cs" />
     <Compile Include="Core\Client\GameStates\SpectatorActionsManager.cs" />
     <Compile Include="Core\Client\Interfaces\Invokers.cs" />
+    <Compile Include="Core\Client\Shaders\AlphaMaskEffect.cs" />
     <Compile Include="Core\Players\StatisticsManager.cs" />
     <Compile Include="Core\Client\SceneMgr.Message.cs" />
     <Compile Include="Core\Client\Shaders\AlphaChannelEffect.cs" />
@@ -627,6 +628,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <Resource Include="resources\shaders\alphaMaskEffect.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\particles\Particle_Cloud.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="resources\images\icons\kick_button_simple.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -850,6 +857,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <Resource Include="resources\shaders\alphaMaskEffect.ps">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="resources\sounds\misc\alert.ogg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
