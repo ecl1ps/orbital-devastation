@@ -3,18 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:lex="http://wpflocalizeextension.codeplex.com" 
+             lex:LocalizeDictionary.DesignCulture="en"  
+             lex:ResxLocalizationProvider.DefaultAssembly="OrbitalDevastation"  
+             lex:ResxLocalizationProvider.DefaultDictionary="Strings"              
              Name="soundMenu" mc:Ignorable="d" Style="{StaticResource optionsStyle}">             
 
     <Grid>
         <TextBlock Name="SoundValue" Text="100" TextAlignment="Right" Margin="168,166,0,0" Width="50" Height="14" />
         <TextBlock Name="BackgroundValue" Text="100" TextAlignment="Right" Margin="168,104,0,0" Width="50" Height="14" />
-        <Label Content="Background volume" Margin="12,50,130,274" />
+        <Label Content="{lex:Loc ui_sounds_music_volume}" Margin="12,50,130,274" />
         <Slider Name="BackgroundSlider" Margin="75,81,12,244" Maximum="100" ValueChanged="BackgroundVolumeChanged" />
-        <Label Content="Effect volume" Margin="12,112,130,213" />
+        <Label Content="{lex:Loc ui_sounds_effect_volume}" Margin="12,112,130,213" />
         <Slider Name="SoundSlider" Margin="75,143,12,182" Maximum="100" ValueChanged="SoundVolumeChanged" />
-        <Label Content="Sounds enabled" Margin="12,19,130,306" />
+        <Label Content="{lex:Loc ui_sounds_enabled}" Margin="12,19,130,306" />
         <CheckBox HorizontalAlignment="Left" Margin="205,27,0,0" Name="soundEnabled" VerticalAlignment="Top" Checked="soundEnabled_Checked" Unchecked="soundEnabled_Unchecked" />
 
-        <Button Content="Back" Margin="0,0,0,30" VerticalAlignment="Bottom" Name="btnBack" Click="btnBack_Click" />
+        <Button Content="{lex:Loc ui_back}" Margin="0,0,0,30" VerticalAlignment="Bottom" Name="btnBack" Click="btnBack_Click" />
     </Grid>
 </UserControl>

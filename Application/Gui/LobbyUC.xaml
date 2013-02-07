@@ -4,6 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:controls="clr-namespace:Orbit.Gui"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com" 
+             lex:LocalizeDictionary.DesignCulture="en"  
+             lex:ResxLocalizationProvider.DefaultAssembly="OrbitalDevastation"  
+             lex:ResxLocalizationProvider.DefaultDictionary="Strings"              
              mc:Ignorable="d" Name="lobbyWindow"
              d:DesignWidth="1000" d:DesignHeight="700" Width="1000" Height="700" Loaded="lobbyWindow_Loaded">
     
@@ -27,7 +31,7 @@
             <RowDefinition Height="139*" />
             <RowDefinition Height="561*" />
         </Grid.RowDefinitions>
-        <TextBlock Text="Tournament Lobby" Grid.Row="0" Name="lblTitle" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <TextBlock Text="{lex:Loc ui_tournament_lobby}" Grid.Row="0" Name="lblTitle" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" />
         <Border BorderThickness="1" BorderBrush="{StaticResource darkPurpleBrush}" Background="Gainsboro" Margin="10,31,365,260" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">
             <StackPanel Name="spPlayers" >
                 <!--
@@ -41,37 +45,37 @@
         <Border BorderThickness="1" BorderBrush="{StaticResource darkPurpleBrush}" Background="Gainsboro" Margin="555,31,10,260" Grid.Row="1">
             <Grid Name="gridGameInfo">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="102" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Settings" FontSize="18" HorizontalAlignment="Center" Grid.Column="1" Margin="5,10,92,0" />
-                <Label Content="Type: " Grid.Column="0"  Margin="4,50,10,192" />
-                <Label Content="Map: " Grid.Column="0" Margin="4,113,8,128" />
+                <TextBlock Text="{lex:Loc ui_settings}" FontSize="18" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="98,9,99,0" Height="23" Width="136"  />
+                <Label Content="{lex:Loc ui_tournament_type}" Grid.Column="0"  Margin="0,50,0,0" Grid.ColumnSpan="2" Width="105" Height="22" />
+                <Label Content="{lex:Loc ui_tournament_map}" Grid.Column="0" Margin="0,113,0,0" Grid.ColumnSpan="2" Width="105" Height="22" />
                 <ComboBox Height="23" Grid.Column="1" Margin="5,50,0,0" Name="cbType" SelectionChanged="SelectionChanged" Width="216" HorizontalAlignment="Left" />
                 <ComboBox Height="23" Grid.Column="1" Margin="5,113,0,0" Name="cbMap" SelectionChanged="SelectionChanged" Width="216" HorizontalAlignment="Left" />
-                <Label Content="---" Grid.Column="1" Margin="5,48,12,193" Name="lblType" Visibility="Hidden" />
-                <Label Content="---" Grid.Column="1" Margin="6,113,12,132" Name="lblMap" Visibility="Hidden" />
-                <Button Content="Confirm settings"  Margin="5,228,72,10" Name="btnSettings" Click="btnSettings_Click" Width="Auto" Grid.Column="1" />
-                <Label Content="Rounds: " Grid.Column="0" Margin="4,79,8,166" />
-                <TextBox Text="1" Grid.Column="1" Margin="0,80,193,0" Name="tbRounds" AcceptsTab="True" MaxLength="2" HorizontalContentAlignment="Right" TabIndex="2" TextChanged="tbRounds_TextChanged" HorizontalAlignment="Right" Width="35" />
-                <Label Content="(1 match)" Grid.Column="1" Margin="46,79,12,160" Name="lblMatches" />
-                <Label Content="1" Grid.Column="1" Margin="6,80,192,166" Name="lblRounds" HorizontalContentAlignment="Right" Visibility="Hidden" />
-                <Label Content="Bot count: " Grid.Column="0" Margin="4,145,8,98" Name="lblBotCount" />
-                <TextBox AcceptsTab="True" Grid.Column="1" HorizontalContentAlignment="Right" Margin="0,145,193,0" MaxLength="2" Name="tbBotCount" TabIndex="4" Text="0" TextChanged="tbBotCount_TextChanged" HorizontalAlignment="Right" Width="35" />
-                <Label Content="Bot level: " Grid.Column="0" Margin="4,181,8,64" Name="lblBot" />
-                <ComboBox Margin="0,181,12,0" Grid.Column="1" Name="cbBot" SelectionChanged="SelectionChanged" Width="216" />
+                <Label Content="---" Grid.Column="1" Margin="5,48,0,0" Name="lblType" Visibility="Hidden" Height="22" Width="28" />
+                <Label Content="---" Grid.Column="1" Margin="6,113,0,0" Name="lblMap" Visibility="Hidden" Height="22" Width="28" />
+                <Button Content="{lex:Loc ui_confirm_settings}"  Margin="5,228,53,10" Name="btnSettings" Click="btnSettings_Click" Width="Auto" Grid.Column="1" Height="Auto" />
+                <Label Content="{lex:Loc ui_tournament_rounds}" Grid.Column="0" Margin="0,79,0,0" Grid.ColumnSpan="2" Width="105" Height="22" />
+                <TextBox Text="1" Grid.Column="1" Margin="5,80,0,0" Name="tbRounds" AcceptsTab="True" MaxLength="2" HorizontalContentAlignment="Right" TabIndex="2" TextChanged="tbRounds_TextChanged" HorizontalAlignment="Left" Width="35" />
+                <Label Content="{lex:Loc ui_tournament_match_count}" Grid.Column="1" Margin="46,79,0,0" Name="lblMatches" Width="175" Height="22" />
+                <Label Content="1" Grid.Column="1" Margin="6,80,0,0" Name="lblRounds" HorizontalContentAlignment="Right" Visibility="Hidden" Height="22" Width="14" />
+                <Label Content="{lex:Loc ui_tournament_bot_count}" Grid.Column="0" Margin="0,145,0,0" Name="lblBotCount" Grid.ColumnSpan="2" Width="105" Height="22" />
+                <TextBox AcceptsTab="True" Grid.Column="1" HorizontalContentAlignment="Right" Margin="5,145,0,0" MaxLength="2" Name="tbBotCount" TabIndex="4" Text="0" TextChanged="tbBotCount_TextChanged" HorizontalAlignment="Left" Width="36" />
+                <Label Content="{lex:Loc ui_tournament_bot_level}" Grid.Column="0" Margin="0,182,0,0" Name="lblBot" Grid.ColumnSpan="2" Width="105" Height="22" />
+                <ComboBox Margin="5,181,0,0" Grid.Column="1" Name="cbBot" SelectionChanged="SelectionChanged" Width="214" HorizontalAlignment="Left" />
             </Grid>
         </Border>
         <ListView BorderBrush="{StaticResource darkPurpleBrush}"  Height="148" HorizontalAlignment="Left" Margin="12,367,0,0" Name="lvChat" VerticalAlignment="Top" Width="879" Grid.Row="1" />
-        <Button Content="Start Game" Margin="89,316,681,212" Name="btnStartGame" Click="btnStartGame_Click" IsEnabled="False" Grid.Row="1" />
-        <Button Content="Ready" Margin="89,316,681,212" Name="btnReady" Click="btnReady_Click" Grid.Row="1" Width="Auto" />
-        <Button Content="Leave room" Margin="338,316,432,212" Name="btnLeave" Click="btnLeave_Click" Grid.Row="1" />
+        <Button Content="{lex:Loc ui_start_game}" Margin="89,316,681,212" Name="btnStartGame" Click="btnStartGame_Click" IsEnabled="False" Grid.Row="1" />
+        <Button Content="{lex:Loc ui_ready}" Margin="89,317,661,214" Name="btnReady" Click="btnReady_Click" Grid.Row="1" Width="Auto" />
+        <Button Content="{lex:Loc ui_leave_room}" Margin="318,317,432,214" Name="btnLeave" Click="btnLeave_Click" Grid.Row="1" Width="Auto" />
         <TextBox Height="25" Margin="12,525,154,10" Name="tbMessage" Width="734" KeyDown="tbMessage_KeyDown" Grid.Row="1" />
-        <Button Content="Send Message" Height="25" Margin="755,525,10,11" Name="btnSendMessage"  Grid.Row="1" Click="btnSendMessage_Click" Width="Auto" />
-        <Button Content="Change color" Margin="555,316,215,212" Name="btnColor" Grid.Row="1" Click="btnColor_Click" />
-        <Button Content="Last statistics" Margin="755,317,10,214" Name="btnStats" Grid.Row="1" Click="btnStats_Click" Width="Auto" />
-        
-        <Label Content="Color must me unique." Grid.Row="1" Margin="89,344,0,0" Name="lblColorNotice" Foreground="#FFFF0A0A" Visibility="Hidden" />
-        <TextBlock Text="" FontSize="12" Margin="198,0,0,0" Name="lblMatchNumber" Width="210" Height="26" Grid.Row="1" />
+        <Button Content="{lex:Loc ui_send_message}" Height="25" Margin="755,525,10,11" Name="btnSendMessage"  Grid.Row="1" Click="btnSendMessage_Click" Width="Auto" />
+        <Button Content="{lex:Loc ui_change_color}" Margin="555,316,215,212" Name="btnColor" Grid.Row="1" Click="btnColor_Click" />
+        <Button Content="{lex:Loc ui_last_game_statistics}" Margin="755,317,10,214" Name="btnStats" Grid.Row="1" Click="btnStats_Click" Width="Auto" />
+
+        <Label Content="{lex:Loc ui_color_unique}" Grid.Row="1" Margin="89,344,0,0" Name="lblColorNotice" Foreground="#FFFF0A0A" Visibility="Hidden" />
+        <TextBlock Text="{lex:Loc ui_tournament_current_match}" FontSize="12" Margin="198,0,0,0" Name="lblMatchNumber" Width="210" Height="26" Grid.Row="1" />
     </Grid>
 </UserControl>

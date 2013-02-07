@@ -3,6 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:lex="http://wpflocalizeextension.codeplex.com" 
+             lex:LocalizeDictionary.DesignCulture="en"  
+             lex:ResxLocalizationProvider.DefaultAssembly="OrbitalDevastation"  
+             lex:ResxLocalizationProvider.DefaultDictionary="Strings"             
              Name="keyBindingsMenu" mc:Ignorable="d" Style="{StaticResource optionsStyle}" KeyDown="Grid_KeyDown">             
 
     <Grid>
@@ -27,18 +31,17 @@
                 <ColumnDefinition Width="50" />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="0" Grid.Column="0">Action 1</TextBlock>
-            <TextBlock Grid.Row="1" Grid.Column="0">Action 2</TextBlock>
-            <TextBlock Grid.Row="2" Grid.Column="0">Action 3</TextBlock>
-            <TextBlock Grid.Row="3" Grid.Column="0">Action 4</TextBlock>
-            <TextBlock Grid.Row="4" Grid.Column="0">Action 5</TextBlock>
-            <TextBlock Grid.Row="5" Grid.Column="0">Move top</TextBlock>
-            <TextBlock Grid.Row="6" Grid.Column="0">Move bottom</TextBlock>
-            <TextBlock Grid.Row="7" Grid.Column="0">Move left</TextBlock>
-            <TextBlock Grid.Row="8" Grid.Column="0">Move right</TextBlock>
-            <TextBlock Grid.Row="9" Grid.Column="0">Show actions</TextBlock>
-            <TextBlock Grid.Row="10" Grid.Column="0">Show protecting</TextBlock>
-
+            <TextBlock Text="{lex:Loc ui_key_action_1}" Grid.Row="0" Grid.Column="0" />
+            <TextBlock Text="{lex:Loc ui_key_action_2}" Grid.Row="1" Grid.Column="0" />
+            <TextBlock Text="{lex:Loc ui_key_action_3}" Grid.Row="2" Grid.Column="0" />
+            <TextBlock Text="{lex:Loc ui_key_action_4}" Grid.Row="3" Grid.Column="0" />
+            <TextBlock Text="{lex:Loc ui_key_action_5}" Grid.Row="4" Grid.Column="0" />
+            <TextBlock Text="{lex:Loc ui_key_move_up}" Grid.Row="5" Grid.Column="0" />
+            <TextBlock Text="{lex:Loc ui_key_move_down}" Grid.Row="6" Grid.Column="0" />
+            <TextBlock Text="{lex:Loc ui_key_move_left}" Grid.Row="7" Grid.Column="0" />
+            <TextBlock Text="{lex:Loc ui_key_move_right}" Grid.Row="8" Grid.Column="0" />
+            <TextBlock Text="{lex:Loc ui_key_show_actions}" Grid.Row="9" Grid.Column="0" />
+            <TextBlock Text="{lex:Loc ui_key_show_ally}" Grid.Row="10" Grid.Column="0" />
 
             <TextBlock Name="Action1" TextAlignment="Right"  Grid.Row="0" Grid.Column="2" KeyDown="Grid_KeyDown" MouseDown="Action1_MouseDoubleClick">1</TextBlock>
             <TextBlock Name="Action2" TextAlignment="Right"  Grid.Row="1" Grid.Column="2" MouseDown="Action2_MouseDoubleClick">2</TextBlock>
@@ -53,6 +56,6 @@
             <TextBlock Name="ShowProtecting" TextAlignment="Right"  Grid.Row="10" Grid.Column="2" MouseDown="ShowProtecting_MouseDoubleClick">q</TextBlock>
 
         </Grid>
-        <Button Content="Back" Name="btnBack" VerticalAlignment="Bottom" Click="btnBack_Click" Margin="0,0,0,30" />
+        <Button Content="{lex:Loc ui_back}" Name="btnBack" VerticalAlignment="Bottom" Click="btnBack_Click" Margin="0,0,0,30" />
     </Grid>
 </UserControl>

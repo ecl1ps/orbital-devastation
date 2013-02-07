@@ -174,14 +174,32 @@
   <data name="networking_waiting" xml:space="preserve">
     <value>Establishing connection...</value>
   </data>
+  <data name="ui_back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="ui_change_color" xml:space="preserve">
+    <value>Change color</value>
+  </data>
+  <data name="ui_color_unique" xml:space="preserve">
+    <value>Color must me unique.</value>
+  </data>
+  <data name="ui_confirm_settings" xml:space="preserve">
+    <value>Confirm settings</value>
+  </data>
   <data name="ui_connect_to_game" xml:space="preserve">
     <value>Connect to Game</value>
   </data>
   <data name="ui_connect_to_localhost" xml:space="preserve">
     <value>Localhost</value>
   </data>
+  <data name="ui_cursor_icon" xml:space="preserve">
+    <value>Cursor icon</value>
+  </data>
   <data name="ui_exit_game" xml:space="preserve">
     <value>Exit Game</value>
+  </data>
+  <data name="ui_game" xml:space="preserve">
+    <value>Game</value>
   </data>
   <data name="ui_game_name" xml:space="preserve">
     <value>Orbital Devastation</value>
@@ -189,8 +207,74 @@
   <data name="ui_host_tournament" xml:space="preserve">
     <value>Host Tournament</value>
   </data>
+  <data name="ui_key_action_1" xml:space="preserve">
+    <value>Action 1</value>
+  </data>
+  <data name="ui_key_action_2" xml:space="preserve">
+    <value>Action 2</value>
+  </data>
+  <data name="ui_key_action_3" xml:space="preserve">
+    <value>Action 3</value>
+  </data>
+  <data name="ui_key_action_4" xml:space="preserve">
+    <value>Action 4</value>
+  </data>
+  <data name="ui_key_action_5" xml:space="preserve">
+    <value>Action 5</value>
+  </data>
+  <data name="ui_key_bindings" xml:space="preserve">
+    <value>Key Bindings</value>
+  </data>
+  <data name="ui_key_move_down" xml:space="preserve">
+    <value>Move down</value>
+  </data>
+  <data name="ui_key_move_left" xml:space="preserve">
+    <value>Move left</value>
+  </data>
+  <data name="ui_key_move_right" xml:space="preserve">
+    <value>Move right</value>
+  </data>
+  <data name="ui_key_move_up" xml:space="preserve">
+    <value>Move up</value>
+  </data>
+  <data name="ui_key_show_actions" xml:space="preserve">
+    <value>Show actions</value>
+  </data>
+  <data name="ui_key_show_ally" xml:space="preserve">
+    <value>Show allies</value>
+  </data>
+  <data name="ui_language" xml:space="preserve">
+    <value>Language:</value>
+  </data>
+  <data name="ui_last_game_statistics" xml:space="preserve">
+    <value>Last statistics</value>
+  </data>
+  <data name="ui_leave_room" xml:space="preserve">
+    <value>Leave room</value>
+  </data>
+  <data name="ui_main_menu" xml:space="preserve">
+    <value>Main menu</value>
+  </data>
+  <data name="ui_mouse" xml:space="preserve">
+    <value>Mouse</value>
+  </data>
+  <data name="ui_mouse_active" xml:space="preserve">
+    <value>Special mouse active</value>
+  </data>
+  <data name="ui_mouse_sensitivity" xml:space="preserve">
+    <value>Mouse Sensitivity</value>
+  </data>
   <data name="ui_options" xml:space="preserve">
     <value>Options</value>
+  </data>
+  <data name="ui_player" xml:space="preserve">
+    <value>Player</value>
+  </data>
+  <data name="ui_player_color" xml:space="preserve">
+    <value>Player color:</value>
+  </data>
+  <data name="ui_player_name" xml:space="preserve">
+    <value>Player name:</value>
   </data>
   <data name="ui_play_as_spectator" xml:space="preserve">
     <value>Spectator</value>
@@ -201,8 +285,61 @@
   <data name="ui_quick_game" xml:space="preserve">
     <value>Host Quick Game</value>
   </data>
+  <data name="ui_ready" xml:space="preserve">
+    <value>Ready</value>
+  </data>
+  <data name="ui_ready_not" xml:space="preserve">
+    <value>Not ready</value>
+  </data>
+  <data name="ui_send_message" xml:space="preserve">
+    <value>Send Message</value>
+  </data>
+  <data name="ui_settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="ui_sound" xml:space="preserve">
+    <value>Sound</value>
+  </data>
+  <data name="ui_sounds_effect_volume" xml:space="preserve">
+    <value>Effect volume</value>
+  </data>
+  <data name="ui_sounds_enabled" xml:space="preserve">
+    <value>Sounds enabled</value>
+  </data>
+  <data name="ui_sounds_music_volume" xml:space="preserve">
+    <value>Background volume</value>
+  </data>
+  <data name="ui_start_game" xml:space="preserve">
+    <value>Start Game</value>
+  </data>
   <data name="ui_statistics" xml:space="preserve">
     <value>Statistics</value>
+  </data>
+  <data name="ui_tournament_bot_count" xml:space="preserve">
+    <value>Bot count:</value>
+  </data>
+  <data name="ui_tournament_bot_level" xml:space="preserve">
+    <value>Bot level:</value>
+  </data>
+  <data name="ui_tournament_current_match" xml:space="preserve">
+    <value>Match {0}/{1} </value>
+    <comment>0 = current match number, 1 = matches total</comment>
+  </data>
+  <data name="ui_tournament_lobby" xml:space="preserve">
+    <value>Tournament Lobby</value>
+  </data>
+  <data name="ui_tournament_map" xml:space="preserve">
+    <value>Map:</value>
+  </data>
+  <data name="ui_tournament_match_count" xml:space="preserve">
+    <value>(match count: {0})</value>
+    <comment>0 = number of matches</comment>
+  </data>
+  <data name="ui_tournament_rounds" xml:space="preserve">
+    <value>Rounds:</value>
+  </data>
+  <data name="ui_tournament_type" xml:space="preserve">
+    <value>Type:</value>
   </data>
   <data name="ui_version" xml:space="preserve">
     <value>Alpha version</value>
