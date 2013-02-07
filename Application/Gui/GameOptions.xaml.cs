@@ -38,6 +38,7 @@ namespace Orbit.Gui
         {
             CultureInfo ci = ((sender as ComboBox).SelectedItem as CultureInfo);
             App.SetLocalization(ci);
+            GameProperties.Props.SetAndSave(PropertyKey.GAME_LANGUAGE, ci.Name);
         }
     }
 }

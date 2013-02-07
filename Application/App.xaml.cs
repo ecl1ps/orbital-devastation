@@ -60,10 +60,6 @@ namespace Orbit
         [STAThread]
         public static void Main(string[] args)
         {
-            SetLocalization("en");
-
-            Thread.CurrentThread.CurrentCulture = WPFLocalizeExtension.Engine.LocalizeDictionary.Instance.Culture;
-
             App app = new App();
             app.InitializeComponent();
             app.lastServerAddress = "127.0.0.1";
@@ -103,6 +99,9 @@ namespace Orbit
 
             if (!File.Exists(SharedDef.CONFIG_FILE))
                 GameProperties.Props.Save();
+
+            SetLocalization(GameProperties.Get(PropertyKey.GAME_LANGUAGE));
+            Thread.CurrentThread.CurrentCulture = WPFLocalizeExtension.Engine.LocalizeDictionary.Instance.Culture;
 
             PlayerName = GameProperties.Props.Get(PropertyKey.PLAYER_NAME);
             PlayerHashId = GameProperties.Props.Get(PropertyKey.PLAYER_HASH_ID);
