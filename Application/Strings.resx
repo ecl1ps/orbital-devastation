@@ -201,9 +201,6 @@
   <data name="ui_quick_game" xml:space="preserve">
     <value>Host Quick Game</value>
   </data>
-  <data name="ui_repeat_last_game" xml:space="preserve">
-    <value>Repeat last game</value>
-  </data>
   <data name="ui_statistics" xml:space="preserve">
     <value>Statistics</value>
   </data>

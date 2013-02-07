@@ -201,9 +201,6 @@
   <data name="ui_quick_game" xml:space="preserve">
     <value>Rychlá hra</value>
   </data>
-  <data name="ui_repeat_last_game" xml:space="preserve">
-    <value>Opakovat poslední hru</value>
-  </data>
   <data name="ui_statistics" xml:space="preserve">
     <value>Statistiky</value>
   </data>

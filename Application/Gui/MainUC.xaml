@@ -29,7 +29,6 @@
                 <Button Content="{lex:Loc ui_connect_to_game}" Name="btnFindHostedGame" Click="btnFindHostedGame_Click"/>
                 <Button Content="{lex:Loc ui_connect_to_localhost}" Name="btnConnectToLocalhost" Click="btnConnectToLocalhost_Click"/>
                 <Button Content="{lex:Loc ui_play_as_spectator}" Name="btnPlayAsSpectator" Click="btnPlayAsSpectator_Click"/>
-                <Button Content="{lex:Loc ui_repeat_last_game}" Name="btnRepeatGame" Click="btnRepeatGame_Click" Visibility="Collapsed"/>
                 <Button Content="{lex:Loc ui_options}" Name="btnShowOptions" Click="btnShowOptions_Click"/>
                 <Button Content="{lex:Loc ui_statistics}" Name="btnShowStatistics" Click="btnShowStatistics_Click"/>
                 <Button Content="{lex:Loc ui_exit_game}" Name="btnExit" Margin="0,50,0,5" Click="btnExit_Click"/>

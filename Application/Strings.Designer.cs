@@ -286,15 +286,6 @@ namespace Orbit {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Repeat last game.
-        /// </summary>
-        internal static string ui_repeat_last_game {
-            get {
-                return ResourceManager.GetString("ui_repeat_last_game", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Statistics.
         /// </summary>
         internal static string ui_statistics {
