@@ -5,7 +5,7 @@
         <ResourceDictionary Source="Shared.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="{x:Type Label}" x:Key="labelStyle">
+    <Style TargetType="{x:Type Label}" x:Key="labelBasicStyle">
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="Template">
@@ -15,17 +15,22 @@
                         <Border Background="{TemplateBinding Background}" 
                                 BorderBrush="{TemplateBinding BorderBrush}" 
                                 BorderThickness="{TemplateBinding BorderThickness}" 
+                                Margin="{TemplateBinding Margin}"
+                                Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}"
                                 Padding="{TemplateBinding Padding}" 
+                                VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                HorizontalAlignment="{TemplateBinding HorizontalAlignment}" 
                                 CornerRadius="0">
                             <TextBlock Text="{TemplateBinding Content}"
                                        Foreground="{TemplateBinding Foreground}"  
                                        FontWeight="{TemplateBinding FontWeight}" 
                                        Cursor="{TemplateBinding Cursor}" 
-                                       HorizontalAlignment="{TemplateBinding HorizontalAlignment}" 
+                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                        FontFamily="{TemplateBinding FontFamily}" 
                                        FontSize="{TemplateBinding Label.FontSize}"
                                        FontStretch="{TemplateBinding FontStretch}" 
-                                       VerticalAlignment="{TemplateBinding VerticalAlignment}" />
+                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                     </Grid>
                 </ControlTemplate>
@@ -33,7 +38,7 @@
         </Setter>        
     </Style>
 
-    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource labelStyle}">
+    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource labelBasicStyle}">
         <Setter Property="FontFamily" Value="{StaticResource mainFont}" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Top" />

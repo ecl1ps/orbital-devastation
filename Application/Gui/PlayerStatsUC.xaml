@@ -7,19 +7,24 @@
              d:DesignHeight="300" d:DesignWidth="600">
     <UserControl.Resources>
         <Style TargetType="{x:Type Label}">
-            <Setter Property="FontFamily" Value="Arial Unicode MS" />
-            <Setter Property="FontSize" Value="15" />
+            <Setter Property="FontFamily" Value="{StaticResource mainFont}" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="9" />
             <Setter Property="BorderBrush" Value="{StaticResource darkPurpleBrush}" />
             <Setter Property="BorderThickness" Value="0,0,0,1" />
             <Setter Property="Width" Value="350" />
+            <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
         <Style TargetType="{x:Type TextBlock}">
-            <Setter Property="FontFamily" Value="Arial Unicode MS" />
-            <Setter Property="FontSize" Value="15" />
-        </Style>        
+            <Setter Property="FontFamily" Value="{StaticResource mainFont}" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="9" />
+        </Style>
     </UserControl.Resources>
     
-    <Grid Height="300" Width="600" Background="LightGray">
+    <Grid Height="300" Width="600" Background="LightGray" Opacity="0.9">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400" />
             <ColumnDefinition Width="200" />
