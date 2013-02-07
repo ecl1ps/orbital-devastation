@@ -62,7 +62,7 @@ namespace Orbit
         {
             SetLocalization("en");
 
-            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en");
+            Thread.CurrentThread.CurrentCulture = WPFLocalizeExtension.Engine.LocalizeDictionary.Instance.Culture;
 
             App app = new App();
             app.InitializeComponent();
@@ -82,10 +82,15 @@ namespace Orbit
 #endif
         }
 
+        public static void SetLocalization(CultureInfo locale)
+        {
+            WPFLocalizeExtension.Engine.LocalizeDictionary.Instance.Culture = locale;
+            Strings.Culture = locale;
+        }
+
         public static void SetLocalization(string locale)
         {
-            WPFLocalizeExtension.Engine.LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo(locale);
-            Strings.Culture = CultureInfo.GetCultureInfo(locale);
+            SetLocalization(CultureInfo.GetCultureInfo(locale));
         }
 
         protected override void OnStartup(StartupEventArgs e)

@@ -338,6 +338,9 @@
     <Compile Include="Gui\ColorPickerUC.xaml.cs">
       <DependentUpon>ColorPickerUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\GameOptions.xaml.cs">
+      <DependentUpon>GameOptions.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\EndGameStats.xaml.cs">
       <DependentUpon>EndGameStats.xaml</DependentUpon>
     </Compile>
@@ -479,6 +482,10 @@
     <Page Include="Gui\ColorPickerUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\GameOptions.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Gui\EndGameStats.xaml">
       <SubType>Designer</SubType>
