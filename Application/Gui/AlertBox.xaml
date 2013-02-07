@@ -9,9 +9,9 @@
         <Image Name="SprocketLeft" Height="30" Width="30" Panel.ZIndex="10" Source="pack://application:,,,/resources/images/background/sprocket.png" Canvas.Left="0" Canvas.Top="-15"></Image>
         <Image Name="SprocketRight" Height="30" Width="30" Panel.ZIndex="10" Source="pack://application:,,,/resources/images/background/sprocket.png" Canvas.Right="0" Canvas.Top="-15"></Image>
         <TextBlock Name="BackgroundBlock" Background="#A74A4A4A" Panel.ZIndex="-1" Width="365" Height="60" Canvas.Left="15" Canvas.Top="15"></TextBlock>
-        <TextBlock Name="TextBlock" Canvas.Left="20" Canvas.Top="15" Width="355" Height="60" Text="Testovací text" TextAlignment="Center" FontFamily="Stencil" Foreground="#FFC7C7C7" FontSize="20" TextWrapping="Wrap" FontWeight="Normal">
+        <TextBlock Name="TextBlock" Canvas.Left="20" Canvas.Top="15" Width="355" Height="60" Text="Testovací text" TextAlignment="Center" Foreground="#FFC7C7C7" FontSize="15" TextWrapping="Wrap" FontWeight="Normal">
         </TextBlock>
-        <Grid Name="Panel" Canvas.Left="15" Canvas.Top="10" Height="70" Width="365" ClipToBounds="True" Panel.ZIndex="1">
+        <Grid Name="Panel" Canvas.Left="15" Canvas.Top="10" Height="70" Width="365" ClipToBounds="True" Panel.ZIndex="1" Visibility="Visible">
             <Grid Name="DoorLeft" HorizontalAlignment="Left" Height="70">
                 <Image HorizontalAlignment="Left" Width="190" Height="70" Source="pack://application:,,,/resources/images/background/door_left.png"></Image>
             </Grid>

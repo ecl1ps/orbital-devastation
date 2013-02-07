@@ -30,12 +30,12 @@
         <TextBlock Text="Tournament Lobby" Grid.Row="0" Name="lblTitle" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" />
         <Border BorderThickness="1" BorderBrush="{StaticResource darkPurpleBrush}" Background="Gainsboro" Margin="10,31,365,260" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">
             <StackPanel Name="spPlayers" >
-                
+                <!--
                 <controls:LobbyPlayer Width="520" Height="45" />
                 <controls:LobbyPlayer Width="520" Height="45"/>
                 <controls:LobbyPlayer Width="520" Height="45"/>
                 <controls:LobbyPlayer Width="520" Height="45"/>
-                
+                -->
             </StackPanel>
         </Border>
         <Border BorderThickness="1" BorderBrush="{StaticResource darkPurpleBrush}" Background="Gainsboro" Margin="555,31,10,260" Grid.Row="1">
