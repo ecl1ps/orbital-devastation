@@ -840,6 +840,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <Resource Include="resources\fonts\Arkitech Light.ttf" />
+    <Resource Include="resources\fonts\Audiowide-Regular.ttf" />
+    <Resource Include="resources\fonts\Arkitech Medium.ttf" />
+    <Resource Include="resources\fonts\Righteous-Regular.ttf" />
+    <Resource Include="resources\fonts\Arkitech Round Light.ttf" />
+    <Resource Include="resources\fonts\babyface.ttf" />
     <Resource Include="resources\sounds\misc\alert.ogg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
