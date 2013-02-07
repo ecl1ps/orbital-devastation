@@ -11,7 +11,7 @@
             lex:LocalizeDictionary.IncludeInvariantCulture="False"
             Closing="OnClose" Name="mainWindow" AllowsTransparency="True"
             WindowStyle="None" Title="Orbital Devastation" WindowStartupLocation="CenterScreen" KeyDown="OnKeyDown" Icon="/OrbitalDevastation;component/resources/images/rock/rock_normal_6.png"
-            Width="1000" Height="710" KeyUp="OnKeyUp" Deactivated="mainWindow_Deactivated" Activated="mainWindow_Activated" ResizeMode="CanResizeWithGrip" SnapsToDevicePixels="True">
+            Width="1000" Height="710" KeyUp="OnKeyUp" Deactivated="mainWindow_Deactivated" Activated="mainWindow_Activated" ResizeMode="CanResizeWithGrip">
 
     <Window.Resources>
         <LinearGradientBrush x:Key="windowFrameBrush" StartPoint="0,0" EndPoint="0,1">

@@ -18,7 +18,7 @@
                             <Border.Background>
                                 <SolidColorBrush x:Name="buttonBackground" Color="{StaticResource lighterGray}" />
                             </Border.Background>
-                            <Label HorizontalAlignment="Center" VerticalAlignment="Center" 
+                            <Label HorizontalAlignment="Center" VerticalAlignment="Center" SnapsToDevicePixels="False"
                                        Content="{TemplateBinding Button.Content}" 
                                        FontSize="{TemplateBinding Button.FontSize}" />
                         </Border>

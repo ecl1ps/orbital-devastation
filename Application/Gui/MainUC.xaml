@@ -22,7 +22,7 @@
 
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center" ShowGridLines="False" Width="1000" Height="700">
         <Border Margin="20,-1,780,-2" BorderThickness="1" BorderBrush="{StaticResource darkPurpleBrush}" Background="DarkGray" SnapsToDevicePixels="True">
-            <StackPanel Name="spMenu" >
+            <StackPanel Name="spMenu">
                 <Button Content="{lex:Loc ui_practise_game}" Name="btnSinglePlayer" Click="btnSinglePlayer_Click"/>
                 <Button Content="{lex:Loc ui_quick_game}" Name="btnQuickGame" Click="btnQuickGame_Click"/>
                 <Button Content="{lex:Loc ui_host_tournament}" Name="btnHostTournament" Click="btnHostTournament_Click"/>
