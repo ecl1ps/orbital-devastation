@@ -316,10 +316,14 @@ namespace Orbit.Core.Helpers
                     msg.Write(typeof(ModuleDamageControl).GUID.GetHashCode());
                     msg.WriteControl(c);
                 }
+                else if (c is HighlightingControl)
+                {
+                    // skip
+                }
                 else
                 {
                     msg.Write(0);
-                    Logger.Error("Sending unspported control (" + c.GetType().Name + ")!");
+                    Logger.Error("Sending unsupported control (" + c.GetType().Name + ")!");
                 }
             }
         }
@@ -457,9 +461,13 @@ namespace Orbit.Core.Helpers
                     msg.ReadModuleDamageControl(c);
                     controls.Add(c);
                 }
+                else if (hash == typeof(HighlightingControl).GUID.GetHashCode())
+                {
+                    // skip
+                }
                 else
                 {
-                    Logger.Error("Received unspported control (" + hash + ")!");
+                    Logger.Error("Received unsupported control (" + hash + ")!");
                 }
             }
             return controls;
