@@ -68,9 +68,11 @@
 
     <Style BasedOn="{StaticResource textBoxStyle}" TargetType="{x:Type TextBox}" >
         <Setter Property="FontFamily" Value="{StaticResource mainFont}" />
+        <Setter Property="FontSize" Value="9" />
         <Setter Property="Height" Value="22" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 
 </ResourceDictionary>

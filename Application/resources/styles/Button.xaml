@@ -19,8 +19,9 @@
                                 <SolidColorBrush x:Name="buttonBackground" Color="{StaticResource lighterGray}" />
                             </Border.Background>
                             <Label HorizontalAlignment="Center" VerticalAlignment="Center" SnapsToDevicePixels="False"
-                                       Content="{TemplateBinding Button.Content}" 
-                                       FontSize="{TemplateBinding Button.FontSize}" />
+                                   FontFamily="{StaticResource mainFont}"                                        
+                                   Content="{TemplateBinding Button.Content}" 
+                                   FontSize="{TemplateBinding Button.FontSize}" />
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -60,9 +61,9 @@
 
     <!-- DEFAULTNI NASTAVENI STYLU VSEM TLACITKUM - JDE DEDIT A PREPISOVAT -->
     <Style BasedOn="{StaticResource buttonStyle}" TargetType="{x:Type Button}">
-        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontSize" Value="8" />
         <Setter Property="Height" Value="28" />
-        <Setter Property="Width" Value="90" />
+        <Setter Property="Width" Value="110" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Top" />
     </Style>

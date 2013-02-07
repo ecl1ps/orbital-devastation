@@ -10,6 +10,7 @@
         <Setter Property="FontFamily" Value="{StaticResource mainFont}" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="FontSize" Value="9" />
     </Style>
 
 </ResourceDictionary>

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" Width="500" Height="120" BorderBrush="#FF450045" BorderThickness="1" Background="Gray" Opacity="0.9">
     <Grid>
-        <TextBlock Text="You have been kicked out of the server." Height="53" HorizontalAlignment="Left" Margin="26,10,0,0" Name="tbInfo" VerticalAlignment="Top" Width="449" FontSize="16" TextWrapping="Wrap" TextTrimming="None" IsHitTestVisible="False" TextAlignment="Center" />        
-        <Button Content="OK" Margin="203,78,205,0" Name="btnBack" Click="btnBack_Click" />
+        <TextBlock Text="You have been kicked out of the server." Height="65" HorizontalAlignment="Left" Margin="10,10,0,0" Name="tbInfo" VerticalAlignment="Top" Width="465" FontSize="12" TextWrapping="Wrap" TextTrimming="None" IsHitTestVisible="False" TextAlignment="Center" />        
+        <Button Content="OK" Margin="196,80,192,0" Name="btnBack" Click="btnBack_Click" />
     </Grid>
 </UserControl>

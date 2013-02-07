@@ -178,7 +178,7 @@
     <value>Connect to Game</value>
   </data>
   <data name="ui_connect_to_localhost" xml:space="preserve">
-    <value>Connect to Localhost</value>
+    <value>Localhost</value>
   </data>
   <data name="ui_exit_game" xml:space="preserve">
     <value>Exit Game</value>
@@ -193,7 +193,7 @@
     <value>Options</value>
   </data>
   <data name="ui_play_as_spectator" xml:space="preserve">
-    <value>Play as Spectator</value>
+    <value>Spectator</value>
   </data>
   <data name="ui_practise_game" xml:space="preserve">
     <value>Practise Game</value>

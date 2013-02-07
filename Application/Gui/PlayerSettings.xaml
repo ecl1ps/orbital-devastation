@@ -6,11 +6,10 @@
              Name="playerSettings" mc:Ignorable="d" Style="{StaticResource optionsStyle}" LostFocus="playerSettings_LostFocus">             
 
     <Grid>
-        <Button Content="Save name" Margin="248,34,10,0" Name="btnSaveName" Click="btnSaveName_Click" />
-        <Label Content="Player name:" Margin="12,34,0,0" Name="lblName" />
-        <TextBox Height="30" HorizontalAlignment="Stretch" Margin="110,34,126,0" Name="tbPlayerName" FontSize="14" MaxLength="10" />
-        <Label Content="Player color:" Margin="10,80,0,0" Name="lblColor" />
-        <Border Width="112" Height="31" BorderThickness="1" Name="colorPickerField" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="0" BorderBrush="black" Margin="110,80,0,0" Background="Blue" MouseDown="colorPicker_MouseDown" />
+        <Label Content="Player name:" Margin="7,33,181,284" Name="lblName" />
+        <TextBox Height="30" HorizontalAlignment="Stretch" Margin="167,34,60,0" Name="tbPlayerName" MaxLength="10" />
+        <Label Content="Player color:" Margin="7,73,186,244" Name="lblColor" />
+        <Border Width="121" Height="31" BorderThickness="1" Name="colorPickerField" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="0" BorderBrush="black" Margin="167,73,0,0" Background="Blue" MouseDown="colorPicker_MouseDown" />
 
         <Button Content="Back" Margin="0,0,0,30" VerticalAlignment="Bottom"  Name="btnBack" Click="btnBack_Click" />
     </Grid>

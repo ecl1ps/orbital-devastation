@@ -364,7 +364,7 @@ namespace Orbit.Gui
             else
                 lblMatches.Content = "(" + matches.ToString() + " match)";
 
-            lblMatchNumber.Content = "Match " + (round + 1) + " of " + matches;
+            lblMatchNumber.Text = "Match " + (round + 1) + " of " + matches;
         }
 
         private void tbBotCount_TextChanged(object sender, TextChangedEventArgs e)

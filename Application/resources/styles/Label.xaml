@@ -5,12 +5,12 @@
         <ResourceDictionary Source="Shared.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="{x:Type Label}">
+    <Style TargetType="{x:Type Label}" x:Key="labelStyle">
         <Setter Property="FontFamily" Value="{StaticResource mainFont}" />
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="9" />
     </Style>
 
 </ResourceDictionary>

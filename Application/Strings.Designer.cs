@@ -214,7 +214,7 @@ namespace Orbit {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Connect to Localhost.
+        ///   Looks up a localized string similar to Localhost.
         /// </summary>
         internal static string ui_connect_to_localhost {
             get {
@@ -259,7 +259,7 @@ namespace Orbit {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Play as Spectator.
+        ///   Looks up a localized string similar to Spectator.
         /// </summary>
         internal static string ui_play_as_spectator {
             get {

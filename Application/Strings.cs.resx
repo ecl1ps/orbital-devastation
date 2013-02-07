@@ -178,7 +178,7 @@
     <value>Připojit ke hře</value>
   </data>
   <data name="ui_connect_to_localhost" xml:space="preserve">
-    <value>Připojit k localhostu</value>
+    <value>Localhost</value>
   </data>
   <data name="ui_exit_game" xml:space="preserve">
     <value>Konec hry</value>
@@ -193,7 +193,7 @@
     <value>Možnosti</value>
   </data>
   <data name="ui_play_as_spectator" xml:space="preserve">
-    <value>Hrát za pozorovatele</value>
+    <value>Pozorovatel</value>
   </data>
   <data name="ui_practise_game" xml:space="preserve">
     <value>Cvičná hra</value>
