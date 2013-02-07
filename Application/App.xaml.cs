@@ -76,6 +76,7 @@ namespace Orbit
         {
             WPFLocalizeExtension.Engine.LocalizeDictionary.Instance.Culture = locale;
             Strings.Culture = locale;
+            Thread.CurrentThread.CurrentCulture = locale;
         }
 
         public static void SetLocalization(string locale)
@@ -96,7 +97,6 @@ namespace Orbit
 
             WPFLocalizeExtension.Engine.LocalizeDictionary.Instance.MergedAvailableCultures.Add(CultureInfo.GetCultureInfo("en"));
             SetLocalization(GameProperties.Get(PropertyKey.GAME_LANGUAGE));
-            Thread.CurrentThread.CurrentCulture = WPFLocalizeExtension.Engine.LocalizeDictionary.Instance.Culture;
 
             PlayerName = GameProperties.Props.Get(PropertyKey.PLAYER_NAME);
             PlayerHashId = GameProperties.Props.Get(PropertyKey.PLAYER_HASH_ID);
