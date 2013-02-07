@@ -100,6 +100,7 @@ namespace Orbit
             if (!File.Exists(SharedDef.CONFIG_FILE))
                 GameProperties.Props.Save();
 
+            WPFLocalizeExtension.Engine.LocalizeDictionary.Instance.MergedAvailableCultures.Add(CultureInfo.GetCultureInfo("en"));
             SetLocalization(GameProperties.Get(PropertyKey.GAME_LANGUAGE));
             Thread.CurrentThread.CurrentCulture = WPFLocalizeExtension.Engine.LocalizeDictionary.Instance.Culture;
 
