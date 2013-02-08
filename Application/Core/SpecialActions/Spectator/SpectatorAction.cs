@@ -75,7 +75,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             if (exact)
             {
                 Owner.Statistics.PoweredActions++;
-                SceneMgr.FloatingTextMgr.AddFloatingText("Powered action!", control.Position,
+                SceneMgr.FloatingTextMgr.AddFloatingText(Strings.ft_spectator_powered_action, control.Position,
                     FloatingTextManager.TIME_LENGTH_3, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM,
                     true, true);
             }

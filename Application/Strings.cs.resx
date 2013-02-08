@@ -475,4 +475,55 @@
   <data name="ui_statistics_quick_game" xml:space="preserve">
     <value>1v1 Rychlá hra</value>
   </data>
+  <data name="game_player_nobody" xml:space="preserve">
+    <value>nikoho</value>
+  </data>
+  <data name="game_protecting" xml:space="preserve">
+    <value>Bráníš: {0}</value>
+    <comment>0 = name of protected player</comment>
+  </data>
+  <data name="game_protect_base_left" xml:space="preserve">
+    <value>Braň svou bázi! Jsi na LEVÉ straně.</value>
+  </data>
+  <data name="game_protect_base_right" xml:space="preserve">
+    <value>Braň svou bázi! Jsi na PRAVÉ straně.</value>
+  </data>
+  <data name="game_warning_integrity" xml:space="preserve">
+    <value>VAROVÁNÍ: NÍZKÁ INTEGRITA BÁZE!</value>
+  </data>
+  <data name="game_warning_integrity_ally" xml:space="preserve">
+    <value>VAROVÁNÍ: VÁŠ SPOJENEC MÁ NÍZKOU INTEGRITU BÁZE!</value>
+  </data>
+  <data name="ft_score_cannon_unstable_above_enemy" xml:space="preserve">
+    <value>Zkáza nepřátel!</value>
+  </data>
+  <data name="ft_score_hit_multi" xml:space="preserve">
+    <value>Vícenásobný zásah!</value>
+  </data>
+  <data name="ft_score_hit_penta" xml:space="preserve">
+    <value>Pětinásobný zásah!</value>
+  </data>
+  <data name="ft_score_hit_quadra" xml:space="preserve">
+    <value>Čtyřnásobný zásah!</value>
+  </data>
+  <data name="ft_score_hit_triple" xml:space="preserve">
+    <value>Trojitý zásah!</value>
+  </data>
+  <data name="ft_score_hook_max" xml:space="preserve">
+    <value>Maximální dolet!</value>
+  </data>
+  <data name="ft_score_unstable_wiped" xml:space="preserve">
+    <value>Vyčištěno!</value>
+  </data>
+  <data name="ft_spectator_powered_action" xml:space="preserve">
+    <value>Nabuzená akce!</value>
+  </data>
+  <data name="game_joined" xml:space="preserve">
+    <value>{0} se připojil do hry.</value>
+    <comment>0 = player name</comment>
+  </data>
+  <data name="game_wepon_bought" xml:space="preserve">
+    <value>Koupena nová zbraň: {0}</value>
+    <comment>0 = name of weapon</comment>
+  </data>
 </root>

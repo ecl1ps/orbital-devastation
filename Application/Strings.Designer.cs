@@ -124,11 +124,101 @@ namespace Orbit {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to +{0}.
+        /// </summary>
+        internal static string char_plus {
+            get {
+                return ResourceManager.GetString("char_plus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enemy crusher!.
+        /// </summary>
+        internal static string ft_score_cannon_unstable_above_enemy {
+            get {
+                return ResourceManager.GetString("ft_score_cannon_unstable_above_enemy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Multi Hit!.
+        /// </summary>
+        internal static string ft_score_hit_multi {
+            get {
+                return ResourceManager.GetString("ft_score_hit_multi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Penta Hit!.
+        /// </summary>
+        internal static string ft_score_hit_penta {
+            get {
+                return ResourceManager.GetString("ft_score_hit_penta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quadra Hit!.
+        /// </summary>
+        internal static string ft_score_hit_quadra {
+            get {
+                return ResourceManager.GetString("ft_score_hit_quadra", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Triple Hit!.
+        /// </summary>
+        internal static string ft_score_hit_triple {
+            get {
+                return ResourceManager.GetString("ft_score_hit_triple", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max range!.
+        /// </summary>
+        internal static string ft_score_hook_max {
+            get {
+                return ResourceManager.GetString("ft_score_hook_max", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tripple wiped!.
+        /// </summary>
+        internal static string ft_score_unstable_wiped {
+            get {
+                return ResourceManager.GetString("ft_score_unstable_wiped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Powered action!.
+        /// </summary>
+        internal static string ft_spectator_powered_action {
+            get {
+                return ResourceManager.GetString("ft_spectator_powered_action", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End of Game.
         /// </summary>
         internal static string game_end {
             get {
                 return ResourceManager.GetString("game_end", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has joined the game..
+        /// </summary>
+        internal static string game_joined {
+            get {
+                return ResourceManager.GetString("game_joined", resourceCulture);
             }
         }
         
@@ -169,11 +259,74 @@ namespace Orbit {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to nobody.
+        /// </summary>
+        internal static string game_player_nobody {
+            get {
+                return ResourceManager.GetString("game_player_nobody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Protect your base! You are on the LEFT side..
+        /// </summary>
+        internal static string game_protect_base_left {
+            get {
+                return ResourceManager.GetString("game_protect_base_left", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Protect your base! You are on the RIGHT side..
+        /// </summary>
+        internal static string game_protect_base_right {
+            get {
+                return ResourceManager.GetString("game_protect_base_right", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are protecting: {0}.
+        /// </summary>
+        internal static string game_protecting {
+            get {
+                return ResourceManager.GetString("game_protecting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Spectator {0} used: {1}.
         /// </summary>
         internal static string game_spectator_used {
             get {
                 return ResourceManager.GetString("game_spectator_used", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WARNING! LOW BASE INTEGRITY!.
+        /// </summary>
+        internal static string game_warning_integrity {
+            get {
+                return ResourceManager.GetString("game_warning_integrity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WARNING! YOUR ALLY HAS LOW BASE INTEGRITY!.
+        /// </summary>
+        internal static string game_warning_integrity_ally {
+            get {
+                return ResourceManager.GetString("game_warning_integrity_ally", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New weapon bought: {0}.
+        /// </summary>
+        internal static string game_wepon_bought {
+            get {
+                return ResourceManager.GetString("game_wepon_bought", resourceCulture);
             }
         }
         

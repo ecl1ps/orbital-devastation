@@ -12,7 +12,6 @@
         <Label Canvas.Left="4" Canvas.Top="605" Height="30" Name="lblNameLeft" Width="150" Panel.ZIndex="100" FontSize="10" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Foreground="#FF312E2E" IsHitTestVisible="False"></Label>
         <Label Canvas.Left="840" Canvas.Top="605" Height="30" Name="lblNameRight" Width="150" Panel.ZIndex="100" FontSize="10" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Foreground="#FF312E2E" IsHitTestVisible="False"></Label>
         <Label Canvas.Left="153" Canvas.Top="230" Content="" Height="59" Name="lblWaiting" Width="700" Panel.ZIndex="100" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsHitTestVisible="False" />
-        <Label Canvas.Left="153" Canvas.Top="210" Content="" Height="59" Name="lblHighScore" Width="700" Panel.ZIndex="100" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FFED0000" IsHitTestVisible="False" />
 
         <Grid Canvas.Left="0" Width="1000" Canvas.Top="640" Panel.ZIndex="100" Height="60" VerticalAlignment="Bottom" IsHitTestVisible="True">
             <controls:ActionBar HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="0,0,0,30" Height="30" Background="DarkGray" MouseUp="OnActionBarClick" x:Name="ActionBarUC" IsHitTestVisible="True" Panel.ZIndex="100" />
