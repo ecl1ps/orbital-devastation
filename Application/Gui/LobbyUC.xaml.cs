@@ -148,7 +148,7 @@ namespace Orbit.Gui
             App.Instance.SendChatMessage(tbMessage.Text);
             lvChat.Items.Add(App.Instance.PlayerName + ": " + tbMessage.Text);
             lvChat.ScrollIntoView(lvChat.Items[lvChat.Items.Count - 1]);
-            tbMessage.Text = "";
+            tbMessage.Text = string.Empty;
         }
 
         private void btnStartGame_Click(object sender, RoutedEventArgs e)
@@ -162,7 +162,7 @@ namespace Orbit.Gui
         private void btnReady_Click(object sender, RoutedEventArgs e)
         {
             ready = !ready;
-            btnReady.Content = ready ? "Not ready" : "Ready";
+            btnReady.Content = ready ? Strings.ui_ready_not : Strings.ui_ready;
             App.Instance.PlayerReady(ready);
         }
 
@@ -176,7 +176,7 @@ namespace Orbit.Gui
         {
 #if DEBUG
             ready = true;
-            btnReady.Content = "Not ready";
+            btnReady.Content = Strings.ui_ready_not;
             App.Instance.PlayerReady(true);
 #else
             if (leader)
@@ -288,7 +288,7 @@ namespace Orbit.Gui
             catch (Exception)
             {
                 s.RoundCount = 1;
-                tbRounds.Text = "1";
+                tbRounds.Text = 1.ToString();
                 UpdateMatchCount(s.RoundCount);
             }
 
@@ -345,8 +345,8 @@ namespace Orbit.Gui
             }
             catch (Exception)
             {
-                tbRounds.Text = "";
-                lblMatches.Content = "";
+                tbRounds.Text = string.Empty;
+                lblMatches.Content = string.Empty;
             }
         }
 
@@ -359,12 +359,8 @@ namespace Orbit.Gui
 
             // kombinace
             int matches = GameManager.GetRequiredNumberOfMatches(players, rounds);
-            if (matches > 1)
-                lblMatches.Content = "(" + matches.ToString() + " matches)";
-            else
-                lblMatches.Content = "(" + matches.ToString() + " match)";
-
-            lblMatchNumber.Content = "Match " + (round + 1) + " of " + matches;
+            lblMatches.Content = String.Format(Strings.ui_tournament_match_count, matches);
+            lblMatchNumber.Text = String.Format(Strings.ui_tournament_current_match, (round + 1), matches);
         }
 
         private void tbBotCount_TextChanged(object sender, TextChangedEventArgs e)
@@ -380,7 +376,7 @@ namespace Orbit.Gui
             catch (Exception)
             {
                 if (!String.IsNullOrWhiteSpace(tbBotCount.Text))
-                    tbBotCount.Text = "0";
+                    tbBotCount.Text = 0.ToString();
             }
         }
 

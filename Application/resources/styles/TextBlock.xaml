@@ -6,9 +6,11 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="{x:Type TextBlock}">
-        <Setter Property="FontFamily" Value="Bauhaus 93" />
+        <Setter Property="SnapsToDevicePixels" Value="False" />
+        <Setter Property="FontFamily" Value="{StaticResource mainFont}" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="FontSize" Value="9" />
     </Style>
 
 </ResourceDictionary>

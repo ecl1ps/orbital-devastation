@@ -28,6 +28,7 @@ namespace Orbit.Core
         internal static Dictionary<PropertyKey, string> GetDefaultConfigValues()
         {
             Dictionary<PropertyKey, string> defaults = new Dictionary<PropertyKey, string>();
+            defaults.Add(PropertyKey.GAME_LANGUAGE, "en");
             defaults.Add(PropertyKey.PLAYER_NAME, "Player");
             defaults.Add(PropertyKey.PLAYER_HASH_ID, Player.GenerateNewHashId("Player"));
             defaults.Add(PropertyKey.STATIC_MOUSE_ENABLED, true.ToString());
@@ -62,6 +63,8 @@ namespace Orbit.Core
 
     public enum PropertyKey
     {
+        GAME_LANGUAGE,
+
         PLAYER_NAME,
         PLAYER_HASH_ID,
 

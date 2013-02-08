@@ -18,41 +18,53 @@
                             <Border.Background>
                                 <SolidColorBrush x:Name="buttonBackground" Color="{StaticResource lighterGray}" />
                             </Border.Background>
-                            <Label HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                       Content="{TemplateBinding Button.Content}" 
-                                       FontSize="{TemplateBinding Button.FontSize}" />
+                            <Label HorizontalAlignment="Center" VerticalAlignment="Center" SnapsToDevicePixels="False" x:Name="buttonLabel"
+                                   FontFamily="{StaticResource mainFont}"                                        
+                                   Content="{TemplateBinding Button.Content}" 
+                                   FontSize="{TemplateBinding Button.FontSize}" >
+                                <Label.Foreground>
+                                    <SolidColorBrush x:Name="labelColor" Color="Black" />
+                                </Label.Foreground>
+                            </Label>
                         </Border>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <EventTrigger RoutedEvent="Button.MouseEnter">
-                            <EventTrigger.Actions>
-                                <BeginStoryboard x:Name="enterBorderAnimation">
-                                    <Storyboard>
-                                        <ColorAnimation To="{StaticResource darkPurple}" Duration="0:0:0.1" 
-                                                            Storyboard.TargetName="buttonBorderColor"
-                                                            Storyboard.TargetProperty="Color" />
-                                        <ColorAnimation To="WhiteSmoke" Duration="0:0:0.1" 
-                                                            Storyboard.TargetName="buttonBackground"
-                                                            Storyboard.TargetProperty="Color" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger.Actions>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="Button.MouseLeave">
-                            <EventTrigger.Actions>
-                                <BeginStoryboard x:Name="leaveBorderAnimation">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
                                     <Storyboard>
                                         <ColorAnimation To="Black" Duration="0:0:0.1" 
-                                                            Storyboard.TargetName="buttonBorderColor"
-                                                            Storyboard.TargetProperty="Color" />
+                                            Storyboard.TargetName="buttonBorderColor"
+                                            Storyboard.TargetProperty="Color" />
                                         <ColorAnimation To="{StaticResource lighterGray}" Duration="0:0:0.1" 
-                                                            Storyboard.TargetName="buttonBackground"
-                                                            Storyboard.TargetProperty="Color" />
+                                            Storyboard.TargetName="buttonBackground"
+                                            Storyboard.TargetProperty="Color" />
                                     </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger.Actions>
-                        </EventTrigger>
-                    </ControlTemplate.Triggers>
+                                </VisualState>
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <ColorAnimation To="{StaticResource darkPurple}" Duration="0:0:0.1" 
+                                            Storyboard.TargetName="buttonBorderColor"
+                                            Storyboard.TargetProperty="Color" />
+                                        <ColorAnimation To="WhiteSmoke" Duration="0:0:0.1" 
+                                            Storyboard.TargetName="buttonBackground"
+                                            Storyboard.TargetProperty="Color" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ColorAnimation To="Gray"
+                                            Storyboard.TargetName="buttonBorderColor"
+                                            Storyboard.TargetProperty="Color" />
+                                        <ColorAnimation To="DarkGray"
+                                            Storyboard.TargetName="buttonBackground"
+                                            Storyboard.TargetProperty="Color" />
+                                        <ColorAnimation To="Gray" 
+                                            Storyboard.TargetName="labelColor"
+                                            Storyboard.TargetProperty="Color" />                                        
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -60,9 +72,9 @@
 
     <!-- DEFAULTNI NASTAVENI STYLU VSEM TLACITKUM - JDE DEDIT A PREPISOVAT -->
     <Style BasedOn="{StaticResource buttonStyle}" TargetType="{x:Type Button}">
-        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontSize" Value="8" />
         <Setter Property="Height" Value="28" />
-        <Setter Property="Width" Value="90" />
+        <Setter Property="Width" Value="110" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Top" />
     </Style>

@@ -51,5 +51,10 @@ namespace Orbit.Gui
         {
             App.Instance.AddMenu(new EscMenu());
         }
+
+        private void btnGame_Click(object sender, RoutedEventArgs e)
+        {
+            App.Instance.AddMenu(new GameOptions());
+        }
     }
 }

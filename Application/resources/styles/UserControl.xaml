@@ -12,7 +12,7 @@
         <Setter Property="BorderBrush" Value="{StaticResource darkPurpleBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Background" Value="Gray" />
-        <Setter Property="Opacity" Value="0.98" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
     </Style>
 
 </ResourceDictionary>

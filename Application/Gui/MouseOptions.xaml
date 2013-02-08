@@ -3,25 +3,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:lex="http://wpflocalizeextension.codeplex.com" 
+             lex:LocalizeDictionary.DesignCulture="en"  
+             lex:ResxLocalizationProvider.DefaultAssembly="OrbitalDevastation"  
+             lex:ResxLocalizationProvider.DefaultDictionary="Strings"                 
              Name="mouseMenu" mc:Ignorable="d" Style="{StaticResource optionsStyle}">             
 
     <Grid>
-        <Label Content="Cursor icon" Margin="12,65,238,261" />
-        <ToggleButton Name="MouseIcon1" Height="25" Width="25" Margin="0,68,126,0" HorizontalAlignment="Right" Click="MouseIcon1_Click">
+        <Label Content="{lex:Loc ui_cursor_icon}" Margin="12,65,188,250" />
+        <ToggleButton Name="MouseIcon1" Height="25" Width="25" Margin="0,86,125,0" HorizontalAlignment="Right" Click="MouseIcon1_Click">
             <Image Source="pack://application:,,,/resources/images/mouse/targeting_icon2.png" /> 
         </ToggleButton>
-        <ToggleButton Name="MouseIcon2" Height="25" Width="25" Margin="168,68,0,0" HorizontalAlignment="Left" Click="MouseIcon2_Click">
+        <ToggleButton Name="MouseIcon2" Height="25" Width="25" Margin="169,86,0,0" HorizontalAlignment="Left" Click="MouseIcon2_Click">
             <Image Source="pack://application:,,,/resources/images/mouse/targeting_icon.png" />
         </ToggleButton>
-        <ToggleButton Name="MouseIcon3" Height="25" Width="25" Margin="135,68,0,0" HorizontalAlignment="Left" Click="MouseIcon3_Click" >
+        <ToggleButton Name="MouseIcon3" Height="25" Width="25" Margin="136,86,0,0" HorizontalAlignment="Left" Click="MouseIcon3_Click" >
             <Image Source="pack://application:,,,/resources/images/mouse/targeting_icon3.png" />
         </ToggleButton>
-        <Label Content="Mouse Sensitivity" Margin="12,118,238,206" />
-        <TextBlock Name="SensitivityLabel" TextAlignment="Right" VerticalAlignment="Bottom" Text="1" Margin="221,0,102,179" />
-        <Slider Name="SensitivitySlider" Maximum="100" Margin="135,120,7,206" ValueChanged="SensitivityChange" />
-        <CheckBox Name="mouseEnabled" Unchecked="mouseEnabled_Unchecked" Checked="mouseEnabled_Checked" IsThreeState="False" Margin="135,31,198,303"  />
-        <Label Content="Static mouse active" Margin="12,24,218,301" />
+        <Label Content="{lex:Loc ui_mouse_sensitivity}" Margin="12,118,154,200" />
+        <TextBlock Name="SensitivityLabel" TextAlignment="Right" VerticalAlignment="Bottom" Text="1" Margin="216,0,0,164" Width="28" Height="14" />
+        <Slider Name="SensitivitySlider" Maximum="100" Margin="135,143,7,183" ValueChanged="SensitivityChange" />
+        <CheckBox Name="mouseEnabled" Unchecked="mouseEnabled_Unchecked" Checked="mouseEnabled_Checked" IsThreeState="False" Margin="226,32,108,303"  />
+        <Label Content="{lex:Loc ui_mouse_active}" Margin="12,24,126,298" />
 
-        <Button Content="Back" Margin="0,0,0,30" VerticalAlignment="Bottom" Name="btnBack" Click="btnBack_Click" />
+        <Button Content="{lex:Loc ui_back}" Margin="0,0,0,30" VerticalAlignment="Bottom" Name="btnBack" Click="btnBack_Click" />
     </Grid>
 </UserControl>

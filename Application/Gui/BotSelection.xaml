@@ -5,13 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              Name="botSelection" mc:Ignorable="d" Style="{StaticResource optionsStyle}">
     <Grid>
-        <ToggleButton Name="EasyBotButton" Content="Easy bot" Margin="124,12,134,0" Click="BotSelectionEvent"></ToggleButton>
-        <ToggleButton Name="HookerBotButton" Content="Hooker bot" Margin="124,47,134,0" Click="BotSelectionEvent" ></ToggleButton>
-        <ToggleButton Name="MedicoreBotButton" IsEnabled="False" Content="Mediocre bot" Margin="124,82,134,0" Click="BotSelectionEvent"></ToggleButton>
-        <ToggleButton Name="HardcoreBotButton" IsEnabled="False" Content="Hardcore bot" Margin="124,117,134,0" Click="BotSelectionEvent"></ToggleButton>
-        <ToggleButton Name="NightmareBotButton" IsEnabled="False" Content="Nightmare bot" Margin="124,152,134,0" Click="BotSelectionEvent"></ToggleButton>
+        <ToggleButton Name="EasyBotButton" Content="Easy bot" Margin="99,12,109,0" Click="BotSelectionEvent"></ToggleButton>
+        <ToggleButton Name="HookerBotButton" Content="Hooker bot" Margin="99,47,109,0" Click="BotSelectionEvent" ></ToggleButton>
+        <ToggleButton Name="MedicoreBotButton" IsEnabled="False" Content="Mediocre bot" Margin="99,82,109,0" Click="BotSelectionEvent"></ToggleButton>
+        <ToggleButton Name="HardcoreBotButton" IsEnabled="False" Content="Hardcore bot" Margin="99,117,109,0" Click="BotSelectionEvent"></ToggleButton>
+        <ToggleButton Name="NightmareBotButton" IsEnabled="False" Content="Nightmare bot" Margin="99,152,109,0" Click="BotSelectionEvent"></ToggleButton>
         <TextBlock Name="TextArea" Height="108" Width="328" HorizontalAlignment="Center"  Margin="10,187,10,0" TextAlignment="Center" TextWrapping="Wrap" Text="Choose one difficulty please."></TextBlock>
-        <Button Name="StartGameButton" IsEnabled="False" Content="Start Game" Margin="187,300,71,0" Click="StartGame"></Button>
-        <Button Content="Back" Margin="76,300,182,0" Name="btnBack" Click="btnBack_Click" />
+        <Button Name="StartGameButton" IsEnabled="False" Content="Start Game" Margin="194,300,44,0" Click="StartGame"></Button>
+        <Button Content="Back" Margin="50,300,188,0" Name="btnBack" Click="btnBack_Click" />
     </Grid>
 </UserControl>

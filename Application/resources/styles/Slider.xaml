@@ -106,6 +106,7 @@
         <Setter Property="MinWidth" Value="100" />
         <Setter Property="MinHeight" Value="22" />
         <Setter Property="Template" Value="{StaticResource HorizontalSlider}" />
+        <Setter Property="FontSize" Value="9" />
     </Style>
 
 </ResourceDictionary>

@@ -26,13 +26,6 @@ namespace Orbit.Gui
     {
         private Thread searchingThread;
         private NetSearcher searcher;
-        public string LastAddress
-        {
-            set
-            {
-                tbServerAddress.Text = value;
-            }
-        }
         private List<string> usedServerAdresses = new List<string>();
 
         public FindServerUC()

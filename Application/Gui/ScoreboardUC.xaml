@@ -7,8 +7,8 @@
              d:DesignWidth="1000" d:DesignHeight="700" Width="1000" Height="700" >
     
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Label Name="lblTitle" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="450" Margin="0,36,0,507" FontFamily="Bauhaus 93" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" >Tournament Scoreboard</Label>
-        <Label Name="lblWinner" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="450" Margin="0,110,0,433" FontFamily="Bauhaus 93" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" >Player is winner!</Label>
+        <Label Name="lblTitle" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="450" Margin="0,36,0,507" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" >Tournament Scoreboard</Label>
+        <Label Name="lblWinner" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="450" Margin="0,110,0,433" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" >Player is winner!</Label>
         <StackPanel Name="spResults" Margin="0,-100,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
         </StackPanel>
         <Button Content="Close" Margin="160,500,156,0" Name="btnClose" Click="btnClose_Click">

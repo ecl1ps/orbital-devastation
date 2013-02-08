@@ -29,16 +29,16 @@ namespace Orbit.Core.Server.Level
     {
         private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static IGameLevel CreateNewGameLevel(ServerMgr mgr, GameLevel lvl, List<ISceneObject> objects)
+        public static IGameLevel CreateNewGameLevel(ServerMgr mgr, GameLevel lvl)
         {
             IGameLevel newLvl = null;
             switch (lvl)
             {
                 case GameLevel.BASIC_MAP:
-                    newLvl = new LevelBasic(mgr, objects);
+                    newLvl = new LevelBasic(mgr);
                     break;
                 case GameLevel.SURVIVAL_MAP:
-                    newLvl = new LevelSurvival(mgr, objects);
+                    newLvl = new LevelSurvival(mgr);
                     break;
 
                 // testovaci
@@ -49,7 +49,7 @@ namespace Orbit.Core.Server.Level
                     newLvl = new LevelTestBaseCollisions(mgr);
                     break;
                 case GameLevel.TEST_POWERUPS:
-                    newLvl = new LevelTestPoweUp(mgr, objects);
+                    newLvl = new LevelTestPoweUp(mgr);
                     break;
                 case GameLevel.TEST_STATIC_OBJ:
                     newLvl = new LevelTestStaticObjects(mgr);

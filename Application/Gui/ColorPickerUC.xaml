@@ -8,8 +8,8 @@
         <ScrollViewer Height="150" Width="256" Margin="0,30,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
             <WrapPanel Width="240" Name="spColors" Orientation="Horizontal" Background="#DD585454" />
         </ScrollViewer>
-        <Button Content="Ok" Margin="156,300,40,0" Name="btnOk" Click="btnOk_Click" />
-        <Button Content="Cancel" Margin="76,300,182,0" Name="btncancel" Click="btncancel_Click" />
+        <Button Content="Ok" Margin="175,300,53,0" Name="btnOk" Click="btnOk_Click" Width="120" />
+        <Button Content="Cancel" Margin="51,300,176,0" Name="btncancel" Click="btncancel_Click" Width="120" />
         <Grid Height="60" HorizontalAlignment="Left" Margin="55,208,0,0" Name="baze" VerticalAlignment="Top" Width="240" ></Grid>
     </Grid>
 </UserControl>

@@ -6,10 +6,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="800" Name="EndGameStatistics">
     <Canvas Name="Root" Background="#B4808080" Height="500" Width="800">
-        <Label FontFamily="Arial" FontSize="28" FontWeight="Bold" Canvas.Left="12" Canvas.Top="12">Statistics for the last game</Label>
-        <TextBlock Name="Time" FontFamily="Arial" FontSize="28" FontWeight="Bold" Canvas.Left="757" Canvas.Top="17"></TextBlock>
-        <Button Canvas.Left="681" Canvas.Top="452" Height="36" Width="107" FontFamily="Bauhaus 93" Click="Button_Click">Close</Button>
-        <Image Panel.ZIndex="-1" Width="200" Source="pack://application:,,,/resources/images/background/singularity-sign.png" Canvas.Left="17" Canvas.Top="278" SnapsToDevicePixels="False">
+        <Label Content="Statistics for the last game" FontSize="20" FontWeight="Bold" Canvas.Left="12" Canvas.Top="12" Width="630" />
+        <TextBlock Name="Time" FontSize="18" FontWeight="Bold" Canvas.Left="710" Canvas.Top="12" RenderTransformOrigin="0.5,0.5" Width="80" />
+        <Button Canvas.Left="680" Canvas.Top="462" Click="Button_Click">Close</Button>
+        <Image Panel.ZIndex="-1" Width="200" Source="pack://application:,,,/resources/images/background/singularity-sign.png" Canvas.Left="27" Canvas.Top="269">
             <Image.RenderTransform>
                 <RotateTransform CenterX="100" CenterY="100" Angle="25" />
             </Image.RenderTransform>

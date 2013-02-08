@@ -10,6 +10,7 @@
         <Setter Property="KeyboardNavigation.TabNavigation"  Value="None" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="AllowDrop" Value="true" />
+        <Setter Property="SnapsToDevicePixels" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBoxBase}">
@@ -66,10 +67,12 @@
     </Style>
 
     <Style BasedOn="{StaticResource textBoxStyle}" TargetType="{x:Type TextBox}" >
-        <Setter Property="FontFamily" Value="Bauhaus 93" />
+        <Setter Property="FontFamily" Value="{StaticResource mainFont}" />
+        <Setter Property="FontSize" Value="9" />
         <Setter Property="Height" Value="22" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 
 </ResourceDictionary>

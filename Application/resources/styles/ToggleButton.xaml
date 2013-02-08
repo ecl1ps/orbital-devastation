@@ -18,9 +18,13 @@
                             <Border.Background>
                                 <SolidColorBrush x:Name="toggleButtonBackground" Color="LightGray" />
                             </Border.Background>
-                            <Label HorizontalAlignment="Center" VerticalAlignment="Center" 
+                            <Label HorizontalAlignment="Center" VerticalAlignment="Center" SnapsToDevicePixels="False"
                                     Content="{TemplateBinding ToggleButton.Content}" 
-                                    FontSize="{TemplateBinding ToggleButton.FontSize}" />
+                                    FontSize="{TemplateBinding ToggleButton.FontSize}" >
+                                <Label.Foreground>
+                                    <SolidColorBrush x:Name="labelColor" Color="Black" />
+                                </Label.Foreground>
+                            </Label>
                         </Border>
 
                         <VisualStateManager.VisualStateGroups>
@@ -53,6 +57,21 @@
                                 </VisualState>
                                 <VisualState x:Name="Indeterminate" />
                             </VisualStateGroup>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ColorAnimation To="Gray"
+                                            Storyboard.TargetName="toggleButtonBorderColor"
+                                            Storyboard.TargetProperty="Color" />
+                                        <ColorAnimation To="DarkGray"
+                                            Storyboard.TargetName="toggleButtonBackground"
+                                            Storyboard.TargetProperty="Color" />
+                                        <ColorAnimation To="Gray" 
+                                            Storyboard.TargetName="labelColor"
+                                            Storyboard.TargetProperty="Color" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>                            
                         </VisualStateManager.VisualStateGroups>
                     </Grid>
 
@@ -87,9 +106,9 @@
 
     <!-- DEFAULTNI NASTAVENI STYLU VSEM PREPINACIM TLACITKUM - JDE DEDIT A PREPISOVAT -->
     <Style BasedOn="{StaticResource toggleButtonStyle}" TargetType="{x:Type ToggleButton}">
-        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontSize" Value="9" />
         <Setter Property="Height" Value="30" />
-        <Setter Property="Width" Value="90" />
+        <Setter Property="Width" Value="140" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Top" />
     </Style>

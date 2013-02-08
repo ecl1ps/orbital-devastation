@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -173,5 +173,175 @@
   </data>
   <data name="networking_waiting" xml:space="preserve">
     <value>Vytváření spojení...</value>
+  </data>
+  <data name="ui_connect_to_game" xml:space="preserve">
+    <value>Připojit ke hře</value>
+  </data>
+  <data name="ui_connect_to_localhost" xml:space="preserve">
+    <value>Localhost</value>
+  </data>
+  <data name="ui_exit_game" xml:space="preserve">
+    <value>Konec hry</value>
+  </data>
+  <data name="ui_game_name" xml:space="preserve">
+    <value>Orbital Devastation</value>
+  </data>
+  <data name="ui_host_tournament" xml:space="preserve">
+    <value>Pořádat turnaj</value>
+  </data>
+  <data name="ui_options" xml:space="preserve">
+    <value>Možnosti</value>
+  </data>
+  <data name="ui_play_as_spectator" xml:space="preserve">
+    <value>Pozorovatel</value>
+  </data>
+  <data name="ui_practise_game" xml:space="preserve">
+    <value>Cvičná hra</value>
+  </data>
+  <data name="ui_quick_game" xml:space="preserve">
+    <value>Rychlá hra</value>
+  </data>
+  <data name="ui_statistics" xml:space="preserve">
+    <value>Statistiky</value>
+  </data>
+  <data name="ui_version" xml:space="preserve">
+    <value>Alfa verze</value>
+  </data>
+  <data name="ui_back" xml:space="preserve">
+    <value>Zpět</value>
+  </data>
+  <data name="ui_change_color" xml:space="preserve">
+    <value>Změnit barvu</value>
+  </data>
+  <data name="ui_color_unique" xml:space="preserve">
+    <value>Barva musí být unikátní</value>
+  </data>
+  <data name="ui_confirm_settings" xml:space="preserve">
+    <value>Potvrdit nastavení</value>
+  </data>
+  <data name="ui_cursor_icon" xml:space="preserve">
+    <value>Obrázek kurzoru</value>
+  </data>
+  <data name="ui_game" xml:space="preserve">
+    <value>Hra</value>
+  </data>
+  <data name="ui_key_action_1" xml:space="preserve">
+    <value>Akce 1</value>
+  </data>
+  <data name="ui_key_action_2" xml:space="preserve">
+    <value>Akce 2</value>
+  </data>
+  <data name="ui_key_action_3" xml:space="preserve">
+    <value>Akce 3</value>
+  </data>
+  <data name="ui_key_action_4" xml:space="preserve">
+    <value>Akce 4</value>
+  </data>
+  <data name="ui_key_action_5" xml:space="preserve">
+    <value>Akce 5</value>
+  </data>
+  <data name="ui_key_bindings" xml:space="preserve">
+    <value>Klávesnice</value>
+  </data>
+  <data name="ui_key_move_down" xml:space="preserve">
+    <value>Pohyb dolu</value>
+  </data>
+  <data name="ui_key_move_left" xml:space="preserve">
+    <value>Pohyb doleva</value>
+  </data>
+  <data name="ui_key_move_right" xml:space="preserve">
+    <value>Pohyb doprava</value>
+  </data>
+  <data name="ui_key_move_up" xml:space="preserve">
+    <value>Pohyb nahoru</value>
+  </data>
+  <data name="ui_key_show_actions" xml:space="preserve">
+    <value>Ukázat akce</value>
+  </data>
+  <data name="ui_key_show_ally" xml:space="preserve">
+    <value>Ukázat spojence</value>
+  </data>
+  <data name="ui_language" xml:space="preserve">
+    <value>Jazyk:</value>
+  </data>
+  <data name="ui_last_game_statistics" xml:space="preserve">
+    <value>Statistiky</value>
+  </data>
+  <data name="ui_leave_room" xml:space="preserve">
+    <value>Opustit místnost</value>
+  </data>
+  <data name="ui_main_menu" xml:space="preserve">
+    <value>Hlavní menu</value>
+  </data>
+  <data name="ui_mouse" xml:space="preserve">
+    <value>Myš</value>
+  </data>
+  <data name="ui_mouse_active" xml:space="preserve">
+    <value>Speciální myši zapnuta</value>
+  </data>
+  <data name="ui_mouse_sensitivity" xml:space="preserve">
+    <value>Citlivost myši</value>
+  </data>
+  <data name="ui_player" xml:space="preserve">
+    <value>Hráč</value>
+  </data>
+  <data name="ui_player_color" xml:space="preserve">
+    <value>Barva hráče:</value>
+  </data>
+  <data name="ui_player_name" xml:space="preserve">
+    <value>Jméno hráče:</value>
+  </data>
+  <data name="ui_ready" xml:space="preserve">
+    <value>Připraven</value>
+  </data>
+  <data name="ui_ready_not" xml:space="preserve">
+    <value>Nepřipraven</value>
+  </data>
+  <data name="ui_send_message" xml:space="preserve">
+    <value>Poslat zprávu</value>
+  </data>
+  <data name="ui_settings" xml:space="preserve">
+    <value>Nastavení</value>
+  </data>
+  <data name="ui_sound" xml:space="preserve">
+    <value>Zvuky</value>
+  </data>
+  <data name="ui_sounds_effect_volume" xml:space="preserve">
+    <value>Hlasitost efektů</value>
+  </data>
+  <data name="ui_sounds_enabled" xml:space="preserve">
+    <value>Zvuky zapnuty</value>
+  </data>
+  <data name="ui_sounds_music_volume" xml:space="preserve">
+    <value>Hlasitost hudby</value>
+  </data>
+  <data name="ui_start_game" xml:space="preserve">
+    <value>Spustit hru</value>
+  </data>
+  <data name="ui_tournament_bot_count" xml:space="preserve">
+    <value>Počet botů:</value>
+  </data>
+  <data name="ui_tournament_bot_level" xml:space="preserve">
+    <value>Bot:</value>
+  </data>
+  <data name="ui_tournament_current_match" xml:space="preserve">
+    <value>Zápas {0}/{1} </value>
+    <comment>0 = current match number, 1 = matches total</comment>
+  </data>
+  <data name="ui_tournament_lobby" xml:space="preserve">
+    <value>Turnajová loby</value>
+  </data>
+  <data name="ui_tournament_map" xml:space="preserve">
+    <value>Mapa:</value>
+  </data>
+  <data name="ui_tournament_match_count" xml:space="preserve">
+    <value>(počet zápasů: {0})</value>
+    <comment>0 = number of matches</comment>
+  </data>
+  <data name="ui_tournament_rounds" xml:space="preserve">
+    <value>Počet kol:</value>
+  </data>
+  <data name="ui_tournament_type" xml:space="preserve">
+    <value>Typ:</value>
   </data>
 </root>

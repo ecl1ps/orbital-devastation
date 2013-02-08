@@ -11,4 +11,16 @@
     <Color x:Key="darkestGray">#FF333333</Color>
     <SolidColorBrush x:Key="darkestGrayBrush" Color="{StaticResource darkestGray}"/>
 
+    <!--
+    Arkitech
+    Arkitech Round
+    Arkitech Medium
+    Baby Face
+    Righteous
+    Audiowide
+    -->
+    
+    <FontFamily x:Key="mainFont">/resources/fonts/#Arkitech Medium</FontFamily>
+    <!--FontFamily x:Key="mainFont">#Bauhaus 93</FontFamily-->
+    
 </ResourceDictionary>

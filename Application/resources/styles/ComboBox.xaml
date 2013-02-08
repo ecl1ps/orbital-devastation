@@ -118,14 +118,14 @@
                           ClickMode="Press"
                           Width="{TemplateBinding Width}"
                           Height="{TemplateBinding Height}"
-                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
             <ContentPresenter x:Name="ContentSite"
                               IsHitTestVisible="False"
                               Content="{TemplateBinding SelectionBoxItem}"
                               ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                               ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                               Margin="3,3,23,3"
-                              VerticalAlignment="Stretch"
+                              VerticalAlignment="Center"
                               HorizontalAlignment="Left">
             </ContentPresenter>
             <TextBox x:Name="PART_EditableTextBox"
@@ -221,11 +221,12 @@
   </Style>
 
     <Style BasedOn="{StaticResource comboBoxStyle}" TargetType="{x:Type ComboBox}">
-        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontSize" Value="9" />
         <Setter Property="Height" Value="25" />
         <Setter Property="Width" Value="200" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 
     <!--Style TargetType="{x:Type ComboBox}">

@@ -55,11 +55,6 @@ namespace Orbit.Gui
             Application.Current.Shutdown();
         }
 
-        private void btnRepeatGame_Click(object sender, RoutedEventArgs e)
-        {
-            App.Instance.RepeatGame();
-        }
-
         private void btnConnectToLocalhost_Click(object sender, RoutedEventArgs e)
         {
             App.Instance.CreateGameGui();

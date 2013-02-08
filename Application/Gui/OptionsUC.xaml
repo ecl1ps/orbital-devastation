@@ -3,12 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:lex="http://wpflocalizeextension.codeplex.com" 
+             lex:LocalizeDictionary.DesignCulture="en"  
+             lex:ResxLocalizationProvider.DefaultAssembly="OrbitalDevastation"  
+             lex:ResxLocalizationProvider.DefaultDictionary="Strings"              
              Name="optionsUC" mc:Ignorable="d" Style="{StaticResource optionsStyle}">
     <Grid>
-        <Button Content="Player" Margin="0,30,0,0" Name="btnPlayer" Click="btnPlayer_Click" />
-        <Button Content="Mouse" Margin="0,70,0,0" Name="btnMouse" Click="btnMouse_Click" />
-        <Button Content="Sounds" Margin="0,110,0,0" Name="btnSound" Click="btnSound_Click" />
-        <Button Content="Key bindings" Margin="0,150,0,0" Name="btnKeys" Click="btnKeys_Click" />
-        <Button Content="Back" Margin="0,0,0,30" VerticalAlignment="Bottom" Name="btnBack" Click="btnBack_Click" />
+        <Button Content="{lex:Loc ui_game}" Margin="0,30,0,0" Name="btnGame" Click="btnGame_Click" />
+        <Button Content="{lex:Loc ui_player}" Margin="0,70,0,0" Name="btnPlayer" Click="btnPlayer_Click" />
+        <Button Content="{lex:Loc ui_mouse}" Margin="0,110,0,0" Name="btnMouse" Click="btnMouse_Click" />
+        <Button Content="{lex:Loc ui_sound}" Margin="0,150,0,0" Name="btnSound" Click="btnSound_Click" />
+        <Button Content="{lex:Loc ui_key_bindings}" Margin="0,190,0,0" Name="btnKeys" Click="btnKeys_Click" />
+        <Button Content="{lex:Loc ui_back}" Margin="0,0,0,30" VerticalAlignment="Bottom" Name="btnBack" Click="btnBack_Click" />
     </Grid>
 </UserControl>

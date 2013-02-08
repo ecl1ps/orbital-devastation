@@ -56,7 +56,7 @@ namespace Orbit.Core.Client
                 soundEngine = new ISoundEngine();
                 musicEngine = new ISoundEngine();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Logger.Fatal("Couldn't start sound system - probably Windows sound system is not enabled or there are bad sound drivers");
                 throw;

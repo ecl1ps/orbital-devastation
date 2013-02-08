@@ -24,11 +24,9 @@ namespace Orbit.Core.Server
         private ServerMgr serverMgr;
         private List<Player> players;
         private SortedSet<string> tournamentPlayerIds;
-        private List<ISceneObject> objects;
         private ITournamentMatchManager matchManager;
         private IGameLevel gameLevel;
 
-        public int Level { get; set; }
         public bool IsRunning { get; set; }
 
         private bool matchCreated;
@@ -42,7 +40,18 @@ namespace Orbit.Core.Server
             if (serverMgr.TournamentSettings == null)
                 serverMgr.TournamentSettings = new TournamentSettings(true);
 
-            switch (serverMgr.TournamentSettings.MMType)
+            CreateMatchManager(serverMgr.TournamentSettings.MMType);
+            
+            tournamentPlayerIds = new SortedSet<string>();
+            if (serverMgr.GameType == Gametype.TOURNAMENT_GAME)
+                players.ForEach(p => tournamentPlayerIds.Add(p.Data.HashId));
+
+            matchCreated = false;
+        }
+
+        private void CreateMatchManager(MatchManagerType type)
+        {
+            switch (type)
             {
                 case MatchManagerType.ONLY_SCORE:
                     matchManager = new ScoreMatchManager(players, serverMgr.GetRandomGenerator(), serverMgr.TournamentSettings.RoundCount);
@@ -53,7 +62,7 @@ namespace Orbit.Core.Server
                 case MatchManagerType.QUICK_GAME:
                     matchManager = new QuickGameMatchManager(players, serverMgr.GetRandomGenerator(), serverMgr.TournamentSettings.RoundCount);
                     break;
-                
+
                 // testovaci managery
                 case MatchManagerType.TEST_LEADER_SPECTATOR:
                     matchManager = new LeaderSpectatorMatchManager(players);
@@ -61,14 +70,7 @@ namespace Orbit.Core.Server
                 default:
                     throw new NotImplementedException("Unknown MatchManager required");
             }
-            
-            tournamentPlayerIds = new SortedSet<string>();
-            if (serverMgr.GameType == Gametype.TOURNAMENT_GAME)
-                players.ForEach(p => tournamentPlayerIds.Add(p.Data.HashId));
-
-            matchCreated = false;
         }
-
         public void CreateNewMatch()
         {
             if (matchCreated)
@@ -110,11 +112,8 @@ namespace Orbit.Core.Server
 
         private void CreateNewLevel()
         {
-            objects = new List<ISceneObject>();
-
-            gameLevel = GameLevelManager.CreateNewGameLevel(serverMgr, serverMgr.TournamentSettings.Level, objects);
+            gameLevel = GameLevelManager.CreateNewGameLevel(serverMgr, serverMgr.TournamentSettings.Level);
             gameLevel.CreateBots(players, serverMgr.TournamentSettings.BotCount, serverMgr.TournamentSettings.BotType);
-            gameLevel.CreateLevelObjects();
         }
 
         public void GameEnded(Player plr, GameEnd endType)
@@ -127,13 +126,8 @@ namespace Orbit.Core.Server
         }
 
         public void ObjectDestroyed(long id)
-        {            
-            ISceneObject obj = objects.Find(o => o.Id == id);
-            if (obj == null)
-                return;
-
-            objects.Remove(obj);
-            gameLevel.OnObjectDestroyed(obj);
+        {
+            gameLevel.ObjectDestroyed(id);
         }
 
         private void SendMatchData()
@@ -146,6 +140,7 @@ namespace Orbit.Core.Server
             outmsg = serverMgr.CreateNetMessage();
             outmsg.Write((int)PacketType.ALL_ASTEROIDS);
 
+            List<ISceneObject> objects = gameLevel.GetLevelObjects();
             Int32 count = 0;
             objects.ForEach(x => { if (x is Asteroid) count++; });
             outmsg.Write(count);

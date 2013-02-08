@@ -35,10 +35,6 @@ namespace Orbit
         private SceneMgr sceneMgr;
         private ServerMgr server;
         private static GameWindow mainWindow;
-        private string lastServerAddress;
-        private Gametype lastGameType;
-        private bool hostedLastgame = false;
-        private TournamentSettings lastSoloTournamentSettings;
 
         public string PlayerName { get; set; }
         public string PlayerHashId { get; set; }
@@ -60,14 +56,8 @@ namespace Orbit
         [STAThread]
         public static void Main(string[] args)
         {
-            SetLocalization("en");
-
-            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en");
-
             App app = new App();
             app.InitializeComponent();
-            app.lastServerAddress = "127.0.0.1";
-            app.lastGameType = Gametype.NONE;
             mainWindow = new GameWindow();
 #if !DEBUG
             try {
@@ -82,10 +72,16 @@ namespace Orbit
 #endif
         }
 
+        public static void SetLocalization(CultureInfo locale)
+        {
+            WPFLocalizeExtension.Engine.LocalizeDictionary.Instance.Culture = locale;
+            Strings.Culture = locale;
+            Thread.CurrentThread.CurrentCulture = locale;
+        }
+
         public static void SetLocalization(string locale)
         {
-            WPFLocalizeExtension.Engine.LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo(locale);
-            Strings.Culture = CultureInfo.GetCultureInfo(locale);
+            SetLocalization(CultureInfo.GetCultureInfo(locale));
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -98,6 +94,9 @@ namespace Orbit
 
             if (!File.Exists(SharedDef.CONFIG_FILE))
                 GameProperties.Props.Save();
+
+            WPFLocalizeExtension.Engine.LocalizeDictionary.Instance.MergedAvailableCultures.Add(CultureInfo.GetCultureInfo("en"));
+            SetLocalization(GameProperties.Get(PropertyKey.GAME_LANGUAGE));
 
             PlayerName = GameProperties.Props.Get(PropertyKey.PLAYER_NAME);
             PlayerHashId = GameProperties.Props.Get(PropertyKey.PLAYER_HASH_ID);
@@ -123,7 +122,6 @@ namespace Orbit
             StartGame(Gametype.SOLO_GAME);
 
             SendTournamentSettings(s);
-            lastSoloTournamentSettings = s;
         }
 
         private void SendTournamentSettings(TournamentSettings s)
@@ -163,8 +161,6 @@ namespace Orbit
 
             StartGameThread();
 
-            lastGameType = type;
-
             if (type != Gametype.MULTIPLAYER_GAME)
                 mainWindow.GameRunning = true;
 
@@ -178,8 +174,6 @@ namespace Orbit
         {
             if (!StartLocalServer(Gametype.MULTIPLAYER_GAME))
                 return;
-
-            hostedLastgame = true;
 
             sceneMgr.SetRemoteServerAddress("127.0.0.1");
 
@@ -251,8 +245,6 @@ namespace Orbit
 
         public void ConnectToGame(string serverAddress)
         {
-            hostedLastgame = false;
-            lastServerAddress = serverAddress;
             sceneMgr.SetRemoteServerAddress(serverAddress);
             StartGame(Gametype.MULTIPLAYER_GAME);
         }
@@ -275,12 +267,6 @@ namespace Orbit
         {
             StaticMouse.Enable(false);
             ShowStartScreen();
-            if (lastGameType != Gametype.NONE)
-            {
-                Button btnRepeatGame = LogicalTreeHelper.FindLogicalNode(mainWindow.mainGrid, "btnRepeatGame") as Button;
-                if (btnRepeatGame != null)
-                    btnRepeatGame.Visibility = Visibility.Visible;
-            }
         }
 
         public void ShowStartScreen()
@@ -326,34 +312,7 @@ namespace Orbit
         public void LookForGame()
         {
             FindServerUC f = new FindServerUC();
-            f.LastAddress = lastServerAddress;
             AddWindow(f);
-        }
-
-        public void RepeatGame()
-        {
-            switch (lastGameType)
-            {
-                case Gametype.SOLO_GAME:
-                    CreateGameGui();
-                    StartSoloGame(lastSoloTournamentSettings);
-                    break;
-                case Gametype.MULTIPLAYER_GAME:
-                    CreateGameGui();
-                    if (hostedLastgame)
-                        StartHostedGame();
-                    else
-                        ConnectToGame(lastServerAddress);
-                    break;
-                case Gametype.TOURNAMENT_GAME:
-                    StartTournamentLobby();
-                    break;
-                case Gametype.NONE:
-                default:
-                    CreateGameGui();
-                    StartSoloGame(lastSoloTournamentSettings);
-                    break;
-            }
         }
 
         public void PlayerReady(bool ready)
