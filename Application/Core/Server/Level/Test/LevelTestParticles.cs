@@ -14,8 +14,6 @@ namespace Orbit.Core.Server.Level.Test
     {
         public static readonly LevelInfo Info = new LevelInfo(true, "[TEST] Particles");
 
-        protected EventProcessor events;
-        protected ServerMgr mgr;
         protected Random rand;
 
         private enum Events
@@ -25,8 +23,6 @@ namespace Orbit.Core.Server.Level.Test
 
         public LevelTestParticles(ServerMgr serverMgr) : base(serverMgr)
         {
-            mgr = serverMgr;
-            events = new EventProcessor();
             rand = mgr.GetRandomGenerator();
         }
 
@@ -86,11 +82,6 @@ namespace Orbit.Core.Server.Level.Test
         }
 
 
-        public void Update(float tpf)
-        {
-            events.Update(tpf);
-        }
-
         public override void OnStart()
         {
             CreateConstantParticleEmmitor(new Vector(100, 500));
@@ -101,14 +92,6 @@ namespace Orbit.Core.Server.Level.Test
             {
                 CreateMovingParticleEmmitor(new Vector(0, rand.NextDouble() * SharedDef.VIEW_PORT_SIZE.Height), new Vector(1, 0), 100, 5);
             })));
-        }
-
-        public void CreateBots(List<Players.Player> players, int suggestedCount, Players.BotType type)
-        {
-            for (int i = 0; i < suggestedCount; ++i)
-            {
-                players.Add(GameLevelManager.CreateBot(type, players));
-            }
         }
     }
 }
