@@ -22,8 +22,6 @@ namespace Orbit.Core.AI
     /// </summary>
     public class HookerBot : IGameState
     {
-        public const string NAME = "HookerBot";
-
         private SceneMgr sceneMgr;
         private List<ISceneObject> objects;
         private Player me;

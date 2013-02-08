@@ -11,7 +11,7 @@ namespace Orbit.Core.Server.Level
 {
     public class LevelTestPoweUp : AbstractGameLevel
     {
-        public static readonly LevelInfo Info = new LevelInfo(true, "[TEST] Powerups");
+        public static LevelInfo Info = new LevelInfo(true, Strings.lvl_type_powerup);
 
         public LevelTestPoweUp(ServerMgr serverMgr) : base(serverMgr)
         {

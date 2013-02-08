@@ -48,7 +48,7 @@
                     <ColumnDefinition Width="102" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{lex:Loc ui_settings}" FontSize="18" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="98,9,99,0" Height="23" Width="136"  />
+                <TextBlock Text="{lex:Loc ui_settings}" FontSize="18" HorizontalAlignment="Left" Grid.ColumnSpan="2" Margin="98,9,0,0" VerticalAlignment="Top" Height="23" />
                 <Label Content="{lex:Loc ui_tournament_type}" Grid.Column="0"  Margin="0,50,0,0" Grid.ColumnSpan="2" Width="105" Height="22" />
                 <Label Content="{lex:Loc ui_tournament_map}" Grid.Column="0" Margin="0,113,0,0" Grid.ColumnSpan="2" Width="105" Height="22" />
                 <ComboBox Height="23" Grid.Column="1" Margin="5,50,0,0" Name="cbType" SelectionChanged="SelectionChanged" Width="216" HorizontalAlignment="Left" />

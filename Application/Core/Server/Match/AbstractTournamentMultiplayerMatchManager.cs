@@ -152,8 +152,8 @@ namespace Orbit.Core.Server.Match
             SendPlayerScore(winner, server);
             SendPlayerScore(looser, server);
 
-            SendTextMessage(winner, "You are victorious. You get " + scoreWin + " score", server);
-            SendTextMessage(looser, "You lost. You get " + scoreLoose + " score", server);
+            SendTextMessage(winner, String.Format(Strings.mm_victory_reward, scoreWin), server);
+            SendTextMessage(looser, String.Format(Strings.mm_lost_reward, scoreLoose), server);
 
             foreach (Player p in players)
             {
@@ -165,27 +165,27 @@ namespace Orbit.Core.Server.Match
 
         protected void RewardSpectator(Player winner, Player spectator, int winnerScore, int looserScore, float totalTime, ServerMgr server)
         {
-            //spectator hral nacas
+            //spectator hral na cas
             if (spectator.Data.FriendlyPlayerId == 0)
             {
                 String time = FormatTime(totalTime);
                 int val = (int) FastMath.LinearInterpolate(SharedDef.SOLO_SPECTATOR_MIN_SCORE, SharedDef.SOLO_SPECTATOR_MAX_SCORE, ComputeTimePerc(totalTime, SharedDef.SOLO_SPECTATOR_MAX_TIME, SharedDef.SOLO_SPECTATOR_MIN_TIME));
                 spectator.Data.MatchPoints += val;
-                SendTextMessage(spectator, "Thanks to your effort game lasted " + time + " . You acquire " + val + " score", server);
+                SendTextMessage(spectator, String.Format(Strings.mm_spectator_alone_reward, time, val), server);
             }
             //spectator musel ochranovat hrace
             else if (spectator.Data.FriendlyPlayerId == winner.GetId())
             {
                 int val = (int) (winnerScore * SharedDef.SPECTATOR_SCORE_BONUS);
                 spectator.Data.Score += val;
-                SendTextMessage(spectator, "You win. You acquire " + val + " score", server);
+                SendTextMessage(spectator, String.Format(Strings.mm_spectator_win_reward, val), server);
             }
             //spectator prohral
             else
             {
                 int val = (int)(looserScore * SharedDef.SPECTATOR_SCORE_BONUS);
                 spectator.Data.Score += val;
-                SendTextMessage(spectator, "You lost. You acquire " + val + " score", server);
+                SendTextMessage(spectator, String.Format(Strings.mm_spectator_lost_reward, val), server);
             }
 
             SendPlayerScore(spectator, server);

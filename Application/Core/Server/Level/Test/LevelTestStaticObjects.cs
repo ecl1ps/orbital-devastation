@@ -13,7 +13,7 @@ namespace Orbit.Core.Server.Level
 {
     public class LevelTestStaticObjects : AbstractGameLevel
     {
-        public static readonly LevelInfo Info = new LevelInfo(true, "[TEST] Static objects");
+        public static LevelInfo Info = new LevelInfo(true, Strings.lvl_type_static);
 
         public LevelTestStaticObjects(ServerMgr serverMgr) : base(serverMgr)
         {

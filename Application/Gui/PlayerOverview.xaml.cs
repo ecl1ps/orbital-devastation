@@ -29,15 +29,15 @@ namespace Orbit.Gui
         {
             InitializeComponent();
             lblName.Content = data.Name;
-            lblActive.Content = data.Active ? "Playing" : "Spectating";
-            lblScore.Content = "Score: " + data.Score;
+            lblActive.Content = data.Active ? Strings.ui_playing : Strings.ui_spectating;
+            lblScore.Content = String.Format(Strings.ui_match_points, data.Score);
             
             if (data.Active)
             {
-                lblGold.Content = "Gold: " + data.Gold;
-                lblMine.Content = "Mine: " + GetCharsForLevel(data.MineLevel);
-                lblCannon.Content = "Cannon: " + GetCharsForLevel(data.CannonLevel);
-                lblHook.Content = "Hook: " + GetCharsForLevel(data.HookLevel);
+                lblGold.Content = String.Format(Strings.ui_gold, data.Gold);
+                lblMine.Content = String.Format(Strings.ui_mine_level, GetCharsForLevel(data.MineLevel));
+                lblCannon.Content = String.Format(Strings.ui_cannon_level, GetCharsForLevel(data.CannonLevel));
+                lblHook.Content = String.Format(Strings.ui_hook_level, GetCharsForLevel(data.HookLevel));
             }
             else
             {
@@ -47,13 +47,13 @@ namespace Orbit.Gui
                 lblHook.Content = string.Empty;
             }
 
-            lblWon.Content = "Won: " + data.Won;
-            lblPlayed.Content = "Played: " + data.Played;
+            lblWon.Content = String.Format(Strings.ui_won, data.Won);
+            lblPlayed.Content = String.Format(Strings.ui_played, data.Played);
         }
 
         private string GetCharsForLevel(UpgradeLevel lvl)
         {
-            string s = "";
+            string s = string.Empty;
             for (int i = 0; i < (int)lvl; ++i)
                 s += "I";
             return s;

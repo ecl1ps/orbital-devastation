@@ -13,7 +13,7 @@ namespace Orbit.Core.Server.Level
 {
     public class LevelTestBaseCollisions : AbstractGameLevel
     {
-        public static readonly LevelInfo Info = new LevelInfo(true, "[TEST] Base collisions");
+        public static LevelInfo Info = new LevelInfo(true, Strings.lvl_type_base_collision);
 
         public LevelTestBaseCollisions(ServerMgr serverMgr) : base(serverMgr)
         {

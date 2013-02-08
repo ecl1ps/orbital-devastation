@@ -11,7 +11,7 @@ namespace Orbit.Core.Server.Level
 {
     public class LevelBasic : AbstractGameLevel
     {
-        public static readonly LevelInfo Info = new LevelInfo(false, "Basic map");
+        public static LevelInfo Info = new LevelInfo(false, Strings.lvl_type_basic);
 
         private enum Events
         {

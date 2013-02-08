@@ -11,7 +11,7 @@ namespace Orbit.Core.Server.Match
     /// </summary>
     public class SkirmishMatchManager : AbstractTournamentMatchManager
     {
-        public static readonly MatchManagerInfo Info = new MatchManagerInfo(true, "[TEST] One player vs. bot");
+        public static MatchManagerInfo Info = new MatchManagerInfo(true, Strings.mm_type_one_player);
 
         public SkirmishMatchManager(List<Player> players, Random randGen, int rounds)
             : base(players, randGen, rounds)
