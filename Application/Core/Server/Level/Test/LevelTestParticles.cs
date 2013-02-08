@@ -10,7 +10,7 @@ using System.Windows.Media;
 
 namespace Orbit.Core.Server.Level.Test
 {
-    class LevelTestParticles : IGameLevel
+    class LevelTestParticles : AbstractGameLevel
     {
         public static readonly LevelInfo Info = new LevelInfo(true, "[TEST] Particles");
 
@@ -23,7 +23,7 @@ namespace Orbit.Core.Server.Level.Test
             MOVING_PARTICLE_ADD
         }
 
-        public LevelTestParticles(ServerMgr serverMgr)
+        public LevelTestParticles(ServerMgr serverMgr) : base(serverMgr)
         {
             mgr = serverMgr;
             events = new EventProcessor();
@@ -91,7 +91,7 @@ namespace Orbit.Core.Server.Level.Test
             events.Update(tpf);
         }
 
-        public void OnStart()
+        public override void OnStart()
         {
             CreateConstantParticleEmmitor(new Vector(100, 500));
             CreateConstantParticleEmmitor(new Vector(400, 500));
@@ -109,15 +109,6 @@ namespace Orbit.Core.Server.Level.Test
             {
                 players.Add(GameLevelManager.CreateBot(type, players));
             }
-        }
-
-        public void OnObjectDestroyed(Scene.Entities.ISceneObject obj)
-        {
-
-        }
-
-        public void CreateLevelObjects()
-        {
         }
     }
 }
