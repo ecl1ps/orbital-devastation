@@ -13,9 +13,9 @@ namespace Orbit.Core.Scene.Particles.Implementations
     {
         public Color Color { get; set; }
 
-        public override System.Windows.UIElement CreateParticle()
+        public override System.Windows.UIElement CreateParticle(double size)
         {
-            return HeavyweightGeometryFactory.CreateConstantColorCircleGeometry(20, Color);
+            return HeavyweightGeometryFactory.CreateConstantColorCircleGeometry(size, Color);
         }
 
         public override void WriteObject(Lidgren.Network.NetOutgoingMessage msg)

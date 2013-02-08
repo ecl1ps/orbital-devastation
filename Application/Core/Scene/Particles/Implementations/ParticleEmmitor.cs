@@ -109,14 +109,15 @@ namespace Orbit.Core.Scene.Particles.Implementations
                 model = new GeometryModel3D();
                 model.Geometry = new MeshGeometry3D();
 
-                UIElement elem = factory.CreateParticle();
+                UIElement elem = factory.CreateParticle(MaxSize);
 
                 System.Windows.Media.Brush brush = null;
 
-                RenderTargetBitmap renderTarget = new RenderTargetBitmap(32, 32, 96, 96, PixelFormats.Pbgra32);
+                RenderTargetBitmap renderTarget = new RenderTargetBitmap((int) (MaxSize * 2), (int) (MaxSize * 2), 96, 96, PixelFormats.Pbgra32);
                 renderTarget.Render(elem);
                 renderTarget.Freeze();
-                brush = new ImageBrush(renderTarget);
+
+                brush = new ImageBrush(ParticleGeometryFactory.CreateImageParticle(10, Colors.WhiteSmoke, new Uri("pack://application:,,,/resources/images/particles/particle_cloud.png")));
 
                 DiffuseMaterial material = new DiffuseMaterial(brush);
 
