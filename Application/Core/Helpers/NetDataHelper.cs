@@ -859,9 +859,9 @@ namespace Orbit.Core.Helpers
         public static void WriteParticleFactory(this NetOutgoingMessage msg, IParticleFactory f)
         {
             if (f is ParticleSphereFactory)
-            {
                 msg.Write(typeof(ParticleSphereFactory).GUID.GetHashCode());
-            }
+            else if (f is ParticleImageFactory)
+                msg.Write(typeof(ParticleImageFactory).GUID.GetHashCode());
             else
             {
                 msg.Write(0);
@@ -877,6 +877,8 @@ namespace Orbit.Core.Helpers
             int hash = msg.ReadInt32();
             if (hash == typeof(ParticleSphereFactory).GUID.GetHashCode())
                 f = new ParticleSphereFactory();
+            else if (hash == typeof(ParticleImageFactory).GUID.GetHashCode())
+                f = new ParticleImageFactory();
             else
                 Logger.Error("Rading unspported factory!");
 

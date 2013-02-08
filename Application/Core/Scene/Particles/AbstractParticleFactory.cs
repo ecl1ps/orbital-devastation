@@ -18,7 +18,7 @@ namespace Orbit.Core.Scene.Particles
             SceneMgr = emmitor.SceneMgr;
         }
 
-        public abstract UIElement CreateParticle();
+        public abstract UIElement CreateParticle(double size);
 
         public abstract void WriteObject(Lidgren.Network.NetOutgoingMessage msg);
 
