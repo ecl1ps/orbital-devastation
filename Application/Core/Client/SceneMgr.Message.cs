@@ -62,7 +62,7 @@ namespace Orbit.Core.Client
                         App.Instance.CreateLobbyGui(false);
                     }));
                     SendTournamentSettingsRequest();
-                    SendChatMessage(GetCurrentPlayer().Data.Name + " " + Strings.lobby_joined, true);
+                    SendChatMessage(String.Format(Strings.Culture, Strings.lobby_joined, GetCurrentPlayer().Data.Name), true);
                 }
             }
 
@@ -140,7 +140,7 @@ namespace Orbit.Core.Client
                     if (plr.Data.PlayerType == PlayerType.BOT)
                         CreateAndAddBot(plr);
                     else
-                        FloatingTextMgr.AddFloatingText(String.Format(Strings.game_joined, plr.Data.Name),
+                        FloatingTextMgr.AddFloatingText(String.Format(Strings.Culture, Strings.game_joined, plr.Data.Name),
                             new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
                             FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
                 }
@@ -182,7 +182,7 @@ namespace Orbit.Core.Client
 
             if (GameType == Gametype.TOURNAMENT_GAME && !disconnected.IsActivePlayer())
             {
-                FloatingTextMgr.AddFloatingText(String.Format(Strings.game_other_left, disconnected.Data.Name),
+                FloatingTextMgr.AddFloatingText(String.Format(Strings.Culture, Strings.game_other_left, disconnected.Data.Name),
                     new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
                     FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
             }
@@ -767,7 +767,7 @@ namespace Orbit.Core.Client
                 if (obj != null)
                 {
                     obj.TakeDamage(-dmg, owner.Device);
-                    FloatingTextMgr.AddFloatingText(String.Format(Strings.char_plus, dmg), obj.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.HEAL);
+                    FloatingTextMgr.AddFloatingText(String.Format(Strings.Culture, Strings.char_plus, dmg), obj.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.HEAL);
                 }
             }
         }
@@ -835,7 +835,7 @@ namespace Orbit.Core.Client
             Player owner = GetPlayer(msg.ReadInt32());
             String name = msg.ReadString();
 
-            FloatingTextMgr.AddFloatingText(String.Format(Strings.game_spectator_used, owner.Data.Name, name), 
+            FloatingTextMgr.AddFloatingText(String.Format(Strings.Culture, Strings.game_spectator_used, owner.Data.Name, name), 
                 owner.Device.Position, FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM);
         }
 
@@ -892,7 +892,7 @@ namespace Orbit.Core.Client
 
             Player kicked = GetPlayer(playerId);
             if (kicked != null)
-                SendChatMessage(kicked.Data.Name + " " + Strings.lobby_player_kicked, true);
+                SendChatMessage(String.Format(Strings.Culture, Strings.lobby_player_kicked, kicked.Data.Name), true);
         }
     }
 }

@@ -14,11 +14,11 @@ namespace Orbit.Gui.ActionControllers
         private int step = 0;
         private SpectatorStatsUC window;
 
-        private String gameTime = "";
-        private String deadTime = "";
-        private String actionsUsed = "";
-        private String favAction = "";
-        private String damage = "";
+        private String gameTime = string.Empty;
+        private String deadTime = string.Empty;
+        private String actionsUsed = string.Empty;
+        private String favAction = string.Empty;
+        private String damage = string.Empty;
 
         public SpectatorStatisticController(SceneMgr mgr, Player owner, EndGameStats stats, bool limited, SpectatorStatsUC window) 
             : base(mgr, owner, stats, limited)
@@ -85,11 +85,11 @@ namespace Orbit.Gui.ActionControllers
             if (owner.Statistics.Actions.Count == 0)
             {
                 time = 0;
-                actionsUsed = "0";
+                actionsUsed = 0.ToString(Strings.Culture);
                 return;
             }
 
-            actionsUsed = FastMath.LinearInterpolate(owner.Statistics.Actions.Count, 0, ComputePercents()).ToString("###");
+            actionsUsed = FastMath.LinearInterpolate(owner.Statistics.Actions.Count, 0, ComputePercents()).ToString("###", Strings.Culture);
         }
 
         protected void LoadDamage()
@@ -97,10 +97,10 @@ namespace Orbit.Gui.ActionControllers
             if (owner.Statistics.DamageTaken == 0)
             {
                 time = 0;
-                damage = "0";
+                damage = 0.ToString(Strings.Culture);
                 return;
             }
-            damage = FastMath.LinearInterpolate(owner.Statistics.DamageTaken, 0, ComputePercents()).ToString(".#");
+            damage = FastMath.LinearInterpolate(owner.Statistics.DamageTaken, 0, ComputePercents()).ToString(".#", Strings.Culture);
         }
 
         protected void LoadDeadTime()
@@ -108,10 +108,10 @@ namespace Orbit.Gui.ActionControllers
             if (owner.Statistics.DeadTime == 0)
             {
                 time = 0;
-                deadTime = "0";
+                deadTime = 0.ToString(Strings.Culture);
                 return;
             }
-            deadTime = FastMath.LinearInterpolate(owner.Statistics.DeadTime, 0, ComputePercents()).ToString(".#");
+            deadTime = FastMath.LinearInterpolate(owner.Statistics.DeadTime, 0, ComputePercents()).ToString(".#", Strings.Culture);
         }
 
         protected void LoadGameTime()
@@ -119,11 +119,11 @@ namespace Orbit.Gui.ActionControllers
             if (owner.Statistics.Time == 0)
             {
                 time = 0;
-                damage = "0";
+                damage = 0.ToString(Strings.Culture);
                 return;
             }
 
-            gameTime = FastMath.LinearInterpolate(owner.Statistics.Time, 0, ComputePercents()).ToString(".#");
+            gameTime = FastMath.LinearInterpolate(owner.Statistics.Time, 0, ComputePercents()).ToString(".#", Strings.Culture);
         }
     }
 }

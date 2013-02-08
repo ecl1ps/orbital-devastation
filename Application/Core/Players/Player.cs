@@ -19,6 +19,7 @@ using Orbit.Core.SpecialActions.Gamer;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.SpecialActions.Spectator;
 using Orbit.Core.Client.GameStates;
+using System.Globalization;
 
 namespace Orbit.Core.Players
 {
@@ -116,7 +117,7 @@ namespace Orbit.Core.Players
                 return;
 
             if (IsCurrentPlayer() && IsActivePlayer())
-                SceneMgr.ShowStatusText(4, String.Format(Strings.ui_gold, Data.Gold));
+                SceneMgr.ShowStatusText(4, String.Format(Strings.Culture, Strings.ui_gold, Data.Gold));
         }
 
         public void AddScoreAndShow(int score)
@@ -127,7 +128,7 @@ namespace Orbit.Core.Players
                 return;
 
             if (IsCurrentPlayer() && IsActivePlayer())
-                SceneMgr.ShowStatusText(5, String.Format(Strings.ui_match_points, Data.MatchPoints));
+                SceneMgr.ShowStatusText(5, String.Format(Strings.Culture, Strings.ui_match_points, Data.MatchPoints));
         }
 
         public void CreateWeapons()
@@ -177,7 +178,7 @@ namespace Orbit.Core.Players
             if (showHeal)
             {
                 Vector textPos = new Vector(GetBaseLocation().X + (GetBaseLocation().Width / 2), GetBaseLocation().Y - 20);
-                SceneMgr.FloatingTextMgr.AddFloatingText(String.Format(Strings.char_plus, diff), textPos, FloatingTextManager.TIME_LENGTH_3,
+                SceneMgr.FloatingTextMgr.AddFloatingText(String.Format(Strings.Culture, Strings.char_plus, diff), textPos, FloatingTextManager.TIME_LENGTH_3,
                     FloatingTextType.HEAL, FloatingTextManager.SIZE_BIGGER, true);
             }
         }
@@ -204,7 +205,7 @@ namespace Orbit.Core.Players
             if (p != null)
                 name = p.Data.Name;
 
-            SceneMgr.AlertMessageMgr.Show(String.Format(Strings.game_protecting, name), 3);
+            SceneMgr.AlertMessageMgr.Show(String.Format(Strings.Culture, Strings.game_protecting, name), 3);
         }
 
         public void Update(float tpf)
@@ -286,7 +287,7 @@ namespace Orbit.Core.Players
 
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < hash.Length; i++)
-                sb.Append(hash[i].ToString("X2"));
+                sb.Append(hash[i].ToString("X2", CultureInfo.InvariantCulture));
 
             return sb.ToString();
         }

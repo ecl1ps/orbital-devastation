@@ -31,10 +31,10 @@ namespace Orbit.Core
             defaults.Add(PropertyKey.GAME_LANGUAGE, "en");
             defaults.Add(PropertyKey.PLAYER_NAME, "Player");
             defaults.Add(PropertyKey.PLAYER_HASH_ID, Player.GenerateNewHashId("Player"));
-            defaults.Add(PropertyKey.STATIC_MOUSE_ENABLED, true.ToString());
+            defaults.Add(PropertyKey.STATIC_MOUSE_ENABLED, true.ToString(Strings.Culture));
             defaults.Add(PropertyKey.STATIC_MOUSE_CURSOR, "pack://application:,,,/resources/images/mouse/targeting_icon2.png");
             defaults.Add(PropertyKey.STATIC_MOUSE_SENSITIVITY, 1.ToString(CultureInfo.InvariantCulture));
-            defaults.Add(PropertyKey.MUSIC_ENABLED, true.ToString());
+            defaults.Add(PropertyKey.MUSIC_ENABLED, true.ToString(Strings.Culture));
             defaults.Add(PropertyKey.MUSIC_VOLUME, 0.1.ToString(CultureInfo.InvariantCulture));
             defaults.Add(PropertyKey.SOUNDS_VOLUME, 0.05.ToString(CultureInfo.InvariantCulture));
             defaults.Add(PropertyKey.USED_SERVERS, "");
@@ -44,19 +44,19 @@ namespace Orbit.Core
             defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO4, 0.ToString(CultureInfo.InvariantCulture));
             defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO5, 0.ToString(CultureInfo.InvariantCulture));
             defaults.Add(PropertyKey.PLAYER_HIGHSCORE_QUICK_GAME, 0.ToString(CultureInfo.InvariantCulture));
-            defaults.Add(PropertyKey.PLAYER_ACTION_1, ((int)Key.D1).ToString());
-            defaults.Add(PropertyKey.PLAYER_ACTION_2, ((int)Key.D2).ToString());
-            defaults.Add(PropertyKey.PLAYER_ACTION_3, ((int)Key.D3).ToString());
-            defaults.Add(PropertyKey.PLAYER_ACTION_4, ((int)Key.D4).ToString());
-            defaults.Add(PropertyKey.PLAYER_ACTION_5, ((int)Key.D5).ToString());
-            defaults.Add(PropertyKey.PLAYER_ACTION_MOVE_TOP, ((int)Key.W).ToString());
-            defaults.Add(PropertyKey.PLAYER_ACTION_MOVE_BOT, ((int)Key.S).ToString());
-            defaults.Add(PropertyKey.PLAYER_ACTION_MOVE_RIGHT, ((int)Key.D).ToString());
-            defaults.Add(PropertyKey.PLAYER_ACTION_MOVE_LEFT, ((int)Key.A).ToString());
-            defaults.Add(PropertyKey.PLAYER_SHOW_ACTIONS, ((int)Key.Q).ToString());
-            defaults.Add(PropertyKey.PLAYER_SHOW_PROTECTING, ((int)Key.E).ToString());
-            defaults.Add(PropertyKey.AVAILABLE_COLORS, ((int)PlayerColorSet.BASIC).ToString());
-            defaults.Add(PropertyKey.CHOSEN_COLOR, Colors.CornflowerBlue.ToString());
+            defaults.Add(PropertyKey.PLAYER_ACTION_1, ((int)Key.D1).ToString(Strings.Culture));
+            defaults.Add(PropertyKey.PLAYER_ACTION_2, ((int)Key.D2).ToString(Strings.Culture));
+            defaults.Add(PropertyKey.PLAYER_ACTION_3, ((int)Key.D3).ToString(Strings.Culture));
+            defaults.Add(PropertyKey.PLAYER_ACTION_4, ((int)Key.D4).ToString(Strings.Culture));
+            defaults.Add(PropertyKey.PLAYER_ACTION_5, ((int)Key.D5).ToString(Strings.Culture));
+            defaults.Add(PropertyKey.PLAYER_ACTION_MOVE_TOP, ((int)Key.W).ToString(Strings.Culture));
+            defaults.Add(PropertyKey.PLAYER_ACTION_MOVE_BOT, ((int)Key.S).ToString(Strings.Culture));
+            defaults.Add(PropertyKey.PLAYER_ACTION_MOVE_RIGHT, ((int)Key.D).ToString(Strings.Culture));
+            defaults.Add(PropertyKey.PLAYER_ACTION_MOVE_LEFT, ((int)Key.A).ToString(Strings.Culture));
+            defaults.Add(PropertyKey.PLAYER_SHOW_ACTIONS, ((int)Key.Q).ToString(Strings.Culture));
+            defaults.Add(PropertyKey.PLAYER_SHOW_PROTECTING, ((int)Key.E).ToString(Strings.Culture));
+            defaults.Add(PropertyKey.AVAILABLE_COLORS, ((int)PlayerColorSet.BASIC).ToString(Strings.Culture));
+            defaults.Add(PropertyKey.CHOSEN_COLOR, Colors.CornflowerBlue.ToString(Strings.Culture));
             return defaults;
         }
     }

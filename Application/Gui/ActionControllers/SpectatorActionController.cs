@@ -34,11 +34,11 @@ namespace Orbit.Gui.ActionControllers
             int count = spectatorAction.RangeCount;
             if (count > 0)
             {
-                window.SetCountText("+" + count);
+                window.SetCountText(String.Format(Strings.Culture, Strings.char_plus, count));
             }
             else
             {
-                window.SetCountText(count.ToString());
+                window.SetCountText(count.ToString(Strings.Culture));
             }
 
             //window.Highlight(count == 0);

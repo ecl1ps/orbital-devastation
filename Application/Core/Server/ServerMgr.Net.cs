@@ -125,7 +125,7 @@ namespace Orbit.Core.Server
         {
             PacketType type = (PacketType)msg.ReadInt32();
 #if VERBOSE
-            Logger.Debug("Server " + GetPlayer(msg.SenderConnection).GetId() + ": received msg " + type.ToString());
+            Logger.Debug("Server " + GetPlayer(msg.SenderConnection).GetId() + ": received msg " + type.ToString(Strings.Culture));
 #endif
             switch (type)
             {

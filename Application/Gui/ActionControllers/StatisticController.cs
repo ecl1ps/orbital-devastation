@@ -50,7 +50,7 @@ namespace Orbit.Gui.ActionControllers
 
         private void UpdateTime()
         {
-            mgr.BeginInvoke(new Action(() => statsWindow.SetTime(time.ToString("00"))));
+            mgr.BeginInvoke(new Action(() => statsWindow.SetTime(time.ToString("00", Strings.Culture))));
         }
 
         protected virtual double ComputePercents() {

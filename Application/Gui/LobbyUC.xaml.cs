@@ -288,7 +288,7 @@ namespace Orbit.Gui
             catch (Exception)
             {
                 s.RoundCount = 1;
-                tbRounds.Text = 1.ToString();
+                tbRounds.Text = 1.ToString(Strings.Culture);
                 UpdateMatchCount(s.RoundCount);
             }
 
@@ -320,7 +320,7 @@ namespace Orbit.Gui
             btnReady.IsEnabled = true;
             lblType.Content = MatchManagerInfoAccessor.GetInfo(s.MMType).Text;
             lblMap.Content = LevelInfoAccessor.GetInfo(s.Level).Text;
-            lblRounds.Content = s.RoundCount.ToString();
+            lblRounds.Content = s.RoundCount.ToString(Strings.Culture);
             round = s.PlayedMatches;
             UpdateMatchCount(s.RoundCount);
 
@@ -359,8 +359,8 @@ namespace Orbit.Gui
 
             // kombinace
             int matches = GameManager.GetRequiredNumberOfMatches(players, rounds);
-            lblMatches.Content = String.Format(Strings.ui_tournament_match_count, matches);
-            lblMatchNumber.Text = String.Format(Strings.ui_tournament_current_match, (round + 1), matches);
+            lblMatches.Content = String.Format(Strings.Culture, Strings.ui_tournament_match_count, matches);
+            lblMatchNumber.Text = String.Format(Strings.Culture, Strings.ui_tournament_current_match, (round + 1), matches);
         }
 
         private void tbBotCount_TextChanged(object sender, TextChangedEventArgs e)
@@ -376,7 +376,7 @@ namespace Orbit.Gui
             catch (Exception)
             {
                 if (!String.IsNullOrWhiteSpace(tbBotCount.Text))
-                    tbBotCount.Text = 0.ToString();
+                    tbBotCount.Text = 0.ToString(Strings.Culture);
             }
         }
 

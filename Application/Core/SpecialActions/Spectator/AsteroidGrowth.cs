@@ -41,7 +41,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             a.Radius += val;
             if (a.Radius > SharedDef.ASTEROID_MAX_GROWN_RADIUS)
                 a.Radius = SharedDef.ASTEROID_MAX_GROWN_RADIUS;
-            SceneMgr.FloatingTextMgr.AddFloatingText(String.Format(Strings.char_plus, val), a.Position, FloatingTextManager.TIME_LENGTH_3, Client.GameStates.FloatingTextType.HEAL);
+            SceneMgr.FloatingTextMgr.AddFloatingText(String.Format(Strings.Culture, Strings.char_plus, val), a.Position, FloatingTextManager.TIME_LENGTH_3, Client.GameStates.FloatingTextType.HEAL);
         }
     }
 }

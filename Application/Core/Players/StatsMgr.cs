@@ -52,7 +52,7 @@ namespace Orbit.Core.Players
             Tuple<float, float> valAndPct = GenerateAndAddStatToPlayer(pickedStat, plr.Data);
 
             Vector textPos = new Vector(plr.GetBaseLocation().X + (plr.GetBaseLocation().Width / 2), plr.GetBaseLocation().Y - 40);
-            sceneMgr.FloatingTextMgr.AddFloatingText(pickedStat.text + (valAndPct.Item2 > 0 ? " +" : " ") + valAndPct.Item2.ToString("0.0") + "%", textPos,
+            sceneMgr.FloatingTextMgr.AddFloatingText(pickedStat.text + (valAndPct.Item2 > 0 ? " +" : " ") + valAndPct.Item2.ToString("0.0", Strings.Culture) + "%", textPos,
                 FloatingTextManager.TIME_LENGTH_3, FloatingTextType.SYSTEM, 14, true, true);
 
             NetOutgoingMessage msg = sceneMgr.CreateNetMessage();

@@ -17,16 +17,16 @@ namespace Orbit.Gui.ActionControllers
         private float loadTime = 0;
         private int multipleStatsStep = 0;
 
-        private String mine = "";
-        private String bullet = "";
-        private String hook = "";
-        private String damage = "";
-        private String heal = "";
-        private String gold = "";
-        private String actions = "";
-        private String powerups = "";
-        private String favAction = "";
-        private String favPowerup = "";
+        private String mine = string.Empty;
+        private String bullet = string.Empty;
+        private String hook = string.Empty;
+        private String damage = string.Empty;
+        private String heal = string.Empty;
+        private String gold = string.Empty;
+        private String actions = string.Empty;
+        private String powerups = string.Empty;
+        private String favAction = string.Empty;
+        private String favPowerup = string.Empty;
 
         public PlayerStatisticsController(SceneMgr mgr, Player owner, EndGameStats stats, bool limited, PlayerStatsUC window)
             : base(mgr, owner, stats, limited)
@@ -127,10 +127,10 @@ namespace Orbit.Gui.ActionControllers
             if (owner.Statistics.Stats.Count == 0)
             {
                 time = 0;
-                powerups = "0";
+                powerups = 0.ToString(Strings.Culture);
                 return;
             }
-            powerups = FastMath.LinearInterpolate(owner.Statistics.Stats.Count, 0, ComputePercents()).ToString("###");
+            powerups = FastMath.LinearInterpolate(owner.Statistics.Stats.Count, 0, ComputePercents()).ToString("###", Strings.Culture);
         }
 
         protected void LoadActions()
@@ -138,11 +138,11 @@ namespace Orbit.Gui.ActionControllers
             if (owner.Statistics.Actions.Count == 0)
             {
                 time = 0;
-                actions = "0";
+                actions = 0.ToString(Strings.Culture);
                 return;
             }
 
-            actions = FastMath.LinearInterpolate(owner.Statistics.Actions.Count, 0, ComputePercents()).ToString("###");
+            actions = FastMath.LinearInterpolate(owner.Statistics.Actions.Count, 0, ComputePercents()).ToString("###", Strings.Culture);
         }
 
         protected void LoadGold()
@@ -150,10 +150,10 @@ namespace Orbit.Gui.ActionControllers
             if (owner.Statistics.GoldEarned == 0)
             {
                 time = 0;
-                gold = "0";
+                gold = 0.ToString(Strings.Culture);
                 return;
             }
-            gold = FastMath.LinearInterpolate(owner.Statistics.GoldEarned, 0, ComputePercents()).ToString(".#");
+            gold = FastMath.LinearInterpolate(owner.Statistics.GoldEarned, 0, ComputePercents()).ToString(".#", Strings.Culture);
         }
 
         protected void LoadHeal()
@@ -161,10 +161,10 @@ namespace Orbit.Gui.ActionControllers
             if (owner.Statistics.Healed == 0)
             {
                 time = 0;
-                heal = "0";
+                heal = 0.ToString(Strings.Culture);
                 return;
             }
-            heal = FastMath.LinearInterpolate(owner.Statistics.Healed, 0, ComputePercents()).ToString(".#");
+            heal = FastMath.LinearInterpolate(owner.Statistics.Healed, 0, ComputePercents()).ToString(".#", Strings.Culture);
         }
 
         protected void LoadDamage()
@@ -172,10 +172,10 @@ namespace Orbit.Gui.ActionControllers
             if (owner.Statistics.DamageTaken == 0)
             {
                 time = 0;
-                damage = "0";
+                damage = 0.ToString(Strings.Culture);
                 return;
             }
-            damage = FastMath.LinearInterpolate(owner.Statistics.DamageTaken, 0, ComputePercents()).ToString(".#");
+            damage = FastMath.LinearInterpolate(owner.Statistics.DamageTaken, 0, ComputePercents()).ToString(".#", Strings.Culture);
         }
 
         protected void LoadHook(float tpf)
@@ -187,7 +187,7 @@ namespace Orbit.Gui.ActionControllers
                     double val = owner.Statistics.HookHit / owner.Statistics.HookFired;
                     if (Double.IsNaN(val))
                         val = 0;
-                    hook += " / " + val.ToString("#0.##%");
+                    hook += " / " + val.ToString("#0.##%", Strings.Culture);
                 }
                else if (loadTime <= 0)
                 {
@@ -201,7 +201,7 @@ namespace Orbit.Gui.ActionControllers
                         double val = owner.Statistics.HookHit / owner.Statistics.HookFired;
                         if (Double.IsNaN(val))
                             val = 0;
-                        hook += " / " + val.ToString("#0.##%");
+                        hook += " / " + val.ToString("#0.##%", Strings.Culture);
                     }
                 }
 
@@ -218,7 +218,7 @@ namespace Orbit.Gui.ActionControllers
                     double val = owner.Statistics.BulletHit / owner.Statistics.BulletFired;
                     if (Double.IsNaN(val))
                         val = 0;
-                    bullet += " / " + val.ToString("#0.##%");
+                    bullet += " / " + val.ToString("#0.##%", Strings.Culture);
                 }
                else if (loadTime <= 0)
                 {
@@ -232,7 +232,7 @@ namespace Orbit.Gui.ActionControllers
                         double val = owner.Statistics.BulletHit / owner.Statistics.BulletFired;
                         if (Double.IsNaN(val))
                             val = 0;
-                        bullet += " / " + val.ToString("#0.##%");
+                        bullet += " / " + val.ToString("#0.##%", Strings.Culture);
                     }
                 }
 
@@ -248,7 +248,7 @@ namespace Orbit.Gui.ActionControllers
                 double val = owner.Statistics.MineHit / owner.Statistics.MineFired;
                 if (Double.IsNaN(val))
                     val = 0;
-                mine += " / " + val.ToString("#0.##%");
+                mine += " / " + val.ToString("#0.##%", Strings.Culture);
             }
             else if (loadTime <= 0)
             {
@@ -262,7 +262,7 @@ namespace Orbit.Gui.ActionControllers
                     double val = owner.Statistics.MineHit / owner.Statistics.MineFired;
                     if (Double.IsNaN(val))
                         val = 0;
-                    mine += " / " + val.ToString("#0.##%");
+                    mine += " / " + val.ToString("#0.##%", Strings.Culture);
                 }
             }
 
