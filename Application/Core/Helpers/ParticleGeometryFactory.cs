@@ -12,20 +12,18 @@ namespace Orbit.Core.Helpers
 {
     class ParticleGeometryFactory
     {
-        public static Visual CreateConstantColorCircleGeometry(double radius, Color color)
+        public static Brush CreateConstantColorCircleGeometry(double radius, Color color)
         {
-            Ellipse e = new Ellipse();
-            e.Width = radius;
-            e.Height = radius;
-            SolidColorBrush b = new SolidColorBrush(color);
-            e.Fill = b;
-            e.Measure(new System.Windows.Size(radius, radius));
-            e.Arrange(new Rect(0, 0, radius, radius));
+            UIElement elem = HeavyweightGeometryFactory.CreateConstantColorCircleGeometry(radius, color);
 
-            return e;
+            RenderTargetBitmap renderTarget = PrepareRenderTarget(radius);
+            renderTarget.Render(elem);
+            renderTarget.Freeze();
+
+            return new ImageBrush(renderTarget);
         }
 
-        public static RenderTargetBitmap CreateImageParticle(double radius, Color color, Uri source)
+        public static Brush CreateImageParticle(double radius, Color color, Uri source)
         {
             BitmapImage bi = new BitmapImage();
             bi.BeginInit();
@@ -33,9 +31,9 @@ namespace Orbit.Core.Helpers
             bi.EndInit();
 
             AlphaMaskEffect effect = new AlphaMaskEffect();
-            effect.Color = Colors.Green;
+            effect.Color = color;
 
-            RenderTargetBitmap rtb = new RenderTargetBitmap((int)radius * 2, (int)radius * 2, 96, 96, PixelFormats.Pbgra32);
+            RenderTargetBitmap rtb = PrepareRenderTarget(radius);
 
             System.Windows.Shapes.Rectangle visual = new System.Windows.Shapes.Rectangle();
             visual.Fill = new ImageBrush(bi);
@@ -46,7 +44,13 @@ namespace Orbit.Core.Helpers
             visual.Arrange(new Rect(sz));
 
             rtb.Render(visual);
-            return rtb;
+
+            return new ImageBrush(rtb);
+        }
+
+        private static RenderTargetBitmap PrepareRenderTarget(double radius) 
+        {
+            return new RenderTargetBitmap((int) (radius * 12) , (int) (radius * 12), 96, 96, PixelFormats.Pbgra32);
         }
     }
 }
