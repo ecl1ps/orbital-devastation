@@ -467,7 +467,14 @@
     <comment>0 = number of wins</comment>
   </data>
   <data name="char_plus" xml:space="preserve">
+    <value>+</value>
+  </data>
+  <data name="char_plus_and_val" xml:space="preserve">
     <value>+{0}</value>
+  </data>
+  <data name="ft_powerup" xml:space="preserve">
+    <value>{0} {1}{2}%</value>
+    <comment>0 = name of powerup, 1 = + or nothing, 2 = value</comment>
   </data>
   <data name="ft_score_cannon_unstable_above_enemy" xml:space="preserve">
     <value>Enemy crusher!</value>
@@ -520,13 +527,70 @@
     <value>New weapon bought: {0}</value>
     <comment>0 = name of weapon</comment>
   </data>
+  <data name="lobby_not_ready_msg" xml:space="preserve">
+    <value>Wait, I am not ready</value>
+  </data>
+  <data name="lobby_ready_msg" xml:space="preserve">
+    <value>I am ready</value>
+  </data>
+  <data name="powerup_base_fortify" xml:space="preserve">
+    <value>Shield fortify</value>
+  </data>
+  <data name="powerup_base_repair" xml:space="preserve">
+    <value>Shield repair</value>
+  </data>
+  <data name="powerup_cannon_bullet_speed" xml:space="preserve">
+    <value>Cannon bullet speed</value>
+  </data>
+  <data name="powerup_cannon_cooldown" xml:space="preserve">
+    <value>Cannon cooling effectivity</value>
+  </data>
+  <data name="powerup_cannon_damage" xml:space="preserve">
+    <value>Cannon bullet effectivity</value>
+  </data>
+  <data name="powerup_heal_bonus" xml:space="preserve">
+    <value>Shield repair effectivity</value>
+  </data>
+  <data name="powerup_hook_cooldown" xml:space="preserve">
+    <value>Mine emmitor cooling effectivity</value>
+  </data>
+  <data name="powerup_hook_length" xml:space="preserve">
+    <value>Hook reach</value>
+  </data>
+  <data name="powerup_hook_speed" xml:space="preserve">
+    <value>Hook speed</value>
+  </data>
+  <data name="powerup_mine_cooldown" xml:space="preserve">
+    <value>Mine emmitor cooling effectivity</value>
+  </data>
+  <data name="powerup_mine_falling_speed" xml:space="preserve">
+    <value>Mine falling speed</value>
+  </data>
+  <data name="powerup_mine_growth_speed" xml:space="preserve">
+    <value>Mine explosion size</value>
+  </data>
+  <data name="powerup_mine_power" xml:space="preserve">
+    <value>Mine power</value>
+  </data>
+  <data name="ui_action_cost" xml:space="preserve">
+    <value>Costs {0} gold</value>
+  </data>
   <data name="ui_highscores" xml:space="preserve">
     <value>Highscores</value>
   </data>
   <data name="ui_player_statistics" xml:space="preserve">
     <value>Player Statistics</value>
   </data>
+  <data name="ui_press_key" xml:space="preserve">
+    <value>Press any key</value>
+  </data>
   <data name="ui_statistics_quick_game" xml:space="preserve">
     <value>1v1 Quick Game</value>
+  </data>
+  <data name="ui_warning_kicked" xml:space="preserve">
+    <value>You have been kicked out of the server.</value>
+  </data>
+  <data name="ui_warning_port_unavailable" xml:space="preserve">
+    <value>Your port is already in use. Server is probably already running on your machine.</value>
   </data>
 </root>

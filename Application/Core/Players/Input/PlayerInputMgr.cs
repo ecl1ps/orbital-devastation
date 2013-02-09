@@ -13,7 +13,6 @@ namespace Orbit.Core.Players.Input
     public class PlayerInputMgr : AbstractInputMgr
     {
         private Player plr;
-        private ParticleEmmitor emmitor;
 
         public PlayerInputMgr(Player p, SceneMgr sceneMgr, ActionBarMgr actionMgr) : base(actionMgr, sceneMgr) 
         {

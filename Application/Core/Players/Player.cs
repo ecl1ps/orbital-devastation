@@ -178,7 +178,7 @@ namespace Orbit.Core.Players
             if (showHeal)
             {
                 Vector textPos = new Vector(GetBaseLocation().X + (GetBaseLocation().Width / 2), GetBaseLocation().Y - 20);
-                SceneMgr.FloatingTextMgr.AddFloatingText(String.Format(Strings.Culture, Strings.char_plus, diff), textPos, FloatingTextManager.TIME_LENGTH_3,
+                SceneMgr.FloatingTextMgr.AddFloatingText(String.Format(Strings.Culture, Strings.char_plus_and_val, diff), textPos, FloatingTextManager.TIME_LENGTH_3,
                     FloatingTextType.HEAL, FloatingTextManager.SIZE_BIGGER, true);
             }
         }

@@ -526,4 +526,61 @@
     <value>Koupena nová zbraň: {0}</value>
     <comment>0 = name of weapon</comment>
   </data>
+  <data name="lobby_not_ready_msg" xml:space="preserve">
+    <value>Moment, nejsem připraven</value>
+  </data>
+  <data name="lobby_ready_msg" xml:space="preserve">
+    <value>Jsem připraven</value>
+  </data>
+  <data name="powerup_base_fortify" xml:space="preserve">
+    <value>Zesílení štítu</value>
+  </data>
+  <data name="powerup_base_repair" xml:space="preserve">
+    <value>Opravení štítu</value>
+  </data>
+  <data name="powerup_cannon_bullet_speed" xml:space="preserve">
+    <value>Rychlost střel kanónu</value>
+  </data>
+  <data name="powerup_cannon_cooldown" xml:space="preserve">
+    <value>Výkon chlazení kanónu</value>
+  </data>
+  <data name="powerup_cannon_damage" xml:space="preserve">
+    <value>Účinnost střel kanónu</value>
+  </data>
+  <data name="powerup_heal_bonus" xml:space="preserve">
+    <value>Efektivita oprav štítu</value>
+  </data>
+  <data name="powerup_hook_cooldown" xml:space="preserve">
+    <value>Výkon chlazení emitoru háku</value>
+  </data>
+  <data name="powerup_hook_length" xml:space="preserve">
+    <value>Dosah háku</value>
+  </data>
+  <data name="powerup_hook_speed" xml:space="preserve">
+    <value>Rychlost háku</value>
+  </data>
+  <data name="powerup_mine_cooldown" xml:space="preserve">
+    <value>Výkon chlazení emitoru min</value>
+  </data>
+  <data name="powerup_mine_falling_speed" xml:space="preserve">
+    <value>Rychlost pádu min</value>
+  </data>
+  <data name="powerup_mine_growth_speed" xml:space="preserve">
+    <value>Velikost exploze min</value>
+  </data>
+  <data name="powerup_mine_power" xml:space="preserve">
+    <value>Síla miny</value>
+  </data>
+  <data name="ui_action_cost" xml:space="preserve">
+    <value>Stojí {0} zlata</value>
+  </data>
+  <data name="ui_press_key" xml:space="preserve">
+    <value>Stiskněte libovolnou klávesu</value>
+  </data>
+  <data name="ui_warning_kicked" xml:space="preserve">
+    <value>Byl jsi vyhozen ze serveru.</value>
+  </data>
+  <data name="ui_warning_port_unavailable" xml:space="preserve">
+    <value>Váš port je obsazen. Pravděpodobně na vašem stroji již běží server.</value>
+  </data>
 </root>

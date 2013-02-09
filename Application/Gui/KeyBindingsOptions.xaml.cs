@@ -162,7 +162,6 @@ namespace Orbit.Gui
                     actual.Label.Text = ParseString(GameProperties.Props.Get(actual.Key));
                 }
             }
-            
         }
 
         private void WaitForInput(TextBlock label, PropertyKey key)
@@ -170,7 +169,7 @@ namespace Orbit.Gui
             if (waitingForInput)
                 toFill.Label.Text = ParseString(GameProperties.Props.Get(toFill.Key)).ToString(Strings.Culture);
 
-            label.Text = "Press any key";
+            label.Text = Strings.ui_press_key;
 
             toFill = new KeyLabel(key, label);
 

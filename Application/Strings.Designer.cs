@@ -124,11 +124,29 @@ namespace Orbit {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to +{0}.
+        ///   Looks up a localized string similar to +.
         /// </summary>
         internal static string char_plus {
             get {
                 return ResourceManager.GetString("char_plus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to +{0}.
+        /// </summary>
+        internal static string char_plus_and_val {
+            get {
+                return ResourceManager.GetString("char_plus_and_val", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} {1}{2}%.
+        /// </summary>
+        internal static string ft_powerup {
+            get {
+                return ResourceManager.GetString("ft_powerup", resourceCulture);
             }
         }
         
@@ -358,11 +376,29 @@ namespace Orbit {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Wait, I am not ready.
+        /// </summary>
+        internal static string lobby_not_ready_msg {
+            get {
+                return ResourceManager.GetString("lobby_not_ready_msg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} has been kicked by the leader.
         /// </summary>
         internal static string lobby_player_kicked {
             get {
                 return ResourceManager.GetString("lobby_player_kicked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I am ready.
+        /// </summary>
+        internal static string lobby_ready_msg {
+            get {
+                return ResourceManager.GetString("lobby_ready_msg", resourceCulture);
             }
         }
         
@@ -552,6 +588,132 @@ namespace Orbit {
         internal static string networking_waiting {
             get {
                 return ResourceManager.GetString("networking_waiting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shield fortify.
+        /// </summary>
+        internal static string powerup_base_fortify {
+            get {
+                return ResourceManager.GetString("powerup_base_fortify", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shield repair.
+        /// </summary>
+        internal static string powerup_base_repair {
+            get {
+                return ResourceManager.GetString("powerup_base_repair", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannon bullet speed.
+        /// </summary>
+        internal static string powerup_cannon_bullet_speed {
+            get {
+                return ResourceManager.GetString("powerup_cannon_bullet_speed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannon cooling effectivity.
+        /// </summary>
+        internal static string powerup_cannon_cooldown {
+            get {
+                return ResourceManager.GetString("powerup_cannon_cooldown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannon bullet effectivity.
+        /// </summary>
+        internal static string powerup_cannon_damage {
+            get {
+                return ResourceManager.GetString("powerup_cannon_damage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shield repair effectivity.
+        /// </summary>
+        internal static string powerup_heal_bonus {
+            get {
+                return ResourceManager.GetString("powerup_heal_bonus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mine emmitor cooling effectivity.
+        /// </summary>
+        internal static string powerup_hook_cooldown {
+            get {
+                return ResourceManager.GetString("powerup_hook_cooldown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hook reach.
+        /// </summary>
+        internal static string powerup_hook_length {
+            get {
+                return ResourceManager.GetString("powerup_hook_length", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hook speed.
+        /// </summary>
+        internal static string powerup_hook_speed {
+            get {
+                return ResourceManager.GetString("powerup_hook_speed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mine emmitor cooling effectivity.
+        /// </summary>
+        internal static string powerup_mine_cooldown {
+            get {
+                return ResourceManager.GetString("powerup_mine_cooldown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mine falling speed.
+        /// </summary>
+        internal static string powerup_mine_falling_speed {
+            get {
+                return ResourceManager.GetString("powerup_mine_falling_speed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mine explosion size.
+        /// </summary>
+        internal static string powerup_mine_growth_speed {
+            get {
+                return ResourceManager.GetString("powerup_mine_growth_speed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mine power.
+        /// </summary>
+        internal static string powerup_mine_power {
+            get {
+                return ResourceManager.GetString("powerup_mine_power", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Costs {0} gold.
+        /// </summary>
+        internal static string ui_action_cost {
+            get {
+                return ResourceManager.GetString("ui_action_cost", resourceCulture);
             }
         }
         
@@ -997,6 +1159,15 @@ namespace Orbit {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Press any key.
+        /// </summary>
+        internal static string ui_press_key {
+            get {
+                return ResourceManager.GetString("ui_press_key", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Host Quick Game.
         /// </summary>
         internal static string ui_quick_game {
@@ -1200,6 +1371,24 @@ namespace Orbit {
         internal static string ui_version {
             get {
                 return ResourceManager.GetString("ui_version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have been kicked out of the server..
+        /// </summary>
+        internal static string ui_warning_kicked {
+            get {
+                return ResourceManager.GetString("ui_warning_kicked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your port is already in use. Server is probably already running on your machine..
+        /// </summary>
+        internal static string ui_warning_port_unavailable {
+            get {
+                return ResourceManager.GetString("ui_warning_port_unavailable", resourceCulture);
             }
         }
         

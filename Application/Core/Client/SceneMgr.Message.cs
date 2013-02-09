@@ -767,7 +767,7 @@ namespace Orbit.Core.Client
                 if (obj != null)
                 {
                     obj.TakeDamage(-dmg, owner.Device);
-                    FloatingTextMgr.AddFloatingText(String.Format(Strings.Culture, Strings.char_plus, dmg), obj.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.HEAL);
+                    FloatingTextMgr.AddFloatingText(String.Format(Strings.Culture, Strings.char_plus_and_val, dmg), obj.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.HEAL);
                 }
             }
         }

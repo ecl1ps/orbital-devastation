@@ -34,7 +34,7 @@ namespace Orbit.Gui.ActionControllers
             int count = spectatorAction.RangeCount;
             if (count > 0)
             {
-                window.SetCountText(String.Format(Strings.Culture, Strings.char_plus, count));
+                window.SetCountText(String.Format(Strings.Culture, Strings.char_plus_and_val, count));
             }
             else
             {
