@@ -327,6 +327,20 @@ namespace Orbit.Core.Client
             }));
         }
 
+        public void RemoveFromSceneDelayed(ParticleEmmitor e)
+        {
+            e.Dead = true;
+            e.OnRemove();
+            GetParticleArea().RemoveEmmitor(e);
+        }
+
+        public void RemoveParticleEmmitor(ParticleEmmitor e)
+        {
+            e.Dead = true;
+            e.OnRemove();
+            GetParticleArea().RemoveEmmitor(e);
+        }
+
         /// <summary>
         /// bezpecne odstrani objekt (SceneObject i gui objekt) v dalsim updatu
         /// </summary>
@@ -335,11 +349,6 @@ namespace Orbit.Core.Client
             obj.Dead = true;
             obj.OnRemove();
             objectsToRemove.Add(obj);
-        }
-
-        public void RemoveFromSceneDelay(ParticleEmmitor e)
-        {
-            GetParticleArea().RemoveEmmitor(e);
         }
 
         /// <summary>
