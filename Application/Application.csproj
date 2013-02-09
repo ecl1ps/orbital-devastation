@@ -130,6 +130,7 @@
     <Compile Include="Core\AI\AIUtils.cs" />
     <Compile Include="Core\AI\BotNameAccessor.cs" />
     <Compile Include="Core\AI\HookerBot.cs" />
+    <Compile Include="Core\AI\MediocreBot.cs" />
     <Compile Include="Core\AI\SimpleBot.cs" />
     <Compile Include="Core\Client\GameStates\AlertMessageManager.cs" />
     <Compile Include="Core\Client\GameStates\FloatingTextManager.cs" />
