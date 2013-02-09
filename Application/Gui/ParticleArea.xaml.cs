@@ -1,4 +1,5 @@
-﻿using Orbit.Core.Client.Interfaces;
+﻿using Orbit.Core;
+using Orbit.Core.Client.Interfaces;
 using Orbit.Core.Scene.Particles.Implementations;
 using System;
 using System.Collections.Generic;
@@ -70,8 +71,13 @@ namespace Orbit.Gui
         {
             AddEmmitors();
 
-            emmitors.ForEach(e => e.Update(tpf));
-            emmitors.ForEach(e => e.UpdateGeometric());
+            emmitors.ForEach(e => {
+                if (!e.IsOnScreen(SharedDef.VIEW_PORT_SIZE))
+                    e.DelayedStop();
+
+                e.Update(tpf);
+                e.UpdateGeometric();
+            });
 
             RemoveEmmitors();
         }

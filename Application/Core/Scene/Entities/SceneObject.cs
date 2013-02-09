@@ -76,7 +76,7 @@ namespace Orbit.Core.Scene.Entities
 
         public virtual void Update(float tpf)
         {
-            if(Enabled)
+            if (Enabled)
                 UpdateControls(tpf);
         }
 

@@ -13,7 +13,6 @@ namespace Orbit.Core.Players.Input
     public class PlayerInputMgr : AbstractInputMgr
     {
         private Player plr;
-        private ParticleEmmitor emmitor;
 
         public PlayerInputMgr(Player p, SceneMgr sceneMgr, ActionBarMgr actionMgr) : base(actionMgr, sceneMgr) 
         {
@@ -23,10 +22,6 @@ namespace Orbit.Core.Players.Input
         public override void OnKeyEvent(KeyEventArgs e)
         {
             base.OnKeyEvent(e);
-            if (e.Key == Key.A)
-            {
-                emmitor.Enabled = true;
-            }
         }
 
         public override void OnCanvasClick(Point point, MouseButtonEventArgs e)
