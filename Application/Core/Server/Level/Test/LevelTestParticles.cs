@@ -15,13 +15,16 @@ namespace Orbit.Core.Server.Level.Test
         public static readonly LevelInfo Info = new LevelInfo(true, "[TEST] Particles");
 
         protected Random rand;
+        private Color[] colors = { Colors.Red, Colors.Green, Colors.Blue, Colors.Brown, Colors.Pink };
 
         private enum Events
         {
-            MOVING_PARTICLE_ADD
+            MOVING_PARTICLE_ADD,
+            EXPLODING_EMITTOR_ADD
         }
 
-        public LevelTestParticles(ServerMgr serverMgr) : base(serverMgr)
+        public LevelTestParticles(ServerMgr serverMgr)
+            : base(serverMgr)
         {
             rand = mgr.GetRandomGenerator();
         }
@@ -30,7 +33,6 @@ namespace Orbit.Core.Server.Level.Test
         {
             ParticleEmmitor e = new ParticleEmmitor(null, IdMgr.GetNewId(0));
             e.Direction = direction;
-            e.EmitingTime = 1f;
             e.EmmitingDirection = direction.Rotate(180);
             e.MinAngle = (float)(-Math.PI);
             e.MaxAngle = (float)(Math.PI);
@@ -39,9 +41,10 @@ namespace Orbit.Core.Server.Level.Test
             e.MinLife = 2f;
             e.MaxLife = 2.5f;
             e.Position = position;
-            e.MinSize = 1;
-            e.MaxSize = 2;
-            e.Amount = 150;
+            e.MinSize = 2;
+            e.MaxSize = 4;
+            e.Amount = 250;
+            e.SizeMultiplier = 0;
             e.Infinite = true;
             e.Enabled = false;
 
@@ -56,10 +59,10 @@ namespace Orbit.Core.Server.Level.Test
             GameLevelManager.SendNewObject(mgr, e);
         }
 
-        private void CreateConstantParticleEmmitor(Vector position)
+        private ParticleEmmitor createConstantEmmitor(Vector position)
         {
             ParticleEmmitor e = new ParticleEmmitor(null, IdMgr.GetNewId(0));
-            e.EmitingTime = 2f;
+            e.EmitingTime = 1f;
             e.EmmitingDirection = new Vector(0, -1);
             e.MinAngle = (float)(-Math.PI / 30);
             e.MaxAngle = (float)(Math.PI / 30);
@@ -68,14 +71,62 @@ namespace Orbit.Core.Server.Level.Test
             e.MinLife = 3f;
             e.MaxLife = 3.5f;
             e.Position = position;
-            e.MinSize = 3;
-            e.MaxSize = 4;
+            e.MinSize = 5;
+            e.MaxSize = 10;
             e.Amount = 80;
+            e.SizeMultiplier = 1;
             e.Infinite = true;
             e.Enabled = false;
 
+            return e;
+        }
+
+        private void CreateConstantParticleEmmitor(Vector position)
+        {
+            ParticleEmmitor e = createConstantEmmitor(position);
+
             ParticleSphereFactory f = new ParticleSphereFactory();
             f.Color = Color.FromArgb(20, 0, 0, 0);
+            e.Factory = f;
+
+            GameLevelManager.SendNewObject(mgr, e);
+        }
+
+        private void CreateConstantSmokeEmmitor(Vector position)
+        {
+            ParticleEmmitor e = createConstantEmmitor(position);
+
+            e.Factory = new ParticleSmokeFactory();
+
+            GameLevelManager.SendNewObject(mgr, e);
+        }
+
+        private void CreateExplodingParticleEmmitor(Vector position)
+        {
+            ParticleEmmitor e = new ParticleEmmitor(null, IdMgr.GetNewId(0));
+            e.EmitingTime = 1f;
+            e.EmmitingDirection = new Vector(1, 0);
+            e.MinAngle = (float)-Math.PI;
+            e.MaxAngle = (float)Math.PI;
+            e.MinForce = 10;
+            e.MaxForce = 15;
+            e.MinLife = 3f;
+            e.MaxLife = 3.5f;
+            e.Position = position;
+            e.MinSize = 2;
+            e.MaxSize = 4;
+            e.Amount = 100;
+            e.SizeMultiplier = 0;
+            e.Infinite = false;
+            e.FireAll = true;
+            e.Enabled = true;
+
+            byte r = (byte)rand.Next(0, 255);
+            byte g = (byte)rand.Next(0, 255);
+            byte b = (byte)rand.Next(0, 255);
+
+            ParticleSphereFactory f = new ParticleSphereFactory();
+            f.Color = colors[rand.Next(colors.Count())];
             e.Factory = f;
 
             GameLevelManager.SendNewObject(mgr, e);
@@ -85,12 +136,18 @@ namespace Orbit.Core.Server.Level.Test
         public override void OnStart()
         {
             CreateConstantParticleEmmitor(new Vector(100, 500));
-            CreateConstantParticleEmmitor(new Vector(400, 500));
+            CreateConstantSmokeEmmitor(new Vector(400, 500));
             CreateConstantParticleEmmitor(new Vector(800, 500));
 
-            events.AddEvent((int)Events.MOVING_PARTICLE_ADD, new Event(3, EventType.REPEATABLE, new Action(() =>
+            CreateMovingParticleEmmitor(new Vector(0, rand.NextDouble() * SharedDef.VIEW_PORT_SIZE.Height), new Vector(1, 0), 100, 5);
+            events.AddEvent((int)Events.MOVING_PARTICLE_ADD, new Event(5, EventType.REPEATABLE, new Action(() =>
             {
                 CreateMovingParticleEmmitor(new Vector(0, rand.NextDouble() * SharedDef.VIEW_PORT_SIZE.Height), new Vector(1, 0), 100, 5);
+            })));
+           
+            events.AddEvent((int)Events.EXPLODING_EMITTOR_ADD, new Event(1, EventType.REPEATABLE, new Action(() =>
+            {
+                CreateExplodingParticleEmmitor(new Vector(rand.NextDouble() * SharedDef.VIEW_PORT_SIZE.Width, rand.NextDouble() * SharedDef.VIEW_PORT_SIZE.Height));
             })));
         }
     }
