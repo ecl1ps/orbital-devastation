@@ -12,9 +12,9 @@ namespace Orbit.Core.Scene.Particles.Implementations
         public Color Color { get; set; }
         public Uri Source { get; set; }
 
-        public override System.Windows.UIElement CreateParticle(double size)
+        public override Brush CreateParticle(double size)
         {
-            return HeavyweightGeometryFactory.CreateImageParticle(size, Color, Source);
+            return ParticleGeometryFactory.CreateImageParticle(size, Color, Source);
         }
 
         public override void WriteObject(Lidgren.Network.NetOutgoingMessage msg)

@@ -6,6 +6,7 @@ using Orbit.Core.Client;
 using System.Windows;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Helpers;
+using System.Windows.Media;
 
 namespace Orbit.Core.Scene.Particles
 {
@@ -18,7 +19,7 @@ namespace Orbit.Core.Scene.Particles
             SceneMgr = emmitor.SceneMgr;
         }
 
-        public abstract UIElement CreateParticle(double size);
+        public abstract Brush CreateParticle(double size);
 
         public abstract void WriteObject(Lidgren.Network.NetOutgoingMessage msg);
 

@@ -24,7 +24,9 @@ namespace Orbit.Core.Scene.Particles.Implementations
         public Vector Direction { get; set; }
         public double Force { get; set; }
         public double Life { get; set; }
+        public double MaxLife { get; set; }
         public double Size { get; set; }
+        public double StartingSize { get; set; }
     }
 
     public class ParticleEmmitor : SceneObject, ISendable
@@ -37,9 +39,11 @@ namespace Orbit.Core.Scene.Particles.Implementations
         private Viewport3D viewPort;
         private GeometryModel3D model;
         private bool started;
+        private bool ending;
 
         private Vector positionToSet;
         private Vector currentPosition;
+        private ParticleArea particleArea;
 
         private IParticleFactory factory;
         public IParticleFactory Factory { get { return factory; } set { value.Init(this); factory = value; } }
@@ -53,6 +57,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
         public float MinLife { get; set; }
         public float MaxSize { get; set; }
         public float MinSize { get; set; }
+        public float SizeMultiplier { get; set; }
         public int Amount { get; set; }
         public bool FireAll { get; set; }
         public bool Infinite { get; set; }
@@ -93,8 +98,11 @@ namespace Orbit.Core.Scene.Particles.Implementations
             MinForce = 0;
             MaxSize = 0;
             MinSize = 0;
+            EmitingTime = 1;
+            SizeMultiplier = 1;
             positionToSet = new Vector(0, 0);
             started = false;
+            ending = false;
             //base.Enabled = false;
 
             particles = new List<Particle>();
@@ -109,20 +117,11 @@ namespace Orbit.Core.Scene.Particles.Implementations
                 model = new GeometryModel3D();
                 model.Geometry = new MeshGeometry3D();
 
-                UIElement elem = factory.CreateParticle(MaxSize);
-
-                System.Windows.Media.Brush brush = null;
-
-                RenderTargetBitmap renderTarget = new RenderTargetBitmap((int) (MaxSize * 2), (int) (MaxSize * 2), 96, 96, PixelFormats.Pbgra32);
-                renderTarget.Render(elem);
-                renderTarget.Freeze();
-
-                brush = new ImageBrush(ParticleGeometryFactory.CreateImageParticle(10, Colors.WhiteSmoke, new Uri("pack://application:,,,/resources/images/particles/particle_cloud.png")));
-
-                DiffuseMaterial material = new DiffuseMaterial(brush);
+                DiffuseMaterial material = new DiffuseMaterial(Factory.CreateParticle(MaxSize));
 
                 model.Material = material;
 
+                particleArea = a;
                 this.viewPort = a.ViewPort;
                 a.WorldModels.Children.Add(model);
             }));
@@ -135,7 +134,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
 
         public override bool IsOnScreen(System.Windows.Size screenSize)
         {
-            return true;
+            return !started || ending || Position.X >= 0 && Position.X <= screenSize.Width && Position.Y >= 0 && Position.Y <= screenSize.Height;
         }
 
         public override void UpdateGeometric()
@@ -210,13 +209,13 @@ namespace Orbit.Core.Scene.Particles.Implementations
 
             started = true;
 
-            if (FireAll)
+            if (FireAll && !ending)
             {
                 for (int i = 0; i < Amount; i++)
                     SpawnParticle();
 
-                Enabled = false;
-                return;
+                Amount = 0;
+                DelayedStop();
             }
 
             if (timeLap == 0)
@@ -227,14 +226,18 @@ namespace Orbit.Core.Scene.Particles.Implementations
 
             if (time <= 0)
             {
-                SpawnParticle();
-                amount--;
+                SpawnParticles(tpf);
                 time = timeLap;
             }
 
             if (amount <= 0 && !Infinite)
             {
-                Enabled = false;
+                DelayedStop();
+            }
+
+            if (ending && particles.Count == 0)
+            {
+                DoRemoveMe();
                 return;
             }
 
@@ -258,11 +261,26 @@ namespace Orbit.Core.Scene.Particles.Implementations
                 Vector v = (p.Direction * p.Force * tpf);
                 p.Position += new Vector3D(v.X, v.Y, 0);
                 p.Life -= tpf;
+
+                p.Size = FastMath.LinearInterpolate(p.StartingSize * SizeMultiplier, p.StartingSize , p.Life / p.MaxLife);
             }
+        }
+
+        protected void SpawnParticles(float tpf)
+        {
+            int count = (int) (tpf / timeLap);
+            if (count < 1)
+                count = 1;
+
+            for (int i = 0; i < count; i++)
+                SpawnParticle();
         }
 
         protected void SpawnParticle()
         {
+            if (ending)
+                return;
+
             double angle = FastMath.LinearInterpolate(MinAngle, MaxAngle, rand.NextDouble());
             double force = FastMath.LinearInterpolate(MinForce, MaxForce, rand.NextDouble());
             double life = FastMath.LinearInterpolate(MinLife, MaxLife, rand.NextDouble());
@@ -272,11 +290,26 @@ namespace Orbit.Core.Scene.Particles.Implementations
             p.Life = life;
             p.Force = force;
             p.Position = position;
+            p.MaxLife = life;
             
             p.Direction = EmmitingDirection.Rotate(angle);
             p.Size = size;
+            p.StartingSize = size;
 
             particles.Add(p);
+            amount--;
+        }
+
+        public void DelayedStop()
+        {
+            ending = true;
+        }
+
+        public override void DoRemove(ISceneObject obj)
+        {
+            base.DoRemove(obj);
+            if (obj is ParticleEmmitor)
+                SceneMgr.RemoveParticleEmmitor(obj as ParticleEmmitor);
         }
 
         public void WriteObject(Lidgren.Network.NetOutgoingMessage msg)
@@ -293,6 +326,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
             msg.Write(MinLife);
             msg.Write(MaxSize);
             msg.Write(MinSize);
+            msg.Write(SizeMultiplier);
             msg.Write(Amount);
             msg.Write(FireAll);
             msg.Write(Infinite);
@@ -316,6 +350,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
             MinLife = msg.ReadFloat();
             MaxSize = msg.ReadFloat();
             MinSize = msg.ReadFloat();
+            SizeMultiplier = msg.ReadFloat();
             Amount = msg.ReadInt32();
             FireAll = msg.ReadBoolean();
             Infinite = msg.ReadBoolean();
