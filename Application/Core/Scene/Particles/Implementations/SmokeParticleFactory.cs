@@ -12,6 +12,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
         {
             Color = Colors.Black;
             Source = new Uri("pack://application:,,,/resources/images/particles/particle_cloud.png");
+            RenderSize = 512;
         }
     }
 }

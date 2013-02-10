@@ -19,7 +19,7 @@ namespace Orbit.Core.Scene.Particles
             SceneMgr = emmitor.SceneMgr;
         }
 
-        public abstract Brush CreateParticle(double size);
+        public abstract Brush CreateParticle();
 
         public abstract void WriteObject(Lidgren.Network.NetOutgoingMessage msg);
 

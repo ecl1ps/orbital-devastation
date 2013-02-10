@@ -112,12 +112,12 @@ namespace Orbit.Core.Scene.Particles.Implementations
 
         public void Init(ParticleArea a)
         {
-            SceneMgr.BeginInvoke(new Action(() =>
+            a.BeginInvoke(new Action(() =>
             {
                 model = new GeometryModel3D();
                 model.Geometry = new MeshGeometry3D();
 
-                DiffuseMaterial material = new DiffuseMaterial(Factory.CreateParticle(MaxSize));
+                DiffuseMaterial material = new DiffuseMaterial(Factory.CreateParticle());
 
                 model.Material = material;
 
@@ -289,15 +289,24 @@ namespace Orbit.Core.Scene.Particles.Implementations
             Particle p = new Particle();
             p.Life = life;
             p.Force = force;
-            p.Position = position;
             p.MaxLife = life;
-            
+
+            p.Position = position;
             p.Direction = EmmitingDirection.Rotate(angle);
+
+            Point3D point = To3DPoint(new Vector(Position.X + size, Position.Y));
             p.Size = size;
-            p.StartingSize = size;
+            p.StartingSize = p.Size;
 
             particles.Add(p);
             amount--;
+        }
+
+        private double get3dSize(Particle p)
+        {
+            Point3D p1 = To3DPoint(new Vector(0, 0));
+            Point3D p2 = To3DPoint(new Vector(p.Size, 0));
+            return p2.X - p1.X;
         }
 
         public void DelayedStop()

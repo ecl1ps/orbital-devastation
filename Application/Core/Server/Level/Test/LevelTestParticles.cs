@@ -41,8 +41,8 @@ namespace Orbit.Core.Server.Level.Test
             e.MinLife = 2f;
             e.MaxLife = 2.5f;
             e.Position = position;
-            e.MinSize = 2;
-            e.MaxSize = 4;
+            e.MinSize = 0.2f;
+            e.MaxSize = 1;
             e.Amount = 250;
             e.SizeMultiplier = 0;
             e.Infinite = true;
@@ -71,8 +71,8 @@ namespace Orbit.Core.Server.Level.Test
             e.MinLife = 3f;
             e.MaxLife = 3.5f;
             e.Position = position;
-            e.MinSize = 5;
-            e.MaxSize = 10;
+            e.MinSize = 1;
+            e.MaxSize = 1.5f;
             e.Amount = 80;
             e.SizeMultiplier = 1;
             e.Infinite = true;
@@ -113,8 +113,8 @@ namespace Orbit.Core.Server.Level.Test
             e.MinLife = 3f;
             e.MaxLife = 3.5f;
             e.Position = position;
-            e.MinSize = 2;
-            e.MaxSize = 4;
+            e.MinSize = 0.2f;
+            e.MaxSize = 0.8f;
             e.Amount = 100;
             e.SizeMultiplier = 0;
             e.Infinite = false;
@@ -127,6 +127,29 @@ namespace Orbit.Core.Server.Level.Test
 
             ParticleSphereFactory f = new ParticleSphereFactory();
             f.Color = colors[rand.Next(colors.Count())];
+            e.Factory = f;
+
+            GameLevelManager.SendNewObject(mgr, e);
+        }
+
+        private void CreateShockWaveParticleEmmitor(Vector position)
+        {
+            ParticleEmmitor e = new ParticleEmmitor(null, IdMgr.GetNewId(0));
+            e.MinLife = 10f;
+            e.MaxLife = 10f;
+            e.Position = position;
+            e.MinSize = 20;
+            e.MaxSize = 20;
+            e.Amount = 1;
+            //e.SizeMultiplier = 20;
+            e.Infinite = false;
+            e.FireAll = true;
+            e.Enabled = true;
+
+            ParticleImageFactory f = new ParticleImageFactory();
+            f.Color = Color.FromArgb(50, 227, 144, 61);
+            //f.Color = Colors.White;
+            f.Source = new Uri("pack://application:,,,/resources/images/particles/explosion-particle.png");
             e.Factory = f;
 
             GameLevelManager.SendNewObject(mgr, e);

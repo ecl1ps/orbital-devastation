@@ -11,21 +11,24 @@ namespace Orbit.Core.Scene.Particles.Implementations
     {
         public Color Color { get; set; }
         public Uri Source { get; set; }
+        public int RenderSize { get; set; }
 
-        public override Brush CreateParticle(double size)
+        public override Brush CreateParticle()
         {
-            return ParticleGeometryFactory.CreateImageParticle(size, Color, Source);
+            return ParticleGeometryFactory.CreateImageParticle(Color, Source, RenderSize);
         }
 
         public override void WriteObject(Lidgren.Network.NetOutgoingMessage msg)
         {
             msg.Write(Color);
+            msg.Write(RenderSize);
             msg.Write(Source.OriginalString);
         }
 
         public override void ReadObject(Lidgren.Network.NetIncomingMessage msg)
         {
             Color = msg.ReadColor();
+            RenderSize = msg.ReadInt32();
             Source = new Uri(msg.ReadString());
         }
     }

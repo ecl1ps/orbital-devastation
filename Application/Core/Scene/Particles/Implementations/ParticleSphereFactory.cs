@@ -13,9 +13,9 @@ namespace Orbit.Core.Scene.Particles.Implementations
     {
         public Color Color { get; set; }
 
-        public override Brush CreateParticle(double size)
+        public override Brush CreateParticle()
         {
-            return ParticleGeometryFactory.CreateConstantColorCircleGeometry(size, Color);
+            return ParticleGeometryFactory.CreateConstantColorCircleGeometry(Color, 26);
         }
 
         public override void WriteObject(Lidgren.Network.NetOutgoingMessage msg)

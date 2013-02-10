@@ -11,7 +11,7 @@ namespace Orbit.Core.Scene.Particles
 {
     public interface IParticleFactory : ISendable
     {
-        Brush CreateParticle(double size);
+        Brush CreateParticle();
 
         void Init(ParticleEmmitor emmitor);
     }

@@ -273,6 +273,7 @@
     <Compile Include="Core\Scene\Particles\Implementations\ParticleEmmitor.cs" />
     <Compile Include="Core\Scene\Particles\Implementations\ParticleImageFactory.cs" />
     <Compile Include="Core\Scene\Particles\Implementations\ParticleSphereFactory.cs" />
+    <Compile Include="Core\Scene\Particles\Implementations\SmokeParticleFactory.cs" />
     <Compile Include="Core\Scene\Particles\IParticleFactory.cs" />
     <Compile Include="Core\Server\Level\AbstractGameLevel.cs" />
     <Compile Include="Core\Server\Level\LevelInfo.cs" />
