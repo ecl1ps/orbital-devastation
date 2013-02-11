@@ -11,7 +11,7 @@
     <Grid>
         <ToggleButton Name="EasyBotButton" Content="{lex:Loc bot_name_1}" Margin="99,12,109,0" Click="BotSelectionEvent"></ToggleButton>
         <ToggleButton Name="HookerBotButton" Content="{lex:Loc bot_name_2}" Margin="99,47,109,0" Click="BotSelectionEvent" ></ToggleButton>
-        <ToggleButton Name="MedicoreBotButton" IsEnabled="False" Content="{lex:Loc bot_name_3}" Margin="99,82,109,0" Click="BotSelectionEvent"></ToggleButton>
+        <ToggleButton Name="MedicoreBotButton"  Content="{lex:Loc bot_name_3}" Margin="99,82,109,0" Click="BotSelectionEvent"></ToggleButton>
         <ToggleButton Name="HardcoreBotButton" IsEnabled="False" Content="{lex:Loc bot_name_4}" Margin="99,117,109,0" Click="BotSelectionEvent"></ToggleButton>
         <ToggleButton Name="NightmareBotButton" IsEnabled="False" Content="{lex:Loc bot_name_5}" Margin="99,152,109,0" Click="BotSelectionEvent"></ToggleButton>
         <TextBlock Name="TextArea" Height="108" Width="328" HorizontalAlignment="Center"  Margin="10,187,10,0" TextAlignment="Center" TextWrapping="Wrap" Text="{lex:Loc ui_bot_select}"></TextBlock>

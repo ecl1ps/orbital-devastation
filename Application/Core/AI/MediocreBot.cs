@@ -21,19 +21,19 @@ namespace Orbit.Core.AI
     /// penize na jeden heal, nesnazi se sestrelit pritahovanej asteroid
     /// na obou zbranich ma zpomaleni 2*
     /// </summary>
-    public class MediocreBot : IGameState
+    public class MedicoreBot : IGameState
     {
 
 
 
-        public const string NAME = "MediocreBot";
+        public const string NAME = "MedicoreBot";
 
         private SceneMgr sceneMgr;
         private List<ISceneObject> objects;
         private Player me;
         private Vector baseLauncherPosition;
 
-        public MediocreBot(SceneMgr mgr, List<ISceneObject> objects, Player bot)
+        public MedicoreBot(SceneMgr mgr, List<ISceneObject> objects, Player bot)
         {
             sceneMgr = mgr;
             this.objects = objects;
@@ -163,6 +163,10 @@ namespace Orbit.Core.AI
                 me.Canoon = (me.Canoon.NextSpecialAction() as WeaponUpgrade).GetWeapon();
 
             }
+
+
+
+
         }
 
 

@@ -275,6 +275,8 @@ namespace Orbit.Core.Client
                     StateMgr.AddGameState(new HookerBot(this, objects, plr));
                     break;
                 case BotType.LEVEL3:
+                     StateMgr.AddGameState(new MedicoreBot(this, objects, plr));
+                    break;
                 case BotType.LEVEL4:
                 case BotType.LEVEL5:
                 default:
