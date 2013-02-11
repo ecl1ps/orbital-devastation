@@ -223,20 +223,16 @@ namespace Orbit.Core.AI
 
                 Asteroid asteroid = obj as Asteroid;
 
-               
-                if (((asteroid.Position - baseLauncherPosition).LengthSquared > (asteroid.Position + asteroid.Direction - baseLauncherPosition).LengthSquared) && asteroid.Direction.Y > 0) {
+
+                if (((asteroid.Position - baseLauncherPosition).LengthSquared > (asteroid.Position + asteroid.Direction - baseLauncherPosition).LengthSquared) && asteroid.Direction.Y > 0)
+                {
 
                     targets.Add(asteroid);
-                
-                
+
+
                 }
 
-                //if ((asteroid.Position.X - baseLauncherPosition.X > asteroid.Position.X + asteroid.Direction.X - baseLauncherPosition.X) && asteroid.Direction.Y > 0 && !oncatche.Contains(asteroid))
-                //{
-
-                //    targets.Add(asteroid);
                 
-                //}
 
                     
                 
