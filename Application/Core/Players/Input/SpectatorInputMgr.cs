@@ -12,6 +12,9 @@ using Orbit.Core.SpecialActions.Spectator;
 using Orbit.Gui.InteractivePanel;
 using Orbit.Gui;
 using System.Globalization;
+using Orbit.Core.Scene.Particles.Implementations;
+using System.Windows.Media;
+using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Players.Input
 {
@@ -53,6 +56,14 @@ namespace Orbit.Core.Players.Input
                 device.IsMovingRight = down;
             else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_SHOW_PROTECTING), CultureInfo.InvariantCulture) && down)
                 plr.ShowProtecting();
+        }
+
+        public override void OnCanvasClick(Point point, MouseButtonEventArgs e)
+        {
+            base.OnCanvasClick(point, e);
+
+            if(e.ButtonState == MouseButtonState.Pressed)
+                ParticleEmmitorFactory.CreateExplosionEmmitors(sceneMgr, point.ToVector()).ForEach(emmitor => sceneMgr.DelayedAttachToScene(emmitor));
         }
     }
 }
