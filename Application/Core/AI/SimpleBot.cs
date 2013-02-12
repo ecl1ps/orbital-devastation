@@ -17,8 +17,6 @@ namespace Orbit.Core.AI
     /// </summary>
     public class SimpleBot : IGameState
     {
-        public const string NAME = "SimpleBot";
-
         private SceneMgr sceneMgr;
         private Player me;
 

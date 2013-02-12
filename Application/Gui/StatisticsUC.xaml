@@ -3,13 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:lex="http://wpflocalizeextension.codeplex.com" 
+             lex:LocalizeDictionary.DesignCulture="en"  
+             lex:ResxLocalizationProvider.DefaultAssembly="OrbitalDevastation"  
+             lex:ResxLocalizationProvider.DefaultDictionary="Strings"              
              mc:Ignorable="d" x:Name="statisticsWindow"
              d:DesignWidth="1000" d:DesignHeight="700" >
 
     <Grid>
-        <Label Name="lblTitle" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="990" Margin="0,84,10,554" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" >Player Statistics</Label>
+        <Label Name="lblTitle" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="990" Margin="0,84,10,554" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{lex:Loc ui_player_statistics}" />
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Label Name="lblHighScoreCaption" Width="402" Margin="0,156,0,470" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Center" >HighScores</Label>
+            <Label Name="lblHighScoreCaption" Width="402" Margin="0,179,0,453" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Center" Content="{lex:Loc ui_highscores}" />
             <Border BorderThickness="1" BorderBrush="{StaticResource darkPurpleBrush}"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,197,0,265" CornerRadius="0">
                 <Grid Width="400" >
                     <Grid.ColumnDefinitions>
@@ -17,20 +21,20 @@
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0">
-                        <Label Name="lblHSText1">Solo vs. SimpleBot:</Label>
-                        <Label Name="lblHSText2">Solo vs. Bot2:</Label>
-                        <Label Name="lblHSText3">Solo vs. Bot3:</Label>
-                        <Label Name="lblHSText4">Solo vs. Bot4:</Label>
-                        <Label Name="lblHSText5">Solo vs. Bot5:</Label>
-                        <Label Name="lblHSText6">1v1 Quick Game:</Label>
+                        <Label Name="lblHSText1" />
+                        <Label Name="lblHSText2" />
+                        <Label Name="lblHSText3" />
+                        <Label Name="lblHSText4" />
+                        <Label Name="lblHSText5" />
+                        <Label Name="lblHSText6" Content="{lex:Loc ui_statistics_quick_game}" />
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <Label Name="lblHS1">0</Label>
-                        <Label Name="lblHS2">0</Label>
-                        <Label Name="lblHS3">0</Label>
-                        <Label Name="lblHS4">0</Label>
-                        <Label Name="lblHS5">0</Label>
-                        <Label Name="lblHS6">0</Label>
+                        <Label Name="lblHS1" />
+                        <Label Name="lblHS2" />
+                        <Label Name="lblHS3" />
+                        <Label Name="lblHS4" />
+                        <Label Name="lblHS5" />
+                        <Label Name="lblHS6" />
                     </StackPanel>
                 </Grid>
             </Border>

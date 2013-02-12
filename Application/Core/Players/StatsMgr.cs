@@ -18,22 +18,22 @@ namespace Orbit.Core.Players
         private SceneMgr sceneMgr;
         private static Dictionary<PlayerStats, Stat> allStats = new Dictionary<PlayerStats, Stat>()
         {
-            { PlayerStats.MINE_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_COOLDOWN, "Mine cooldown", -0.1f, -0.3f)},
-            { PlayerStats.MINE_1_FALLING_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_FALLING_SPEED, "Mine falling speed", +10f, +30f)},
-            { PlayerStats.MINE_1_GROWTH_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_GROWTH_SPEED, "Mine growth speed", +0.1f, +0.3f)},
-            { PlayerStats.MINE_1_STRENGTH, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_STRENGTH, "Mine power", +10f, +30f)},
+            { PlayerStats.MINE_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_COOLDOWN, Strings.powerup_mine_cooldown, -0.1f, -0.3f)},
+            { PlayerStats.MINE_1_FALLING_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_FALLING_SPEED, Strings.powerup_mine_falling_speed, +10f, +30f)},
+            { PlayerStats.MINE_1_GROWTH_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_GROWTH_SPEED, Strings.powerup_mine_growth_speed, +0.1f, +0.3f)},
+            { PlayerStats.MINE_1_STRENGTH, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_STRENGTH, Strings.powerup_mine_power, +10f, +30f)},
 
-            { PlayerStats.CANNON_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.CANNON_1_COOLDOWN, "Cannon cooldown", -0.03f, -0.07f)},
-            { PlayerStats.CANNON_1_DAMAGE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.CANNON_1_DAMAGE, "Cannon damage", +1f, +2f)},
-            { PlayerStats.CANNON_1_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.CANNON_1_SPEED, "Cannon bullet speed", +30f, +100f)},
+            { PlayerStats.CANNON_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.CANNON_1_COOLDOWN, Strings.powerup_cannon_cooldown, -0.03f, -0.07f)},
+            { PlayerStats.CANNON_1_DAMAGE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.CANNON_1_DAMAGE, Strings.powerup_cannon_damage, +1f, +2f)},
+            { PlayerStats.CANNON_1_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.CANNON_1_SPEED, Strings.powerup_cannon_bullet_speed, +30f, +100f)},
 
-            { PlayerStats.HOOK_1_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_SPEED, "Hook speed", +20f, +40f)},
-            { PlayerStats.HOOK_1_LENGTH, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_LENGTH, "Hook length", +40f, +80f)},
-            { PlayerStats.HOOK_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_COOLDOWN, "Hook cooldown", -0.1f, -0.3f)},
+            { PlayerStats.HOOK_1_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_SPEED, Strings.powerup_hook_speed, +20f, +40f)},
+            { PlayerStats.HOOK_1_LENGTH, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_LENGTH, Strings.powerup_hook_length, +40f, +80f)},
+            { PlayerStats.HOOK_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_COOLDOWN, Strings.powerup_hook_cooldown, -0.1f, -0.3f)},
 
-            { PlayerStats.HEALING_KIT_1_REPAIR_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_REPAIR_BASE, "Base repair", +10f, +15f)},
-            { PlayerStats.HEALING_KIT_1_FORTIFY_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_FORTIFY_BASE, "Base fortify", +10f, +15f)},
-            { PlayerStats.HEALING_KIT_1_BONUS_HEAL, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_BONUS_HEAL, "Heal Bonus", +1, +5)}
+            { PlayerStats.HEALING_KIT_1_REPAIR_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_REPAIR_BASE, Strings.powerup_base_repair, +10f, +15f)},
+            { PlayerStats.HEALING_KIT_1_FORTIFY_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_FORTIFY_BASE, Strings.powerup_base_fortify, +10f, +15f)},
+            { PlayerStats.HEALING_KIT_1_BONUS_HEAL, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_BONUS_HEAL, Strings.powerup_heal_bonus, +1, +5)}
         };
     
         public StatsMgr(SceneMgr mgr)
@@ -52,8 +52,9 @@ namespace Orbit.Core.Players
             Tuple<float, float> valAndPct = GenerateAndAddStatToPlayer(pickedStat, plr.Data);
 
             Vector textPos = new Vector(plr.GetBaseLocation().X + (plr.GetBaseLocation().Width / 2), plr.GetBaseLocation().Y - 40);
-            sceneMgr.FloatingTextMgr.AddFloatingText(pickedStat.text + (valAndPct.Item2 > 0 ? " +" : " ") + valAndPct.Item2.ToString("0.0") + "%", textPos,
-                FloatingTextManager.TIME_LENGTH_3, FloatingTextType.SYSTEM, 14, true, true);
+            sceneMgr.FloatingTextMgr.AddFloatingText(String.Format(Strings.Culture, Strings.ft_powerup, 
+                pickedStat.text, (valAndPct.Item2 > 0 ? Strings.char_plus : string.Empty), valAndPct.Item2.ToString("0.0", Strings.Culture)), 
+                textPos, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.SYSTEM, 14, true, true);
 
             NetOutgoingMessage msg = sceneMgr.CreateNetMessage();
             msg.Write((int)PacketType.PLAYER_RECEIVED_POWERUP);

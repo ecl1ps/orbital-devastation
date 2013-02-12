@@ -94,7 +94,8 @@ namespace Orbit.Core.Client
                             case NetConnectionStatus.Disconnecting:
                                 string reason = msg.ReadString();
                                 if (reason == "kicked") // musi byt delayed - az v dalsim updatu - jinak zavreni oken premaze i info okno
-                                    Enqueue(new Action(() => Application.Current.Dispatcher.Invoke(new Action(() => App.Instance.AddMenu(new InfoUC("You have been kicked out of the server."))))));
+                                    Enqueue(new Action(() => Application.Current.Dispatcher.Invoke(
+                                        new Action(() => App.Instance.AddMenu(new InfoUC(Strings.ui_warning_kicked))))));
                                 EndGame(null, GameEnd.SERVER_DISCONNECTED);
                                 break;
                         }
@@ -114,7 +115,7 @@ namespace Orbit.Core.Client
         {
             PacketType type = (PacketType)msg.ReadInt32();
 #if VERBOSE
-            Logger.Debug("Client " + GetCurrentPlayer().GetId() + ": received msg " + type.ToString());
+            Logger.Debug("Client " + GetCurrentPlayer().GetId() + ": received msg " + type.ToString(Strings.Culture));
 #endif
             switch (type)
             {
@@ -277,6 +278,8 @@ namespace Orbit.Core.Client
                     StateMgr.AddGameState(new HookerBot(this, objects, plr));
                     break;
                 case BotType.LEVEL3:
+                     StateMgr.AddGameState(new MedicoreBot(this, objects, plr));
+                    break;
                 case BotType.LEVEL4:
                 case BotType.LEVEL5:
                 default:

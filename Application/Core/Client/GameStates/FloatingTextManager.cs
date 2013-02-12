@@ -237,7 +237,7 @@ namespace Orbit.Core.Client.GameStates
 
         public void AddFloatingText(int value, Vector position, float time, FloatingTextType type, float fontSize = SIZE_SMALL, bool disableRandomPos = false, bool send = false)
         {
-            AddFloatingText(value.ToString(), position, time, type, fontSize, disableRandomPos, send);
+            AddFloatingText(value.ToString(Strings.Culture), position, time, type, fontSize, disableRandomPos, send);
         }
 
         public void AddFloatingText(string text, Vector position, float time, FloatingTextType type, float fontSize = SIZE_SMALL, bool disableRandomPos = false, bool send = false)

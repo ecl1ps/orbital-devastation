@@ -160,10 +160,6 @@ namespace Orbit.Core
         public const string MUSIC_BACKGROUND_ACTION         = "bg_action";
         public const string MUSIC_ALERT                     = "music_alert";
 
-        //Texty pro boty
-        public const string BOT_LEVEL_1_TEXT = "The easiest bot in this game, recomended for those who just started or for those who seek simple fun with not so much challenge. This bot will never upgrade its weapons and refuse to use hooks.";
-        public const string BOL_LEVEL_2_TEXT = "Easier bot then rest of others, recomended for those who just got a little experience and want to train some more before challenging real players. This bot will never upgrade its weapons but he will use hook as best as he can.";
-
         public const string SALT                            = "Kj5dfO0OR";
 
         public const int LEVEL_SURVIVAL_ASTEROID_COUNT              = 8;

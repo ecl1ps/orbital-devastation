@@ -4,12 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:controls="clr-namespace:Orbit.Gui"
-             mc:Ignorable="d" x:Name="gameOverview"  Width="700" Height="355" BorderBrush="Black" BorderThickness="1" Margin="0,50,0,0" VerticalAlignment="Top">
+             xmlns:lex="http://wpflocalizeextension.codeplex.com" 
+             lex:LocalizeDictionary.DesignCulture="en"  
+             lex:ResxLocalizationProvider.DefaultAssembly="OrbitalDevastation"  
+             lex:ResxLocalizationProvider.DefaultDictionary="Strings"              
+             mc:Ignorable="d" x:Name="gameOverview"  Width="800" Height="355" BorderBrush="Black" BorderThickness="1" Margin="0,50,0,0" VerticalAlignment="Top">
     
-    <Grid Width="700" Height="355" Background="#E7A0A0A0">
-        <Label Content="Game Overview" Height="28" HorizontalAlignment="Center" Margin="0,20,0,0" Name="label1" VerticalAlignment="Top" FontSize="16"  />
+    <Grid Width="800" Height="355" Background="#E7A0A0A0">
+        <Label Content="{lex:Loc ui_game_overview}" Height="28" HorizontalAlignment="Center" Margin="0,20,0,0" Name="label1" VerticalAlignment="Top" FontSize="14"  />
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Name="spPlayers" Margin="0,70,0,0">
         </StackPanel>
-        <Button Content="Close" Margin="0,280,0,0" Name="btnBack" Click="btnBack_Click" />
+        <Button Content="{lex:Loc ui_close}" Margin="0,280,0,0" Name="btnBack" Click="btnBack_Click" />
     </Grid>
 </UserControl>

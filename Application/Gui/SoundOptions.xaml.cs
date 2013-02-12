@@ -36,29 +36,29 @@ namespace Orbit.Gui
 
             float soundVolume = float.Parse(GameProperties.Props.Get(PropertyKey.SOUNDS_VOLUME), CultureInfo.InvariantCulture);
             SoundSlider.Value = soundVolume * 100;
-            SoundValue.Text = (soundVolume * 100).ToString("0.##");
+            SoundValue.Text = (soundVolume * 100).ToString("0.##", Strings.Culture);
 
             float musicVolume = float.Parse(GameProperties.Props.Get(PropertyKey.MUSIC_VOLUME), CultureInfo.InvariantCulture);
             BackgroundSlider.Value = musicVolume * 100;
-            BackgroundValue.Text = (musicVolume * 100).ToString("0.##");
+            BackgroundValue.Text = (musicVolume * 100).ToString("0.##", Strings.Culture);
         }
 
         private void SoundVolumeChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            SoundValue.Text = e.NewValue.ToString("0.##");
+            SoundValue.Text = e.NewValue.ToString("0.##", Strings.Culture);
             float volume = (float)(e.NewValue / 100);
             SoundManager.Instance.SetSoundVolume(volume);
 
-            GameProperties.Props.SetAndSave(PropertyKey.SOUNDS_VOLUME, volume.ToString());
+            GameProperties.Props.SetAndSave(PropertyKey.SOUNDS_VOLUME, volume.ToString(Strings.Culture));
         }
 
         private void BackgroundVolumeChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            BackgroundValue.Text = e.NewValue.ToString("0.##");
+            BackgroundValue.Text = e.NewValue.ToString("0.##", Strings.Culture);
             float volume = (float) (e.NewValue / 100);
             SoundManager.Instance.SetMusicVolume(volume);
 
-            GameProperties.Props.SetAndSave(PropertyKey.MUSIC_VOLUME, volume.ToString());
+            GameProperties.Props.SetAndSave(PropertyKey.MUSIC_VOLUME, volume.ToString(Strings.Culture));
         }
 
         private void EnableSounds(bool enabled)
@@ -70,7 +70,7 @@ namespace Orbit.Gui
 
             soundEnabled.IsChecked = enabled;
 
-            GameProperties.Props.SetAndSave(PropertyKey.MUSIC_ENABLED, enabled.ToString());
+            GameProperties.Props.SetAndSave(PropertyKey.MUSIC_ENABLED, enabled.ToString(Strings.Culture));
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)

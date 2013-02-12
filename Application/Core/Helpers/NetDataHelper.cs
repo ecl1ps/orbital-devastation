@@ -15,7 +15,6 @@ using Orbit.Core.Helpers;
 using Orbit.Core.Client;
 using Orbit.Core.Scene.Controls.Collisions.Implementations;
 using Orbit.Core.Scene.Controls.Health.Implementations;
-using Orbit.Core.Scene.Controls.Health.implementations;
 using Orbit.Core.Scene.Controls.Health;
 using Orbit.Core.Server.Match;
 using Orbit.Core.Server;

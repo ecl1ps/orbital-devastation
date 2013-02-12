@@ -96,7 +96,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             if (childsDestroyed == 3 && allDestroyedByTheSamePlayer)
             {
                 if (SceneMgr.GetPlayer(Destroyer).IsCurrentPlayer())
-                    SceneMgr.FloatingTextMgr.AddFloatingText("Tripple wiped!", destroyedChild.Center,
+                    SceneMgr.FloatingTextMgr.AddFloatingText(Strings.ft_score_unstable_wiped, destroyedChild.Center,
                         FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG, false, true);
 
                 if (SceneMgr.GetPlayer(Destroyer).IsCurrentPlayerOrBot())

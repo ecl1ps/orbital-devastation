@@ -136,7 +136,7 @@ namespace Orbit.Gui
             Dispatcher.BeginInvoke(new Action(() =>
             {
                 if (time != 0)
-                    CdTime.Text = time.ToString("0.0");
+                    CdTime.Text = time.ToString("0.0", Strings.Culture);
                 else
                     CdTime.Text = "";
             }));

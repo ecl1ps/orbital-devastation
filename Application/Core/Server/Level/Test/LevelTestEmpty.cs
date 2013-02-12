@@ -12,7 +12,7 @@ namespace Orbit.Core.Server.Level
 {
     public class LevelTestEmpty : AbstractGameLevel
     {
-        public static readonly LevelInfo Info = new LevelInfo(true, "[TEST] Empty map");
+        public static LevelInfo Info = new LevelInfo(true, Strings.lvl_type_empty);
 
         public LevelTestEmpty(ServerMgr serverMgr) : base(serverMgr)
         {

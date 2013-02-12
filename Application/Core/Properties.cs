@@ -79,7 +79,7 @@ namespace Orbit.Core
 
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < hash.Length; i++)
-                sb.Append(hash[i].ToString("X2"));
+                sb.Append(hash[i].ToString("X2", CultureInfo.InvariantCulture));
 
             return sb.ToString();
         }
@@ -115,16 +115,16 @@ namespace Orbit.Core
             foreach (String line in File.ReadAllLines(file))
             {
                 if ((!String.IsNullOrEmpty(line)) &&
-                    (!line.StartsWith(";")) &&
-                    (!line.StartsWith("#")) &&
+                    (!line.StartsWith(";", StringComparison.Ordinal)) &&
+                    (!line.StartsWith("#", StringComparison.Ordinal)) &&
                     (line.Contains('=')))
                 {
                     int index = line.IndexOf('=');
                     String key = line.Substring(0, index).Trim();
                     String value = line.Substring(index + 1).Trim();
 
-                    if ((value.StartsWith("\"") && value.EndsWith("\"")) ||
-                        (value.StartsWith("'") && value.EndsWith("'")))
+                    if ((value.StartsWith("\"", StringComparison.Ordinal) && value.EndsWith("\"", StringComparison.Ordinal)) ||
+                        (value.StartsWith("'", StringComparison.Ordinal) && value.EndsWith("'", StringComparison.Ordinal)))
                     {
                         value = value.Substring(1, value.Length - 2);
                     }

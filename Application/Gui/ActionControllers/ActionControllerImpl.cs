@@ -33,9 +33,9 @@ namespace Orbit.Gui.ActionControllers
         public override void CreatePriceText(ActionUC window)
         {
             if (Action.Cost != 0)
-                window.SetPriceText("Costs " + Action.Cost + " credits");
+                window.SetPriceText(String.Format(Strings.Culture, Strings.ui_action_cost, Action.Cost));
             else
-                window.SetPriceText("");
+                window.SetPriceText(String.Empty);
         }
 
         public override void CreateImageUriString(ActionUC window)

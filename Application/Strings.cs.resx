@@ -344,4 +344,246 @@
   <data name="ui_tournament_type" xml:space="preserve">
     <value>Typ:</value>
   </data>
+  <data name="bot_name_1" xml:space="preserve">
+    <value>Lamka</value>
+  </data>
+  <data name="bot_name_2" xml:space="preserve">
+    <value>Hákovač</value>
+  </data>
+  <data name="bot_name_3" xml:space="preserve">
+    <value>Týpek</value>
+  </data>
+  <data name="bot_name_4" xml:space="preserve">
+    <value>Silák</value>
+  </data>
+  <data name="bot_name_5" xml:space="preserve">
+    <value>Noční můra</value>
+  </data>
+  <data name="bot_text_1" xml:space="preserve">
+    <value>Nejjednodušší bot ve hře, je doporučován těm, kteří právě začali nebo těm, kteří si chtějí vychutnat slabého bota. Tento bot si nekupuje vylepšení a odmítá používat háky.</value>
+  </data>
+  <data name="bot_text_2" xml:space="preserve">
+    <value>Slabší bot než ostatní, doporučován je těm, kteří už získali nějaké zkušenosti a chtějí se více procvičit než vyzvou skutečné hráče. Tento bot si nekupuje vylepšení ale používá hák jak nejlépe umí.</value>
+  </data>
+  <data name="lvl_type_base_collision" xml:space="preserve">
+    <value>[TEST] Base collisions</value>
+  </data>
+  <data name="lvl_type_basic" xml:space="preserve">
+    <value>Základní mapa</value>
+  </data>
+  <data name="lvl_type_empty" xml:space="preserve">
+    <value>[TEST] Empty map</value>
+  </data>
+  <data name="lvl_type_powerup" xml:space="preserve">
+    <value>[TEST] Powerups</value>
+  </data>
+  <data name="lvl_type_static" xml:space="preserve">
+    <value>[TEST] Static objects</value>
+  </data>
+  <data name="lvl_type_survival" xml:space="preserve">
+    <value>Mapa na přežití</value>
+  </data>
+  <data name="mm_lost_reward" xml:space="preserve">
+    <value>Prohrál jsi. Získáváš {0} bodů.</value>
+    <comment>0 = score for loosing</comment>
+  </data>
+  <data name="mm_spectator_alone_reward" xml:space="preserve">
+    <value>Díky tvému úsilí hra trvala {0}. Získáváš {1} bodů.</value>
+    <comment>0 = length of last game, 1 = rewarded score</comment>
+  </data>
+  <data name="mm_spectator_lost_reward" xml:space="preserve">
+    <value>Prohrál jsi. Získáváš {0} bodů.</value>
+    <comment>0 = score for loosing</comment>
+  </data>
+  <data name="mm_spectator_win_reward" xml:space="preserve">
+    <value>Vyhrál jsi. Získáváš {0} bodů.</value>
+    <comment>0 = score for winning</comment>
+  </data>
+  <data name="mm_type_competition" xml:space="preserve">
+    <value>Soupeření</value>
+  </data>
+  <data name="mm_type_leader_as_spectator" xml:space="preserve">
+    <value>[TEST] Leader as Spectator</value>
+  </data>
+  <data name="mm_type_one_player" xml:space="preserve">
+    <value>[TEST] One player vs. bot</value>
+  </data>
+  <data name="mm_type_two_players" xml:space="preserve">
+    <value>[TEST] Two players</value>
+  </data>
+  <data name="mm_victory_reward" xml:space="preserve">
+    <value>Vyhrál jsi. Získáváš {0} bodů.</value>
+    <comment>0 = score for winning</comment>
+  </data>
+  <data name="ui_best_highscore" xml:space="preserve">
+    <value>Nejlepší skóre: {0}</value>
+    <comment>0 = highscore</comment>
+  </data>
+  <data name="ui_bot_select" xml:space="preserve">
+    <value>Vyberte jednu obtížnost.</value>
+  </data>
+  <data name="ui_cannon_level" xml:space="preserve">
+    <value>Kanón: {0}</value>
+    <comment>0 = level of cannon in roman digits (I - III)</comment>
+  </data>
+  <data name="ui_close" xml:space="preserve">
+    <value>Zavřít</value>
+  </data>
+  <data name="ui_game_overview" xml:space="preserve">
+    <value>Přehled hry</value>
+  </data>
+  <data name="ui_gold" xml:space="preserve">
+    <value>Zlato: {0}</value>
+    <comment>0 = amount of gold</comment>
+  </data>
+  <data name="ui_hook_level" xml:space="preserve">
+    <value>Hák: {0}</value>
+    <comment>0 = level of hook in roman digits (I - III)</comment>
+  </data>
+  <data name="ui_match_points" xml:space="preserve">
+    <value>Body zápasu: {0}</value>
+    <comment>0 = amount of match points</comment>
+  </data>
+  <data name="ui_mine_level" xml:space="preserve">
+    <value>Mina: {0}</value>
+    <comment>0 = level of mine in roman digits (I - III)</comment>
+  </data>
+  <data name="ui_played" xml:space="preserve">
+    <value>Odehráno: {0}</value>
+    <comment>0 = number of played games</comment>
+  </data>
+  <data name="ui_playing" xml:space="preserve">
+    <value>Hrající</value>
+  </data>
+  <data name="ui_spectating" xml:space="preserve">
+    <value>Pozorovatel</value>
+  </data>
+  <data name="ui_statistics_solo_vs_bot" xml:space="preserve">
+    <value>Solo vs. {0}</value>
+    <comment>0 = name of bot</comment>
+  </data>
+  <data name="ui_won" xml:space="preserve">
+    <value>Vítězství: {0}</value>
+    <comment>0 = number of wins</comment>
+  </data>
+  <data name="ui_highscores" xml:space="preserve">
+    <value>Nejlepší skóre</value>
+  </data>
+  <data name="ui_player_statistics" xml:space="preserve">
+    <value>Statistiky hráče</value>
+  </data>
+  <data name="ui_statistics_quick_game" xml:space="preserve">
+    <value>1v1 Rychlá hra</value>
+  </data>
+  <data name="game_player_nobody" xml:space="preserve">
+    <value>nikoho</value>
+  </data>
+  <data name="game_protecting" xml:space="preserve">
+    <value>Bráníš: {0}</value>
+    <comment>0 = name of protected player</comment>
+  </data>
+  <data name="game_protect_base_left" xml:space="preserve">
+    <value>Braň svou bázi! Jsi na LEVÉ straně.</value>
+  </data>
+  <data name="game_protect_base_right" xml:space="preserve">
+    <value>Braň svou bázi! Jsi na PRAVÉ straně.</value>
+  </data>
+  <data name="game_warning_integrity" xml:space="preserve">
+    <value>VAROVÁNÍ: NÍZKÁ INTEGRITA BÁZE!</value>
+  </data>
+  <data name="game_warning_integrity_ally" xml:space="preserve">
+    <value>VAROVÁNÍ: VÁŠ SPOJENEC MÁ NÍZKOU INTEGRITU BÁZE!</value>
+  </data>
+  <data name="ft_score_cannon_unstable_above_enemy" xml:space="preserve">
+    <value>Zkáza nepřátel!</value>
+  </data>
+  <data name="ft_score_hit_multi" xml:space="preserve">
+    <value>Vícenásobný zásah!</value>
+  </data>
+  <data name="ft_score_hit_penta" xml:space="preserve">
+    <value>Pětinásobný zásah!</value>
+  </data>
+  <data name="ft_score_hit_quadra" xml:space="preserve">
+    <value>Čtyřnásobný zásah!</value>
+  </data>
+  <data name="ft_score_hit_triple" xml:space="preserve">
+    <value>Trojitý zásah!</value>
+  </data>
+  <data name="ft_score_hook_max" xml:space="preserve">
+    <value>Maximální dolet!</value>
+  </data>
+  <data name="ft_score_unstable_wiped" xml:space="preserve">
+    <value>Vyčištěno!</value>
+  </data>
+  <data name="ft_spectator_powered_action" xml:space="preserve">
+    <value>Nabuzená akce!</value>
+  </data>
+  <data name="game_joined" xml:space="preserve">
+    <value>{0} se připojil do hry.</value>
+    <comment>0 = player name</comment>
+  </data>
+  <data name="game_wepon_bought" xml:space="preserve">
+    <value>Koupena nová zbraň: {0}</value>
+    <comment>0 = name of weapon</comment>
+  </data>
+  <data name="lobby_not_ready_msg" xml:space="preserve">
+    <value>Moment, nejsem připraven</value>
+  </data>
+  <data name="lobby_ready_msg" xml:space="preserve">
+    <value>Jsem připraven</value>
+  </data>
+  <data name="powerup_base_fortify" xml:space="preserve">
+    <value>Zesílení štítu</value>
+  </data>
+  <data name="powerup_base_repair" xml:space="preserve">
+    <value>Opravení štítu</value>
+  </data>
+  <data name="powerup_cannon_bullet_speed" xml:space="preserve">
+    <value>Rychlost střel kanónu</value>
+  </data>
+  <data name="powerup_cannon_cooldown" xml:space="preserve">
+    <value>Výkon chlazení kanónu</value>
+  </data>
+  <data name="powerup_cannon_damage" xml:space="preserve">
+    <value>Účinnost střel kanónu</value>
+  </data>
+  <data name="powerup_heal_bonus" xml:space="preserve">
+    <value>Efektivita oprav štítu</value>
+  </data>
+  <data name="powerup_hook_cooldown" xml:space="preserve">
+    <value>Výkon chlazení emitoru háku</value>
+  </data>
+  <data name="powerup_hook_length" xml:space="preserve">
+    <value>Dosah háku</value>
+  </data>
+  <data name="powerup_hook_speed" xml:space="preserve">
+    <value>Rychlost háku</value>
+  </data>
+  <data name="powerup_mine_cooldown" xml:space="preserve">
+    <value>Výkon chlazení emitoru min</value>
+  </data>
+  <data name="powerup_mine_falling_speed" xml:space="preserve">
+    <value>Rychlost pádu min</value>
+  </data>
+  <data name="powerup_mine_growth_speed" xml:space="preserve">
+    <value>Velikost exploze min</value>
+  </data>
+  <data name="powerup_mine_power" xml:space="preserve">
+    <value>Síla miny</value>
+  </data>
+  <data name="ui_action_cost" xml:space="preserve">
+    <value>Stojí {0} zlata</value>
+  </data>
+  <data name="ui_press_key" xml:space="preserve">
+    <value>Stiskněte libovolnou klávesu</value>
+  </data>
+  <data name="ui_warning_kicked" xml:space="preserve">
+    <value>Byl jsi vyhozen ze serveru.</value>
+  </data>
+  <data name="ui_warning_port_unavailable" xml:space="preserve">
+    <value>Váš port je obsazen. Pravděpodobně na vašem stroji již běží server.</value>
+  </data>
+  <data name="bot_text_3" xml:space="preserve">
+    <value>-</value>
+  </data>
 </root>

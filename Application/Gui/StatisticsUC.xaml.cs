@@ -24,8 +24,11 @@ namespace Orbit.Gui
         public StatisticsUC()
         {
             InitializeComponent();
-            lblHSText1.Content = "Solo vs. " + SimpleBot.NAME;
-            lblHSText2.Content = "Solo vs. " + HookerBot.NAME;
+            lblHSText1.Content = String.Format(Strings.Culture, Strings.ui_statistics_solo_vs_bot, Strings.bot_name_1);
+            lblHSText2.Content = String.Format(Strings.Culture, Strings.ui_statistics_solo_vs_bot, Strings.bot_name_2);
+            lblHSText3.Content = String.Format(Strings.Culture, Strings.ui_statistics_solo_vs_bot, Strings.bot_name_3);
+            lblHSText4.Content = String.Format(Strings.Culture, Strings.ui_statistics_solo_vs_bot, Strings.bot_name_4);
+            lblHSText5.Content = String.Format(Strings.Culture, Strings.ui_statistics_solo_vs_bot, Strings.bot_name_5);
 
             lblHS1.Content = GameProperties.Props.Get(PropertyKey.PLAYER_HIGHSCORE_SOLO1);
             lblHS2.Content = GameProperties.Props.Get(PropertyKey.PLAYER_HIGHSCORE_SOLO2);

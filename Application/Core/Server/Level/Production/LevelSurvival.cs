@@ -13,7 +13,7 @@ namespace Orbit.Core.Server.Level
 {
     public class LevelSurvival : AbstractGameLevel
     {
-        public static readonly LevelInfo Info = new LevelInfo(false, "Survival map");
+        public static LevelInfo Info = new LevelInfo(false, Strings.lvl_type_survival);
 
         private float newAsteroidTimer;
 

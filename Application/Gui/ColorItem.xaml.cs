@@ -43,7 +43,7 @@ namespace Orbit.Gui
                 {
                     if ((Color)prop.GetGetMethod().Invoke(null, null) == color)
                     {
-                        Logger.Debug(prop.Name + " " + color.ToString());
+                        Logger.Debug(prop.Name + " " + color.ToString(Strings.Culture));
                         break;
                     }
                 }

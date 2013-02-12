@@ -74,13 +74,13 @@ namespace Orbit.Core.Scene.Controls.Implementations
             switch (count)
             {
                 case 3:
-                    return "Triple Hit!";
+                    return Strings.ft_score_hit_triple;
                 case 4:
-                    return "Quadra Hit!";
+                    return Strings.ft_score_hit_quadra;
                 case 5:
-                    return "Penta Hit!";
+                    return Strings.ft_score_hit_penta;
                 default:
-                    return "Multi Hit!";
+                    return Strings.ft_score_hit_multi;
             }
         }
 

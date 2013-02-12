@@ -478,9 +478,9 @@ namespace Orbit.Core.Client
 
             statisticsTimer = 0;
 
-            ShowStatusText(1, String.Format(Strings.misc_fps, tpf, (int)(1.0f / tpf)));
+            ShowStatusText(1, String.Format(Strings.Culture, Strings.misc_fps, tpf, (int)(1.0f / tpf)));
             if (GameType != Gametype.SOLO_GAME && GetCurrentPlayer().Connection != null)
-                ShowStatusText(2, String.Format(Strings.misc_latency, GetCurrentPlayer().Connection.AverageRoundtripTime / 2));
+                ShowStatusText(2, String.Format(Strings.Culture, Strings.misc_latency, GetCurrentPlayer().Connection.AverageRoundtripTime / 2));
         }
 
         private void ProcessActionQueue()
@@ -687,7 +687,7 @@ namespace Orbit.Core.Client
         public void PlayerQuitGame()
         {
             playerQuit = true;
-            SendChatMessage(GetCurrentPlayer().Data.Name + " " + Strings.lobby_left, true);
+            SendChatMessage(String.Format(Strings.Culture, Strings.lobby_left, GetCurrentPlayer().Data.Name), true);
             serverConnection.Disconnect(Strings.networking_server_quit);
         }
 
@@ -730,7 +730,7 @@ namespace Orbit.Core.Client
             {
                 hs = currentPlayer.Data.MatchPoints;
                 GameProperties.Props.SetAndSave(key, hs);
-                CreateTextMessage(String.Format(Strings.game_new_highscore, hs));
+                CreateTextMessage(String.Format(Strings.Culture, Strings.game_new_highscore, hs));
             }
             else
             {
@@ -795,7 +795,7 @@ namespace Orbit.Core.Client
                     lobby.UpdateTournamentSettings(lastTournamentSettings);
             }));
 
-            SendChatMessage(GetCurrentPlayer().Data.Name + " " + Strings.lobby_joined);
+            SendChatMessage(String.Format(Strings.Culture, Strings.lobby_joined, GetCurrentPlayer().Data.Name));
             SendPlayerDataRequestMessage();
             
             if (currentPlayer.Data.LobbyLeader)
@@ -834,9 +834,9 @@ namespace Orbit.Core.Client
                 return;
 
             if (GameWindowState == WindowState.IN_LOBBY)
-                ShowChatMessage(String.Format(Strings.game_left, leaver.Data.Name));
+                ShowChatMessage(String.Format(Strings.Culture, Strings.game_left, leaver.Data.Name));
             else
-                CreateTextMessage(String.Format(Strings.game_left, leaver.Data.Name));
+                CreateTextMessage(String.Format(Strings.Culture, Strings.game_left, leaver.Data.Name));
         }
 
         public void Invoke(Action a)

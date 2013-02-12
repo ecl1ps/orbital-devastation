@@ -3,20 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="30" d:DesignWidth="650" Margin="0,5,0,0">
+             xmlns:lex="http://wpflocalizeextension.codeplex.com" 
+             lex:LocalizeDictionary.DesignCulture="en"  
+             lex:ResxLocalizationProvider.DefaultAssembly="OrbitalDevastation"  
+             lex:ResxLocalizationProvider.DefaultDictionary="Strings"               
+             mc:Ignorable="d" d:DesignHeight="30" d:DesignWidth="750" Margin="0,5,0,0">
+    
     <Border BorderBrush="Black" BorderThickness="1">
-        <Grid Width="650">
-            <Label Content="MMMMMMMMMM" Height="28" HorizontalAlignment="Left" Margin="12,0,0,0" Name="lblName" VerticalAlignment="Center" FontSize="12" />
-            <Label Content="Spectating" Height="28" HorizontalAlignment="Left" Margin="122,0,0,0" Name="lblActive" VerticalAlignment="Center" FontSize="11" />
-            <Label Content="Score: 264831" Height="28" HorizontalAlignment="Left" Margin="188,0,0,0" Name="lblScore" VerticalAlignment="Center" FontSize="11" />
-            <Label Content="Gold: 41646" Height="28" HorizontalAlignment="Right" Margin="0,0,318,0" Name="lblGold" VerticalAlignment="Center" FontSize="11" />
+        <Grid Width="750">
+            <Label Name="lblName" />
+            <Label Content="{lex:Loc ui_spectating}" Margin="102,0,0,0" Name="lblActive" />
+            <Label Content="{lex:Loc ui_match_points}" Margin="284,0,0,0" Name="lblScore" Width="161" />
+            <Label Content="{lex:Loc ui_gold}" Margin="192,0,0,0" Name="lblGold" />
 
-            <Label Content="Mine: III" Height="28" Margin="349,0,252,0" Name="lblMine" VerticalAlignment="Center" FontSize="11" />
-            <Label Content="Cannon: III" Height="28" HorizontalAlignment="Left" Margin="394,0,0,0" Name="lblCannon" VerticalAlignment="Center" FontSize="11" />
-            <Label Content="Hook: III" Height="28" HorizontalAlignment="Right" Margin="0,0,146,0" Name="lblHook" VerticalAlignment="Center" FontSize="11" />
-            <Label Content="Won: 0" Height="28" HorizontalAlignment="Left" Margin="545,0,0,0" Name="lblWon" VerticalAlignment="Center" FontSize="11" />
-            <Label Content="Played: 0" Height="28" HorizontalAlignment="Left" Name="lblPlayed" VerticalAlignment="Center" FontSize="11" Margin="588,0,0,0" />
+            <Label Content="{lex:Loc ui_mine_level}" Margin="425,0,0,0" Name="lblMine" />
+            <Label Content="{lex:Loc ui_cannon_level}" Margin="474,0,0,0" Name="lblCannon" />
+            <Label Content="{lex:Loc ui_hook_level}" Margin="548,0,0,0" Name="lblHook" />
+            <Label Content="{lex:Loc ui_won}" Margin="611,0,0,0" Name="lblWon"/>
+            <Label Content="{lex:Loc ui_played}" Name="lblPlayed" Margin="666,0,0,0" />
         </Grid>
     </Border>
 </UserControl>

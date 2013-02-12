@@ -43,7 +43,7 @@ namespace Orbit.Gui
         {
             if (SelectedColor != null && SelectedColor != Colors.Transparent)
             {
-                GameProperties.Props.SetAndSave(PropertyKey.CHOSEN_COLOR, SelectedColor.ToString());
+                GameProperties.Props.SetAndSave(PropertyKey.CHOSEN_COLOR, SelectedColor.ToString(Strings.Culture));
                 App.Instance.GetSceneMgr().Enqueue(new Action(() =>
                 {
                     App.Instance.GetSceneMgr().PlayerColorChanged();

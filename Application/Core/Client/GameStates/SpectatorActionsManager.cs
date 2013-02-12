@@ -177,7 +177,6 @@ namespace Orbit.Core.Client.GameStates
             SpectatorAction action = msg.ReadSpecialAction(owner.SceneMgr, owner) as SpectatorAction;
 
             int count = msg.ReadInt32();
-            Console.WriteLine("msg accepted " + count);
             List<Asteroid> temp = new List<Asteroid>();
             for (int i = 0; i < count; i++)
                 temp.Add(owner.SceneMgr.GetSceneObject(msg.ReadInt64()) as Asteroid);

@@ -16,12 +16,15 @@ namespace Orbit.Core.AI
             switch (type)
             {
                 case BotType.LEVEL1:
-                    return SimpleBot.NAME;
+                    return Strings.bot_name_1;
                 case BotType.LEVEL2:
-                    return HookerBot.NAME;
+                    return Strings.bot_name_2;
                 case BotType.LEVEL3:
+                    return Strings.bot_name_3;
                 case BotType.LEVEL4:
+                    return Strings.bot_name_4;
                 case BotType.LEVEL5:
+                    return Strings.bot_name_5;
                 default:
                     return null;
             }

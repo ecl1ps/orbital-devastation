@@ -59,7 +59,7 @@ namespace Orbit.Gui
             SensitivityLabel.Text = val.ToString("0.00", CultureInfo.InvariantCulture);
             StaticMouse.SENSITIVITY = (float) val;
 
-            GameProperties.Props.SetAndSave(PropertyKey.STATIC_MOUSE_SENSITIVITY, val.ToString());
+            GameProperties.Props.SetAndSave(PropertyKey.STATIC_MOUSE_SENSITIVITY, val.ToString(Strings.Culture));
         }
 
         private void Allow(bool allow)

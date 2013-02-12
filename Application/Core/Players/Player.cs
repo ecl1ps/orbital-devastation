@@ -19,6 +19,7 @@ using Orbit.Core.SpecialActions.Gamer;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.SpecialActions.Spectator;
 using Orbit.Core.Client.GameStates;
+using System.Globalization;
 
 namespace Orbit.Core.Players
 {
@@ -116,7 +117,7 @@ namespace Orbit.Core.Players
                 return;
 
             if (IsCurrentPlayer() && IsActivePlayer())
-                SceneMgr.ShowStatusText(4, "Gold: " + Data.Gold);
+                SceneMgr.ShowStatusText(4, String.Format(Strings.Culture, Strings.ui_gold, Data.Gold));
         }
 
         public void AddScoreAndShow(int score)
@@ -127,7 +128,7 @@ namespace Orbit.Core.Players
                 return;
 
             if (IsCurrentPlayer() && IsActivePlayer())
-                SceneMgr.ShowStatusText(5, "Score: " + Data.MatchPoints);
+                SceneMgr.ShowStatusText(5, String.Format(Strings.Culture, Strings.ui_match_points, Data.MatchPoints));
         }
 
         public void CreateWeapons()
@@ -177,7 +178,7 @@ namespace Orbit.Core.Players
             if (showHeal)
             {
                 Vector textPos = new Vector(GetBaseLocation().X + (GetBaseLocation().Width / 2), GetBaseLocation().Y - 20);
-                SceneMgr.FloatingTextMgr.AddFloatingText("+ " + diff, textPos, FloatingTextManager.TIME_LENGTH_3,
+                SceneMgr.FloatingTextMgr.AddFloatingText(String.Format(Strings.Culture, Strings.char_plus_and_val, diff), textPos, FloatingTextManager.TIME_LENGTH_3,
                     FloatingTextType.HEAL, FloatingTextManager.SIZE_BIGGER, true);
             }
         }
@@ -200,11 +201,11 @@ namespace Orbit.Core.Players
         public void ShowProtecting()
         {
             Player p = SceneMgr.GetPlayer(Data.FriendlyPlayerId);
-            String name = "noone";
+            String name = Strings.game_player_nobody;
             if (p != null)
                 name = p.Data.Name;
 
-            SceneMgr.AlertMessageMgr.Show("You are protecting: " + name, 3);
+            SceneMgr.AlertMessageMgr.Show(String.Format(Strings.Culture, Strings.game_protecting, name), 3);
         }
 
         public void Update(float tpf)
@@ -215,13 +216,8 @@ namespace Orbit.Core.Players
                 informedProtecting = true;
                 if (IsActivePlayer())
                 {
-                    String text;
-                    if (GetPosition() == PlayerPosition.LEFT)
-                        text = "Protect your base! You are on LEFT side";
-                    else
-                        text = "Protect your base! You are on RIGHT side";
-
-                    SceneMgr.AlertMessageMgr.Show(text, AlertMessageManager.TIME_NORMAL);
+                    SceneMgr.AlertMessageMgr.Show(GetPosition() == PlayerPosition.LEFT ? Strings.game_protect_base_left : Strings.game_protect_base_right, 
+                        AlertMessageManager.TIME_NORMAL);
                 }
                 else
                     ShowProtecting();
@@ -237,14 +233,8 @@ namespace Orbit.Core.Players
             {
                 if (!informedLowHealth && HasLowHp(p))
                 {
-                    String text;
-                    if(IsActivePlayer())
-                        text = "WARNING! LOW BASE INTEGRITY!";
-                    else
-                        text = "WARNING! YOUR FRIENDLY PLAYER HAS LOW BASE INTEGRITY!";
-
                     informedLowHealth = true;
-                    SceneMgr.AlertMessageMgr.Show(text, AlertMessageManager.TIME_NORMAL);
+                    SceneMgr.AlertMessageMgr.Show(IsActivePlayer() ? Strings.game_warning_integrity : Strings.game_warning_integrity_ally, AlertMessageManager.TIME_NORMAL);
                     SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_ALERT);
                 }
 
@@ -297,7 +287,7 @@ namespace Orbit.Core.Players
 
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < hash.Length; i++)
-                sb.Append(hash[i].ToString("X2"));
+                sb.Append(hash[i].ToString("X2", CultureInfo.InvariantCulture));
 
             return sb.ToString();
         }
@@ -411,7 +401,7 @@ namespace Orbit.Core.Players
             {
                 return (Color)ColorConverter.ConvertFromString(col);
             }
-            catch (Exception /*e*/) {}
+            catch (Exception) {}
 
             return Colors.Pink;
         }

@@ -344,4 +344,256 @@
   <data name="ui_version" xml:space="preserve">
     <value>Alpha version</value>
   </data>
+  <data name="bot_name_1" xml:space="preserve">
+    <value>Simple Bot</value>
+  </data>
+  <data name="bot_name_2" xml:space="preserve">
+    <value>Hooking Bot</value>
+  </data>
+  <data name="bot_name_3" xml:space="preserve">
+    <value>Mediocre bot</value>
+  </data>
+  <data name="bot_name_4" xml:space="preserve">
+    <value>Hardcore bot</value>
+  </data>
+  <data name="bot_name_5" xml:space="preserve">
+    <value>Nightmare bot</value>
+  </data>
+  <data name="bot_text_1" xml:space="preserve">
+    <value>The easiest bot in this game, recomended for those who just started or for those who seek simple fun with not so much challenge. This bot will never upgrade its weapons and refuse to use hooks.</value>
+  </data>
+  <data name="bot_text_2" xml:space="preserve">
+    <value>Easier bot then rest of others, recommended for those who just got a little experience and want to train some more before challenging real players. This bot will never upgrade its weapons but he will use hook as best as he can.</value>
+  </data>
+  <data name="lvl_type_base_collision" xml:space="preserve">
+    <value>[TEST] Base collisions</value>
+  </data>
+  <data name="lvl_type_basic" xml:space="preserve">
+    <value>Basic map</value>
+  </data>
+  <data name="lvl_type_empty" xml:space="preserve">
+    <value>[TEST] Empty map</value>
+  </data>
+  <data name="lvl_type_powerup" xml:space="preserve">
+    <value>[TEST] Powerups</value>
+  </data>
+  <data name="lvl_type_static" xml:space="preserve">
+    <value>[TEST] Static objects</value>
+  </data>
+  <data name="lvl_type_survival" xml:space="preserve">
+    <value>Survival map</value>
+  </data>
+  <data name="mm_lost_reward" xml:space="preserve">
+    <value>You lost. You get {0} score.</value>
+    <comment>0 = score for loosing</comment>
+  </data>
+  <data name="mm_spectator_alone_reward" xml:space="preserve">
+    <value>Thanks to your effort game lasted {0}. You receive {1} score.</value>
+    <comment>0 = length of last game, 1 = rewarded score</comment>
+  </data>
+  <data name="mm_spectator_lost_reward" xml:space="preserve">
+    <value>You lost. You receive {0} score.</value>
+    <comment>0 = score for loosing</comment>
+  </data>
+  <data name="mm_spectator_win_reward" xml:space="preserve">
+    <value>You won. You receive {0} score.</value>
+    <comment>0 = score for winning</comment>
+  </data>
+  <data name="mm_type_competition" xml:space="preserve">
+    <value>Competition</value>
+  </data>
+  <data name="mm_type_leader_as_spectator" xml:space="preserve">
+    <value>[TEST] Leader as Spectator</value>
+  </data>
+  <data name="mm_type_one_player" xml:space="preserve">
+    <value>[TEST] One player vs. bot</value>
+  </data>
+  <data name="mm_type_two_players" xml:space="preserve">
+    <value>[TEST] Two players</value>
+  </data>
+  <data name="mm_victory_reward" xml:space="preserve">
+    <value>You are victorious. You get {0} score.</value>
+    <comment>0 = score for winning</comment>
+  </data>
+  <data name="ui_best_highscore" xml:space="preserve">
+    <value>Best highscore: {0}</value>
+    <comment>0 = highscore</comment>
+  </data>
+  <data name="ui_bot_select" xml:space="preserve">
+    <value>Choose one difficulty.</value>
+  </data>
+  <data name="ui_cannon_level" xml:space="preserve">
+    <value>Cannon: {0}</value>
+    <comment>0 = level of cannon in roman digits (I - III)</comment>
+  </data>
+  <data name="ui_close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="ui_game_overview" xml:space="preserve">
+    <value>Game Overview</value>
+  </data>
+  <data name="ui_gold" xml:space="preserve">
+    <value>Gold: {0}</value>
+    <comment>0 = amount of gold</comment>
+  </data>
+  <data name="ui_hook_level" xml:space="preserve">
+    <value>Hook: {0}</value>
+    <comment>0 = level of hook in roman digits (I - III)</comment>
+  </data>
+  <data name="ui_match_points" xml:space="preserve">
+    <value>Match points: {0}</value>
+    <comment>0 = amount of match points</comment>
+  </data>
+  <data name="ui_mine_level" xml:space="preserve">
+    <value>Mine: {0}</value>
+    <comment>0 = level of mine in roman digits (I - III)</comment>
+  </data>
+  <data name="ui_played" xml:space="preserve">
+    <value>Played: {0}</value>
+    <comment>0 = number of played games</comment>
+  </data>
+  <data name="ui_playing" xml:space="preserve">
+    <value>Playing</value>
+  </data>
+  <data name="ui_spectating" xml:space="preserve">
+    <value>Spectating</value>
+  </data>
+  <data name="ui_statistics_solo_vs_bot" xml:space="preserve">
+    <value>Solo vs. {0}</value>
+    <comment>0 = name of bot</comment>
+  </data>
+  <data name="ui_won" xml:space="preserve">
+    <value>Won: {0}</value>
+    <comment>0 = number of wins</comment>
+  </data>
+  <data name="char_plus" xml:space="preserve">
+    <value>+</value>
+  </data>
+  <data name="char_plus_and_val" xml:space="preserve">
+    <value>+{0}</value>
+  </data>
+  <data name="ft_powerup" xml:space="preserve">
+    <value>{0} {1}{2}%</value>
+    <comment>0 = name of powerup, 1 = + or nothing, 2 = value</comment>
+  </data>
+  <data name="ft_score_cannon_unstable_above_enemy" xml:space="preserve">
+    <value>Enemy crusher!</value>
+  </data>
+  <data name="ft_score_hit_multi" xml:space="preserve">
+    <value>Multi Hit!</value>
+  </data>
+  <data name="ft_score_hit_penta" xml:space="preserve">
+    <value>Penta Hit!</value>
+  </data>
+  <data name="ft_score_hit_quadra" xml:space="preserve">
+    <value>Quadra Hit!</value>
+  </data>
+  <data name="ft_score_hit_triple" xml:space="preserve">
+    <value>Triple Hit!</value>
+  </data>
+  <data name="ft_score_hook_max" xml:space="preserve">
+    <value>Max range!</value>
+  </data>
+  <data name="ft_score_unstable_wiped" xml:space="preserve">
+    <value>Tripple wiped!</value>
+  </data>
+  <data name="ft_spectator_powered_action" xml:space="preserve">
+    <value>Powered action!</value>
+  </data>
+  <data name="game_joined" xml:space="preserve">
+    <value>{0} has joined the game.</value>
+    <comment>0 = player name</comment>
+  </data>
+  <data name="game_player_nobody" xml:space="preserve">
+    <value>nobody</value>
+  </data>
+  <data name="game_protecting" xml:space="preserve">
+    <value>You are protecting: {0}</value>
+    <comment>0 = name of protected player</comment>
+  </data>
+  <data name="game_protect_base_left" xml:space="preserve">
+    <value>Protect your base! You are on the LEFT side.</value>
+  </data>
+  <data name="game_protect_base_right" xml:space="preserve">
+    <value>Protect your base! You are on the RIGHT side.</value>
+  </data>
+  <data name="game_warning_integrity" xml:space="preserve">
+    <value>WARNING! LOW BASE INTEGRITY!</value>
+  </data>
+  <data name="game_warning_integrity_ally" xml:space="preserve">
+    <value>WARNING! YOUR ALLY HAS LOW BASE INTEGRITY!</value>
+  </data>
+  <data name="game_wepon_bought" xml:space="preserve">
+    <value>New weapon bought: {0}</value>
+    <comment>0 = name of weapon</comment>
+  </data>
+  <data name="lobby_not_ready_msg" xml:space="preserve">
+    <value>Wait, I am not ready</value>
+  </data>
+  <data name="lobby_ready_msg" xml:space="preserve">
+    <value>I am ready</value>
+  </data>
+  <data name="powerup_base_fortify" xml:space="preserve">
+    <value>Shield fortify</value>
+  </data>
+  <data name="powerup_base_repair" xml:space="preserve">
+    <value>Shield repair</value>
+  </data>
+  <data name="powerup_cannon_bullet_speed" xml:space="preserve">
+    <value>Cannon bullet speed</value>
+  </data>
+  <data name="powerup_cannon_cooldown" xml:space="preserve">
+    <value>Cannon cooling effectivity</value>
+  </data>
+  <data name="powerup_cannon_damage" xml:space="preserve">
+    <value>Cannon bullet effectivity</value>
+  </data>
+  <data name="powerup_heal_bonus" xml:space="preserve">
+    <value>Shield repair effectivity</value>
+  </data>
+  <data name="powerup_hook_cooldown" xml:space="preserve">
+    <value>Mine emmitor cooling effectivity</value>
+  </data>
+  <data name="powerup_hook_length" xml:space="preserve">
+    <value>Hook reach</value>
+  </data>
+  <data name="powerup_hook_speed" xml:space="preserve">
+    <value>Hook speed</value>
+  </data>
+  <data name="powerup_mine_cooldown" xml:space="preserve">
+    <value>Mine emmitor cooling effectivity</value>
+  </data>
+  <data name="powerup_mine_falling_speed" xml:space="preserve">
+    <value>Mine falling speed</value>
+  </data>
+  <data name="powerup_mine_growth_speed" xml:space="preserve">
+    <value>Mine explosion size</value>
+  </data>
+  <data name="powerup_mine_power" xml:space="preserve">
+    <value>Mine power</value>
+  </data>
+  <data name="ui_action_cost" xml:space="preserve">
+    <value>Costs {0} gold</value>
+  </data>
+  <data name="ui_highscores" xml:space="preserve">
+    <value>Highscores</value>
+  </data>
+  <data name="ui_player_statistics" xml:space="preserve">
+    <value>Player Statistics</value>
+  </data>
+  <data name="ui_press_key" xml:space="preserve">
+    <value>Press any key</value>
+  </data>
+  <data name="ui_statistics_quick_game" xml:space="preserve">
+    <value>1v1 Quick Game</value>
+  </data>
+  <data name="ui_warning_kicked" xml:space="preserve">
+    <value>You have been kicked out of the server.</value>
+  </data>
+  <data name="ui_warning_port_unavailable" xml:space="preserve">
+    <value>Your port is already in use. Server is probably already running on your machine.</value>
+  </data>
+  <data name="bot_text_3" xml:space="preserve">
+    <value>-</value>
+  </data>
 </root>

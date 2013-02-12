@@ -117,7 +117,7 @@ namespace Orbit
             if (!StartLocalServer(Gametype.SOLO_GAME))
                 return;
 
-            sceneMgr.SetRemoteServerAddress("127.0.0.1");
+            sceneMgr.SetRemoteServerAddress(System.Net.IPAddress.Loopback.ToString());
 
             StartGame(Gametype.SOLO_GAME);
 
@@ -142,7 +142,7 @@ namespace Orbit
             catch (SocketException)
             {
                 ShowStartScreen();
-                AddMenu(new InfoUC("Your port is already in use. Server is probably already running on your machine."));
+                AddMenu(new InfoUC(Strings.ui_warning_port_unavailable));
                 return false;
             }
 
@@ -175,7 +175,7 @@ namespace Orbit
             if (!StartLocalServer(Gametype.MULTIPLAYER_GAME))
                 return;
 
-            sceneMgr.SetRemoteServerAddress("127.0.0.1");
+            sceneMgr.SetRemoteServerAddress(System.Net.IPAddress.Loopback.ToString());
 
             StartGame(Gametype.MULTIPLAYER_GAME);
 
@@ -193,7 +193,7 @@ namespace Orbit
             if (!StartLocalServer(Gametype.TOURNAMENT_GAME))
                 return;
 
-            sceneMgr.SetRemoteServerAddress("127.0.0.1");
+            sceneMgr.SetRemoteServerAddress(System.Net.IPAddress.Loopback.ToString());
 
             StartGame(Gametype.TOURNAMENT_GAME);
 
@@ -320,7 +320,7 @@ namespace Orbit
             sceneMgr.Enqueue(new Action(() =>
             {
                 sceneMgr.GetCurrentPlayer().Data.LobbyReady = ready;
-                sceneMgr.SendChatMessage(ready ? "I am ready" : "Wait, I am not ready");
+                sceneMgr.SendChatMessage(ready ? Strings.lobby_ready_msg : Strings.lobby_not_ready_msg);
                 sceneMgr.SendPlayerReadyMessage(ready);
             }));
         }

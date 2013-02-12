@@ -61,11 +61,191 @@ namespace Orbit {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Simple Bot.
+        /// </summary>
+        internal static string bot_name_1 {
+            get {
+                return ResourceManager.GetString("bot_name_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hooking Bot.
+        /// </summary>
+        internal static string bot_name_2 {
+            get {
+                return ResourceManager.GetString("bot_name_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mediocre bot.
+        /// </summary>
+        internal static string bot_name_3 {
+            get {
+                return ResourceManager.GetString("bot_name_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hardcore bot.
+        /// </summary>
+        internal static string bot_name_4 {
+            get {
+                return ResourceManager.GetString("bot_name_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nightmare bot.
+        /// </summary>
+        internal static string bot_name_5 {
+            get {
+                return ResourceManager.GetString("bot_name_5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The easiest bot in this game, recomended for those who just started or for those who seek simple fun with not so much challenge. This bot will never upgrade its weapons and refuse to use hooks..
+        /// </summary>
+        internal static string bot_text_1 {
+            get {
+                return ResourceManager.GetString("bot_text_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Easier bot then rest of others, recommended for those who just got a little experience and want to train some more before challenging real players. This bot will never upgrade its weapons but he will use hook as best as he can..
+        /// </summary>
+        internal static string bot_text_2 {
+            get {
+                return ResourceManager.GetString("bot_text_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -.
+        /// </summary>
+        internal static string bot_text_3 {
+            get {
+                return ResourceManager.GetString("bot_text_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to +.
+        /// </summary>
+        internal static string char_plus {
+            get {
+                return ResourceManager.GetString("char_plus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to +{0}.
+        /// </summary>
+        internal static string char_plus_and_val {
+            get {
+                return ResourceManager.GetString("char_plus_and_val", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} {1}{2}%.
+        /// </summary>
+        internal static string ft_powerup {
+            get {
+                return ResourceManager.GetString("ft_powerup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enemy crusher!.
+        /// </summary>
+        internal static string ft_score_cannon_unstable_above_enemy {
+            get {
+                return ResourceManager.GetString("ft_score_cannon_unstable_above_enemy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Multi Hit!.
+        /// </summary>
+        internal static string ft_score_hit_multi {
+            get {
+                return ResourceManager.GetString("ft_score_hit_multi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Penta Hit!.
+        /// </summary>
+        internal static string ft_score_hit_penta {
+            get {
+                return ResourceManager.GetString("ft_score_hit_penta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quadra Hit!.
+        /// </summary>
+        internal static string ft_score_hit_quadra {
+            get {
+                return ResourceManager.GetString("ft_score_hit_quadra", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Triple Hit!.
+        /// </summary>
+        internal static string ft_score_hit_triple {
+            get {
+                return ResourceManager.GetString("ft_score_hit_triple", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max range!.
+        /// </summary>
+        internal static string ft_score_hook_max {
+            get {
+                return ResourceManager.GetString("ft_score_hook_max", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tripple wiped!.
+        /// </summary>
+        internal static string ft_score_unstable_wiped {
+            get {
+                return ResourceManager.GetString("ft_score_unstable_wiped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Powered action!.
+        /// </summary>
+        internal static string ft_spectator_powered_action {
+            get {
+                return ResourceManager.GetString("ft_spectator_powered_action", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End of Game.
         /// </summary>
         internal static string game_end {
             get {
                 return ResourceManager.GetString("game_end", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has joined the game..
+        /// </summary>
+        internal static string game_joined {
+            get {
+                return ResourceManager.GetString("game_joined", resourceCulture);
             }
         }
         
@@ -106,11 +286,74 @@ namespace Orbit {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to nobody.
+        /// </summary>
+        internal static string game_player_nobody {
+            get {
+                return ResourceManager.GetString("game_player_nobody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Protect your base! You are on the LEFT side..
+        /// </summary>
+        internal static string game_protect_base_left {
+            get {
+                return ResourceManager.GetString("game_protect_base_left", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Protect your base! You are on the RIGHT side..
+        /// </summary>
+        internal static string game_protect_base_right {
+            get {
+                return ResourceManager.GetString("game_protect_base_right", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are protecting: {0}.
+        /// </summary>
+        internal static string game_protecting {
+            get {
+                return ResourceManager.GetString("game_protecting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Spectator {0} used: {1}.
         /// </summary>
         internal static string game_spectator_used {
             get {
                 return ResourceManager.GetString("game_spectator_used", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WARNING! LOW BASE INTEGRITY!.
+        /// </summary>
+        internal static string game_warning_integrity {
+            get {
+                return ResourceManager.GetString("game_warning_integrity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WARNING! YOUR ALLY HAS LOW BASE INTEGRITY!.
+        /// </summary>
+        internal static string game_warning_integrity_ally {
+            get {
+                return ResourceManager.GetString("game_warning_integrity_ally", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New weapon bought: {0}.
+        /// </summary>
+        internal static string game_wepon_bought {
+            get {
+                return ResourceManager.GetString("game_wepon_bought", resourceCulture);
             }
         }
         
@@ -142,11 +385,83 @@ namespace Orbit {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Wait, I am not ready.
+        /// </summary>
+        internal static string lobby_not_ready_msg {
+            get {
+                return ResourceManager.GetString("lobby_not_ready_msg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} has been kicked by the leader.
         /// </summary>
         internal static string lobby_player_kicked {
             get {
                 return ResourceManager.GetString("lobby_player_kicked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I am ready.
+        /// </summary>
+        internal static string lobby_ready_msg {
+            get {
+                return ResourceManager.GetString("lobby_ready_msg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [TEST] Base collisions.
+        /// </summary>
+        internal static string lvl_type_base_collision {
+            get {
+                return ResourceManager.GetString("lvl_type_base_collision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Basic map.
+        /// </summary>
+        internal static string lvl_type_basic {
+            get {
+                return ResourceManager.GetString("lvl_type_basic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [TEST] Empty map.
+        /// </summary>
+        internal static string lvl_type_empty {
+            get {
+                return ResourceManager.GetString("lvl_type_empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [TEST] Powerups.
+        /// </summary>
+        internal static string lvl_type_powerup {
+            get {
+                return ResourceManager.GetString("lvl_type_powerup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [TEST] Static objects.
+        /// </summary>
+        internal static string lvl_type_static {
+            get {
+                return ResourceManager.GetString("lvl_type_static", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Survival map.
+        /// </summary>
+        internal static string lvl_type_survival {
+            get {
+                return ResourceManager.GetString("lvl_type_survival", resourceCulture);
             }
         }
         
@@ -165,6 +480,87 @@ namespace Orbit {
         internal static string misc_latency {
             get {
                 return ResourceManager.GetString("misc_latency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You lost. You get {0} score..
+        /// </summary>
+        internal static string mm_lost_reward {
+            get {
+                return ResourceManager.GetString("mm_lost_reward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thanks to your effort game lasted {0}. You receive {1} score..
+        /// </summary>
+        internal static string mm_spectator_alone_reward {
+            get {
+                return ResourceManager.GetString("mm_spectator_alone_reward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You lost. You receive {0} score..
+        /// </summary>
+        internal static string mm_spectator_lost_reward {
+            get {
+                return ResourceManager.GetString("mm_spectator_lost_reward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You won. You receive {0} score..
+        /// </summary>
+        internal static string mm_spectator_win_reward {
+            get {
+                return ResourceManager.GetString("mm_spectator_win_reward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Competition.
+        /// </summary>
+        internal static string mm_type_competition {
+            get {
+                return ResourceManager.GetString("mm_type_competition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [TEST] Leader as Spectator.
+        /// </summary>
+        internal static string mm_type_leader_as_spectator {
+            get {
+                return ResourceManager.GetString("mm_type_leader_as_spectator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [TEST] One player vs. bot.
+        /// </summary>
+        internal static string mm_type_one_player {
+            get {
+                return ResourceManager.GetString("mm_type_one_player", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [TEST] Two players.
+        /// </summary>
+        internal static string mm_type_two_players {
+            get {
+                return ResourceManager.GetString("mm_type_two_players", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are victorious. You get {0} score..
+        /// </summary>
+        internal static string mm_victory_reward {
+            get {
+                return ResourceManager.GetString("mm_victory_reward", resourceCulture);
             }
         }
         
@@ -205,6 +601,132 @@ namespace Orbit {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Shield fortify.
+        /// </summary>
+        internal static string powerup_base_fortify {
+            get {
+                return ResourceManager.GetString("powerup_base_fortify", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shield repair.
+        /// </summary>
+        internal static string powerup_base_repair {
+            get {
+                return ResourceManager.GetString("powerup_base_repair", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannon bullet speed.
+        /// </summary>
+        internal static string powerup_cannon_bullet_speed {
+            get {
+                return ResourceManager.GetString("powerup_cannon_bullet_speed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannon cooling effectivity.
+        /// </summary>
+        internal static string powerup_cannon_cooldown {
+            get {
+                return ResourceManager.GetString("powerup_cannon_cooldown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannon bullet effectivity.
+        /// </summary>
+        internal static string powerup_cannon_damage {
+            get {
+                return ResourceManager.GetString("powerup_cannon_damage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shield repair effectivity.
+        /// </summary>
+        internal static string powerup_heal_bonus {
+            get {
+                return ResourceManager.GetString("powerup_heal_bonus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mine emmitor cooling effectivity.
+        /// </summary>
+        internal static string powerup_hook_cooldown {
+            get {
+                return ResourceManager.GetString("powerup_hook_cooldown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hook reach.
+        /// </summary>
+        internal static string powerup_hook_length {
+            get {
+                return ResourceManager.GetString("powerup_hook_length", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hook speed.
+        /// </summary>
+        internal static string powerup_hook_speed {
+            get {
+                return ResourceManager.GetString("powerup_hook_speed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mine emmitor cooling effectivity.
+        /// </summary>
+        internal static string powerup_mine_cooldown {
+            get {
+                return ResourceManager.GetString("powerup_mine_cooldown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mine falling speed.
+        /// </summary>
+        internal static string powerup_mine_falling_speed {
+            get {
+                return ResourceManager.GetString("powerup_mine_falling_speed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mine explosion size.
+        /// </summary>
+        internal static string powerup_mine_growth_speed {
+            get {
+                return ResourceManager.GetString("powerup_mine_growth_speed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mine power.
+        /// </summary>
+        internal static string powerup_mine_power {
+            get {
+                return ResourceManager.GetString("powerup_mine_power", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Costs {0} gold.
+        /// </summary>
+        internal static string ui_action_cost {
+            get {
+                return ResourceManager.GetString("ui_action_cost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back.
         /// </summary>
         internal static string ui_back {
@@ -214,11 +736,47 @@ namespace Orbit {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Best highscore: {0}.
+        /// </summary>
+        internal static string ui_best_highscore {
+            get {
+                return ResourceManager.GetString("ui_best_highscore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose one difficulty..
+        /// </summary>
+        internal static string ui_bot_select {
+            get {
+                return ResourceManager.GetString("ui_bot_select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannon: {0}.
+        /// </summary>
+        internal static string ui_cannon_level {
+            get {
+                return ResourceManager.GetString("ui_cannon_level", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change color.
         /// </summary>
         internal static string ui_change_color {
             get {
                 return ResourceManager.GetString("ui_change_color", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        internal static string ui_close {
+            get {
+                return ResourceManager.GetString("ui_close", resourceCulture);
             }
         }
         
@@ -291,6 +849,42 @@ namespace Orbit {
         internal static string ui_game_name {
             get {
                 return ResourceManager.GetString("ui_game_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Game Overview.
+        /// </summary>
+        internal static string ui_game_overview {
+            get {
+                return ResourceManager.GetString("ui_game_overview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gold: {0}.
+        /// </summary>
+        internal static string ui_gold {
+            get {
+                return ResourceManager.GetString("ui_gold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Highscores.
+        /// </summary>
+        internal static string ui_highscores {
+            get {
+                return ResourceManager.GetString("ui_highscores", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hook: {0}.
+        /// </summary>
+        internal static string ui_hook_level {
+            get {
+                return ResourceManager.GetString("ui_hook_level", resourceCulture);
             }
         }
         
@@ -448,6 +1042,24 @@ namespace Orbit {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Match points: {0}.
+        /// </summary>
+        internal static string ui_match_points {
+            get {
+                return ResourceManager.GetString("ui_match_points", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mine: {0}.
+        /// </summary>
+        internal static string ui_mine_level {
+            get {
+                return ResourceManager.GetString("ui_mine_level", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mouse.
         /// </summary>
         internal static string ui_mouse {
@@ -493,6 +1105,15 @@ namespace Orbit {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Played: {0}.
+        /// </summary>
+        internal static string ui_played {
+            get {
+                return ResourceManager.GetString("ui_played", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Player.
         /// </summary>
         internal static string ui_player {
@@ -520,11 +1141,38 @@ namespace Orbit {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Player Statistics.
+        /// </summary>
+        internal static string ui_player_statistics {
+            get {
+                return ResourceManager.GetString("ui_player_statistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Playing.
+        /// </summary>
+        internal static string ui_playing {
+            get {
+                return ResourceManager.GetString("ui_playing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Practise Game.
         /// </summary>
         internal static string ui_practise_game {
             get {
                 return ResourceManager.GetString("ui_practise_game", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Press any key.
+        /// </summary>
+        internal static string ui_press_key {
+            get {
+                return ResourceManager.GetString("ui_press_key", resourceCulture);
             }
         }
         
@@ -610,6 +1258,15 @@ namespace Orbit {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Spectating.
+        /// </summary>
+        internal static string ui_spectating {
+            get {
+                return ResourceManager.GetString("ui_spectating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start Game.
         /// </summary>
         internal static string ui_start_game {
@@ -624,6 +1281,24 @@ namespace Orbit {
         internal static string ui_statistics {
             get {
                 return ResourceManager.GetString("ui_statistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1v1 Quick Game.
+        /// </summary>
+        internal static string ui_statistics_quick_game {
+            get {
+                return ResourceManager.GetString("ui_statistics_quick_game", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solo vs. {0}.
+        /// </summary>
+        internal static string ui_statistics_solo_vs_bot {
+            get {
+                return ResourceManager.GetString("ui_statistics_solo_vs_bot", resourceCulture);
             }
         }
         
@@ -705,6 +1380,33 @@ namespace Orbit {
         internal static string ui_version {
             get {
                 return ResourceManager.GetString("ui_version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have been kicked out of the server..
+        /// </summary>
+        internal static string ui_warning_kicked {
+            get {
+                return ResourceManager.GetString("ui_warning_kicked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your port is already in use. Server is probably already running on your machine..
+        /// </summary>
+        internal static string ui_warning_port_unavailable {
+            get {
+                return ResourceManager.GetString("ui_warning_port_unavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Won: {0}.
+        /// </summary>
+        internal static string ui_won {
+            get {
+                return ResourceManager.GetString("ui_won", resourceCulture);
             }
         }
     }
