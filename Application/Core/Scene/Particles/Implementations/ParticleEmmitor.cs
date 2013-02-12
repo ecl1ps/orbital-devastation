@@ -152,10 +152,11 @@ namespace Orbit.Core.Scene.Particles.Implementations
                 int indexIndex = i * 6;
                 Particle p = particles[i];
 
-                Point3D p1 = new Point3D(p.Position.X, p.Position.Y, p.Position.Z);
-                Point3D p2 = new Point3D(p.Position.X, p.Position.Y + p.Size, p.Position.Z);
-                Point3D p3 = new Point3D(p.Position.X + p.Size, p.Position.Y + p.Size, p.Position.Z);
-                Point3D p4 = new Point3D(p.Position.X + p.Size, p.Position.Y, p.Position.Z);
+                double size = p.Size;
+                Point3D p1 = new Point3D(p.Position.X - size, p.Position.Y - size, p.Position.Z);
+                Point3D p2 = new Point3D(p.Position.X - size, p.Position.Y + size, p.Position.Z);
+                Point3D p3 = new Point3D(p.Position.X + size, p.Position.Y + size, p.Position.Z);
+                Point3D p4 = new Point3D(p.Position.X + size, p.Position.Y - size, p.Position.Z);
 
                 positions.Add(p1);
                 positions.Add(p2);
