@@ -33,7 +33,7 @@ namespace Orbit.Core.Weapons
             return next;
         }
 
-        protected override void SpawnBullet(Point point)
+        protected override ISceneObject SpawnBullet(Point point)
         {
             if (point.Y > Owner.GetBaseLocation().Y)
                 point.Y = Owner.GetBaseLocation().Y;
@@ -45,6 +45,8 @@ namespace Orbit.Core.Weapons
             SceneMgr.SendMessage(msg);
 
             SceneMgr.DelayedAttachToScene(bullet);
+
+            return bullet;
         }
     }
 }

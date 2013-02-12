@@ -47,18 +47,21 @@ namespace Orbit.Core.Weapons
             return next;
         }
 
-        public void Shoot(Point point)
+        public ISceneObject Shoot(Point point)
         {
             if (IsReady())
             {
-                SpawnBullet(point);
+                ISceneObject obj = SpawnBullet(point);
                 ReloadTime = Owner.Data.BulletCooldown;
                 //SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_SHOOT);
                 Owner.Statistics.BulletFired++;
+                return obj;
             }
+
+            return null;
         }
 
-        protected virtual void SpawnBullet(Point point)
+        protected virtual ISceneObject SpawnBullet(Point point)
         {
             if (point.Y > Owner.GetBaseLocation().Y)
                 point.Y = Owner.GetBaseLocation().Y;
@@ -73,6 +76,7 @@ namespace Orbit.Core.Weapons
             }
 
             SceneMgr.DelayedAttachToScene(bullet);
+            return bullet;
         }
 
         public bool IsReady()

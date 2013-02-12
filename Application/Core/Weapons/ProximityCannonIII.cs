@@ -38,7 +38,7 @@ namespace Orbit.Core.Weapons
             return next;
         }
 
-        protected override void SpawnBullet(Point point)
+        protected override ISceneObject SpawnBullet(Point point)
         {
             if (lastBullet != null)
                 lastBullet.GetControlOfType<HighlightingControl>().Enabled = false;
@@ -56,6 +56,7 @@ namespace Orbit.Core.Weapons
             lastBullet.AddControl(hc);
 
             SceneMgr.DelayedAttachToScene(lastBullet);
+            return lastBullet;
         }
 
         public bool IsActivableReady()
