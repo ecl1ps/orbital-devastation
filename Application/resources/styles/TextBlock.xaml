@@ -6,7 +6,6 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="{x:Type TextBlock}">
-        <Setter Property="SnapsToDevicePixels" Value="False" />
         <Setter Property="FontFamily" Value="{StaticResource mainFont}" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Top" />

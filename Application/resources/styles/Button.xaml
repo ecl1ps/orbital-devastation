@@ -18,7 +18,7 @@
                             <Border.Background>
                                 <SolidColorBrush x:Name="buttonBackground" Color="{StaticResource lighterGray}" />
                             </Border.Background>
-                            <Label HorizontalAlignment="Center" VerticalAlignment="Center" SnapsToDevicePixels="False" x:Name="buttonLabel"
+                            <Label HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="buttonLabel"
                                    FontFamily="{StaticResource mainFont}"                                        
                                    Content="{TemplateBinding Button.Content}" 
                                    FontSize="{TemplateBinding Button.FontSize}"

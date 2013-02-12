@@ -18,7 +18,7 @@
                             <Border.Background>
                                 <SolidColorBrush x:Name="toggleButtonBackground" Color="LightGray" />
                             </Border.Background>
-                            <Label HorizontalAlignment="Center" VerticalAlignment="Center" SnapsToDevicePixels="False"
+                            <Label HorizontalAlignment="Center" VerticalAlignment="Center" 
                                     Content="{TemplateBinding ToggleButton.Content}" 
                                     FontSize="{TemplateBinding ToggleButton.FontSize}" >
                                 <Label.Foreground>
