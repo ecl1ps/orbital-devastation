@@ -124,6 +124,15 @@ namespace Orbit {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to -.
+        /// </summary>
+        internal static string bot_text_3 {
+            get {
+                return ResourceManager.GetString("bot_text_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to +.
         /// </summary>
         internal static string char_plus {

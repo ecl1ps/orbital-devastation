@@ -583,4 +583,7 @@
   <data name="ui_warning_port_unavailable" xml:space="preserve">
     <value>Váš port je obsazen. Pravděpodobně na vašem stroji již běží server.</value>
   </data>
+  <data name="bot_text_3" xml:space="preserve">
+    <value>-</value>
+  </data>
 </root>

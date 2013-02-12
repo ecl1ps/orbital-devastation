@@ -52,7 +52,7 @@ namespace Orbit.Gui
             else if (selected.Equals(MedicoreBotButton))
             {
                 type = BotType.LEVEL3;
-                TextArea.Text = String.Concat(Strings.bot_text_2, Environment.NewLine, Environment.NewLine, String.Format(Strings.Culture, Strings.ui_best_highscore, GameProperties.Props.Get(PropertyKey.PLAYER_HIGHSCORE_SOLO3)));
+                TextArea.Text = String.Concat(Strings.bot_text_3, Environment.NewLine, Environment.NewLine, String.Format(Strings.Culture, Strings.ui_best_highscore, GameProperties.Props.Get(PropertyKey.PLAYER_HIGHSCORE_SOLO3)));
             }
             else
                 throw new Exception("Unsupported bot type");
