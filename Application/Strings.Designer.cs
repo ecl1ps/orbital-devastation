@@ -22,6 +22,7 @@ namespace Orbit {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [System.Reflection.ObfuscationAttribute(Feature = "renaming")]
     internal class Strings {
         
         private static global::System.Resources.ResourceManager resourceMan;
