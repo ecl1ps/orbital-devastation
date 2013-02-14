@@ -95,7 +95,9 @@ namespace Orbit
             if (!File.Exists(SharedDef.CONFIG_FILE))
                 GameProperties.Props.Save();
 
+            WPFLocalizeExtension.Engine.LocalizeDictionary.Instance.MergedAvailableCultures.Clear();
             WPFLocalizeExtension.Engine.LocalizeDictionary.Instance.MergedAvailableCultures.Add(CultureInfo.GetCultureInfo("en"));
+            WPFLocalizeExtension.Engine.LocalizeDictionary.Instance.MergedAvailableCultures.Add(CultureInfo.GetCultureInfo("cs"));
             SetLocalization(GameProperties.Get(PropertyKey.GAME_LANGUAGE));
 
             PlayerName = GameProperties.Props.Get(PropertyKey.PLAYER_NAME);
