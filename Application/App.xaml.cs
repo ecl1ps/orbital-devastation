@@ -33,7 +33,7 @@ namespace Orbit
         private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private SceneMgr sceneMgr;
-        private ServerMgr server;
+        private MasterServerMgr masterServer;
         private static GameWindow mainWindow;
 
         public string PlayerName { get; set; }
@@ -136,10 +136,10 @@ namespace Orbit
 
         private bool StartLocalServer(Gametype type)
         {
-            server = new ServerMgr();
             try
             {
-                server.Init(type);
+                if (masterServer == null)
+                    masterServer = new MasterServerMgr();
             }
             catch (SocketException)
             {
@@ -148,11 +148,6 @@ namespace Orbit
                 return false;
             }
 
-            Thread serverThread = new Thread(new ThreadStart(server.Run));
-            serverThread.IsBackground = false;
-            serverThread.Name = "Server Thread";
-            serverThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
-            serverThread.Start();
             return true;
         }
 
@@ -282,17 +277,9 @@ namespace Orbit
 
         public void ShutdownServerIfExists()
         {
-            if (server != null)
-            {
-                server.Enqueue(new Action(() =>
-                {
-                    if (server != null)
-                    {
-                        server.Shutdown();
-                        server = null;
-                    }
-                }));
-            }
+            if (masterServer != null)
+                masterServer.Shutdown();
+            masterServer = null;
             mainWindow.GameRunning = false;
         }
 

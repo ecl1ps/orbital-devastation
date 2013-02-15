@@ -12,51 +12,6 @@ namespace Orbit.Core.Server
 {
     public partial class ServerMgr
     {
-        private void PlayerConnectionApproval(NetIncomingMessage msg)
-        {
-            Logger.Debug("Incoming LOGIN");
-
-            // nepridavat hrace, pokud uz existuje
-            if (players.Exists(plr => plr.Connection == null || plr.Connection.RemoteUniqueIdentifier == msg.SenderConnection.RemoteUniqueIdentifier))
-                return;
-
-            // don't allow spectators to join quick game
-            if (GameType == Gametype.MULTIPLAYER_GAME && players.Count >= 2)
-                return;
-
-            string plrName = msg.ReadString();
-            string plrHash = msg.ReadString();
-            Color plrColor = msg.ReadColor();
-
-            // nepridavat ani hrace ze stejne instance hry (nejde je potom spolehlive rozlisit v tournamentu)
-            Player p = players.Find(plr => plr.Data.HashId == plrHash);
-            if (p == null)
-                p = CreateAndAddPlayer(plrName, plrHash, plrColor);
-            //player je connected kdyz se snazi pripojit
-            //else if (p.IsOnlineOrBot())
-                // return;
-
-            if (gameSession != null)
-                gameSession.PlayerConnected(p);
-
-            p.Connection = msg.SenderConnection;
-
-            NetOutgoingMessage hailMsg = CreateNetMessage();
-            hailMsg.Write((int)PacketType.PLAYER_ID_HAIL);
-            hailMsg.Write(p.Data.Id);
-            hailMsg.Write(p.Data.Name);
-            hailMsg.Write((byte)GameType);
-            bool tournamentRunning = GameType == Gametype.TOURNAMENT_GAME && gameSession != null && gameSession.IsRunning;
-            hailMsg.Write(tournamentRunning);
-
-            // Approve clients connection (Its sort of agreenment. "You can be my client and i will host you")
-            msg.SenderConnection.Approve(hailMsg);
-
-            // jakmile potvrdime spojeni nejakeho hrace, tak hned zesynchronizujeme data hracu mezi vsemi hraci
-            NetOutgoingMessage plrs = CreateAllPlayersDataMessage();
-            BroadcastMessage(plrs);
-        }
-
         private void SendPlayerLeftMessage(Player p)
         {
             NetOutgoingMessage outMsg = CreateNetMessage();
@@ -87,7 +42,6 @@ namespace Orbit.Core.Server
 
             return outmsg;
         }
-
 
         private NetOutgoingMessage CreateTournamentSettingsMessage()
         {
@@ -169,17 +123,6 @@ namespace Orbit.Core.Server
             Player p = GetPlayer(msg.ReadInt32());
             p.Data.MatchPoints = msg.ReadInt32();
             p.Data.Gold = msg.ReadInt32();
-            ForwardMessage(msg);
-        }
-
-        private void ReceivedPlayerDisconnectedMsg(NetIncomingMessage msg)
-        {
-            Player disconnected = GetPlayer(msg.ReadInt32());
-            if (disconnected == null)
-                return;
-            disconnected.Data.StartReady = false;
-            if (gameSession != null)
-                gameSession.PlayerLeft(disconnected);
             ForwardMessage(msg);
         }
 

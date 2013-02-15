@@ -16,112 +16,112 @@ using Orbit.Core.Scene;
 using Orbit.Core;
 using Orbit.Core.Helpers;
 using Orbit.Core.Server.Match;
+using System.Collections;
 
 namespace Orbit.Core.Server
 {
     public partial class ServerMgr
     {
         private NetServer server;
+        private Queue dataMessages = Queue.Synchronized(new Queue());
 
-        private void InitNetwork()
+        public void PlayerConnectionApproval(NetIncomingMessage msg)
         {
-            NetPeerConfiguration conf = new NetPeerConfiguration("Orbit");
-            conf.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
-            conf.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
-            conf.Port = SharedDef.PORT_NUMBER;
+            Logger.Debug("Incoming LOGIN");
 
-#if DEBUG
-            /*conf.SimulatedMinimumLatency = 0.2f; // 100ms
-            conf.SimulatedRandomLatency = 0.05f; // +- 50ms*/
+            // nepridavat hrace, pokud uz existuje
+            if (players.Exists(plr => plr.Connection == null || plr.Connection.RemoteUniqueIdentifier == msg.SenderConnection.RemoteUniqueIdentifier))
+                return;
 
-            conf.EnableMessageType(NetIncomingMessageType.DebugMessage);
-            conf.EnableMessageType(NetIncomingMessageType.Error);
-            conf.EnableMessageType(NetIncomingMessageType.ErrorMessage);
-            conf.EnableMessageType(NetIncomingMessageType.Receipt);
-            conf.EnableMessageType(NetIncomingMessageType.UnconnectedData);
-            conf.EnableMessageType(NetIncomingMessageType.WarningMessage);
-#endif
-#if VERBOSE
-            conf.EnableMessageType(NetIncomingMessageType.VerboseDebugMessage);
-#endif
+            // don't allow spectators to join quick game
+            if (GameType == Gametype.MULTIPLAYER_GAME && players.Count >= 2)
+                return;
 
-            server = new NetServer(conf);
-            server.Start();
+            string plrName = msg.ReadString();
+            string plrHash = msg.ReadString();
+            Color plrColor = msg.ReadColor();
+
+            // nepridavat ani hrace ze stejne instance hry (nejde je potom spolehlive rozlisit v tournamentu)
+            Player p = players.Find(plr => plr.Data.HashId == plrHash);
+            if (p == null)
+                p = CreateAndAddPlayer(plrName, plrHash, plrColor);
+            //player je connected kdyz se snazi pripojit
+            //else if (p.IsOnlineOrBot())
+            // return;
+
+            if (gameSession != null)
+                gameSession.PlayerConnected(p);
+
+            p.Connection = msg.SenderConnection;
+
+            NetOutgoingMessage hailMsg = CreateNetMessage();
+            hailMsg.Write((int)PacketType.PLAYER_ID_HAIL);
+            hailMsg.Write(p.Data.Id);
+            hailMsg.Write(p.Data.Name);
+            hailMsg.Write((byte)GameType);
+            bool tournamentRunning = GameType == Gametype.TOURNAMENT_GAME && gameSession != null && gameSession.IsRunning;
+            hailMsg.Write(tournamentRunning);
+
+            // Approve clients connection (Its sort of agreenment. "You can be my client and i will host you")
+            msg.SenderConnection.Approve(hailMsg);
+
+            // jakmile potvrdime spojeni nejakeho hrace, tak hned zesynchronizujeme data hracu mezi vsemi hraci
+            NetOutgoingMessage plrs = CreateAllPlayersDataMessage();
+            BroadcastMessage(plrs);
+        }
+
+        public void PlayerDisconnected(NetConnection netConnection)
+        {
+            Player disconnected = GetPlayer(netConnection);
+            Disconnected(disconnected);
+            SendPlayerLeftMessage(disconnected);
+        }
+
+        private void ReceivedPlayerDisconnectedMsg(NetIncomingMessage msg)
+        {
+            Player disconnected = GetPlayer(msg.ReadInt32());
+            Disconnected(disconnected);
+            ForwardMessage(msg);
+        }
+
+        private void Disconnected(Player disconnected)
+        {
+            if (disconnected == null)
+                return;
+            disconnected.Data.StartReady = false;
+            if (gameSession != null)
+                gameSession.PlayerLeft(disconnected);
+            if (disconnected.IsActivePlayer())
+                EndGame(disconnected, GameEnd.LEFT_GAME);
+        }
+
+        private void ReceivedPlayerKickRequest(int id)
+        {
+            Player p = GetPlayer(id);
+            if (p != null)
+            {
+                if (p.Connection != null)
+                    p.Connection.Disconnect("kicked");
+                else
+                {
+                    players.Remove(p); // bot
+                    SendPlayerLeftMessage(p);
+                }
+            }
+        }
+
+        public void EnqueueReceivedMessage(NetIncomingMessage msg)
+        {
+            dataMessages.Enqueue(msg);
         }
 
         private void ProcessMessages()
         {
-            if (server == null || server.Status != NetPeerStatus.Running)
-                return;
-
-            NetIncomingMessage msg;
-            while ((msg = server.ReadMessage()) != null)
-            {
-                switch (msg.MessageType)
-                {
-                    case NetIncomingMessageType.VerboseDebugMessage:
-                    case NetIncomingMessageType.DebugMessage:
-                    case NetIncomingMessageType.WarningMessage:
-                    case NetIncomingMessageType.ErrorMessage:
-                        Logger.Debug(msg.ReadString());
-                        break;
-                    case NetIncomingMessageType.DiscoveryRequest:
-                        NetOutgoingMessage response = server.CreateMessage();
-                        response.Write((byte)GameType);
-
-                        // jmeno serveru
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
-                        {
-                            response.Write("Server hosted by " + App.Instance.PlayerName);
-                        }));
-                        
-                        server.SendDiscoveryResponse(response, msg.SenderEndpoint);
-                        break;
-                    // If incoming message is Request for connection approval
-                    // This is the very first packet/message that is sent from client
-                    case NetIncomingMessageType.ConnectionApproval:
-                        if (msg.ReadInt32() == (int)PacketType.PLAYER_CONNECT)
-                            PlayerConnectionApproval(msg);
-                        break;
-                    case NetIncomingMessageType.Data:
-                        ProcessIncomingDataMessage(msg);
-                        break;
-                    case NetIncomingMessageType.StatusChanged:
-                        switch (msg.SenderConnection.Status)
-                        {
-                            case NetConnectionStatus.None:
-                            case NetConnectionStatus.InitiatedConnect:
-                            case NetConnectionStatus.RespondedAwaitingApproval:
-                            case NetConnectionStatus.RespondedConnect:
-                                break;
-                            case NetConnectionStatus.Disconnected:
-                            case NetConnectionStatus.Disconnecting:
-                                Player disconnected = GetPlayer(msg.SenderConnection);
-                                if (disconnected == null)
-                                    return;
-                                if (gameSession != null)
-                                    gameSession.PlayerLeft(disconnected);
-                                disconnected.Data.StartReady = false;
-                                SendPlayerLeftMessage(disconnected);
-                                if (disconnected.IsActivePlayer())
-                                    EndGame(disconnected, GameEnd.LEFT_GAME);
-                                break;
-                            case NetConnectionStatus.Connected:
-                                break;
-                        }
-
-                        // NOTE: Disconnecting and Disconnected are not instant unless client is shutdown with disconnect()
-                        Logger.Debug(msg.SenderConnection.ToString() + " status changed to: " + msg.SenderConnection.Status);
-                        break;
-                    default:
-                        Logger.Debug("Unhandled message type: " + msg.MessageType);
-                        break;
-                }
-                server.Recycle(msg);
-            }
+            while (dataMessages.Count != 0)
+                ProcessIncomingDataMessage(dataMessages.Dequeue() as NetIncomingMessage);
         }
 
-        private void ProcessIncomingDataMessage(NetIncomingMessage msg)
+        public void ProcessIncomingDataMessage(NetIncomingMessage msg)
         {
             PacketType type = (PacketType)msg.ReadInt32();
 #if VERBOSE
@@ -184,21 +184,8 @@ namespace Orbit.Core.Server
                     ForwardMessage(msg);
                     break;
             }
-        }
 
-        private void ReceivedPlayerKickRequest(int id)
-        {
-            Player p = GetPlayer(id);
-            if (p != null)
-            {
-                if (p.Connection != null)
-                    p.Connection.Disconnect("kicked");
-                else
-                {
-                    players.Remove(p); // bot
-                    SendPlayerLeftMessage(p);
-                }
-            }
+            server.Recycle(msg);
         }
 
         private void SyncReceivedObject(ISceneObject o, NetIncomingMessage msg)
@@ -206,26 +193,24 @@ namespace Orbit.Core.Server
             o.Update(msg.SenderConnection.AverageRoundtripTime / 2);
         }
 
-        public bool IsServer()
-        {
-            return true;
-        }
-
         public NetOutgoingMessage CreateNetMessage()
         {
             return server.CreateMessage();
         }
 
+        // TODO
         public void BroadcastMessage(NetOutgoingMessage msg, NetConnection except)
         {
             server.SendToAll(msg, except, NetDeliveryMethod.ReliableOrdered, 0);
         }
 
+        // TODO
         public void BroadcastMessage(NetOutgoingMessage msg, Player except)
         {
             server.SendToAll(msg, except.Connection, NetDeliveryMethod.ReliableOrdered, 0);
         }
 
+        // TODO
         public void BroadcastMessage(NetOutgoingMessage msg)
         {
             server.SendToAll(msg, NetDeliveryMethod.ReliableOrdered);

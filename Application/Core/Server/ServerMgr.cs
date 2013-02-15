@@ -48,9 +48,10 @@ namespace Orbit.Core.Server
             Time = 0;
         }
 
-        public void Init(Gametype gameType)
+        public void Init(Gametype gameType, NetServer netServer)
         {
             GameType = gameType;
+            server = netServer;
             gameEnded = false;
             isInitialized = false;
             shouldQuit = false;
@@ -58,8 +59,6 @@ namespace Orbit.Core.Server
             players = new List<Player>(2);
             synchronizedQueue = new ConcurrentQueue<Action>();
             StateMgr = new GameStateManager();
-
-            InitNetwork();
         }
 
         private void EndGame(Player plr, GameEnd endType)
