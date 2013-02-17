@@ -54,7 +54,7 @@ namespace Orbit.Core
                     case NetIncomingMessageType.DiscoveryResponse:
                         Gametype type = (Gametype)msg.ReadByte();
                         string player = msg.ReadString();
-                        AddServer(player + " - " + type.ToString() + " (" + msg.SenderEndpoint.Address.ToString() + ")");
+                        AddServer(player + " - " + type.ToString() + " (" + msg.SenderEndPoint.Address.ToString() + ")");
                         break;
                     default:
                         break;
