@@ -34,6 +34,7 @@ namespace Orbit.Core.Client
         {
             NetOutgoingMessage msg = client.CreateMessage();
             msg.Write((int)PacketType.PLAYER_CONNECT);
+            msg.Write((byte)GameType);
             msg.Write(GetCurrentPlayer().Data.Name);
             msg.Write(GetCurrentPlayer().Data.HashId);
             msg.Write(GetCurrentPlayer().Data.PlayerColor);

@@ -106,25 +106,16 @@ namespace Orbit.Core.Client
             players.Add(currentPlayer);
             AttachStateManagers();
 
-
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 currentPlayer.Data.Name = App.Instance.PlayerName;
                 currentPlayer.Data.HashId = App.Instance.PlayerHashId;
             }));
 
-            if (gameType != Gametype.TOURNAMENT_GAME)
-            {
-                Invoke(new Action(() =>
-                {
-                    Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblWaiting");
-                    if (lblw != null)
-                        lblw.Content = "";
-                }));
-            }
-
             if (gameType == Gametype.MULTIPLAYER_GAME)
                 SetMainInfoText(Strings.networking_waiting);
+            else
+                SetMainInfoText(String.Empty);
 
             InitNetwork();
             ConnectToServer();

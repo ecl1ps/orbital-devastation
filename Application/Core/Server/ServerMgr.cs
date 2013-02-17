@@ -39,6 +39,7 @@ namespace Orbit.Core.Server
         public GameStateManager StateMgr { get; set; }
         public TournamentSettings TournamentSettings { get; set; }
         public float Time { get; set; }
+        public Action CloseCallback { get; set; }
 
         public ServerMgr()
         {
@@ -119,13 +120,13 @@ namespace Orbit.Core.Server
         {
             shouldQuit = false;
 
-            if (server != null && server.Status != NetPeerStatus.NotRunning)
+            /*if (server != null && server.Status != NetPeerStatus.NotRunning)
             {
                 server.FlushSendQueue();
                 server.Shutdown("Peer closed connection");
                 server = null;
                 Thread.Sleep(10); // networking threadu chvili trva ukonceni
-            }
+            }*/
         }
 
         public Player CreateAndAddPlayer(String name, String hash, Color clr)
@@ -181,6 +182,9 @@ namespace Orbit.Core.Server
 
         private void RequestStop()
         {
+            if (CloseCallback != null)
+                CloseCallback.Invoke();
+
             shouldQuit = true;
             Thread.Sleep(10);
         }

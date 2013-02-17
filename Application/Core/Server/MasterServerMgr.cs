@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using Lidgren.Network;
+using Orbit.Core.Server.Level;
+using Orbit.Core.Server.Match;
 
 namespace Orbit.Core.Server
 {
@@ -75,15 +77,17 @@ namespace Orbit.Core.Server
                     if (msg.ReadInt32() != (int)PacketType.PLAYER_CONNECT)
                         return;
 
+                    Gametype type = (Gametype)msg.ReadByte();
+
                     if (connections.TryGetValue(msg.SenderConnection, out mgr))
                     {
                         mgr.Enqueue(new Action(() => mgr.PlayerConnectionApproval(msg)));
                         break;
                     }
 
-                    if (!FindAvailableServerManager(msg.SenderConnection))
+                    if (!FindAvailableServerManager(msg.SenderConnection, type))
                     {
-                        CreateNewServerMgr();
+                        CreateNewServerMgr(type);
                     }
 
                     connections.Add(msg.SenderConnection, mgr);
@@ -114,6 +118,8 @@ namespace Orbit.Core.Server
                                 break;
                             }
                             mgr.Enqueue(new Action(() => mgr.PlayerDisconnected(msg.SenderConnection.RemoteUniqueIdentifier)));
+                            connections.Remove(msg.SenderConnection);
+                            msg.SenderConnection.Disconnect("x");
                             break;
                         case NetConnectionStatus.Connected:
                             break;
@@ -129,19 +135,52 @@ namespace Orbit.Core.Server
             server.Recycle(msg);
         }
 
-        private void CreateNewServerMgr()
+        private void CreateNewServerMgr(Gametype type)
         {
             mgr = new ServerMgr();
-            // TODO
-            mgr.Init(Gametype.SOLO_GAME, server);
+            mgr.Init(type, server);
+
+            //mgr.CloseCallback = new Action(() => ManagerClosed(mgr));
 
             Thread serverThread = new Thread(new ThreadStart(mgr.Run));
             serverThread.IsBackground = false;
             serverThread.Name = "Server Thread";
             serverThread.Start();
+
+            switch (type)
+            {
+                case Gametype.SOLO_GAME:
+                    // v solo se nastavi tournament settings primo pres herni aplikaci
+                    break;
+                case Gametype.MULTIPLAYER_GAME:
+                    {
+                        TournamentSettings s = new TournamentSettings();
+                        s.MMType = MatchManagerType.QUICK_GAME;
+                        s.Level = GameLevel.BASIC_MAP;
+                        s.RoundCount = 1;
+                        s.BotCount = 0;
+                        mgr.Enqueue(new Action(() => mgr.TournamentSettings = s));
+                    }
+                    break;
+                case Gametype.TOURNAMENT_GAME:
+                    // v tournamentu se poslou setting pozdeji, az je hrac potvrdi
+                    break;
+            }
         }
 
-        private bool FindAvailableServerManager(NetConnection netConnection)
+        /*private void ManagerClosed(ServerMgr mgr)
+        {
+            List<NetConnection> connectionsForRemoval = new List<NetConnection>(2);
+
+            foreach (KeyValuePair<NetConnection, ServerMgr> pair in connections)
+                if (pair.Value == mgr)
+                    connectionsForRemoval.Add(pair.Key);
+
+            foreach (NetConnection con in connectionsForRemoval)
+                connections.Remove(con);
+        }*/
+
+        private bool FindAvailableServerManager(NetConnection netConnection, Gametype type)
         {
             // TODO
             if (connections.Count == 0)
