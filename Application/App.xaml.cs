@@ -167,22 +167,10 @@ namespace Orbit
             }));
         }
 
-        public void StartHostedGame()
+        public void StartQuickGame()
         {
-            if (!StartLocalServer(Gametype.MULTIPLAYER_GAME))
-                return;
-
-            sceneMgr.SetRemoteServerAddress(System.Net.IPAddress.Loopback.ToString());
-
+            sceneMgr.SetRemoteServerAddress(SharedDef.MASTER_SERVER_ADDRESS);
             StartGame(Gametype.MULTIPLAYER_GAME);
-
-            TournamentSettings s = new TournamentSettings();
-            s.MMType = MatchManagerType.QUICK_GAME;
-            s.Level = GameLevel.BASIC_MAP;
-            s.RoundCount = 1;
-            s.BotCount = 0;
-
-            SendTournamentSettings(s);
         }
 
         public void StartTournamentLobby()

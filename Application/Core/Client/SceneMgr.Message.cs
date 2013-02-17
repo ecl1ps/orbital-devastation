@@ -39,7 +39,7 @@ namespace Orbit.Core.Client
             msg.Write(GetCurrentPlayer().Data.HashId);
             msg.Write(GetCurrentPlayer().Data.PlayerColor);
 
-            serverConnection = client.Connect(serverAddress, SharedDef.PORT_NUMBER, msg);
+            serverConnection = client.Connect(serverAddress, SharedDef.MASTER_SERVER_PORT, msg);
         }
 
         private void ClientConnectionConnected(NetIncomingMessage msg)

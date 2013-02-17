@@ -24,7 +24,7 @@ namespace Orbit.Core.Server
             NetPeerConfiguration conf = new NetPeerConfiguration("Orbit");
             conf.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
             conf.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
-            conf.Port = SharedDef.PORT_NUMBER;
+            conf.Port = SharedDef.MASTER_SERVER_PORT;
 
 #if DEBUG
             /*conf.SimulatedMinimumLatency = 0.2f; // 100ms

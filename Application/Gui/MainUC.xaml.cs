@@ -37,7 +37,7 @@ namespace Orbit.Gui
         private void btnQuickGame_Click(object sender, RoutedEventArgs e)
         {
             App.Instance.CreateGameGui();
-            App.Instance.StartHostedGame();
+            App.Instance.StartQuickGame();
         }
 
         private void btnHostTournament_Click(object sender, RoutedEventArgs e)

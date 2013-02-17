@@ -94,7 +94,7 @@ namespace Orbit.Core
             }));
             Thread.Sleep(30);
             if (client != null && (client.Status == NetPeerStatus.Running || client.Status == NetPeerStatus.Starting))
-                client.DiscoverLocalPeers(SharedDef.PORT_NUMBER);
+                client.DiscoverLocalPeers(SharedDef.MASTER_SERVER_PORT);
         }
     }
 }

@@ -10,7 +10,12 @@ namespace Orbit.Core
         // Application
         public const long MINIMUM_UPDATE_TIME               = 17;
 
-        public const int PORT_NUMBER                        = 40;
+#if DEBUG
+        public const string MASTER_SERVER_ADDRESS           = "127.0.0.1";
+#else
+        public const string MASTER_SERVER_ADDRESS           = "77.236.211.123";
+#endif
+        public const int MASTER_SERVER_PORT                 = 40;
 
         public const int VICTORY_MAX_SCORE                  = 1300;
         public const int VICTORY_MIN_SCORE                  = 1000;
@@ -54,7 +59,7 @@ namespace Orbit.Core
         public const int ASTEROID_GOLD_CHANCE               = 25; // (0 - 100)
         public const int ASTEROID_UNSTABLE_CHANCE           = 50; // 25 procent musi se brat ohled na sance ostatnich mozna dodelat nejaky dopocitani. Ale co s normalnima potom?
 
-        public const int BASE_MAX_INGERITY                  = 100;
+        public const int BASE_MAX_INGERITY                  = 1;
 
         public const int NEW_STAT_POWERUP_TIMER_MIN         = 2; // seconds
         public const int NEW_STAT_POWERUP_TIMER_MAX         = 4; // seconds
