@@ -262,6 +262,7 @@ namespace Orbit
 
         public void GameEnded()
         {
+            ShutdownServerIfExists();
             StaticMouse.Enable(false);
             ShowStartScreen();
         }

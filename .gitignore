@@ -13,3 +13,5 @@ Application/resources/images/icons/flame.png
 TestResults/*
 Tests/bin/*
 Tests/obj/*
+MasterServer/bin/
+MasterServer/obj/

@@ -70,9 +70,9 @@ namespace Orbit.Core.Server
             BroadcastMessage(plrs);
         }
 
-        public void PlayerDisconnected(NetConnection netConnection)
+        public void PlayerDisconnected(long netConnectionId)
         {
-            Player disconnected = GetPlayer(netConnection);
+            Player disconnected = GetPlayer(netConnectionId);
             Disconnected(disconnected);
             SendPlayerLeftMessage(disconnected);
         }
@@ -125,7 +125,7 @@ namespace Orbit.Core.Server
         {
             PacketType type = (PacketType)msg.ReadInt32();
 #if VERBOSE
-            Logger.Debug("Server " + GetPlayer(msg.SenderConnection).GetId() + ": received msg " + type.ToString(Strings.Culture));
+            Logger.Debug("Server " + GetPlayer(msg.SenderConnection.RemoteUniqueIdentifier).GetId() + ": received msg " + type.ToString());
 #endif
             switch (type)
             {

@@ -115,7 +115,7 @@ namespace Orbit.Core.Client
         {
             PacketType type = (PacketType)msg.ReadInt32();
 #if VERBOSE
-            Logger.Debug("Client " + GetCurrentPlayer().GetId() + ": received msg " + type.ToString(Strings.Culture));
+            Logger.Debug("Client " + GetCurrentPlayer().GetId() + ": received msg " + type.ToString());
 #endif
             switch (type)
             {

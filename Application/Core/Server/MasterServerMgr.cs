@@ -113,7 +113,7 @@ namespace Orbit.Core.Server
                                 Logger.Warn("disconnecting unknown connection -> skipped: " + msg.SenderConnection);
                                 break;
                             }
-                            mgr.Enqueue(new Action(() => mgr.PlayerDisconnected(msg.SenderConnection)));
+                            mgr.Enqueue(new Action(() => mgr.PlayerDisconnected(msg.SenderConnection.RemoteUniqueIdentifier)));
                             break;
                         case NetConnectionStatus.Connected:
                             break;
@@ -138,7 +138,6 @@ namespace Orbit.Core.Server
             Thread serverThread = new Thread(new ThreadStart(mgr.Run));
             serverThread.IsBackground = false;
             serverThread.Name = "Server Thread";
-            serverThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
             serverThread.Start();
         }
 
@@ -157,14 +156,14 @@ namespace Orbit.Core.Server
             return false;
         }
 
-
-        internal void Shutdown()
+        public void Shutdown()
         {
             foreach (KeyValuePair<NetConnection, ServerMgr> pair in connections)
             {
                 pair.Value.Enqueue(new Action(() => pair.Value.Shutdown()));
             }
             connections.Clear();
+            server.Shutdown("exit");
         }
     }
 }

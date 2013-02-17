@@ -83,7 +83,7 @@ namespace Orbit.Core.Server
 
         private void ReceivedPlayerReadyMsg(NetIncomingMessage msg)
         {
-            Player p = GetPlayer(msg.SenderConnection);
+            Player p = GetPlayer(msg.SenderConnection.RemoteUniqueIdentifier);
             msg.ReadInt32(); // Id
             p.Data.LobbyReady = msg.ReadBoolean();
             p.Data.LobbyLeader = msg.ReadBoolean();
@@ -111,7 +111,7 @@ namespace Orbit.Core.Server
             gameSession.CreateNewMatch();
             isInitialized = true;
 
-            gameSession.RequestStartMatch(GetPlayer(msg.SenderConnection));
+            gameSession.RequestStartMatch(GetPlayer(msg.SenderConnection.RemoteUniqueIdentifier));
         }
 
         private void ReceivedPlayerScoreAndGoldMsg(NetIncomingMessage msg)

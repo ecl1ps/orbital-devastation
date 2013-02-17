@@ -208,9 +208,9 @@ namespace Orbit.Core.Server
             return players.Find(p => p.GetId() == id);
         }
 
-        private Player GetPlayer(NetConnection netConnection)
+        private Player GetPlayer(long netConnectionId)
         {
-            return players.Find(plr => plr.Connection != null && plr.Connection.RemoteUniqueIdentifier == netConnection.RemoteUniqueIdentifier);
+            return players.Find(plr => plr.Connection != null && plr.Connection.RemoteUniqueIdentifier == netConnectionId);
         }
 
         public Random GetRandomGenerator()
