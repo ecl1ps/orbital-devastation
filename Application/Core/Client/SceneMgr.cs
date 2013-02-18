@@ -114,7 +114,7 @@ namespace Orbit.Core.Client
 
             if (gameType == Gametype.MULTIPLAYER_GAME)
                 SetMainInfoText(Strings.networking_waiting);
-            else
+            else if (area != null)
                 SetMainInfoText(String.Empty);
 
             InitNetwork();
