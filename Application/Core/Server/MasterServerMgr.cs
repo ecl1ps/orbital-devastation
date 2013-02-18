@@ -117,7 +117,8 @@ namespace Orbit.Core.Server
                                 Logger.Warn("disconnecting unknown connection -> skipped: " + msg.SenderConnection);
                                 break;
                             }
-                            mgr.Enqueue(new Action(() => mgr.PlayerDisconnected(msg.SenderConnection.RemoteUniqueIdentifier)));
+                            long uid = msg.SenderConnection.RemoteUniqueIdentifier;
+                            mgr.Enqueue(new Action(() => mgr.PlayerDisconnected(uid)));
                             connections.Remove(msg.SenderConnection);
                             msg.SenderConnection.Disconnect("x");
                             break;
