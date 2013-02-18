@@ -149,11 +149,11 @@ namespace Orbit.Core.Helpers
         public static ParticleEmmitor CreateShockWaveParticleEmmitor(SceneMgr mgr, Vector position, Color color)
         {
             ParticleEmmitor e = new ParticleEmmitor(mgr, IdMgr.GetNewId(0));
-            e.MinLife = 0.5f;
-            e.MaxLife = 0.5f;
+            e.MinLife = 0.35f;
+            e.MaxLife = 0.35f;
             e.Position = position;
-            e.MinSize = 2;
-            e.MaxSize = 2;
+            e.MinSize = 0.5f;
+            e.MaxSize = 0.6f;
             e.Amount = 1;
             e.SizeMultiplier = 20;
             e.Infinite = false;
@@ -174,7 +174,7 @@ namespace Orbit.Core.Helpers
         {
             List<ParticleEmmitor> emmitors = new List<ParticleEmmitor>();
 
-            ParticleEmmitor smokeEmmitor = CreateFireParticleEmmitor(mgr, position, Color.FromRgb(135, 135, 135));
+            ParticleEmmitor smokeEmmitor = CreateFireParticleEmmitor(mgr, position, Color.FromArgb(135, 0, 0, 0));
             smokeEmmitor.EmitingTime = 1;
             smokeEmmitor.Amount = 20;
             smokeEmmitor.MinLife = 1.5f;
@@ -217,13 +217,11 @@ namespace Orbit.Core.Helpers
             flashEmmitor.MaxStartingRotation = (float)Math.PI;
             flashEmmitor.FireAll = true;
 
-            ParticleEmmitor shockWaveEmmitor = CreateShockWaveParticleEmmitor(mgr, position, Color.FromRgb(171, 0, 0));
-            shockWaveEmmitor.MinRotation = 0;
-            shockWaveEmmitor.MaxRotation = (float) Math.PI / 2;
+            ParticleEmmitor shockWaveEmmitor = CreateShockWaveParticleEmmitor(mgr, position, Color.FromArgb(200, 255, 0, 0));
 
             emmitors.Add(smokeEmmitor);
             emmitors.Add(fireEmmitor);
-            emmitors.Add(explosionSphere);
+            //emmitors.Add(explosionSphere);
             emmitors.Add(flashEmmitor);
             emmitors.Add(shockWaveEmmitor);
 
