@@ -18,7 +18,7 @@ namespace Lidgren.Network
 		private Dictionary<NetConnection, Dictionary<int, ReceivedFragmentGroup>> m_receivedFragmentGroups;
 
 		// on user thread
-		private void SendFragmentedMessage(NetOutgoingMessage msg, IList<NetConnection> recipients, NetDeliveryMethod method, int sequenceChannel)
+        private void SendFragmentedMessage(NetOutgoingMessage msg, IList<NetConnection> recipients, NetDeliveryMethod method, int sequenceChannel, NetConnection except = null)
 		{
 			// Note: this group id is PER SENDING/NetPeer; ie. same id is sent to all recipients;
 			// this should be ok however; as long as recipients differentiate between same id but different sender
@@ -60,10 +60,11 @@ namespace Lidgren.Network
 				NetException.Assert(chunk.m_bitLength != 0);
 				NetException.Assert(chunk.GetEncodedSize() < mtu);
 
-				Interlocked.Add(ref chunk.m_recyclingCount, recipients.Count);
+				Interlocked.Add(ref chunk.m_recyclingCount, except != null ? recipients.Count - 1 : recipients.Count);
 
 				foreach (NetConnection recipient in recipients)
-					recipient.EnqueueMessage(chunk, method, sequenceChannel);
+                    if (except == null || recipient.RemoteUniqueIdentifier != except.RemoteUniqueIdentifier)
+					    recipient.EnqueueMessage(chunk, method, sequenceChannel);
 
 				bitsLeft -= bitsPerChunk;
 			}

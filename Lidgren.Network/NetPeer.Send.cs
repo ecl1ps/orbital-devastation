@@ -85,7 +85,8 @@ namespace Lidgren.Network
 		/// <param name="recipients">The list of recipients to send to</param>
 		/// <param name="method">How to deliver the message</param>
 		/// <param name="sequenceChannel">Sequence channel within the delivery method</param>
-		public void SendMessage(NetOutgoingMessage msg, List<NetConnection> recipients, NetDeliveryMethod method, int sequenceChannel)
+        /// <param name="except">Connection where message should not be sent, optional</param>
+		public void SendMessage(NetOutgoingMessage msg, List<NetConnection> recipients, NetDeliveryMethod method, int sequenceChannel, NetConnection except = null)
 		{
 			if (msg == null)
 				throw new ArgumentNullException("msg");
@@ -105,9 +106,12 @@ namespace Lidgren.Network
 			int len = msg.GetEncodedSize();
 			if (len <= mtu)
 			{
-				Interlocked.Add(ref msg.m_recyclingCount, recipients.Count);
+                Interlocked.Add(ref msg.m_recyclingCount, except != null ? recipients.Count - 1 : recipients.Count);
 				foreach (NetConnection conn in recipients)
 				{
+                    if (except != null && conn.RemoteUniqueIdentifier == except.RemoteUniqueIdentifier)
+                        continue;
+
 					if (conn == null)
 					{
 						Interlocked.Decrement(ref msg.m_recyclingCount);
@@ -121,7 +125,7 @@ namespace Lidgren.Network
 			else
 			{
 				// message must be fragmented!
-				SendFragmentedMessage(msg, recipients, method, sequenceChannel);
+				SendFragmentedMessage(msg, recipients, method, sequenceChannel, except);
 			}
 
 			return;
