@@ -155,8 +155,8 @@
     <comment>0 = player name</comment>
   </data>
   <data name="misc_fps" xml:space="preserve">
-    <value>FPS: {0} TPF: {1}</value>
-    <comment>0 = frame per second, 1 = time per frame</comment>
+    <value>FPS: {0}</value>
+    <comment>0 = frame per second</comment>
   </data>
   <data name="misc_latency" xml:space="preserve">
     <value>Latency: {0}</value>
@@ -283,7 +283,7 @@
     <value>Practise Game</value>
   </data>
   <data name="ui_quick_game" xml:space="preserve">
-    <value>Host Quick Game</value>
+    <value>Quick Game</value>
   </data>
   <data name="ui_ready" xml:space="preserve">
     <value>Ready</value>

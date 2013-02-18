@@ -467,7 +467,7 @@ namespace Orbit {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to FPS: {0} TPF: {1}.
+        ///   Looks up a localized string similar to FPS: {0}.
         /// </summary>
         internal static string misc_fps {
             get {
@@ -1178,7 +1178,7 @@ namespace Orbit {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Host Quick Game.
+        ///   Looks up a localized string similar to Quick Game.
         /// </summary>
         internal static string ui_quick_game {
             get {

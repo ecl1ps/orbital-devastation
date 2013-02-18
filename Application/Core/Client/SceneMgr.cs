@@ -469,9 +469,9 @@ namespace Orbit.Core.Client
 
             statisticsTimer = 0;
 
-            ShowStatusText(1, String.Format(Strings.Culture, Strings.misc_fps, tpf, (int)(1.0f / tpf)));
-            if (GameType != Gametype.SOLO_GAME && GetCurrentPlayer().Connection != null)
-                ShowStatusText(2, String.Format(Strings.Culture, Strings.misc_latency, GetCurrentPlayer().Connection.AverageRoundtripTime / 2));
+            ShowStatusText(1, String.Format(Strings.Culture, Strings.misc_fps, (int)(1.0f / tpf)));
+            if (GameType != Gametype.SOLO_GAME && serverConnection != null)
+                ShowStatusText(2, String.Format(Strings.Culture, Strings.misc_latency, (int)(serverConnection.AverageRoundtripTime * 1000 / 2)));
         }
 
         private void ProcessActionQueue()
