@@ -60,12 +60,21 @@ namespace Orbit.Core
 
         public static Vector Rotate(this Vector vec, double angle, bool inRadians = true)
         {
+            return Rotate(vec, new Vector(0, 0), angle, inRadians);
+        }
+
+        public static Vector Rotate(this Vector vec, Vector center, double angle, bool inRadians = true)
+        {
             if (!inRadians)
                 angle = Math.PI * angle / 180;
 
-            double x = ((vec.X * Math.Cos(angle)) - (vec.Y * Math.Sin(angle)));
-            double y = ((vec.X * Math.Sin(angle)) + (vec.Y * Math.Cos(angle)));
-            return new Vector(x, y);
+            double x = vec.X - center.X;
+            double y = vec.Y - center.Y;
+
+            x = ((vec.X * Math.Cos(angle)) - (vec.Y * Math.Sin(angle)));
+            y = ((vec.X * Math.Sin(angle)) + (vec.Y * Math.Cos(angle)));
+
+            return new Vector(x + center.X, y + center.Y);
         }
 
         public static Vector Normal(this Vector v)

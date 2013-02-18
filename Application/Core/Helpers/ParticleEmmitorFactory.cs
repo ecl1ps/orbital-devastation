@@ -183,16 +183,20 @@ namespace Orbit.Core.Helpers
             smokeEmmitor.MaxSize = 6f;
             smokeEmmitor.MinForce = 3;
             smokeEmmitor.MaxForce = 4;
+            smokeEmmitor.Delay = 0.2f;
             smokeEmmitor.FireAll = true;
 
             ParticleEmmitor fireEmmitor = CreateFireParticleEmmitor(mgr, position, Color.FromArgb(255, 171, 0, 0));
-            fireEmmitor.EmitingTime = 0.25f;
-            fireEmmitor.Amount = 30;
-            fireEmmitor.MinLife = 0.25f;
-            fireEmmitor.MaxLife = 0.5f;
-            fireEmmitor.MinSize = 2;
-            fireEmmitor.MaxSize = 3;
-            fireEmmitor.SizeMultiplier = 0.5f;
+            fireEmmitor.EmitingTime = 1;
+            fireEmmitor.Amount = 20;
+            fireEmmitor.MinLife = 1.2f;
+            fireEmmitor.MaxLife = 1.5f;
+            fireEmmitor.MinSize = 5;
+            fireEmmitor.MaxSize = 6f;
+            fireEmmitor.MinForce = 3;
+            fireEmmitor.MaxForce = 4;
+            fireEmmitor.Delay = 0.2f;
+            fireEmmitor.FireAll = true;
 
             ParticleEmmitor explosionSphere = CreateExplodingSphereEmmitor(mgr, position, Color.FromRgb(190, 120, 70));
             explosionSphere.Amount = 300;
@@ -204,17 +208,21 @@ namespace Orbit.Core.Helpers
 
             ParticleEmmitor flashEmmitor = CrateFlashParticleEmmitor(mgr, position, Color.FromRgb(250, 250, 150));
             flashEmmitor.Amount = 1;
-            flashEmmitor.MinSize = 2;
-            flashEmmitor.MaxSize = 5;
+            flashEmmitor.MinSize = 5;
+            flashEmmitor.MaxSize = 7;
             flashEmmitor.MinLife = 0.1f;
             flashEmmitor.MaxLife = 0.2f;
             flashEmmitor.SizeMultiplier = 1;
+            flashEmmitor.MinStartingRotation = (float)-Math.PI;
+            flashEmmitor.MaxStartingRotation = (float)Math.PI;
             flashEmmitor.FireAll = true;
 
-            ParticleEmmitor shockWaveEmmitor = CreateShockWaveParticleEmmitor(mgr, position, Color.FromRgb(171, 0, 0)); 
+            ParticleEmmitor shockWaveEmmitor = CreateShockWaveParticleEmmitor(mgr, position, Color.FromRgb(171, 0, 0));
+            shockWaveEmmitor.MinRotation = 0;
+            shockWaveEmmitor.MaxRotation = (float) Math.PI / 2;
 
             emmitors.Add(smokeEmmitor);
-            //emmitors.Add(fireEmmitor);
+            emmitors.Add(fireEmmitor);
             emmitors.Add(explosionSphere);
             emmitors.Add(flashEmmitor);
             emmitors.Add(shockWaveEmmitor);
