@@ -189,8 +189,8 @@
   <data name="ui_connect_to_game" xml:space="preserve">
     <value>Connect to Game</value>
   </data>
-  <data name="ui_connect_to_localhost" xml:space="preserve">
-    <value>Localhost</value>
+  <data name="ui_localhost_quick_game" xml:space="preserve">
+    <value>Local Quick</value>
   </data>
   <data name="ui_cursor_icon" xml:space="preserve">
     <value>Cursor icon</value>
@@ -595,5 +595,8 @@
   </data>
   <data name="bot_text_3" xml:space="preserve">
     <value>-</value>
+  </data>
+  <data name="ui_localhost_tournament" xml:space="preserve">
+    <value>Local Tourn.</value>
   </data>
 </root>

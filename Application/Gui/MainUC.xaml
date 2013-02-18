@@ -28,12 +28,14 @@
                 <Button Content="{lex:Loc ui_quick_game}" Name="btnQuickGame" Click="btnQuickGame_Click"/>
                 <Button Content="{lex:Loc ui_host_tournament}" Name="btnHostTournament" Click="btnHostTournament_Click"/>
                 <Button Content="{lex:Loc ui_connect_to_game}" Name="btnFindHostedGame" Click="btnFindHostedGame_Click"/>
-                <Button Content="{lex:Loc ui_connect_to_localhost}" Name="btnConnectToLocalhost" Click="btnConnectToLocalhost_Click"/>
-                <Button Content="{lex:Loc ui_play_as_spectator}" Name="btnPlayAsSpectator" Click="btnPlayAsSpectator_Click"/>
-                <Button Content="{lex:Loc ui_options}" Name="btnShowOptions" Click="btnShowOptions_Click"/>
+
+                <Button Content="{lex:Loc ui_options}" Name="btnShowOptions" Margin="0,20,0,5" Click="btnShowOptions_Click"/>
                 <Button Content="{lex:Loc ui_statistics}" Name="btnShowStatistics" Click="btnShowStatistics_Click"/>
                 <Button Content="{lex:Loc ui_exit_game}" Name="btnExit" Margin="0,50,0,5" Click="btnExit_Click"/>
 
+                <Button Content="{lex:Loc ui_localhost_quick_game}" Name="btnConnectToLocalhost" Margin="0,200,0,5" Click="btnConnectToLocalhost_Click"/>
+                <Button Content="{lex:Loc ui_localhost_tournament}" Name="btnLocalhostTorunament" />
+                <Button Content="{lex:Loc ui_play_as_spectator}" Name="btnPlayAsSpectator" Click="btnPlayAsSpectator_Click"/>
             </StackPanel> 
         </Border>
         <Label Content="{lex:Loc Key=ui_version}" Height="28" HorizontalAlignment="Left" Margin="851,672,0,0" Name="label1" VerticalAlignment="Top" Width="137" FontSize="10" />

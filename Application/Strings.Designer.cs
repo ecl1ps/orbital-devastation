@@ -809,15 +809,6 @@ namespace Orbit {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Localhost.
-        /// </summary>
-        internal static string ui_connect_to_localhost {
-            get {
-                return ResourceManager.GetString("ui_connect_to_localhost", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Cursor icon.
         /// </summary>
         internal static string ui_cursor_icon {
@@ -1030,6 +1021,24 @@ namespace Orbit {
         internal static string ui_leave_room {
             get {
                 return ResourceManager.GetString("ui_leave_room", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Local Quick.
+        /// </summary>
+        internal static string ui_localhost_quick_game {
+            get {
+                return ResourceManager.GetString("ui_localhost_quick_game", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Local Tourn..
+        /// </summary>
+        internal static string ui_localhost_tournament {
+            get {
+                return ResourceManager.GetString("ui_localhost_tournament", resourceCulture);
             }
         }
         
