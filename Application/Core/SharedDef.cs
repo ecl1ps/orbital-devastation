@@ -10,11 +10,7 @@ namespace Orbit.Core
         // Application
         public const long MINIMUM_UPDATE_TIME               = 17;
 
-#if DEBUG
-        public const string MASTER_SERVER_ADDRESS           = "127.0.0.1";
-#else
         public const string MASTER_SERVER_ADDRESS           = "77.236.211.123";
-#endif
         public const int MASTER_SERVER_PORT                 = 40;
 
         public const int VICTORY_MAX_SCORE                  = 1300;

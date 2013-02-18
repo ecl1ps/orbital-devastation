@@ -183,16 +183,35 @@ namespace Orbit.Core.Server
 
         private bool FindAvailableServerManager(NetConnection netConnection, Gametype type)
         {
-            // TODO
             if (connections.Count == 0)
+                return false;
+
+            // vzdycky vytvorit novy manager pro solo hru
+            if (type == Gametype.SOLO_GAME)
                 return false;
 
             foreach (KeyValuePair<NetConnection, ServerMgr> pair in connections)
             {
-                mgr = pair.Value;
-                return true;
+                if (type == Gametype.MULTIPLAYER_GAME)
+                {
+                    Logger.Info("plr count: " + pair.Value.GetPlayerCount());
+                    if (pair.Value.GameType == Gametype.MULTIPLAYER_GAME && pair.Value.GetPlayerCount() == 1)
+                    {
+                        mgr = pair.Value;
+                        return true;
+                    }
+                }
+                else // Tournament
+                {
+                    if (pair.Value.GameType == Gametype.TOURNAMENT_GAME && pair.Value.GetPlayerCount() < 6)
+                    {
+                        mgr = pair.Value;
+                        return true;
+                    }
+                }
             }
 
+            // nenalezen zadny vhodny manager
             return false;
         }
 

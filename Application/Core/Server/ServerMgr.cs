@@ -119,14 +119,6 @@ namespace Orbit.Core.Server
         private void CleanUp()
         {
             shouldQuit = false;
-
-            /*if (server != null && server.Status != NetPeerStatus.NotRunning)
-            {
-                server.FlushSendQueue();
-                server.Shutdown("Peer closed connection");
-                server = null;
-                Thread.Sleep(10); // networking threadu chvili trva ukonceni
-            }*/
         }
 
         public Player CreateAndAddPlayer(String name, String hash, Color clr)
@@ -237,6 +229,11 @@ namespace Orbit.Core.Server
                             return;
                         }
             }
+        }
+
+        public int GetPlayerCount()
+        {
+            return players.Count;
         }
 
         private void StopAndRequestScores(Action action)
