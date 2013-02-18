@@ -175,10 +175,7 @@ namespace Orbit
 
         public void StartTournamentLobby()
         {
-            if (!StartLocalServer(Gametype.TOURNAMENT_GAME))
-                return;
-
-            sceneMgr.SetRemoteServerAddress(System.Net.IPAddress.Loopback.ToString());
+            sceneMgr.SetRemoteServerAddress(SharedDef.MASTER_SERVER_ADDRESS);
 
             StartGame(Gametype.TOURNAMENT_GAME);
 

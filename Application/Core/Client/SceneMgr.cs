@@ -786,7 +786,7 @@ namespace Orbit.Core.Client
                     lobby.UpdateTournamentSettings(lastTournamentSettings);
             }));
 
-            SendChatMessage(String.Format(Strings.Culture, Strings.lobby_joined, GetCurrentPlayer().Data.Name));
+            SendChatMessage(String.Format(Strings.Culture, Strings.lobby_joined, GetCurrentPlayer().Data.Name), true);
             SendPlayerDataRequestMessage();
             
             if (currentPlayer.Data.LobbyLeader)

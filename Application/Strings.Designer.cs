@@ -890,7 +890,7 @@ namespace Orbit {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Host Tournament.
+        ///   Looks up a localized string similar to Tournament.
         /// </summary>
         internal static string ui_host_tournament {
             get {

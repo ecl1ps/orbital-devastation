@@ -205,7 +205,7 @@
     <value>Orbital Devastation</value>
   </data>
   <data name="ui_host_tournament" xml:space="preserve">
-    <value>Host Tournament</value>
+    <value>Tournament</value>
   </data>
   <data name="ui_key_action_1" xml:space="preserve">
     <value>Action 1</value>
