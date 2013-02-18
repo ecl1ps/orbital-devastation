@@ -24,6 +24,7 @@ namespace Orbit.Core.Server
     {
         private NetServer server;
         private Queue dataMessages = Queue.Synchronized(new Queue());
+        private List<NetConnection> activeConnections = new List<NetConnection>(2);
 
         public void PlayerConnectionApproval(NetIncomingMessage msg)
         {
@@ -53,6 +54,7 @@ namespace Orbit.Core.Server
                 gameSession.PlayerConnected(p);
 
             p.Connection = msg.SenderConnection;
+            activeConnections.Add(msg.SenderConnection);
 
             NetOutgoingMessage hailMsg = CreateNetMessage();
             hailMsg.Write((int)PacketType.PLAYER_ID_HAIL);
@@ -88,9 +90,13 @@ namespace Orbit.Core.Server
         {
             if (disconnected == null)
                 return;
+
             disconnected.Data.StartReady = false;
+            activeConnections.Remove(disconnected.Connection);
+
             if (gameSession != null)
                 gameSession.PlayerLeft(disconnected);
+
             if (disconnected.IsActivePlayer())
                 EndGame(disconnected, GameEnd.LEFT_GAME);
         }
@@ -101,7 +107,10 @@ namespace Orbit.Core.Server
             if (p != null)
             {
                 if (p.Connection != null)
+                {
                     p.Connection.Disconnect("kicked");
+                    activeConnections.Remove(p.Connection);
+                }
                 else
                 {
                     players.Remove(p); // bot
@@ -198,22 +207,19 @@ namespace Orbit.Core.Server
             return server.CreateMessage();
         }
 
-        // TODO
         public void BroadcastMessage(NetOutgoingMessage msg, NetConnection except)
         {
-            server.SendToAll(msg, except, NetDeliveryMethod.ReliableOrdered, 0);
+            server.SendMessage(msg, activeConnections, NetDeliveryMethod.ReliableOrdered, 0, except);
         }
 
-        // TODO
         public void BroadcastMessage(NetOutgoingMessage msg, Player except)
         {
-            server.SendToAll(msg, except.Connection, NetDeliveryMethod.ReliableOrdered, 0);
+            server.SendMessage(msg, activeConnections, NetDeliveryMethod.ReliableOrdered, 0, except.Connection);
         }
 
-        // TODO
         public void BroadcastMessage(NetOutgoingMessage msg)
         {
-            server.SendToAll(msg, NetDeliveryMethod.ReliableOrdered);
+            server.SendMessage(msg, activeConnections, NetDeliveryMethod.ReliableOrdered, 0);
         }
 
         private void BroadcastMessage(NetIncomingMessage msg)
