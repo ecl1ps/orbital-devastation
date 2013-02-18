@@ -14,6 +14,10 @@ using System.Reflection;
 [assembly: Obfuscation(Feature = "embed log4net.dll", Exclude = false)]
 [assembly: Obfuscation(Feature = "embed WPFLocalizeExtension.dll", Exclude = false)]
 [assembly: Obfuscation(Feature = "embed XAMLMarkupExtensions.dll", Exclude = false)]
+[assembly: Obfuscation(Feature = "embed Petzold.Media3D.dll", Exclude = false)]
+
+[assembly: Obfuscation(Feature = "embed satellites", Exclude = false)]
+//[assembly: Obfuscation(Feature = @"embed $(InputDir)\cs\OrbitalDevastation.resources.dll", Exclude = false)]
 
 // zapnuti debugovani v release
 //[assembly: Obfuscation(Feature = "debug", Exclude = false)]
