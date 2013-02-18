@@ -186,7 +186,7 @@ namespace Orbit.Core.Helpers
             smokeEmmitor.Delay = 0.2f;
             smokeEmmitor.FireAll = true;
 
-            ParticleEmmitor fireEmmitor = CreateFireParticleEmmitor(mgr, position, Color.FromArgb(255, 171, 0, 0));
+            ParticleEmmitor fireEmmitor = CreateFireParticleEmmitor(mgr, position, Color.FromArgb(150, 171, 0, 0));
             fireEmmitor.EmitingTime = 1;
             fireEmmitor.Amount = 20;
             fireEmmitor.MinLife = 1.2f;

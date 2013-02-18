@@ -6,7 +6,7 @@ float4 main(float2 uv : TEXCOORD) : COLOR
 {
 	float4 color = tex2D(implicitInputSampler, uv);
 	
-	float a = color.r;
+	float a = color.r * colorToWrite.a;
 
 	return colorToWrite * a;
 }
