@@ -42,12 +42,7 @@ namespace Orbit.Gui
 
         private void btnHostTournament_Click(object sender, RoutedEventArgs e)
         {
-            App.Instance.StartTournamentLobby();
-        }
-
-        private void btnFindHostedGame_Click(object sender, RoutedEventArgs e)
-        {
-            App.Instance.LookForGame();
+            App.Instance.StartTournamentFinder();
         }
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
@@ -58,7 +53,7 @@ namespace Orbit.Gui
         private void btnConnectToLocalhost_Click(object sender, RoutedEventArgs e)
         {
             App.Instance.CreateGameGui();
-            App.Instance.ConnectToGame("127.0.0.1");
+            App.Instance.StartQuickGame("127.0.0.1");
         }
 
         private void btnShowStatistics_Click(object sender, RoutedEventArgs e)
@@ -73,7 +68,7 @@ namespace Orbit.Gui
 
         private void btnPlayAsSpectator_Click(object sender, RoutedEventArgs e)
         {
-            App.Instance.StartTournamentLobby();
+            /*App.Instance.StartTournamentLobby("127.0.0.1");
 
             App.Instance.GetSceneMgr().Enqueue(new Action(() =>
             {
@@ -83,7 +78,12 @@ namespace Orbit.Gui
                 s.MMType = Orbit.Core.Server.Match.MatchManagerType.TEST_LEADER_SPECTATOR;
                 App.Instance.GetSceneMgr().ProcessNewTournamentSettings(s);
                 App.Instance.GetSceneMgr().SendStartGameRequest();
-            }));
+            }));*/
+        }
+
+        private void btnLocalhostTorunament_Click(object sender, RoutedEventArgs e)
+        {
+            App.Instance.StartTournamentFinder("127.0.0.1");
         }
     }
 }

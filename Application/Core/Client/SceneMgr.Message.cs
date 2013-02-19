@@ -867,7 +867,7 @@ namespace Orbit.Core.Client
         {
             lastTournamentSettings = s;
             SendNewTournamentSettings(s);
-            players.ForEach(p => { if (!p.Data.LobbyLeader) p.Data.LobbyReady = false; });
+            //players.ForEach(p => { if (!p.Data.LobbyLeader) p.Data.LobbyReady = false; });
             UpdateLobbyPlayers();
         }
 

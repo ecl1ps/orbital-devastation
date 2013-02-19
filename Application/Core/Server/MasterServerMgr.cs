@@ -6,6 +6,7 @@ using System.Threading;
 using Lidgren.Network;
 using Orbit.Core.Server.Level;
 using Orbit.Core.Server.Match;
+using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Server
 {
@@ -22,7 +23,7 @@ namespace Orbit.Core.Server
             connections = new Dictionary<NetConnection, ServerMgr>();
 
             NetPeerConfiguration conf = new NetPeerConfiguration("Orbit");
-            conf.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
+            conf.EnableMessageType(NetIncomingMessageType.UnconnectedData);
             conf.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
             conf.Port = SharedDef.MASTER_SERVER_PORT;
 
@@ -46,7 +47,7 @@ namespace Orbit.Core.Server
             server.Start();
         }
 
-        public void GotMessage(object peer)
+        private void GotMessage(object peer)
         {
             server = peer as NetServer;
             NetIncomingMessage msg = server.ReadMessage();
@@ -59,20 +60,10 @@ namespace Orbit.Core.Server
                 case NetIncomingMessageType.ErrorMessage:
                     Logger.Debug(msg.ReadString());
                     break;
-                /*case NetIncomingMessageType.DiscoveryRequest:
-                    NetOutgoingMessage response = server.CreateMessage();
-                    response.Write((byte)GameType);
-
-                    // jmeno serveru
-                    Application.Current.Dispatcher.Invoke(new Action(() =>
-                    {
-                        response.Write("Server hosted by " + App.Instance.PlayerName);
-                    }));
-                        
-                    server.SendDiscoveryResponse(response, msg.SenderEndpoint);
-                    break;*/
-                // If incoming message is Request for connection approval
-                // This is the very first packet/message that is sent from client
+                case NetIncomingMessageType.UnconnectedData:
+                    if ((PacketType)msg.ReadByte() == PacketType.AVAILABLE_TOURNAMENTS_REQUEST)
+                        SendAvailableTournamentsResponse(msg.SenderEndPoint);
+                    break;
                 case NetIncomingMessageType.ConnectionApproval:
                     if (msg.ReadInt32() != (int)PacketType.PLAYER_CONNECT)
                         return;
@@ -111,14 +102,14 @@ namespace Orbit.Core.Server
                             break;
                         case NetConnectionStatus.Disconnected:
                         case NetConnectionStatus.Disconnecting:
-                            // TODO:
-                            if (!connections.TryGetValue(msg.SenderConnection, out mgr))
+                            ServerMgr tempMgr = null;
+                            if (!connections.TryGetValue(msg.SenderConnection, out tempMgr))
                             {
                                 Logger.Warn("disconnecting unknown connection -> skipped: " + msg.SenderConnection);
                                 break;
                             }
                             long uid = msg.SenderConnection.RemoteUniqueIdentifier;
-                            mgr.Enqueue(new Action(() => mgr.PlayerDisconnected(uid)));
+                            tempMgr.Enqueue(new Action(() => tempMgr.PlayerDisconnected(uid)));
                             connections.Remove(msg.SenderConnection);
                             msg.SenderConnection.Disconnect("x");
                             break;
@@ -134,6 +125,29 @@ namespace Orbit.Core.Server
                     break;
             }
             server.Recycle(msg);
+        }
+
+        private void SendAvailableTournamentsResponse(System.Net.IPEndPoint iPEndPoint)
+        {
+            List<TournamentSettings> available = GetAvailableTournaments();
+
+            NetOutgoingMessage msg = server.CreateMessage();
+            msg.Write((byte)PacketType.AVAILABLE_TOURNAMENTS_RESPONSE);
+            msg.Write(available.Count);
+            foreach (TournamentSettings s in available)
+                msg.Write(s);
+
+            server.SendUnconnectedMessage(msg, iPEndPoint);
+        }
+
+        private List<TournamentSettings> GetAvailableTournaments()
+        {
+            List<TournamentSettings> available = new List<TournamentSettings>();
+            foreach (KeyValuePair<NetConnection, ServerMgr> pair in connections)
+                if (pair.Value.GameType == Gametype.TOURNAMENT_GAME)
+                    available.Add(pair.Value.TournamentSettings);
+
+            return available;
         }
 
         private void CreateNewServerMgr(Gametype type)

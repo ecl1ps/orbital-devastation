@@ -209,17 +209,20 @@ namespace Orbit.Core.Server
 
         public void BroadcastMessage(NetOutgoingMessage msg, NetConnection except)
         {
-            server.SendMessage(msg, activeConnections, NetDeliveryMethod.ReliableOrdered, 0, except);
+            if (activeConnections.Count > 1)
+                server.SendMessage(msg, activeConnections, NetDeliveryMethod.ReliableOrdered, 0, except);
         }
 
         public void BroadcastMessage(NetOutgoingMessage msg, Player except)
         {
-            server.SendMessage(msg, activeConnections, NetDeliveryMethod.ReliableOrdered, 0, except.Connection);
+            if (activeConnections.Count > 1)
+                server.SendMessage(msg, activeConnections, NetDeliveryMethod.ReliableOrdered, 0, except.Connection);
         }
 
         public void BroadcastMessage(NetOutgoingMessage msg)
         {
-            server.SendMessage(msg, activeConnections, NetDeliveryMethod.ReliableOrdered, 0);
+            if (activeConnections.Count > 0)
+                server.SendMessage(msg, activeConnections, NetDeliveryMethod.ReliableOrdered, 0);
         }
 
         private void BroadcastMessage(NetIncomingMessage msg)

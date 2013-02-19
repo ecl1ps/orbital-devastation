@@ -412,6 +412,9 @@
     <Compile Include="Gui\StatisticsUC.xaml.cs">
       <DependentUpon>StatisticsUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\TournamentFinderUC.xaml.cs">
+      <DependentUpon>TournamentFinderUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\Visuals\GameVisualArea.cs" />
     <Compile Include="Gui\Visuals\Particles.cs" />
     <Compile Include="Gui\Visuals\VisualRenderer.cs" />
@@ -589,6 +592,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\StatisticsUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\TournamentFinderUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

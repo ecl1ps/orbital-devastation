@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="Orbit.Gui.TournamentFinderUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com" 
+             lex:LocalizeDictionary.DesignCulture="en"  
+             lex:ResxLocalizationProvider.DefaultAssembly="OrbitalDevastation"  
+             lex:ResxLocalizationProvider.DefaultDictionary="Strings"   
+             mc:Ignorable="d" Width="1000" Height="700" Name="tournamentFinderUC">
+
+    <UserControl.Resources>
+        <Style BasedOn="{StaticResource comboBoxStyle}" TargetType="{x:Type ComboBox}">
+            <Setter Property="FontSize" Value="9" />
+            <Setter Property="Height" Value="23" />
+            <Setter Property="Width" Value="226" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+        <Style BasedOn="{StaticResource buttonStyle}" TargetType="{x:Type Button}">
+            <Setter Property="FontSize" Value="9" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Width" Value="170" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Width="1000" Height="700">
+        <Label Content="Tournaments" FontSize="20"  HorizontalAlignment="Left" Margin="389,44,0,0" VerticalAlignment="Top"/>
+
+        <Grid HorizontalAlignment="Left" Height="65" Margin="10,98,0,0" VerticalAlignment="Top" Width="628">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="199*"></ColumnDefinition>
+                <ColumnDefinition Width="429*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Status:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" />
+            <Label Grid.Column="0" Content="Active tournaments:" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" />
+            <Label Grid.Column="1" Content="Checking online status. Please wait..." HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" />
+            <Label Grid.Column="1" Content="0" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" />
+        </Grid>
+        
+        <ListView Name="lvTournaments"  HorizontalAlignment="Left" Height="409" Margin="10,168,0,0" VerticalAlignment="Top" Width="628" SelectionMode="Single"/>
+        
+        <Border BorderThickness="1" BorderBrush="{StaticResource darkPurpleBrush}" Background="Gainsboro" Margin="660,168,10,123">
+            <Grid Name="gridGameInfo">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="102" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Create tournament" FontSize="18" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="6,22,6,0" VerticalAlignment="Top" Height="23" />
+
+                <Label Content="Name:" Grid.Column="0"  Margin="0,96,0,0" Grid.ColumnSpan="2" Width="105" Height="22" />
+                <TextBox Grid.Column="1" Margin="5,94,0,0" Name="tbname" AcceptsTab="True" MaxLength="20" HorizontalAlignment="Left" Width="216" />
+                
+                <Label Content="{lex:Loc ui_tournament_type}" Grid.Column="0"  Margin="0,130,0,0" Grid.ColumnSpan="2" Width="105" Height="22" />
+                <ComboBox Height="23" Grid.Column="1" Margin="5,130,0,0" Name="cbType" Width="216" HorizontalAlignment="Left" />
+                
+                <Label Content="{lex:Loc ui_tournament_map}" Grid.Column="0" Margin="0,161,0,0" Grid.ColumnSpan="2" Width="105" Height="22" />
+                <ComboBox Height="23" Grid.Column="1" Margin="5,161,0,0" Name="cbMap" Width="216" HorizontalAlignment="Left" />
+                
+                <Label Content="{lex:Loc ui_tournament_rounds}" Grid.Column="0" Margin="0,193,0,0" Grid.ColumnSpan="2" Width="105" Height="22" />
+                <TextBox Text="1" Grid.Column="1" Margin="5,194,0,0" Name="tbRounds" AcceptsTab="True" MaxLength="2" HorizontalContentAlignment="Right" TabIndex="2" HorizontalAlignment="Left" Width="35" />
+
+                <Label Content="{lex:Loc ui_tournament_bot_count}" Grid.Column="0" Margin="0,261,0,0" Name="lblBotCount" Grid.ColumnSpan="2" Width="105" Height="22" />
+                <TextBox AcceptsTab="True" Grid.Column="1" HorizontalContentAlignment="Right" Margin="5,261,0,0" MaxLength="2" Name="tbBotCount" TabIndex="4" Text="0" HorizontalAlignment="Left" Width="36" />
+                
+                <Label Content="{lex:Loc ui_tournament_bot_level}" Grid.Column="0" Margin="0,228,0,0" Name="lblBot" Grid.ColumnSpan="2" Width="105" Height="22" />
+                <ComboBox Margin="5,227,0,0" Grid.Column="1" Name="cbBot" Width="214" HorizontalAlignment="Left" />
+
+                <Button Content="Create"  Margin="5,0,0,20" Name="btnCreateTournament" VerticalAlignment="Bottom" HorizontalAlignment="Center" Grid.ColumnSpan="2" Click="btnCreateTournament_Click" />
+            </Grid>
+        </Border>
+        
+        <Button Content="Join tournament" Margin="120,628,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Name="btnJoinTournament" Click="btnJoinTournament_Click" />
+        <Button Content="Refresh" Margin="386,628,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Name="btnRefresh" Click="btnRefresh_Click"  />
+        <Button Content="Close" Margin="670,628,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Name="btnClose" />
+
+    </Grid>
+</UserControl>
+

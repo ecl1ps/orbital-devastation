@@ -167,24 +167,10 @@ namespace Orbit
             }));
         }
 
-        public void StartQuickGame()
+        public void StartQuickGame(string address = SharedDef.MASTER_SERVER_ADDRESS)
         {
-            sceneMgr.SetRemoteServerAddress(SharedDef.MASTER_SERVER_ADDRESS);
+            sceneMgr.SetRemoteServerAddress(address);
             StartGame(Gametype.MULTIPLAYER_GAME);
-        }
-
-        public void StartTournamentLobby()
-        {
-            sceneMgr.SetRemoteServerAddress(SharedDef.MASTER_SERVER_ADDRESS);
-
-            StartGame(Gametype.TOURNAMENT_GAME);
-
-            CreateLobbyGui(true);
-        }
-
-        public void SetGameStarted(bool started)
-        {
-            mainWindow.GameRunning = started;
         }
 
         public void CreateGameGui(bool setGameArea = true)
@@ -202,17 +188,18 @@ namespace Orbit
             }
         }
 
-        public void FocusWindow()
+        public void StartTournamentFinder(string address = SharedDef.MASTER_SERVER_ADDRESS)
         {
-            MainWindow.WindowState = System.Windows.WindowState.Normal;
-            MainWindow.Activate();
-            MainWindow.Focus();
-            MainWindow.BringIntoView();
+            AddWindow(new TournamentFinderUC(address));
         }
 
-        public GameVisualArea GetGameArea()
+        public void StartTournamentLobby(string address)
         {
-            return LogicalTreeHelper.FindLogicalNode(mainWindow.mainGrid, "gameArea") as GameVisualArea;
+            sceneMgr.SetRemoteServerAddress(address);
+
+            StartGame(Gametype.TOURNAMENT_GAME);
+
+            CreateLobbyGui(true);
         }
 
         public void CreateLobbyGui(bool asLeader, bool settingsLocked = false)
@@ -225,10 +212,22 @@ namespace Orbit
             sceneMgr.GameWindowState = Orbit.Core.WindowState.IN_LOBBY;
         }
 
-        public void ConnectToGame(string serverAddress)
+        public void SetGameStarted(bool started)
         {
-            sceneMgr.SetRemoteServerAddress(serverAddress);
-            StartGame(Gametype.MULTIPLAYER_GAME);
+            mainWindow.GameRunning = started;
+        }
+
+        public void FocusWindow()
+        {
+            MainWindow.WindowState = System.Windows.WindowState.Normal;
+            MainWindow.Activate();
+            MainWindow.Focus();
+            MainWindow.BringIntoView();
+        }
+
+        public GameVisualArea GetGameArea()
+        {
+            return LogicalTreeHelper.FindLogicalNode(mainWindow.mainGrid, "gameArea") as GameVisualArea;
         }
 
         private void StartGameThread()
@@ -282,12 +281,6 @@ namespace Orbit
                     }
                 }));
             }
-        }
-
-        public void LookForGame()
-        {
-            FindServerUC f = new FindServerUC();
-            AddWindow(f);
         }
 
         public void PlayerReady(bool ready)
@@ -369,6 +362,6 @@ namespace Orbit
             ClearMenus();
             ClearWindows();
             mainWindow.mainGrid.Children.Add(window);
-        }           
+        }
     }
 }

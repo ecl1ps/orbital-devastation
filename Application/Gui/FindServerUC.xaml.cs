@@ -79,7 +79,7 @@ namespace Orbit.Gui
                         SaveUsedServerAdresses();
                     }
                     App.Instance.CreateGameGui();
-                    App.Instance.ConnectToGame(ip.Trim());
+                    //App.Instance.ConnectToGame(ip.Trim());
                 }));
             }
         }
@@ -139,7 +139,7 @@ namespace Orbit.Gui
                             SaveUsedServerAdresses();
                         }
                         App.Instance.CreateGameGui();
-                        App.Instance.ConnectToGame(adr.ToString());
+                        //App.Instance.ConnectToGame(adr.ToString());
                     }));
 
                 });
@@ -170,7 +170,7 @@ namespace Orbit.Gui
             if (lbxUsedServers.SelectedIndex > -1)
             {
                 App.Instance.CreateGameGui();
-                App.Instance.ConnectToGame(lbxUsedServers.SelectedItem.ToString());
+                //App.Instance.ConnectToGame(lbxUsedServers.SelectedItem.ToString());
             }
         }
 
@@ -179,7 +179,7 @@ namespace Orbit.Gui
             if (lbxUsedServers.SelectedIndex > -1)
             {
                 App.Instance.CreateGameGui();
-                App.Instance.ConnectToGame(lbxUsedServers.SelectedItem.ToString());
+                //App.Instance.ConnectToGame(lbxUsedServers.SelectedItem.ToString());
             }
         }
 
