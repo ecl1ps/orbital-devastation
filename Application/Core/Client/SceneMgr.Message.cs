@@ -850,8 +850,12 @@ namespace Orbit.Core.Client
 
         private void ReceivedPlayerScoreUpdate(NetIncomingMessage msg)
         {
-            currentPlayer.Data.MatchPoints = msg.ReadInt32();
-            currentPlayer.Data.Score = msg.ReadInt32();
+            Player p = GetPlayer(msg.ReadInt32());
+            if (p == null)
+                return;
+
+            p.Data.MatchPoints = msg.ReadInt32();
+            p.Data.Score = msg.ReadInt32();
         }
 
         public void SendNewTournamentSettings(TournamentSettings s)

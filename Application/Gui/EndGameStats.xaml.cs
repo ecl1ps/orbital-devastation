@@ -30,7 +30,7 @@ namespace Orbit.Gui
             InitializeComponent();
         }
 
-        public void setStats(UIElement elem)
+        public void SetStats(UIElement elem)
         {
             Root.Children.Add(elem);
             Canvas.SetLeft(elem, 91);
