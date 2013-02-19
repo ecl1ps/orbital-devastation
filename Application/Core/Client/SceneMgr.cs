@@ -633,7 +633,6 @@ namespace Orbit.Core.Client
             gameEnded = true;
             lastGameEnd = endType;
             winner = plr;
-            GetParticleArea().ClearAll();
 
             players.ForEach(p => p.Statistics.GameEnded = true);
 
