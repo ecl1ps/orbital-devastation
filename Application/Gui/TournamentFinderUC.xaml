@@ -7,6 +7,7 @@
              lex:LocalizeDictionary.DesignCulture="en"  
              lex:ResxLocalizationProvider.DefaultAssembly="OrbitalDevastation"  
              lex:ResxLocalizationProvider.DefaultDictionary="Strings"   
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
              mc:Ignorable="d" Width="1000" Height="700" Name="tournamentFinderUC">
 
     <UserControl.Resources>
@@ -34,12 +35,22 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="Status:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" />
             <Label Grid.Column="0" Content="Active tournaments:" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" />
-            <Label Grid.Column="1" Content="Checking online status. Please wait..." HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" />
-            <Label Grid.Column="1" Content="0" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" />
+            <Label Grid.Column="1" Content="Checking online status. Please wait..." Name="lblStatus" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Foreground="#FFD6BA3C" />
+            <Label Grid.Column="1" Content="0" HorizontalAlignment="Left" Name="lblTournamentCount" Margin="0,30,0,0" VerticalAlignment="Top" />
         </Grid>
-        
-        <ListView Name="lvTournaments"  HorizontalAlignment="Left" Height="409" Margin="10,168,0,0" VerticalAlignment="Top" Width="628" SelectionMode="Single"/>
-        
+
+        <ListView Name="lvTournaments" ItemsSource="{Binding AvailableTournaments}" HorizontalAlignment="Left" Height="409" Margin="10,168,0,0" VerticalAlignment="Top" Width="628" SelectionMode="Single">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="180" Header="Name" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Width="100" Header="Leader" DisplayMemberBinding="{Binding Leader}" />
+                    <GridViewColumn Width="140" Header="Type" DisplayMemberBinding="{Binding MMType}" />
+                    <GridViewColumn Width="140" Header="Map" DisplayMemberBinding="{Binding Level}" />
+                    <GridViewColumn Width="70" Header="Rounds" DisplayMemberBinding="{Binding RoundCount}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
         <Border BorderThickness="1" BorderBrush="{StaticResource darkPurpleBrush}" Background="Gainsboro" Margin="660,168,10,123">
             <Grid Name="gridGameInfo">
                 <Grid.ColumnDefinitions>
@@ -72,7 +83,7 @@
         
         <Button Content="Join tournament" Margin="120,628,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Name="btnJoinTournament" Click="btnJoinTournament_Click" />
         <Button Content="Refresh" Margin="386,628,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Name="btnRefresh" Click="btnRefresh_Click"  />
-        <Button Content="Close" Margin="670,628,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Name="btnClose" />
+        <Button Content="Close" Margin="670,628,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Name="btnClose" Click="btnClose_Click" />
 
     </Grid>
 </UserControl>

@@ -31,6 +31,8 @@ namespace Orbit.Core.Client
         private Queue<NetOutgoingMessage> pendingMessages;
         private bool tournametRunnig;
 
+        public int RemoteServerId { get; set; }
+
         private void InitNetwork()
         {
             pendingMessages = new Queue<NetOutgoingMessage>();

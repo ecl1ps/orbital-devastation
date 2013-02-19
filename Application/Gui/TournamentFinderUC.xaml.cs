@@ -18,6 +18,9 @@ using Orbit.Core.AI;
 using Orbit.Core.Players;
 using Orbit.Core.Server.Level;
 using Orbit.Core.Server.Match;
+using Orbit.Core.Helpers;
+using System.Net;
+using System.Collections.ObjectModel;
 
 namespace Orbit.Gui
 {
@@ -31,13 +34,52 @@ namespace Orbit.Gui
         private NetClient client;
         private string serverAddress;
 
+        private ObservableCollection<VisualizableTorunamentSettings> availableTournaments = new ObservableCollection<VisualizableTorunamentSettings>();
+        public ObservableCollection<VisualizableTorunamentSettings> AvailableTournaments { get { return availableTournaments; } }
+
         public TournamentFinderUC(string serverAddress)
         {
             InitializeComponent();
+            CheckOnlineStatus();
             PostInit();
             this.serverAddress = serverAddress;
             StartClient();
             RequestTournaments();
+        }
+
+        private void CheckOnlineStatus()
+        {
+            // TODO: zkontrolovat jestli na adrese serveru opravdu bezi aplikace
+            try
+            {
+                NetUtility.ResolveAsync(SharedDef.MASTER_SERVER_ADDRESS, delegate(IPAddress adr)
+                {
+                    if (adr == null)
+                    {
+                        lblStatus.Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            lblStatus.Content = "Connection to the server is unavailable.";
+                            lblStatus.Foreground = Brushes.Red;
+                        }));
+                    }
+                    else
+                    {
+                        lblStatus.Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            lblStatus.Content = "Connection to the server is online.";
+                            lblStatus.Foreground = Brushes.Green;
+                        }));
+                    }
+                });
+            }
+            catch (System.Exception /*e*/)
+            {
+                lblStatus.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    lblStatus.Content = "Connection is unavailable.";
+                    lblStatus.Foreground = Brushes.Red;
+                }));
+            }
         }
 
         private void StartClient()
@@ -68,14 +110,22 @@ namespace Orbit.Gui
 
         private void ReceivedTournaments(NetIncomingMessage msg)
         {
+            availableTournaments.Clear();
+
             int count = msg.ReadInt32();
             for (int i = 0; i < count; ++i)
-                ;//lvTournaments
+                availableTournaments.Add(new VisualizableTorunamentSettings(msg.ReadTournamentSettings()));
+
+            lblTournamentCount.Content = count.ToString(Strings.Culture);
         }
 
         private void btnJoinTournament_Click(object sender, RoutedEventArgs e)
         {
+            VisualizableTorunamentSettings s = lvTournaments.SelectedItem as VisualizableTorunamentSettings;
+            if (s == null)
+                return;
 
+            App.Instance.StartTournamentGame(serverAddress, s.Settings.ServerId);
         }
 
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
@@ -158,6 +208,7 @@ namespace Orbit.Gui
 
             TournamentSettings s = new TournamentSettings();
             s.Name = tbName.Text;
+            s.Leader = App.Instance.PlayerName;
             s.MMType = (MatchManagerType)cbType.SelectedValue;
             s.Level = (GameLevel)cbMap.SelectedValue;
             try
@@ -198,6 +249,11 @@ namespace Orbit.Gui
             LobbyUC lobby = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
             if (lobby != null)
                 lobby.UpdateTournamentSettings(s);
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            App.Instance.ShowStartScreen();
         }
     }
 }

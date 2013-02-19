@@ -720,6 +720,7 @@ namespace Orbit.Core.Helpers
         {
             msg.Write(s.ServerId);
             msg.Write(s.Name);
+            msg.Write(s.Leader);
             msg.Write((int)s.MMType);
             msg.Write((int)s.Level);
             msg.Write(s.RoundCount);
@@ -732,6 +733,7 @@ namespace Orbit.Core.Helpers
             TournamentSettings s = new TournamentSettings();
             s.ServerId = msg.ReadInt32();
             s.Name = msg.ReadString();
+            s.Leader = msg.ReadString();
             s.MMType = (MatchManagerType)msg.ReadInt32();
             s.Level = (GameLevel)msg.ReadInt32();
             s.RoundCount = msg.ReadInt32();

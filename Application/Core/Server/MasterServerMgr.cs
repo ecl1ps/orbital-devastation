@@ -69,17 +69,19 @@ namespace Orbit.Core.Server
                         return;
 
                     Gametype type = (Gametype)msg.ReadByte();
+                    int serverId = msg.ReadInt32();
 
+                    // v pripade ze jeho connection je uz prirazene k nejakemu manageru
                     if (connections.TryGetValue(msg.SenderConnection, out mgr))
                     {
                         mgr.Enqueue(new Action(() => mgr.PlayerConnectionApproval(msg)));
                         break;
                     }
 
-                    if (!FindAvailableServerManager(msg.SenderConnection, type))
-                    {
+                    // novy manager se vytvori pokud je zakladan novy turnaj (id 0) nebo pokud neni nalezen vhodny server
+                    if ((type == Gametype.TOURNAMENT_GAME && serverId == 0) ||
+                        !FindAvailableServerManager(msg.SenderConnection, type, serverId))
                         CreateNewServerMgr(type);
-                    }
 
                     connections.Add(msg.SenderConnection, mgr);
                     mgr.Enqueue(new Action(() => mgr.PlayerConnectionApproval(msg)));
@@ -129,7 +131,7 @@ namespace Orbit.Core.Server
 
         private void SendAvailableTournamentsResponse(System.Net.IPEndPoint iPEndPoint)
         {
-            List<TournamentSettings> available = GetAvailableTournaments();
+            HashSet<TournamentSettings> available = GetAvailableTournaments();
 
             NetOutgoingMessage msg = server.CreateMessage();
             msg.Write((byte)PacketType.AVAILABLE_TOURNAMENTS_RESPONSE);
@@ -140,9 +142,9 @@ namespace Orbit.Core.Server
             server.SendUnconnectedMessage(msg, iPEndPoint);
         }
 
-        private List<TournamentSettings> GetAvailableTournaments()
+        private HashSet<TournamentSettings> GetAvailableTournaments()
         {
-            List<TournamentSettings> available = new List<TournamentSettings>();
+            HashSet<TournamentSettings> available = new HashSet<TournamentSettings>();
             foreach (KeyValuePair<NetConnection, ServerMgr> pair in connections)
                 if (pair.Value.GameType == Gametype.TOURNAMENT_GAME)
                     available.Add(pair.Value.TournamentSettings);
@@ -195,7 +197,7 @@ namespace Orbit.Core.Server
                 connections.Remove(con);
         }*/
 
-        private bool FindAvailableServerManager(NetConnection netConnection, Gametype type)
+        private bool FindAvailableServerManager(NetConnection netConnection, Gametype type, int serverId)
         {
             if (connections.Count == 0)
                 return false;
@@ -217,10 +219,14 @@ namespace Orbit.Core.Server
                 }
                 else // Tournament
                 {
+                    // TODO: nahlasit uzivateli chybu kdyz je pozadovany manager uz zaplneny
                     if (pair.Value.GameType == Gametype.TOURNAMENT_GAME && pair.Value.GetPlayerCount() < 6)
                     {
-                        mgr = pair.Value;
-                        return true;
+                        if (serverId == pair.Value.Id)
+                        {
+                            mgr = pair.Value;
+                            return true;
+                        }
                     }
                 }
             }

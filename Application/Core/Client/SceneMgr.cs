@@ -40,8 +40,10 @@ namespace Orbit.Core.Client
         public LevelEnvironment LevelEnv { get; set; }
         public AlertMessageManager AlertMessageMgr { get; set; }
         public SpectatorActionsManager SpectatorActionMgr { get; set; }
-        public WindowState GameWindowState { get { return gameWindowState; } set { gameWindowState = value; } }
         public bool UserActionsDisabled { get { return userActionsDisabled; } }
+        public bool IsGameInitalized { get { return isGameInitialized; } }
+        public WindowState GameWindowState { get { return gameWindowState; } set { gameWindowState = value; } }
+
         private volatile WindowState gameWindowState;
 
         private ParticleArea particleArea;
@@ -64,13 +66,9 @@ namespace Orbit.Core.Client
         private bool playerQuit;
         private GameEnd lastGameEnd;
         private TournamentSettings lastTournamentSettings;
-
         private Player winner;
-
         private float totalTime;
         private bool stopUpdating = false;
-
-        public bool IsGameInitalized { get { return isGameInitialized; } }
 
         public SceneMgr()
         {
@@ -780,7 +778,7 @@ namespace Orbit.Core.Client
 
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-                App.Instance.CreateLobbyGui(currentPlayer.Data.LobbyLeader, true);
+                App.Instance.CreateLobbyGui(currentPlayer.Data.LobbyLeader);
                 LobbyUC lobby = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
                 if (lobby != null)
                     lobby.UpdateTournamentSettings(lastTournamentSettings);

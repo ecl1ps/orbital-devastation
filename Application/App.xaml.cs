@@ -151,7 +151,7 @@ namespace Orbit
             return true;
         }
 
-        private void StartGame(Gametype type)
+        private void StartGame(Gametype type, int serverId = 0)
         {
             SoundManager.Instance.StopAllSounds();
             SoundManager.Instance.StartPlayingInfinite(SharedDef.MUSIC_BACKGROUND_ACTION);
@@ -163,6 +163,7 @@ namespace Orbit
 
             sceneMgr.Enqueue(new Action(() =>
             {
+                sceneMgr.RemoteServerId = serverId;
                 sceneMgr.Init(type);
             }));
         }
@@ -193,22 +194,35 @@ namespace Orbit
             AddWindow(new TournamentFinderUC(address));
         }
 
+        /************************************************************************/
+        /* ostatni pripojujici se hraci                                                                     */
+        /************************************************************************/
+        public void StartTournamentGame(string address, int serverId)
+        {
+            sceneMgr.SetRemoteServerAddress(address);
+
+            StartGame(Gametype.TOURNAMENT_GAME, serverId);
+        }
+
+        /************************************************************************/
+        /* leader                                                                     */
+        /************************************************************************/
         public void StartTournamentLobby(string address)
         {
             sceneMgr.SetRemoteServerAddress(address);
 
-            StartGame(Gametype.TOURNAMENT_GAME);
+            StartGame(Gametype.TOURNAMENT_GAME, 0);
 
-            CreateLobbyGui(true);
+            CreateLobbyGui(true, true);
         }
 
-        public void CreateLobbyGui(bool asLeader, bool settingsLocked = false)
+        public void CreateLobbyGui(bool asLeader, bool firstGame = false)
         {
             sceneMgr.Enqueue(new Action(() =>
             {
                 sceneMgr.GetCurrentPlayer().Data.LobbyLeader = asLeader;
             }));
-            AddWindow(new LobbyUC(asLeader, settingsLocked));
+            AddWindow(new LobbyUC(asLeader, firstGame));
             sceneMgr.GameWindowState = Orbit.Core.WindowState.IN_LOBBY;
         }
 

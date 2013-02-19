@@ -35,6 +35,7 @@ namespace Orbit.Core.Client
             NetOutgoingMessage msg = client.CreateMessage();
             msg.Write((int)PacketType.PLAYER_CONNECT);
             msg.Write((byte)GameType);
+            msg.Write(RemoteServerId);
             msg.Write(GetCurrentPlayer().Data.Name);
             msg.Write(GetCurrentPlayer().Data.HashId);
             msg.Write(GetCurrentPlayer().Data.PlayerColor);
@@ -51,17 +52,15 @@ namespace Orbit.Core.Client
             {
                 App.Instance.PlayerName = currentPlayer.Data.Name;
             }));
-            // pokud je hra zakladana pres lobby, tak o tom musi vedet i klient, ktery ji nezakladal
-            Gametype serverType = (Gametype)msg.SenderConnection.RemoteHailMessage.ReadByte();
+
             tournametRunnig = msg.SenderConnection.RemoteHailMessage.ReadBoolean();
-            if (GameType != Gametype.TOURNAMENT_GAME && serverType == Gametype.TOURNAMENT_GAME)
+            if (GameType == Gametype.TOURNAMENT_GAME)
             {
-                GameType = serverType;
-                if (!tournametRunnig)
+                if (!tournametRunnig && !currentPlayer.Data.LobbyLeader)
                 {
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
-                        App.Instance.CreateLobbyGui(false);
+                        App.Instance.CreateLobbyGui(false, true);
                     }));
                     SendTournamentSettingsRequest();
                     SendChatMessage(String.Format(Strings.Culture, Strings.lobby_joined, GetCurrentPlayer().Data.Name), true);

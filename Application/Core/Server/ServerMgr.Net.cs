@@ -60,7 +60,6 @@ namespace Orbit.Core.Server
             hailMsg.Write((int)PacketType.PLAYER_ID_HAIL);
             hailMsg.Write(p.Data.Id);
             hailMsg.Write(p.Data.Name);
-            hailMsg.Write((byte)GameType);
             bool tournamentRunning = GameType == Gametype.TOURNAMENT_GAME && gameSession != null && gameSession.IsRunning;
             hailMsg.Write(tournamentRunning);
 
