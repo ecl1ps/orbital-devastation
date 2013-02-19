@@ -35,6 +35,7 @@ namespace Orbit.Core.Server
         private List<int> playersRespondedScore;
         private StatsMgr statsMgr;
 
+        public int Id { get; set; }
         public Gametype GameType { get; set; }
         public GameStateManager StateMgr { get; set; }
         public TournamentSettings TournamentSettings { get; set; }
@@ -47,6 +48,7 @@ namespace Orbit.Core.Server
             isInitialized = false;
             shouldQuit = false;
             Time = 0;
+            Id = IdMgr.GetNewServerId();
         }
 
         public void Init(Gametype gameType, NetServer netServer)

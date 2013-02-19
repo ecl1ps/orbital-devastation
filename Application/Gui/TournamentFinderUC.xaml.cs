@@ -153,7 +153,11 @@ namespace Orbit.Gui
 
         private void btnCreateTournament_Click(object sender, RoutedEventArgs e)
         {
+            if (String.IsNullOrWhiteSpace(tbName.Text))
+                return;
+
             TournamentSettings s = new TournamentSettings();
+            s.Name = tbName.Text;
             s.MMType = (MatchManagerType)cbType.SelectedValue;
             s.Level = (GameLevel)cbMap.SelectedValue;
             try

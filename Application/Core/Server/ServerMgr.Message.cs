@@ -128,8 +128,9 @@ namespace Orbit.Core.Server
 
         private void ReceivedTournamentSettingsMsg(NetIncomingMessage msg)
         {
-            players.ForEach(p => { if (!p.Data.LobbyLeader) p.Data.LobbyReady = false; });
+            //players.ForEach(p => { if (!p.Data.LobbyLeader) p.Data.LobbyReady = false; });
             TournamentSettings = msg.ReadTournamentSettings();
+            TournamentSettings.ServerId = Id;
         }
     }
 }

@@ -195,6 +195,7 @@ namespace Orbit.Gui
         public void UpdateTournamentSettings(TournamentSettings s)
         {
             btnReady.IsEnabled = true;
+            lblName.Content = s.Name;
             lblType.Content = MatchManagerInfoAccessor.GetInfo(s.MMType).Text;
             lblMap.Content = LevelInfoAccessor.GetInfo(s.Level).Text;
             lblRounds.Content = s.RoundCount.ToString(Strings.Culture);

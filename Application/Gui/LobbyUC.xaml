@@ -42,21 +42,25 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{lex:Loc ui_settings}" FontSize="18" HorizontalAlignment="Left" Grid.ColumnSpan="2" Margin="98,9,0,0" VerticalAlignment="Top" Height="23" />
-                <Label Content="{lex:Loc ui_tournament_type}" Grid.Column="0"  Margin="0,50,0,0" Grid.ColumnSpan="2" Width="105" Height="22" />
-                <Label Content="---" Grid.Column="1" Margin="10,48,0,0" Name="lblType" Height="22" />
-                
-                <Label Content="{lex:Loc ui_tournament_rounds}" Grid.Column="0" Margin="0,109,0,0" Grid.ColumnSpan="2" Width="105" Height="22" />
-                <Label Content="1" Grid.Column="1" Margin="10,109,0,0" Name="lblRounds" HorizontalContentAlignment="Right" Height="22" />
-                <Label Content="{lex:Loc ui_tournament_match_count}" Grid.Column="1" Margin="30,110,0,0" Name="lblMatches" Width="175" Height="22" />
-                
-                <Label Content="{lex:Loc ui_tournament_map}" Grid.Column="0" Margin="0,78,0,0" Grid.ColumnSpan="2" Width="105" Height="22" />
-                <Label Content="---" Grid.Column="1" Margin="10,78,0,0" Name="lblMap" Height="22" />
 
-                <Label Content="{lex:Loc ui_tournament_bot_count}" Grid.Column="0" Margin="0,182,0,0" Name="lblBotCount" Grid.ColumnSpan="2" Width="105" Height="22" />
-                <Label Content="---" Grid.Column="1" Margin="10,145,0,0" x:Name="lblBotLevel" Width="175" Height="22" />
+                <Label Content="Name:" Grid.Column="0"  Margin="0,50,0,0" Grid.ColumnSpan="2" Width="105" Height="22" />
+                <Label Content="---" Grid.Column="1" Margin="10,50,0,0" Name="lblName" Height="22" />
+
+                <Label Content="{lex:Loc ui_tournament_type}" Grid.Column="0"  Margin="0,80,0,0" Grid.ColumnSpan="2" Width="105" Height="22" />
+                <Label Content="---" Grid.Column="1" Margin="10,80,0,0" Name="lblType" Height="22" />
                 
-                <Label Content="{lex:Loc ui_tournament_bot_level}" Grid.Column="0" Margin="0,145,0,0" Name="lblBot" Grid.ColumnSpan="2" Width="105" Height="22" />
-                <Label Content="0" Grid.Column="1" Margin="10,182,0,0" x:Name="lblBots" HorizontalContentAlignment="Right" Height="22" />
+                <Label Content="{lex:Loc ui_tournament_map}" Grid.Column="0" Margin="0,110,0,0" Grid.ColumnSpan="2" Width="105" Height="22" />
+                <Label Content="---" Grid.Column="1" Margin="10,110,0,0" Name="lblMap" Height="22" />
+                
+                <Label Content="{lex:Loc ui_tournament_rounds}" Grid.Column="0" Margin="0,140,0,0" Grid.ColumnSpan="2" Width="105" Height="22" />
+                <Label Content="1" Grid.Column="1" Margin="10,140,0,0" Name="lblRounds" HorizontalContentAlignment="Right" Height="22" />
+                <Label Content="{lex:Loc ui_tournament_match_count}" Grid.Column="1" Margin="30,140,0,0" Name="lblMatches" Width="175" Height="22" />
+                
+                <Label Content="{lex:Loc ui_tournament_bot_level}" Grid.Column="0" Margin="0,170,0,0" Name="lblBot" Grid.ColumnSpan="2" Width="105" Height="22" />
+                <Label Content="---" Grid.Column="1" Margin="10,170,0,0" x:Name="lblBotLevel" Width="175" Height="22" />
+                
+                <Label Content="{lex:Loc ui_tournament_bot_count}" Grid.Column="0" Margin="0,200,0,0" Name="lblBotCount" Grid.ColumnSpan="2" Width="105" Height="22" />
+                <Label Content="0" Grid.Column="1" Margin="10,200,0,0" x:Name="lblBots" HorizontalContentAlignment="Right" Height="22" />
             </Grid>
         </Border>
         <ListView BorderBrush="{StaticResource darkPurpleBrush}"  Height="148" HorizontalAlignment="Left" Margin="12,367,0,0" Name="lvChat" VerticalAlignment="Top" Width="879" Grid.Row="1" />

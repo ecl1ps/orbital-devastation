@@ -11,6 +11,9 @@ namespace Orbit.Core
 {
     public class TournamentSettings
     {
+        public int ServerId { get; set; }
+        //public byte PlayerCount { get; set; }
+        public string Name { get; set; }
         public MatchManagerType MMType { get; set; }
         public GameLevel Level { get; set; }
         public int RoundCount { get; set; }
@@ -23,6 +26,8 @@ namespace Orbit.Core
             if (!withDefaults)
                 return;
 
+            ServerId = 0;
+            //PlayerCount = 1;
             MMType = MatchManagerType.SKIRMISH;
             Level = GameLevel.BASIC_MAP;
             RoundCount = 1;
