@@ -16,15 +16,20 @@ namespace MasterServer
         [STAThread]
         static void Main()
         {
+            MainWindow wind = null;
             try
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new MainWindow());
+                wind = new MainWindow();
+                Application.Run(wind);
             }
             catch (Exception e)
             {
-                Logger.Fatal(e.StackTrace);
+                if (wind != null)
+                    ((log4net.Repository.Hierarchy.Hierarchy)log4net.LogManager.GetRepository()).Root.RemoveAppender(wind);
+
+                Logger.Fatal(e);
                 throw;
             }
         }
