@@ -30,7 +30,7 @@ namespace Orbit.Gui
             InitializeComponent();
         }
 
-        public void setStats(UIElement elem)
+        public void SetStats(UIElement elem)
         {
             Root.Children.Add(elem);
             Canvas.SetLeft(elem, 91);
@@ -59,7 +59,7 @@ namespace Orbit.Gui
             if (endType != GameEnd.TOURNAMENT_FINISHED)
                 mgr.CloseGameWindowAndCleanup();
             else
-                mgr.TournamentFinished(mgr.GetWinner());
+                mgr.TournamentFinished();
         }
     }
 }

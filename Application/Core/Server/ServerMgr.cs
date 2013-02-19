@@ -35,10 +35,12 @@ namespace Orbit.Core.Server
         private List<int> playersRespondedScore;
         private StatsMgr statsMgr;
 
+        public int Id { get; set; }
         public Gametype GameType { get; set; }
         public GameStateManager StateMgr { get; set; }
         public TournamentSettings TournamentSettings { get; set; }
         public float Time { get; set; }
+        public Action CloseCallback { get; set; }
 
         public ServerMgr()
         {
@@ -46,11 +48,13 @@ namespace Orbit.Core.Server
             isInitialized = false;
             shouldQuit = false;
             Time = 0;
+            Id = IdMgr.GetNewServerId();
         }
 
-        public void Init(Gametype gameType)
+        public void Init(Gametype gameType, NetServer netServer)
         {
             GameType = gameType;
+            server = netServer;
             gameEnded = false;
             isInitialized = false;
             shouldQuit = false;
@@ -58,8 +62,6 @@ namespace Orbit.Core.Server
             players = new List<Player>(2);
             synchronizedQueue = new ConcurrentQueue<Action>();
             StateMgr = new GameStateManager();
-
-            InitNetwork();
         }
 
         private void EndGame(Player plr, GameEnd endType)
@@ -119,14 +121,6 @@ namespace Orbit.Core.Server
         private void CleanUp()
         {
             shouldQuit = false;
-
-            if (server != null && server.Status != NetPeerStatus.NotRunning)
-            {
-                server.FlushSendQueue();
-                server.Shutdown("Peer closed connection");
-                server = null;
-                Thread.Sleep(10); // networking threadu chvili trva ukonceni
-            }
         }
 
         public Player CreateAndAddPlayer(String name, String hash, Color clr)
@@ -182,6 +176,9 @@ namespace Orbit.Core.Server
 
         private void RequestStop()
         {
+            if (CloseCallback != null)
+                CloseCallback.Invoke();
+
             shouldQuit = true;
             Thread.Sleep(10);
         }
@@ -209,9 +206,9 @@ namespace Orbit.Core.Server
             return players.Find(p => p.GetId() == id);
         }
 
-        private Player GetPlayer(NetConnection netConnection)
+        private Player GetPlayer(long netConnectionId)
         {
-            return players.Find(plr => plr.Connection != null && plr.Connection.RemoteUniqueIdentifier == netConnection.RemoteUniqueIdentifier);
+            return players.Find(plr => plr.Connection != null && plr.Connection.RemoteUniqueIdentifier == netConnectionId);
         }
 
         public Random GetRandomGenerator()
@@ -234,6 +231,11 @@ namespace Orbit.Core.Server
                             return;
                         }
             }
+        }
+
+        public int GetPlayerCount()
+        {
+            return players.Count;
         }
 
         private void StopAndRequestScores(Action action)

@@ -155,8 +155,8 @@
     <comment>0 = player name</comment>
   </data>
   <data name="misc_fps" xml:space="preserve">
-    <value>FPS: {0} TPF: {1}</value>
-    <comment>0 = frame per second, 1 = time per frame</comment>
+    <value>FPS: {0}</value>
+    <comment>0 = frame per second</comment>
   </data>
   <data name="misc_latency" xml:space="preserve">
     <value>Latency: {0}</value>
@@ -189,8 +189,8 @@
   <data name="ui_connect_to_game" xml:space="preserve">
     <value>Connect to Game</value>
   </data>
-  <data name="ui_connect_to_localhost" xml:space="preserve">
-    <value>Localhost</value>
+  <data name="ui_localhost_quick_game" xml:space="preserve">
+    <value>Local Quick</value>
   </data>
   <data name="ui_cursor_icon" xml:space="preserve">
     <value>Cursor icon</value>
@@ -205,7 +205,7 @@
     <value>Orbital Devastation</value>
   </data>
   <data name="ui_host_tournament" xml:space="preserve">
-    <value>Host Tournament</value>
+    <value>Tournament</value>
   </data>
   <data name="ui_key_action_1" xml:space="preserve">
     <value>Action 1</value>
@@ -283,7 +283,7 @@
     <value>Practise Game</value>
   </data>
   <data name="ui_quick_game" xml:space="preserve">
-    <value>Host Quick Game</value>
+    <value>Quick Game</value>
   </data>
   <data name="ui_ready" xml:space="preserve">
     <value>Ready</value>
@@ -595,5 +595,8 @@
   </data>
   <data name="bot_text_3" xml:space="preserve">
     <value>-</value>
+  </data>
+  <data name="ui_localhost_tournament" xml:space="preserve">
+    <value>Local Tourn.</value>
   </data>
 </root>

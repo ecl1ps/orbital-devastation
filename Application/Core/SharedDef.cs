@@ -10,7 +10,8 @@ namespace Orbit.Core
         // Application
         public const long MINIMUM_UPDATE_TIME               = 17;
 
-        public const int PORT_NUMBER                        = 40;
+        public const string MASTER_SERVER_ADDRESS           = "77.236.211.123";
+        public const int MASTER_SERVER_PORT                 = 40;
 
         public const int VICTORY_MAX_SCORE                  = 1300;
         public const int VICTORY_MIN_SCORE                  = 1000;
@@ -24,8 +25,8 @@ namespace Orbit.Core
         public const int SOLO_SPECTATOR_MAX_SCORE           = 1500;
         public const int SOLO_SPECTATOR_MIN_SCORE           = 0;
 
-        public const float SOLO_SPECTATOR_MIN_TIME            = 0;
-        public const float SOLO_SPECTATOR_MAX_TIME            = 1800;
+        public const float SOLO_SPECTATOR_MIN_TIME          = 0;
+        public const float SOLO_SPECTATOR_MAX_TIME          = 1800;
 
         public const float SPECTATOR_SCORE_BONUS            = 0.5f;
 
@@ -255,5 +256,8 @@ namespace Orbit.Core
         SHOW_ALLERT_MESSAGE,
         SCHEDULE_SPECTATOR_ACTION,
         PARTICLE_EMMITOR_CREATE,
+
+        AVAILABLE_TOURNAMENTS_REQUEST,
+        AVAILABLE_TOURNAMENTS_RESPONSE,
     }    
 }

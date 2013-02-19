@@ -41,10 +41,11 @@ namespace Orbit.Gui
 
             PlayerId = data.Id;
             lblName.Content = data.Name;
-            lblScore.Content = data.Score;
+            lblScore.Content = data.Score.ToString(Strings.Culture);
             lblWins.Content = "Won/Played: " + data.Won + "/" + data.Played;
             ColorBox.Background = new SolidColorBrush(data.Color);
             currentPlayer = data.CurrentPlayer;
+            btnKick.Visibility = Visibility.Collapsed;
         }
 
         private void ColorPick(object sender, MouseButtonEventArgs e)

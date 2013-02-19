@@ -13,3 +13,8 @@ Application/resources/images/icons/flame.png
 TestResults/*
 Tests/bin/*
 Tests/obj/*
+MasterServer/bin/
+MasterServer/obj/
+Lidgren.Network/Documentation/
+Lidgren.Network/bin/
+Lidgren.Network/obj/
