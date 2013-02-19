@@ -381,6 +381,8 @@ namespace Orbit.Core.Scene.Particles.Implementations
             base.DoRemove(obj);
             if (obj is ParticleEmmitor)
                 SceneMgr.RemoveParticleEmmitor(obj as ParticleEmmitor);
+
+            particleArea.WorldModels.Children.Remove(model);
         }
 
         public void WriteObject(Lidgren.Network.NetOutgoingMessage msg)
