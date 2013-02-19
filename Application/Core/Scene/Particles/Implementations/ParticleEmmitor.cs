@@ -360,7 +360,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
             ending = true;
         }
 
-        public void Start()
+        public void Start(bool send = false)
         {
             particles.Clear();
             ending = false;
@@ -373,6 +373,16 @@ namespace Orbit.Core.Scene.Particles.Implementations
             {
                 Dead = false;
                 SceneMgr.DelayedAttachToScene(this);
+            }
+
+            if (send)
+            {
+                Lidgren.Network.NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+
+                msg.Write((int)PacketType.PARTICLE_EMMITOR_CREATE);
+                WriteMe(msg);
+
+                SceneMgr.SendMessage(msg);
             }
         }
 
@@ -388,6 +398,12 @@ namespace Orbit.Core.Scene.Particles.Implementations
         public void WriteObject(Lidgren.Network.NetOutgoingMessage msg)
         {
             msg.Write((int) PacketType.PARTICLE_EMMITOR_CREATE);
+            WriteMe(msg);
+           
+        }
+
+        private void WriteMe(Lidgren.Network.NetOutgoingMessage msg)
+        {
             msg.Write(Id);
             msg.Write(EmmitingDirection);
             msg.Write(EmitingTime);
@@ -415,9 +431,8 @@ namespace Orbit.Core.Scene.Particles.Implementations
             NetDataHelper.WriteControls(msg, GetControlsCopy());
         }
 
-        public void ReadObject(Lidgren.Network.NetIncomingMessage msg)
+        public void ReadMe(Lidgren.Network.NetIncomingMessage msg)
         {
-            Id = msg.ReadInt64();
             EmmitingDirection = msg.ReadVector();
             EmitingTime = msg.ReadFloat();
             MinAngle = msg.ReadFloat();
@@ -445,6 +460,12 @@ namespace Orbit.Core.Scene.Particles.Implementations
 
             foreach (IControl control in controls)
                 AddControl(control);
+        }
+
+        public void ReadObject(Lidgren.Network.NetIncomingMessage msg)
+        {
+            Id = msg.ReadInt64();
+            ReadMe(msg);
         }
     }
 }

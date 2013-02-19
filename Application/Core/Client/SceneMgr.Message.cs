@@ -115,6 +115,21 @@ namespace Orbit.Core.Client
             SendMessage(msg);
         }
 
+        private void ReceivedEmmitorStart(NetIncomingMessage msg)
+        {
+            long id = msg.ReadInt64();
+            ParticleEmmitor e = GetParticleArea().GetEmmitor(id);
+            if (e == null) {
+                Logger.Error("Emmitor with id " + id + " was scheduled to start but was not found");
+                return;
+            }
+
+            e.ReadObject(msg);
+            e.Start();
+
+            DelayedAttachToScene(e);
+        }
+
         private void ReceivedEmmitorSpawn(NetIncomingMessage msg)
         {
             ParticleEmmitor e = new ParticleEmmitor(this, 0);

@@ -254,6 +254,9 @@ namespace Orbit.Core.Client
                 case PacketType.PARTICLE_EMMITOR_CREATE:
                     ReceivedEmmitorSpawn(msg);
                     break;
+                case PacketType.PARTICLE_EMMITOR_START:
+                    ReceivedEmmitorSpawn(msg);
+                    break;
                 default:
                     Logger.Warn("Received unhandled packet type: " + type);
                     break;

@@ -1,4 +1,5 @@
-﻿using Orbit.Core.Client;
+﻿using Lidgren.Network;
+using Orbit.Core.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +19,20 @@ namespace Orbit.Core.Scene.Particles.Implementations
             list.Add(e);
         }
 
-        public void Attach(SceneMgr mgr)
+        public void Attach(SceneMgr mgr, bool send = true)
         {
-            list.ForEach(e => { e.Enabled = true; mgr.DelayedAttachToScene(e); });
+            list.ForEach(e => { 
+                e.Enabled = true; 
+                mgr.DelayedAttachToScene(e);
+
+                if (send)
+                {
+                    NetOutgoingMessage msg = mgr.CreateNetMessage();
+                    e.WriteObject(msg);
+
+                    mgr.SendMessage(msg);
+                }
+            });
         }
 
         public List<ParticleEmmitor> GetList()

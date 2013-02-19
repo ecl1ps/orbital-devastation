@@ -115,6 +115,14 @@ namespace Orbit.Gui
             toRemove.Add(emmitor);
         }
 
+        public ParticleEmmitor GetEmmitor(long id)
+        {
+            return emmitors.Find(delegate(ParticleEmmitor e)
+            {
+                return e.Id == id;
+            });
+        }
+
         public void ClearAll()
         {
             toAdd.Clear();
