@@ -273,6 +273,7 @@
     <Compile Include="Core\Helpers\SceneObjectFactory.cs" />
     <Compile Include="Core\IGameState.cs" />
     <Compile Include="Core\Scene\Particles\AbstractParticleFactory.cs" />
+    <Compile Include="Core\Scene\Particles\Implementations\EmmitorGroup.cs" />
     <Compile Include="Core\Scene\Particles\Implementations\ParticleEmmitor.cs" />
     <Compile Include="Core\Scene\Particles\Implementations\ParticleImageFactory.cs" />
     <Compile Include="Core\Scene\Particles\Implementations\ParticleSphereFactory.cs" />
