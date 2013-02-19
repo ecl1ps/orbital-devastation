@@ -202,7 +202,9 @@ namespace Orbit.Core.Client
             objects.Clear();
             objectsToAdd.Clear();
 
-            particleArea.ClearAll();
+            if(particleArea != null)
+                particleArea.ClearAll();
+
             particleArea = null;
         }
 
