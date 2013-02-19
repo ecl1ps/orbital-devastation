@@ -323,9 +323,9 @@ namespace Orbit
             }));
         }
 
-        public void CreateScoreboardGui(LobbyPlayerData winnerData, List<LobbyPlayerData> data)
+        public void CreateScoreboardGui(List<LobbyPlayerData> data)
         {
-            AddWindow(new ScoreboardUC(winnerData, data));
+            AddWindow(new ScoreboardUC(data));
         }
 
         public void ShowStatisticsGui()

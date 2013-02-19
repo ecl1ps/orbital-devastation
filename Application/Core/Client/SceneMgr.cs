@@ -642,10 +642,10 @@ namespace Orbit.Core.Client
             if (GameWindowState == WindowState.IN_LOBBY && endType != GameEnd.TOURNAMENT_FINISHED || !IsGameInitalized)
                 CloseGameWindowAndCleanup(true);
             else
-                ShowEndGameStats(endType, plr);
+                ShowEndGameStats();
         }
 
-        private void ShowEndGameStats(GameEnd endType, Player winner)
+        private void ShowEndGameStats()
         {
             //zrusime static mouse a zabranime dalsimu update - hrac pozna ze je konec
             StaticMouse.Enable(false);
@@ -731,7 +731,7 @@ namespace Orbit.Core.Client
 
         }
 
-        public void TournamentFinished(Player winner)
+        public void TournamentFinished()
         {
             if (Application.Current == null)
                 return;
@@ -741,14 +741,13 @@ namespace Orbit.Core.Client
             lastGameEnd = GameEnd.TOURNAMENT_FINISHED;
 
             List<LobbyPlayerData> data = CreateLobbyPlayerData();
-            LobbyPlayerData winnerData = data.Find(d => d.Id == winner.Data.Id);
 
             //CloseGameWindowAndCleanup();
             RequestStop();
 
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                App.Instance.CreateScoreboardGui(winnerData, data);
+                App.Instance.CreateScoreboardGui(data);
             }));
         }
 

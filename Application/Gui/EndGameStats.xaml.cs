@@ -59,7 +59,7 @@ namespace Orbit.Gui
             if (endType != GameEnd.TOURNAMENT_FINISHED)
                 mgr.CloseGameWindowAndCleanup();
             else
-                mgr.TournamentFinished(mgr.GetWinner());
+                mgr.TournamentFinished();
         }
     }
 }
