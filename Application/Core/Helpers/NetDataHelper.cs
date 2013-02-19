@@ -319,6 +319,7 @@ namespace Orbit.Core.Helpers
                 }
                 else if (c is HighlightingControl)
                 {
+                    msg.Write(typeof(HighlightingControl).GUID.GetHashCode());
                     // skip
                 }
                 else
