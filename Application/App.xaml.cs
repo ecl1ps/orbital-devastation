@@ -33,7 +33,7 @@ namespace Orbit
         private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private SceneMgr sceneMgr;
-        private ServerMgr server;
+        private MasterServerMgr masterServer;
         private static GameWindow mainWindow;
 
         public string PlayerName { get; set; }
@@ -136,10 +136,10 @@ namespace Orbit
 
         private bool StartLocalServer(Gametype type)
         {
-            server = new ServerMgr();
             try
             {
-                server.Init(type);
+                if (masterServer == null)
+                    masterServer = new MasterServerMgr();
             }
             catch (SocketException)
             {
@@ -148,15 +148,10 @@ namespace Orbit
                 return false;
             }
 
-            Thread serverThread = new Thread(new ThreadStart(server.Run));
-            serverThread.IsBackground = false;
-            serverThread.Name = "Server Thread";
-            serverThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
-            serverThread.Start();
             return true;
         }
 
-        private void StartGame(Gametype type)
+        private void StartGame(Gametype type, int serverId = 0)
         {
             SoundManager.Instance.StopAllSounds();
             SoundManager.Instance.StartPlayingInfinite(SharedDef.MUSIC_BACKGROUND_ACTION);
@@ -168,43 +163,15 @@ namespace Orbit
 
             sceneMgr.Enqueue(new Action(() =>
             {
+                sceneMgr.RemoteServerId = serverId;
                 sceneMgr.Init(type);
             }));
         }
 
-        public void StartHostedGame()
+        public void StartQuickGame(string address = SharedDef.MASTER_SERVER_ADDRESS)
         {
-            if (!StartLocalServer(Gametype.MULTIPLAYER_GAME))
-                return;
-
-            sceneMgr.SetRemoteServerAddress(System.Net.IPAddress.Loopback.ToString());
-
+            sceneMgr.SetRemoteServerAddress(address);
             StartGame(Gametype.MULTIPLAYER_GAME);
-
-            TournamentSettings s = new TournamentSettings();
-            s.MMType = MatchManagerType.QUICK_GAME;
-            s.Level = GameLevel.BASIC_MAP;
-            s.RoundCount = 1;
-            s.BotCount = 0;
-
-            SendTournamentSettings(s);
-        }
-
-        public void StartTournamentLobby()
-        {
-            if (!StartLocalServer(Gametype.TOURNAMENT_GAME))
-                return;
-
-            sceneMgr.SetRemoteServerAddress(System.Net.IPAddress.Loopback.ToString());
-
-            StartGame(Gametype.TOURNAMENT_GAME);
-
-            CreateLobbyGui(true);
-        }
-
-        public void SetGameStarted(bool started)
-        {
-            mainWindow.GameRunning = started;
         }
 
         public void CreateGameGui(bool setGameArea = true)
@@ -222,6 +189,48 @@ namespace Orbit
             }
         }
 
+        public void StartTournamentFinder(string address = SharedDef.MASTER_SERVER_ADDRESS)
+        {
+            AddWindow(new TournamentFinderUC(address));
+        }
+
+        /************************************************************************/
+        /* ostatni pripojujici se hraci                                                                     */
+        /************************************************************************/
+        public void StartTournamentGame(string address, int serverId)
+        {
+            sceneMgr.SetRemoteServerAddress(address);
+
+            StartGame(Gametype.TOURNAMENT_GAME, serverId);
+        }
+
+        /************************************************************************/
+        /* leader                                                                     */
+        /************************************************************************/
+        public void StartTournamentLobby(string address)
+        {
+            sceneMgr.SetRemoteServerAddress(address);
+
+            StartGame(Gametype.TOURNAMENT_GAME, 0);
+
+            CreateLobbyGui(true, true);
+        }
+
+        public void CreateLobbyGui(bool asLeader, bool firstGame = false)
+        {
+            sceneMgr.Enqueue(new Action(() =>
+            {
+                sceneMgr.GetCurrentPlayer().Data.LobbyLeader = asLeader;
+            }));
+            AddWindow(new LobbyUC(asLeader, firstGame));
+            sceneMgr.GameWindowState = Orbit.Core.WindowState.IN_LOBBY;
+        }
+
+        public void SetGameStarted(bool started)
+        {
+            mainWindow.GameRunning = started;
+        }
+
         public void FocusWindow()
         {
             MainWindow.WindowState = System.Windows.WindowState.Normal;
@@ -233,22 +242,6 @@ namespace Orbit
         public GameVisualArea GetGameArea()
         {
             return LogicalTreeHelper.FindLogicalNode(mainWindow.mainGrid, "gameArea") as GameVisualArea;
-        }
-
-        public void CreateLobbyGui(bool asLeader, bool settingsLocked = false)
-        {
-            sceneMgr.Enqueue(new Action(() =>
-            {
-                sceneMgr.GetCurrentPlayer().Data.LobbyLeader = asLeader;
-            }));
-            AddWindow(new LobbyUC(asLeader, settingsLocked));
-            sceneMgr.GameWindowState = Orbit.Core.WindowState.IN_LOBBY;
-        }
-
-        public void ConnectToGame(string serverAddress)
-        {
-            sceneMgr.SetRemoteServerAddress(serverAddress);
-            StartGame(Gametype.MULTIPLAYER_GAME);
         }
 
         private void StartGameThread()
@@ -267,6 +260,7 @@ namespace Orbit
 
         public void GameEnded()
         {
+            ShutdownServerIfExists();
             StaticMouse.Enable(false);
             ShowStartScreen();
         }
@@ -282,17 +276,9 @@ namespace Orbit
 
         public void ShutdownServerIfExists()
         {
-            if (server != null)
-            {
-                server.Enqueue(new Action(() =>
-                {
-                    if (server != null)
-                    {
-                        server.Shutdown();
-                        server = null;
-                    }
-                }));
-            }
+            if (masterServer != null)
+                masterServer.Shutdown();
+            masterServer = null;
             mainWindow.GameRunning = false;
         }
 
@@ -309,12 +295,6 @@ namespace Orbit
                     }
                 }));
             }
-        }
-
-        public void LookForGame()
-        {
-            FindServerUC f = new FindServerUC();
-            AddWindow(f);
         }
 
         public void PlayerReady(bool ready)
@@ -343,9 +323,9 @@ namespace Orbit
             }));
         }
 
-        public void CreateScoreboardGui(LobbyPlayerData winnerData, List<LobbyPlayerData> data)
+        public void CreateScoreboardGui(List<LobbyPlayerData> data)
         {
-            AddWindow(new ScoreboardUC(winnerData, data));
+            AddWindow(new ScoreboardUC(data));
         }
 
         public void ShowStatisticsGui()
@@ -396,6 +376,6 @@ namespace Orbit
             ClearMenus();
             ClearWindows();
             mainWindow.mainGrid.Children.Add(window);
-        }           
+        }
     }
 }

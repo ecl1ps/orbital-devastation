@@ -155,11 +155,11 @@
     <comment>0 = player name</comment>
   </data>
   <data name="misc_fps" xml:space="preserve">
-    <value>FPS: {0} TPF: {1}</value>
-    <comment>0 = frame per second, 1 = time per frame</comment>
+    <value>FPS: {0}</value>
+    <comment>0 = frame per second</comment>
   </data>
   <data name="misc_latency" xml:space="preserve">
-    <value>Latence:</value>
+    <value>Latence: {0}</value>
     <comment>0 = internet latency</comment>
   </data>
   <data name="networking_client_connection_close" xml:space="preserve">
@@ -177,9 +177,6 @@
   <data name="ui_connect_to_game" xml:space="preserve">
     <value>Připojit ke hře</value>
   </data>
-  <data name="ui_connect_to_localhost" xml:space="preserve">
-    <value>Localhost</value>
-  </data>
   <data name="ui_exit_game" xml:space="preserve">
     <value>Konec hry</value>
   </data>
@@ -187,13 +184,10 @@
     <value>Orbital Devastation</value>
   </data>
   <data name="ui_host_tournament" xml:space="preserve">
-    <value>Pořádat turnaj</value>
+    <value>Turnaj</value>
   </data>
   <data name="ui_options" xml:space="preserve">
     <value>Možnosti</value>
-  </data>
-  <data name="ui_play_as_spectator" xml:space="preserve">
-    <value>Pozorovatel</value>
   </data>
   <data name="ui_practise_game" xml:space="preserve">
     <value>Cvičná hra</value>

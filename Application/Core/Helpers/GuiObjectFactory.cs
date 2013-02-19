@@ -78,7 +78,7 @@ namespace Orbit.Core.Helpers
             if (isPlayer)
             {
                 PlayerStatsUC playerStats = new PlayerStatsUC();
-                statsWindow.setStats(playerStats);
+                statsWindow.SetStats(playerStats);
 
 
                 PlayerStatisticsController controller;
@@ -91,7 +91,7 @@ namespace Orbit.Core.Helpers
             else
             {
                 SpectatorStatsUC playerStats = new SpectatorStatsUC();
-                statsWindow.setStats(playerStats);
+                statsWindow.SetStats(playerStats);
 
                 SpectatorStatisticController controller;
                 if (limited)

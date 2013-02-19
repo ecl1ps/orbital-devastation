@@ -29,17 +29,14 @@ namespace Orbit.Gui
     {
         private bool leader;
         private bool ready;
-        private bool receivedSettings;
         private int round;
 
-        public LobbyUC(bool asLeader, bool settingsLocked = false)
+        public LobbyUC(bool asLeader, bool firstMatch = true)
         {
             leader = asLeader;
-            receivedSettings = false;
             InitializeComponent();
 
-            btnReady.IsEnabled = false;
-            if (!settingsLocked)
+            if (firstMatch)
                 btnStats.IsEnabled = false;
 
             if (asLeader)
@@ -53,84 +50,14 @@ namespace Orbit.Gui
                 ready = false;
             }
             
-            if (asLeader && !settingsLocked)
-            {
-                List<ComboData> data = new List<ComboData>();
-                foreach (MatchManagerType t in Enum.GetValues(typeof(MatchManagerType)))
-                {
-                    MatchManagerInfo i = MatchManagerInfoAccessor.GetInfo(t);
-#if DEBUG   // v debugu pridat vsechny managery
-                    data.Add(new ComboData { Id = t, Name = i.Text });
-#else
-                    if (!i.IsDebug)
-                        data.Add(new ComboData { Id = t, Name = i.Text });
-#endif
-                }
-
-                cbType.ItemsSource = data;
-                cbType.DisplayMemberPath = "Name";
-                cbType.SelectedValuePath = "Id";
-                cbType.SelectedValue = MatchManagerType.ONLY_SCORE;
-
-                data = new List<ComboData>();
-                foreach (GameLevel l in Enum.GetValues(typeof(GameLevel)))
-                {
-                    LevelInfo i = LevelInfoAccessor.GetInfo(l);
-#if DEBUG   // v debugu pridat vsechny mapy
-                    data.Add(new ComboData { Id = l, Name = i.Text });
-#else
-                    if (!i.IsDebug)
-                        data.Add(new ComboData { Id = l, Name = i.Text });
-#endif
-                }
-
-                cbMap.ItemsSource = data;
-                cbMap.DisplayMemberPath = "Name";
-                cbMap.SelectedValuePath = "Id";
-                cbMap.SelectedValue = GameLevel.BASIC_MAP;
-
-#if DEBUG
-                // pridani dostupnych botu pro testovani
-                data = new List<ComboData>();
-                data.Add(new ComboData { Id = BotType.LEVEL1, Name = BotNameAccessor.GetBotName(BotType.LEVEL1) });
-                data.Add(new ComboData { Id = BotType.LEVEL2, Name = BotNameAccessor.GetBotName(BotType.LEVEL2) });
-
-                cbBot.ItemsSource = data;
-                cbBot.DisplayMemberPath = "Name";
-                cbBot.SelectedValuePath = "Id";
-                cbBot.SelectedValue = BotType.LEVEL1;
-#endif
-            }
-            else
-            {
-                btnSettings.Visibility = Visibility.Hidden;
-                cbType.Visibility = Visibility.Hidden;
-                cbMap.Visibility = Visibility.Hidden;
-                tbRounds.Visibility = Visibility.Hidden;
-                lblType.Visibility = Visibility.Visible;
-                lblMap.Visibility = Visibility.Visible;
-                lblRounds.Visibility = Visibility.Visible;
-
-                tbBotCount.Visibility = Visibility.Hidden;
-                cbBot.Visibility = Visibility.Hidden;
-                lblBot.Visibility = Visibility.Hidden;
-                lblBotCount.Visibility = Visibility.Hidden;
-            }
-
 #if !DEBUG
-                tbBotCount.Visibility = Visibility.Hidden;
-                cbBot.Visibility = Visibility.Hidden;
-                lblBot.Visibility = Visibility.Hidden;
-                lblBotCount.Visibility = Visibility.Hidden;
+            lblBots.Visibility = Visibility.Hidden;
+            lblBotLevel.Visibility = Visibility.Hidden;
+            lblBot.Visibility = Visibility.Hidden;
+            lblBotCount.Visibility = Visibility.Hidden;
 #endif
         }
 
-        [System.Reflection.ObfuscationAttribute(Feature = "properties renaming")]
-        class ComboData
-        {
-            public object Id { get; set; }
-            public string Name { get; set; }
-        }
 
         private void tbMessage_KeyDown(object sender, KeyEventArgs e)
         {
@@ -168,8 +95,10 @@ namespace Orbit.Gui
 
         public void AllReady(bool ready = true)
         {
+#if !DEBUG
             if (leader)
                 btnStartGame.IsEnabled = ready;
+#endif
         }
 
         private void lobbyWindow_Loaded(object sender, RoutedEventArgs e)
@@ -203,18 +132,14 @@ namespace Orbit.Gui
             }
             else
             {
-                if (receivedSettings)
-                    btnReady.IsEnabled = true;
+                btnReady.IsEnabled = true;
                 lblColorNotice.Visibility = Visibility.Hidden;
             }
 
             int rounds = 1;
             try
             {
-                if (tbRounds.Visibility == Visibility.Visible)
-                    rounds = int.Parse(tbRounds.Text, CultureInfo.InvariantCulture);
-                else
-                    rounds = int.Parse((string)lblRounds.Content, CultureInfo.InvariantCulture);
+                rounds = int.Parse((string)lblRounds.Content, CultureInfo.InvariantCulture);
                 if (rounds < 1)
                     throw new Exception();
             }
@@ -267,87 +192,21 @@ namespace Orbit.Gui
                 App.Instance.AddMenu(new ColorPickerUC());
         }
 
-        private void btnSettings_Click(object sender, RoutedEventArgs e)
+        public void UpdateTournamentSettings(TournamentSettings s)
         {
-            btnSettings.IsEnabled = false;
-#if !DEBUG
-            btnStartGame.IsEnabled = false;
-#else
-            btnStartGame.IsEnabled = true;
-#endif
-
-            TournamentSettings s = new TournamentSettings();
-            s.MMType = (MatchManagerType)cbType.SelectedValue;
-            s.Level = (GameLevel)cbMap.SelectedValue;
-            try
-            {
-                s.RoundCount = int.Parse(tbRounds.Text, CultureInfo.InvariantCulture);
-                if (s.RoundCount < 1)
-                    throw new Exception();
-            }
-            catch (Exception)
-            {
-                s.RoundCount = 1;
-                tbRounds.Text = 1.ToString(Strings.Culture);
-                UpdateMatchCount(s.RoundCount);
-            }
-
-#if !DEBUG
-            s.BotCount = 0;
-            s.BotType = SharedDef.DEFAULT_BOT;
-#else
-            try
-            {
-            	s.BotCount = int.Parse(tbBotCount.Text, CultureInfo.InvariantCulture);
-            }
-            catch (Exception)
-            {
-                s.BotCount = 0;
-            }
-            
-            s.BotType = (BotType)cbBot.SelectedValue;
-#endif
-
-            App.Instance.GetSceneMgr().Enqueue(new Action(() =>
-            {
-                App.Instance.GetSceneMgr().ProcessNewTournamentSettings(s);
-            }));
-        }
-
-        internal void UpdateTournamentSettings(TournamentSettings s)
-        {
-            receivedSettings = true;
             btnReady.IsEnabled = true;
+            lblName.Content = s.Name;
             lblType.Content = MatchManagerInfoAccessor.GetInfo(s.MMType).Text;
             lblMap.Content = LevelInfoAccessor.GetInfo(s.Level).Text;
             lblRounds.Content = s.RoundCount.ToString(Strings.Culture);
             round = s.PlayedMatches;
             UpdateMatchCount(s.RoundCount);
 
+#if DEBUG
+            lblBotLevel.Content = BotNameAccessor.GetBotName(s.BotType);
+            lblBots.Content = s.BotCount.ToString(Strings.Culture);
+#endif
             // TODO: mozna se pozdeji pridaji boti i pro normalni hrace - potom se zde musi zobrazit, kdyz prijde zprava
-        }
-
-        private void SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            btnSettings.IsEnabled = true;
-        }
-
-        private void tbRounds_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            int rounds = 1;
-            try
-            {
-                rounds = int.Parse(tbRounds.Text, CultureInfo.InvariantCulture);
-                if (rounds < 1)
-                    throw new Exception();
-                UpdateMatchCount(rounds);
-                btnSettings.IsEnabled = true;
-            }
-            catch (Exception)
-            {
-                tbRounds.Text = string.Empty;
-                lblMatches.Content = string.Empty;
-            }
         }
 
         private void UpdateMatchCount(int rounds)
@@ -361,23 +220,6 @@ namespace Orbit.Gui
             int matches = GameManager.GetRequiredNumberOfMatches(players, rounds);
             lblMatches.Content = String.Format(Strings.Culture, Strings.ui_tournament_match_count, matches);
             lblMatchNumber.Text = String.Format(Strings.Culture, Strings.ui_tournament_current_match, (round + 1), matches);
-        }
-
-        private void tbBotCount_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            int bots = 0;
-            try
-            {
-                bots = int.Parse(tbBotCount.Text, CultureInfo.InvariantCulture);
-                if (bots < 0 || bots > 2)
-                    throw new Exception();
-                btnSettings.IsEnabled = true;
-            }
-            catch (Exception)
-            {
-                if (!String.IsNullOrWhiteSpace(tbBotCount.Text))
-                    tbBotCount.Text = 0.ToString(Strings.Culture);
-            }
         }
 
         private void btnStats_Click(object sender, RoutedEventArgs e)
