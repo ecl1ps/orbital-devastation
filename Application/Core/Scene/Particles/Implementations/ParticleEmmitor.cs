@@ -43,6 +43,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
         private GeometryModel3D model;
         private bool started;
         private bool ending;
+        private float delayTime;
 
         private Vector positionToSet;
         private Vector currentPosition;
@@ -65,7 +66,8 @@ namespace Orbit.Core.Scene.Particles.Implementations
         public float MaxStartingRotation { get; set; }
         public float MinRotation { get; set; }
         public float MaxRotation { get; set; }
-        public float Delay { get; set; }        
+        private float delay;
+        public float Delay { get { return delay; } set { delay = value; delayTime = value; } }        
         public int Amount { get; set; }
         public bool FireAll { get; set; }
         public bool Infinite { get; set; }
@@ -92,8 +94,12 @@ namespace Orbit.Core.Scene.Particles.Implementations
             set
             {
                 if (value)
+                {
                     amount = Amount;
+                    ending = false;
+                }
                 base.Enabled = value;
+                
             }
         }
 
@@ -352,6 +358,22 @@ namespace Orbit.Core.Scene.Particles.Implementations
         public void DelayedStop()
         {
             ending = true;
+        }
+
+        public void Start()
+        {
+            particles.Clear();
+            ending = false;
+            amount = Amount;
+            delayTime = Delay;
+            timeLap = 0;
+            time = 0;
+
+            if (Dead)
+            {
+                Dead = false;
+                SceneMgr.DelayedAttachToScene(this);
+            }
         }
 
         public override void DoRemove(ISceneObject obj)
