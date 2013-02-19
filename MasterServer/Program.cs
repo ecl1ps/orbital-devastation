@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,6 +17,9 @@ namespace MasterServer
         [STAThread]
         static void Main()
         {
+            log4net.Config.XmlConfigurator.Configure(Assembly.GetExecutingAssembly().GetManifestResourceStream("MasterServer.logger.config"));
+
+            Logger.Info("Server started");
             MainWindow wind = null;
             try
             {
@@ -26,12 +30,14 @@ namespace MasterServer
             }
             catch (Exception e)
             {
-                if (wind != null)
+                if (wind != null && ((log4net.Repository.Hierarchy.Hierarchy)log4net.LogManager.GetRepository()).Root.Repository.GetAppenders().Contains(wind))
                     ((log4net.Repository.Hierarchy.Hierarchy)log4net.LogManager.GetRepository()).Root.RemoveAppender(wind);
 
+                Logger.Info("Server crashed");
                 Logger.Fatal(e);
                 throw;
             }
+            Logger.Info("Server shutdown");
         }
     }
 }

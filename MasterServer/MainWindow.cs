@@ -21,19 +21,18 @@ namespace MasterServer
 
         public MainWindow()
         {
-            log4net.Config.XmlConfigurator.Configure(Assembly.GetExecutingAssembly().GetManifestResourceStream("MasterServer.logger.config"));
             InitializeComponent();
         }
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            server.Shutdown();
             Application.Exit();
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             server.Shutdown();
+            ((log4net.Repository.Hierarchy.Hierarchy)log4net.LogManager.GetRepository()).Root.RemoveAppender(this);
         }
 
         public void DoAppend(log4net.Core.LoggingEvent loggingEvent)
