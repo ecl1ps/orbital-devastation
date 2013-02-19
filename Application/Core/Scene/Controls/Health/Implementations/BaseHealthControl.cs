@@ -8,6 +8,9 @@ using Orbit.Core.Scene.Controls.Collisions;
 using Orbit.Core.Scene.Controls.Health;
 using Lidgren.Network;
 using Orbit.Core.Client;
+using Orbit.Core.Scene.Particles.Implementations;
+using System.Windows;
+using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Scene.Controls.Health.Implementations
 {
@@ -18,14 +21,84 @@ namespace Orbit.Core.Scene.Controls.Health.Implementations
         public int Hp { get { return baze.Owner.GetBaseIntegrity(); } set { baze.Owner.SetBaseIntegrity(value); } }
         public int MaxHp { get { return baze.Owner.Data.MaxBaseIntegrity; } set { baze.Owner.Data.MaxBaseIntegrity = value; } }
 
+        private Stack<EmmitorGroup> emmitors;
+        private Queue<EmmitorGroup> dead;
+
+        private Random rand;
+
         protected override void InitControl(Entities.ISceneObject me)
         {
             if (me is Base)
                 baze = me as Base;
+
+            this.emmitors = new Stack<EmmitorGroup>();
+            this.dead = new Queue<EmmitorGroup>();
+            this.rand = me.SceneMgr.GetRandomGenerator();
         }
 
         public void RefillHp()
         {
+        }
+
+        protected override void UpdateControl(float tpf)
+        {
+            base.UpdateControl(tpf);
+
+            int count = (int) ((MaxHp - Hp) / (MaxHp / 5));
+            int size = 0;
+            if (count > emmitors.Count)
+            {
+                size = count - emmitors.Count;
+                for (int i = 0; i < size; i++)
+                    spawnEmmitor();
+            }
+            else if (count < emmitors.Count)
+            {
+                size = emmitors.Count - count;
+                for (int i = 0; i < size; i++)
+                    despawnEmmitor();
+            }
+        }
+
+        private void spawnEmmitor()
+        {
+            Vector v = new Vector(1, 0);
+            v = v.Rotate(FastMath.LinearInterpolate(0, -Math.PI, rand.NextDouble()));
+            //v *= FastMath.LinearInterpolate(0, baze.Size.Height, rand.NextDouble());
+            v *= baze.Size.Height;
+
+            v.X += baze.Position.X + baze.Size.Width / 2;
+            v.Y += baze.Position.Y + baze.Size.Height;
+
+            if (dead.Count > 0)
+            {
+                EmmitorGroup g = dead.Dequeue();
+                g.Position = v;
+
+                g.Start();
+                emmitors.Push(g);
+            }
+            else
+                createEmmitor(v);
+        }
+
+        private void createEmmitor(Vector position)
+        {
+            EmmitorGroup g = ParticleEmmitorFactory.CreateFireEmmitors(me.SceneMgr, position);
+            emmitors.Push(g);
+
+            g.Attach(me.SceneMgr, false);
+        }
+
+        private void despawnEmmitor()
+        {
+            if (emmitors.Count == 0)
+                return;
+
+            EmmitorGroup g = emmitors.Pop();
+            g.GetList().ForEach(e => e.DelayedStop());
+
+            dead.Enqueue(g);
         }
     }
 }
