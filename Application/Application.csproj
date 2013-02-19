@@ -157,7 +157,6 @@
     <Compile Include="Core\Helpers\HeavyweightGeometryFactory.cs" />
     <Compile Include="Core\Helpers\NetDataHelper.cs" />
     <Compile Include="Core\IUpdatable.cs" />
-    <Compile Include="Core\NetSearcher.cs" />
     <Compile Include="Core\ObfuscationSymbols.cs" />
     <Compile Include="Core\Players\Input\AbstractInputMgr.cs" />
     <Compile Include="Core\Players\Input\SpectatorInputMgr.cs" />
@@ -356,9 +355,6 @@
     <Compile Include="Gui\EscMenu.xaml.cs">
       <DependentUpon>EscMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Gui\FindServerUC.xaml.cs">
-      <DependentUpon>FindServerUC.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Gui\GameOverviewUC.xaml.cs">
       <DependentUpon>GameOverviewUC.xaml</DependentUpon>
     </Compile>
@@ -508,10 +504,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\EscMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\FindServerUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

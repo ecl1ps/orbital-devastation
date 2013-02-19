@@ -28,25 +28,29 @@
     <Grid Width="1000" Height="700">
         <Label Content="Tournaments" FontSize="20"  HorizontalAlignment="Left" Margin="389,44,0,0" VerticalAlignment="Top"/>
 
-        <Grid HorizontalAlignment="Left" Height="65" Margin="10,98,0,0" VerticalAlignment="Top" Width="628">
+        <Grid HorizontalAlignment="Left" Height="78" Margin="10,85,0,0" VerticalAlignment="Top" Width="628">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="199*"></ColumnDefinition>
                 <ColumnDefinition Width="429*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Content="Status:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" />
-            <Label Grid.Column="0" Content="Active tournaments:" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" />
-            <Label Grid.Column="1" Content="Checking online status. Please wait..." Name="lblStatus" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Foreground="#FFD6BA3C" />
-            <Label Grid.Column="1" Content="0" HorizontalAlignment="Left" Name="lblTournamentCount" Margin="0,30,0,0" VerticalAlignment="Top" />
+            <Label Grid.Column="0" Content="Online status:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" />
+            <Label Grid.Column="1" Content="Checking online status. Please wait..." Name="lblConnectionStatus" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Foreground="Goldenrod" />
+            
+            <Label Grid.Column="0" Content="Server status:" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" />
+            <Label Grid.Column="1" Content="Checking server status. Please wait..." Name="lblServerStatus" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" Foreground="Goldenrod" />
+            
+            <Label Grid.Column="0" Content="Active tournaments:" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" />
+            <Label Grid.Column="1" Content="0" HorizontalAlignment="Left" Name="lblTournamentCount" Margin="0,50,0,0" VerticalAlignment="Top" />
         </Grid>
 
-        <ListView Name="lvTournaments" ItemsSource="{Binding AvailableTournaments}" HorizontalAlignment="Left" Height="409" Margin="10,168,0,0" VerticalAlignment="Top" Width="628" SelectionMode="Single">
+        <ListView Name="lvTournaments" ItemsSource="{Binding AvailableTournaments}" BorderBrush="{StaticResource darkPurpleBrush}"  HorizontalAlignment="Left" Height="409" Margin="10,168,0,0" VerticalAlignment="Top" Width="628" SelectionMode="Single">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="180" Header="Name" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Width="100" Header="Leader" DisplayMemberBinding="{Binding Leader}" />
+                    <GridViewColumn Width="90" Header="Leader" DisplayMemberBinding="{Binding Leader}" />
                     <GridViewColumn Width="140" Header="Type" DisplayMemberBinding="{Binding MMType}" />
                     <GridViewColumn Width="140" Header="Map" DisplayMemberBinding="{Binding Level}" />
-                    <GridViewColumn Width="70" Header="Rounds" DisplayMemberBinding="{Binding RoundCount}" />
+                    <GridViewColumn Width="80" Header="Rounds" DisplayMemberBinding="{Binding RoundCount}" />
                 </GridView>
             </ListView.View>
         </ListView>
@@ -77,11 +81,11 @@
                 <Label Content="{lex:Loc ui_tournament_bot_level}" Grid.Column="0" Margin="0,228,0,0" Name="lblBot" Grid.ColumnSpan="2" Width="105" Height="22" />
                 <ComboBox Margin="5,227,0,0" Grid.Column="1" Name="cbBot" Width="214" HorizontalAlignment="Left" />
 
-                <Button Content="Create"  Margin="5,0,0,20" Name="btnCreateTournament" VerticalAlignment="Bottom" HorizontalAlignment="Center" Grid.ColumnSpan="2" Click="btnCreateTournament_Click" />
+                <Button Content="Create" Margin="5,0,0,20" Name="btnCreateTournament" VerticalAlignment="Bottom" HorizontalAlignment="Center" Grid.ColumnSpan="2" Click="btnCreateTournament_Click" IsEnabled="False" />
             </Grid>
         </Border>
         
-        <Button Content="Join tournament" Margin="120,628,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Name="btnJoinTournament" Click="btnJoinTournament_Click" />
+        <Button Content="Join tournament" Margin="120,628,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Name="btnJoinTournament" Click="btnJoinTournament_Click" IsEnabled="False" />
         <Button Content="Refresh" Margin="386,628,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Name="btnRefresh" Click="btnRefresh_Click"  />
         <Button Content="Close" Margin="670,628,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Name="btnClose" Click="btnClose_Click" />
 

@@ -35,7 +35,15 @@ namespace Orbit.Gui
         private string serverAddress;
 
         private ObservableCollection<VisualizableTorunamentSettings> availableTournaments = new ObservableCollection<VisualizableTorunamentSettings>();
+        private bool statusReceived;
         public ObservableCollection<VisualizableTorunamentSettings> AvailableTournaments { get { return availableTournaments; } }
+
+        private enum OnlineStatus
+        {
+            CHECKING,
+            ONLINE,
+            OFFLINE
+        }
 
         public TournamentFinderUC(string serverAddress)
         {
@@ -49,36 +57,72 @@ namespace Orbit.Gui
 
         private void CheckOnlineStatus()
         {
-            // TODO: zkontrolovat jestli na adrese serveru opravdu bezi aplikace
             try
             {
                 NetUtility.ResolveAsync(SharedDef.MASTER_SERVER_ADDRESS, delegate(IPAddress adr)
                 {
                     if (adr == null)
-                    {
-                        lblStatus.Dispatcher.BeginInvoke(new Action(() =>
-                        {
-                            lblStatus.Content = "Connection to the server is unavailable.";
-                            lblStatus.Foreground = Brushes.Red;
-                        }));
-                    }
+                        SetOnlineStatus(OnlineStatus.OFFLINE);
                     else
-                    {
-                        lblStatus.Dispatcher.BeginInvoke(new Action(() =>
-                        {
-                            lblStatus.Content = "Connection to the server is online.";
-                            lblStatus.Foreground = Brushes.Green;
-                        }));
-                    }
+                        SetOnlineStatus(OnlineStatus.ONLINE);
                 });
             }
-            catch (System.Exception /*e*/)
+            catch (Exception)
             {
-                lblStatus.Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    lblStatus.Content = "Connection is unavailable.";
-                    lblStatus.Foreground = Brushes.Red;
-                }));
+                SetOnlineStatus(OnlineStatus.OFFLINE);
+            }
+        }
+
+        private void SetOnlineStatus(OnlineStatus status)
+        {
+            switch (status)
+            {
+                case OnlineStatus.CHECKING:
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        lblConnectionStatus.Content = "Checking online status. Please wait...";
+                        lblConnectionStatus.Foreground = Brushes.Goldenrod;
+                    }));
+                    break;
+                case OnlineStatus.ONLINE:
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        lblConnectionStatus.Content = "Online";
+                        lblConnectionStatus.Foreground = Brushes.Green;
+                    }));
+                    break;
+                case OnlineStatus.OFFLINE:
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        lblConnectionStatus.Content = "Offline";
+                        lblConnectionStatus.Foreground = Brushes.Red;
+                    }));
+                    break;
+            }
+        }
+
+        private void SetServerStatus(OnlineStatus status)
+        {
+            switch (status)
+            {
+                case OnlineStatus.CHECKING:
+                    lblServerStatus.Content = "Checking server status. Please wait...";
+                    lblServerStatus.Foreground = Brushes.Goldenrod;
+                    btnCreateTournament.IsEnabled = false;
+                    btnJoinTournament.IsEnabled = false;
+                    break;
+                case OnlineStatus.ONLINE:
+                    lblServerStatus.Content = "Online";
+                    lblServerStatus.Foreground = Brushes.Green;
+                    btnCreateTournament.IsEnabled = true;
+                    btnJoinTournament.IsEnabled = true;
+                    break;
+                case OnlineStatus.OFFLINE: // unused atm
+                    lblServerStatus.Content = "Offline";
+                    lblServerStatus.Foreground = Brushes.Red;
+                    btnCreateTournament.IsEnabled = false;
+                    btnJoinTournament.IsEnabled = false;
+                    break;
             }
         }
 
@@ -108,17 +152,6 @@ namespace Orbit.Gui
             client.Recycle(msg);
         }
 
-        private void ReceivedTournaments(NetIncomingMessage msg)
-        {
-            availableTournaments.Clear();
-
-            int count = msg.ReadInt32();
-            for (int i = 0; i < count; ++i)
-                availableTournaments.Add(new VisualizableTorunamentSettings(msg.ReadTournamentSettings()));
-
-            lblTournamentCount.Content = count.ToString(Strings.Culture);
-        }
-
         private void btnJoinTournament_Click(object sender, RoutedEventArgs e)
         {
             VisualizableTorunamentSettings s = lvTournaments.SelectedItem as VisualizableTorunamentSettings;
@@ -130,14 +163,48 @@ namespace Orbit.Gui
 
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
+            CheckOnlineStatus();
             RequestTournaments();
+        }
+
+        private void ScheduleTimeoutCheck()
+        {
+            Timer stateTimer = new Timer(ServerStatusTimeout);
+            stateTimer.Change(3000, Timeout.Infinite);
+        }
+
+        private void ServerStatusTimeout(object status)
+        {
+            Dispatcher.Invoke(new Action(() =>
+            {
+                if (!statusReceived)
+                    SetServerStatus(OnlineStatus.OFFLINE);
+            }));
         }
 
         private void RequestTournaments()
         {
+            ScheduleTimeoutCheck();
+            SetServerStatus(OnlineStatus.CHECKING);
+            statusReceived = false;
+
             NetOutgoingMessage msg = client.CreateMessage();
             msg.Write((byte)PacketType.AVAILABLE_TOURNAMENTS_REQUEST);
             client.SendUnconnectedMessage(msg, serverAddress, SharedDef.MASTER_SERVER_PORT);
+        }
+
+        private void ReceivedTournaments(NetIncomingMessage msg)
+        {
+            SetServerStatus(OnlineStatus.ONLINE);
+            statusReceived = true;
+
+            availableTournaments.Clear();
+
+            int count = msg.ReadInt32();
+            for (int i = 0; i < count; ++i)
+                availableTournaments.Add(new VisualizableTorunamentSettings(msg.ReadTournamentSettings()));
+
+            lblTournamentCount.Content = count.ToString(Strings.Culture);
         }
 
         private void PostInit()
