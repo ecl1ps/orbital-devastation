@@ -60,7 +60,7 @@
             </Grid>
         </Border>
         <ListView BorderBrush="{StaticResource darkPurpleBrush}"  Height="148" HorizontalAlignment="Left" Margin="12,367,0,0" Name="lvChat" VerticalAlignment="Top" Width="879" Grid.Row="1" />
-        <Button Content="{lex:Loc ui_start_game}" Margin="89,316,681,212" Name="btnStartGame" Click="btnStartGame_Click" IsEnabled="False" Grid.Row="1" />
+        <Button Content="{lex:Loc ui_start_game}" Margin="89,316,681,212" Name="btnStartGame" Click="btnStartGame_Click" Grid.Row="1" />
         <Button Content="{lex:Loc ui_ready}" Margin="89,317,661,214" Name="btnReady" Click="btnReady_Click" Grid.Row="1" Width="Auto" />
         <Button Content="{lex:Loc ui_leave_room}" Margin="318,317,432,214" Name="btnLeave" Click="btnLeave_Click" Grid.Row="1" Width="Auto" />
         <TextBox Height="25" Margin="12,525,154,10" Name="tbMessage" Width="734" KeyDown="tbMessage_KeyDown" Grid.Row="1" />

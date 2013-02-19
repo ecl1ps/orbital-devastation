@@ -95,8 +95,10 @@ namespace Orbit.Gui
 
         public void AllReady(bool ready = true)
         {
+#if !DEBUG
             if (leader)
                 btnStartGame.IsEnabled = ready;
+#endif
         }
 
         private void lobbyWindow_Loaded(object sender, RoutedEventArgs e)
