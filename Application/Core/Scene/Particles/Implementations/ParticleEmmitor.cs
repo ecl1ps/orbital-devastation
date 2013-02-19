@@ -242,6 +242,8 @@ namespace Orbit.Core.Scene.Particles.Implementations
             if (viewPort == null)
                 return;
 
+            Console.WriteLine(tpf);
+
             position = To3DPoint(positionToSet);
             currentPosition = To2DPoint(position);
 
@@ -392,7 +394,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
             if (obj is ParticleEmmitor)
                 SceneMgr.RemoveParticleEmmitor(obj as ParticleEmmitor);
 
-            particleArea.WorldModels.Children.Remove(model);
+            particleArea.BeginInvoke(new Action(() => particleArea.WorldModels.Children.Remove(model)));
         }
 
         public void WriteObject(Lidgren.Network.NetOutgoingMessage msg)

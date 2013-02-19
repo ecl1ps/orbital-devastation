@@ -201,6 +201,9 @@ namespace Orbit.Core.Client
             objectsToRemove.Clear();
             objects.Clear();
             objectsToAdd.Clear();
+
+            particleArea.ClearAll();
+            particleArea = null;
         }
 
         /************************************************************************/
@@ -628,6 +631,7 @@ namespace Orbit.Core.Client
             gameEnded = true;
             lastGameEnd = endType;
             winner = plr;
+            GetParticleArea().ClearAll();
 
             players.ForEach(p => p.Statistics.GameEnded = true);
 

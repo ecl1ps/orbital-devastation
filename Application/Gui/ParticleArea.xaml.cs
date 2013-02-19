@@ -126,8 +126,9 @@ namespace Orbit.Gui
         public void ClearAll()
         {
             toAdd.Clear();
-            emmitors.Clear();
             toRemove.Clear();
+
+            emmitors.ForEach(e => e.DoRemoveMe());
         }
 
         public void Invoke(Action a)
