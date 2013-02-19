@@ -189,7 +189,7 @@ namespace Orbit.Core.Client
                 client.Disconnect(Strings.networking_client_connection_close);
                 // bussy wait for shutdown
                 while (client.ConnectionStatus != NetConnectionStatus.Disconnected && client.ConnectionStatus != NetConnectionStatus.None)
-                    ;
+                    Thread.Sleep(1);
             }
 
             if (area != null)

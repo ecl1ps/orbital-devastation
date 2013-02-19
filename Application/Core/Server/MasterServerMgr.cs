@@ -237,6 +237,9 @@ namespace Orbit.Core.Server
             }
             connections.Clear();
             server.Shutdown("exit");
+            // bussy wait for shutdown
+            while (server.Status != NetPeerStatus.NotRunning)
+                Thread.Sleep(1);
         }
     }
 }

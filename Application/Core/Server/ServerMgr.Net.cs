@@ -99,6 +99,9 @@ namespace Orbit.Core.Server
 
             if (disconnected.IsActivePlayer())
                 EndGame(disconnected, GameEnd.LEFT_GAME);
+
+            if (activeConnections.Count == 0)
+                Shutdown();
         }
 
         private void ReceivedPlayerKickRequest(int id)
