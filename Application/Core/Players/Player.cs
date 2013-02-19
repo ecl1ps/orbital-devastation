@@ -330,7 +330,7 @@ namespace Orbit.Core.Players
          */
         public bool IsOnlineOrBot()
         {
-            return IsBot() || (Connection != null && (Connection.Status == NetConnectionStatus.Connected || Connection.Status == NetConnectionStatus.RespondedAwaitingApproval));
+            return IsBot() || (Connection != null && (Connection.Status == NetConnectionStatus.Connected || Connection.Status == NetConnectionStatus.RespondedAwaitingApproval || Connection.Status == NetConnectionStatus.RespondedConnect));
         }
 
         public List<ISpecialAction> GetActions<T>()
