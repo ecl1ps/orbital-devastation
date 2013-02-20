@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{18778980-1C5A-45D5-B230-92309497A3C9}"
 	ProjectSection(ProjectDependencies) = postProject
 		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8} = {49BA1C69-6104-41AC-A5D8-B54FA9F696E8}
@@ -84,6 +84,9 @@ Global
 		{6F766DC5-82F2-4B4E-868D-45E70BFCDA4D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{6F766DC5-82F2-4B4E-868D-45E70BFCDA4D}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{6F766DC5-82F2-4B4E-868D-45E70BFCDA4D}.Debug|x86.Build.0 = Debug|Any CPU
+		{6F766DC5-82F2-4B4E-868D-45E70BFCDA4D}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F766DC5-82F2-4B4E-868D-45E70BFCDA4D}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6F766DC5-82F2-4B4E-868D-45E70BFCDA4D}.Release|x86.ActiveCfg = Debug|Any CPU
 		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug verbose|Any CPU.ActiveCfg = Debug|Any CPU
 		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug verbose|Any CPU.Build.0 = Debug|Any CPU
 		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug verbose|Mixed Platforms.ActiveCfg = Debug|Any CPU

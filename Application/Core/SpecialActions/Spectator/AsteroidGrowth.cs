@@ -37,6 +37,9 @@ namespace Orbit.Core.SpecialActions.Spectator
 
         private void GrowAsteroid(Asteroid a, bool exact)
         {
+            if (a == null)
+                return;
+
             int val = (int) (exact ? SharedDef.SPECTATOR_GROWTH * exactBonus : SharedDef.SPECTATOR_GROWTH);
             a.Radius += val;
             if (a.Radius > SharedDef.ASTEROID_MAX_GROWN_RADIUS)
