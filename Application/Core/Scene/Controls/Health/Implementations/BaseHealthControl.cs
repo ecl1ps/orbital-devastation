@@ -44,6 +44,9 @@ namespace Orbit.Core.Scene.Controls.Health.Implementations
         {
             base.UpdateControl(tpf);
 
+            if (MaxHp < 5)
+                MaxHp = 5;
+
             int count = (int) ((MaxHp - Hp) / (MaxHp / 5));
             int size = 0;
             if (count > emmitors.Count)
