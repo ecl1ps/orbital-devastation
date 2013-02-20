@@ -43,7 +43,7 @@
             <Label Grid.Column="1" Content="0" HorizontalAlignment="Left" Name="lblTournamentCount" Margin="0,50,0,0" VerticalAlignment="Top" />
         </Grid>
 
-        <ListView Name="lvTournaments" ItemsSource="{Binding AvailableTournaments}" BorderBrush="{StaticResource darkPurpleBrush}"  HorizontalAlignment="Left" Height="409" Margin="10,168,0,0" VerticalAlignment="Top" Width="628" SelectionMode="Single">
+        <ListView Name="lvTournaments" ItemsSource="{Binding AvailableTournaments}" MouseDoubleClick="lvTournaments_MouseDoubleClick" BorderBrush="{StaticResource darkPurpleBrush}"  HorizontalAlignment="Left" Height="409" Margin="10,168,0,0" VerticalAlignment="Top" Width="628" SelectionMode="Single">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="180" Header="Name" DisplayMemberBinding="{Binding Name}" />

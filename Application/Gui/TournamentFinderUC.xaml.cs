@@ -161,6 +161,15 @@ namespace Orbit.Gui
             App.Instance.StartTournamentGame(serverAddress, s.Settings.ServerId);
         }
 
+        private void lvTournaments_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            VisualizableTorunamentSettings s = ((FrameworkElement)e.OriginalSource).DataContext as VisualizableTorunamentSettings;
+            if (s == null)
+                return;
+
+            App.Instance.StartTournamentGame(serverAddress, s.Settings.ServerId);
+        }
+
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
             CheckOnlineStatus();
