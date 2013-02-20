@@ -30,7 +30,8 @@ namespace Orbit.Core.SpecialActions.Spectator
 
             int count = Maximum < objects.Count ? Maximum : objects.Count;
             for (int i = Minimum; i < count; i++)
-                temp.Add(objects[i].Obj as Asteroid);
+                if(objects[i].Obj != null)
+                    temp.Add(objects[i].Obj as Asteroid);
 
             return temp;
         }
