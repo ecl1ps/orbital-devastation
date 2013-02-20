@@ -488,8 +488,8 @@ namespace Orbit.Core.Client
         {
             Invoke(new Action(() =>
             {
-                foreach (ISceneObject obj in objects)
-                    obj.UpdateGeometric();
+                for (int i = 0; i < objects.Count; ++i)
+                    objects[i].UpdateGeometric();
             }));
         }
 
