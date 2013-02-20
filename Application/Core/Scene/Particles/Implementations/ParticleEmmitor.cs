@@ -388,11 +388,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
 
         public override void DoRemove(ISceneObject obj)
         {
-            if (obj is ParticleEmmitor)
-                SceneMgr.RemoveParticleEmmitor(obj as ParticleEmmitor);
-
-            controls.ForEach(control => control.OnRemove());
-            controls.ForEach(control => control.OnSceneObjectRemove());
+            base.DoRemove(obj);
 
             particleArea.BeginInvoke(new Action(() => particleArea.WorldModels.Children.Remove(model)));
         }

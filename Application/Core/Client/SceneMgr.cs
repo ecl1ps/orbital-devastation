@@ -278,13 +278,15 @@ namespace Orbit.Core.Client
         /// </summary>
         public void DelayedAttachToScene(ISceneObject obj)
         {
-            objectsToAdd.Add(obj);
-            obj.OnAttach();
-        }
-
-        public void DelayedAttachToScene(ParticleEmmitor e)
-        {
-            GetParticleArea().AddEmmitor(e);
+            if (obj is ParticleEmmitor)
+            {
+                GetParticleArea().AddEmmitor(obj as ParticleEmmitor);
+            }
+            else
+            {
+                objectsToAdd.Add(obj);
+                obj.OnAttach();
+            }
         }
 
         /// <summary>
@@ -326,28 +328,23 @@ namespace Orbit.Core.Client
             }));
         }
 
-        public void RemoveFromSceneDelayed(ParticleEmmitor e)
-        {
-            e.Dead = true;
-            e.OnRemove();
-            GetParticleArea().RemoveEmmitor(e);
-        }
-
-        public void RemoveParticleEmmitor(ParticleEmmitor e)
-        {
-            e.Dead = true;
-            e.OnRemove();
-            GetParticleArea().RemoveEmmitor(e);
-        }
-
         /// <summary>
         /// bezpecne odstrani objekt (SceneObject i gui objekt) v dalsim updatu
         /// </summary>
         public void RemoveFromSceneDelayed(ISceneObject obj)
         {
-            obj.Dead = true;
-            obj.OnRemove();
-            objectsToRemove.Add(obj);
+            if (obj is ParticleEmmitor)
+            {
+                obj.Dead = true;
+                obj.OnRemove();
+                GetParticleArea().RemoveEmmitor(obj as ParticleEmmitor);
+            }
+            else
+            {
+                obj.Dead = true;
+                obj.OnRemove();
+                objectsToRemove.Add(obj);
+            }
         }
 
         /// <summary>
