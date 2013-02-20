@@ -146,7 +146,7 @@ namespace Orbit.Core.Server
         {
             HashSet<TournamentSettings> available = new HashSet<TournamentSettings>();
             foreach (KeyValuePair<NetConnection, ServerMgr> pair in connections)
-                if (pair.Value.GameType == Gametype.TOURNAMENT_GAME)
+                if (pair.Value.GameType == Gametype.TOURNAMENT_GAME && pair.Value.TournamentSettings != null)
                     available.Add(pair.Value.TournamentSettings);
 
             return available;
