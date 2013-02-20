@@ -259,6 +259,7 @@ namespace Orbit.Gui
             data = new List<ComboData>();
             data.Add(new ComboData { Id = BotType.LEVEL1, Name = BotNameAccessor.GetBotName(BotType.LEVEL1) });
             data.Add(new ComboData { Id = BotType.LEVEL2, Name = BotNameAccessor.GetBotName(BotType.LEVEL2) });
+            data.Add(new ComboData { Id = BotType.LEVEL3, Name = BotNameAccessor.GetBotName(BotType.LEVEL3) });
 
             cbBot.ItemsSource = data;
             cbBot.DisplayMemberPath = "Name";
