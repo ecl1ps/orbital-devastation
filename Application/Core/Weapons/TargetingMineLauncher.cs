@@ -125,5 +125,11 @@ namespace Orbit.Core.Weapons
                 ((lineGeom.Children[0] as GeometryDrawing).Geometry as LineGeometry).EndPoint = v.ToPoint();
             }));
         }
+
+        public void DisposeLine()
+        {
+            if (lineGeom != null)
+                RemoveLine();
+        }
     }
 }
