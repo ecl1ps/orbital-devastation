@@ -244,6 +244,8 @@ namespace Orbit.Gui
             cbMap.SelectedValue = GameLevel.BASIC_MAP;
 
 #if DEBUG
+            tbName.Text = "Test";
+
             // pridani dostupnych botu pro testovani
             data = new List<ComboData>();
             data.Add(new ComboData { Id = BotType.LEVEL1, Name = BotNameAccessor.GetBotName(BotType.LEVEL1) });
