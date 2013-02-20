@@ -19,7 +19,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             Minimum = 0;
         }
 
-        public Range(int maximum, int minimum = 0) 
+        public Range(int maximum, int minimum = 0)
         {
             Maximum = maximum;
         }
@@ -30,8 +30,7 @@ namespace Orbit.Core.SpecialActions.Spectator
 
             int count = Maximum < objects.Count ? Maximum : objects.Count;
             for (int i = Minimum; i < count; i++)
-                if(objects[i].Obj != null)
-                    temp.Add(objects[i].Obj as Asteroid);
+                temp.Add(objects[i].Obj as Asteroid);
 
             return temp;
         }
