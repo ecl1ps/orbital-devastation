@@ -769,14 +769,6 @@ namespace Orbit.Core.Client
             isGameInitialized = false;
             userActionsDisabled = true;
 
-            if (area != null)
-            {
-                Invoke(new Action(() =>
-                {
-                    area.Clear();
-                }));
-            }
-
             CleanObjects();
 
             foreach (Player p in players)
