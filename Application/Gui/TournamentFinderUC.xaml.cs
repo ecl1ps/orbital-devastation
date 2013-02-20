@@ -33,6 +33,7 @@ namespace Orbit.Gui
 
         private NetClient client;
         private string serverAddress;
+        private Timer requestTimer;
 
         private ObservableCollection<VisualizableTorunamentSettings> availableTournaments = new ObservableCollection<VisualizableTorunamentSettings>();
         private bool statusReceived;
@@ -52,7 +53,8 @@ namespace Orbit.Gui
             PostInit();
             this.serverAddress = serverAddress;
             StartClient();
-            RequestTournaments();
+            requestTimer = new Timer(RequestTournaments);
+            requestTimer.Change(0, SharedDef.TOURNAMENT_LIST_REQUEST_INTERVAL);
         }
 
         private void CheckOnlineStatus()
@@ -173,7 +175,7 @@ namespace Orbit.Gui
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
             CheckOnlineStatus();
-            RequestTournaments();
+            RequestTournaments(null);
         }
 
         private void ScheduleTimeoutCheck()
@@ -191,15 +193,18 @@ namespace Orbit.Gui
             }));
         }
 
-        private void RequestTournaments()
+        private void RequestTournaments(object status)
         {
-            ScheduleTimeoutCheck();
-            SetServerStatus(OnlineStatus.CHECKING);
-            statusReceived = false;
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                ScheduleTimeoutCheck();
+                SetServerStatus(OnlineStatus.CHECKING);
+                statusReceived = false;
 
-            NetOutgoingMessage msg = client.CreateMessage();
-            msg.Write((byte)PacketType.AVAILABLE_TOURNAMENTS_REQUEST);
-            client.SendUnconnectedMessage(msg, serverAddress, SharedDef.MASTER_SERVER_PORT);
+                NetOutgoingMessage msg = client.CreateMessage();
+                msg.Write((byte)PacketType.AVAILABLE_TOURNAMENTS_REQUEST);
+                client.SendUnconnectedMessage(msg, serverAddress, SharedDef.MASTER_SERVER_PORT);
+            }));
         }
 
         private void ReceivedTournaments(NetIncomingMessage msg)
@@ -333,6 +338,11 @@ namespace Orbit.Gui
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             App.Instance.ShowStartScreen();
+        }
+
+        private void tournamentFinderUC_Unloaded(object sender, RoutedEventArgs e)
+        {
+            requestTimer.Dispose();
         }
     }
 }

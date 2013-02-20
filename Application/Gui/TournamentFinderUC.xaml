@@ -8,7 +8,7 @@
              lex:ResxLocalizationProvider.DefaultAssembly="OrbitalDevastation"  
              lex:ResxLocalizationProvider.DefaultDictionary="Strings"   
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
-             mc:Ignorable="d" Width="1000" Height="700" Name="tournamentFinderUC">
+             mc:Ignorable="d" Width="1000" Height="700" Name="tournamentFinderUC" Unloaded="tournamentFinderUC_Unloaded">
 
     <UserControl.Resources>
         <Style BasedOn="{StaticResource comboBoxStyle}" TargetType="{x:Type ComboBox}">
