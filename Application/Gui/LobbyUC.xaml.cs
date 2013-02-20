@@ -95,10 +95,14 @@ namespace Orbit.Gui
 
         public void AllReady(bool ready = true)
         {
-#if !DEBUG
             if (leader)
+            {
+#if !DEBUG
                 btnStartGame.IsEnabled = ready;
 #endif
+                if (ready)
+                    App.Instance.FocusWindow();
+            }
         }
 
         private void lobbyWindow_Loaded(object sender, RoutedEventArgs e)
