@@ -22,11 +22,10 @@ namespace Orbit.Gui
     /// </summary>
     public partial class EndGameStats : UserControl
     {
-        private SceneMgr mgr;
+        public Action CloseAction { get; set; }
 
-        public EndGameStats(SceneMgr mgr)
+        public EndGameStats()
         {
-            this.mgr = mgr;
             InitializeComponent();
         }
 
@@ -49,17 +48,7 @@ namespace Orbit.Gui
 
         public void HideStats()
         {
-            if (mgr == null)
-            {
-                App.Instance.ClearMenus();
-                return; 
-            }
-
-            GameEnd endType = mgr.GetLastGameEnd();
-            if (endType != GameEnd.TOURNAMENT_FINISHED)
-                mgr.CloseGameWindowAndCleanup();
-            else
-                mgr.TournamentFinished();
+            CloseAction.Invoke();
         }
     }
 }

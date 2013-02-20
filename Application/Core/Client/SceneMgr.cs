@@ -64,9 +64,7 @@ namespace Orbit.Core.Client
         private ActionBarMgr actionBarMgr;
         private IInputMgr inputMgr;
         private bool playerQuit;
-        private GameEnd lastGameEnd;
         private TournamentSettings lastTournamentSettings;
-        private Player winner;
         private float totalTime;
         private bool stopUpdating = false;
 
@@ -81,7 +79,6 @@ namespace Orbit.Core.Client
 
         public void Init(Gametype gameType)
         {
-            winner = null;
             GameType = gameType;
             stopUpdating = false;
             gameEnded = false;
@@ -604,66 +601,93 @@ namespace Orbit.Core.Client
             return true;
         }
 
+        /// <summary>
+        /// vola se pri leavnuti hrace, pri vyhre, pri disconnectu od serveru, pri ukonceni turnaje;
+        /// vypne uzivatelsky vstup a hru, zkontroluje highscore, ohlasi vysledek hry, zobrazi statistiky a naplanuje zavreni okna hry 
+        /// </summary>
+        /// <param name="plr">hrac ktery leavnul nebo vyhral</param>
+        /// <param name="endType">typ s jakym byly hra ukoncena</param>
         private void EndGame(Player plr, GameEnd endType)
         {
-            if (endType == GameEnd.TOURNAMENT_FINISHED)
-            {
-                lastGameEnd = endType;
-                winner = plr;
-            }
-
-            if (gameEnded && endType == GameEnd.SERVER_DISCONNECTED && (plr == null || plr.Data.LobbyLeader))
-            {
-                if(lastGameEnd != GameEnd.TOURNAMENT_FINISHED)
-                    lastGameEnd = endType;
-                return;
-            }
-            else if (gameEnded)
+            if (gameEnded && endType != GameEnd.TOURNAMENT_FINISHED)
                 return;
 
             if (Application.Current != null)
-                Application.Current.Dispatcher.Invoke(new Action(() =>
-                {
-                    App.Instance.SetGameStarted(false);
-                }));
+                Application.Current.Dispatcher.Invoke(new Action(() => App.Instance.SetGameStarted(false)));
 
-            if (endType == GameEnd.WIN_GAME)
-                CheckHighScore(plr);
-
-            //isGameInitialized = true;
             userActionsDisabled = true;
             gameEnded = true;
-            lastGameEnd = endType;
-            winner = plr;
+
+            switch (GameType)
+            {
+                case Gametype.SOLO_GAME:
+                    {
+                        if (endType == GameEnd.WIN_GAME)
+                            CheckHighScore(plr);
+                    }
+                    break;
+                case Gametype.MULTIPLAYER_GAME:
+                    {
+                        if (endType == GameEnd.WIN_GAME)
+                            CheckHighScore(plr);
+                    }
+                    break;
+                case Gametype.TOURNAMENT_GAME:
+                    {
+
+                    }
+                    break;
+            }
 
             players.ForEach(p => p.Statistics.GameEnded = true);
 
             if (endType == GameEnd.LEFT_GAME)
             {
                 PlayerLeft(plr);
-                return;
+                if (!plr.IsActivePlayer())
+                    return;
             }
             else if (endType == GameEnd.SERVER_DISCONNECTED)
                 Disconnected();
 
             if (GameWindowState == WindowState.IN_LOBBY && endType != GameEnd.TOURNAMENT_FINISHED || !IsGameInitalized)
-                CloseGameWindowAndCleanup(true);
+                CloseGameWindowAndCleanup(endType, true);
             else
-                ShowEndGameStats();
+                ShowEndGameStats(endType);
         }
 
-        private void ShowEndGameStats()
+        /// <summary>
+        /// Vytvori a zobrazi okno se statistikami za posledni hru a nastavi akci, ktera se ma provest po zavreni statistik
+        /// </summary>
+        /// <param name="endType">typ konce hry</param>
+        private void ShowEndGameStats(GameEnd endType)
         {
             //zrusime static mouse a zabranime dalsimu update - hrac pozna ze je konec
             StaticMouse.Enable(false);
             stopUpdating = true;
 
-            Invoke(new Action(() => GuiObjectFactory.CreateAndAddPlayerStatsUc(this, currentPlayer, currentPlayer.IsActivePlayer(), new Vector((SharedDef.VIEW_PORT_SIZE.Width - 800) / 2, (SharedDef.VIEW_PORT_SIZE.Height - 500) / 2))));
+            Invoke(new Action(() => 
+            {
+                // vytvorime okno se statistikami za posledni hru
+                EndGameStats s = GuiObjectFactory.CreateAndAddPlayerStatsUc(this, currentPlayer, currentPlayer.IsActivePlayer(), new Vector((SharedDef.VIEW_PORT_SIZE.Width - 800) / 2, (SharedDef.VIEW_PORT_SIZE.Height - 500) / 2));
+                // a vytvorime akci, ktera se zavola pri zavreni statistik
+                s.CloseAction = new Action(() => 
+                {
+                    // zavreni vyvola bud uzivatel (vlakno gui) nebo GameState (vlakno sceny), proto je potreba synchronizovat
+                    Enqueue(new Action(() => 
+                    {
+                        if (endType != GameEnd.TOURNAMENT_FINISHED)
+                            CloseGameWindowAndCleanup(endType);
+                        else
+                            TournamentFinished();
+                    }));
+                });
+            }));
         }
 
-        public void CloseGameWindowAndCleanup(bool forceQuit = false)
+        public void CloseGameWindowAndCleanup(GameEnd endType, bool forceQuit = false)
         {
-            if (GameType != Gametype.TOURNAMENT_GAME || lastGameEnd == GameEnd.SERVER_DISCONNECTED || lastGameEnd == GameEnd.TOURNAMENT_FINISHED)
+            if (GameType != Gametype.TOURNAMENT_GAME || endType == GameEnd.SERVER_DISCONNECTED || endType == GameEnd.TOURNAMENT_FINISHED)
                 RequestStop();
 
             StateMgr.Clear();
@@ -673,9 +697,9 @@ namespace Orbit.Core.Client
 
             if (forceQuit)
                 NormalGameEnded();
-            else if (GameType == Gametype.TOURNAMENT_GAME && lastGameEnd != GameEnd.SERVER_DISCONNECTED && lastGameEnd != GameEnd.TOURNAMENT_FINISHED)
+            else if (GameType == Gametype.TOURNAMENT_GAME && endType != GameEnd.SERVER_DISCONNECTED && endType != GameEnd.TOURNAMENT_FINISHED)
                 TournamentGameEnded();
-            else if(lastGameEnd != GameEnd.TOURNAMENT_FINISHED)
+            else if (endType != GameEnd.TOURNAMENT_FINISHED)
                 NormalGameEnded();
 
             if (particleArea != null)
@@ -692,12 +716,13 @@ namespace Orbit.Core.Client
             serverConnection.Disconnect(Strings.networking_server_quit);
         }
 
+        /// <summary>
+        /// zkontroluje, jestli dal hrac highscore a bud zobrazi hlasku s novym highscore nebo jen hlasku o vyhre/prohre;
+        /// kontroluje hisghscore jen pro solo a quick game
+        /// </summary>
+        /// <param name="winner">hrac, ktery vyhral</param>
         private void CheckHighScore(Player winner)
         {
-            // zatim jen pro solo a 1v1 hry
-            if (GameType != Gametype.SOLO_GAME && GameType != Gametype.MULTIPLAYER_GAME)
-                return;
-
             PropertyKey key = PropertyKey.PLAYER_HIGHSCORE_SOLO1;
 
             if (GameType == Gametype.MULTIPLAYER_GAME)
@@ -740,7 +765,6 @@ namespace Orbit.Core.Client
                 else
                     CreateTextMessage(Strings.game_lost);
             }
-
         }
 
         public void TournamentFinished()
@@ -750,11 +774,8 @@ namespace Orbit.Core.Client
 
             StaticMouse.Enable(false);
 
-            lastGameEnd = GameEnd.TOURNAMENT_FINISHED;
-
             List<LobbyPlayerData> data = CreateLobbyPlayerData();
 
-            //CloseGameWindowAndCleanup();
             RequestStop();
 
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
@@ -1020,16 +1041,6 @@ namespace Orbit.Core.Client
             List<ISceneObject> found = new List<ISceneObject>();
             objects.ForEach(o => { if (o is T && (o.Center - position).Length <= radius) found.Add(o); });
             return found;
-        }
-
-        public GameEnd GetLastGameEnd()
-        {
-            return lastGameEnd;
-        }
-
-        public Player GetWinner()
-        {
-            return winner;
         }
     }
 }

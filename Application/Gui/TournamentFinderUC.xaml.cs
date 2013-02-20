@@ -154,22 +154,22 @@ namespace Orbit.Gui
 
         private void btnJoinTournament_Click(object sender, RoutedEventArgs e)
         {
-            VisualizableTorunamentSettings s = lvTournaments.SelectedItem as VisualizableTorunamentSettings;
-            if (s == null)
-                return;
+            JoinTournament(lvTournaments.SelectedItem as VisualizableTorunamentSettings);
 
-            App.Instance.StartTournamentGame(serverAddress, s.Settings.ServerId);
         }
 
         private void lvTournaments_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            VisualizableTorunamentSettings s = ((FrameworkElement)e.OriginalSource).DataContext as VisualizableTorunamentSettings;
+            JoinTournament(((FrameworkElement)e.OriginalSource).DataContext as VisualizableTorunamentSettings);
+        }
+
+        private void JoinTournament(VisualizableTorunamentSettings s)
+        {
             if (s == null)
                 return;
 
             App.Instance.StartTournamentGame(serverAddress, s.Settings.ServerId);
         }
-
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
             CheckOnlineStatus();

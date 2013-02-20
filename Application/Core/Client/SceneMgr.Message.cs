@@ -60,7 +60,7 @@ namespace Orbit.Core.Client
                 {
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
-                        App.Instance.CreateLobbyGui(false, true);
+                        App.Instance.CreateLobbyGui(currentPlayer.Data != null && currentPlayer.Data.LobbyLeader, true);
                     }));
                     SendTournamentSettingsRequest();
                     SendChatMessage(String.Format(Strings.Culture, Strings.lobby_joined, GetCurrentPlayer().Data.Name), true);
@@ -212,7 +212,6 @@ namespace Orbit.Core.Client
             }
 
             players.Remove(disconnected);
-            App.Instance.SetGameStarted(false);
 
             if (disconnected.IsActivePlayer())
                 EndGame(disconnected, GameEnd.LEFT_GAME);

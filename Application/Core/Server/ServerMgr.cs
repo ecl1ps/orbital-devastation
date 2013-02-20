@@ -85,8 +85,6 @@ namespace Orbit.Core.Server
             gameEnded = true;
             if (endType == GameEnd.WIN_GAME)
                 PlayerWon(plr);
-            else if (endType == GameEnd.LEFT_GAME)
-                PlayerLeft(plr);
 
             if (GameType != Gametype.TOURNAMENT_GAME)
                 RequestStop();
@@ -221,7 +219,9 @@ namespace Orbit.Core.Server
             foreach (Player plr in players)
             {
                 if (plr.IsActivePlayer() && plr.GetBaseIntegrity() <= 0)
+                {
                     foreach (Player winner in players)
+                    {
                         if (winner.IsActivePlayer() && winner.GetId() != plr.GetId())
                         {
                             if (GameType == Gametype.TOURNAMENT_GAME)
@@ -230,6 +230,8 @@ namespace Orbit.Core.Server
                                 EndGame(winner, GameEnd.WIN_GAME);
                             return;
                         }
+                    }
+                }
             }
         }
 
@@ -256,12 +258,6 @@ namespace Orbit.Core.Server
             msg.Write(winner.GetId());
             msg.Write(winner.Data.WonMatches);
             BroadcastMessage(msg);
-        }
-
-        private void PlayerLeft(Player leaver)
-        {
-            if (leaver == null)
-                return;
         }
 
         public void SendChatMessage(string message)

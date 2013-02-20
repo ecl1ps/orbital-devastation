@@ -69,23 +69,19 @@ namespace Orbit.Core.Helpers
 
         public static EndGameStats CreatePlayerStatsUC(SceneMgr mgr, Player owner, bool isPlayer, bool limited)
         {
-            EndGameStats statsWindow;
-            if (limited)
-                statsWindow = new EndGameStats(mgr);
-            else
-                statsWindow = new EndGameStats(null);
+            EndGameStats statsWindow = new EndGameStats();
 
             if (isPlayer)
             {
                 PlayerStatsUC playerStats = new PlayerStatsUC();
                 statsWindow.SetStats(playerStats);
 
-
                 PlayerStatisticsController controller;
                 if (limited)
                     controller = new PlayerStatisticsController(mgr, owner, statsWindow, limited, playerStats);
                 else
                     controller = new InstaPlayerStatisticsController(mgr, owner, statsWindow, limited, playerStats);
+
                 mgr.StateMgr.AddGameState(controller);
             }
             else
