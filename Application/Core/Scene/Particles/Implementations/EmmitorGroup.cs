@@ -1,6 +1,5 @@
 ﻿using Lidgren.Network;
 using Orbit.Core.Client;
-using Orbit.Core.Scene.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +23,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
         {
             list.ForEach(e => { 
                 e.Enabled = true; 
-                mgr.DelayedAttachToScene(e as ISceneObject);
+                mgr.DelayedAttachToScene(e);
 
                 if (send)
                 {
