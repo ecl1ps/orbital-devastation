@@ -242,8 +242,6 @@ namespace Orbit.Core.Scene.Particles.Implementations
             if (viewPort == null)
                 return;
 
-            Console.WriteLine(tpf);
-
             position = To3DPoint(positionToSet);
             currentPosition = To2DPoint(position);
 

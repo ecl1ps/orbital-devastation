@@ -190,6 +190,11 @@ namespace Orbit.Core.Client
                     Thread.Sleep(1);
             }
 
+            CleanObjects();
+        }
+
+        private void CleanObjects() 
+        {
             if (area != null)
             {
                 Invoke(new Action(() =>
@@ -202,7 +207,7 @@ namespace Orbit.Core.Client
             objects.Clear();
             objectsToAdd.Clear();
 
-            if(particleArea != null)
+            if (particleArea != null)
                 particleArea.ClearAll();
 
             particleArea = null;
@@ -675,6 +680,11 @@ namespace Orbit.Core.Client
                 TournamentGameEnded();
             else if(lastGameEnd != GameEnd.TOURNAMENT_FINISHED)
                 NormalGameEnded();
+
+            if (particleArea != null)
+                particleArea.ClearAll();
+
+            particleArea = null;
             
         }
 
@@ -770,9 +780,7 @@ namespace Orbit.Core.Client
                 }));
             }
 
-            objects.Clear();
-            objectsToRemove.Clear();
-            objectsToAdd.Clear();
+            CleanObjects();
 
             foreach (Player p in players)
                 p.ClearActions();
