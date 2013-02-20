@@ -40,7 +40,9 @@ namespace Orbit.Core.Server
         public GameStateManager StateMgr { get; set; }
         public TournamentSettings TournamentSettings { get; set; }
         public float Time { get; set; }
-        public Action CloseCallback { get; set; }
+
+        public delegate void ManagerClosed(ServerMgr mgr);
+        public ManagerClosed CloseCallback { get; set; }
 
         public ServerMgr()
         {
@@ -175,7 +177,7 @@ namespace Orbit.Core.Server
         private void RequestStop()
         {
             if (CloseCallback != null)
-                CloseCallback.Invoke();
+                CloseCallback(this);
 
             shouldQuit = true;
             Thread.Sleep(10);

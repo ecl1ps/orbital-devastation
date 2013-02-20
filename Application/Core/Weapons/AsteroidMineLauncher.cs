@@ -79,7 +79,7 @@ namespace Orbit.Core.Weapons
             lastMine.GetControlOfType<AsteroidDroppingSingularityControl>().SpawnAsteroid();
         }
 
-        public virtual void TriggerUpgrade(IWeapon old)
+        public override void TriggerUpgrade(IWeapon old)
         {
             base.TriggerUpgrade(old);
             (old as TargetingMineLauncher).DisposeLine();

@@ -18,6 +18,7 @@ namespace Orbit.Core.Server
         private IDictionary<NetConnection, ServerMgr> connections;
         private ServerMgr mgr = null;
 
+
         public MasterServerMgr()
         {
             connections = new Dictionary<NetConnection, ServerMgr>();
@@ -157,7 +158,7 @@ namespace Orbit.Core.Server
             mgr = new ServerMgr();
             mgr.Init(type, server);
 
-            //mgr.CloseCallback = new Action(() => ManagerClosed(mgr));
+            mgr.CloseCallback = ManagerClosed;
 
             Thread serverThread = new Thread(new ThreadStart(mgr.Run));
             serverThread.IsBackground = false;
@@ -185,7 +186,7 @@ namespace Orbit.Core.Server
             }
         }
 
-        /*private void ManagerClosed(ServerMgr mgr)
+        private void ManagerClosed(ServerMgr mgr)
         {
             List<NetConnection> connectionsForRemoval = new List<NetConnection>(2);
 
@@ -195,7 +196,7 @@ namespace Orbit.Core.Server
 
             foreach (NetConnection con in connectionsForRemoval)
                 connections.Remove(con);
-        }*/
+        }
 
         private bool FindAvailableServerManager(NetConnection netConnection, Gametype type, int serverId)
         {
