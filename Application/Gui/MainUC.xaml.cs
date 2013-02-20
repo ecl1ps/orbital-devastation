@@ -25,6 +25,7 @@ namespace Orbit.Gui
             InitializeComponent();
 #if !DEBUG
             spMenu.Children.Remove(btnConnectToLocalhost);
+            spMenu.Children.Remove(btnLocalhostTorunament);
             spMenu.Children.Remove(btnPlayAsSpectator);
 #endif
         }
