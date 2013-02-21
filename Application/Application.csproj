@@ -60,7 +60,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Orbit.App</StartupObject>
@@ -89,10 +89,6 @@
   <ItemGroup>
     <Reference Include="irrKlang.NET4">
       <HintPath>lib\irrKlang.NET4.dll</HintPath>
-    </Reference>
-    <Reference Include="Lidgren.Network, Version=2012.1.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\Lidgren.Network.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>lib\log4net.dll</HintPath>
@@ -161,7 +157,6 @@
     <Compile Include="Core\Helpers\HeavyweightGeometryFactory.cs" />
     <Compile Include="Core\Helpers\NetDataHelper.cs" />
     <Compile Include="Core\IUpdatable.cs" />
-    <Compile Include="Core\NetSearcher.cs" />
     <Compile Include="Core\ObfuscationSymbols.cs" />
     <Compile Include="Core\Players\Input\AbstractInputMgr.cs" />
     <Compile Include="Core\Players\Input\SpectatorInputMgr.cs" />
@@ -273,6 +268,7 @@
     <Compile Include="Core\Helpers\SceneObjectFactory.cs" />
     <Compile Include="Core\IGameState.cs" />
     <Compile Include="Core\Scene\Particles\AbstractParticleFactory.cs" />
+    <Compile Include="Core\Scene\Particles\Implementations\EmmitorGroup.cs" />
     <Compile Include="Core\Scene\Particles\Implementations\ParticleEmmitor.cs" />
     <Compile Include="Core\Scene\Particles\Implementations\ParticleImageFactory.cs" />
     <Compile Include="Core\Scene\Particles\Implementations\ParticleSphereFactory.cs" />
@@ -283,6 +279,7 @@
     <Compile Include="Core\Server\Level\Production\LevelSurvival.cs" />
     <Compile Include="Core\Server\Level\Production\LevelBasic.cs" />
     <Compile Include="Core\Server\Level\Test\LevelTestParticles.cs" />
+    <Compile Include="Core\Server\MasterServerMgr.cs" />
     <Compile Include="Core\Server\Match\AbstractTournamentMultiplayerMatchManager.cs" />
     <Compile Include="Core\Server\Match\MatchManagerInfo.cs" />
     <Compile Include="Core\Server\Match\Production\QuickGameMatchManager.cs" />
@@ -359,9 +356,6 @@
     <Compile Include="Gui\EscMenu.xaml.cs">
       <DependentUpon>EscMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Gui\FindServerUC.xaml.cs">
-      <DependentUpon>FindServerUC.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Gui\GameOverviewUC.xaml.cs">
       <DependentUpon>GameOverviewUC.xaml</DependentUpon>
     </Compile>
@@ -414,6 +408,9 @@
     </Compile>
     <Compile Include="Gui\StatisticsUC.xaml.cs">
       <DependentUpon>StatisticsUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\TournamentFinderUC.xaml.cs">
+      <DependentUpon>TournamentFinderUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\Visuals\GameVisualArea.cs" />
     <Compile Include="Gui\Visuals\Particles.cs" />
@@ -511,10 +508,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Gui\FindServerUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Gui\GameOverviewUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -595,6 +588,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Gui\TournamentFinderUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="resources\styles\Button.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -637,6 +634,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <Resource Include="resources\shaders\alphaMaskEffect.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="resources\images\graphics\theme.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -647,9 +647,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="resources\images\particles\flash-particle.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\shaders\alphaMaskEffect.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="resources\images\particles\Particle_Cloud.png">
@@ -930,7 +927,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Lidgren.Network\Lidgren.Network.csproj">
+      <Project>{49ba1c69-6104-41ac-a5d8-b54fa9f696e8}</Project>
+      <Name>Lidgren.Network</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "$(TargetDir)Copy\$(TargetFileName)"

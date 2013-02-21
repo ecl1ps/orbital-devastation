@@ -44,7 +44,7 @@ namespace Orbit.Core.Weapons
 
         void ProccessClickEvent(Point point, MouseButton button, MouseButtonState buttonState);
 
-        void Shoot(Point point);
+        ISceneObject Shoot(Point point);
 
         bool IsReady();
 

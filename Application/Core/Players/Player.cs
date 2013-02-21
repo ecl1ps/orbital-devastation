@@ -28,6 +28,9 @@ namespace Orbit.Core.Players
         public SceneMgr SceneMgr { get; set; }
         public PlayerData Data { get; set; }
         public StatisticsManager Statistics { get; set; }
+        /**
+        *  Na serveru je Connection pripojeni k hracovi, na klientovi je to pripojeni k serveru                                                                    
+        */
         public NetConnection Connection { get; set; }
         public Base Baze  { get; set; }
         public MiningModule Device { get; set; }
@@ -322,9 +325,12 @@ namespace Orbit.Core.Players
             return Data.FriendlyPlayerId == p.GetId();
         }
 
+        /** 
+         * na klientovi bude pro ostatni hrace udavat ze jsou offline, jelikoz nebudou mit nastavene connection (vse jede pres server)
+         */
         public bool IsOnlineOrBot()
         {
-            return IsBot() || (Connection != null && (Connection.Status == NetConnectionStatus.Connected || Connection.Status == NetConnectionStatus.RespondedAwaitingApproval));
+            return IsBot() || (Connection != null && (Connection.Status == NetConnectionStatus.Connected || Connection.Status == NetConnectionStatus.RespondedAwaitingApproval || Connection.Status == NetConnectionStatus.RespondedConnect));
         }
 
         public List<ISpecialAction> GetActions<T>()

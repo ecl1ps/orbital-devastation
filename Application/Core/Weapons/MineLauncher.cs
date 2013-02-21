@@ -41,33 +41,37 @@ namespace Orbit.Core.Weapons
         {
             if (next == null)
                 next = new WeaponUpgrade(new TargetingMineLauncher(SceneMgr, Owner));
-            
+
             return next;
         }
 
-        public void Shoot(Point point)
+        public ISceneObject Shoot(Point point)
         {
             if (IsReady())
             {
-                SpawnMine(point);
+                ISceneObject obj = SpawnMine(point);
                 ReloadTime = Owner.Data.MineCooldown;
 
                 Owner.Statistics.MineFired++;
+                return obj;
             }
+
+            return null;
         }
 
-        protected virtual void SpawnMine(Point point)
+        protected virtual ISceneObject SpawnMine(Point point)
         {
-                SingularityMine mine = SceneObjectFactory.CreateDroppingSingularityMine(SceneMgr, point, Owner);
+            SingularityMine mine = SceneObjectFactory.CreateDroppingSingularityMine(SceneMgr, point, Owner);
 
-                if (SceneMgr.GameType != Gametype.SOLO_GAME)
-                {
-                    NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
-                    (mine as ISendable).WriteObject(msg);
-                    SceneMgr.SendMessage(msg);
-                }
+            if (SceneMgr.GameType != Gametype.SOLO_GAME)
+            {
+                NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+                (mine as ISendable).WriteObject(msg);
+                SceneMgr.SendMessage(msg);
+            }
 
-                SceneMgr.DelayedAttachToScene(mine);
+            SceneMgr.DelayedAttachToScene(mine);
+            return mine;
         }
 
         public bool IsReady()

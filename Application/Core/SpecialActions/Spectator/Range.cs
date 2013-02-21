@@ -19,7 +19,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             Minimum = 0;
         }
 
-        public Range(int maximum, int minimum = 0) 
+        public Range(int maximum, int minimum = 0)
         {
             Maximum = maximum;
         }

@@ -40,14 +40,18 @@ namespace Orbit.Core.Weapons
             ReloadTime = 0;
         }
 
-        public void Shoot(Point point)
+        public ISceneObject Shoot(Point point)
         {
             if (IsReady()) {
-                SpawnHook(point);
+                ISceneObject obj = SpawnHook(point);
                 ReloadTime = Owner.Data.HookCooldown;
                 
                 Owner.Statistics.HookFired++;
+
+                return obj;
             }
+
+            return null;
         }
 
         public virtual ISpecialAction NextSpecialAction()
@@ -58,7 +62,7 @@ namespace Orbit.Core.Weapons
             return next;
         }
 
-        protected virtual void SpawnHook(Point point)
+        protected virtual ISceneObject SpawnHook(Point point)
         {
             if (point.Y > Owner.GetBaseLocation().Y - 5)
                 point.Y = Owner.GetBaseLocation().Y - 5;
@@ -70,6 +74,8 @@ namespace Orbit.Core.Weapons
                 SceneMgr.SendMessage(msg);
 
                 SceneMgr.DelayedAttachToScene(hook);
+
+                return hook;
         }
 
         protected virtual Hook CreateHook(Point point)

@@ -139,8 +139,11 @@ namespace Orbit.Core.Client.GameStates
             while (!positionFound)
             {
                 positionFound = true;
-                foreach (FloatingText t in floatingTexts)
+
+                FloatingText t;
+                for (int i = 0; i < floatingTexts.Count; ++i)
                 {
+                    t = floatingTexts[i];
                     if (t == currentFt)
                         continue;
 

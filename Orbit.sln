@@ -1,6 +1,9 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{18778980-1C5A-45D5-B230-92309497A3C9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8} = {49BA1C69-6104-41AC-A5D8-B54FA9F696E8}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SATTest", "SATTest\SATTest.csproj", "{48F4AD64-3E45-4058-B8BD-45061392C046}"
 EndProject
@@ -13,7 +16,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterServer", "MasterServer\MasterServer.csproj", "{6F766DC5-82F2-4B4E-868D-45E70BFCDA4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidgren.Network", "Lidgren.Network\Lidgren.Network.csproj", "{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}"
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Orbit.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug verbose|Any CPU = Debug verbose|Any CPU
 		Debug verbose|Mixed Platforms = Debug verbose|Mixed Platforms
@@ -62,11 +72,41 @@ Global
 		{B89D9E6F-8879-45F3-AB7F-82932A94BA78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B89D9E6F-8879-45F3-AB7F-82932A94BA78}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B89D9E6F-8879-45F3-AB7F-82932A94BA78}.Release|x86.ActiveCfg = Release|Any CPU
+		{6F766DC5-82F2-4B4E-868D-45E70BFCDA4D}.Debug verbose|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F766DC5-82F2-4B4E-868D-45E70BFCDA4D}.Debug verbose|Any CPU.Build.0 = Debug|Any CPU
+		{6F766DC5-82F2-4B4E-868D-45E70BFCDA4D}.Debug verbose|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6F766DC5-82F2-4B4E-868D-45E70BFCDA4D}.Debug verbose|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6F766DC5-82F2-4B4E-868D-45E70BFCDA4D}.Debug verbose|x86.ActiveCfg = Debug|Any CPU
+		{6F766DC5-82F2-4B4E-868D-45E70BFCDA4D}.Debug verbose|x86.Build.0 = Debug|Any CPU
+		{6F766DC5-82F2-4B4E-868D-45E70BFCDA4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F766DC5-82F2-4B4E-868D-45E70BFCDA4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F766DC5-82F2-4B4E-868D-45E70BFCDA4D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6F766DC5-82F2-4B4E-868D-45E70BFCDA4D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6F766DC5-82F2-4B4E-868D-45E70BFCDA4D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6F766DC5-82F2-4B4E-868D-45E70BFCDA4D}.Debug|x86.Build.0 = Debug|Any CPU
+		{6F766DC5-82F2-4B4E-868D-45E70BFCDA4D}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F766DC5-82F2-4B4E-868D-45E70BFCDA4D}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6F766DC5-82F2-4B4E-868D-45E70BFCDA4D}.Release|x86.ActiveCfg = Debug|Any CPU
+		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug verbose|Any CPU.ActiveCfg = Debug|Any CPU
+		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug verbose|Any CPU.Build.0 = Debug|Any CPU
+		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug verbose|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug verbose|Mixed Platforms.Build.0 = Debug|Any CPU
+		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug verbose|x86.ActiveCfg = Debug|Any CPU
+		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug verbose|x86.Build.0 = Debug|Any CPU
+		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug|x86.Build.0 = Debug|Any CPU
+		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Release|x86.ActiveCfg = Release|Any CPU
+		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = Orbit.vsmdi
 	EndGlobalSection
 EndGlobal

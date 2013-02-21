@@ -22,15 +22,14 @@ namespace Orbit.Gui
     /// </summary>
     public partial class EndGameStats : UserControl
     {
-        private SceneMgr mgr;
+        public Action CloseAction { get; set; }
 
-        public EndGameStats(SceneMgr mgr)
+        public EndGameStats()
         {
-            this.mgr = mgr;
             InitializeComponent();
         }
 
-        public void setStats(UIElement elem)
+        public void SetStats(UIElement elem)
         {
             Root.Children.Add(elem);
             Canvas.SetLeft(elem, 91);
@@ -49,17 +48,7 @@ namespace Orbit.Gui
 
         public void HideStats()
         {
-            if (mgr == null)
-            {
-                App.Instance.ClearMenus();
-                return; 
-            }
-
-            GameEnd endType = mgr.GetLastGameEnd();
-            if (endType != GameEnd.TOURNAMENT_FINISHED)
-                mgr.CloseGameWindowAndCleanup();
-            else
-                mgr.TournamentFinished(mgr.GetWinner());
+            CloseAction.Invoke();
         }
     }
 }

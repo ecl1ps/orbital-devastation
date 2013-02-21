@@ -141,10 +141,11 @@ namespace Orbit.Core.Server.Match
         {
             NetOutgoingMessage msg = server.CreateNetMessage();
             msg.Write((int)PacketType.PLAYER_SCORE_UPDATE);
+            msg.Write(p.GetId());
             msg.Write(p.Data.MatchPoints);
             msg.Write(p.Data.Score);
 
-            server.SendMessage(msg, p);
+            server.BroadcastMessage(msg);
         }
 
         public virtual void OnPlayerLeave(Player plr, bool gameRunning)

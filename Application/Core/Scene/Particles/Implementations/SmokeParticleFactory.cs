@@ -10,7 +10,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
     {
         public ParticleSmokeFactory()
         {
-            Color = Colors.Black;
+            Color = Color.FromArgb(80, 0, 0, 0);
             Source = new Uri("pack://application:,,,/resources/images/particles/particle_cloud.png");
             RenderSize = 512;
         }

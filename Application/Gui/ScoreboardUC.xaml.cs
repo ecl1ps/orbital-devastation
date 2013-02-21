@@ -20,13 +20,12 @@ namespace Orbit.Gui
     /// </summary>
     public partial class ScoreboardUC : UserControl
     {
-        public ScoreboardUC(LobbyPlayerData winnerData, List<LobbyPlayerData> data)
+        public ScoreboardUC(List<LobbyPlayerData> data)
         {
             InitializeComponent();
 
-            lblWinner.Content = winnerData.Name + " is winner!";
-
-            IEnumerable<LobbyPlayerData> sortedData = data.OrderByDescending(p => p.Won).ThenByDescending(p => p.Score);
+            IEnumerable<LobbyPlayerData> sortedData = data.OrderByDescending(p => p.Score).ThenByDescending(p => p.Won);
+            lblWinner.Content = sortedData.First().Name + " is winner!";
 
             LobbyPlayer element;
             int i = 0;

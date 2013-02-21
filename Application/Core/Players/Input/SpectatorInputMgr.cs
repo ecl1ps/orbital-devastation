@@ -63,7 +63,7 @@ namespace Orbit.Core.Players.Input
             base.OnCanvasClick(point, e);
 
             if(e.ButtonState == MouseButtonState.Pressed)
-                ParticleEmmitorFactory.CreateExplosionEmmitors(sceneMgr, point.ToVector()).ForEach(emmitor => sceneMgr.DelayedAttachToScene(emmitor));
+                ParticleEmmitorFactory.CreateExplosionEmmitors(sceneMgr, point.ToVector()).Attach(sceneMgr);
         }
     }
 }

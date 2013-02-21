@@ -24,7 +24,7 @@ namespace Orbit.Gui
             InitializeComponent();
         }
 
-        public void setData(String mineStats, String bulletStats, String hookStats,
+        public void SetData(String mineStats, String bulletStats, String hookStats,
             String damageTaken, String healed, String goldEarned, String actionsUsed,
             String powerupPicked, String favAction, String favPowerup)
         {

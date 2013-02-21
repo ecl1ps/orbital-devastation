@@ -78,7 +78,7 @@ namespace Orbit.Core.Weapons
             SceneMgr.AttachGraphicalObjectToScene(lineGeom, DrawingCategory.PROJECTILE_BACKGROUND);
         }
 
-        protected override void SpawnMine(Point point)
+        protected override ISceneObject SpawnMine(Point point)
         {
             SingularityMine mine = SceneObjectFactory.CreateDroppingSingularityMine(SceneMgr, point, Owner);
             Vector dir = new Vector(endPoint.X - startPoint.X, endPoint.Y - startPoint.Y);
@@ -96,6 +96,7 @@ namespace Orbit.Core.Weapons
             }
 
             SceneMgr.DelayedAttachToScene(mine);
+            return mine;
         }
 
         public override void Update(float tpf)
@@ -123,6 +124,12 @@ namespace Orbit.Core.Weapons
                 v.Y += startPoint.Y;
                 ((lineGeom.Children[0] as GeometryDrawing).Geometry as LineGeometry).EndPoint = v.ToPoint();
             }));
+        }
+
+        public void DisposeLine()
+        {
+            if (lineGeom != null)
+                RemoveLine();
         }
     }
 }

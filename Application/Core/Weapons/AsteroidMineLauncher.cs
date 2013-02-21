@@ -37,7 +37,7 @@ namespace Orbit.Core.Weapons
             return next;
         }
 
-        protected override void SpawnMine(Point point)
+        protected override ISceneObject SpawnMine(Point point)
         {
             SingularityMine mine = SceneObjectFactory.CreateAsteroidDroppingSingularityMine(SceneMgr, point, Owner);
             Vector dir = new Vector(endPoint.X - startPoint.X, endPoint.Y - startPoint.Y);
@@ -59,6 +59,8 @@ namespace Orbit.Core.Weapons
 
             lastMine = mine;
             SceneMgr.DelayedAttachToScene(mine);
+
+            return mine;
         }
 
         public bool IsActivableReady()
@@ -75,6 +77,12 @@ namespace Orbit.Core.Weapons
         public void StartActivableAction()
         {
             lastMine.GetControlOfType<AsteroidDroppingSingularityControl>().SpawnAsteroid();
+        }
+
+        public override void TriggerUpgrade(IWeapon old)
+        {
+            base.TriggerUpgrade(old);
+            (old as TargetingMineLauncher).DisposeLine();
         }
     }
 }

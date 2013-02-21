@@ -14,7 +14,7 @@ namespace Orbit.Core.Scene.Entities
 {
     public abstract class SceneObject : ISceneObject, IRotable, IMovable
     {
-        private List<IControl> controls;
+        protected List<IControl> controls;
 
         protected DrawingGroup geometryElement;
 

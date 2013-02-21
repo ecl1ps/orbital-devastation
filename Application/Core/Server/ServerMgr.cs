@@ -35,10 +35,14 @@ namespace Orbit.Core.Server
         private List<int> playersRespondedScore;
         private StatsMgr statsMgr;
 
+        public int Id { get; set; }
         public Gametype GameType { get; set; }
         public GameStateManager StateMgr { get; set; }
         public TournamentSettings TournamentSettings { get; set; }
         public float Time { get; set; }
+
+        public delegate void ManagerClosed(ServerMgr mgr);
+        public ManagerClosed CloseCallback { get; set; }
 
         public ServerMgr()
         {
@@ -46,11 +50,13 @@ namespace Orbit.Core.Server
             isInitialized = false;
             shouldQuit = false;
             Time = 0;
+            Id = IdMgr.GetNewServerId();
         }
 
-        public void Init(Gametype gameType)
+        public void Init(Gametype gameType, NetServer netServer)
         {
             GameType = gameType;
+            server = netServer;
             gameEnded = false;
             isInitialized = false;
             shouldQuit = false;
@@ -58,8 +64,6 @@ namespace Orbit.Core.Server
             players = new List<Player>(2);
             synchronizedQueue = new ConcurrentQueue<Action>();
             StateMgr = new GameStateManager();
-
-            InitNetwork();
         }
 
         private void EndGame(Player plr, GameEnd endType)
@@ -83,8 +87,6 @@ namespace Orbit.Core.Server
             gameEnded = true;
             if (endType == GameEnd.WIN_GAME)
                 PlayerWon(plr);
-            else if (endType == GameEnd.LEFT_GAME)
-                PlayerLeft(plr);
 
             if (GameType != Gametype.TOURNAMENT_GAME)
                 RequestStop();
@@ -119,14 +121,6 @@ namespace Orbit.Core.Server
         private void CleanUp()
         {
             shouldQuit = false;
-
-            if (server != null && server.Status != NetPeerStatus.NotRunning)
-            {
-                server.FlushSendQueue();
-                server.Shutdown("Peer closed connection");
-                server = null;
-                Thread.Sleep(10); // networking threadu chvili trva ukonceni
-            }
         }
 
         public Player CreateAndAddPlayer(String name, String hash, Color clr)
@@ -182,6 +176,9 @@ namespace Orbit.Core.Server
 
         private void RequestStop()
         {
+            if (CloseCallback != null)
+                CloseCallback(this);
+
             shouldQuit = true;
             Thread.Sleep(10);
         }
@@ -209,9 +206,9 @@ namespace Orbit.Core.Server
             return players.Find(p => p.GetId() == id);
         }
 
-        private Player GetPlayer(NetConnection netConnection)
+        private Player GetPlayer(long netConnectionId)
         {
-            return players.Find(plr => plr.Connection != null && plr.Connection.RemoteUniqueIdentifier == netConnection.RemoteUniqueIdentifier);
+            return players.Find(plr => plr.Connection != null && plr.Connection.RemoteUniqueIdentifier == netConnectionId);
         }
 
         public Random GetRandomGenerator()
@@ -224,7 +221,9 @@ namespace Orbit.Core.Server
             foreach (Player plr in players)
             {
                 if (plr.IsActivePlayer() && plr.GetBaseIntegrity() <= 0)
+                {
                     foreach (Player winner in players)
+                    {
                         if (winner.IsActivePlayer() && winner.GetId() != plr.GetId())
                         {
                             if (GameType == Gametype.TOURNAMENT_GAME)
@@ -233,7 +232,14 @@ namespace Orbit.Core.Server
                                 EndGame(winner, GameEnd.WIN_GAME);
                             return;
                         }
+                    }
+                }
             }
+        }
+
+        public int GetPlayerCount()
+        {
+            return players.Count;
         }
 
         private void StopAndRequestScores(Action action)
@@ -254,12 +260,6 @@ namespace Orbit.Core.Server
             msg.Write(winner.GetId());
             msg.Write(winner.Data.WonMatches);
             BroadcastMessage(msg);
-        }
-
-        private void PlayerLeft(Player leaver)
-        {
-            if (leaver == null)
-                return;
         }
 
         public void SendChatMessage(string message)

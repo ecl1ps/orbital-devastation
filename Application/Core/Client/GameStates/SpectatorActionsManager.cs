@@ -179,7 +179,11 @@ namespace Orbit.Core.Client.GameStates
             int count = msg.ReadInt32();
             List<Asteroid> temp = new List<Asteroid>();
             for (int i = 0; i < count; i++)
-                temp.Add(owner.SceneMgr.GetSceneObject(msg.ReadInt64()) as Asteroid);
+            {
+                Asteroid found = owner.SceneMgr.GetSceneObject(msg.ReadInt64()) as Asteroid;
+                if (found != null)
+                    temp.Add(found);
+            }
 
             action.CastingTime -= ((msg.SenderConnection.AverageRoundtripTime / 2) / 1000);
             ScheduleAction(action, temp, exact, false);

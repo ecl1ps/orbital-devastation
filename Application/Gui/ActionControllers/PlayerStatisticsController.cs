@@ -90,7 +90,7 @@ namespace Orbit.Gui.ActionControllers
         {
             mgr.BeginInvoke(new Action(() =>
             {
-                window.setData(mine, bullet, hook, damage, heal, gold, actions, powerups, favAction, favPowerup);
+                window.SetData(mine, bullet, hook, damage, heal, gold, actions, powerups, favAction, favPowerup);
             }));
         }
 

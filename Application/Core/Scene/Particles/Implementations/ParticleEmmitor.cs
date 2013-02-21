@@ -27,6 +27,9 @@ namespace Orbit.Core.Scene.Particles.Implementations
         public double MaxLife { get; set; }
         public double Size { get; set; }
         public double StartingSize { get; set; }
+
+        public double Rotation { get; set; }
+        public double StartingRotation { get; set; }
     }
 
     public class ParticleEmmitor : SceneObject, ISendable
@@ -40,6 +43,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
         private GeometryModel3D model;
         private bool started;
         private bool ending;
+        private float delayTime;
 
         private Vector positionToSet;
         private Vector currentPosition;
@@ -58,6 +62,12 @@ namespace Orbit.Core.Scene.Particles.Implementations
         public float MaxSize { get; set; }
         public float MinSize { get; set; }
         public float SizeMultiplier { get; set; }
+        public float MinStartingRotation { get; set; }
+        public float MaxStartingRotation { get; set; }
+        public float MinRotation { get; set; }
+        public float MaxRotation { get; set; }
+        private float delay;
+        public float Delay { get { return delay; } set { delay = value; delayTime = value; } }        
         public int Amount { get; set; }
         public bool FireAll { get; set; }
         public bool Infinite { get; set; }
@@ -84,8 +94,12 @@ namespace Orbit.Core.Scene.Particles.Implementations
             set
             {
                 if (value)
+                {
                     amount = Amount;
+                    ending = false;
+                }
                 base.Enabled = value;
+                
             }
         }
 
@@ -98,6 +112,11 @@ namespace Orbit.Core.Scene.Particles.Implementations
             MinForce = 0;
             MaxSize = 0;
             MinSize = 0;
+            MinRotation = 0;
+            MaxRotation = 0;
+            MinStartingRotation = 0;
+            MaxStartingRotation = 0;
+            Delay = 0;
             EmitingTime = 1;
             SizeMultiplier = 1;
             positionToSet = new Vector(0, 0);
@@ -152,16 +171,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
                 int indexIndex = i * 6;
                 Particle p = particles[i];
 
-                double size = p.Size;
-                Point3D p1 = new Point3D(p.Position.X - size, p.Position.Y - size, p.Position.Z);
-                Point3D p2 = new Point3D(p.Position.X - size, p.Position.Y + size, p.Position.Z);
-                Point3D p3 = new Point3D(p.Position.X + size, p.Position.Y + size, p.Position.Z);
-                Point3D p4 = new Point3D(p.Position.X + size, p.Position.Y - size, p.Position.Z);
-
-                positions.Add(p1);
-                positions.Add(p2);
-                positions.Add(p3);
-                positions.Add(p4);
+                ComputePositions(p, positions);
 
                 System.Windows.Point t1 = new System.Windows.Point(0.0, 0.0);
                 System.Windows.Point t2 = new System.Windows.Point(0.0, 1.0);
@@ -184,6 +194,33 @@ namespace Orbit.Core.Scene.Particles.Implementations
             ((MeshGeometry3D)model.Geometry).Positions = positions;
             ((MeshGeometry3D)model.Geometry).TriangleIndices = indices;
             ((MeshGeometry3D)model.Geometry).TextureCoordinates = texcoords;
+        }
+
+        private void ComputePositions(Particle p, Point3DCollection list)
+        {
+            double size = p.Size;
+            Vector center = new Vector(p.Position.X, p.Position.Y);
+            
+            //najdeme body
+            Vector p1 = new Vector(p.Position.X - size, p.Position.Y - size);
+            Vector p2 = new Vector(p.Position.X - size, p.Position.Y + size);
+            Vector p3 = new Vector(p.Position.X + size, p.Position.Y + size);
+            Vector p4 = new Vector(p.Position.X + size, p.Position.Y - size);
+
+            //pokud ma particle rotaci orotujeme
+            if (p.Rotation > 0)
+            {
+                p1 = p1.Rotate(p.Rotation, center);
+                p2 = p2.Rotate(p.Rotation, center);
+                p3 = p3.Rotate(p.Rotation, center);
+                p4 = p4.Rotate(p.Rotation, center);
+            }
+
+            double z = p.Position.Z;
+            list.Add(new Point3D(p1.X, p1.Y, z));
+            list.Add(new Point3D(p2.X, p2.Y, z));
+            list.Add(new Point3D(p3.X, p3.Y, z));
+            list.Add(new Point3D(p4.X, p4.Y, z));
         }
 
         public Point3D To3DPoint(Vector point)
@@ -209,6 +246,11 @@ namespace Orbit.Core.Scene.Particles.Implementations
             currentPosition = To2DPoint(position);
 
             started = true;
+            if (Delay > 0)
+            {
+                Delay -= tpf;
+                return;
+            }
 
             if (FireAll && !ending)
             {
@@ -264,6 +306,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
                 p.Life -= tpf;
 
                 p.Size = FastMath.LinearInterpolate(p.StartingSize * SizeMultiplier, p.StartingSize , p.Life / p.MaxLife);
+                p.Rotation = p.StartingRotation + FastMath.LinearInterpolate(MinRotation, MaxRotation, p.Life / p.MaxLife);
             }
         }
 
@@ -286,6 +329,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
             double force = FastMath.LinearInterpolate(MinForce, MaxForce, rand.NextDouble());
             double life = FastMath.LinearInterpolate(MinLife, MaxLife, rand.NextDouble());
             double size = FastMath.LinearInterpolate(MinSize, MaxSize, rand.NextDouble());
+            double rotation = FastMath.LinearInterpolate(MinStartingRotation, MaxStartingRotation, rand.NextDouble());
 
             Particle p = new Particle();
             p.Life = life;
@@ -294,6 +338,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
 
             p.Position = position;
             p.Direction = EmmitingDirection.Rotate(angle);
+            p.StartingRotation = rotation;
 
             Point3D point = To3DPoint(new Vector(Position.X + size, Position.Y));
             p.Size = size;
@@ -315,16 +360,48 @@ namespace Orbit.Core.Scene.Particles.Implementations
             ending = true;
         }
 
+        public void Start(bool send = false)
+        {
+            particles.Clear();
+            ending = false;
+            amount = Amount;
+            delayTime = Delay;
+            timeLap = 0;
+            time = 0;
+
+            if (Dead)
+            {
+                Dead = false;
+                SceneMgr.DelayedAttachToScene(this);
+            }
+
+            if (send)
+            {
+                Lidgren.Network.NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
+
+                msg.Write((int)PacketType.PARTICLE_EMMITOR_CREATE);
+                WriteMe(msg);
+
+                SceneMgr.SendMessage(msg);
+            }
+        }
+
         public override void DoRemove(ISceneObject obj)
         {
             base.DoRemove(obj);
-            if (obj is ParticleEmmitor)
-                SceneMgr.RemoveParticleEmmitor(obj as ParticleEmmitor);
+
+            particleArea.BeginInvoke(new Action(() => particleArea.WorldModels.Children.Remove(model)));
         }
 
         public void WriteObject(Lidgren.Network.NetOutgoingMessage msg)
         {
             msg.Write((int) PacketType.PARTICLE_EMMITOR_CREATE);
+            WriteMe(msg);
+           
+        }
+
+        private void WriteMe(Lidgren.Network.NetOutgoingMessage msg)
+        {
             msg.Write(Id);
             msg.Write(EmmitingDirection);
             msg.Write(EmitingTime);
@@ -336,6 +413,11 @@ namespace Orbit.Core.Scene.Particles.Implementations
             msg.Write(MinLife);
             msg.Write(MaxSize);
             msg.Write(MinSize);
+            msg.Write(MaxRotation);
+            msg.Write(MinRotation);
+            msg.Write(MaxStartingRotation);
+            msg.Write(MinStartingRotation);
+            msg.Write(Delay);
             msg.Write(SizeMultiplier);
             msg.Write(Amount);
             msg.Write(FireAll);
@@ -347,9 +429,8 @@ namespace Orbit.Core.Scene.Particles.Implementations
             NetDataHelper.WriteControls(msg, GetControlsCopy());
         }
 
-        public void ReadObject(Lidgren.Network.NetIncomingMessage msg)
+        public void ReadMe(Lidgren.Network.NetIncomingMessage msg)
         {
-            Id = msg.ReadInt64();
             EmmitingDirection = msg.ReadVector();
             EmitingTime = msg.ReadFloat();
             MinAngle = msg.ReadFloat();
@@ -360,6 +441,11 @@ namespace Orbit.Core.Scene.Particles.Implementations
             MinLife = msg.ReadFloat();
             MaxSize = msg.ReadFloat();
             MinSize = msg.ReadFloat();
+            MaxRotation = msg.ReadFloat();
+            MinRotation = msg.ReadFloat();
+            MaxStartingRotation = msg.ReadFloat();
+            MinStartingRotation = msg.ReadFloat();
+            Delay = msg.ReadFloat();
             SizeMultiplier = msg.ReadFloat();
             Amount = msg.ReadInt32();
             FireAll = msg.ReadBoolean();
@@ -372,6 +458,12 @@ namespace Orbit.Core.Scene.Particles.Implementations
 
             foreach (IControl control in controls)
                 AddControl(control);
+        }
+
+        public void ReadObject(Lidgren.Network.NetIncomingMessage msg)
+        {
+            Id = msg.ReadInt64();
+            ReadMe(msg);
         }
     }
 }

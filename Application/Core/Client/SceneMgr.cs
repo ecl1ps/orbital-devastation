@@ -40,8 +40,10 @@ namespace Orbit.Core.Client
         public LevelEnvironment LevelEnv { get; set; }
         public AlertMessageManager AlertMessageMgr { get; set; }
         public SpectatorActionsManager SpectatorActionMgr { get; set; }
-        public WindowState GameWindowState { get { return gameWindowState; } set { gameWindowState = value; } }
         public bool UserActionsDisabled { get { return userActionsDisabled; } }
+        public bool IsGameInitalized { get { return isGameInitialized; } }
+        public WindowState GameWindowState { get { return gameWindowState; } set { gameWindowState = value; } }
+
         private volatile WindowState gameWindowState;
 
         private ParticleArea particleArea;
@@ -62,15 +64,9 @@ namespace Orbit.Core.Client
         private ActionBarMgr actionBarMgr;
         private IInputMgr inputMgr;
         private bool playerQuit;
-        private GameEnd lastGameEnd;
         private TournamentSettings lastTournamentSettings;
-
-        private Player winner;
-
         private float totalTime;
         private bool stopUpdating = false;
-
-        public bool IsGameInitalized { get { return isGameInitialized; } }
 
         public SceneMgr()
         {
@@ -83,7 +79,6 @@ namespace Orbit.Core.Client
 
         public void Init(Gametype gameType)
         {
-            winner = null;
             GameType = gameType;
             stopUpdating = false;
             gameEnded = false;
@@ -106,25 +101,16 @@ namespace Orbit.Core.Client
             players.Add(currentPlayer);
             AttachStateManagers();
 
-
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 currentPlayer.Data.Name = App.Instance.PlayerName;
                 currentPlayer.Data.HashId = App.Instance.PlayerHashId;
             }));
 
-            if (gameType != Gametype.TOURNAMENT_GAME)
-            {
-                Invoke(new Action(() =>
-                {
-                    Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblWaiting");
-                    if (lblw != null)
-                        lblw.Content = "";
-                }));
-            }
-
             if (gameType == Gametype.MULTIPLAYER_GAME)
                 SetMainInfoText(Strings.networking_waiting);
+            else if (area != null)
+                SetMainInfoText(String.Empty);
 
             InitNetwork();
             ConnectToServer();
@@ -198,9 +184,14 @@ namespace Orbit.Core.Client
                 client.Disconnect(Strings.networking_client_connection_close);
                 // bussy wait for shutdown
                 while (client.ConnectionStatus != NetConnectionStatus.Disconnected && client.ConnectionStatus != NetConnectionStatus.None)
-                    ;
+                    Thread.Sleep(1);
             }
 
+            CleanObjects();
+        }
+
+        private void CleanObjects() 
+        {
             if (area != null)
             {
                 Invoke(new Action(() =>
@@ -212,6 +203,11 @@ namespace Orbit.Core.Client
             objectsToRemove.Clear();
             objects.Clear();
             objectsToAdd.Clear();
+
+            if (particleArea != null)
+                particleArea.ClearAll();
+
+            particleArea = null;
         }
 
         /************************************************************************/
@@ -279,13 +275,15 @@ namespace Orbit.Core.Client
         /// </summary>
         public void DelayedAttachToScene(ISceneObject obj)
         {
-            objectsToAdd.Add(obj);
-            obj.OnAttach();
-        }
-
-        public void DelayedAttachToScene(ParticleEmmitor e)
-        {
-            GetParticleArea().AddEmmitor(e);
+            if (obj is ParticleEmmitor)
+            {
+                GetParticleArea().AddEmmitor(obj as ParticleEmmitor);
+            }
+            else
+            {
+                objectsToAdd.Add(obj);
+                obj.OnAttach();
+            }
         }
 
         /// <summary>
@@ -327,28 +325,23 @@ namespace Orbit.Core.Client
             }));
         }
 
-        public void RemoveFromSceneDelayed(ParticleEmmitor e)
-        {
-            e.Dead = true;
-            e.OnRemove();
-            GetParticleArea().RemoveEmmitor(e);
-        }
-
-        public void RemoveParticleEmmitor(ParticleEmmitor e)
-        {
-            e.Dead = true;
-            e.OnRemove();
-            GetParticleArea().RemoveEmmitor(e);
-        }
-
         /// <summary>
         /// bezpecne odstrani objekt (SceneObject i gui objekt) v dalsim updatu
         /// </summary>
         public void RemoveFromSceneDelayed(ISceneObject obj)
         {
-            obj.Dead = true;
-            obj.OnRemove();
-            objectsToRemove.Add(obj);
+            if (obj is ParticleEmmitor)
+            {
+                obj.Dead = true;
+                obj.OnRemove();
+                GetParticleArea().RemoveEmmitor(obj as ParticleEmmitor);
+            }
+            else
+            {
+                obj.Dead = true;
+                obj.OnRemove();
+                objectsToRemove.Add(obj);
+            }
         }
 
         /// <summary>
@@ -478,9 +471,9 @@ namespace Orbit.Core.Client
 
             statisticsTimer = 0;
 
-            ShowStatusText(1, String.Format(Strings.Culture, Strings.misc_fps, tpf, (int)(1.0f / tpf)));
-            if (GameType != Gametype.SOLO_GAME && GetCurrentPlayer().Connection != null)
-                ShowStatusText(2, String.Format(Strings.Culture, Strings.misc_latency, GetCurrentPlayer().Connection.AverageRoundtripTime / 2));
+            ShowStatusText(1, String.Format(Strings.Culture, Strings.misc_fps, (int)(1.0f / tpf)));
+            if (GameType != Gametype.SOLO_GAME && serverConnection != null)
+                ShowStatusText(2, String.Format(Strings.Culture, Strings.misc_latency, (int)(serverConnection.AverageRoundtripTime * 1000 / 2)));
         }
 
         private void ProcessActionQueue()
@@ -494,8 +487,8 @@ namespace Orbit.Core.Client
         {
             Invoke(new Action(() =>
             {
-                foreach (ISceneObject obj in objects)
-                    obj.UpdateGeometric();
+                for (int i = 0; i < objects.Count; ++i)
+                    objects[i].UpdateGeometric();
             }));
         }
 
@@ -608,66 +601,93 @@ namespace Orbit.Core.Client
             return true;
         }
 
+        /// <summary>
+        /// vola se pri leavnuti hrace, pri vyhre, pri disconnectu od serveru, pri ukonceni turnaje;
+        /// vypne uzivatelsky vstup a hru, zkontroluje highscore, ohlasi vysledek hry, zobrazi statistiky a naplanuje zavreni okna hry 
+        /// </summary>
+        /// <param name="plr">hrac ktery leavnul nebo vyhral</param>
+        /// <param name="endType">typ s jakym byly hra ukoncena</param>
         private void EndGame(Player plr, GameEnd endType)
         {
-            if (endType == GameEnd.TOURNAMENT_FINISHED)
-            {
-                lastGameEnd = endType;
-                winner = plr;
-            }
-
-            if (gameEnded && endType == GameEnd.SERVER_DISCONNECTED && (plr == null || plr.Data.LobbyLeader))
-            {
-                if(lastGameEnd != GameEnd.TOURNAMENT_FINISHED)
-                    lastGameEnd = endType;
-                return;
-            }
-            else if (gameEnded)
+            if (gameEnded && endType != GameEnd.TOURNAMENT_FINISHED)
                 return;
 
             if (Application.Current != null)
-                Application.Current.Dispatcher.Invoke(new Action(() =>
-                {
-                    App.Instance.SetGameStarted(false);
-                }));
+                Application.Current.Dispatcher.Invoke(new Action(() => App.Instance.SetGameStarted(false)));
 
-            if (endType == GameEnd.WIN_GAME)
-                CheckHighScore(plr);
-
-            //isGameInitialized = true;
             userActionsDisabled = true;
             gameEnded = true;
-            lastGameEnd = endType;
-            winner = plr;
+
+            switch (GameType)
+            {
+                case Gametype.SOLO_GAME:
+                    {
+                        if (endType == GameEnd.WIN_GAME)
+                            CheckHighScore(plr);
+                    }
+                    break;
+                case Gametype.MULTIPLAYER_GAME:
+                    {
+                        if (endType == GameEnd.WIN_GAME)
+                            CheckHighScore(plr);
+                    }
+                    break;
+                case Gametype.TOURNAMENT_GAME:
+                    {
+
+                    }
+                    break;
+            }
 
             players.ForEach(p => p.Statistics.GameEnded = true);
 
             if (endType == GameEnd.LEFT_GAME)
             {
                 PlayerLeft(plr);
-                return;
+                if (!plr.IsActivePlayer())
+                    return;
             }
             else if (endType == GameEnd.SERVER_DISCONNECTED)
                 Disconnected();
 
             if (GameWindowState == WindowState.IN_LOBBY && endType != GameEnd.TOURNAMENT_FINISHED || !IsGameInitalized)
-                CloseGameWindowAndCleanup(true);
+                CloseGameWindowAndCleanup(endType, true);
             else
-                ShowEndGameStats(endType, plr);
+                ShowEndGameStats(endType);
         }
 
-        private void ShowEndGameStats(GameEnd endType, Player winner)
+        /// <summary>
+        /// Vytvori a zobrazi okno se statistikami za posledni hru a nastavi akci, ktera se ma provest po zavreni statistik
+        /// </summary>
+        /// <param name="endType">typ konce hry</param>
+        private void ShowEndGameStats(GameEnd endType)
         {
             //zrusime static mouse a zabranime dalsimu update - hrac pozna ze je konec
             StaticMouse.Enable(false);
             stopUpdating = true;
 
-            Invoke(new Action(() => GuiObjectFactory.CreateAndAddPlayerStatsUc(this, currentPlayer, currentPlayer.IsActivePlayer(), new Vector((SharedDef.VIEW_PORT_SIZE.Width - 800) / 2, (SharedDef.VIEW_PORT_SIZE.Height - 500) / 2))));
+            Invoke(new Action(() => 
+            {
+                // vytvorime okno se statistikami za posledni hru
+                EndGameStats s = GuiObjectFactory.CreateAndAddPlayerStatsUc(this, currentPlayer, currentPlayer.IsActivePlayer(), new Vector((SharedDef.VIEW_PORT_SIZE.Width - 800) / 2, (SharedDef.VIEW_PORT_SIZE.Height - 500) / 2));
+                // a vytvorime akci, ktera se zavola pri zavreni statistik
+                s.CloseAction = new Action(() => 
+                {
+                    // zavreni vyvola bud uzivatel (vlakno gui) nebo GameState (vlakno sceny), proto je potreba synchronizovat
+                    Enqueue(new Action(() => 
+                    {
+                        if (endType != GameEnd.TOURNAMENT_FINISHED)
+                            CloseGameWindowAndCleanup(endType);
+                        else
+                            TournamentFinished();
+                    }));
+                });
+            }));
         }
 
-        public void CloseGameWindowAndCleanup(bool forceQuit = false)
+        public void CloseGameWindowAndCleanup(GameEnd endType, bool forceQuit = false)
         {
-            if (GameType != Gametype.TOURNAMENT_GAME || lastGameEnd == GameEnd.SERVER_DISCONNECTED || lastGameEnd == GameEnd.TOURNAMENT_FINISHED)
+            if (GameType != Gametype.TOURNAMENT_GAME || endType == GameEnd.SERVER_DISCONNECTED || endType == GameEnd.TOURNAMENT_FINISHED)
                 RequestStop();
 
             StateMgr.Clear();
@@ -677,10 +697,15 @@ namespace Orbit.Core.Client
 
             if (forceQuit)
                 NormalGameEnded();
-            else if (GameType == Gametype.TOURNAMENT_GAME && lastGameEnd != GameEnd.SERVER_DISCONNECTED && lastGameEnd != GameEnd.TOURNAMENT_FINISHED)
+            else if (GameType == Gametype.TOURNAMENT_GAME && endType != GameEnd.SERVER_DISCONNECTED && endType != GameEnd.TOURNAMENT_FINISHED)
                 TournamentGameEnded();
-            else if(lastGameEnd != GameEnd.TOURNAMENT_FINISHED)
+            else if (endType != GameEnd.TOURNAMENT_FINISHED)
                 NormalGameEnded();
+
+            if (particleArea != null)
+                particleArea.ClearAll();
+
+            particleArea = null;
             
         }
 
@@ -691,12 +716,13 @@ namespace Orbit.Core.Client
             serverConnection.Disconnect(Strings.networking_server_quit);
         }
 
+        /// <summary>
+        /// zkontroluje, jestli dal hrac highscore a bud zobrazi hlasku s novym highscore nebo jen hlasku o vyhre/prohre;
+        /// kontroluje hisghscore jen pro solo a quick game
+        /// </summary>
+        /// <param name="winner">hrac, ktery vyhral</param>
         private void CheckHighScore(Player winner)
         {
-            // zatim jen pro solo a 1v1 hry
-            if (GameType != Gametype.SOLO_GAME && GameType != Gametype.MULTIPLAYER_GAME)
-                return;
-
             PropertyKey key = PropertyKey.PLAYER_HIGHSCORE_SOLO1;
 
             if (GameType == Gametype.MULTIPLAYER_GAME)
@@ -739,27 +765,22 @@ namespace Orbit.Core.Client
                 else
                     CreateTextMessage(Strings.game_lost);
             }
-
         }
 
-        public void TournamentFinished(Player winner)
+        public void TournamentFinished()
         {
             if (Application.Current == null)
                 return;
 
             StaticMouse.Enable(false);
 
-            lastGameEnd = GameEnd.TOURNAMENT_FINISHED;
-
             List<LobbyPlayerData> data = CreateLobbyPlayerData();
-            LobbyPlayerData winnerData = data.Find(d => d.Id == winner.Data.Id);
 
-            //CloseGameWindowAndCleanup();
             RequestStop();
 
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                App.Instance.CreateScoreboardGui(winnerData, data);
+                App.Instance.CreateScoreboardGui(data);
             }));
         }
 
@@ -769,17 +790,7 @@ namespace Orbit.Core.Client
             isGameInitialized = false;
             userActionsDisabled = true;
 
-            if (area != null)
-            {
-                Invoke(new Action(() =>
-                {
-                    area.Clear();
-                }));
-            }
-
-            objects.Clear();
-            objectsToRemove.Clear();
-            objectsToAdd.Clear();
+            CleanObjects();
 
             foreach (Player p in players)
                 p.ClearActions();
@@ -789,13 +800,13 @@ namespace Orbit.Core.Client
 
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-                App.Instance.CreateLobbyGui(currentPlayer.Data.LobbyLeader, true);
+                App.Instance.CreateLobbyGui(currentPlayer.Data.LobbyLeader);
                 LobbyUC lobby = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
                 if (lobby != null)
                     lobby.UpdateTournamentSettings(lastTournamentSettings);
             }));
 
-            SendChatMessage(String.Format(Strings.Culture, Strings.lobby_joined, GetCurrentPlayer().Data.Name));
+            SendChatMessage(String.Format(Strings.Culture, Strings.lobby_joined, GetCurrentPlayer().Data.Name), true);
             SendPlayerDataRequestMessage();
             
             if (currentPlayer.Data.LobbyLeader)
@@ -1030,16 +1041,6 @@ namespace Orbit.Core.Client
             List<ISceneObject> found = new List<ISceneObject>();
             objects.ForEach(o => { if (o is T && (o.Center - position).Length <= radius) found.Add(o); });
             return found;
-        }
-
-        public GameEnd GetLastGameEnd()
-        {
-            return lastGameEnd;
-        }
-
-        public Player GetWinner()
-        {
-            return winner;
         }
     }
 }
