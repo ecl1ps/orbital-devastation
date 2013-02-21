@@ -649,7 +649,7 @@
     <Resource Include="resources\images\particles\flash-particle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="resources\images\particles\Particle_Cloud.png">
+    <Resource Include="resources\images\particles\particle_cloud.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="resources\images\icons\kick_button_simple.png">
