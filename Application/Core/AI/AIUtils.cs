@@ -5,11 +5,34 @@ using System.Text;
 using System.Windows;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Controls;
+using Orbit.Core.Scene.Entities.Implementations;
 
 namespace Orbit.Core.AI
 {
+
+    public enum TargetStatus
+    {
+        AVAILABLE,
+        LOCKED,
+        HOOKONLY,
+        DEAD,
+       
+    }
+
+    struct Target
+    {
+        public TargetStatus Status;
+        public Asteroid Asteroid;
+        public int Priority;
+        
+    };
+
+
     public class AIUtils
     {
+
+
+
         public static Vector ComputeDestinationPositionToHitTarget(ISceneObject targetObject, double sourceSpeed, Vector sourceCenter, Random randomGenerator)
         {
             Vector randomResultDirection = new Vector(1, 0).Rotate(FastMath.GetRandomRotation(randomGenerator));
