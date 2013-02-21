@@ -18,6 +18,17 @@ namespace Orbit.Core.Server
         private IDictionary<NetConnection, ServerMgr> connections;
         private ServerMgr mgr = null;
 
+        public delegate void PlayerConnected();
+        public PlayerConnected PlayerConnectedCallback { get; set; }
+
+        public delegate void PlayerDisconnected();
+        public PlayerDisconnected PlayerDisconnectedCallback { get; set; }
+
+        public delegate void GameStarted(bool tournament);
+        public GameStarted GameStartedCallback { get; set; }
+
+        public delegate void GameEnded(bool tournament);
+        public GameEnded GameEndedCallback { get; set; }
 
         public MasterServerMgr()
         {
@@ -79,6 +90,9 @@ namespace Orbit.Core.Server
                         break;
                     }
 
+                    if (PlayerConnectedCallback != null)
+                        PlayerConnectedCallback();
+
                     // novy manager se vytvori pokud je zakladan novy turnaj (id 0) nebo pokud neni nalezen vhodny server
                     if ((type == Gametype.TOURNAMENT_GAME && serverId == 0) ||
                         !FindAvailableServerManager(msg.SenderConnection, type, serverId))
@@ -105,12 +119,16 @@ namespace Orbit.Core.Server
                             break;
                         case NetConnectionStatus.Disconnected:
                         case NetConnectionStatus.Disconnecting:
+                            if (PlayerDisconnectedCallback != null)
+                                PlayerDisconnectedCallback();
+
                             ServerMgr tempMgr = null;
                             if (!connections.TryGetValue(msg.SenderConnection, out tempMgr))
                             {
                                 Logger.Warn("disconnecting unknown connection -> skipped: " + msg.SenderConnection);
                                 break;
                             }
+
                             long uid = msg.SenderConnection.RemoteUniqueIdentifier;
                             tempMgr.Enqueue(new Action(() => tempMgr.PlayerDisconnected(uid)));
                             connections.Remove(msg.SenderConnection);
@@ -158,6 +176,9 @@ namespace Orbit.Core.Server
             mgr = new ServerMgr();
             mgr.Init(type, server);
 
+            if (GameStartedCallback != null)
+                GameStartedCallback(type == Gametype.TOURNAMENT_GAME);
+
             mgr.CloseCallback = ManagerClosed;
 
             Thread serverThread = new Thread(new ThreadStart(mgr.Run));
@@ -188,7 +209,11 @@ namespace Orbit.Core.Server
 
         private void ManagerClosed(ServerMgr mgr)
         {
-            List<NetConnection> connectionsForRemoval = new List<NetConnection>(2);
+            // TODO: volano z vlakna manageru
+            if (GameEndedCallback != null)
+                GameEndedCallback(mgr.GameType == Gametype.TOURNAMENT_GAME);
+
+            List<NetConnection> connectionsForRemoval = new List<NetConnection>();
 
             foreach (KeyValuePair<NetConnection, ServerMgr> pair in connections)
                 if (pair.Value == mgr)
@@ -211,7 +236,7 @@ namespace Orbit.Core.Server
             {
                 if (type == Gametype.MULTIPLAYER_GAME)
                 {
-                    Logger.Info("plr count: " + pair.Value.GetPlayerCount());
+                    Logger.Info("quick game mgr plr count: " + pair.Value.GetPlayerCount());
                     if (pair.Value.GameType == Gametype.MULTIPLAYER_GAME && pair.Value.GetPlayerCount() == 1)
                     {
                         mgr = pair.Value;
