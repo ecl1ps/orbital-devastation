@@ -141,6 +141,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
             {
                 if (caught is IContainsGold)
                 {
+                    me.SceneMgr.FloatingTextMgr.AddFloatingText((caught as IContainsGold).Gold, hook.Center,
+                        FloatingTextManager.TIME_LENGTH_3, FloatingTextType.GOLD, FloatingTextManager.SIZE_BIG);
                     AddGoldToOwner((caught as IContainsGold).Gold);
                     caught.DoRemoveMe();
                 }
@@ -168,7 +170,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (!reportedStatistics && GetDistanceFromOriginPct() > 0.9)
             {
                 hook.SceneMgr.FloatingTextMgr.AddFloatingText(Strings.ft_score_hook_max, hook.Center,
-                    FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG, false, true);
+                    FloatingTextManager.TIME_LENGTH_4, FloatingTextType.BONUS_SCORE, FloatingTextManager.SIZE_BIG, false, true);
                 hook.Owner.AddScoreAndShow(ScoreDefines.HOOK_CAUGHT_OBJECT_AFTER_90PCT_DISTANCE);
             }
         }

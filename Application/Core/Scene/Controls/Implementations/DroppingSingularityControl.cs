@@ -62,7 +62,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         {
             if (meMine.Owner.IsCurrentPlayer() && hitObjects.Count > 2)
                 me.SceneMgr.FloatingTextMgr.AddFloatingText(GetMultihitMessage(hitObjects.Count),
-                    meMine.Center, FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG, false, true);
+                    meMine.Center, FloatingTextManager.TIME_LENGTH_4, FloatingTextType.BONUS_SCORE, FloatingTextManager.SIZE_BIG, false, true);
 
             if (meMine.Owner.IsCurrentPlayerOrBot() && hitObjects.Count > 2)
                 meMine.Owner.AddScoreAndShow((int)Math.Pow(hitObjects.Count, ScoreDefines.MINE_HIT_MULTIPLE_EXPONENT));

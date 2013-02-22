@@ -109,7 +109,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                     {
                         if (bullet.Owner.IsCurrentPlayer())
                             bullet.SceneMgr.FloatingTextMgr.AddFloatingText(Strings.ft_score_cannon_unstable_above_enemy, bullet.Center,
-                                FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG, false, true);
+                                FloatingTextManager.TIME_LENGTH_4, FloatingTextType.BONUS_SCORE, FloatingTextManager.SIZE_BIG, false, true);
                         bullet.Owner.AddScoreAndShow(ScoreDefines.CANNON_DESTROYED_UNSTABLE_ASTEROID_ABOVE_ENEMY);
                     }
                 }

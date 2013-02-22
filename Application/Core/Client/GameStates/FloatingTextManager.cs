@@ -255,6 +255,8 @@ namespace Orbit.Core.Client.GameStates
             switch (type)
             {
                 case FloatingTextType.SCORE:
+                    return Brushes.RoyalBlue;
+                case FloatingTextType.BONUS_SCORE:
                     return Brushes.Goldenrod;
                 case FloatingTextType.DAMAGE:
                     return Brushes.Red;
@@ -264,6 +266,8 @@ namespace Orbit.Core.Client.GameStates
                     return Brushes.Green;
                 case FloatingTextType.SYSTEM:
                     return Brushes.DarkMagenta;
+                case FloatingTextType.GOLD:
+                    return Brushes.Goldenrod;
                 default:
                     return Brushes.Black;
             }
@@ -305,7 +309,9 @@ namespace Orbit.Core.Client.GameStates
         DAMAGE,
         HEAL,
         SCORE,
+        BONUS_SCORE,
         SYSTEM,
-        CHAT
+        CHAT,
+        GOLD
     }
 }

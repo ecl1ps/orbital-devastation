@@ -97,7 +97,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             {
                 if (SceneMgr.GetPlayer(Destroyer).IsCurrentPlayer())
                     SceneMgr.FloatingTextMgr.AddFloatingText(Strings.ft_score_unstable_wiped, destroyedChild.Center,
-                        FloatingTextManager.TIME_LENGTH_4, FloatingTextType.SCORE, FloatingTextManager.SIZE_BIG, false, true);
+                        FloatingTextManager.TIME_LENGTH_4, FloatingTextType.BONUS_SCORE, FloatingTextManager.SIZE_BIG, false, true);
 
                 if (SceneMgr.GetPlayer(Destroyer).IsCurrentPlayerOrBot())
                     SceneMgr.GetPlayer(Destroyer).AddScoreAndShow(ScoreDefines.CANNON_DESTROYED_ENTIRE_UNSTABLE_ASTEROID);
