@@ -86,6 +86,16 @@
     <DocumentationFile>
     </DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release server|x86'">
+    <OutputPath>bin\x86\Release server\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="irrKlang.NET4">
       <HintPath>lib\irrKlang.NET4.dll</HintPath>
@@ -649,7 +659,7 @@
     <Resource Include="resources\images\particles\flash-particle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="resources\images\particles\Particle_Cloud.png">
+    <Resource Include="resources\images\particles\particle_cloud.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="resources\images\icons\kick_button_simple.png">
@@ -935,9 +945,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "$(TargetDir)Copy\$(TargetFileName)"
-copy "$(TargetDir)$(TargetFileName)" "$(TargetDir)Copy2\$(TargetFileName)"
-copy "$(TargetDir)$(TargetFileName)" "$(TargetDir)Copy3\$(TargetFileName)"
+    <PostBuildEvent>if /I "$(ConfigurationName)" == "Debug" copy "$(TargetDir)$(TargetFileName)" "$(TargetDir)Copy\$(TargetFileName)"
+ if /I "$(ConfigurationName)" == "Debug" copy "$(TargetDir)$(TargetFileName)" "$(TargetDir)Copy2\$(TargetFileName)"
+ if /I "$(ConfigurationName)" == "Debug" copy "$(TargetDir)$(TargetFileName)" "$(TargetDir)Copy3\$(TargetFileName)"
  if /I "$(ConfigurationName)" == "Release" Eazfuscator.NET.exe "$(TargetPath)" --msbuild-project-path "$(ProjectPath)" --msbuild-project-configuration "$(ConfigurationName)" --msbuild-project-platform "$(PlatformName)" --msbuild-solution-path "$(SolutionPath)" -n --newline-flush -v 3.3
 </PostBuildEvent>
   </PropertyGroup>
