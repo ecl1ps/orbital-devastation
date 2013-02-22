@@ -88,7 +88,7 @@ namespace Orbit.Core.AI
 
 
             CheckHeal();
-            CheckUpgrade();
+           CheckUpgrade();
 
            
         }
@@ -286,7 +286,7 @@ namespace Orbit.Core.AI
         private void CheckUpgrade()
         {
 
-            if (me.Hook.UpgradeLevel != UpgradeLevel.LEVEL2 && me.Data.Gold >= me.HealingKit.Cost + me.Hook.Cost)
+            if (me.Hook.UpgradeLevel != UpgradeLevel.LEVEL2 && me.Data.Gold >= me.HealingKit.Cost + me.Hook.NextSpecialAction().Cost)
             {
                 me.Data.Gold -= (int)me.Hook.NextSpecialAction().Cost;
 
@@ -294,7 +294,7 @@ namespace Orbit.Core.AI
 
             }
 
-            if (me.Canoon.UpgradeLevel != UpgradeLevel.LEVEL2 && me.Data.Gold >= me.HealingKit.Cost + me.Canoon.Cost)
+            if (me.Canoon.UpgradeLevel != UpgradeLevel.LEVEL2 && me.Data.Gold >= me.HealingKit.Cost + me.Canoon.NextSpecialAction().Cost)
             {
                 me.Data.Gold -= (int)me.Canoon.NextSpecialAction().Cost;
 
