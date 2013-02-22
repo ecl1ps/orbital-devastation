@@ -10,7 +10,7 @@ namespace Orbit.Core.Players
         public const int CANNON_HIT                                             = 5;
         public const int MINE_HIT                                               = 5;
         public const int HOOK_HIT                                               = 10;
-        public const float GOLD_TAKEN                                           = 0.2f;
+        public const float GOLD_TAKEN_COEF                                      = 0.2f;
         public const int DAMAGE_DEALT                                           = 1;
 
         public const int MINE_HIT_MULTIPLE_EXPONENT                             = 3;

@@ -105,7 +105,7 @@ namespace Orbit.Core.Players
         {
             if (gold > 0)
             {
-                AddScoreAndShow((int)(gold * ScoreDefines.GOLD_TAKEN));
+                AddScoreAndShow((int)(gold * ScoreDefines.GOLD_TAKEN_COEF));
                 Statistics.GoldEarned += gold;
             }
 
