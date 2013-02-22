@@ -30,8 +30,9 @@ namespace Orbit.Core.AI
 
         private SceneMgr sceneMgr;
         private List<ISceneObject> objects;
-        private List<Target> targets;
-
+        private Queue<Target> targets;
+        private List<HookTarget> hookslaunched;
+        
         private Player me;
         private Vector baseLauncherPosition;
 
@@ -45,27 +46,43 @@ namespace Orbit.Core.AI
 
             me.Data.MineCooldown = me.Data.MineCooldown * 2f;
             me.Data.BulletCooldown = me.Data.BulletCooldown * 2f;
-            targets = new List<Target>();
-
+            targets = new Queue<Target>();
+            hookslaunched = new List<HookTarget>();
         }
 
         public void Update(float tpf)
         {
-
-
-            targets = GetTargets().OrderBy(Target => Target.Priority).ToList();
-
+            List<int> del = new List<int>();
+            foreach (HookTarget hook in hookslaunched) {
+                if (hook.hook.Returning) del.Add(hookslaunched.IndexOf(hook)) ;
+               }
+            foreach (int k in del) {
+                hookslaunched.RemoveAt(k);
             
+            }
+         // List<Target> targetList = GetTargets().OrderBy(Target => Target.Priority).ToList();
+          //  if(targetList.Count>0)
+            targets = new Queue<Target>(GetTargets().OrderBy(Target => Target.Priority).ToList());
+           
+
+           if (me.Hook.IsReady())
+               ShootHook();
+
+               
+            
+            
+           
+
+            if (me.Canoon.IsReady())
+                CannonShoot();
           
             if (me.Mine.IsReady())
                 MineDrop();
 
 
 
-            if (me.Hook.IsReady())
-                ShootHook();
-            if (me.Canoon.IsReady())
-                CannonShoot();
+            
+            
 
 
 
@@ -74,31 +91,31 @@ namespace Orbit.Core.AI
             CheckHeal();
             CheckUpgrade();
 
-
+           
         }
 
         private void ShootHook()
         {
-            ICatchable nearest;
+            ICatchable target;
 
 
             if (targets.Count > 0)
             {
 
-                nearest = GetNearestTarget();
-
+                target = targets.Dequeue().Asteroid;
+               
             }
             else
             {
 
-                nearest = GetHookTarget();
+                target = GetHookTarget();
 
             }
 
-            if (nearest == null)
+            if (target == null)
                 return;
 
-            Vector contactPoint1 = AIUtils.ComputeDestinationPositionToHitTarget(nearest, me.Data.HookSpeed, baseLauncherPosition, me.SceneMgr.GetRandomGenerator());
+            Vector contactPoint1 = AIUtils.ComputeDestinationPositionToHitTarget(target, me.Data.HookSpeed, baseLauncherPosition, me.SceneMgr.GetRandomGenerator());
 
             // nestrili, pokud tam nedosahne
             if ((baseLauncherPosition - contactPoint1).Length > me.Data.HookLenght - 10)
@@ -116,109 +133,50 @@ namespace Orbit.Core.AI
             // nestrili, pokud to je mimo scenu
             if (SceneMgr.IsPointInViewPort(contactPoint1.ToPoint()))
             {
-                me.Hook.Shoot(contactPoint1.ToPoint());
+               ISceneObject pr= me.Hook.Shoot(contactPoint1.ToPoint());
+             
+                hookslaunched.Add(new HookTarget(pr.GetControlOfType<HookControl>(),target.Id));
+                
                // oncatche.Add(nearest);
                // if (targets.Contains(nearest)) targets.Remove(nearest);
             }
 
         }
 
-        private Asteroid GetNearestAsteroid()
+        
+        private ICatchable GetHookTarget()
         {
-            ISceneObject nearest = null;
-            double nearestDistSqr = 10000000;
-            double objDistantSqr = 10000000;
+            ICatchable nearest = null;
+            double nearestDistSqr = 100000000;
+            double objDistantSqr = 100000000;
 
             foreach (ISceneObject obj in objects)
             {
-                if (!(obj is Asteroid))
-                    continue;
-
-                Asteroid current = obj as Asteroid;
-                Console.WriteLine(current.Position);
-                Console.WriteLine(current.Direction);
-
-                objDistantSqr = (obj.Position - baseLauncherPosition).LengthSquared;
-                if (objDistantSqr < nearestDistSqr)
-                {
-                    nearestDistSqr = objDistantSqr;
-                    nearest = obj;
-                }
-            }
-
-            return nearest == null ? null : nearest as Asteroid;
-        }
-
-
-
-        private Asteroid GetHookTarget()
-        {
-            ISceneObject nearest = null;
-            double nearestDistSqr = 10000000;
-            double objDistantSqr = 10000000;
-
-            foreach (Target obj in targets)
-            {
-                if (!(obj is Asteroid))
+                if (obj is StatPowerUp || (obj is Asteroid && (obj as Asteroid).AsteroidType==AsteroidType.GOLDEN))
                 {
 
-                  //  Asteroid asteroid = obj as Asteroid;
+                  
 
 
-                  //  objDistantSqr = (asteroid.Position - baseLauncherPosition).LengthSquared;
-                 //   if (objDistantSqr < nearestDistSqr && asteroid.AsteroidType == AsteroidType.GOLDEN && !oncatche.Contains(asteroid))
-                  //  {
-                  //      nearestDistSqr = objDistantSqr;
-                  //      nearest = asteroid;
-                  //  }
-
-                }
-                else if (!(obj is StatPowerUp))
-                {
-                   // StatPowerUp powerup = obj as StatPowerUp;
-
-
-                 //   objDistantSqr = (powerup.Position - baseLauncherPosition).LengthSquared;
-                   // if (objDistantSqr < nearestDistSqr && !oncatche.Contains(powerup))
-                    {
-                        nearestDistSqr = objDistantSqr;
-                       // nearest = powerup;
+                  objDistantSqr = (obj.Position - baseLauncherPosition).LengthSquared;
+                 
+                    if (objDistantSqr < nearestDistSqr)
+                  {
+                       nearestDistSqr = objDistantSqr;
+                       nearest = obj as ICatchable;
                     }
 
-
                 }
+                
 
             }
-
-            return nearest == null ? null : nearest as Asteroid;
+            
+            return nearest;
         }
 
 
 
-        private Asteroid GetNearestTarget()
-        {
-            ISceneObject nearest = null;
-            double nearestDistSqr = 10000000;
-            double objDistantSqr = 10000000;
-
-          //  foreach (ISceneObject obj in targets)
-            {
-              //  if (!(obj is Asteroid))
-               //     continue;
-
-               // Asteroid asteroid = obj as Asteroid;
-
-
-              //  objDistantSqr = (asteroid.Position - baseLauncherPosition).LengthSquared;
-                if (objDistantSqr < nearestDistSqr)
-                {
-                    nearestDistSqr = objDistantSqr;
-                 //   nearest = obj;
-                }
-            }
-
-            return nearest == null ? null : nearest as Asteroid;
-        }
+      
 
         private List<Target> GetTargets()
         {
@@ -228,56 +186,92 @@ namespace Orbit.Core.AI
             {
                 if (!(obj is Asteroid))
                     continue;
+                Boolean onhook =false;
 
                 Asteroid asteroid = obj as Asteroid;
+                    foreach (HookTarget hook in hookslaunched){
+                        if (hook.target == obj.Id) onhook = true;
+                    }
+                    if (onhook)
+                        continue;
 
-
-                if (((asteroid.Position - baseLauncherPosition).LengthSquared > (asteroid.Position + asteroid.Direction - baseLauncherPosition).LengthSquared) && asteroid.Direction.Y > 0)
+                if (asteroid.Enabled && !asteroid.Dead)
                 {
-                    Target newTarget = new Target();
+                    if (((asteroid.Position - baseLauncherPosition).LengthSquared > (asteroid.Position + asteroid.Direction - baseLauncherPosition).LengthSquared) && asteroid.Direction.Y > 0)
+                    //if (((asteroid.Position - baseLauncherPosition).LengthSquared > (asteroid.Position + asteroid.Direction - baseLauncherPosition).LengthSquared) && asteroid.Direction.Y > 0)
+                    {
+                        Target newTarget = new Target();
+                        int priority = 0;
 
-                    newTarget.Asteroid = asteroid;
+                        newTarget.Asteroid = asteroid;
 
+                        if ((asteroid.Position - baseLauncherPosition).Length < 400)
+                        {
 
-                    newTarget.Status = TargetStatus.AVAILABLE;
-
-                    targets.Add(newTarget);
-
-
-
-                }
-
-
-
+                            priority++;
+                            newTarget.Status = asteroid.AsteroidType == AsteroidType.GOLDEN ? TargetStatus.HOOKONLY : TargetStatus.AVAILABLE;
 
 
-            }
+                            if ((asteroid.Position - baseLauncherPosition).Length < 350)
+                            {
+                                priority++;
+                                priority += (int)(asteroid.getHp() / 10 - 1);
+
+                                if ((asteroid.Position - baseLauncherPosition).Length < 300)
+                                {
+                                    priority++;
+                                    priority += (int)(asteroid.getHp() / 10 - 1);
+                                    priority += asteroid.AsteroidType == AsteroidType.UNSTABLE ? 2 : 0;
+
+                                    if ((asteroid.Position - baseLauncherPosition).Length < 200)
+                                    {
+                                        priority++;
+                                        priority += (int)(asteroid.getHp() / 10 - 1);
+                                        priority += asteroid.AsteroidType == AsteroidType.UNSTABLE ? 1 : 0;
+
+                                        if ((asteroid.Position - baseLauncherPosition).Length < 100)
+                                        {
+                                            priority++;
+                                            priority += (int)(asteroid.getHp() / 10 - 1);
+                                            priority -= asteroid.AsteroidType == AsteroidType.UNSTABLE ? 4 : 0;
+
+
+                                            if ((asteroid.Position - baseLauncherPosition).Length < 50)
+                                            {
+                                                priority++;
+                                                priority += (int)(asteroid.getHp() / 10 - 1);
+                                                newTarget.Status = asteroid.AsteroidType == AsteroidType.UNSTABLE ? TargetStatus.UNAVAILABLE : TargetStatus.AVAILABLE;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+
+                          
+
+
+
+                            if (newTarget.Status != TargetStatus.UNAVAILABLE)
+                            {
+                                newTarget.Priority = 100 - priority;
+                                targets.Add(newTarget);
+
+                            }
+
+                        }
+
+                    }//end of if (asteroid.Position - baseLauncherPosition).LengthSquared >.......
+
+                } //end of if (asteroid.Enabled && !asteroid.Dead)
+
+            } //end of foreach
 
             return targets;
         }
 
 
-        private Asteroid GetNearestAsteroid(Asteroid hooked)
-        {
-            ISceneObject nearest = null;
-            double nearestDistSqr = 10000000;
-            double objDistantSqr = 10000000;
-
-            foreach (ISceneObject obj in objects)
-            {
-                if (!(obj is Asteroid))
-                    continue;
-
-                objDistantSqr = (obj.Position - baseLauncherPosition).LengthSquared;
-                if (objDistantSqr < nearestDistSqr && obj != hooked)
-                {
-                    nearestDistSqr = objDistantSqr;
-                    nearest = obj;
-                }
-            }
-
-            return nearest == null ? null : nearest as Asteroid;
-        }
+    
 
 
         private void CheckHeal()
@@ -324,13 +318,17 @@ namespace Orbit.Core.AI
 
         private void CannonShoot()
         {
-            Asteroid nearest = GetNearestTarget();
+            Asteroid nearest = null;
+            if (targets.Count > 0)
+            {
+                nearest = targets.Dequeue().Asteroid;
 
-
-
-
+              
+            }
+            else { return; }
             if (nearest == null)
                 return;
+            
 
             Vector contactPoint1 = AIUtils.ComputeDestinationPositionToHitTarget(nearest, me.Data.BulletSpeed, baseLauncherPosition, me.SceneMgr.GetRandomGenerator());
 

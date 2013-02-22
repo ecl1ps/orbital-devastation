@@ -6,6 +6,7 @@ using System.Windows;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Controls;
 using Orbit.Core.Scene.Entities.Implementations;
+using Orbit.Core.Scene.Controls.Implementations;
 
 namespace Orbit.Core.AI
 {
@@ -13,9 +14,9 @@ namespace Orbit.Core.AI
     public enum TargetStatus
     {
         AVAILABLE,
-        LOCKED,
-        HOOKONLY,
-        DEAD,
+        UNAVAILABLE,
+        HOOKONLY
+        
        
     }
 
@@ -26,6 +27,21 @@ namespace Orbit.Core.AI
         public int Priority;
         
     };
+
+   struct HookTarget {
+
+       
+        public long target;
+        public HookControl hook;
+        public HookTarget(HookControl hook, long target)
+        {
+            this.hook = hook;
+            this.target = target;
+        
+        
+        }
+    
+    }
 
 
     public class AIUtils
