@@ -44,6 +44,9 @@ namespace MasterServer
         public MainWindow()
         {
             InitializeComponent();
+           
+            // iniciace "pack"
+            string s = System.IO.Packaging.PackUriHelper.UriSchemePack;
         }
 
         private void btnExit_Click(object sender, EventArgs e)
