@@ -229,7 +229,7 @@ namespace Orbit.Core.Helpers
 
         public static EmmitorGroup CreateFireEmmitors(SceneMgr mgr, Vector position)
         {
-            ParticleEmmitor smokeEmmitor = CreateFireParticleEmmitor(mgr, position, Color.FromArgb(135, 0, 0, 0));
+            ParticleEmmitor smokeEmmitor = CreateFireParticleEmmitor(mgr, position, Color.FromArgb(80, 0, 0, 0));
             smokeEmmitor.Amount = 80;
             smokeEmmitor.MinLife = 6f;
             smokeEmmitor.MaxLife = 7f;
@@ -242,14 +242,14 @@ namespace Orbit.Core.Helpers
             smokeEmmitor.MaxAngle = (float)Math.PI / 30;
             smokeEmmitor.Infinite = true;
 
-            ParticleEmmitor fireEmmitor = CreateFireParticleEmmitor(mgr, position, Color.FromArgb(150, 171, 0, 0));
+            ParticleEmmitor fireEmmitor = CreateFireParticleEmmitor(mgr, position, Color.FromArgb(120, 255, 155, 0));
             fireEmmitor.Amount = 60;
-            fireEmmitor.MinLife = 3f;
-            fireEmmitor.MaxLife = 4f;
-            fireEmmitor.MinSize = 0.5f;
-            fireEmmitor.MaxSize = 1f;
-            fireEmmitor.MinForce = 3;
-            fireEmmitor.MaxForce = 4;
+            fireEmmitor.MinLife = 0.5f;
+            fireEmmitor.MaxLife = 1.2f;
+            fireEmmitor.MinSize = 1f;
+            fireEmmitor.MaxSize = 1.5f;
+            fireEmmitor.MinForce = 5;
+            fireEmmitor.MaxForce = 6;
             fireEmmitor.Direction = new Vector(0, -1);
             fireEmmitor.MinAngle = (float)-Math.PI / 20;
             fireEmmitor.MaxAngle = (float)Math.PI / 20;
