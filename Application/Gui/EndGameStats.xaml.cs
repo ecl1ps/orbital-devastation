@@ -48,7 +48,8 @@ namespace Orbit.Gui
 
         public void HideStats()
         {
-            CloseAction.Invoke();
+            if(CloseAction != null)
+                CloseAction.Invoke();
         }
     }
 }
