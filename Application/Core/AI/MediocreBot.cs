@@ -53,7 +53,7 @@ namespace Orbit.Core.AI
         public void Update(float tpf)
         {
             
-            for (int i = hookslaunched.Count; i >= 0; i--) {
+            for (int i = hookslaunched.Count-1; i >= 0; i--) {
                 if (hookslaunched.ElementAt(i).hook.Returning) hookslaunched.RemoveAt(i);
             
             }
