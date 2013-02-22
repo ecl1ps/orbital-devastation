@@ -52,14 +52,13 @@ namespace Orbit.Core.AI
 
         public void Update(float tpf)
         {
-            List<int> del = new List<int>();
-            foreach (HookTarget hook in hookslaunched) {
-                if (hook.hook.Returning) del.Add(hookslaunched.IndexOf(hook)) ;
-               }
-            foreach (int k in del) {
-                hookslaunched.RemoveAt(k);
+            
+            for (int i = hookslaunched.Count; i >= 0; i--) {
+                if (hookslaunched.ElementAt(i).hook.Returning) hookslaunched.RemoveAt(i);
             
             }
+
+
          // List<Target> targetList = GetTargets().OrderBy(Target => Target.Priority).ToList();
           //  if(targetList.Count>0)
             targets = new Queue<Target>(GetTargets().OrderBy(Target => Target.Priority).ToList());
@@ -287,21 +286,23 @@ namespace Orbit.Core.AI
         private void CheckUpgrade()
         {
 
+            if (me.Hook.UpgradeLevel != UpgradeLevel.LEVEL2 && me.Data.Gold >= me.HealingKit.Cost + me.Hook.Cost)
+            {
+                me.Data.Gold -= (int)me.Hook.NextSpecialAction().Cost;
+
+                me.Hook = (me.Hook.NextSpecialAction() as WeaponUpgrade).GetWeapon();
+
+            }
+
             if (me.Canoon.UpgradeLevel != UpgradeLevel.LEVEL2 && me.Data.Gold >= me.HealingKit.Cost + me.Canoon.Cost)
             {
-                me.Data.Gold -= me.Canoon.Cost;
+                me.Data.Gold -= (int)me.Canoon.NextSpecialAction().Cost;
 
                 me.Canoon = (me.Canoon.NextSpecialAction() as WeaponUpgrade).GetWeapon();
 
             }
 
-            if (me.Hook.UpgradeLevel != UpgradeLevel.LEVEL2 && me.Data.Gold >= me.HealingKit.Cost + me.Hook.Cost)
-            {
-                me.Data.Gold -= me.Hook.Cost;
-
-                me.Hook = (me.Hook.NextSpecialAction() as WeaponUpgrade).GetWeapon();
-
-            }
+            
 
 
         }
