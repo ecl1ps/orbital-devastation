@@ -72,11 +72,11 @@ namespace Orbit.Gui
             AddEmmitors();
 
             emmitors.ForEach(e => {
-                if (!e.IsOnScreen(SharedDef.VIEW_PORT_SIZE))
-                    e.DelayedStop();
-
                 e.Update(tpf);
                 e.UpdateGeometric();
+
+                if (!e.IsOnScreen(SharedDef.VIEW_PORT_SIZE))
+                    e.DelayedStop();
             });
 
             RemoveEmmitors();
