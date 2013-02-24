@@ -8,6 +8,8 @@ using Lidgren.Network;
 using Orbit.Core.Scene.Controls.Health;
 using Orbit.Core.Scene.Controls.Health.Implementations;
 using Orbit.Core.Client.GameStates;
+using Orbit.Core.Scene.Particles.Implementations;
+using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -61,6 +63,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
             module.GetControlOfType<HpBarControl>().Bar.Percentage = 0;
             module.GetControlOfType<RespawningObjectControl>().Die(SharedDef.SPECTATOR_RESPAWN_TIME);
             Vulnerable = false;
+
+            EmmitorGroup g = ParticleEmmitorFactory.CreateExplosionEmmitors(module.SceneMgr, module.Center);
+            g.Attach(module.SceneMgr, false);
         }
     }
 }
