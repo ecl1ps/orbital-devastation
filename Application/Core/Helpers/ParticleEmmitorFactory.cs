@@ -197,6 +197,21 @@ namespace Orbit.Core.Helpers
             return e;
         }
 
+        public static EmmitorGroup CreateBulletImplosionEmmitor(SceneMgr mgr, Vector position, Color color)
+        {
+            ParticleEmmitor e1 = CreateShockWaveParticleEmmitor(mgr, position, color);
+            e1.SizeMultiplier = 20;
+            e1.MinLife = 0.25f;
+            e1.MaxLife = 0.25f;
+            e1.MinSize = 0.2f;
+            e1.MaxSize = 0.2f;
+
+            EmmitorGroup g = new EmmitorGroup();
+            g.Add(e1);
+            
+            return g;
+        }
+
         public static EmmitorGroup CreateExplosionEmmitors(SceneMgr mgr, Vector position)
         {
             ParticleEmmitor smokeEmmitor = CreateFireParticleEmmitor(mgr, position, Color.FromArgb(135, 0, 0, 0));

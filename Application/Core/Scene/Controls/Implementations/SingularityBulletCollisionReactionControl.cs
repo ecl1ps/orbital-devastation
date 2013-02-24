@@ -9,6 +9,8 @@ using Orbit.Core.Players;
 using Orbit.Core.Client.GameStates;
 using System.Windows;
 using Lidgren.Network;
+using Orbit.Core.Scene.Particles.Implementations;
+using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -118,11 +120,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
             asteroid.TakeDamage(bullet.Damage, bullet);
 
             NetOutgoingMessage msg = bullet.SceneMgr.CreateNetMessage();
-            msg.Write((int)PacketType.BULLET_HIT);
-            msg.Write(bullet.Id);
             msg.Write(asteroid.Id);
             msg.Write(bullet.Damage);
             bullet.SceneMgr.SendMessage(msg);
+
+            EmmitorGroup g = ParticleEmmitorFactory.CreateBulletImplosionEmmitor(bullet.SceneMgr, bullet.Center, bullet.Color);
+            g.Attach(bullet.SceneMgr, false);
         }
     }
 }
