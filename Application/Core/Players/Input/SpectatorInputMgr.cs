@@ -57,13 +57,5 @@ namespace Orbit.Core.Players.Input
             else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_SHOW_PROTECTING), CultureInfo.InvariantCulture) && down)
                 plr.ShowProtecting();
         }
-
-        public override void OnCanvasClick(Point point, MouseButtonEventArgs e)
-        {
-            base.OnCanvasClick(point, e);
-
-            if(e.ButtonState == MouseButtonState.Pressed)
-                ParticleEmmitorFactory.CreateExplosionEmmitors(sceneMgr, point.ToVector()).Attach(sceneMgr);
-        }
     }
 }
