@@ -870,7 +870,9 @@ namespace Orbit.Core.Helpers
                 msg.Write(typeof(ParticleImageFactory).GUID.GetHashCode());
             else if (f is ParticleSmokeFactory)
                 msg.Write(typeof(ParticleSmokeFactory).GUID.GetHashCode());
-            else 
+            else if (f is BaseParticleFactory)
+                msg.Write(typeof(BaseParticleFactory).GUID.GetHashCode());
+            else
             {
                 msg.Write(0);
                 Logger.Error("Sending unspported factory (" + f.GetType().Name + ")!");
@@ -889,6 +891,8 @@ namespace Orbit.Core.Helpers
                 f = new ParticleImageFactory();
             else if (hash == typeof(ParticleSmokeFactory).GUID.GetHashCode())
                 f = new ParticleSmokeFactory();
+            else if (hash == typeof(BaseParticleFactory).GUID.GetHashCode())
+                f = new BaseParticleFactory();
             else
                 Logger.Error("Rading unspported factory!");
 

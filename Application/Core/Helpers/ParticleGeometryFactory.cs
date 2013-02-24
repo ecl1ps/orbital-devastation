@@ -23,6 +23,32 @@ namespace Orbit.Core.Helpers
             return new ImageBrush(renderTarget);
         }
 
+        public static Brush CreateBaseImageParticle(Color color)
+        {
+            BitmapImage bi = new BitmapImage();
+            bi.BeginInit();
+            bi.UriSource = new Uri("pack://application:,,,/resources/images/particles/base-particle.png");
+            bi.EndInit();
+
+            ColorReplaceEffect effect = new ColorReplaceEffect();
+            effect.ColorToOverride = Colors.White;
+            effect.ColorReplace = color;
+
+            RenderTargetBitmap rtb = PrepareRenderTarget(128);
+
+            System.Windows.Shapes.Rectangle visual = new System.Windows.Shapes.Rectangle();
+            visual.Fill = new ImageBrush(bi);
+            visual.Effect = effect;
+
+            Size sz = new Size(128, 128);
+            visual.Measure(sz);
+            visual.Arrange(new Rect(sz));
+
+            rtb.Render(visual);
+
+            return new ImageBrush(rtb);
+        }
+
         public static Brush CreateImageParticle(Color color, Uri source, int renderSize)
         {
             BitmapImage bi = new BitmapImage();

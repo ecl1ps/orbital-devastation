@@ -278,6 +278,7 @@
     <Compile Include="Core\Helpers\SceneObjectFactory.cs" />
     <Compile Include="Core\IGameState.cs" />
     <Compile Include="Core\Scene\Particles\AbstractParticleFactory.cs" />
+    <Compile Include="Core\Scene\Particles\Implementations\BaseParticleFactory.cs" />
     <Compile Include="Core\Scene\Particles\Implementations\EmmitorGroup.cs" />
     <Compile Include="Core\Scene\Particles\Implementations\ParticleEmmitor.cs" />
     <Compile Include="Core\Scene\Particles\Implementations\ParticleImageFactory.cs" />
@@ -644,6 +645,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <Resource Include="resources\images\particles\base-particle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\particles\flash-particle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="resources\shaders\alphaMaskEffect.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -654,9 +661,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="resources\images\particles\fire-particle.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\images\particles\flash-particle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="resources\images\particles\particle_cloud.png">

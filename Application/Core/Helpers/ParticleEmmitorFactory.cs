@@ -1,5 +1,6 @@
 ﻿using Orbit.Core.Client;
 using Orbit.Core.Scene.Controls.Implementations;
+using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Particles.Implementations;
 using System;
 using System.Collections.Generic;
@@ -93,20 +94,18 @@ namespace Orbit.Core.Helpers
 
         }
 
-        public static ParticleEmmitor CrateFlashParticleEmmitor(SceneMgr mgr, Vector position, Color color)
+        public static ParticleEmmitor CreateFlashParticleEmmitor(SceneMgr mgr, Vector position, Color color)
         {
             ParticleEmmitor e = new ParticleEmmitor(mgr, IdMgr.GetNewId(0));
-            e.EmitingTime = 2f;
-            e.EmmitingDirection = new Vector(0, 0);
-            e.MinLife = 3f;
-            e.MaxLife = 3.5f;
-            e.Position = position;
-            e.MinSize = 1;
-            e.MaxSize = 1.5f;
-            e.Amount = 80;
-            e.SizeMultiplier = 0;
-            e.Infinite = false;
-            e.Enabled = true;
+            e.Amount = 1;
+            e.MinSize = 5;
+            e.MaxSize = 7;
+            e.MinLife = 0.1f;
+            e.MaxLife = 0.2f;
+            e.SizeMultiplier = 1;
+            e.MinStartingRotation = (float)-Math.PI;
+            e.MaxStartingRotation = (float)Math.PI;
+            e.FireAll = true;
 
             ParticleImageFactory f = new ParticleImageFactory();
             f.Color = color;
@@ -170,6 +169,34 @@ namespace Orbit.Core.Helpers
             return e;
         }
 
+        public static ParticleEmmitor CreateBaseDebrisEmmitor(SceneMgr mgr, Vector position, Vector direction, Color color) 
+        {
+            ParticleEmmitor e = new ParticleEmmitor(mgr, IdMgr.GetNewId(0));
+            e.Position = position;
+            e.Amount = 3;
+            e.MaxLife = 1f;
+            e.MinLife = 0.25f;
+            e.MaxSize = 0.75f;
+            e.MinSize = 0.75f;
+            e.EmmitingDirection = direction;
+            e.MinAngle = (float)-Math.PI / 4;
+            e.MaxAngle = (float)Math.PI / 4;
+            e.MaxStartingRotation = (float)Math.PI;
+            e.MinStartingRotation = (float)-Math.PI;
+            e.MinRotation = 0;
+            e.MaxRotation = (float)Math.PI * 2;
+            e.MinForce = 8;
+            e.MaxForce = 10;
+            e.FireAll = true;
+            e.Enabled = true;
+
+            BaseParticleFactory f = new BaseParticleFactory();
+            f.Color = color;
+            e.Factory = f;
+
+            return e;
+        }
+
         public static EmmitorGroup CreateExplosionEmmitors(SceneMgr mgr, Vector position)
         {
             ParticleEmmitor smokeEmmitor = CreateFireParticleEmmitor(mgr, position, Color.FromArgb(135, 0, 0, 0));
@@ -204,16 +231,7 @@ namespace Orbit.Core.Helpers
             explosionSphere.MinLife = 1f;
             explosionSphere.MaxLife = 2.5f;
 
-            ParticleEmmitor flashEmmitor = CrateFlashParticleEmmitor(mgr, position, Color.FromRgb(250, 250, 150));
-            flashEmmitor.Amount = 1;
-            flashEmmitor.MinSize = 5;
-            flashEmmitor.MaxSize = 7;
-            flashEmmitor.MinLife = 0.1f;
-            flashEmmitor.MaxLife = 0.2f;
-            flashEmmitor.SizeMultiplier = 1;
-            flashEmmitor.MinStartingRotation = (float)-Math.PI;
-            flashEmmitor.MaxStartingRotation = (float)Math.PI;
-            flashEmmitor.FireAll = true;
+            ParticleEmmitor flashEmmitor = CreateFlashParticleEmmitor(mgr, position, Color.FromRgb(250, 250, 150));
 
             ParticleEmmitor shockWaveEmmitor = CreateShockWaveParticleEmmitor(mgr, position, Color.FromArgb(200, 255, 0, 0));
 
@@ -264,5 +282,19 @@ namespace Orbit.Core.Helpers
             return g;
         }
 
+        public static EmmitorGroup CreateBaseExplosionEmmitors(Base baze, Vector collision, Vector direction)
+        {
+            ParticleEmmitor f = CreateFlashParticleEmmitor(baze.SceneMgr, collision, Color.FromRgb(250, 250, 150));
+            f.MinSize = 2;
+            f.MaxSize = 3;
+
+            ParticleEmmitor d = CreateBaseDebrisEmmitor(baze.SceneMgr, collision, direction, baze.Color);
+
+            EmmitorGroup g = new EmmitorGroup();
+            g.Add(f);
+            g.Add(d);
+
+            return g;
+        }
     }
 }
