@@ -9,6 +9,8 @@ using Orbit.Core.Client;
 using System.Windows;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Controls.Collisions;
+using Orbit.Core.Scene.Particles.Implementations;
+using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -53,7 +55,33 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
                 baze.Integrity -= damage;
                 baze.Owner.Statistics.DamageTaken += damage;
+
+                if (baze.Owner.IsCurrentPlayerOrBot())
+                    spawnParticles(other);
             }
+        }
+
+        private void spawnParticles(ISceneObject other)
+        {
+            Vector direction;
+            Vector collision;
+
+            if(other is Asteroid) 
+            {
+                Asteroid a = other as Asteroid;
+                collision = a.Center + (a.Direction * a.Radius);
+            } else if (other is IMovable) 
+            {
+                IMovable o = other as IMovable;
+                collision = o.Center;
+            } else
+                return;
+
+            direction = new Vector(0, -1);
+
+            EmmitorGroup g = ParticleEmmitorFactory.CreateBaseExplosionEmmitors(baze, collision, direction);
+            g.Position = collision;
+            g.Attach(me.SceneMgr);
         }
     }
 }
