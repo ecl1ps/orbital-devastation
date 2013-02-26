@@ -120,6 +120,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
             asteroid.TakeDamage(bullet.Damage, bullet);
 
             NetOutgoingMessage msg = bullet.SceneMgr.CreateNetMessage();
+            msg.Write((int)PacketType.BULLET_HIT);
+            msg.Write(bullet.Id);
             msg.Write(asteroid.Id);
             msg.Write(bullet.Damage);
             bullet.SceneMgr.SendMessage(msg);
