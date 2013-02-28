@@ -43,12 +43,13 @@ namespace Orbit.Gui
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            App.Instance.ClearMenus();
             HideStats();
         }
 
         public void HideStats()
         {
-            if(CloseAction != null)
+            if (CloseAction != null)
                 CloseAction.Invoke();
         }
     }
