@@ -262,5 +262,6 @@ namespace Orbit.Core
 
         AVAILABLE_TOURNAMENTS_REQUEST,
         AVAILABLE_TOURNAMENTS_RESPONSE,
+        SHAKING_START
     }    
 }

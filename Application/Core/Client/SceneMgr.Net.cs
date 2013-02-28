@@ -115,7 +115,11 @@ namespace Orbit.Core.Client
 
         private void ProcessIncomingDataMessage(NetIncomingMessage msg)
         {
-            PacketType type = (PacketType)msg.ReadInt32();
+            int packet = msg.ReadInt32();
+            PacketType type = (PacketType)packet;
+            /*Console.WriteLine(packet);
+            Console.WriteLine(type.ToString());
+            Console.WriteLine((int)type);*/
 #if VERBOSE
             Logger.Debug("Client " + GetCurrentPlayer().GetId() + ": received msg " + type.ToString());
 #endif
@@ -258,6 +262,9 @@ namespace Orbit.Core.Client
                     break;
                 case PacketType.PARTICLE_EMMITOR_START:
                     ReceivedEmmitorSpawn(msg);
+                    break;
+                case PacketType.SHAKING_START:
+                    ReceivedShakingStart(msg);
                     break;
                 default:
                     Logger.Warn("Received unhandled packet type: " + type);

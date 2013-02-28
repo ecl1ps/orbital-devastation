@@ -40,6 +40,7 @@ namespace Orbit.Core.Client
         public LevelEnvironment LevelEnv { get; set; }
         public AlertMessageManager AlertMessageMgr { get; set; }
         public SpectatorActionsManager SpectatorActionMgr { get; set; }
+        public ScreenShakingManager ScreenShakingMgr { get; set; }
         public bool UserActionsDisabled { get { return userActionsDisabled; } }
         public bool IsGameInitalized { get { return isGameInitialized; } }
         public WindowState GameWindowState { get { return gameWindowState; } set { gameWindowState = value; } }
@@ -127,6 +128,8 @@ namespace Orbit.Core.Client
             StateMgr.AddGameState(AlertMessageMgr);
             SpectatorActionMgr = new SpectatorActionsManager();
             StateMgr.AddGameState(SpectatorActionMgr);
+            ScreenShakingMgr = new ScreenShakingManager(this);
+            StateMgr.AddGameState(ScreenShakingMgr);
         }
 
         public void InitStaticMouse()
@@ -259,7 +262,7 @@ namespace Orbit.Core.Client
             }));
         }
 
-        private ParticleArea GetParticleArea()
+        public ParticleArea GetParticleArea()
         {
             if (particleArea == null)
             {

@@ -145,6 +145,7 @@
     <Compile Include="Core\Client\GameStates\FloatingTextManager.cs" />
     <Compile Include="Core\Client\GameStates\LevelEnvironment.cs" />
     <Compile Include="Core\Client\GameStates\DelayedActionInvoker.cs" />
+    <Compile Include="Core\Client\GameStates\ScreenShakingManager.cs" />
     <Compile Include="Core\Client\GameStates\SpectatorActionsManager.cs" />
     <Compile Include="Core\Client\Interfaces\Invokers.cs" />
     <Compile Include="Core\Client\Shaders\AlphaMaskEffect.cs" />

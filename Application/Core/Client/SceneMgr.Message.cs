@@ -115,6 +115,11 @@ namespace Orbit.Core.Client
             SendMessage(msg);
         }
 
+        private void ReceivedShakingStart(NetIncomingMessage msg)
+        {
+            ScreenShakingMgr.Start(msg.ReadFloat());
+        }
+
         private void ReceivedEmmitorStart(NetIncomingMessage msg)
         {
             long id = msg.ReadInt64();
@@ -127,7 +132,7 @@ namespace Orbit.Core.Client
             e.ReadObject(msg);
             e.Start();
 
-            DelayedAttachToScene(e);
+            GetParticleArea().BeginInvoke(new Action(() => DelayedAttachToScene(e)));
         }
 
         private void ReceivedEmmitorSpawn(NetIncomingMessage msg)
@@ -135,7 +140,7 @@ namespace Orbit.Core.Client
             ParticleEmmitor e = new ParticleEmmitor(this, 0);
             e.ReadObject(msg);
 
-            DelayedAttachToScene(e);
+            GetParticleArea().BeginInvoke(new Action(() => DelayedAttachToScene(e)));
         }
 
         private void ReceivedActionScheduleMsg(NetIncomingMessage msg)
