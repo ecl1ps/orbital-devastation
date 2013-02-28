@@ -929,5 +929,30 @@ namespace Orbit.Core.Client
             if (kicked != null)
                 SendChatMessage(String.Format(Strings.Culture, Strings.lobby_player_kicked, kicked.Data.Name), true);
         }
+
+        public void RequestReadyCheck()
+        {
+            NetOutgoingMessage msg = CreateNetMessage();
+            msg.Write((int)PacketType.PLAYER_READY_CHECK);
+            SendMessage(msg);
+
+            SendChatMessage(Strings.lobby_ready_check, true);
+        }
+
+        private void ReceivedPlayerReadyCheck()
+        {
+            if (GameWindowState != WindowState.IN_LOBBY)
+                return;
+
+            if (currentPlayer != null && currentPlayer.Data.LobbyReady)
+                return;
+
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                LobbyUC lobby = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
+                if (lobby != null)
+                    lobby.ReadyCheckRequested();
+            }));
+        }
     }
 }

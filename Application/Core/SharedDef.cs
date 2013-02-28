@@ -198,6 +198,7 @@ namespace Orbit.Core
         PLAYER_CONNECT,
         PLAYER_ID_HAIL,
         PLAYER_KICK_REQUEST,
+        PLAYER_READY_CHECK,
 
         TOURNAMENT_STARTING,
 
@@ -262,6 +263,7 @@ namespace Orbit.Core
 
         AVAILABLE_TOURNAMENTS_REQUEST,
         AVAILABLE_TOURNAMENTS_RESPONSE,
+        
         SHAKING_START
     }    
 }

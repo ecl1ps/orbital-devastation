@@ -599,4 +599,13 @@
   <data name="ui_localhost_tournament" xml:space="preserve">
     <value>Local Tourn.</value>
   </data>
+  <data name="lobby_ready_check" xml:space="preserve">
+    <value>Leader initiated ready check.</value>
+  </data>
+  <data name="ui_ready_check" xml:space="preserve">
+    <value>Ready Check</value>
+  </data>
+  <data name="ui_ready_check_question" xml:space="preserve">
+    <value>Leader initiated ready check. Are you ready?</value>
+  </data>
 </root>

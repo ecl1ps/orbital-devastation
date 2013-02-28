@@ -47,6 +47,7 @@ namespace Orbit.Gui
             else
             {
                 btnStartGame.Visibility = Visibility.Hidden;
+                btnReadyCheck.Visibility = Visibility.Hidden;
                 ready = false;
             }
             
@@ -89,7 +90,13 @@ namespace Orbit.Gui
         private void btnReady_Click(object sender, RoutedEventArgs e)
         {
             ready = !ready;
-            btnReady.Content = ready ? Strings.ui_ready_not : Strings.ui_ready;
+            SetReadyState(ready);
+        }
+
+        public void SetReadyState(bool rdy)
+        {
+            ready = rdy;
+            btnReady.Content = rdy ? Strings.ui_ready_not : Strings.ui_ready;
             App.Instance.PlayerReady(ready);
         }
 
@@ -100,6 +107,7 @@ namespace Orbit.Gui
 #if !DEBUG
                 btnStartGame.IsEnabled = ready;
 #endif
+                btnReadyCheck.IsEnabled = !ready;
                 if (ready)
                     App.Instance.FocusWindow();
             }
@@ -230,6 +238,18 @@ namespace Orbit.Gui
         {
             StatisticsTabbedPanel stats = GuiObjectFactory.CreateStatisticsTabbedPanel(App.Instance.GetSceneMgr());
             App.Instance.AddMenu(stats);
+        }
+
+        private void btnReadyCheck_Click(object sender, RoutedEventArgs e)
+        {
+            App.Instance.GetSceneMgr().Enqueue(new Action(() => App.Instance.GetSceneMgr().RequestReadyCheck()));
+        }
+
+        public void ReadyCheckRequested()
+        {
+            ReadyCheckUC rc = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "readyCheckDialog") as ReadyCheckUC;
+            if (rc == null)
+                App.Instance.AddMenu(new ReadyCheckUC(this));
         }
     }
 }

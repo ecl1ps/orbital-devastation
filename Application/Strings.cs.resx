@@ -580,4 +580,13 @@
   <data name="bot_text_3" xml:space="preserve">
     <value>-</value>
   </data>
+  <data name="lobby_ready_check" xml:space="preserve">
+    <value>Pořadatel turnaje zahájil kontrolu připravenosti.</value>
+  </data>
+  <data name="ui_ready_check" xml:space="preserve">
+    <value>Kontrola</value>
+  </data>
+  <data name="ui_ready_check_question" xml:space="preserve">
+    <value>Pořadatel turnaje zahájil kontrolu. Jsi připraven?</value>
+  </data>
 </root>
