@@ -33,9 +33,14 @@ namespace Orbit.Core.Players
         public List<Stat> Stats { get; set; }
 
         private float time = 0;
-        public float Time {get {return time;}}
+        public float Time { get { return time; } }
 
         public StatisticsManager()
+        {
+            Reset();
+        }
+
+        public void Reset()
         {
             GameEnded = false;
 

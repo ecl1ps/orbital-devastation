@@ -132,7 +132,7 @@ namespace Orbit.Core.Server
                             long uid = msg.SenderConnection.RemoteUniqueIdentifier;
                             tempMgr.Enqueue(new Action(() => tempMgr.PlayerDisconnected(uid)));
                             connections.Remove(msg.SenderConnection);
-                            msg.SenderConnection.Disconnect("x");
+                            //msg.SenderConnection.Disconnect("x");
                             break;
                         case NetConnectionStatus.Connected:
                             break;

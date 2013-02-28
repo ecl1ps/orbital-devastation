@@ -284,7 +284,10 @@ namespace Orbit.Core.Client
             App.Instance.SetGameStarted(true);
 
             foreach (Player p in players)
+            {
+                p.Statistics.Reset();
                 CreateActiveObjectsOfPlayer(p);
+            }
 
             if (lastTournamentSettings != null)
                 lastTournamentSettings.PlayedMatches++;
