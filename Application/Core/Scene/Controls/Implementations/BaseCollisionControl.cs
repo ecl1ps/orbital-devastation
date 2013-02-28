@@ -80,7 +80,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
             direction = new Vector(0, -1);
 
             EmmitorGroup g = ParticleEmmitorFactory.CreateBaseExplosionEmmitors(baze, collision, direction);
-            g.Position = collision;
             g.Attach(me.SceneMgr);
         }
     }
