@@ -56,6 +56,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 baze.Integrity -= damage;
                 baze.Owner.Statistics.DamageTaken += damage;
 
+                if(baze.Owner.IsCurrentPlayer())
+                    me.SceneMgr.ScreenShakingMgr.Start(ShakePower.WEAK);
                 if (baze.Owner.IsCurrentPlayerOrBot())
                     spawnParticles(other);
             }

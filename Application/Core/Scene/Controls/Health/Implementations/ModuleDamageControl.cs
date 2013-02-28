@@ -53,6 +53,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             me.SceneMgr.SendMessage(msg);
             me.SceneMgr.FloatingTextMgr.AddFloatingText(damage, me.Position, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.DAMAGE, FloatingTextManager.SIZE_SMALL, false, true);
+
+            if (me.SceneMgr.GetCurrentPlayer().Device == module)
+                me.SceneMgr.ScreenShakingMgr.Start(ShakePower.WEAK);
         }
 
         protected override void OnDeath()
@@ -66,6 +69,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             EmmitorGroup g = ParticleEmmitorFactory.CreateExplosionEmmitors(module.SceneMgr, module.Center);
             g.Attach(module.SceneMgr, false);
+
+            if (me.SceneMgr.GetCurrentPlayer().Device == module)
+                me.SceneMgr.ScreenShakingMgr.Start(ShakePower.STRONG);
         }
     }
 }
