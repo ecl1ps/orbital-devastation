@@ -106,6 +106,7 @@ namespace Orbit.Core.Helpers
             e.MinStartingRotation = (float)-Math.PI;
             e.MaxStartingRotation = (float)Math.PI;
             e.FireAll = true;
+            e.Position = position;
 
             ParticleImageFactory f = new ParticleImageFactory();
             f.Color = color;
