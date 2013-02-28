@@ -30,10 +30,14 @@ namespace Orbit.Core.Utils
 
         public void Heal()
         {
-                int heal = (int) (owner.Data.MaxBaseIntegrity * SharedDef.HEAL_AMOUNT) + owner.Data.BonusHeal;
-                owner.ChangeBaseIntegrity(heal, true);
-                Cost *= SharedDef.HEAL_MULTIPLY_COEF;
-                SendMessageWithHeal();
+            owner.ChangeBaseIntegrity(GetHealAmount(), true);
+            Cost *= SharedDef.HEAL_MULTIPLY_COEF;
+            SendMessageWithHeal();
+        }
+
+        public int GetHealAmount()
+        {
+            return (int)(owner.Data.MaxBaseIntegrity * SharedDef.HEAL_AMOUNT) + owner.Data.BonusHeal;
         }
 
         private void SendMessageWithHeal()
