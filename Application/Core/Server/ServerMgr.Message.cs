@@ -111,7 +111,8 @@ namespace Orbit.Core.Server
             gameSession.CreateNewMatch();
             isInitialized = true;
 
-            gameSession.RequestStartMatch(GetPlayer(msg.SenderConnection.RemoteUniqueIdentifier));
+            if (gameSession.RequestStartMatch(GetPlayer(msg.SenderConnection.RemoteUniqueIdentifier)))
+                players.ForEach(p => p.Statistics.Reset());
         }
 
         private void ReceivedPlayerScoreAndGoldMsg(NetIncomingMessage msg)
