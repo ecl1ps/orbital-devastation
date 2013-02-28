@@ -21,18 +21,22 @@ namespace Orbit.Core.Scene.Particles.Implementations
 
         public void Attach(SceneMgr mgr, bool send = true)
         {
-            list.ForEach(e => { 
-                e.Enabled = true; 
-                mgr.DelayedAttachToScene(e);
-
-                if (send)
+            mgr.GetParticleArea().BeginInvoke(new Action(() =>
+            {
+                list.ForEach(e =>
                 {
-                    NetOutgoingMessage msg = mgr.CreateNetMessage();
-                    e.WriteObject(msg);
+                    e.Enabled = true;
+                    mgr.DelayedAttachToScene(e);
 
-                    mgr.SendMessage(msg);
-                }
-            });
+                    if (send)
+                    {
+                        NetOutgoingMessage msg = mgr.CreateNetMessage();
+                        e.WriteObject(msg);
+
+                        mgr.SendMessage(msg);
+                    }
+                });
+            }));
         }
 
         public List<ParticleEmmitor> GetList()
