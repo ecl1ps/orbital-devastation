@@ -19,7 +19,6 @@ namespace Orbit.Core.Client.GameStates
         public SceneMgr SceneMgr { get; set; }
 
         private bool shaking;
-        private bool ending;
 
         private float limit;
         private float current;
@@ -34,7 +33,6 @@ namespace Orbit.Core.Client.GameStates
             SceneMgr = mgr;
 
             shaking = false;
-            ending = false;
             rising = false;
 
             limit = 0;
@@ -47,30 +45,11 @@ namespace Orbit.Core.Client.GameStates
                 Shake(tpf);
         }
 
-        private void End(float tpf)
-        {
-            if (currentEndingTime >= endingTime)
-            {
-                ending = false;
-                current = 0;
-                Animate();
-            }
-
-            currentEndingTime += tpf;
-            current = FastMath.LinearInterpolate(endingLimit, 0, currentEndingTime / endingTime);
-        }
 
         private void Shake(float tpf)
         {
-            if (!ending && !shaking)
+            if (!shaking)
                 return;
-
-            if (ending)
-            {
-                End(tpf);
-                Animate();
-                return;
-            }
 
             if (rising && current > limit)
             {
@@ -89,9 +68,10 @@ namespace Orbit.Core.Client.GameStates
             if (limit < 2 && limit > -2)
             {
                 shaking = false;
-                ending = true;
-                currentEndingTime = endingTime;
+                currentEndingTime = 0;
                 endingLimit = current;
+                current = 0;
+                Animate();
                 return;
             }
 
@@ -100,7 +80,6 @@ namespace Orbit.Core.Client.GameStates
             else
                 current -= 250 * tpf;
 
-            Console.WriteLine(current);
             Animate();
         }
 
