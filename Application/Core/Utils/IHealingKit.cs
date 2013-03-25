@@ -13,5 +13,7 @@ namespace Orbit.Core.Utils
         int Cost { get; set;}
 
         void Heal();
+
+        int GetHealAmount();
     }
 }

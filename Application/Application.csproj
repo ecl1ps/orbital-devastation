@@ -359,6 +359,7 @@
     <Compile Include="Gui\ColorPickerUC.xaml.cs">
       <DependentUpon>ColorPickerUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\Elements\ImageToggleButton.cs" />
     <Compile Include="Gui\GameOptions.xaml.cs">
       <DependentUpon>GameOptions.xaml</DependentUpon>
     </Compile>
@@ -405,6 +406,9 @@
     </Compile>
     <Compile Include="Gui\PlayerStatsUC.xaml.cs">
       <DependentUpon>PlayerStatsUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\ReadyCheckUC.xaml.cs">
+      <DependentUpon>ReadyCheckUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\ScoreboardUC.xaml.cs">
       <DependentUpon>ScoreboardUC.xaml</DependentUpon>
@@ -580,6 +584,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Gui\ReadyCheckUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Gui\ScoreboardUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -613,6 +621,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="resources\styles\CheckBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="resources\styles\ImageToggleButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

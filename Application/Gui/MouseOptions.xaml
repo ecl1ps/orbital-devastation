@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:elems="clr-namespace:Orbit.Gui.Elements"
              xmlns:lex="http://wpflocalizeextension.codeplex.com" 
              lex:LocalizeDictionary.DesignCulture="en"  
              lex:ResxLocalizationProvider.DefaultAssembly="OrbitalDevastation"  
@@ -11,15 +12,15 @@
 
     <Grid>
         <Label Content="{lex:Loc ui_cursor_icon}" Margin="12,65,188,250" />
-        <ToggleButton Name="MouseIcon1" Height="25" Width="25" Margin="0,86,125,0" HorizontalAlignment="Right" Click="MouseIcon1_Click">
-            <Image Source="pack://application:,,,/resources/images/mouse/targeting_icon2.png" /> 
-        </ToggleButton>
-        <ToggleButton Name="MouseIcon2" Height="25" Width="25" Margin="169,86,0,0" HorizontalAlignment="Left" Click="MouseIcon2_Click">
-            <Image Source="pack://application:,,,/resources/images/mouse/targeting_icon.png" />
-        </ToggleButton>
-        <ToggleButton Name="MouseIcon3" Height="25" Width="25" Margin="136,86,0,0" HorizontalAlignment="Left" Click="MouseIcon3_Click" >
-            <Image Source="pack://application:,,,/resources/images/mouse/targeting_icon3.png" />
-        </ToggleButton>
+        <elems:ImageToggleButton x:Name="MouseIcon1" Height="25" Width="25" Margin="0,86,125,0" HorizontalAlignment="Right" Click="MouseIcon1_Click">
+            <Image Source="pack://application:,,,/resources/images/mouse/targeting_icon2.png" Width="21" />
+        </elems:ImageToggleButton>
+        <elems:ImageToggleButton x:Name="MouseIcon2" Height="25" Width="25" Margin="169,86,0,0" HorizontalAlignment="Left" Click="MouseIcon2_Click">
+            <Image Source="pack://application:,,,/resources/images/mouse/targeting_icon.png" Width="15" />
+        </elems:ImageToggleButton>
+        <elems:ImageToggleButton x:Name="MouseIcon3" Height="25" Width="25" Margin="136,86,0,0" HorizontalAlignment="Left" Click="MouseIcon3_Click" >
+            <Image Source="pack://application:,,,/resources/images/mouse/targeting_icon3.png" Width="9" />
+        </elems:ImageToggleButton>
         <Label Content="{lex:Loc ui_mouse_sensitivity}" Margin="12,118,154,200" />
         <TextBlock Name="SensitivityLabel" TextAlignment="Right" VerticalAlignment="Bottom" Text="1" Margin="216,0,0,164" Width="28" Height="14" />
         <Slider Name="SensitivitySlider" Maximum="100" Margin="135,143,7,183" ValueChanged="SensitivityChange" />

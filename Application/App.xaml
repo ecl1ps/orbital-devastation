@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="resources\styles\TextBlock.xaml" />
                 <ResourceDictionary Source="resources\styles\TextBox.xaml" />
                 <ResourceDictionary Source="resources\styles\ToggleButton.xaml" />
+                <ResourceDictionary Source="resources\styles\ImageToggleButton.xaml" />
                 <ResourceDictionary Source="resources\styles\UserControl.xaml" />
                 <ResourceDictionary Source="resources\styles\ComboBox.xaml" />
                 <ResourceDictionary Source="resources\styles\CheckBox.xaml" />

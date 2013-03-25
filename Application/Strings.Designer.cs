@@ -404,6 +404,15 @@ namespace Orbit {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Leader initiated ready check..
+        /// </summary>
+        internal static string lobby_ready_check {
+            get {
+                return ResourceManager.GetString("lobby_ready_check", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to I am ready.
         /// </summary>
         internal static string lobby_ready_msg {
@@ -1201,6 +1210,24 @@ namespace Orbit {
         internal static string ui_ready {
             get {
                 return ResourceManager.GetString("ui_ready", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ready Check.
+        /// </summary>
+        internal static string ui_ready_check {
+            get {
+                return ResourceManager.GetString("ui_ready_check", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Leader initiated ready check. Are you ready?.
+        /// </summary>
+        internal static string ui_ready_check_question {
+            get {
+                return ResourceManager.GetString("ui_ready_check_question", resourceCulture);
             }
         }
         
