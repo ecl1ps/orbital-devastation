@@ -339,6 +339,7 @@
     <Compile Include="Core\Weapons\ProximityCannonIII.cs" />
     <Compile Include="Core\Weapons\TargetingMineLauncher.cs" />
     <Compile Include="Core\Weapons\ProximityCannonII.cs" />
+    <Compile Include="Core\Weapons\IWeaponClickListener.cs" />
     <Compile Include="Gui\ActionBar.xaml.cs">
       <DependentUpon>ActionBar.xaml</DependentUpon>
     </Compile>
