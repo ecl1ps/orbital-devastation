@@ -29,6 +29,9 @@ namespace Orbit.Core.Weapons
 
         protected ISpecialAction next = null;
 
+        private List<IWeaponClickListener> listeners = new List<IWeaponClickListener>();
+
+
         public MineLauncher(SceneMgr mgr, Player owner)
         {
             SceneMgr = mgr;
@@ -45,12 +48,13 @@ namespace Orbit.Core.Weapons
             return next;
         }
 
-        public ISceneObject Shoot(Point point)
+        public ISceneObject Shoot(Point point, bool noControl = false)
         {
-            if (IsReady())
+            if (IsReady() || noControl)
             {
                 ISceneObject obj = SpawnMine(point);
-                ReloadTime = Owner.Data.MineCooldown;
+                if(!noControl)
+                    ReloadTime = Owner.Data.MineCooldown;
 
                 Owner.Statistics.MineFired++;
                 return obj;
@@ -88,8 +92,14 @@ namespace Orbit.Core.Weapons
         }
 
 
-        virtual public void ProccessClickEvent(Point point, MouseButton button, MouseButtonState state)
+        public virtual void ProccessClickEvent(Point point, MouseButton button, MouseButtonState state)
         {
+            foreach (IWeaponClickListener listener in listeners)
+            {
+                if (listener.ProccessClickEvent(point, button, state))
+                    return;
+            }
+
             if (state == MouseButtonState.Pressed)
                 Shoot(point);
         }
@@ -98,6 +108,17 @@ namespace Orbit.Core.Weapons
         {
             if (ReloadTime > 0)
                 ReloadTime -= tpf;
+        }
+
+        public IWeaponClickListener AddClickListener(IWeaponClickListener listener)
+        {
+            listeners.Add(listener);
+            return listener;
+        }
+
+        public void RemoveClickListener(IWeaponClickListener listener)
+        {
+            listeners.Remove(listener);
         }
     }
 }

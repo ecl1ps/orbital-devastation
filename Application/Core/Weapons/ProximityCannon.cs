@@ -31,6 +31,9 @@ namespace Orbit.Core.Weapons
         private Boolean shooting;
         protected ISpecialAction next;
 
+        private List<IWeaponClickListener> listeners = new List<IWeaponClickListener>();
+
+
         public ProximityCannon(SceneMgr mgr, Player owner)
         {
             SceneMgr = mgr;
@@ -47,12 +50,13 @@ namespace Orbit.Core.Weapons
             return next;
         }
 
-        public ISceneObject Shoot(Point point)
+        public ISceneObject Shoot(Point point, bool noControl = false)
         {
-            if (IsReady())
+            if (IsReady() || noControl)
             {
                 ISceneObject obj = SpawnBullet(point);
-                ReloadTime = Owner.Data.BulletCooldown;
+                if(!noControl)
+                    ReloadTime = Owner.Data.BulletCooldown;
                 //SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_SHOOT);
                 Owner.Statistics.BulletFired++;
                 return obj;
@@ -93,8 +97,14 @@ namespace Orbit.Core.Weapons
         }
 
 
-        public void ProccessClickEvent(Point point, MouseButton button, MouseButtonState buttonState)
+        public virtual void ProccessClickEvent(Point point, MouseButton button, MouseButtonState buttonState)
         {
+            foreach (IWeaponClickListener listener in listeners)
+            {
+                if (listener.ProccessClickEvent(point, button, buttonState))
+                    return;
+            }
+
             shooting = buttonState == MouseButtonState.Pressed;
         }
 
@@ -105,6 +115,17 @@ namespace Orbit.Core.Weapons
             else if(shooting)
                 Shoot(StaticMouse.GetPosition());
 
+        }
+
+        public IWeaponClickListener AddClickListener(IWeaponClickListener listener)
+        {
+            listeners.Add(listener);
+            return listener;
+        }
+
+        public void RemoveClickListener(IWeaponClickListener listener)
+        {
+            listeners.Remove(listener);
         }
     }
 }
