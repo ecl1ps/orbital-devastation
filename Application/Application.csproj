@@ -432,6 +432,9 @@
     <Compile Include="Gui\TournamentFinderUC.xaml.cs">
       <DependentUpon>TournamentFinderUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\ArrowCast.xaml.cs">
+      <DependentUpon>ArrowCast.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\Visuals\GameVisualArea.cs" />
     <Compile Include="Gui\Visuals\Particles.cs" />
     <Compile Include="Gui\Visuals\VisualRenderer.cs" />
