@@ -147,6 +147,9 @@
     <Compile Include="Core\Client\GameStates\DelayedActionInvoker.cs" />
     <Compile Include="Core\Client\GameStates\ScreenShakingManager.cs" />
     <Compile Include="Core\Client\GameStates\SpectatorActionsManager.cs" />
+    <Compile Include="Core\Client\Interfaces\IKeyPressListener.cs" />
+    <Compile Include="Core\Client\Interfaces\IMouseClickListener.cs" />
+    <Compile Include="Core\Client\Interfaces\IMouseMoveListener.cs" />
     <Compile Include="Core\Client\Interfaces\Invokers.cs" />
     <Compile Include="Core\Client\Shaders\AlphaMaskEffect.cs" />
     <Compile Include="Core\Helpers\ParticleEmmitorFactory.cs" />
