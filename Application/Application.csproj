@@ -142,6 +142,7 @@
     <Compile Include="Core\AI\MediocreBot.cs" />
     <Compile Include="Core\AI\SimpleBot.cs" />
     <Compile Include="Core\Client\GameStates\AlertMessageManager.cs" />
+    <Compile Include="Core\Client\GameStates\AutomaticMineLauncher.cs" />
     <Compile Include="Core\Client\GameStates\FloatingTextManager.cs" />
     <Compile Include="Core\Client\GameStates\LevelEnvironment.cs" />
     <Compile Include="Core\Client\GameStates\DelayedActionInvoker.cs" />
@@ -619,6 +620,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Gui\ArrowCast.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="resources\styles\Button.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -665,6 +670,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <Resource Include="resources\images\background\arrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="resources\images\particles\base-particle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

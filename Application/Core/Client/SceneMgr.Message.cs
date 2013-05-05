@@ -280,6 +280,7 @@ namespace Orbit.Core.Client
             Player rightPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.RIGHT);
 
             InitStaticMouse();
+            //InitAutomaticMineLauncher();
             AlertMessageMgr.InitElement();
             App.Instance.SetGameStarted(true);
 
@@ -352,6 +353,7 @@ namespace Orbit.Core.Client
             if (p.IsActivePlayer())
             {
                 p.CreateWeapons();
+                InitAutomaticMineLauncher();
 
                 // zobrazi aktualni integrity bazi
                 p.SetBaseIntegrity(p.GetBaseIntegrity());
