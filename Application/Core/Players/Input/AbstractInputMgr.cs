@@ -17,6 +17,9 @@ namespace Orbit.Core.Players.Input
         {
             this.actionBarMgr = actionBarMgr;
             this.sceneMgr = sceneMgr;
+
+            sceneMgr.AddMouseListener(this);
+            sceneMgr.AddKeyListener(this);
         }
 
         public virtual void OnKeyEvent(System.Windows.Input.KeyEventArgs e)

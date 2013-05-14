@@ -395,17 +395,17 @@ namespace Orbit.Core.Client
         /* konec manipulace s objekty                                           */
         /************************************************************************/
 
-        public void AddListener(IMouseMoveListener listener)
+        public void AddMoveListener(IMouseMoveListener listener)
         {
             moveListeners.Add(listener);
         }
 
-        public void AddListener(IKeyPressListener listener)
+        public void AddKeyListener(IKeyPressListener listener)
         {
             keyListeners.Add(listener);
         }
 
-        public void AddListener(IMouseClickListener listener)
+        public void AddMouseListener(IMouseClickListener listener)
         {
             clickListeners.Add(listener);
         }
@@ -595,9 +595,6 @@ namespace Orbit.Core.Client
         {
             point = (StaticMouse.Instance != null && StaticMouse.ALLOWED) ? StaticMouse.GetPosition() : point;
             moveListeners.ForEach(l => l.OnMouseMove(point));
-
-            if (currentPlayer.Shooting)
-                currentPlayer.TargetPoint = (StaticMouse.Instance != null && StaticMouse.ALLOWED) ? StaticMouse.GetPosition() : point;
         }
 
         public void OnCanvasClick(Point point, MouseButtonEventArgs e)
@@ -616,10 +613,7 @@ namespace Orbit.Core.Client
             }
 
             if (IsPointInViewPort(point))
-            {
-                inputMgr.OnCanvasClick(point, e);
                 clickListeners.ForEach(l => l.OnCanvasClick(point, e));
-            }
             else
                 inputMgr.OnActionBarClick(point, e);
         }

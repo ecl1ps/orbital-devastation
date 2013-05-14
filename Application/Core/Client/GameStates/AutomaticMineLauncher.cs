@@ -52,7 +52,7 @@ namespace Orbit.Core.Client.GameStates
             this.shootingCd = 0;
 
             weapon.AddClickListener(this);
-            owner.SceneMgr.AddListener(this);
+            owner.SceneMgr.AddMoveListener(this);
 
             if (owner.GetPosition() == PlayerPosition.RIGHT)
             {
