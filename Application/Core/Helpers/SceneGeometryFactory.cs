@@ -84,6 +84,32 @@ namespace Orbit.Core.Helpers
             return g;
         }
 
+        public static DrawingGroup CreateMineImage(SingularityMine mine)
+        {
+            DrawingGroup g = null;
+            mine.SceneMgr.Invoke(new Action(() =>
+            {
+                BitmapImage bi = new BitmapImage();
+                bi.BeginInit();
+
+                bi.UriSource = new Uri("pack://application:,,,/resources/images/projectiles/mine.png");
+                bi.DecodePixelWidth = mine.Radius * 4;
+                bi.EndInit();
+
+                g = new DrawingGroup();
+                ImageDrawing img = new ImageDrawing();
+                img.ImageSource = bi;
+                img.Rect = new Rect(new Size(mine.Radius * 2, mine.Radius * 2));
+                TransformGroup tg = new TransformGroup();
+                tg.Children.Add(new TranslateTransform(mine.Position.X, mine.Position.Y));
+                tg.Children.Add(new RotateTransform(mine.Rotation, mine.Radius, mine.Radius));
+                g.Transform = tg;
+                g.Children.Add(img);
+            }));
+
+            return g;
+        }
+
         public static DrawingGroup CreateSolidColorEllipseGeometry(SingularityMine mine)
         {
             DrawingGroup d = null;

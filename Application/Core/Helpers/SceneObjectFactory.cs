@@ -26,6 +26,7 @@ namespace Orbit.Core.Helpers
 {
     static class SceneObjectFactory
     {
+
         public static Base CreateBase(SceneMgr mgr, Player plr)
         {
             Base baze = new Base(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
@@ -81,7 +82,7 @@ namespace Orbit.Core.Helpers
             SingularityMine mine = new SingularityMine(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             mine.Position = new Vector(point.X, 0);
             mine.Owner = plr;
-            mine.Radius = 2;
+            mine.Radius = 12;
             mine.Direction = new Vector(0, 1);
             mine.Color = Colors.BlueViolet;
 
@@ -101,7 +102,7 @@ namespace Orbit.Core.Helpers
 
             mine.AddControl(new StickySphereCollisionShapeControl());
 
-            mine.SetGeometry(SceneGeometryFactory.CreateSolidColorEllipseGeometry(mine));
+            mine.SetGeometry(SceneGeometryFactory.CreateMineImage(mine));
 
             return mine;
         }
@@ -131,7 +132,7 @@ namespace Orbit.Core.Helpers
 
             mine.AddControl(new StickySphereCollisionShapeControl());
 
-            mine.SetGeometry(SceneGeometryFactory.CreateSolidColorEllipseGeometry(mine));
+            mine.SetGeometry(SceneGeometryFactory.CreateMineImage(mine));
 
             return mine;
         }
