@@ -91,6 +91,7 @@ namespace Orbit.Core.Client
 
         public void SendStartGameRequest()
         {
+            currentPlayer.Data.LobbyReady = true;
             NetOutgoingMessage msg = CreateNetMessage();
             msg.Write((int)PacketType.START_GAME_REQUEST);
             SendMessage(msg);
