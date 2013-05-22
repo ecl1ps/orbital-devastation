@@ -29,6 +29,31 @@ namespace Orbit.Gui
         public GameWindow()
         {
             InitializeComponent();
+#if DEBUG
+            int runningInstanceCount = System.Diagnostics.Process.GetProcessesByName("OrbitalDevastation").Length;
+            App.WindowInstance.WindowStartupLocation = WindowStartupLocation.Manual;
+            switch (runningInstanceCount)
+            {
+                case 1:
+                    Left = 0;
+                    Top = 0;
+                    break;
+                case 2:
+                    Left = SystemParameters.PrimaryScreenWidth - (double)GetValue(WidthProperty);
+                    Top = SystemParameters.PrimaryScreenHeight - (double)GetValue(HeightProperty) - 30;
+                    break;
+                case 3:
+                    Left = SystemParameters.PrimaryScreenWidth - (double)GetValue(WidthProperty);
+                    Top = 0;
+                    break;
+                case 4:
+                    Left = 0;
+                    Top = SystemParameters.PrimaryScreenHeight - (double)GetValue(HeightProperty) - 30;
+                    break;
+                default:
+                    break;
+            }
+#endif
         }
 
         #region ScaleValue Dependency Property
