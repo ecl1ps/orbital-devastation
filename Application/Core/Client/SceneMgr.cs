@@ -693,6 +693,8 @@ namespace Orbit.Core.Client
             if (GameType != Gametype.TOURNAMENT_GAME || endType == GameEnd.SERVER_DISCONNECTED || endType == GameEnd.TOURNAMENT_FINISHED)
                 RequestStop();
 
+            tournametRunnig = false;
+
             StateMgr.Clear();
 
             if (Application.Current == null)
