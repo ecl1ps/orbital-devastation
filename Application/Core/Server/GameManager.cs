@@ -187,6 +187,7 @@ namespace Orbit.Core.Server
                 gameLevel.OnStart();
 
                 IsRunning = true;
+                serverMgr.TournamentSettings.PlayedMatches++;
                 return true;
             }
             

@@ -26,7 +26,7 @@ namespace Orbit.Core.Server
         private Queue dataMessages = Queue.Synchronized(new Queue());
         private List<NetConnection> activeConnections = new List<NetConnection>(2);
 
-        public void PlayerConnectionApproval(NetIncomingMessage msg)
+        public void PlayerConnectionApproval(NetIncomingMessage msg, string plrName, string plrHash)
         {
             Logger.Debug("Incoming LOGIN");
 
@@ -38,8 +38,6 @@ namespace Orbit.Core.Server
             if (GameType == Gametype.MULTIPLAYER_GAME && players.Count >= 2)
                 return;
 
-            string plrName = msg.ReadString();
-            string plrHash = msg.ReadString();
             Color plrColor = msg.ReadColor();
 
             // nepridavat ani hrace ze stejne instance hry (nejde je potom spolehlive rozlisit v tournamentu)
@@ -60,7 +58,7 @@ namespace Orbit.Core.Server
             hailMsg.Write((int)PacketType.PLAYER_ID_HAIL);
             hailMsg.Write(p.Data.Id);
             hailMsg.Write(p.Data.Name);
-            bool tournamentRunning = GameType == Gametype.TOURNAMENT_GAME && gameSession != null && gameSession.IsRunning;
+            bool tournamentRunning = GameType == Gametype.TOURNAMENT_GAME && gameSession != null && (gameSession.IsRunning || TournamentSettings.PlayedMatches > 0);
             hailMsg.Write(tournamentRunning);
 
             // Approve clients connection (Its sort of agreenment. "You can be my client and i will host you")

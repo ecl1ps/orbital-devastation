@@ -167,7 +167,7 @@ namespace Orbit.Gui
 
         private void JoinTournament(VisualizableTorunamentSettings s)
         {
-            if (s == null)
+            if (s == null || s.Settings.Running || s.Settings.PlayedMatches > 0)
                 return;
 
             App.Instance.StartTournamentGame(serverAddress, s.Settings.ServerId);
@@ -343,6 +343,24 @@ namespace Orbit.Gui
         private void tournamentFinderUC_Unloaded(object sender, RoutedEventArgs e)
         {
             requestTimer.Dispose();
+        }
+    }
+
+    public class StatusToColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            VisualizableTorunamentSettings vts = value as VisualizableTorunamentSettings;
+
+            if (vts.Settings.Running || vts.Settings.PlayedMatches > 0)
+                return Brushes.Orange;
+            else
+                return Brushes.Green;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return value;
         }
     }
 }

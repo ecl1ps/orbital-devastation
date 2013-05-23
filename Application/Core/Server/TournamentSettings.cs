@@ -22,6 +22,8 @@ namespace Orbit.Core
         public int BotCount { get; set; }
         public int PlayedMatches { get; set; }
 
+        public bool Running { get; set; }
+
         public TournamentSettings(bool withDefaults = false)
         {
             if (!withDefaults)

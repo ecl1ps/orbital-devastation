@@ -727,6 +727,8 @@ namespace Orbit.Core.Helpers
             msg.Write(s.RoundCount);
             msg.Write((int)s.BotType);
             msg.Write(s.BotCount);
+            msg.Write(s.PlayedMatches);
+            msg.Write(s.Running);
         }
 
         public static TournamentSettings ReadTournamentSettings(this NetIncomingMessage msg)
@@ -740,6 +742,8 @@ namespace Orbit.Core.Helpers
             s.RoundCount = msg.ReadInt32();
             s.BotType = (BotType)msg.ReadInt32();
             s.BotCount = msg.ReadInt32();
+            s.PlayedMatches = msg.ReadInt32();
+            s.Running = msg.ReadBoolean();
             return s;
         }
 

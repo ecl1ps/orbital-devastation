@@ -323,7 +323,7 @@
     <comment>0 = current match number, 1 = matches total</comment>
   </data>
   <data name="ui_tournament_lobby" xml:space="preserve">
-    <value>Turnajová loby</value>
+    <value>Turnajová síň</value>
   </data>
   <data name="ui_tournament_map" xml:space="preserve">
     <value>Mapa:</value>

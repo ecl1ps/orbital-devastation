@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:lex="http://wpflocalizeextension.codeplex.com" 
+             xmlns:local="clr-namespace:Orbit.Gui"
              lex:LocalizeDictionary.DesignCulture="en"  
              lex:ResxLocalizationProvider.DefaultAssembly="OrbitalDevastation"  
              lex:ResxLocalizationProvider.DefaultDictionary="Strings"   
@@ -23,6 +24,7 @@
             <Setter Property="Height" Value="30" />
             <Setter Property="Width" Value="170" />
         </Style>
+        <local:StatusToColorConverter x:Key="StatusToColorConverter"/>
     </UserControl.Resources>
 
     <Grid Width="1000" Height="700">
@@ -53,6 +55,11 @@
                     <GridViewColumn Width="80" Header="Rounds" DisplayMemberBinding="{Binding RoundCount}" />
                 </GridView>
             </ListView.View>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Foreground" Value="{Binding ., Converter={StaticResource StatusToColorConverter}}" />
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
 
         <Border BorderThickness="1" BorderBrush="{StaticResource darkPurpleBrush}" Background="Gainsboro" Margin="660,168,10,123">

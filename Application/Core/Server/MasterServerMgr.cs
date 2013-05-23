@@ -82,24 +82,29 @@ namespace Orbit.Core.Server
 
                     Gametype type = (Gametype)msg.ReadByte();
                     int serverId = msg.ReadInt32();
+                    string name = msg.ReadString();
+                    string playerHashId = msg.ReadString();
 
                     // v pripade ze jeho connection je uz prirazene k nejakemu manageru
                     if (connections.TryGetValue(msg.SenderConnection, out mgr))
                     {
-                        mgr.Enqueue(new Action(() => mgr.PlayerConnectionApproval(msg)));
+                        mgr.Enqueue(new Action(() => mgr.PlayerConnectionApproval(msg, name, playerHashId)));
+                        Logger.Info("Player " + name + " has manager assigned already (during ConnectionApproval)");
                         break;
                     }
 
                     if (PlayerConnectedCallback != null)
                         PlayerConnectedCallback();
 
+                    mgr = GetServerForReconnectionIfAny(playerHashId);
+
                     // novy manager se vytvori pokud je zakladan novy turnaj (id 0) nebo pokud neni nalezen vhodny server
-                    if ((type == Gametype.TOURNAMENT_GAME && serverId == 0) ||
-                        !FindAvailableServerManager(msg.SenderConnection, type, serverId))
+                    if (mgr == null && ((type == Gametype.TOURNAMENT_GAME && serverId == 0) ||
+                        !FindAvailableServerManager(msg.SenderConnection, type, serverId)))
                         CreateNewServerMgr(type);
 
                     connections.Add(msg.SenderConnection, mgr);
-                    mgr.Enqueue(new Action(() => mgr.PlayerConnectionApproval(msg)));
+                    mgr.Enqueue(new Action(() => mgr.PlayerConnectionApproval(msg, name, playerHashId)));
                     return; //musi se provest return, jinak je zprava zrecyklovana jeste pred zpracovanim, o recyklaci se stara ServerMgr
                 case NetIncomingMessageType.Data:
                     if (!connections.TryGetValue(msg.SenderConnection, out mgr))
@@ -139,7 +144,7 @@ namespace Orbit.Core.Server
                     }
 
                     // NOTE: Disconnecting and Disconnected are not instant unless client is shutdown with disconnect()
-                    Logger.Debug(msg.SenderConnection.ToString() + " status changed to: " + msg.SenderConnection.Status);
+                    //Logger.Debug(msg.SenderConnection.ToString() + " status changed to: " + msg.SenderConnection.Status);
                     break;
                 default:
                     Logger.Debug("non-handled message type: " + msg.MessageType);
@@ -148,14 +153,25 @@ namespace Orbit.Core.Server
             server.Recycle(msg);
         }
 
+        private ServerMgr GetServerForReconnectionIfAny(string playerHashId)
+        {
+            foreach (KeyValuePair<NetConnection, ServerMgr> pair in connections)
+                if (pair.Value.PlayerExists(playerHashId))
+                    return pair.Value;
+
+            return null;
+        }
+
         private void SendAvailableTournamentsResponse(System.Net.IPEndPoint iPEndPoint)
         {
             HashSet<TournamentSettings> available = GetAvailableTournaments();
 
+            IOrderedEnumerable<TournamentSettings> ordered = available.OrderBy<TournamentSettings, bool>(t => t.Running);
+
             NetOutgoingMessage msg = server.CreateMessage();
             msg.Write((byte)PacketType.AVAILABLE_TOURNAMENTS_RESPONSE);
             msg.Write(available.Count);
-            foreach (TournamentSettings s in available)
+            foreach (TournamentSettings s in ordered)
                 msg.Write(s);
 
             server.SendUnconnectedMessage(msg, iPEndPoint);
@@ -165,8 +181,14 @@ namespace Orbit.Core.Server
         {
             HashSet<TournamentSettings> available = new HashSet<TournamentSettings>();
             foreach (KeyValuePair<NetConnection, ServerMgr> pair in connections)
+            {
                 if (pair.Value.GameType == Gametype.TOURNAMENT_GAME && pair.Value.TournamentSettings != null)
-                    available.Add(pair.Value.TournamentSettings);
+                {
+                    TournamentSettings ts = pair.Value.TournamentSettings;
+                    ts.Running = pair.Value.IsGameRunning();
+                    available.Add(ts);
+                }
+            }
 
             return available;
         }
@@ -248,7 +270,7 @@ namespace Orbit.Core.Server
                     // TODO: nahlasit uzivateli chybu kdyz je pozadovany manager uz zaplneny
                     if (pair.Value.GameType == Gametype.TOURNAMENT_GAME && pair.Value.GetPlayerCount() < 6)
                     {
-                        if (serverId == pair.Value.Id)
+                        if (serverId == pair.Value.Id && !pair.Value.IsGameRunning() && pair.Value.TournamentSettings.PlayedMatches <= 0)
                         {
                             mgr = pair.Value;
                             return true;

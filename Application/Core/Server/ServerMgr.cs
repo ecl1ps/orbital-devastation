@@ -269,5 +269,15 @@ namespace Orbit.Core.Server
             msg.Write("Server: " + message);
             BroadcastMessage(msg);
         }
+
+        public bool IsGameRunning()
+        {
+            return (gameSession == null) ? false : gameSession.IsRunning;
+        }
+
+        public bool PlayerExists(string hashId)
+        {
+            return players.Exists(p => p.Data.HashId == hashId);
+        }
     }
 }
