@@ -359,6 +359,9 @@
     <Compile Include="Gui\ColorPickerUC.xaml.cs">
       <DependentUpon>ColorPickerUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\ReconnectUC.xaml.cs">
+      <DependentUpon>ReconnectUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\Elements\ImageToggleButton.cs" />
     <Compile Include="Gui\GameOptions.xaml.cs">
       <DependentUpon>GameOptions.xaml</DependentUpon>
@@ -511,6 +514,10 @@
     <Page Include="Gui\ColorPickerUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\ReconnectUC.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Gui\GameOptions.xaml">
       <Generator>MSBuild:Compile</Generator>

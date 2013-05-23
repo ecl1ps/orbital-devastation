@@ -73,8 +73,11 @@ namespace Orbit.Core.Server
                     Logger.Debug(msg.ReadString());
                     break;
                 case NetIncomingMessageType.UnconnectedData:
-                    if ((PacketType)msg.ReadByte() == PacketType.AVAILABLE_TOURNAMENTS_REQUEST)
+                    PacketType packetType = (PacketType)msg.ReadByte();
+                    if (packetType == PacketType.AVAILABLE_TOURNAMENTS_REQUEST)
                         SendAvailableTournamentsResponse(msg.SenderEndPoint);
+                    else if (packetType == PacketType.AVAILABLE_RECONNECT_REQUEST)
+                        CheckAvailableReconnect(msg.SenderEndPoint, msg.ReadString());
                     break;
                 case NetIncomingMessageType.ConnectionApproval:
                     if (msg.ReadInt32() != (int)PacketType.PLAYER_CONNECT)
@@ -151,6 +154,16 @@ namespace Orbit.Core.Server
                     break;
             }
             server.Recycle(msg);
+        }
+
+        private void CheckAvailableReconnect(System.Net.IPEndPoint iPEndPoint, string playerHashId)
+        {
+            if (GetServerForReconnectionIfAny(playerHashId) == null)
+                return;
+
+            NetOutgoingMessage msg = server.CreateMessage();
+            msg.Write((byte)PacketType.AVAILABLE_RECONNECT_RESPONSE);
+            server.SendUnconnectedMessage(msg, iPEndPoint);
         }
 
         private ServerMgr GetServerForReconnectionIfAny(string playerHashId)

@@ -55,6 +55,11 @@ namespace Orbit.Gui
             StartClient();
             requestTimer = new Timer(RequestTournaments);
             requestTimer.Change(0, SharedDef.TOURNAMENT_LIST_REQUEST_INTERVAL);
+
+            NetOutgoingMessage msg = client.CreateMessage();
+            msg.Write((byte)PacketType.AVAILABLE_RECONNECT_REQUEST);
+            msg.Write(App.Instance.PlayerHashId);
+            client.SendUnconnectedMessage(msg, serverAddress, SharedDef.MASTER_SERVER_PORT);
         }
 
         private void CheckOnlineStatus()
@@ -145,13 +150,21 @@ namespace Orbit.Gui
             switch (msg.MessageType)
             {
                 case NetIncomingMessageType.UnconnectedData:
-                    if (msg.ReadByte() == (byte)PacketType.AVAILABLE_TOURNAMENTS_RESPONSE)
+                    PacketType type = (PacketType)msg.ReadByte();
+                    if (type == PacketType.AVAILABLE_TOURNAMENTS_RESPONSE)
                         ReceivedTournaments(msg);
+                    else if (type == PacketType.AVAILABLE_RECONNECT_RESPONSE)
+                        ReceivedAvailableReconnect();
                     break;
                 default:
                     break;
             }
             client.Recycle(msg);
+        }
+
+        private void ReceivedAvailableReconnect()
+        {
+            App.Instance.AddMenu(new ReconnectUC(serverAddress));
         }
 
         private void btnJoinTournament_Click(object sender, RoutedEventArgs e)
