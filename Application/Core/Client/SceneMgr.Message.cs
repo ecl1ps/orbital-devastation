@@ -53,10 +53,10 @@ namespace Orbit.Core.Client
                 App.Instance.PlayerName = currentPlayer.Data.Name;
             }));
 
-            tournametRunnig = msg.SenderConnection.RemoteHailMessage.ReadBoolean();
+            gameRunning = msg.SenderConnection.RemoteHailMessage.ReadBoolean();
             if (GameType == Gametype.TOURNAMENT_GAME)
             {
-                if (!tournametRunnig && !currentPlayer.Data.LobbyLeader)
+                if (!gameRunning && !currentPlayer.Data.LobbyLeader)
                 {
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
@@ -190,7 +190,7 @@ namespace Orbit.Core.Client
                     if (!newPlrs.Contains(players[i].GetId()))
                         players.RemoveAt(i);
 
-            if ((GameType != Gametype.TOURNAMENT_GAME || tournametRunnig) && !currentPlayer.Data.StartReady)
+            if ((GameType != Gametype.TOURNAMENT_GAME || gameRunning) && !currentPlayer.Data.StartReady)
                 SendStartGameRequest();
             else if (GameWindowState == WindowState.IN_LOBBY)
             {

@@ -58,8 +58,8 @@ namespace Orbit.Core.Server
             hailMsg.Write((int)PacketType.PLAYER_ID_HAIL);
             hailMsg.Write(p.Data.Id);
             hailMsg.Write(p.Data.Name);
-            bool tournamentRunning = GameType == Gametype.TOURNAMENT_GAME && gameSession != null && (gameSession.IsRunning || TournamentSettings.PlayedMatches > 0);
-            hailMsg.Write(tournamentRunning);
+            bool gameRunning = gameSession != null && gameSession.IsRunning;
+            hailMsg.Write(gameRunning);
 
             // Approve clients connection (Its sort of agreenment. "You can be my client and i will host you")
             msg.SenderConnection.Approve(hailMsg);

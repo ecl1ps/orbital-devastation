@@ -29,7 +29,7 @@ namespace Orbit.Core.Client
         private string serverAddress;
         private NetConnection serverConnection;
         private Queue<NetOutgoingMessage> pendingMessages;
-        private bool tournametRunnig;
+        private bool gameRunning;
 
         public int RemoteServerId { get; set; }
 
