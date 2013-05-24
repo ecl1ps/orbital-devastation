@@ -69,7 +69,7 @@ namespace Orbit.Gui
 
         private void btnPlayAsSpectator_Click(object sender, RoutedEventArgs e)
         {
-            /*App.Instance.StartTournamentLobby("127.0.0.1");
+            App.Instance.StartTournamentLobby("127.0.0.1");
 
             App.Instance.GetSceneMgr().Enqueue(new Action(() =>
             {
@@ -79,7 +79,7 @@ namespace Orbit.Gui
                 s.MMType = Orbit.Core.Server.Match.MatchManagerType.TEST_LEADER_SPECTATOR;
                 App.Instance.GetSceneMgr().ProcessNewTournamentSettings(s);
                 App.Instance.GetSceneMgr().SendStartGameRequest();
-            }));*/
+            }));
         }
 
         private void btnLocalhostTorunament_Click(object sender, RoutedEventArgs e)
