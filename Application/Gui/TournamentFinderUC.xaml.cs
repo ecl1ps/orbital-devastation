@@ -39,6 +39,9 @@ namespace Orbit.Gui
         private bool statusReceived;
         public ObservableCollection<VisualizableTorunamentSettings> AvailableTournaments { get { return availableTournaments; } }
 
+        public delegate void ReceivedNewTournaments(List<TournamentSettings> tss, string serverAddress);
+        public ReceivedNewTournaments ReceivedNewTournamentsCallback { get; set; }
+
         private enum OnlineStatus
         {
             CHECKING,
@@ -226,10 +229,18 @@ namespace Orbit.Gui
             statusReceived = true;
 
             availableTournaments.Clear();
+            List<TournamentSettings> tss = new List<TournamentSettings>();
 
             int count = msg.ReadInt32();
             for (int i = 0; i < count; ++i)
-                availableTournaments.Add(new VisualizableTorunamentSettings(msg.ReadTournamentSettings()));
+            {
+                TournamentSettings ts = msg.ReadTournamentSettings();
+                tss.Add(ts);
+                availableTournaments.Add(new VisualizableTorunamentSettings(ts));
+            }
+
+            if (ReceivedNewTournamentsCallback != null)
+                ReceivedNewTournamentsCallback(tss, serverAddress);
 
             lblTournamentCount.Content = count.ToString(Strings.Culture);
         }

@@ -58,6 +58,7 @@ namespace Orbit
         {
             App app = new App();
             app.InitializeComponent();
+            CommandExecutor.Instance.ParseCommands(args);
             mainWindow = new GameWindow();
 #if !DEBUG
             try {
@@ -107,6 +108,8 @@ namespace Orbit
 
             sceneMgr = new SceneMgr();
             SoundManager.Instance.StartPlayingInfinite(SharedDef.MUSIC_BACKGROUND_CALM);
+
+            CommandExecutor.Instance.ExecuteCommands();
         }
 
         protected override void OnExit(ExitEventArgs e)
