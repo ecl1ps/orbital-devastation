@@ -91,12 +91,14 @@ namespace Orbit.Core
 
         public void Reload(String filename, Dictionary<PropertyKey, String> defaultValues = null)
         {
-            this.filename = filename;
+            string AppRoot = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+
+            this.filename = Path.Combine(AppRoot, filename);;
             if (defaultValues != null)
                 list = defaultValues;
 
-            if (File.Exists(filename))
-                LoadFromFile(filename);
+            if (File.Exists(this.filename))
+                LoadFromFile(this.filename);
 
             if (!CheckCRC())
             {
