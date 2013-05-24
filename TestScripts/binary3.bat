@@ -1,0 +1,1 @@
+"../Build/Debug x86/Copy2/OrbitalDevastation.exe" %*
