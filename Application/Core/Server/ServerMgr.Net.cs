@@ -28,8 +28,6 @@ namespace Orbit.Core.Server
 
         public void PlayerConnectionApproval(NetIncomingMessage msg, string plrName, string plrHash)
         {
-            Logger.Debug("Incoming LOGIN");
-
             // nepridavat hrace, pokud uz existuje
             if (players.Exists(plr => plr.Connection == null || plr.Connection.RemoteUniqueIdentifier == msg.SenderConnection.RemoteUniqueIdentifier))
                 return;
