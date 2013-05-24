@@ -168,6 +168,13 @@ namespace Orbit.Core
         public const int LEVEL_SURVIVAL_ASTEROID_COUNT              = 8;
         public const float LEVEL_SURVIVAL_ASTEROID_TIMER            = 0.4f;
         public const float LEVEL_SURVIVAL_ASTEROID_TIMER_CAP        = 0.2f;
+
+#if DEBUG
+        public const bool SKIP_STATISTICS                   = true;
+#else
+        public const bool SKIP_STATISTICS                   = false;
+#endif
+
     }
 
     public enum WindowState

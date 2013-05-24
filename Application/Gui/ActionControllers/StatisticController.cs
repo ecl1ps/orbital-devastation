@@ -29,6 +29,12 @@ namespace Orbit.Gui.ActionControllers
 
         public virtual void Update(float tpf)
         {
+            if (SharedDef.SKIP_STATISTICS)
+            {
+                statsWindow.HideStats();
+                return;
+            }
+
             if (time <= 0 && HasNext() && !waitingToEnd)
             {
                 Next();
