@@ -81,7 +81,7 @@ namespace Orbit.Core.Server
                     break;
                 case NetIncomingMessageType.ConnectionApproval:
                     if (msg.ReadInt32() != (int)PacketType.PLAYER_CONNECT)
-                        return;
+                        break;
 
                     Gametype type = (Gametype)msg.ReadByte();
                     int serverId = msg.ReadInt32();
@@ -93,7 +93,7 @@ namespace Orbit.Core.Server
                     {
                         mgr.Enqueue(new Action(() => mgr.PlayerConnectionApproval(msg, name, playerHashId)));
                         Logger.Info("Player " + name + " has manager assigned already (during ConnectionApproval)");
-                        break;
+                        return;
                     }
 
                     if (PlayerConnectedCallback != null)

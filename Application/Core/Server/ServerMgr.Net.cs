@@ -61,6 +61,7 @@ namespace Orbit.Core.Server
 
             // Approve clients connection (Its sort of agreenment. "You can be my client and i will host you")
             msg.SenderConnection.Approve(hailMsg);
+            server.Recycle(msg);
 
             // jakmile potvrdime spojeni nejakeho hrace, tak hned zesynchronizujeme data hracu mezi vsemi hraci
             NetOutgoingMessage plrs = CreateAllPlayersDataMessage();

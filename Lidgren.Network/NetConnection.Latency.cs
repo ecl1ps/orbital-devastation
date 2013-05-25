@@ -97,7 +97,7 @@ namespace Lidgren.Network
 		{
 			if ((byte)pongNumber != (byte)m_sentPingNumber)
 			{
-				m_peer.LogVerbose("Ping/Pong mismatch; dropped message?");
+				m_peer.LogDebug("Ping/Pong mismatch (ping: " + m_sentPingNumber + ", pong: " + pongNumber + "); dropped message");
 				return;
 			}
 
@@ -112,7 +112,7 @@ namespace Lidgren.Network
 			{
 				m_remoteTimeOffset = diff;
 				m_averageRoundtripTime = rtt;
-				m_peer.LogDebug("Initiated average roundtrip time to " + NetTime.ToReadable(m_averageRoundtripTime) + " Remote time is: " + (now + diff));
+				m_peer.LogVerbose("Initiated average roundtrip time to " + NetTime.ToReadable(m_averageRoundtripTime) + " Remote time is: " + (now + diff));
 			}
 			else
 			{

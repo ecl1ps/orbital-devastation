@@ -131,8 +131,8 @@ Global
 		{6F766DC5-82F2-4B4E-868D-45E70BFCDA4D}.Release|x86.ActiveCfg = Debug|Any CPU
 		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug Auto Tournament|Any CPU.ActiveCfg = Debug Auto Tournament|Any CPU
 		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug Auto Tournament|Any CPU.Build.0 = Debug Auto Tournament|Any CPU
-		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug Auto Tournament|Mixed Platforms.ActiveCfg = Debug Auto Tournament|Any CPU
-		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug Auto Tournament|Mixed Platforms.Build.0 = Debug Auto Tournament|Any CPU
+		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug Auto Tournament|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug Auto Tournament|Mixed Platforms.Build.0 = Debug|Any CPU
 		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug Auto Tournament|x86.ActiveCfg = Debug Auto Tournament|Any CPU
 		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug verbose|Any CPU.ActiveCfg = Debug|Any CPU
 		{49BA1C69-6104-41AC-A5D8-B54FA9F696E8}.Debug verbose|Any CPU.Build.0 = Debug|Any CPU
