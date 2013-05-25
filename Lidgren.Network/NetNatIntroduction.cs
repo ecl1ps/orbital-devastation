@@ -59,25 +59,18 @@ namespace Lidgren.Network
 				return; // no need to punch - we're not listening for nat intros!
 
 			// send internal punch
-			/*punch = CreateMessage();
+			punch = CreateMessage(1);
 			punch.m_messageType = NetMessageType.NatPunchMessage;
 			punch.Write(hostByte);
 			punch.Write(token);
-			m_unsentUnconnectedMessages.Enqueue(new NetTuple<IPEndPoint, NetOutgoingMessage>(remoteInternal, punch));*/
+			m_unsentUnconnectedMessages.Enqueue(new NetTuple<IPEndPoint, NetOutgoingMessage>(remoteInternal, punch));
 
-            //remoteExternal.Address = NetUtility.Resolve("77.236.208.34");
 			// send external punch
-			punch = CreateMessage();
+			punch = CreateMessage(1);
 			punch.m_messageType = NetMessageType.NatPunchMessage;
 			punch.Write(hostByte);
 			punch.Write(token);
 			m_unsentUnconnectedMessages.Enqueue(new NetTuple<IPEndPoint, NetOutgoingMessage>(remoteExternal, punch));
-
-            NetIncomingMessage retval;
-			retval = CreateIncomingMessage(NetIncomingMessageType.DebugMessage, 1);
-			retval.Write("intro");
-            retval.Write(remoteExternal);
-            ReleaseMessage(retval); 
 		}
 
 		/// <summary>

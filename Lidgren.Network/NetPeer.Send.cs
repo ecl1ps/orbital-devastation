@@ -62,7 +62,7 @@ namespace Lidgren.Network
 			}
 		}
 
-		internal int GetMTU(IList<NetConnection> recipients)
+		internal static int GetMTU(IList<NetConnection> recipients)
 		{
 			int count = recipients.Count;
 			NetException.Assert(count > 0);
@@ -218,11 +218,12 @@ namespace Lidgren.Network
 				return; // dropping unconnected message since it's not enabled for receiving
 
 			NetIncomingMessage om = CreateIncomingMessage(NetIncomingMessageType.UnconnectedData, msg.LengthBytes);
+			om.Write(msg);
 			om.m_isFragment = false;
 			om.m_receiveTime = NetTime.Now;
 			om.m_senderConnection = null;
 			om.m_senderEndPoint = m_socket.LocalEndPoint as IPEndPoint;
-			om.m_bitLength = msg.LengthBits;
+			NetException.Assert(om.m_bitLength == msg.LengthBits);
 
 			ReleaseMessage(om);
 		}
