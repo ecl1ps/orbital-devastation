@@ -58,12 +58,15 @@ namespace Orbit.Gui
             if (asLeader)
             {
                 btnReady.Visibility = Visibility.Hidden;
+                btnStartGame.Visibility = Visibility.Visible;
+                btnReadyCheck.Visibility = Visibility.Visible;
                 ready = true;
             }
             else
             {
                 btnStartGame.Visibility = Visibility.Hidden;
                 btnReadyCheck.Visibility = Visibility.Hidden;
+                btnReady.Visibility = Visibility.Visible;
                 ready = false;
             }
         }
