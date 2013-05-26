@@ -272,15 +272,19 @@ namespace Orbit.Core.Server
 
         private void AssignNewLobbyLeader(Player leaver)
         {
-            Player leader = players.First<Player>(newLeader => newLeader.GetId() != leaver.GetId());
-            
-            leaver.Data.LobbyLeader = false;
+            try
+            {
+                Player leader = players.First<Player>(newLeader => newLeader.GetId() != leaver.GetId());
 
-            if (leader == null)
-                return;
+                leaver.Data.LobbyLeader = false;
 
-            leader.Data.LobbyLeader = true;
-            serverMgr.BroadcastMessage(serverMgr.CreateAllPlayersDataMessage());
+                if (leader == null)
+                    return;
+
+                leader.Data.LobbyLeader = true;
+                serverMgr.BroadcastMessage(serverMgr.CreateAllPlayersDataMessage());
+            }
+            catch (InvalidOperationException) {}
         }
 
         public void PlayerConnected(Player p)
