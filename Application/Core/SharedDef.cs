@@ -103,6 +103,7 @@ namespace Orbit.Core
         public const float ACTION_BAR_TOP_MARGIN_PCT        = 0.3f;
 
         public const bool ALLOW_SPECTATORS_IN_DUO_MATCH     = false;
+        public const int MAX_TOURNAMENT_PLAYERS             = 6;
 
         //konstanty pro spectatory
         public const float SPECTATOR_MAX_TIME_BONUS         = 60 * 30; // pul hodiny

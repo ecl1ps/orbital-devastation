@@ -198,7 +198,7 @@ namespace Orbit.Core.Server
                 if (pair.Value.GameType == Gametype.TOURNAMENT_GAME && pair.Value.TournamentSettings != null)
                 {
                     TournamentSettings ts = pair.Value.TournamentSettings;
-                    ts.Running = pair.Value.IsGameRunning();
+                    ts.Running = pair.Value.IsGameRunning() || pair.Value.GetPlayerCount() >= SharedDef.MAX_TOURNAMENT_PLAYERS;
                     available.Add(ts);
                 }
             }
@@ -281,7 +281,7 @@ namespace Orbit.Core.Server
                 else // Tournament
                 {
                     // TODO: nahlasit uzivateli chybu kdyz je pozadovany manager uz zaplneny
-                    if (pair.Value.GameType == Gametype.TOURNAMENT_GAME && pair.Value.GetPlayerCount() < 6)
+                    if (pair.Value.GameType == Gametype.TOURNAMENT_GAME && pair.Value.GetPlayerCount() < SharedDef.MAX_TOURNAMENT_PLAYERS)
                     {
                         if (serverId == pair.Value.Id && !pair.Value.IsGameRunning() && pair.Value.TournamentSettings.PlayedMatches <= 0)
                         {

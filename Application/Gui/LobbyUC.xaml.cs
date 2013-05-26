@@ -183,8 +183,7 @@ namespace Orbit.Gui
 
         private void AddPlayer(LobbyPlayerData data)
         {
-            // TODO: ted se jich vejde 6
-            if (spPlayers.Children.Count < 6)
+            if (spPlayers.Children.Count < SharedDef.MAX_TOURNAMENT_PLAYERS)
             {
                 LobbyPlayer p = new LobbyPlayer(data);
                 if (leader)
