@@ -84,6 +84,8 @@ namespace Orbit.Core.Players
             LobbyLeader = false;
             PlayedMatches = 0;
             WonMatches = 0;
+
+            PlayerPosition = PlayerPosition.INVALID;
         }
 
         /// <summary>

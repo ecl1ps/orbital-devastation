@@ -87,7 +87,14 @@ namespace Orbit.Core.Server
             Player plr1 = selectedPlayers.Item1;
             Player plr2 = selectedPlayers.Item2;
 
-            PlayerPosition firstPlayerPosition = serverMgr.GetRandomGenerator().Next(2) == 0 ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
+
+            PlayerPosition firstPlayerPosition = PlayerPosition.INVALID;
+            // pokud hrac zadnou pozici jeste nemel, tak se vybere nahodne jinak se mu priradi ta druha
+            if (plr1 == null || plr1.Data.PlayerPosition == PlayerPosition.INVALID)
+                firstPlayerPosition = serverMgr.GetRandomGenerator().Next(2) == 0 ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
+            else
+                firstPlayerPosition = plr1.Data.PlayerPosition == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT;
+
             if (plr1 != null)
                 plr1.Data.PlayerPosition = firstPlayerPosition;
             if (plr2 != null)
