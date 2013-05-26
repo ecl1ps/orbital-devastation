@@ -14,6 +14,9 @@ namespace Orbit.Core.Server
     {
         private void SendPlayerLeftMessage(Player p)
         {
+            if (p == null)
+                return;
+
             NetOutgoingMessage outMsg = CreateNetMessage();
             outMsg.Write((int)PacketType.PLAYER_DISCONNECTED);
             outMsg.Write(p.GetId());
