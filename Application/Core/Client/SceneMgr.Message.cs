@@ -354,8 +354,6 @@ namespace Orbit.Core.Client
             {
                 p.CreateWeapons();
 
-                // zobrazi aktualni integrity bazi
-                p.SetBaseIntegrity(p.GetBaseIntegrity());
                 p.Baze = SceneObjectFactory.CreateBase(this, p);
 
                 BaseIntegrityBar ellipse = SceneObjectFactory.CreateBaseIntegrityBar(this, p);
