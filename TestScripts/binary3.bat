@@ -1,1 +1,1 @@
-"../Build/Debug x86/Copy2/OrbitalDevastation.exe" %*
+"../Build/Debug x86/Copy3/OrbitalDevastation.exe" %*
