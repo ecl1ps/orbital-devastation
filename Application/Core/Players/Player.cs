@@ -371,6 +371,15 @@ namespace Orbit.Core.Players
             actions = null;
         }
 
+        public void ClearObjects()
+        {
+            Baze = null;
+            Device = null;
+            Hook = null;
+            Canoon = null;
+            Mine = null;
+        }
+
         private void InitActions()
         {
             if (IsActivePlayer())

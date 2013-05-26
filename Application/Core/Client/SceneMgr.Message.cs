@@ -366,11 +366,14 @@ namespace Orbit.Core.Client
             }
             else
             {
-                MiningModule obj = SceneObjectFactory.CreateMiningModule(this, p.Data.MiningModuleStartPos, p);
-                DelayedAttachToScene(obj);
-                DelayedAttachToScene(SceneObjectFactory.CreateMiningModuleIntegrityBar(this, obj, p));
+                if (p.Device == null)
+                {
+                    MiningModule obj = SceneObjectFactory.CreateMiningModule(this, p.Data.MiningModuleStartPos, p);
+                    DelayedAttachToScene(obj);
+                    DelayedAttachToScene(SceneObjectFactory.CreateMiningModuleIntegrityBar(this, obj, p));
 
-                p.Device = obj;
+                    p.Device = obj;
+                }
             }
 
             if (p.IsCurrentPlayer())
@@ -385,6 +388,9 @@ namespace Orbit.Core.Client
                 }
                 else
                 {
+                    if (p.Device.HasControlOfType<MiningModuleControl>())
+                        return;
+
                     MiningModuleControl mc = new MiningModuleControl();
                     mc.Owner = p;
                     p.Device.AddControl(mc);

@@ -798,7 +798,10 @@ namespace Orbit.Core.Client
             CleanObjects();
 
             foreach (Player p in players)
+            {
                 p.ClearActions();
+                p.ClearObjects();
+            }
 
             AttachStateManagers();
             stopUpdating = false;
