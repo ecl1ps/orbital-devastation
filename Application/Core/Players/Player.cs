@@ -43,7 +43,8 @@ namespace Orbit.Core.Players
             }
             set
             {
-                value.TriggerUpgrade(hook);
+                if (value != null)
+                    value.TriggerUpgrade(hook);
                 hook = value;
             }
         }
@@ -55,7 +56,8 @@ namespace Orbit.Core.Players
             }
             set
             {
-                value.TriggerUpgrade(mine);
+                if (value != null)
+                    value.TriggerUpgrade(mine);
                 mine = value;
             }
         }
@@ -67,7 +69,8 @@ namespace Orbit.Core.Players
             }
             set
             {
-                value.TriggerUpgrade(canoon);
+                if (value != null)
+                    value.TriggerUpgrade(canoon);
                 canoon = value;
             }
         }
