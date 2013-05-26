@@ -284,9 +284,9 @@ namespace Orbit.Core.Players
             return Data.Id;
         }
 
-        public static string GenerateNewHashId(string name)
+        public static string GenerateNewHashId(string salt)
         {
-            string value = name + DateTime.Now;
+            string value = DateTime.UtcNow.Ticks.ToString() + salt;
             MD5 md5 = MD5.Create();
             byte[] inputBytes = Encoding.ASCII.GetBytes(value);
             byte[] hash = md5.ComputeHash(inputBytes);

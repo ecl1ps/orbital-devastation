@@ -44,13 +44,11 @@ namespace Orbit.Gui
             }
 
             App.Instance.PlayerName = tbPlayerName.Text;
-            App.Instance.PlayerHashId = Player.GenerateNewHashId(tbPlayerName.Text);
             GameProperties.Props.Set(PropertyKey.PLAYER_NAME, tbPlayerName.Text);
 #if DEBUG
             GameProperties.Props.Set(PropertyKey.AVAILABLE_COLORS, ((int)PlayerColorSet.END - 1).ToString(Strings.Culture));
             PlayerColorManager.RefreshPlayerColors();
 #endif
-            GameProperties.Props.SetAndSave(PropertyKey.PLAYER_HASH_ID, App.Instance.PlayerHashId);
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
