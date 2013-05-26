@@ -53,17 +53,17 @@ namespace Orbit.Core.Scene.Controls.Health.Implementations
             {
                 size = count - emmitors.Count;
                 for (int i = 0; i < size; i++)
-                    spawnEmmitor();
+                    SpawnEmmitor();
             }
             else if (count < emmitors.Count)
             {
                 size = emmitors.Count - count;
                 for (int i = 0; i < size; i++)
-                    despawnEmmitor();
+                    DespawnEmmitor();
             }
         }
 
-        private void spawnEmmitor()
+        private void SpawnEmmitor()
         {
             Vector v = new Vector(1, 0);
             v = v.Rotate(FastMath.LinearInterpolate(0, -Math.PI, rand.NextDouble()));
@@ -82,10 +82,10 @@ namespace Orbit.Core.Scene.Controls.Health.Implementations
                 emmitors.Push(g);
             }
             else
-                createEmmitor(v);
+                CreateEmmitor(v);
         }
 
-        private void createEmmitor(Vector position)
+        private void CreateEmmitor(Vector position)
         {
             EmmitorGroup g = ParticleEmmitorFactory.CreateFireEmmitors(me.SceneMgr, position);
             emmitors.Push(g);
@@ -93,7 +93,7 @@ namespace Orbit.Core.Scene.Controls.Health.Implementations
             g.Attach(me.SceneMgr, false);
         }
 
-        private void despawnEmmitor()
+        private void DespawnEmmitor()
         {
             if (emmitors.Count == 0)
                 return;

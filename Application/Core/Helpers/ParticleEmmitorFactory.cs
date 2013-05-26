@@ -227,7 +227,7 @@ namespace Orbit.Core.Helpers
             smokeEmmitor.Delay = 0.2f;
             smokeEmmitor.FireAll = true;
 
-            ParticleEmmitor fireEmmitor = CreateFireParticleEmmitor(mgr, position, Color.FromArgb(150, 171, 0, 0));
+            ParticleEmmitor fireEmmitor = CreateFireParticleEmmitor(mgr, position, Color.FromArgb(120, 255, 120, 0));
             fireEmmitor.EmitingTime = 0.5f;
             fireEmmitor.Amount = 20;
             fireEmmitor.MinLife = 0.8f;
@@ -249,7 +249,7 @@ namespace Orbit.Core.Helpers
 
             ParticleEmmitor flashEmmitor = CreateFlashParticleEmmitor(mgr, position, Color.FromRgb(250, 250, 150));
 
-            ParticleEmmitor shockWaveEmmitor = CreateShockWaveParticleEmmitor(mgr, position, Color.FromArgb(200, 255, 0, 0));
+            ParticleEmmitor shockWaveEmmitor = CreateShockWaveParticleEmmitor(mgr, position, Color.FromArgb(150, 255, 200, 0));
 
             EmmitorGroup g = new EmmitorGroup();
             g.Position = position;
