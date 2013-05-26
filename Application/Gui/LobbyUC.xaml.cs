@@ -33,11 +33,27 @@ namespace Orbit.Gui
 
         public LobbyUC(bool asLeader, bool firstMatch = true)
         {
-            leader = asLeader;
             InitializeComponent();
 
             if (firstMatch)
                 btnStats.IsEnabled = false;
+
+            SetIsLeader(asLeader);
+            
+#if !DEBUG
+            lblBots.Visibility = Visibility.Hidden;
+            lblBotLevel.Visibility = Visibility.Hidden;
+            lblBot.Visibility = Visibility.Hidden;
+            lblBotCount.Visibility = Visibility.Hidden;
+#endif
+        }
+
+        public void SetIsLeader(bool asLeader)
+        {
+            if (asLeader == leader)
+                return;
+
+            leader = asLeader;
 
             if (asLeader)
             {
@@ -50,15 +66,7 @@ namespace Orbit.Gui
                 btnReadyCheck.Visibility = Visibility.Hidden;
                 ready = false;
             }
-            
-#if !DEBUG
-            lblBots.Visibility = Visibility.Hidden;
-            lblBotLevel.Visibility = Visibility.Hidden;
-            lblBot.Visibility = Visibility.Hidden;
-            lblBotCount.Visibility = Visibility.Hidden;
-#endif
         }
-
 
         private void tbMessage_KeyDown(object sender, KeyEventArgs e)
         {

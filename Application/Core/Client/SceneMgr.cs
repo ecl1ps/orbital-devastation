@@ -959,7 +959,10 @@ namespace Orbit.Core.Client
             {
                 LobbyUC lobby = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
                 if (lobby != null)
+                {
                     lobby.UpdateShownPlayers(data);
+                    lobby.SetIsLeader(currentPlayer.Data.LobbyLeader);
+                }
             }));
         }
 

@@ -57,8 +57,6 @@ namespace Orbit.Core
         public const int ASTEROID_GOLD_CHANCE               = 25; // (0 - 100)
         public const int ASTEROID_UNSTABLE_CHANCE           = 50; // 25 procent musi se brat ohled na sance ostatnich mozna dodelat nejaky dopocitani. Ale co s normalnima potom?
 
-        public const int BASE_MAX_INGERITY                  = 100;
-
         public const int NEW_STAT_POWERUP_TIMER_MIN         = 2; // seconds
         public const int NEW_STAT_POWERUP_TIMER_MAX         = 4; // seconds
 
@@ -105,12 +103,6 @@ namespace Orbit.Core
         public const float ACTION_BAR_TOP_MARGIN_PCT        = 0.3f;
 
         public const bool ALLOW_SPECTATORS_IN_DUO_MATCH     = false;
-
-#if DEBUG
-        public const int START_GOLD                         = 25000;
-#else
-        public const int START_GOLD                         = 250;
-#endif
 
         //konstanty pro spectatory
         public const float SPECTATOR_MAX_TIME_BONUS         = 60 * 30; // pul hodiny
@@ -171,9 +163,12 @@ namespace Orbit.Core
 
 #if DEBUG
         public const bool SKIP_STATISTICS                   = true;
+        public const int START_GOLD                         = 25000;
 #else
         public const bool SKIP_STATISTICS                   = false;
+        public const int START_GOLD                         = 250;
 #endif
+        public const int BASE_MAX_INGERITY                  = 100;
 
     }
 
