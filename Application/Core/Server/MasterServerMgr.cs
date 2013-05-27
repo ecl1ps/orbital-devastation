@@ -178,7 +178,7 @@ namespace Orbit.Core.Server
             {
                 NetOutgoingMessage versionMismatchMsg = server.CreateMessage();
                 versionMismatchMsg.Write((int)PacketType.VERSION_MISMATCH);
-                versionMismatchMsg.Write(clientVersion);
+                versionMismatchMsg.Write(SharedDef.VERSION);
                 server.SendUnconnectedMessage(versionMismatchMsg, sender);
                 return false;
             }
