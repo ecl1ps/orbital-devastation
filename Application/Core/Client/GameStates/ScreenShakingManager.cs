@@ -24,10 +24,6 @@ namespace Orbit.Core.Client.GameStates
         private float current;
         private bool rising;
 
-        private float endingTime = 0.25f;
-        private float currentEndingTime = 0;
-        private float endingLimit = 0;
-
         public ScreenShakingManager(SceneMgr mgr)
         {
             SceneMgr = mgr;
@@ -68,8 +64,6 @@ namespace Orbit.Core.Client.GameStates
             if (limit < 2 && limit > -2)
             {
                 shaking = false;
-                currentEndingTime = 0;
-                endingLimit = current;
                 current = 0;
                 Animate();
                 return;
