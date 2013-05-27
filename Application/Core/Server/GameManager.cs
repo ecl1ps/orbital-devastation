@@ -270,28 +270,8 @@ namespace Orbit.Core.Server
 
         public void PlayerLeft(Player p)
         {
-            if (p.Data.LobbyLeader)
-                AssignNewLobbyLeader(p);
-
             if (players.Contains(p))
                 matchManager.OnPlayerLeave(p, IsRunning);
-        }
-
-        private void AssignNewLobbyLeader(Player leaver)
-        {
-            try
-            {
-                Player leader = players.First<Player>(newLeader => newLeader.GetId() != leaver.GetId());
-
-                leaver.Data.LobbyLeader = false;
-
-                if (leader == null)
-                    return;
-
-                leader.Data.LobbyLeader = true;
-                serverMgr.BroadcastMessage(serverMgr.CreateAllPlayersDataMessage());
-            }
-            catch (InvalidOperationException) {}
         }
 
         public void PlayerConnected(Player p)

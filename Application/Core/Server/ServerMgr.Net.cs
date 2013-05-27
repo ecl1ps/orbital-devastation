@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Orbit;
 using Orbit.Core.Players;
 using Orbit.Core.Scene.Controls;
@@ -90,6 +91,9 @@ namespace Orbit.Core.Server
             disconnected.Data.StartReady = false;
             activeConnections.Remove(disconnected.Connection);
 
+            if (disconnected.Data.LobbyLeader)
+                AssignNewLobbyLeader(disconnected);
+
             if (gameSession != null)
                 gameSession.PlayerLeft(disconnected);
 
@@ -98,6 +102,23 @@ namespace Orbit.Core.Server
 
             if (activeConnections.Count == 0)
                 Shutdown();
+        }
+
+        private void AssignNewLobbyLeader(Player leaver)
+        {
+            try
+            {
+                Player leader = players.First<Player>(newLeader => newLeader.GetId() != leaver.GetId());
+
+                leaver.Data.LobbyLeader = false;
+
+                if (leader == null)
+                    return;
+
+                leader.Data.LobbyLeader = true;
+                BroadcastMessage(CreateAllPlayersDataMessage());
+            }
+            catch (InvalidOperationException) { }
         }
 
         private void ReceivedPlayerKickRequest(int id)
