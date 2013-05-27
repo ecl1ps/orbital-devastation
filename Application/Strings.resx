@@ -342,7 +342,8 @@
     <value>Type:</value>
   </data>
   <data name="ui_version" xml:space="preserve">
-    <value>Alpha version</value>
+    <value>v. {0} (alpha)</value>
+    <comment>0 = version</comment>
   </data>
   <data name="bot_name_1" xml:space="preserve">
     <value>Simple Bot</value>
@@ -607,5 +608,13 @@
   </data>
   <data name="ui_ready_check_question" xml:space="preserve">
     <value>Leader initiated ready check. Are you ready?</value>
+  </data>
+  <data name="ui_client_version" xml:space="preserve">
+    <value>Client version {0}</value>
+    <comment>0 = client version</comment>
+  </data>
+  <data name="ui_higher_version" xml:space="preserve">
+    <value>You have higher version than server. Do something about it. You have {0}, server {1}.</value>
+    <comment>0 = client version, 1 = server version</comment>
   </data>
 </root>

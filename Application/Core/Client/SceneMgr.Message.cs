@@ -44,16 +44,24 @@ namespace Orbit.Core.Client
             serverConnection = client.Connect(serverAddress, SharedDef.MASTER_SERVER_PORT, msg);
         }
 
-        private void ReceivedVersionMismatchMsg(NetIncomingMessage msg)
+        public static void ReceivedVersionMismatchMsg(NetIncomingMessage msg)
         {
             string serverVersion = msg.ReadString();
             if (serverVersion.CompareTo(SharedDef.VERSION) > 0)
             {
-                // TODO
+                App.Instance.Dispatcher.Invoke(new Action(() => 
+                {
+                    App.Instance.ShowStartScreen();
+                    App.Instance.AddMenu(new DownloadUC(serverVersion));
+                }));
             }
             else
             {
-                // TODO
+                App.Instance.Dispatcher.Invoke(new Action(() =>
+                {
+                    App.Instance.ShowStartScreen();
+                    App.Instance.AddMenu(new InfoUC(String.Format(Strings.ui_higher_version, SharedDef.VERSION, serverVersion)));
+                }));
             }
         }
 

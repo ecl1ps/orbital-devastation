@@ -154,10 +154,20 @@ namespace Orbit.Gui
             {
                 case NetIncomingMessageType.UnconnectedData:
                     PacketType type = (PacketType)msg.ReadInt32();
-                    if (type == PacketType.AVAILABLE_TOURNAMENTS_RESPONSE)
-                        ReceivedTournaments(msg);
-                    else if (type == PacketType.AVAILABLE_RECONNECT_RESPONSE)
-                        ReceivedAvailableReconnect();
+                    switch (type)
+                    {
+                        case PacketType.AVAILABLE_TOURNAMENTS_RESPONSE:
+                            ReceivedTournaments(msg);
+                            break;
+                        case PacketType.AVAILABLE_RECONNECT_RESPONSE:
+                            ReceivedAvailableReconnect();
+                            break;
+                        case PacketType.VERSION_MISMATCH:
+                            requestTimer.Dispose();
+                            client.Shutdown("");
+                            Orbit.Core.Client.SceneMgr.ReceivedVersionMismatchMsg(msg);
+                            break;
+                    }
                     break;
                 default:
                     break;
@@ -173,7 +183,6 @@ namespace Orbit.Gui
         private void btnJoinTournament_Click(object sender, RoutedEventArgs e)
         {
             JoinTournament(lvTournaments.SelectedItem as VisualizableTorunamentSettings);
-
         }
 
         private void lvTournaments_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -219,6 +228,7 @@ namespace Orbit.Gui
 
                 NetOutgoingMessage msg = client.CreateMessage();
                 msg.Write((int)PacketType.AVAILABLE_TOURNAMENTS_REQUEST);
+                msg.Write(SharedDef.VERSION);
                 client.SendUnconnectedMessage(msg, serverAddress, SharedDef.MASTER_SERVER_PORT);
             }));
         }

@@ -99,8 +99,13 @@ namespace Orbit.Core.Client
                             case NetConnectionStatus.Disconnecting:
                                 string reason = msg.ReadString();
                                 if (reason == "kicked") // musi byt delayed - az v dalsim updatu - jinak zavreni oken premaze i info okno
+                                {
                                     Enqueue(new Action(() => Application.Current.Dispatcher.Invoke(
                                         new Action(() => App.Instance.AddMenu(new InfoUC(Strings.ui_warning_kicked))))));
+                                }
+                                else if (reason == "version mismatch")
+                                    break;
+
                                 EndGame(null, GameEnd.SERVER_DISCONNECTED);
                                 break;
                         }

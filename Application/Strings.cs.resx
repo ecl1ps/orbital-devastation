@@ -199,7 +199,8 @@
     <value>Statistiky</value>
   </data>
   <data name="ui_version" xml:space="preserve">
-    <value>Alfa verze</value>
+    <value>v. {0} (alfa)</value>
+    <comment>0 = version</comment>
   </data>
   <data name="ui_back" xml:space="preserve">
     <value>Zpět</value>
@@ -588,5 +589,13 @@
   </data>
   <data name="ui_ready_check_question" xml:space="preserve">
     <value>Pořadatel turnaje zahájil kontrolu. Jsi připraven?</value>
+  </data>
+  <data name="ui_client_version" xml:space="preserve">
+    <value>Client verze {0}</value>
+    <comment>0 = client version</comment>
+  </data>
+  <data name="ui_higher_version" xml:space="preserve">
+    <value>Verze klienta je vyšší než verze serveru. Něco s tím udělej. Verze klienta: {0}, serveru: {1},</value>
+    <comment>0 = client version, 1 = server version</comment>
   </data>
 </root>

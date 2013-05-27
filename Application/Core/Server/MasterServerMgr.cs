@@ -7,6 +7,7 @@ using Lidgren.Network;
 using Orbit.Core.Server.Level;
 using Orbit.Core.Server.Match;
 using Orbit.Core.Helpers;
+using System.Net;
 
 namespace Orbit.Core.Server
 {
@@ -74,22 +75,27 @@ namespace Orbit.Core.Server
                     break;
                 case NetIncomingMessageType.UnconnectedData:
                     PacketType packetType = (PacketType)msg.ReadInt32();
-                    if (packetType == PacketType.AVAILABLE_TOURNAMENTS_REQUEST)
-                        SendAvailableTournamentsResponse(msg.SenderEndPoint);
-                    else if (packetType == PacketType.AVAILABLE_RECONNECT_REQUEST)
-                        CheckAvailableReconnect(msg.SenderEndPoint, msg.ReadString());
+                    switch (packetType)
+                    {
+                        case PacketType.AVAILABLE_TOURNAMENTS_REQUEST:
+                            if (!CheckVersion(msg.ReadString(), msg.SenderEndPoint))
+                                break;
+
+                            SendAvailableTournamentsResponse(msg.SenderEndPoint);
+                            break;
+                        case PacketType.AVAILABLE_RECONNECT_REQUEST:
+                            CheckAvailableReconnect(msg.SenderEndPoint, msg.ReadString());
+                            break;
+                    }
                     break;
                 case NetIncomingMessageType.ConnectionApproval:
                     if (msg.ReadInt32() != (int)PacketType.PLAYER_CONNECT)
                         break;
 
                     string clientVersion = msg.ReadString();
-                    if (clientVersion.CompareTo(SharedDef.VERSION) != 0)
+                    if (!CheckVersion(clientVersion, msg.SenderEndPoint))
                     {
-                        NetOutgoingMessage versionMismatchMsg = server.CreateMessage();
-                        versionMismatchMsg.Write(SharedDef.VERSION);
-                        versionMismatchMsg.Write((int)PacketType.VERSION_MISMATCH);
-                        server.SendUnconnectedMessage(versionMismatchMsg, msg.SenderEndPoint);
+                        msg.SenderConnection.Deny("version mismatch");
                         break;
                     }
 
@@ -164,6 +170,20 @@ namespace Orbit.Core.Server
                     break;
             }
             server.Recycle(msg);
+        }
+
+        private bool CheckVersion(string clientVersion, IPEndPoint sender)
+        {
+            if (clientVersion.CompareTo(SharedDef.VERSION) != 0)
+            {
+                NetOutgoingMessage versionMismatchMsg = server.CreateMessage();
+                versionMismatchMsg.Write((int)PacketType.VERSION_MISMATCH);
+                versionMismatchMsg.Write(clientVersion);
+                server.SendUnconnectedMessage(versionMismatchMsg, sender);
+                return false;
+            }
+            else
+                return true;
         }
 
         private void CheckAvailableReconnect(System.Net.IPEndPoint iPEndPoint, string playerHashId)

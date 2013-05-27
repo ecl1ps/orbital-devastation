@@ -10,7 +10,9 @@ namespace Orbit.Core
                                                             // 0.8 alfa, 0.9 beta, 1.0 RC
                                                             // major change .01 - .99
                                                             // minor change .001 - .999
-        public const string VERSION                         = "0.8.01.001";
+        public const string VERSION                         = "0.8.01.002";
+
+        public const string DOWNLOAD_LINK                   = "http://77.236.211.123/testbuilds/OrbitalDevastation.exe";
 
         // Application
         public const long MINIMUM_UPDATE_TIME               = 17;
