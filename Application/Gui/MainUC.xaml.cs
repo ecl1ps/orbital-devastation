@@ -23,6 +23,7 @@ namespace Orbit.Gui
         public MainUC()
         {
             InitializeComponent();
+            lblVersion.Content = String.Format(Strings.ui_version, SharedDef.VERSION);
 #if !DEBUG
             spMenu.Children.Remove(btnConnectToLocalhost);
             spMenu.Children.Remove(btnLocalhostTorunament);
