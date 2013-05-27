@@ -210,24 +210,26 @@ namespace Orbit.Core.Client
             if (disconnected == null)
                 return;
 
-            if (GameType == Gametype.TOURNAMENT_GAME && !disconnected.IsActivePlayer())
-            {
-                FloatingTextMgr.AddFloatingText(String.Format(Strings.Culture, Strings.game_other_left, disconnected.Data.Name),
-                    new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
-                    FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
-            }
-
             players.Remove(disconnected);
-
-            if (disconnected.IsActivePlayer())
-                EndGame(disconnected, GameEnd.LEFT_GAME);
-            else if (disconnected.Device != null)
-                disconnected.Device.DoRemoveMe();
 
             if (GameWindowState == WindowState.IN_LOBBY)
             {
                 UpdateLobbyPlayers();
                 CheckAllPlayersReady();
+            }
+            else
+            {
+                if (GameType == Gametype.TOURNAMENT_GAME && !disconnected.IsActivePlayer())
+                {
+                    FloatingTextMgr.AddFloatingText(String.Format(Strings.Culture, Strings.game_other_left, disconnected.Data.Name),
+                        new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
+                        FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
+                }
+
+                if (disconnected.IsActivePlayer())
+                    EndGame(disconnected, GameEnd.LEFT_GAME);
+                else if (disconnected.Device != null)
+                    disconnected.Device.DoRemoveMe();
             }
         }
 
