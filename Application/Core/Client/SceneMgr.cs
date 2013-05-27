@@ -514,8 +514,11 @@ namespace Orbit.Core.Client
                 if (obj1.CollisionShape == null)
                     continue;
 
-                foreach (ISceneObject obj2 in objects)
+                ISceneObject obj2 = null;
+                for (int i = 0; i < objects.Count; ++i)
                 {
+                    obj2 = objects[i];
+
                     if (obj1.Id == obj2.Id)
                         continue;
 
