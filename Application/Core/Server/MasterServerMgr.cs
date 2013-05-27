@@ -169,7 +169,7 @@ namespace Orbit.Core.Server
         private ServerMgr GetServerForReconnectionIfAny(string playerHashId)
         {
             foreach (KeyValuePair<NetConnection, ServerMgr> pair in connections)
-                if (pair.Value.PlayerExists(playerHashId))
+                if (pair.Value.PlayerExists(playerHashId) && (pair.Value.IsGameRunning() || pair.Value.TournamentSettings.PlayedMatches > 0))
                     return pair.Value;
 
             return null;
