@@ -73,7 +73,7 @@ namespace Orbit.Core.Server
                     Logger.Debug(msg.ReadString());
                     break;
                 case NetIncomingMessageType.UnconnectedData:
-                    PacketType packetType = (PacketType)msg.ReadByte();
+                    PacketType packetType = (PacketType)msg.ReadInt32();
                     if (packetType == PacketType.AVAILABLE_TOURNAMENTS_REQUEST)
                         SendAvailableTournamentsResponse(msg.SenderEndPoint);
                     else if (packetType == PacketType.AVAILABLE_RECONNECT_REQUEST)
@@ -87,8 +87,8 @@ namespace Orbit.Core.Server
                     if (clientVersion.CompareTo(SharedDef.VERSION) != 0)
                     {
                         NetOutgoingMessage versionMismatchMsg = server.CreateMessage();
-                        versionMismatchMsg.Write((byte)PacketType.VERSION_MISMATCH);
                         versionMismatchMsg.Write(SharedDef.VERSION);
+                        versionMismatchMsg.Write((int)PacketType.VERSION_MISMATCH);
                         server.SendUnconnectedMessage(versionMismatchMsg, msg.SenderEndPoint);
                         break;
                     }
@@ -172,7 +172,7 @@ namespace Orbit.Core.Server
                 return;
 
             NetOutgoingMessage msg = server.CreateMessage();
-            msg.Write((byte)PacketType.AVAILABLE_RECONNECT_RESPONSE);
+            msg.Write((int)PacketType.AVAILABLE_RECONNECT_RESPONSE);
             server.SendUnconnectedMessage(msg, iPEndPoint);
         }
 
@@ -192,7 +192,7 @@ namespace Orbit.Core.Server
             IOrderedEnumerable<TournamentSettings> ordered = available.OrderBy<TournamentSettings, bool>(t => t.Running);
 
             NetOutgoingMessage msg = server.CreateMessage();
-            msg.Write((byte)PacketType.AVAILABLE_TOURNAMENTS_RESPONSE);
+            msg.Write((int)PacketType.AVAILABLE_TOURNAMENTS_RESPONSE);
             msg.Write(available.Count);
             foreach (TournamentSettings s in ordered)
                 msg.Write(s);

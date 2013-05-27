@@ -60,7 +60,7 @@ namespace Orbit.Gui
             requestTimer.Change(0, SharedDef.TOURNAMENT_LIST_REQUEST_INTERVAL);
 
             NetOutgoingMessage msg = client.CreateMessage();
-            msg.Write((byte)PacketType.AVAILABLE_RECONNECT_REQUEST);
+            msg.Write((int)PacketType.AVAILABLE_RECONNECT_REQUEST);
             msg.Write(App.Instance.PlayerHashId);
             client.SendUnconnectedMessage(msg, serverAddress, SharedDef.MASTER_SERVER_PORT);
         }
@@ -153,7 +153,7 @@ namespace Orbit.Gui
             switch (msg.MessageType)
             {
                 case NetIncomingMessageType.UnconnectedData:
-                    PacketType type = (PacketType)msg.ReadByte();
+                    PacketType type = (PacketType)msg.ReadInt32();
                     if (type == PacketType.AVAILABLE_TOURNAMENTS_RESPONSE)
                         ReceivedTournaments(msg);
                     else if (type == PacketType.AVAILABLE_RECONNECT_RESPONSE)
@@ -218,7 +218,7 @@ namespace Orbit.Gui
                 statusReceived = false;
 
                 NetOutgoingMessage msg = client.CreateMessage();
-                msg.Write((byte)PacketType.AVAILABLE_TOURNAMENTS_REQUEST);
+                msg.Write((int)PacketType.AVAILABLE_TOURNAMENTS_REQUEST);
                 client.SendUnconnectedMessage(msg, serverAddress, SharedDef.MASTER_SERVER_PORT);
             }));
         }
