@@ -38,6 +38,7 @@ namespace Orbit.Core.Client
             pendingMessages = new Queue<NetOutgoingMessage>();
             NetPeerConfiguration conf = new NetPeerConfiguration("Orbit");
 
+            conf.EnableMessageType(NetIncomingMessageType.UnconnectedData);
 #if DEBUG
             /*conf.SimulatedMinimumLatency = 0.1f; // 100ms
             conf.SimulatedRandomLatency = 0.05f; // +- 50ms*/
@@ -46,7 +47,6 @@ namespace Orbit.Core.Client
             conf.EnableMessageType(NetIncomingMessageType.Error);
             conf.EnableMessageType(NetIncomingMessageType.ErrorMessage);
             conf.EnableMessageType(NetIncomingMessageType.Receipt);
-            conf.EnableMessageType(NetIncomingMessageType.UnconnectedData);
             conf.EnableMessageType(NetIncomingMessageType.WarningMessage);
 #endif
 #if VERBOSE
@@ -82,6 +82,9 @@ namespace Orbit.Core.Client
                     case NetIncomingMessageType.Data:
                         ProcessIncomingDataMessage(msg);
                         break;
+                    case NetIncomingMessageType.UnconnectedData:
+                        ProcessIncomingUnconnectedDataMessage(msg);
+                        break;
                     case NetIncomingMessageType.StatusChanged:
                         switch ((NetConnectionStatus)msg.ReadByte())
                         {
@@ -110,6 +113,17 @@ namespace Orbit.Core.Client
                         break;
                 }
                 client.Recycle(msg);
+            }
+        }
+
+        private void ProcessIncomingUnconnectedDataMessage(NetIncomingMessage msg)
+        {
+            PacketType type = (PacketType)msg.ReadInt32();
+            switch (type)
+            {
+                case PacketType.VERSION_MISMATCH:
+                    ReceivedVersionMismatchMsg(msg);
+                    break;
             }
         }
 

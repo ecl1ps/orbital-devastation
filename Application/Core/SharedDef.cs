@@ -7,6 +7,11 @@ namespace Orbit.Core
 {
     class SharedDef
     {
+                                                            // 0.8 alfa, 0.9 beta, 1.0 RC
+                                                            // major change .01 - .99
+                                                            // minor change .001 - .999
+        public const string VERSION                         = "0.8.01.001";
+
         // Application
         public const long MINIMUM_UPDATE_TIME               = 17;
 
@@ -200,6 +205,8 @@ namespace Orbit.Core
     {
         PLAYER_CONNECT,
         PLAYER_ID_HAIL,
+        VERSION_MISMATCH,
+
         PLAYER_KICK_REQUEST,
         PLAYER_READY_CHECK,
 
@@ -269,6 +276,6 @@ namespace Orbit.Core
         AVAILABLE_RECONNECT_REQUEST,
         AVAILABLE_RECONNECT_RESPONSE,
 
-        SHAKING_START
+        SHAKING_START,
     }    
 }

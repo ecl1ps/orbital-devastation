@@ -34,6 +34,7 @@ namespace Orbit.Core.Client
         {
             NetOutgoingMessage msg = client.CreateMessage();
             msg.Write((int)PacketType.PLAYER_CONNECT);
+            msg.Write(SharedDef.VERSION);
             msg.Write((byte)GameType);
             msg.Write(RemoteServerId);
             msg.Write(GetCurrentPlayer().Data.Name);
@@ -41,6 +42,19 @@ namespace Orbit.Core.Client
             msg.Write(GetCurrentPlayer().Data.PlayerColor);
 
             serverConnection = client.Connect(serverAddress, SharedDef.MASTER_SERVER_PORT, msg);
+        }
+
+        private void ReceivedVersionMismatchMsg(NetIncomingMessage msg)
+        {
+            string serverVersion = msg.ReadString();
+            if (serverVersion.CompareTo(SharedDef.VERSION) > 0)
+            {
+                // TODO
+            }
+            else
+            {
+                // TODO
+            }
         }
 
         private void ClientConnectionConnected(NetIncomingMessage msg)

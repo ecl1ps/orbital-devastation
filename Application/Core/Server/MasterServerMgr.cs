@@ -83,6 +83,16 @@ namespace Orbit.Core.Server
                     if (msg.ReadInt32() != (int)PacketType.PLAYER_CONNECT)
                         break;
 
+                    string clientVersion = msg.ReadString();
+                    if (clientVersion.CompareTo(SharedDef.VERSION) != 0)
+                    {
+                        NetOutgoingMessage versionMismatchMsg = server.CreateMessage();
+                        versionMismatchMsg.Write((byte)PacketType.VERSION_MISMATCH);
+                        versionMismatchMsg.Write(SharedDef.VERSION);
+                        server.SendUnconnectedMessage(versionMismatchMsg, msg.SenderEndPoint);
+                        break;
+                    }
+
                     Gametype type = (Gametype)msg.ReadByte();
                     int serverId = msg.ReadInt32();
                     string name = msg.ReadString();
