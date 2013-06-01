@@ -29,6 +29,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public int Gold { get; set; }
         public AsteroidType AsteroidType { get; set; }
 
+        private AsteroidOverlay overlay;
+
         public Asteroid(SceneMgr mgr, long id)
             : base(mgr, id)
         {
@@ -42,10 +44,19 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void OnRemove()
         {
+            if (overlay != null)
+                overlay.DoRemoveMe();
+
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
             msg.Write((int)PacketType.ASTEROID_DESTROYED);
             msg.Write(Id);
             SceneMgr.SendMessage(msg);
+        }
+
+        public override void OnAttach()
+        {
+            overlay = SceneObjectFactory.CreateAsteroidOverlay(SceneMgr, this);
+            SceneMgr.DelayedAttachToScene(overlay);
         }
 
         public void WriteObject(NetOutgoingMessage msg)

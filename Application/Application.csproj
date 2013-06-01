@@ -202,6 +202,10 @@
     <Compile Include="Core\Scene\Controls\IDamageControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\AsteroidFreezeControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ControlableMiningModuleControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\OverlayControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\RadiusCloneControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\RotationCloneControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\PositionCloneControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DelayedActionInvokingControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LineTravelingControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\MovementDirectionControl.cs" />
@@ -245,6 +249,7 @@
     <Compile Include="Core\Scene\Controls\Implementations\HookControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\NewtonianMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LinearRotationControl.cs" />
+    <Compile Include="Core\Scene\Entities\ITransparent.cs" />
     <Compile Include="Core\Scene\Entities\HeavyWeight\HeavyweightSphere.cs" />
     <Compile Include="Core\Scene\Entities\HeavyWeight\ForcePullField.cs" />
     <Compile Include="Core\Scene\Entities\HeavyWeight\HeavyweightLine.cs" />
@@ -254,6 +259,7 @@
     <Compile Include="Core\Scene\Entities\IHeavyWeightSceneObject.cs" />
     <Compile Include="Core\Scene\Entities\IHpBar.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\AlphaChangingControl.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\AsteroidOverlay.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\HighlightingSphere.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\IceShard.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\IceSquare.cs" />
@@ -683,6 +689,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <Resource Include="resources\images\rock\rock_normal_4_burn.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="resources\images\particles\base-particle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

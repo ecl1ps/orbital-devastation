@@ -50,7 +50,7 @@ namespace Orbit.Core.Helpers
             return d;
         }
 
-        public static DrawingGroup CreateAsteroidImage(Asteroid a)
+        public static DrawingGroup CreateAsteroidImage(Asteroid a, bool burning = false)
         {
             DrawingGroup g = null;
             a.SceneMgr.Invoke(new Action(() =>
@@ -60,13 +60,13 @@ namespace Orbit.Core.Helpers
 
                 if (a.AsteroidType == AsteroidType.GOLDEN)
                     bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/rock_gold_" +
-                        a.TextureId + ".png");
+                        a.TextureId + (burning ? "_burn" : "") + ".png");
                 else if(a.AsteroidType == AsteroidType.UNSTABLE)
                     bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/rock_unstable_" +
-                        a.TextureId + ".png");
+                        a.TextureId + (burning ? "_burn" : "") + ".png");
                 else
-                    bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/rock_normal_" + 
-                        a.TextureId + ".png");
+                    bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/rock_normal_" +
+                        a.TextureId + (burning ? "_burn" : "") + ".png");
                 bi.DecodePixelWidth = a.Radius * 4;
                 bi.EndInit();
 

@@ -549,5 +549,23 @@ namespace Orbit.Core.Helpers
 
             return s;
         }
+
+        public static AsteroidOverlay CreateAsteroidOverlay(SceneMgr mgr, Asteroid parent)
+        {
+            AsteroidOverlay ao = new AsteroidOverlay(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
+            ao.Radius = parent.Radius;
+            ao.Position = parent.Position;
+            ao.Rotation = parent.Rotation;
+
+            ao.AddControl(new PositionCloneControl(parent));
+            ao.AddControl(new RotationCloneControl(parent));
+            ao.AddControl(new RadiusCloneControl(parent));
+
+            ao.AddControl(new OverlayControl(parent));
+
+            ao.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(parent, true));
+
+            return ao;
+        }
     }
 }
