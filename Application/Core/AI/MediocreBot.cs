@@ -209,31 +209,31 @@ namespace Orbit.Core.AI
                             if ((asteroid.Position - baseLauncherPosition).Length < 350)
                             {
                                 priority++;
-                                priority += (int)(asteroid.getHp() / 10 - 1);
+                                priority += (int)(asteroid.GetHp() / 10 - 1);
 
                                 if ((asteroid.Position - baseLauncherPosition).Length < 300)
                                 {
                                     priority++;
-                                    priority += (int)(asteroid.getHp() / 10 - 1);
+                                    priority += (int)(asteroid.GetHp() / 10 - 1);
                                     priority += asteroid.AsteroidType == AsteroidType.UNSTABLE ? 2 : 0;
 
                                     if ((asteroid.Position - baseLauncherPosition).Length < 200)
                                     {
                                         priority++;
-                                        priority += (int)(asteroid.getHp() / 10 - 1);
+                                        priority += (int)(asteroid.GetHp() / 10 - 1);
                                         priority += asteroid.AsteroidType == AsteroidType.UNSTABLE ? 1 : 0;
 
                                         if ((asteroid.Position - baseLauncherPosition).Length < 100)
                                         {
                                             priority++;
-                                            priority += (int)(asteroid.getHp() / 10 - 1);
+                                            priority += (int)(asteroid.GetHp() / 10 - 1);
                                             priority -= asteroid.AsteroidType == AsteroidType.UNSTABLE ? 4 : 0;
 
 
                                             if ((asteroid.Position - baseLauncherPosition).Length < 50)
                                             {
                                                 priority++;
-                                                priority += (int)(asteroid.getHp() / 10 - 1);
+                                                priority += (int)(asteroid.GetHp() / 10 - 1);
                                                 newTarget.Status = asteroid.AsteroidType == AsteroidType.UNSTABLE ? TargetStatus.UNAVAILABLE : TargetStatus.AVAILABLE;
                                             }
                                         }

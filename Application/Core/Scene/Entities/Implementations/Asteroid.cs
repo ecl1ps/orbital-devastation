@@ -86,7 +86,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             }
         }
 
-        public virtual float getHp()
+        public virtual float GetHp()
         {
             return Radius;
         }
