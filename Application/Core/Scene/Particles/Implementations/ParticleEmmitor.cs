@@ -18,7 +18,7 @@ using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Scene.Particles.Implementations
 {
-    class Particle
+    public class Particle
     {
         public Point3D Position { get; set; }
         public Vector Direction { get; set; }

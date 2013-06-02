@@ -131,6 +131,8 @@ namespace Orbit.Core
         public const int SPECTATOR_DAMAGE                   = 6;
         public const int SPECTATOR_GROWTH                   = 6;
 
+        public static readonly Vector DEFAULT_VECTOR        = new Vector(1, 0);
+
         /// <summary>
         /// velikost canvasu je zaroven velikost celeho okna
         /// </summary>

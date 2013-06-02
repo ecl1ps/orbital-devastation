@@ -271,6 +271,7 @@
     <Compile Include="Core\Scene\Entities\Implementations\SingularityBouncingBullet.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\SimpleSphere.cs" />
     <Compile Include="Core\Scene\Entities\ISpheric.cs" />
+    <Compile Include="Core\Scene\Particles\Implementations\ParticleNode.cs" />
     <Compile Include="Core\Scene\Entities\Unused\Circle.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\PowerHook.cs" />
     <Compile Include="Core\Scene\CollisionShapes\SphereCollisionShape.cs" />

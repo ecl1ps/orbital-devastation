@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace Orbit.Core.Scene.Particles.Implementations
 {
-    class EmmitorGroup
+    public class EmmitorGroup
     {
         private Vector position;
         public Vector Position { get { return position; } set { list.ForEach(e => e.Position = value); position = value; } }
