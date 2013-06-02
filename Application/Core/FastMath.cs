@@ -56,5 +56,15 @@ namespace Orbit.Core
         {
             return randomGenerator.NextDouble() * Math.PI * 2;
         }
+
+        public static double DegToRad(double degrees)
+        {
+            return degrees * Math.PI / 180;
+        }
+
+        public static double RadToDeg(double radians)
+        {
+            return radians * 180 / Math.PI;
+        }
     }
 }
