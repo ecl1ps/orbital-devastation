@@ -11,6 +11,7 @@ using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.CollisionShapes;
 using Orbit.Core.Scene.Controls.Collisions.Implementations;
 using Orbit.Gui.Visuals;
+using Orbit.Core.Scene.Particles.Implementations;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -30,6 +31,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public AsteroidType AsteroidType { get; set; }
 
         private AsteroidOverlay overlay;
+        private ParticleNode effects;
 
         public Asteroid(SceneMgr mgr, long id)
             : base(mgr, id)
@@ -47,6 +49,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
             if (overlay != null)
                 overlay.DoRemoveMe();
 
+            if (effects != null)
+                effects.DoRemoveMe();
+
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
             msg.Write((int)PacketType.ASTEROID_DESTROYED);
             msg.Write(Id);
@@ -57,6 +62,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
             overlay = SceneObjectFactory.CreateAsteroidOverlay(SceneMgr, this);
             SceneMgr.DelayedAttachToScene(overlay);
+
+            effects = SceneObjectFactory.CreateAsteroidEffects(SceneMgr, this);
+            SceneMgr.DelayedAttachToScene(effects);
         }
 
         public void WriteObject(NetOutgoingMessage msg)

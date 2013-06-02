@@ -21,6 +21,7 @@ using Orbit.Core.Scene.Entities.HeavyWeight;
 using Orbit.Core.SpecialActions.Spectator;
 using Orbit.Gui.Visuals;
 using Orbit.Core.SpecialActions;
+using Orbit.Core.Scene.Particles.Implementations;
 
 namespace Orbit.Core.Helpers
 {
@@ -566,6 +567,16 @@ namespace Orbit.Core.Helpers
             ao.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(parent, true));
 
             return ao;
+        }
+
+        public static ParticleNode CreateAsteroidEffects(SceneMgr mgr, Asteroid asteroid)
+        {
+            ParticleNode effects = new ParticleNode(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
+            effects.AddControl(new CenterCloneControl(asteroid));
+            effects.AddControl(new DirectionCloneControl(asteroid));
+            effects.AddControl(new DirectionDrivenRotationControl());
+            effects.AddControl(new AsteroidBurningControl(asteroid));
+            return effects;
         }
     }
 }
