@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace Orbit.Core.Scene.Entities
 {
-    public interface IHeavyWeightSceneObject
+    public interface IHeavyWeightSceneObject : IEmpty
     {
         UIElement HeavyWeightGeometry { get; set; }
     }

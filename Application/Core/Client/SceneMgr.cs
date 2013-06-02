@@ -243,7 +243,7 @@ namespace Orbit.Core.Client
                 }
             }
 
-            if (obj.GetGeometry() == null && !(obj is IHeavyWeightSceneObject) && !(obj is ParticleEmmitor))
+            if (obj.GetGeometry() == null && !(obj is IEmpty))
             {
                 Logger.Warn("Trying to add geometry object to scene, but it is null -> skipped!");
                 return;
@@ -257,7 +257,7 @@ namespace Orbit.Core.Client
                     GetCanvas().Children.Add((obj as IHeavyWeightSceneObject).HeavyWeightGeometry);
                 else if (obj is ParticleEmmitor)
                     (obj as ParticleEmmitor).Init(GetParticleArea());
-                else if (!(obj is ParticleEmmitor))
+                else if (!(obj is IEmpty))
                     area.Add(obj.GetGeometry(), obj.Category);
             }));
         }
@@ -357,7 +357,7 @@ namespace Orbit.Core.Client
             {
                 if (obj is IHeavyWeightSceneObject)
                     GetCanvas().Children.Remove((obj as IHeavyWeightSceneObject).HeavyWeightGeometry);
-                else
+                else if (obj.GetGeometry() != null)
                     area.Remove(obj.GetGeometry(), obj.Category);
             }));
         }

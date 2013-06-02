@@ -32,7 +32,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
         public double StartingRotation { get; set; }
     }
 
-    public class ParticleEmmitor : SceneObject, ISendable
+    public class ParticleEmmitor : SceneObject, ISendable, IEmpty
     {
         private Random rand;
         private float timeLap = 0;

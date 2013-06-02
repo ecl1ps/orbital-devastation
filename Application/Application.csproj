@@ -249,6 +249,7 @@
     <Compile Include="Core\Scene\Controls\Implementations\HookControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\NewtonianMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LinearRotationControl.cs" />
+    <Compile Include="Core\Scene\Entities\IEmpty.cs" />
     <Compile Include="Core\Scene\Entities\ITransparent.cs" />
     <Compile Include="Core\Scene\Entities\HeavyWeight\HeavyweightSphere.cs" />
     <Compile Include="Core\Scene\Entities\HeavyWeight\ForcePullField.cs" />
