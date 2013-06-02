@@ -15,7 +15,7 @@ namespace Orbit.Core.Helpers
     {
         public static ParticleEmmitor CreateExplodingSphereEmmitor(SceneMgr mgr, Vector position, Color color) 
         {
-            ParticleEmmitor e = new ParticleEmmitor(mgr, IdMgr.GetNewId(0));
+            ParticleEmmitor e = CreateBasicSphere(mgr, color);
             e.EmitingTime = 1f;
             e.EmmitingDirection = new Vector(1, 0);
             e.MinAngle = (float)-Math.PI;
@@ -33,16 +33,12 @@ namespace Orbit.Core.Helpers
             e.FireAll = true;
             e.Enabled = true;
 
-            ParticleSphereFactory f = new ParticleSphereFactory();
-            f.Color = color;
-            e.Factory = f;
-
             return e;
         }
 
         public static ParticleEmmitor CreateMovingSphereEmmitor(SceneMgr mgr, Vector position, Vector direction, Color color, float speed)
         {
-            ParticleEmmitor e = new ParticleEmmitor(mgr, IdMgr.GetNewId(0));
+            ParticleEmmitor e = CreateBasicSphere(mgr, color);
             e.Direction = direction;
             e.EmmitingDirection = direction.Rotate(180);
             e.MinAngle = (float)(-Math.PI);
@@ -59,10 +55,6 @@ namespace Orbit.Core.Helpers
             e.Infinite = true;
             e.Enabled = true;
 
-            ParticleSphereFactory f = new ParticleSphereFactory();
-            f.Color = Color.FromArgb(125, 255, 20, 0);
-            e.Factory = f;
-
             LinearMovementControl c = new LinearMovementControl();
             c.Speed = speed;
             e.AddControl(c);
@@ -70,9 +62,9 @@ namespace Orbit.Core.Helpers
             return e;
         }
 
-        public static ParticleEmmitor CreateParticleSmokeEmmitor(SceneMgr mgr, Vector position)
+        public static ParticleEmmitor CreateSmokeParticleEmmitor(SceneMgr mgr, Vector position)
         {
-            ParticleEmmitor e = new ParticleEmmitor(mgr, IdMgr.GetNewId(0));
+            ParticleEmmitor e = CreateBasicSmoke(mgr);
             e.EmitingTime = 1f;
             e.EmmitingDirection = new Vector(0, -1);
             e.MinAngle = (float)(-Math.PI / 30);
@@ -89,14 +81,12 @@ namespace Orbit.Core.Helpers
             e.Infinite = true;
             e.Enabled = false;
 
-            e.Factory = new ParticleSmokeFactory();
             return e;
-
         }
 
         public static ParticleEmmitor CreateFlashParticleEmmitor(SceneMgr mgr, Vector position, Color color)
         {
-            ParticleEmmitor e = new ParticleEmmitor(mgr, IdMgr.GetNewId(0));
+            ParticleEmmitor e = CreateBasicFlash(mgr, color);
             e.Amount = 1;
             e.MinSize = 5;
             e.MaxSize = 7;
@@ -108,19 +98,12 @@ namespace Orbit.Core.Helpers
             e.FireAll = true;
             e.Position = position;
 
-            ParticleImageFactory f = new ParticleImageFactory();
-            f.Color = color;
-            f.RenderSize = 100;
-            f.Source = new Uri("pack://application:,,,/resources/images/particles/flash-particle.png");
-            e.Factory = f;
-
             return e;
-
         }
 
         public static ParticleEmmitor CreateFireParticleEmmitor(SceneMgr mgr, Vector position, Color color)
         {
-            ParticleEmmitor e = new ParticleEmmitor(mgr, IdMgr.GetNewId(0));
+            ParticleEmmitor e = CreateBasicFire(mgr, color);
             e.EmitingTime = 2f;
             e.EmmitingDirection = new Vector(0, -1);
             e.MinAngle = (float) -Math.PI;
@@ -137,18 +120,12 @@ namespace Orbit.Core.Helpers
             e.Infinite = false;
             e.Enabled = true;
 
-            ParticleImageFactory f = new ParticleImageFactory();
-            f.Color = color;
-            f.RenderSize = 200;
-            f.Source = new Uri("pack://application:,,,/resources/images/particles/fire-particle.png");
-            e.Factory = f;
-
             return e;
         }
 
         public static ParticleEmmitor CreateShockWaveParticleEmmitor(SceneMgr mgr, Vector position, Color color)
         {
-            ParticleEmmitor e = new ParticleEmmitor(mgr, IdMgr.GetNewId(0));
+            ParticleEmmitor e = CreateBasicShockwave(mgr, color);
             e.MinLife = 0.35f;
             e.MaxLife = 0.35f;
             e.Position = position;
@@ -160,19 +137,12 @@ namespace Orbit.Core.Helpers
             e.FireAll = true;
             e.Enabled = true;
 
-            ParticleImageFactory f = new ParticleImageFactory();
-            f.Color = color;
-            //f.Color = Colors.White;
-            f.RenderSize = 100;
-            f.Source = new Uri("pack://application:,,,/resources/images/particles/explosion-particle.png");
-            e.Factory = f;
-
             return e;
         }
 
         public static ParticleEmmitor CreateBaseDebrisEmmitor(SceneMgr mgr, Vector position, Vector direction, Color color) 
         {
-            ParticleEmmitor e = new ParticleEmmitor(mgr, IdMgr.GetNewId(0));
+            ParticleEmmitor e = CreateBasicDebris(mgr, color);
             e.Position = position;
             e.Amount = 3;
             e.MaxLife = 1f;
@@ -190,10 +160,6 @@ namespace Orbit.Core.Helpers
             e.MaxForce = 10;
             e.FireAll = true;
             e.Enabled = true;
-
-            BaseParticleFactory f = new BaseParticleFactory();
-            f.Color = color;
-            e.Factory = f;
 
             return e;
         }
@@ -311,6 +277,76 @@ namespace Orbit.Core.Helpers
             g.Add(d);
 
             return g;
+        }
+
+        public static ParticleEmmitor CreateBasicFire(SceneMgr mgr, Color color)
+        {
+            ParticleEmmitor e = new ParticleEmmitor(mgr, IdMgr.GetNewId(0));
+
+            ParticleImageFactory f = new ParticleImageFactory();
+            f.Color = color;
+            f.RenderSize = 200;
+            f.Source = new Uri("pack://application:,,,/resources/images/particles/fire-particle.png");
+            e.Factory = f;
+
+            return e;
+        }
+
+        public static ParticleEmmitor CreateBasicFlash(SceneMgr mgr, Color color)
+        {
+            ParticleEmmitor e = new ParticleEmmitor(mgr, IdMgr.GetNewId(0));
+
+            ParticleImageFactory f = new ParticleImageFactory();
+            f.Color = color;
+            f.RenderSize = 100;
+            f.Source = new Uri("pack://application:,,,/resources/images/particles/flash-particle.png");
+            e.Factory = f;
+
+            return e;
+        }
+
+        public static ParticleEmmitor CreateBasicShockwave(SceneMgr mgr, Color color)
+        {
+            ParticleEmmitor e = new ParticleEmmitor(mgr, IdMgr.GetNewId(0));
+
+            ParticleImageFactory f = new ParticleImageFactory();
+            f.Color = color;
+            f.RenderSize = 100;
+            f.Source = new Uri("pack://application:,,,/resources/images/particles/explosion-particle.png");
+            e.Factory = f;
+
+            return e;
+        }
+
+        public static ParticleEmmitor CreateBasicDebris(SceneMgr mgr, Color color)
+        {
+            ParticleEmmitor e = new ParticleEmmitor(mgr, IdMgr.GetNewId(0));
+
+            BaseParticleFactory f = new BaseParticleFactory();
+            f.Color = color;
+            e.Factory = f;
+
+            return e;
+        }
+
+        public static ParticleEmmitor CreateBasicSmoke(SceneMgr mgr)
+        {
+            ParticleEmmitor e = new ParticleEmmitor(mgr, IdMgr.GetNewId(0));
+
+            e.Factory = new ParticleSmokeFactory();
+
+            return e;
+        }
+
+        public static ParticleEmmitor CreateBasicSphere(SceneMgr mgr, Color color)
+        {
+            ParticleEmmitor e = new ParticleEmmitor(mgr, IdMgr.GetNewId(0));
+
+            ParticleSphereFactory f = new ParticleSphereFactory();
+            f.Color = color;
+            e.Factory = f;
+
+            return e;
         }
     }
 }
