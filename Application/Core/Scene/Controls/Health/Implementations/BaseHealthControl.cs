@@ -99,7 +99,7 @@ namespace Orbit.Core.Scene.Controls.Health.Implementations
                 return;
 
             EmmitorGroup g = emmitors.Pop();
-            g.GetList().ForEach(e => e.DelayedStop());
+            g.Stop();
 
             dead.Enqueue(g);
         }

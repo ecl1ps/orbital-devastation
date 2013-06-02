@@ -14,7 +14,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         public RotationCloneControl(ISceneObject cloned)
         {
             if (!(cloned is IRotable))
-                throw new ArgumentException("PositionCloneControl must clone an IRotable object");
+                throw new ArgumentException("RotationCloneControl must clone an IRotable object");
 
             this.cloned = cloned as IRotable;
         }
@@ -22,7 +22,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         protected override void InitControl(ISceneObject me)
         {
             if (!(me is IRotable))
-                throw new ArgumentException("PositionCloneControl must by attached to an IRotable object");
+                throw new ArgumentException("RotationCloneControl must by attached to an IRotable object");
 
             (me as IRotable).Rotation = cloned.Rotation;
         }

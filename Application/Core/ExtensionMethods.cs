@@ -11,14 +11,6 @@ namespace Orbit.Core
     public static class ExtensionMethods
     {
 
-        private static Action EmptyDelegate = delegate() { };
-
-
-        public static void Refresh(this UIElement uiElement)
-        {
-            uiElement.Dispatcher.Invoke(DispatcherPriority.Render, EmptyDelegate);
-        }
-
         public static Point ToPoint(this Vector vec)
         {
             return new Point(vec.X, vec.Y);
@@ -66,7 +58,7 @@ namespace Orbit.Core
         public static Vector Rotate(this Vector vec, Vector center, double angle, bool inRadians = true)
         {
             if (!inRadians)
-                angle = Math.PI * angle / 180;
+                angle = FastMath.DegToRad(angle);
 
             double x = vec.X - center.X;
             double y = vec.Y - center.Y;
