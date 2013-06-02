@@ -14,11 +14,13 @@ namespace Orbit.Core
 
         private IDictionary<int, Event> events;
         private IList<int> eventsForRemoval;
+        private IDictionary<int, Event> eventsForAdding;
 
         public EventProcessor()
         {
             events = new Dictionary<int, Event>();
             eventsForRemoval = new List<int>();
+            eventsForAdding = new Dictionary<int, Event>();
         }
 
         /// <summary>
@@ -28,10 +30,10 @@ namespace Orbit.Core
         /// <param name="newEvent">novy event</param>
         public void AddEvent(int id, Event newEvent)
         {
-            if (events.ContainsKey(id))
+            if (eventsForAdding.ContainsKey(id))
                 Logger.Warn("EventProcessor already contains event with id " + id);
             else
-                events.Add(id, newEvent);
+                eventsForAdding.Add(id, newEvent);
         }
 
         /// <summary>
@@ -68,7 +70,7 @@ namespace Orbit.Core
         /// <param name="tpf">time per frame</param>
         public void Update(float tpf)
         {
-            if (events.Count == 0)
+            if (eventsForAdding.Count == 0 && events.Count == 0)
                 return;
 
             foreach (KeyValuePair<int, Event> e in events)
@@ -87,6 +89,16 @@ namespace Orbit.Core
 
             foreach (int id in eventsForRemoval)
                 events.Remove(id);
+            eventsForRemoval.Clear();
+
+            foreach (int id in eventsForAdding.Keys)
+            {
+                if (events.ContainsKey(id))
+                    Logger.Warn("EventProcessor already contains event with id " + id + " during direct adding");
+                else
+                    events.Add(id, eventsForAdding[id]);
+            }
+            eventsForAdding.Clear();
         }
     }
 
