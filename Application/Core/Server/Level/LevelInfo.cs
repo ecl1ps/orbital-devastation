@@ -40,6 +40,8 @@ namespace Orbit.Core.Server.Level
                     return LevelTestStaticObjects.Info;
                 case GameLevel.TEST_PARTICLES:
                     return LevelTestParticles.Info;
+                case GameLevel.TEST_BURNING_ASTEROIDS:
+                    return LevelTestBurningAsteroids.Info;
                 default:
                     throw new Exception("Level " + level.ToString() + " has not supported Info property");
             }

@@ -22,7 +22,8 @@ namespace Orbit.Core.Server.Level
         TEST_BASE_COLLISIONS,
         TEST_POWERUPS,
         TEST_STATIC_OBJ,
-        TEST_PARTICLES
+        TEST_PARTICLES,
+        TEST_BURNING_ASTEROIDS
     }
 
     public static class GameLevelManager
@@ -56,6 +57,9 @@ namespace Orbit.Core.Server.Level
                     break;
                 case GameLevel.TEST_PARTICLES:
                     newLvl = new LevelTestParticles(mgr);
+                    break;
+                case GameLevel.TEST_BURNING_ASTEROIDS:
+                    newLvl = new LevelTestBurningAsteroids(mgr);
                     break;
             }
 

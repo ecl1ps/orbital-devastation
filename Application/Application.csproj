@@ -312,6 +312,7 @@
     <Compile Include="Core\Server\Level\LevelInfo.cs" />
     <Compile Include="Core\Server\Level\Production\LevelSurvival.cs" />
     <Compile Include="Core\Server\Level\Production\LevelBasic.cs" />
+    <Compile Include="Core\Server\Level\Test\LevelTestBurningAsteroids.cs" />
     <Compile Include="Core\Server\Level\Test\LevelTestParticles.cs" />
     <Compile Include="Core\Server\MasterServerMgr.cs" />
     <Compile Include="Core\Server\Match\AbstractTournamentMultiplayerMatchManager.cs" />
