@@ -26,7 +26,7 @@ namespace Orbit.Core.Server
             Random randomGenerator = mgr.GetRandomGenerator();
 
             Asteroid s;
-            int chance = randomGenerator.Next(100);
+            /*int chance = randomGenerator.Next(100);
             if (chance <= SharedDef.ASTEROID_GOLD_CHANCE)
             {
                 s = new Asteroid(null, IdMgr.GetNewId(0));
@@ -44,13 +44,13 @@ namespace Orbit.Core.Server
                 s.Gold = s.Radius / 2;
             }
             else
-            {
+            {*/
                 s = new Asteroid(null, IdMgr.GetNewId(0));
                 s.AsteroidType = AsteroidType.NORMAL;
-                s.TextureId = randomGenerator.Next(1, 18);
+                s.TextureId = 4;
                 s.Radius = randomGenerator.Next(SharedDef.MIN_ASTEROID_RADIUS, SharedDef.MAX_ASTEROID_RADIUS);
                 s.Gold = s.Radius / 2;
-            }
+            //}
 
             s.IsHeadingRight = headingRight;
             s.Direction = headingRight ? new Vector(1, 0) : new Vector(-1, 0);
