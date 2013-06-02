@@ -19,6 +19,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
             }
         }
         public float TimeAlive { get; set; }
+        private Vector move;
+        public Vector RealDirection { get { return move.NormalizeV(); } }
 
         protected override void InitControl(ISceneObject obj)
         {
@@ -34,6 +36,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 earthSurface = (float)SharedDef.VIEW_PORT_SIZE.Height * 2; 
 
             meMovable = obj as IMovable;
+            move = meMovable.Direction;
         }
 
         protected override void UpdateControl(float tpf)
@@ -43,15 +46,17 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             Vector dirToSurf = new Vector(0, -1);
 
-            me.Position += (meMovable.Direction * Speed * tpf) +
-                (dirToSurf * 
+            move = (meMovable.Direction * Speed * tpf) +
+                (dirToSurf *
                     (
-                        (me.SceneMgr.LevelEnv.CurrentGravity - me.SceneMgr.LevelEnv.CurrentGravity * 
-                            (1 + Math.Pow((HorizontalSpeed - SharedDef.FIRST_COSMICAL_SPEED) / SharedDef.FIRST_COSMICAL_SPEED, 2)) 
+                        (me.SceneMgr.LevelEnv.CurrentGravity - me.SceneMgr.LevelEnv.CurrentGravity *
+                            (1 + Math.Pow((HorizontalSpeed - SharedDef.FIRST_COSMICAL_SPEED) / SharedDef.FIRST_COSMICAL_SPEED, 2))
                             * 1 / (GetRealativeAltitude() / me.SceneMgr.LevelEnv.StableOrbitRelative)
                         )
                     )
                 * 2 * TimeAlive * tpf);
+
+            me.Position += move;
 
             TimeAlive += tpf;
 

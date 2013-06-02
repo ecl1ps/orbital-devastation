@@ -11,6 +11,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private IMovable meMovable;
 
         public float Speed { get; set; }
+        public Vector RealDirection { get { return meMovable.Direction; } }
 
         protected override void InitControl(ISceneObject obj)
         {
