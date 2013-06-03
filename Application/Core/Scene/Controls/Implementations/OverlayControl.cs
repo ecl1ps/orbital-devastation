@@ -36,7 +36,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (asteroid.Center.Y < minHeatDistance || asteroid.Center.Y > maxHeatDistance)
                 return;
 
-            meTransparent.Opacity = Math.Min((float)((asteroid.Center.Y - minHeatDistance) / (maxHeatDistance - minHeatDistance)), 1);
+            meTransparent.Opacity = FastMath.LinearInterpolate(0.3f, 1f, Math.Min((float)((asteroid.Center.Y - minHeatDistance) / (maxHeatDistance - minHeatDistance)), 1));
         }
     }
 }
