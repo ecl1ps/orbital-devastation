@@ -99,6 +99,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
                         meNode.AddEmmitor(smokeEmmitor1, new Vector(asteroid.Radius * -0.7, asteroid.Radius * 0.5), false);
                         meNode.AddEmmitor(smokeEmmitor2, new Vector(asteroid.Radius * -0.7, asteroid.Radius * -0.5), false);
+
+                        asteroid.AddControl(new ShakingControl(1, true, 0.05f));
                     }
                     break;
                 case 4:
