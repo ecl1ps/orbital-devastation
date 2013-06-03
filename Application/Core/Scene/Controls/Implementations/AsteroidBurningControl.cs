@@ -191,17 +191,17 @@ namespace Orbit.Core.Scene.Controls.Implementations
             bool left = me.SceneMgr.GetRandomGenerator().Next(2) == 0 ? false : true;
             if (left)
             {
-                Vector position = (meNode.Center - (meNode.Direction.Rotate(Math.PI / 4) * (asteroid.Radius * 1.2f)));
+                Vector position = (meNode.Center - (meNode.Direction.Rotate(Math.PI / 4) * (asteroid.Radius)));
                 position += meNode.Direction * (asteroid.Radius * 1.5);
                 node.Position = position;
-                node.Direction = meNode.Direction.Rotate(FastMath.DegToRad(-5));
+                node.Direction = meNode.Direction.Rotate(FastMath.DegToRad(-10));
             }
             else
             {
-                Vector position = (meNode.Center - (meNode.Direction.Rotate(-Math.PI / 4) * (asteroid.Radius * 1.2f)));
+                Vector position = (meNode.Center - (meNode.Direction.Rotate(-Math.PI / 4) * (asteroid.Radius)));
                 position += meNode.Direction * (asteroid.Radius * 1.5);
                 node.Position = position;
-                node.Direction = meNode.Direction.Rotate(FastMath.DegToRad(5));
+                node.Direction = meNode.Direction.Rotate(FastMath.DegToRad(10));
             }
 
             float minSize = (float)FastMath.LinearInterpolate(0.2, 0.5, me.SceneMgr.GetRandomGenerator().NextDouble());
@@ -240,7 +240,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             node.AddEmmitorGroup(grp, new Vector());
 
             NewtonianMovementControl nmc = new NewtonianMovementControl();
-            nmc.Speed = (asteroid.GetControlOfType<IMovementControl>().RealSpeed / tpf) * 0.9f;
+            nmc.Speed = (asteroid.GetControlOfType<IMovementControl>().RealSpeed / tpf) * 0.85f;
             node.AddControl(nmc);
             node.AddControl(new LimitedLifeControl((float)FastMath.LinearInterpolate(0.5, 2, me.SceneMgr.GetRandomGenerator().NextDouble())));
 
