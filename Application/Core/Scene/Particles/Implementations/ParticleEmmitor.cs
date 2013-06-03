@@ -46,7 +46,6 @@ namespace Orbit.Core.Scene.Particles.Implementations
         private float delayTime;
 
         private Vector positionToSet;
-        private Vector currentPosition;
         private ParticleArea particleArea;
 
         private IParticleFactory factory;
@@ -66,6 +65,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
         public float MaxStartingRotation { get; set; }
         public float MinRotation { get; set; }
         public float MaxRotation { get; set; }
+        public float SpawnRadius { get; set; }
         private float delay;
         public float Delay { get { return delay; } set { delay = value; delayTime = value; } }        
         public int Amount { get; set; }
@@ -77,7 +77,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
         {
             get
             {
-                return started ? currentPosition : positionToSet;
+                return positionToSet;
             }
             set
             {
@@ -242,9 +242,6 @@ namespace Orbit.Core.Scene.Particles.Implementations
             if (viewPort == null)
                 return;
 
-            position = To3DPoint(positionToSet);
-            currentPosition = To2DPoint(position);
-
             started = true;
             if (Delay > 0)
             {
@@ -336,11 +333,10 @@ namespace Orbit.Core.Scene.Particles.Implementations
             p.Force = force;
             p.MaxLife = life;
 
-            p.Position = position;
+            p.Position = To3DPoint(new Vector(FastMath.LinearInterpolate(positionToSet.X - SpawnRadius, positionToSet.X + SpawnRadius, rand.NextDouble()),
+                                              FastMath.LinearInterpolate(positionToSet.Y - SpawnRadius, positionToSet.Y + SpawnRadius, rand.NextDouble())));
             p.Direction = EmmitingDirection.Rotate(angle);
             p.StartingRotation = rotation;
-
-            Point3D point = To3DPoint(new Vector(Position.X + size, Position.Y));
             p.Size = size;
             p.StartingSize = p.Size;
 
@@ -348,7 +344,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
             amount--;
         }
 
-        private double get3dSize(Particle p)
+        private double Get3dSize(Particle p)
         {
             Point3D p1 = To3DPoint(new Vector(0, 0));
             Point3D p2 = To3DPoint(new Vector(p.Size, 0));
