@@ -362,6 +362,15 @@ namespace Orbit.Core.Helpers
             return e;
         }
 
+        public static ParticleEmmitor CreateBasicSmoke(SceneMgr mgr, Color c)
+        {
+            ParticleEmmitor e = new ParticleEmmitor(mgr, IdMgr.GetNewId(0));
+
+            e.Factory = new ParticleSmokeFactory(c);
+
+            return e;
+        }
+
         public static ParticleEmmitor CreateBasicSphere(SceneMgr mgr, Color color)
         {
             ParticleEmmitor e = new ParticleEmmitor(mgr, IdMgr.GetNewId(0));
