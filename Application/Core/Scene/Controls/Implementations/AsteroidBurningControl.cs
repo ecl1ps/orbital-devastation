@@ -136,7 +136,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             node.Position = (meNode.Center - (meNode.Direction * (asteroid.Radius * 0.7f)));
             node.Direction = meNode.Direction;
 
-            float minSize = (float)FastMath.LinearInterpolate(0.2, 0.8, me.SceneMgr.GetRandomGenerator().NextDouble());
+            float minSize = (float)FastMath.LinearInterpolate(0.2, 0.5, me.SceneMgr.GetRandomGenerator().NextDouble());
             float maxSize = minSize * 1.2f;
 
             ParticleEmmitor smokeEmmitor = ParticleEmmitorFactory.CreateBasicFire(me.SceneMgr, Color.FromArgb(80, 0, 0, 0));
