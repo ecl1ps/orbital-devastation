@@ -24,6 +24,9 @@ namespace Orbit.Core.Scene.Entities.Implementations.HeavyWeight
 
         protected override void UpdateGeometricState()
         {
+            if (Radius <= 0)
+                return;
+
             (HeavyWeightGeometry as Image).Width = Radius * 2;
             (HeavyWeightGeometry as Image).Height = Radius * 2;
         }
