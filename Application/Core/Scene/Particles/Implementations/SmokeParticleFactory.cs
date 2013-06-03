@@ -8,6 +8,13 @@ namespace Orbit.Core.Scene.Particles.Implementations
 {
     class ParticleSmokeFactory : ParticleImageFactory
     {
+        public ParticleSmokeFactory(Color c)
+        {
+            Color = c;
+            Source = new Uri("pack://application:,,,/resources/images/particles/particle_cloud.png");
+            RenderSize = 512;
+        }
+
         public ParticleSmokeFactory()
         {
             Color = Color.FromArgb(80, 0, 0, 0);
