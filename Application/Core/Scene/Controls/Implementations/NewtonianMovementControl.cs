@@ -18,6 +18,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 return (meMovable.Direction * Speed).GetHorizontalLenght();
             }
         }
+        private float verticalSpeed;
+        public float VerticalSpeed { get { return verticalSpeed; } }
         public float TimeAlive { get; set; }
         private Vector move;
         public Vector RealDirection { get { return move.NormalizeV(); } }
@@ -32,6 +34,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             }
 
             TimeAlive = 0;
+            verticalSpeed = 0;
             // povrch je az pod povrchem - aby se sfery nezastavily na rozhrani
             if (me.SceneMgr != null) // hack kvuli serveru :(
                 earthSurface = (float)SharedDef.VIEW_PORT_SIZE.Height * 2; 
@@ -46,20 +49,17 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 return;
 
             Vector dirToSurf = new Vector(0, -1);
+            double vSpeed = me.SceneMgr.LevelEnv.CurrentGravity - me.SceneMgr.LevelEnv.CurrentGravity *
+                            (1 + Math.Pow((HorizontalSpeed - SharedDef.FIRST_COSMICAL_SPEED) / SharedDef.FIRST_COSMICAL_SPEED, 2))
+                            * 1 / (GetRealativeAltitude() / me.SceneMgr.LevelEnv.StableOrbitRelative);
 
             move = (meMovable.Direction * Speed * tpf) +
-                (dirToSurf *
-                    (
-                        (me.SceneMgr.LevelEnv.CurrentGravity - me.SceneMgr.LevelEnv.CurrentGravity *
-                            (1 + Math.Pow((HorizontalSpeed - SharedDef.FIRST_COSMICAL_SPEED) / SharedDef.FIRST_COSMICAL_SPEED, 2))
-                            * 1 / (GetRealativeAltitude() / me.SceneMgr.LevelEnv.StableOrbitRelative)
-                        )
-                    )
-                * 2 * TimeAlive * tpf);
+                (dirToSurf * vSpeed * 2 * TimeAlive * tpf);
 
             me.Position += move;
 
             TimeAlive += tpf;
+            verticalSpeed = (float) vSpeed;
 
             /*SceneMgr.GetInstance().ShowStatusText(1, "ORBITA: " + SharedDef.STABLE_ORBIT_HEIGHT);
             SceneMgr.GetInstance().ShowStatusText(2, "S: " + Speed + "H: " + HorizontalSpeed);
