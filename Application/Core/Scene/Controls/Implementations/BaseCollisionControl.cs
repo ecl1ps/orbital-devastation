@@ -56,7 +56,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 baze.Integrity -= damage;
                 baze.Owner.Statistics.DamageTaken += damage;
 
-                EmmitorGroup g = ParticleEmmitorFactory.CreateExplosionEmmitors(me.SceneMgr, other.Center);
+                EmmitorGroup g = ParticleEmmitorFactory.CreateAsteroidExplosionEmmitors(me.SceneMgr, other.Center);
                 g.Attach(me.SceneMgr, false);
 
                 if (baze.Owner.IsCurrentPlayer())

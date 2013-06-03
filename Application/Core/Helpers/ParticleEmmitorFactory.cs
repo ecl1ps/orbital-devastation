@@ -205,14 +205,6 @@ namespace Orbit.Core.Helpers
             fireEmmitor.Delay = 0.2f;
             fireEmmitor.FireAll = true;
 
-            ParticleEmmitor explosionSphere = CreateExplodingSphereEmmitor(mgr, position, Color.FromRgb(190, 120, 70));
-            explosionSphere.Amount = 300;
-            explosionSphere.MinSize = 0.5f;
-            explosionSphere.MaxSize = 0.75f;
-            explosionSphere.SizeMultiplier = 0;
-            explosionSphere.MinLife = 1f;
-            explosionSphere.MaxLife = 2.5f;
-
             ParticleEmmitor flashEmmitor = CreateFlashParticleEmmitor(mgr, position, Color.FromRgb(250, 250, 150));
 
             ParticleEmmitor shockWaveEmmitor = CreateShockWaveParticleEmmitor(mgr, position, Color.FromArgb(150, 255, 200, 0));
@@ -223,6 +215,38 @@ namespace Orbit.Core.Helpers
             g.Add(fireEmmitor);
             g.Add(flashEmmitor);
             g.Add(shockWaveEmmitor);
+
+            return g;
+        }
+
+        public static EmmitorGroup CreateAsteroidExplosionEmmitors(SceneMgr mgr, Vector position)
+        {
+            ParticleEmmitor smokeEmmitor = CreateFireParticleEmmitor(mgr, position, Color.FromArgb(135, 0, 0, 0));
+            smokeEmmitor.EmitingTime = 0.5f;
+            smokeEmmitor.Amount = 20;
+            smokeEmmitor.MinLife = 1.0f;
+            smokeEmmitor.MaxLife = 1.2f;
+            smokeEmmitor.MinSize = 5;
+            smokeEmmitor.MaxSize = 6f;
+            smokeEmmitor.MinForce = 3;
+            smokeEmmitor.MaxForce = 4;
+            smokeEmmitor.FireAll = true;
+
+            ParticleEmmitor fireEmmitor = CreateFireParticleEmmitor(mgr, position, Color.FromArgb(120, 255, 120, 0));
+            fireEmmitor.EmitingTime = 0.5f;
+            fireEmmitor.Amount = 20;
+            fireEmmitor.MinLife = 0.8f;
+            fireEmmitor.MaxLife = 1.0f;
+            fireEmmitor.MinSize = 5;
+            fireEmmitor.MaxSize = 6f;
+            fireEmmitor.MinForce = 3;
+            fireEmmitor.MaxForce = 4;
+            fireEmmitor.FireAll = true;
+
+            EmmitorGroup g = new EmmitorGroup();
+            g.Position = position;
+            g.Add(smokeEmmitor);
+            g.Add(fireEmmitor);
 
             return g;
         }
