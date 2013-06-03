@@ -21,6 +21,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private float lastDistProcessed;
         private int step;
         private float stepSize;
+        private List<ParticleEmmitor> smokeEmmitors = new List<ParticleEmmitor>(3);
 
         public AsteroidBurningControl(Asteroid parent)
         {
@@ -42,6 +43,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         protected override void UpdateControl(float tpf)
         {
+            if (step > 0)
+                UpdateSmokes(tpf);
+
             if (asteroid.Center.Y < minHeatDistance)
                 return;
 
@@ -56,15 +60,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
             {
                 case 1:
                     {
-                        ParticleEmmitor smokeEmmitor = ParticleEmmitorFactory.CreateBasicFire(me.SceneMgr, Color.FromArgb(60, 0, 0, 0));
-                        smokeEmmitor.Amount = 50;
-                        smokeEmmitor.MinLife = 1f;
-                        smokeEmmitor.MaxLife = 2f;
-                        smokeEmmitor.MinSize = asteroid.Radius / 10.0f;
-                        smokeEmmitor.MaxSize = asteroid.Radius / 15.0f;
-                        smokeEmmitor.SpawnRadius = asteroid.Radius / 4.0f; 
-                        smokeEmmitor.Infinite = true;
-
                         ParticleEmmitor fireEmmitor = ParticleEmmitorFactory.CreateBasicFire(me.SceneMgr, Color.FromArgb(40, 255, 60, 0));
                         fireEmmitor.Amount = 20;
                         fireEmmitor.MinLife = 0.3f;
@@ -74,8 +69,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
                         fireEmmitor.Infinite = true;
 
                         meNode.AddEmmitor(fireEmmitor, new Vector(0, 0), false);
-
-                        meNode.AddEmmitor(smokeEmmitor, new Vector(asteroid.Radius * -0.7, 0), false);
+                        
+                        //CreateAndAddSmokeEmmitor(0);
                     }
                     break;
                 case 2:
@@ -88,6 +83,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                         smokeEmmitor1.MaxSize = asteroid.Radius / 30.0f;
                         smokeEmmitor1.SpawnRadius = asteroid.Radius / 4.0f;
                         smokeEmmitor1.Infinite = true;
+
                         ParticleEmmitor smokeEmmitor2 = ParticleEmmitorFactory.CreateBasicFire(me.SceneMgr, Color.FromArgb(40, 10, 10, 10));
                         smokeEmmitor2.Amount = 40;
                         smokeEmmitor2.MinLife = 1f;
@@ -99,6 +95,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
                         meNode.AddEmmitor(smokeEmmitor1, new Vector(asteroid.Radius * -0.7, asteroid.Radius * 0.5), false);
                         meNode.AddEmmitor(smokeEmmitor2, new Vector(asteroid.Radius * -0.7, asteroid.Radius * -0.5), false);
+                        //CreateAndAddSmokeEmmitor(1);
+                    }
+                    break;
+                case 3:
+                    {
+                        //CreateAndAddSmokeEmmitor(2);
                     }
                     break;
                 case 4:
@@ -115,6 +117,91 @@ namespace Orbit.Core.Scene.Controls.Implementations
                     }
                     break;
             }
+        }
+
+        protected void UpdateSmokes(float tpf)
+        {
+            NewtonianMovementControl control = asteroid.GetControlOfType<NewtonianMovementControl>();
+            if(control == null)
+                return;
+
+            double speed = control.RealSpeed / tpf;
+
+            if (speed < 80 && smokeEmmitors.Count > 0)
+            {
+                foreach (ParticleEmmitor e in smokeEmmitors)
+                    e.DelayedStop();
+
+                smokeEmmitors.Clear();
+                return;
+            }
+
+
+            int maxSmoke = GetMaxSmoke();
+            if (smokeEmmitors.Count == maxSmoke)
+                return;
+
+            int num = (int) ((speed - 80) / 20);
+            if (num > maxSmoke)
+                num = maxSmoke;
+
+            int diff = num - smokeEmmitors.Count;
+            if (diff == 0)
+                return;
+
+            if (diff < 0)
+            {
+                for (int i = 1; i <= diff; i++)
+                {
+                    smokeEmmitors[smokeEmmitors.Count - i].DelayedStop();
+                    smokeEmmitors.RemoveAt(smokeEmmitors.Count - i);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < diff; i++)
+                {
+                    smokeEmmitors.Add(CreateAndAddSmokeEmmitor(smokeEmmitors.Count));
+                }
+            }
+        }
+
+        protected int GetMaxSmoke()
+        {
+            if (asteroid.Radius < 12)
+                return 1;
+            if (asteroid.Radius < 20)
+                return 2;
+
+            return 3;
+        }
+
+        protected ParticleEmmitor CreateAndAddSmokeEmmitor(int num)
+        {
+            ParticleEmmitor smallSmokeEmmitor1 = ParticleEmmitorFactory.CreateSmokeParticleEmmitor(me.SceneMgr, asteroid.Position);
+            smallSmokeEmmitor1.EmmitingDirection = asteroid.Direction.Rotate(Math.PI);
+            smallSmokeEmmitor1.Infinite = true;
+            smallSmokeEmmitor1.MinAngle = (float)FastMath.DegToRad(15);
+            smallSmokeEmmitor1.MaxAngle = (float)FastMath.DegToRad(-15);
+            smallSmokeEmmitor1.MinLife = 2;
+            smallSmokeEmmitor1.MaxLife = 3;
+            smallSmokeEmmitor1.Amount = 60;
+            smallSmokeEmmitor1.MinSize *= 1.2f;
+            smallSmokeEmmitor1.MaxSize *= 1.2f;
+
+            EmmitorDirectionCloneControl control = new EmmitorDirectionCloneControl(me);
+            control.DirectionOfsetRotation = (float)Math.PI;
+            smallSmokeEmmitor1.AddControl(control);
+
+            IMovementControl c = asteroid.GetControlOfType<IMovementControl>();
+            if (num == 0)
+                meNode.AddEmmitor(smallSmokeEmmitor1, new Vector(asteroid.Radius * 0.85, 0), false);
+            else if (num == 1)
+                meNode.AddEmmitor(smallSmokeEmmitor1, new Vector(asteroid.Radius * 0.85, asteroid.Radius * 0.2).Rotate((Math.PI / 4)), false);
+            else if (num == 2)
+                meNode.AddEmmitor(smallSmokeEmmitor1, new Vector(asteroid.Radius * 0.85, asteroid.Radius * 0.2).Rotate(-(Math.PI / 4)), false);
+
+            return smallSmokeEmmitor1;
         }
     }
 }
