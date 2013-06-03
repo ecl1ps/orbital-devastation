@@ -21,6 +21,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         public float TimeAlive { get; set; }
         private Vector move;
         public Vector RealDirection { get { return move.NormalizeV(); } }
+        public float RealSpeed { get { return (float) move.Length; } }
 
         protected override void InitControl(ISceneObject obj)
         {

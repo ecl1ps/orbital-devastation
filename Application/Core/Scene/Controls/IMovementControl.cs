@@ -11,5 +11,7 @@ namespace Orbit.Core.Scene.Controls
         float Speed { get; set; }
 
         Vector RealDirection { get; }
+
+        float RealSpeed { get; }
     }
 }

@@ -12,6 +12,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private ISceneObject toFollow;
 
         public float Speed { get; set; }
+        public float RealSpeed { get { return Speed; } }
         private Vector move;
         public Vector RealDirection { get { return move; } }
 
