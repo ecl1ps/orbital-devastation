@@ -98,6 +98,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
                         meNode.AddEmmitor(smokeEmmitor1, new Vector(asteroid.Radius * -0.7, asteroid.Radius * 0.5), false);
                         meNode.AddEmmitor(smokeEmmitor2, new Vector(asteroid.Radius * -0.7, asteroid.Radius * -0.5), false);
+
+                        asteroid.AddControl(new ShakingControl(1, true, 0.05f));
                     }
                     break;
                 case 4:
@@ -178,15 +180,29 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (step < 1)
                 return;
 
-            if (meNode.SceneMgr.GetRandomGenerator().Next(100) < 20)
+            if (meNode.SceneMgr.GetRandomGenerator().Next(100) < 25)
                 CreateSpark();
         }
 
         private void CreateSpark()
         {
             ParticleNode node = new ParticleNode(me.SceneMgr, IdMgr.GetNewId(me.SceneMgr.GetCurrentPlayer().GetId()));
-            node.Position = (meNode.Center - (meNode.Direction * (asteroid.Radius * 0.7f)));
-            node.Direction = meNode.Direction;
+
+            bool left = me.SceneMgr.GetRandomGenerator().Next(2) == 0 ? false : true;
+            if (left)
+            {
+                Vector position = (meNode.Center - (meNode.Direction.Rotate(Math.PI / 4) * (asteroid.Radius * 1.2f)));
+                position += meNode.Direction * (asteroid.Radius * 1.5);
+                node.Position = position;
+                node.Direction = meNode.Direction.Rotate(FastMath.DegToRad(-5));
+            }
+            else
+            {
+                Vector position = (meNode.Center - (meNode.Direction.Rotate(-Math.PI / 4) * (asteroid.Radius * 1.2f)));
+                position += meNode.Direction * (asteroid.Radius * 1.5);
+                node.Position = position;
+                node.Direction = meNode.Direction.Rotate(FastMath.DegToRad(5));
+            }
 
             float minSize = (float)FastMath.LinearInterpolate(0.2, 0.5, me.SceneMgr.GetRandomGenerator().NextDouble());
             float maxSize = minSize * 1.2f;
@@ -224,7 +240,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             node.AddEmmitorGroup(grp, new Vector());
 
             NewtonianMovementControl nmc = new NewtonianMovementControl();
-            nmc.Speed = (asteroid.GetControlOfType<IMovementControl>().RealSpeed / tpf) / 2.0f;
+            nmc.Speed = (asteroid.GetControlOfType<IMovementControl>().RealSpeed / tpf) * 0.9f;
             node.AddControl(nmc);
             node.AddControl(new LimitedLifeControl((float)FastMath.LinearInterpolate(0.5, 2, me.SceneMgr.GetRandomGenerator().NextDouble())));
 
