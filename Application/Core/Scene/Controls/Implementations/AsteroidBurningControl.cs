@@ -23,6 +23,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private float stepSize;
         private List<ParticleEmmitor> smokeEmmitors = new List<ParticleEmmitor>(3);
 
+        private float tpf;
+
         public AsteroidBurningControl(Asteroid parent)
         {
             asteroid = parent;
@@ -45,6 +47,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         protected override void UpdateControl(float tpf)
         {
+            this.tpf = tpf;
             if (step > 0)
                 UpdateSmokes(tpf);
 
@@ -71,8 +74,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
                         fireEmmitor.Infinite = true;
 
                         meNode.AddEmmitor(fireEmmitor, new Vector(0, 0), false);
-                        
-                        //CreateAndAddSmokeEmmitor(0);
                     }
                     break;
                 case 2:
@@ -97,10 +98,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
                         meNode.AddEmmitor(smokeEmmitor1, new Vector(asteroid.Radius * -0.7, asteroid.Radius * 0.5), false);
                         meNode.AddEmmitor(smokeEmmitor2, new Vector(asteroid.Radius * -0.7, asteroid.Radius * -0.5), false);
-                    break;
-                case 3:
-                    {
-                        //CreateAndAddSmokeEmmitor(2);
                     }
                     break;
                 case 4:
@@ -119,7 +116,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             }
         }
 
- protected void UpdateSmokes(float tpf)
+        protected void UpdateSmokes(float tpf)
         {
             NewtonianMovementControl control = asteroid.GetControlOfType<NewtonianMovementControl>();
             if(control == null)
@@ -176,7 +173,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             return 3;
         }
 
-private void CheckSparkSpawn()
+        private void CheckSparkSpawn()
         {
             if (step < 1)
                 return;
@@ -227,7 +224,7 @@ private void CheckSparkSpawn()
             node.AddEmmitorGroup(grp, new Vector());
 
             NewtonianMovementControl nmc = new NewtonianMovementControl();
-            nmc.Speed = asteroid.GetControlOfType<IMovementControl>().Speed / 2.0f;
+            nmc.Speed = (asteroid.GetControlOfType<IMovementControl>().RealSpeed / tpf) / 2.0f;
             node.AddControl(nmc);
             node.AddControl(new LimitedLifeControl((float)FastMath.LinearInterpolate(0.5, 2, me.SceneMgr.GetRandomGenerator().NextDouble())));
 
