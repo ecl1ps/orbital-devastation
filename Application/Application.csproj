@@ -205,6 +205,7 @@
     <Compile Include="Core\Scene\Controls\Implementations\AsteroidBurningControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DirectionCloneControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DirectionDrivenRotationControl.cs" />
+    <Compile Include="Core\Scene\Controls\Implementations\EmmitorDirectionCloneControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\OverlayControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\RadiusCloneControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\RotationCloneControl.cs" />
