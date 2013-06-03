@@ -39,6 +39,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 throw new ArgumentException("AsteroidBurningControl must by attached to an ParticleNode object");
 
             meNode = me as ParticleNode;
+
+            events.AddEvent(1, new Event(0.5f, EventType.REPEATABLE, new Action(() => CheckSparkSpawn())));
         }
 
         protected override void UpdateControl(float tpf)
@@ -95,8 +97,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
                         meNode.AddEmmitor(smokeEmmitor1, new Vector(asteroid.Radius * -0.7, asteroid.Radius * 0.5), false);
                         meNode.AddEmmitor(smokeEmmitor2, new Vector(asteroid.Radius * -0.7, asteroid.Radius * -0.5), false);
-                        //CreateAndAddSmokeEmmitor(1);
-                    }
                     break;
                 case 3:
                     {
@@ -119,7 +119,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             }
         }
 
-        protected void UpdateSmokes(float tpf)
+ protected void UpdateSmokes(float tpf)
         {
             NewtonianMovementControl control = asteroid.GetControlOfType<NewtonianMovementControl>();
             if(control == null)
@@ -175,6 +175,65 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             return 3;
         }
+
+private void CheckSparkSpawn()
+        {
+            if (step < 1)
+                return;
+
+            if (meNode.SceneMgr.GetRandomGenerator().Next(100) < 20)
+                CreateSpark();
+        }
+
+        private void CreateSpark()
+        {
+            ParticleNode node = new ParticleNode(me.SceneMgr, IdMgr.GetNewId(me.SceneMgr.GetCurrentPlayer().GetId()));
+            node.Position = (meNode.Center - (meNode.Direction * (asteroid.Radius * 0.7f)));
+            node.Direction = meNode.Direction;
+
+            float minSize = (float)FastMath.LinearInterpolate(0.2, 0.5, me.SceneMgr.GetRandomGenerator().NextDouble());
+            float maxSize = minSize * 1.2f;
+
+            ParticleEmmitor smokeEmmitor = ParticleEmmitorFactory.CreateBasicFire(me.SceneMgr, Color.FromArgb(80, 0, 0, 0));
+            smokeEmmitor.Amount = 20;
+            smokeEmmitor.MinLife = 0.3f;
+            smokeEmmitor.MaxLife = 0.4f;
+            smokeEmmitor.MinSize = minSize * 1.3f;
+            smokeEmmitor.MaxSize = maxSize * 1.3f;
+            smokeEmmitor.SpawnRadius = 4f;
+            smokeEmmitor.Infinite = true;
+
+            ParticleEmmitor fireEmmitor = ParticleEmmitorFactory.CreateBasicFire(me.SceneMgr, Color.FromArgb(150, 255, 100, 0));
+            fireEmmitor.Amount = 20;
+            fireEmmitor.MinLife = 0.1f;
+            fireEmmitor.MaxLife = 0.2f;
+            fireEmmitor.MinSize = minSize * 1.1f;
+            fireEmmitor.MaxSize = maxSize * 1.1f;
+            fireEmmitor.Infinite = true;
+
+            ParticleEmmitor fireEmmitor2 = ParticleEmmitorFactory.CreateBasicFire(me.SceneMgr, Color.FromArgb(200, 255, 200, 0));
+            fireEmmitor2.Amount = 20;
+            fireEmmitor2.MinLife = 0.1f;
+            fireEmmitor2.MaxLife = 0.1f;
+            fireEmmitor2.MinSize = minSize;
+            fireEmmitor2.MaxSize = maxSize;
+            fireEmmitor2.Infinite = true;
+
+            EmmitorGroup grp = new EmmitorGroup();
+            grp.Add(smokeEmmitor);
+            grp.Add(fireEmmitor);
+            grp.Add(fireEmmitor2);
+
+            node.AddEmmitorGroup(grp, new Vector());
+
+            NewtonianMovementControl nmc = new NewtonianMovementControl();
+            nmc.Speed = asteroid.GetControlOfType<IMovementControl>().Speed / 2.0f;
+            node.AddControl(nmc);
+            node.AddControl(new LimitedLifeControl((float)FastMath.LinearInterpolate(0.5, 2, me.SceneMgr.GetRandomGenerator().NextDouble())));
+
+            me.SceneMgr.DelayedAttachToScene(node);
+	}
+
 
         protected ParticleEmmitor CreateAndAddSmokeEmmitor(int num)
         {
