@@ -20,7 +20,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         {
             asteroid = parent;
             maxHeatDistance = PlayerBaseLocation.GetBaseLocation(PlayerPosition.LEFT).Top - 150;
-            minHeatDistance = SharedDef.ORBIT_AREA.Bottom;
+            minHeatDistance = SharedDef.ORBIT_AREA.Bottom + 50;
         }
 
         protected override void InitControl(ISceneObject me)
@@ -36,7 +36,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (asteroid.Center.Y < minHeatDistance || asteroid.Center.Y > maxHeatDistance)
                 return;
 
-            meTransparent.Opacity = FastMath.LinearInterpolate(0.3f, 1f, Math.Min((float)((asteroid.Center.Y - minHeatDistance) / (maxHeatDistance - minHeatDistance)), 1));
+            meTransparent.Opacity = FastMath.LinearInterpolate(0.5f, 1f, Math.Min((float)((asteroid.Center.Y - minHeatDistance) / (maxHeatDistance - minHeatDistance)), 1));
         }
     }
 }

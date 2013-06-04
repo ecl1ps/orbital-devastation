@@ -188,6 +188,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         {
             ParticleNode node = new ParticleNode(me.SceneMgr, IdMgr.GetNewId(me.SceneMgr.GetCurrentPlayer().GetId()));
 
+            // TODO spawn in a whole volume
             bool left = me.SceneMgr.GetRandomGenerator().Next(2) == 0 ? false : true;
             if (left)
             {
@@ -240,12 +241,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
             node.AddEmmitorGroup(grp, new Vector());
 
             NewtonianMovementControl nmc = new NewtonianMovementControl();
-            nmc.Speed = (asteroid.GetControlOfType<IMovementControl>().RealSpeed / tpf) * 0.85f;
+            nmc.Speed = (asteroid.GetControlOfType<IMovementControl>().RealSpeed / tpf) * 0.75f;
             node.AddControl(nmc);
             node.AddControl(new LimitedLifeControl((float)FastMath.LinearInterpolate(0.5, 2, me.SceneMgr.GetRandomGenerator().NextDouble())));
 
             me.SceneMgr.DelayedAttachToScene(node);
-	}
+	    }
 
 
         protected ParticleEmmitor CreateAndAddSmokeEmmitor(int num)

@@ -32,6 +32,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void OnRemove()
         {
+            base.OnRemove();
             if (lastHitTakenFrom != null)
                 Parent.NoticeChildAsteroidDestroyedBy(lastHitTakenFrom, this);
         }

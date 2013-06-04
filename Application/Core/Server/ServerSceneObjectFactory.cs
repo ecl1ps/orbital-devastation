@@ -46,8 +46,8 @@ namespace Orbit.Core.Server
             else
             {*/
                 s = new Asteroid(null, IdMgr.GetNewId(0));
-                s.AsteroidType = AsteroidType.NORMAL;
-                s.TextureId = 4;
+                s.AsteroidType = AsteroidType.GOLDEN;
+                s.TextureId = randomGenerator.Next(1, 6);
                 s.Radius = randomGenerator.Next(SharedDef.MIN_ASTEROID_RADIUS, SharedDef.MAX_ASTEROID_RADIUS);
                 s.Gold = s.Radius / 2;
             //}
