@@ -48,6 +48,10 @@ namespace Orbit.Core.Scene.Particles.Implementations
         private Vector positionToSet;
         private ParticleArea particleArea;
 
+        private Point3DCollection positions;
+        private Int32Collection indices;
+        private PointCollection texcoords;
+
         private IParticleFactory factory;
         public IParticleFactory Factory { get { return factory; } set { value.Init(this); factory = value; } }
         public Vector EmmitingDirection { get; set; }
@@ -72,7 +76,6 @@ namespace Orbit.Core.Scene.Particles.Implementations
         public bool FireAll { get; set; }
         public bool Infinite { get; set; }
 
-        private Point3D position;
         public override Vector Position
         {
             get
@@ -133,12 +136,21 @@ namespace Orbit.Core.Scene.Particles.Implementations
         {
             a.BeginInvoke(new Action(() =>
             {
+                MeshGeometry3D geom = new MeshGeometry3D();
                 model = new GeometryModel3D();
-                model.Geometry = new MeshGeometry3D();
+                model.Geometry = geom;
 
                 DiffuseMaterial material = new DiffuseMaterial(Factory.CreateParticle());
 
                 model.Material = material;
+
+                positions = new Point3DCollection();
+                indices = new Int32Collection();
+                texcoords = new PointCollection();
+
+                geom.Positions = positions;
+                geom.TriangleIndices = indices;
+                geom.TextureCoordinates = texcoords;
 
                 particleArea = a;
                 this.viewPort = a.ViewPort;
@@ -161,9 +173,9 @@ namespace Orbit.Core.Scene.Particles.Implementations
             if (model == null)
                 return;
 
-            Point3DCollection positions = new Point3DCollection();
-            Int32Collection indices = new Int32Collection();
-            PointCollection texcoords = new PointCollection();
+            positions.Clear();
+            indices.Clear();
+            texcoords.Clear();
 
             for (int i = 0; i < particles.Count; ++i)
             {
@@ -173,15 +185,10 @@ namespace Orbit.Core.Scene.Particles.Implementations
 
                 ComputePositions(p, positions);
 
-                System.Windows.Point t1 = new System.Windows.Point(0.0, 0.0);
-                System.Windows.Point t2 = new System.Windows.Point(0.0, 1.0);
-                System.Windows.Point t3 = new System.Windows.Point(1.0, 1.0);
-                System.Windows.Point t4 = new System.Windows.Point(1.0, 0.0);
-
-                texcoords.Add(t1);
-                texcoords.Add(t2);
-                texcoords.Add(t3);
-                texcoords.Add(t4);
+                texcoords.Add(new System.Windows.Point(0.0, 0.0));
+                texcoords.Add(new System.Windows.Point(0.0, 1.0));
+                texcoords.Add(new System.Windows.Point(1.0, 1.0));
+                texcoords.Add(new System.Windows.Point(1.0, 0.0));
 
                 indices.Add(positionIndex);
                 indices.Add(positionIndex + 2);
@@ -191,9 +198,9 @@ namespace Orbit.Core.Scene.Particles.Implementations
                 indices.Add(positionIndex + 2);
             }
 
-            ((MeshGeometry3D)model.Geometry).Positions = positions;
-            ((MeshGeometry3D)model.Geometry).TriangleIndices = indices;
-            ((MeshGeometry3D)model.Geometry).TextureCoordinates = texcoords;
+            //((MeshGeometry3D)model.Geometry).Positions = positions;
+            //((MeshGeometry3D)model.Geometry).TriangleIndices = indices;
+            //((MeshGeometry3D)model.Geometry).TextureCoordinates = texcoords;
         }
 
         private void ComputePositions(Particle p, Point3DCollection list)
