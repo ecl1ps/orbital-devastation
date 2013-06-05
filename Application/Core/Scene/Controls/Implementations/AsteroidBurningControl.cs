@@ -258,9 +258,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
             smallSmokeEmmitor1.Infinite = true;
             smallSmokeEmmitor1.MinAngle = (float)FastMath.DegToRad(15);
             smallSmokeEmmitor1.MaxAngle = (float)FastMath.DegToRad(-15);
-            smallSmokeEmmitor1.MinLife = 2;
-            smallSmokeEmmitor1.MaxLife = 3;
-            smallSmokeEmmitor1.Amount = 60;
+            smallSmokeEmmitor1.MinLife = 1.2f;
+            smallSmokeEmmitor1.MaxLife = 1.5f;
+            smallSmokeEmmitor1.Amount = 30;
             smallSmokeEmmitor1.MinSize *= 1.2f;
             smallSmokeEmmitor1.MaxSize *= 1.2f;
 

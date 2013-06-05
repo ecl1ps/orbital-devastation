@@ -254,9 +254,9 @@ namespace Orbit.Core.Helpers
         public static EmmitorGroup CreateFireEmmitors(SceneMgr mgr, Vector position)
         {
             ParticleEmmitor smokeEmmitor = CreateFireParticleEmmitor(mgr, position, Color.FromArgb(80, 0, 0, 0));
-            smokeEmmitor.Amount = 80;
-            smokeEmmitor.MinLife = 6f;
-            smokeEmmitor.MaxLife = 7f;
+            smokeEmmitor.Amount = 60;
+            smokeEmmitor.MinLife = 4f;
+            smokeEmmitor.MaxLife = 5f;
             smokeEmmitor.MinSize = 0.7f;
             smokeEmmitor.MaxSize = 1.2f;
             smokeEmmitor.MinForce = 2;
@@ -267,7 +267,7 @@ namespace Orbit.Core.Helpers
             smokeEmmitor.Infinite = true;
 
             ParticleEmmitor fireEmmitor = CreateFireParticleEmmitor(mgr, position, Color.FromArgb(120, 255, 155, 0));
-            fireEmmitor.Amount = 60;
+            fireEmmitor.Amount = 50;
             fireEmmitor.MinLife = 0.5f;
             fireEmmitor.MaxLife = 1.2f;
             fireEmmitor.MinSize = 1f;
