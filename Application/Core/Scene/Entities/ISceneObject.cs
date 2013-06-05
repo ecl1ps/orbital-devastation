@@ -67,6 +67,6 @@ namespace Orbit.Core.Scene.Entities
 
         void OnAttach();
 
-
+        void AfterUpdate(float tpf);
     }
 }

@@ -80,6 +80,17 @@ namespace Orbit.Core.Scene.Entities
                 UpdateControls(tpf);
         }
 
+        public virtual void AfterUpdate(float tpf)
+        {
+            if (!Enabled)
+                return;
+
+            for (int i = 0; i < controls.Count; ++i)
+            {
+                (controls[i] as Control).AfterUpdate(tpf);
+            }
+        }
+
         private void UpdateControls(float tpf)
         {
             for (int i = 0; i < controls.Count; ++i)

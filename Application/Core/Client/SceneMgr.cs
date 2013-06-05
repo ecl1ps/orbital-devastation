@@ -502,6 +502,12 @@ namespace Orbit.Core.Client
             {
                 obj = objects[i];
                 obj.Update(tpf);
+            }
+
+            for (int i = 0; i < objects.Count; ++i)
+            {
+                obj = objects[i];
+                obj.AfterUpdate(tpf);
                 if (!obj.IsOnScreen(SharedDef.VIEW_PORT_SIZE))
                     RemoveFromSceneDelayed(obj);
             }

@@ -54,6 +54,8 @@ namespace Orbit.Core.Scene.Controls
 
         public virtual void OnRemove() { }
 
+        public virtual void AfterUpdate(float tpf) { }
+
         protected virtual void InitControl(ISceneObject me) { }
 
         protected virtual void UpdateControl(float tpf) { }
