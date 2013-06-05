@@ -558,7 +558,7 @@ namespace Orbit.Core.Helpers
             ao.Position = parent.Position;
             ao.Rotation = parent.Rotation;
 
-            ao.AddControl(new PositionCloneControl(parent));
+            ao.AddControl(new PositionCloneControl(parent, true));
             ao.AddControl(new RotationCloneControl(parent));
             ao.AddControl(new RadiusCloneControl(parent));
 

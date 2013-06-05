@@ -12,19 +12,37 @@ namespace Orbit.Core.Scene.Controls.Implementations
         public Vector Offset { get; set; }
 
         private ISceneObject toFollow;
+        private bool delayed;
 
-        public PositionCloneControl(ISceneObject toFollow)
+        public PositionCloneControl(ISceneObject toFollow, bool delayed = false)
         {
             Offset = new Vector(0, 0);
             this.toFollow = toFollow;
+            this.delayed = delayed;
         }
 
         protected override void InitControl(ISceneObject me)
         {
-            me.Position = toFollow.Position - Offset;
+            Move();
         }
 
         protected override void UpdateControl(float tpf)
+        {
+            if (delayed)
+                return;
+
+            Move();
+        }
+
+        public override void AfterUpdate(float tpf)
+        {
+            if (!delayed)
+                return;
+
+            Move();
+        }
+
+        private void Move()
         {
             me.Position = toFollow.Position - Offset;
         }
