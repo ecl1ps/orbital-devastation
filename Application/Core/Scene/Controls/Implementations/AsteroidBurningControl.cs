@@ -43,6 +43,16 @@ namespace Orbit.Core.Scene.Controls.Implementations
             meNode = me as ParticleNode;
 
             events.AddEvent(1, new Event(0.5f, EventType.REPEATABLE, new Action(() => CheckSparkSpawn())));
+            if (asteroid.Center.Y < minHeatDistance)
+                return;
+
+            float distPct = Math.Min((float)((asteroid.Center.Y - minHeatDistance) / (maxHeatDistance - minHeatDistance)), 1);
+            while (distPct >= lastDistProcessed + stepSize && step <= 3)
+            {
+                step++;
+                lastDistProcessed += stepSize;
+                ProcessStep();
+            }
         }
 
         protected override void UpdateControl(float tpf)
@@ -61,6 +71,11 @@ namespace Orbit.Core.Scene.Controls.Implementations
             step++;
             lastDistProcessed = distPct;
 
+            ProcessStep();
+        }
+
+        private void ProcessStep()
+        {
             switch (step)
             {
                 case 1:
@@ -102,26 +117,14 @@ namespace Orbit.Core.Scene.Controls.Implementations
                         asteroid.AddControl(new ShakingControl(1, true, 0.05f));
                     }
                     break;
-                case 4:
-                    {
-                        ParticleEmmitor fireEmmitor = ParticleEmmitorFactory.CreateBasicFire(me.SceneMgr, Color.FromArgb(50, 255, 200, 0));
-                        fireEmmitor.Amount = 20;
-                        fireEmmitor.MinLife = 0.1f;
-                        fireEmmitor.MaxLife = 0.2f;
-                        fireEmmitor.MinSize = asteroid.Radius / 7.0f;
-                        fireEmmitor.MaxSize = asteroid.Radius / 9.0f;
-                        fireEmmitor.Infinite = true;
-
-                        meNode.AddEmmitor(fireEmmitor, new Vector(asteroid.Radius, 0), false);
-                    }
+                case 3: 
                     break;
             }
         }
-
         protected void UpdateSmokes(float tpf)
         {
             NewtonianMovementControl control = asteroid.GetControlOfType<NewtonianMovementControl>();
-            if(control == null)
+            if (control == null)
                 return;
 
             double speed = control.RealSpeed / tpf;
@@ -134,7 +137,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 smokeEmmitors.Clear();
                 return;
             }
-
 
             int maxSmoke = GetMaxSmoke();
             if (smokeEmmitors.Count == maxSmoke)

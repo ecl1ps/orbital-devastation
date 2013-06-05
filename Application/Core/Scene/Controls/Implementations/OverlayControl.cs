@@ -29,6 +29,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 throw new ArgumentException("OverlayControl must by attached to an ITransparent object");
 
             meTransparent = me as ITransparent;
+            if (asteroid.Center.Y > maxHeatDistance)
+                meTransparent.Opacity = 1;
         }
 
         protected override void UpdateControl(float tpf)
