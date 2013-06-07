@@ -27,6 +27,18 @@ namespace Orbit.Gui
         public GameOptions()
         {
             InitializeComponent();
+            string quality = GameProperties.Get(PropertyKey.EFFECT_QUALITY);
+            InitQuality(quality);
+        }
+
+        private void InitQuality(String key)
+        {
+            if (key == "effect0")
+                effect0.IsSelected = true;
+            else if (key == "effect1")
+                effect1.IsSelected = true;
+            else if (key == "effect2")
+                effect2.IsSelected = true;
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
@@ -39,6 +51,11 @@ namespace Orbit.Gui
             CultureInfo ci = ((sender as ComboBox).SelectedItem as CultureInfo);
             App.SetLocalization(ci);
             GameProperties.Props.SetAndSave(PropertyKey.GAME_LANGUAGE, ci.Name);
+        }
+
+        private void cbEffects_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            GameProperties.Props.SetAndSave(PropertyKey.EFFECT_QUALITY, ((sender as ComboBox).SelectedItem as ComboBoxItem).Name);
         }
     }
 }

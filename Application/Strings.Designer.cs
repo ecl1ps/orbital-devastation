@@ -836,6 +836,42 @@ namespace Orbit {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Effects.
+        /// </summary>
+        internal static string ui_effect {
+            get {
+                return ResourceManager.GetString("ui_effect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to High effect quality (recomended for new machines with strong GPU).
+        /// </summary>
+        internal static string ui_effect_high {
+            get {
+                return ResourceManager.GetString("ui_effect_high", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Low quality (recomended for old machines or integrated GPU).
+        /// </summary>
+        internal static string ui_effect_low {
+            get {
+                return ResourceManager.GetString("ui_effect_low", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Medium effect quality (standart game quality).
+        /// </summary>
+        internal static string ui_effect_middle {
+            get {
+                return ResourceManager.GetString("ui_effect_middle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exit Game.
         /// </summary>
         internal static string ui_exit_game {

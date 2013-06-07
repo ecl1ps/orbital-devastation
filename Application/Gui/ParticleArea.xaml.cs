@@ -28,6 +28,10 @@ namespace Orbit.Gui
         private int lastTick;
         private int totalTicks;
 
+        private int maxParticleCount;
+        private int minParticleCount;
+        private int lastParticleCount;
+
         private static DispatcherTimer frameTimer;
         public static DispatcherTimer FrameTimer { get { return frameTimer; } }
 
@@ -53,6 +57,27 @@ namespace Orbit.Gui
 
             lastTick = Environment.TickCount;
             totalTicks = 0;
+            LoadQuality();
+        }
+
+        private void LoadQuality()
+        {
+            string quality = GameProperties.Get(PropertyKey.EFFECT_QUALITY);
+            if (quality == "effect2")
+            {
+                maxParticleCount = 2000;
+                minParticleCount = 1000;
+            }
+            else if (quality == "effect1")
+            {
+                maxParticleCount = 1000;
+                minParticleCount = 500;
+            }
+            else
+            {
+                maxParticleCount = 500;
+                minParticleCount = 100;
+            }
         }
 
 
@@ -71,21 +96,35 @@ namespace Orbit.Gui
         {
             AddEmmitors();
 
+            float multiplier = ComputeAmountMultiplier();
+            int count = 0;
             emmitors.ForEach(e => {
+                e.AmountMultiplier = multiplier;
                 e.Update(tpf);
                 e.UpdateGeometric();
-
+                count += e.ParticleCount;
                 if (!e.IsOnScreen(SharedDef.VIEW_PORT_SIZE))
                     e.DelayedStop();
             });
 
+            lastParticleCount = count;
             RemoveEmmitors();
+        }
+
+        private float ComputeAmountMultiplier()
+        {
+            if (lastParticleCount > minParticleCount)
+                return 1 - ((lastParticleCount - minParticleCount) / maxParticleCount);
+            else
+                return 1;
         }
 
         private void AddEmmitors()
         {
+            float multiplier = ComputeAmountMultiplier();
             foreach (ParticleEmmitor e in toAdd)
             {
+                e.AmountMultiplier = multiplier;
                 emmitors.Add(e);
                 e.Init(this);
                 e.OnAttach();

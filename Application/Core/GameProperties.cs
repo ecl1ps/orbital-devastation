@@ -57,6 +57,7 @@ namespace Orbit.Core
             defaults.Add(PropertyKey.PLAYER_SHOW_PROTECTING, ((int)Key.E).ToString(Strings.Culture));
             defaults.Add(PropertyKey.AVAILABLE_COLORS, ((int)PlayerColorSet.BASIC).ToString(Strings.Culture));
             defaults.Add(PropertyKey.CHOSEN_COLOR, Colors.CornflowerBlue.ToString(Strings.Culture));
+            defaults.Add(PropertyKey.EFFECT_QUALITY, "effect1");
             return defaults;
         }
     }
@@ -101,5 +102,7 @@ namespace Orbit.Core
         CHOSEN_COLOR,
 
         PROPERTY_CHECK,
+
+        EFFECT_QUALITY,
     }
 }

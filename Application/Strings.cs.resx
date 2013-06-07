@@ -598,4 +598,16 @@
     <value>Verze klienta je vyšší než verze serveru. Něco s tím udělej. Verze klienta: {0}, serveru: {1},</value>
     <comment>0 = client version, 1 = server version</comment>
   </data>
+  <data name="ui_effect" xml:space="preserve">
+    <value>Efekty</value>
+  </data>
+  <data name="ui_effect_high" xml:space="preserve">
+    <value>Vysoká kvalita (doporučeno pro nové stroje s výkonným GPU)</value>
+  </data>
+  <data name="ui_effect_low" xml:space="preserve">
+    <value>Nízká kvalita (doporučeno pro starší stroje s integrovaným GPU)</value>
+  </data>
+  <data name="ui_effect_middle" xml:space="preserve">
+    <value>Střední kvalita (doporučené nastavení)</value>
+  </data>
 </root>

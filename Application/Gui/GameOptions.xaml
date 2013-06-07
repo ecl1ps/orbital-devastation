@@ -15,6 +15,12 @@
                   ItemsSource="{Binding Source={x:Static lex:LocalizeDictionary.Instance}, Path=MergedAvailableCultures}"
                   SelectedItem="{Binding Source={x:Static lex:LocalizeDictionary.Instance}, Path=Culture}"
                   DisplayMemberPath="NativeName" SelectionChanged="cbLocalizations_SelectionChanged" />
+        <Label Content="{lex:Loc ui_effect}" Margin="12,80,0,0" Name="lbEffects" />
+        <ComboBox Name="cbEffects" Margin="107,80,28,0" Width="210" SelectionChanged="cbEffects_SelectionChanged">
+            <ComboBoxItem Name="effect0" Content="{lex:Loc ui_effect_low}"></ComboBoxItem>
+            <ComboBoxItem Name="effect1" Content="{lex:Loc ui_effect_middle}"></ComboBoxItem>
+            <ComboBoxItem Name="effect2" Content="{lex:Loc ui_effect_high}"></ComboBoxItem>
+        </ComboBox>
 
         <Button Content="{lex:Loc ui_back}" Margin="0,0,0,30" VerticalAlignment="Bottom"  Name="btnBack" Click="btnBack_Click" />
     </Grid>

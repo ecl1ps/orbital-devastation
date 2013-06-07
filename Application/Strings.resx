@@ -617,4 +617,16 @@
     <value>You have higher version than server. Do something about it. You have {0}, server {1}.</value>
     <comment>0 = client version, 1 = server version</comment>
   </data>
+  <data name="ui_effect" xml:space="preserve">
+    <value>Effects</value>
+  </data>
+  <data name="ui_effect_high" xml:space="preserve">
+    <value>High effect quality (recomended for new machines with strong GPU)</value>
+  </data>
+  <data name="ui_effect_low" xml:space="preserve">
+    <value>Low quality (recomended for old machines or integrated GPU)</value>
+  </data>
+  <data name="ui_effect_middle" xml:space="preserve">
+    <value>Medium effect quality (standart game quality)</value>
+  </data>
 </root>

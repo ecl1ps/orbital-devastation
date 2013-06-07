@@ -75,6 +75,20 @@ namespace Orbit.Core.Scene.Particles.Implementations
         public int Amount { get; set; }
         public bool FireAll { get; set; }
         public bool Infinite { get; set; }
+        public int ParticleCount { get { return particles.Count; } }
+
+        private float amountMultiplier = 1;
+        public float AmountMultiplier { 
+            get { return amountMultiplier; } 
+            set 
+            {
+                amountMultiplier = value;
+                if (value == 0)
+                    timeLap = float.MaxValue;
+                else
+                    timeLap = EmitingTime / (Amount * AmountMultiplier);
+            } 
+        }
 
         public override Vector Position
         {
@@ -258,7 +272,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
 
             if (FireAll && !ending)
             {
-                for (int i = 0; i < Amount; i++)
+                for (int i = 0; i < (int) (Amount * AmountMultiplier); i++)
                     SpawnParticle();
 
                 Amount = 0;
@@ -267,7 +281,7 @@ namespace Orbit.Core.Scene.Particles.Implementations
 
             if (timeLap == 0)
             {
-                timeLap = EmitingTime / Amount;
+                timeLap = EmitingTime / (Amount * AmountMultiplier);
                 time = timeLap;
             }
 
