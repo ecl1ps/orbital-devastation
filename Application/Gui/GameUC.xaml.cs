@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using Orbit.Core.Scene;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core;
+using Orbit.Gui.Visuals;
 
 namespace Orbit.Gui
 {
@@ -92,6 +93,11 @@ namespace Orbit.Gui
                     App.Instance.GetSceneMgr().ShowPlayerOverview();
                 }));
             }
+        }
+
+        public GameVisualArea GetGameArea()
+        {
+            return gameArea;
         }
     }
 }

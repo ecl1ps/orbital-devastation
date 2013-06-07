@@ -11,6 +11,7 @@ using Orbit.Core.Weapons;
 using Orbit.Core.Client.Shaders;
 using Orbit.Core.Client;
 using System.Windows.Media.Imaging;
+using Orbit.Core.Client.Cache;
 
 namespace Orbit.Core.Helpers
 {
@@ -50,29 +51,35 @@ namespace Orbit.Core.Helpers
             return d;
         }
 
+        public static ImageDrawing CreateAsteroidImage(AsteroidType type, int textureId)
+        {
+               BitmapImage bi = new BitmapImage();
+               bi.BeginInit();
+
+               if (type == AsteroidType.GOLDEN)
+                   bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/rock_gold_" + textureId + ".png");
+               else if (type == AsteroidType.UNSTABLE)
+                   bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/rock_unstable_" +
+                       textureId + ".png");
+               else
+                   bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/rock_normal_" +
+                       textureId + ".png");
+            
+               bi.EndInit();
+
+               ImageDrawing img = new ImageDrawing();
+               img.ImageSource = bi;
+
+            return img;
+        }
+
         public static DrawingGroup CreateAsteroidImage(Asteroid a)
         {
             DrawingGroup g = null;
             a.SceneMgr.Invoke(new Action(() =>
             {
-                BitmapImage bi = new BitmapImage();
-                bi.BeginInit();
-
-                if (a.AsteroidType == AsteroidType.GOLDEN)
-                    bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/rock_gold_" +
-                        a.TextureId + ".png");
-                else if(a.AsteroidType == AsteroidType.UNSTABLE)
-                    bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/rock_unstable_" +
-                        a.TextureId + ".png");
-                else
-                    bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/rock_normal_" + 
-                        a.TextureId + ".png");
-                bi.DecodePixelWidth = a.Radius * 4;
-                bi.EndInit();
-
                 g = new DrawingGroup();
-                ImageDrawing img = new ImageDrawing();
-                img.ImageSource = bi;
+                ImageDrawing img = a.SceneMgr.Cache.Get(getAsteroidString(a)) as ImageDrawing;
                 img.Rect = new Rect(new Size(a.Radius * 2, a.Radius * 2));
                 TransformGroup tg = new TransformGroup();
                 tg.Children.Add(new TranslateTransform(a.Position.X, a.Position.Y));
@@ -82,6 +89,15 @@ namespace Orbit.Core.Helpers
             }));
 
             return g;
+        }
+
+        private static String getAsteroidString(Asteroid a)
+        {
+            if (a.AsteroidType == AsteroidType.UNSTABLE || a.AsteroidType == AsteroidType.SPAWNED)
+                return AsteroidType.NORMAL.ToString() + a.TextureId;
+            else
+                return a.AsteroidType.ToString() + a.TextureId;
+
         }
 
         public static DrawingGroup CreateMineImage(SingularityMine mine)

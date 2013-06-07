@@ -135,9 +135,12 @@ namespace Orbit.Core.Server
             // poslani vsech hracu
             NetOutgoingMessage outmsg = serverMgr.CreateAllPlayersDataMessage();
             serverMgr.BroadcastMessage(outmsg);
+        }
 
+        private void SendAllObjects()
+        {
             // poslani vsech asteroidu
-            outmsg = serverMgr.CreateNetMessage();
+            NetOutgoingMessage outmsg = serverMgr.CreateNetMessage();
             outmsg.Write((int)PacketType.ALL_ASTEROIDS);
 
             List<ISceneObject> objects = gameLevel.GetLevelObjects();
@@ -150,7 +153,18 @@ namespace Orbit.Core.Server
                     (obj as Asteroid).WriteObject(outmsg);
 
             serverMgr.BroadcastMessage(outmsg);
+        }
 
+        public void StartGame()
+        {
+            SendAllObjects();
+            gameLevel.OnStart();
+            IsRunning = true;
+
+            NetOutgoingMessage msg = serverMgr.CreateNetMessage();
+            msg.Write((int)PacketType.GAME_START);
+
+            serverMgr.BroadcastMessage(msg);
         }
 
         public bool RequestStartMatch(Player p)
@@ -184,9 +198,6 @@ namespace Orbit.Core.Server
                 startMsg.Write((int)PacketType.START_GAME_RESPONSE);
                 serverMgr.BroadcastMessage(startMsg);
 
-                gameLevel.OnStart();
-
-                IsRunning = true;
                 return true;
             }
             

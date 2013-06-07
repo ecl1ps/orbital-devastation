@@ -12,6 +12,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Orbit.Core;
+using System.ComponentModel;
+using Orbit.Core.Client.Cache;
+using Orbit.Core.Helpers;
+using Orbit.Core.Scene.Entities.Implementations;
 
 namespace Orbit.Gui
 {
@@ -37,7 +41,7 @@ namespace Orbit.Gui
 
         private void btnQuickGame_Click(object sender, RoutedEventArgs e)
         {
-            App.Instance.CreateGameGui();
+            App.Instance.CreateLoadingGui();
             App.Instance.StartQuickGame();
         }
 
@@ -53,7 +57,7 @@ namespace Orbit.Gui
 
         private void btnConnectToLocalhost_Click(object sender, RoutedEventArgs e)
         {
-            App.Instance.CreateGameGui();
+            App.Instance.CreateLoadingGui();
             App.Instance.StartQuickGame("127.0.0.1");
         }
 

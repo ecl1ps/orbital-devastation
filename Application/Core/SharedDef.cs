@@ -177,7 +177,8 @@ namespace Orbit.Core
     {
         IN_MAIN_MENU,
         IN_LOBBY,
-        IN_GAME
+        IN_GAME,
+        LOADING
     }
 
     public enum Gametype
@@ -235,6 +236,8 @@ namespace Orbit.Core
         START_GAME_RESPONSE,
         START_GAME_REQUEST,
         PLAYER_READY,
+        PLAYER_LOADING_COMPLETED,
+        PLAYER_LOAD_PROGRESS,
         CHAT_MESSAGE,
         PLAYER_DISCONNECTED,
         SERVER_SHUTDOWN,
@@ -267,6 +270,7 @@ namespace Orbit.Core
         AVAILABLE_TOURNAMENTS_REQUEST,
         AVAILABLE_TOURNAMENTS_RESPONSE,
         
-        SHAKING_START
+        SHAKING_START,
+        GAME_START
     }    
 }

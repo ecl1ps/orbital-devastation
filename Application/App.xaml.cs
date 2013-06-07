@@ -35,6 +35,7 @@ namespace Orbit
         private SceneMgr sceneMgr;
         private MasterServerMgr masterServer;
         private static GameWindow mainWindow;
+        private GameUC gameUc;
 
         public string PlayerName { get; set; }
         public string PlayerHashId { get; set; }
@@ -174,6 +175,36 @@ namespace Orbit
             StartGame(Gametype.MULTIPLAYER_GAME);
         }
 
+        public LoadingScreen CreateLoadingGui()
+        {
+            if (sceneMgr.GameWindowState != Core.WindowState.LOADING)
+            {
+                PrepareGameGui();
+                LoadingScreen screen = new LoadingScreen();
+                AddWindow(screen);
+                sceneMgr.GameWindowState = Orbit.Core.WindowState.LOADING;
+                sceneMgr.InitLoading(screen);
+
+                return screen;
+            }
+
+            return null;
+        }
+
+        public void PrepareGameGui()
+        {
+            gameUc = new GameUC();
+            GameVisualArea gva = gameUc.GetGameArea();
+            sceneMgr.SetGameVisualArea(gva);
+        }
+
+        public void AttachGameGui()
+        {
+            AddWindow(gameUc);
+            sceneMgr.GameWindowState = Core.WindowState.IN_GAME;
+        }
+
+        /*
         public void CreateGameGui(bool setGameArea = true)
         {
             GameUC gameW = new GameUC();
@@ -188,6 +219,7 @@ namespace Orbit
                 }));
             }
         }
+        */
 
         public void StartTournamentFinder(string address = SharedDef.MASTER_SERVER_ADDRESS)
         {

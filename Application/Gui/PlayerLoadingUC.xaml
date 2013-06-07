@@ -1,0 +1,96 @@
+﻿<UserControl x:Class="Orbit.Gui.PlayerLoadingUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="150">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+
+        <Border Name="b0" BorderBrush="#FF97FF00" Grid.Row="0" BorderThickness="2">
+        </Border>
+
+        <Border Name="b1" BorderBrush="#FF97FF00" Grid.Row="1" BorderThickness="2">
+        </Border>
+
+        <Border Name="b2" BorderBrush="#FF97FF00" Grid.Row="2" BorderThickness="2">
+        </Border>
+
+        <Border Name="b3" BorderBrush="#FF97FF00" Grid.Row="3" BorderThickness="2">
+        </Border>
+
+        <Border Name="b4"  BorderBrush="#FF97FF00" Grid.Row="4" BorderThickness="2">
+        </Border>
+
+        <Border Name="b5" BorderBrush="#FF97FF00" Grid.Row="5" BorderThickness="2">
+        </Border>
+
+        <Border Name="b6" BorderBrush="#FF97FF00" Grid.Row="6" BorderThickness="2">
+        </Border>
+
+        <Border Name="b7" BorderBrush="#FF97FF00" Grid.Row="7" BorderThickness="2">
+        </Border>
+
+        <Border Name="b8" BorderBrush="#FF97FF00" Grid.Row="8" BorderThickness="2">
+        </Border>
+
+        <Border Name="b9" BorderBrush="#FF97FF00" Grid.Row="9" BorderThickness="2">
+        </Border>
+
+        <Border Name="b10" BorderBrush="#FF97FF00" Grid.Row="10" BorderThickness="2">
+        </Border>
+
+        <Border Name="b11" BorderBrush="#FF97FF00" Grid.Row="11" BorderThickness="2">
+        </Border>
+
+        <Border Name="b12" BorderBrush="#FF97FF00" Grid.Row="12" BorderThickness="2">
+        </Border>
+
+        <Border Name="b13" BorderBrush="#FF97FF00" Grid.Row="13" BorderThickness="2">
+        </Border>
+
+        <Border Name="b14" BorderBrush="#FF97FF00" Grid.Row="14" BorderThickness="2">
+        </Border>
+
+        <Border Name="b15" BorderBrush="#FF97FF00" Grid.Row="15" BorderThickness="2">
+        </Border>
+
+        <Border Name="b16" BorderBrush="#FF97FF00" Grid.Row="16" BorderThickness="2">
+        </Border>
+
+        <Border Name="b17" BorderBrush="#FF97FF00" Grid.Row="17" BorderThickness="2">
+        </Border>
+
+        <Border Name="b18" BorderBrush="#FF97FF00" Grid.Row="18" BorderThickness="2">
+        </Border>
+
+        <Border Name="b19" BorderBrush="#FF97FF00" Grid.Row="19" BorderThickness="2">
+        </Border>
+
+        <TextBlock Name="Player" Grid.Row="20" Text="Player Name" FontSize="12" TextAlignment="Center" Width="150"/>
+
+    </Grid>
+</UserControl>

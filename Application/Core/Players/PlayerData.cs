@@ -71,6 +71,8 @@ namespace Orbit.Core.Players
         public Vector MiningModuleStartPos { get; set; }
         public int FriendlyPlayerId { get; set; }
 
+        public bool Loaded { get; set; }
+
         public PlayerData()
         {
             Reset();
@@ -118,6 +120,7 @@ namespace Orbit.Core.Players
             LobbyReady = false;
             StartReady = false;
             FriendlyPlayerId = 0;
+            Loaded = false;
         }
 
         public void WriteObject(NetOutgoingMessage msg)
@@ -165,6 +168,7 @@ namespace Orbit.Core.Players
             msg.Write((byte)PlayerPosition);
             msg.Write(MiningModuleStartPos);
             msg.Write(FriendlyPlayerId);
+            msg.Write(Loaded);
         }
 
         public void ReadObject(NetIncomingMessage msg)
@@ -212,6 +216,7 @@ namespace Orbit.Core.Players
             PlayerPosition = (PlayerPosition)msg.ReadByte();
             MiningModuleStartPos = msg.ReadVector();
             FriendlyPlayerId = msg.ReadInt32();
+            Loaded = msg.ReadBoolean();
         }
     }
 

@@ -8,10 +8,11 @@
 
     <Canvas Width="230" Name="Component">
         <Canvas Name="Wrapper" Canvas.Left="0" Canvas.Top="0">
-            <Image Source="/OrbitalDevastation;component/resources/images/background/arrow.png" Width="107" Height="104" Canvas.Left="-17"></Image>
-            <Image Source="/OrbitalDevastation;component/resources/images/background/arrow.png" Width="107" Height="104" Canvas.Left="60"/>
-            <Image Source="/OrbitalDevastation;component/resources/images/background/arrow.png" Width="107" Height="104" Canvas.Left="137"></Image>
+            <Image Source="/OrbitalDevastation;component/resources/images/background/arrow.png" Width="77" Height="104" Canvas.Left="-17" Stretch="Fill" OpacityMask="#66000000"/>
+            <Image Source="/OrbitalDevastation;component/resources/images/background/arrow.png" Width="77" Height="104" Canvas.Left="43" Stretch="Fill" RenderTransformOrigin="1.13,0.596" OpacityMask="#66000000"/>
+            <Image Source="/OrbitalDevastation;component/resources/images/background/arrow.png" Width="77" Height="104" Canvas.Left="105" Stretch="Fill" OpacityMask="#66000000"></Image>
+            <Image Source="/OrbitalDevastation;component/resources/images/background/arrow.png" Width="77" Height="104" Canvas.Left="166" Stretch="Fill" OpacityMask="#66000000"></Image>
         </Canvas>
     </Canvas>
-    
+
 </UserControl>

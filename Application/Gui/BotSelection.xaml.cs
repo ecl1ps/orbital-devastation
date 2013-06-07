@@ -69,7 +69,7 @@ namespace Orbit.Gui
 
         private void StartGame(object sender, RoutedEventArgs e)
         {
-            App.Instance.CreateGameGui();
+            App.Instance.CreateLoadingGui();
 
             TournamentSettings s = new TournamentSettings();
             s.MMType = MatchManagerType.SKIRMISH;

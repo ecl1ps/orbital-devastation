@@ -115,6 +115,27 @@ namespace Orbit.Core.Server
                 players.ForEach(p => p.Statistics.Reset());
         }
 
+        private void ReceivedPlayerLoadingMsg(NetIncomingMessage msg)
+        {
+            int id = msg.ReadInt32();
+            Player p = GetPlayer(id);
+            p.Data.Loaded = true;
+
+            int loadedCount = 0;
+            int activePlayersCount = 0;
+            foreach (Player pl in players) 
+            {
+                if (pl.Data.Loaded)
+                    loadedCount++;
+                if (!pl.IsBot())
+                    activePlayersCount++;
+            }
+
+            if (loadedCount == activePlayersCount)
+                gameSession.StartGame();
+
+        }
+
         private void ReceivedPlayerScoreAndGoldMsg(NetIncomingMessage msg)
         {
             // neprijimat score a goldy po ukonceni hry (premazalo by to uz zresetovana PlayerData)

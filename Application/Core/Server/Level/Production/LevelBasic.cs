@@ -21,9 +21,15 @@ namespace Orbit.Core.Server.Level
 
         public LevelBasic(ServerMgr serverMgr) : base(serverMgr)
         {
+        }
+
+        public override void OnStart()
+        {
+            base.OnStart();
             events.AddEvent((int)Events.ADDITIONAL_ASTEROID, new Event(SharedDef.NEW_ASTEROID_TIMER, EventType.REPEATABLE, new Action(() => CreateAndSendAdditionalAsteroid())));
             events.AddEvent((int)Events.NEW_STAT_POWERUP, new Event(1, EventType.REPEATABLE, new Action(() => CreateAndSendNewStatPowerup())));
         }
+        
 
         protected override void CreateLevelObjects()
         {

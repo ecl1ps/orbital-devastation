@@ -265,6 +265,12 @@ namespace Orbit.Core.Client
                 case PacketType.PLAYER_READY_CHECK:
                     ReceivedPlayerReadyCheck();
                     break;
+                case PacketType.PLAYER_LOAD_PROGRESS:
+                    ReceivedPlayerLoadingMsg(msg);
+                    break;
+                case PacketType.GAME_START:
+                    ReceivedGameStartMsg();
+                    break;
                 default:
                     Logger.Warn("Received unhandled packet type: " + type);
                     break;

@@ -169,9 +169,11 @@ namespace Orbit.Core.Client
                     if (plr.Data.PlayerType == PlayerType.BOT)
                         CreateAndAddBot(plr);
                     else
+                    {
                         FloatingTextMgr.AddFloatingText(String.Format(Strings.Culture, Strings.game_joined, plr.Data.Name),
                             new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
                             FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
+                    }
                 }
                 else
                 {
@@ -191,11 +193,31 @@ namespace Orbit.Core.Client
 
             if ((GameType != Gametype.TOURNAMENT_GAME || tournametRunnig) && !currentPlayer.Data.StartReady)
                 SendStartGameRequest();
-            else if (GameWindowState == WindowState.IN_LOBBY)
+
+            if (gameWindowState == WindowState.LOADING)
+            {
+                List<Player> players = new List<Player>();
+                foreach (int id in newPlrs)
+                    players.Add(GetPlayer(id));
+
+                loadingScreen.PreparePlayers(players);
+            }
+                
+
+            if (GameWindowState == WindowState.IN_LOBBY)
             {
                 CheckAllPlayersReady();
                 UpdateLobbyPlayers();
             }
+        }
+
+        private void ReceivedPlayerLoadingMsg(NetIncomingMessage msg)
+        {
+            Player p = GetPlayer(msg.ReadInt32());
+            float progress = msg.ReadFloat();
+
+            loadingScreen.UpdatePlayer(p, progress);
+
         }
 
         private void ReceivedServerShuttingDownMsg(NetIncomingMessage msg)
@@ -252,37 +274,17 @@ namespace Orbit.Core.Client
             EndGame(winner, GameEnd.TOURNAMENT_FINISHED);
         }
 
-        private void ReceivedTournamentStartingMsg(NetIncomingMessage msg)
-        {
-            Application.Current.Dispatcher.Invoke(new Action(() =>
-            {
-                App.Instance.CreateGameGui(false);
-                App.Instance.SetGameStarted(true);
-                SetGameVisualArea(App.Instance.GetGameArea());
-            }));
-
-            BeginInvoke(new Action(() =>
-            {
-                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblEndGame");
-                if (lbl != null)
-                    lbl.Content = "";
-
-                Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblWaiting");
-                if (lblw != null)
-                    lblw.Content = "";
-
-            }));
-        }
-
-        private void ReceivedStartGameResponseMsg(NetIncomingMessage msg)
+        private void ReceivedGameStartMsg()
         {
             Player leftPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.LEFT);
             Player rightPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.RIGHT);
 
+            App.Instance.Dispatcher.Invoke(new Action(() => App.Instance.AttachGameGui()));
+            App.Instance.SetGameStarted(true);
+
             InitStaticMouse();
             //InitAutomaticMineLauncher();
             AlertMessageMgr.InitElement();
-            App.Instance.SetGameStarted(true);
 
             foreach (Player p in players)
             {
@@ -318,9 +320,41 @@ namespace Orbit.Core.Client
             SetMainInfoText("");
             userActionsDisabled = false;
 
-            Application.Current.Dispatcher.BeginInvoke(new Action(() => {
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
                 App.Instance.FocusWindow();
             }));
+        }
+
+        private void ReceivedTournamentStartingMsg(NetIncomingMessage msg)
+        {
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                //App.Instance.CreateGameGui(false);
+                App.Instance.CreateLoadingGui();
+                App.Instance.SetGameStarted(true);
+                Running = true;
+                //SetGameVisualArea(App.Instance.GetGameArea());
+            }));
+
+            BeginInvoke(new Action(() =>
+            {
+                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblEndGame");
+                if (lbl != null)
+                    lbl.Content = "";
+
+                Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblWaiting");
+                if (lblw != null)
+                    lblw.Content = "";
+
+            }));
+        }
+
+        private void ReceivedStartGameResponseMsg(NetIncomingMessage msg)
+        {
+            App.Instance.CreateLoadingGui();
+            App.Instance.SetGameStarted(true);
+            Running = true;
         }
 
         private void ReceivedPlayerReconnectedMsg(NetIncomingMessage msg)

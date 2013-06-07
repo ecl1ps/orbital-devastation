@@ -141,6 +141,8 @@
     <Compile Include="Core\AI\HookerBot.cs" />
     <Compile Include="Core\AI\MediocreBot.cs" />
     <Compile Include="Core\AI\SimpleBot.cs" />
+    <Compile Include="Core\Client\Cache\CacheManager.cs" />
+    <Compile Include="Core\Client\Cache\CacheManagerImpl.cs" />
     <Compile Include="Core\Client\GameStates\AlertMessageManager.cs" />
     <Compile Include="Core\Client\GameStates\AutomaticMineLauncher.cs" />
     <Compile Include="Core\Client\GameStates\FloatingTextManager.cs" />
@@ -388,6 +390,9 @@
     <Compile Include="Gui\KeyBindingsOptions.xaml.cs">
       <DependentUpon>KeyBindingsOptions.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\LoadingScreen.xaml.cs">
+      <DependentUpon>LoadingScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\LobbyPlayer.xaml.cs">
       <DependentUpon>LobbyPlayer.xaml</DependentUpon>
     </Compile>
@@ -402,6 +407,9 @@
     </Compile>
     <Compile Include="Gui\ParticleArea.xaml.cs">
       <DependentUpon>ParticleArea.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\PlayerLoadingUC.xaml.cs">
+      <DependentUpon>PlayerLoadingUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\PlayerOverview.xaml.cs">
       <DependentUpon>PlayerOverview.xaml</DependentUpon>
@@ -552,6 +560,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Gui\LoadingScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Gui\LobbyPlayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -577,6 +589,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\ParticleArea.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\PlayerLoadingUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -913,6 +929,7 @@
     <EmbeddedResource Include="Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.config" />
     <EmbeddedResource Include="logger.config">

@@ -26,6 +26,7 @@ using Orbit.Gui.ActionControllers;
 using Orbit.Core.Scene.Particles.Implementations;
 using System.Globalization;
 using Orbit.Core.Client.Interfaces;
+using Orbit.Core.Client.Cache;
 
 namespace Orbit.Core.Client
 {
@@ -41,9 +42,11 @@ namespace Orbit.Core.Client
         public AlertMessageManager AlertMessageMgr { get; set; }
         public SpectatorActionsManager SpectatorActionMgr { get; set; }
         public ScreenShakingManager ScreenShakingMgr { get; set; }
+        public CacheManagerImpl Cache { get; set; }
         public bool UserActionsDisabled { get { return userActionsDisabled; } }
         public bool IsGameInitalized { get { return isGameInitialized; } }
         public WindowState GameWindowState { get { return gameWindowState; } set { gameWindowState = value; } }
+        public bool Running { get; set; }
 
         private volatile WindowState gameWindowState;
 
@@ -68,6 +71,7 @@ namespace Orbit.Core.Client
         private TournamentSettings lastTournamentSettings;
         private float totalTime;
         private bool stopUpdating = false;
+        private LoadingScreen loadingScreen;
 
         private List<IMouseClickListener> clickListeners;
         private List<IMouseMoveListener> moveListeners;
@@ -138,6 +142,18 @@ namespace Orbit.Core.Client
             StateMgr.AddGameState(SpectatorActionMgr);
             ScreenShakingMgr = new ScreenShakingManager(this);
             StateMgr.AddGameState(ScreenShakingMgr);
+
+            if (Cache != null)
+                Cache.Clear();
+        }
+
+        public void InitLoading(LoadingScreen screen)
+        {
+            loadingScreen = screen;
+            screen.PreparePlayers(players);
+
+            if (Cache == null)
+                Cache = new CacheManagerImpl(this, screen);
         }
 
         public void InitStaticMouse()
@@ -418,7 +434,10 @@ namespace Orbit.Core.Client
         /// 
         public Canvas GetCanvas()
         {
-            return area.Parent as Canvas;
+            if (area != null)
+                return area.Parent as Canvas;
+            else
+                return null;
         }
 
         public GameVisualArea GetGameVisualArea()
@@ -446,7 +465,7 @@ namespace Orbit.Core.Client
                 if (Application.Current == null)
                     continue;
 
-                if (tpf >= 0.001 && isGameInitialized)
+                if (tpf >= 0.001 && (isGameInitialized || GameWindowState == WindowState.LOADING))
                     Update(tpf);
 
                 elapsedMs = sw.ElapsedMilliseconds;
@@ -474,6 +493,9 @@ namespace Orbit.Core.Client
 
         public void Update(float tpf)
         {
+            if (gameWindowState == WindowState.LOADING && Running)
+                Load(tpf);
+
             if (GameWindowState != WindowState.IN_GAME)
                 return;
 
@@ -497,6 +519,12 @@ namespace Orbit.Core.Client
 
                 area.RunRender();
             }
+        }
+
+        private void Load(float tpf)
+        {
+            if (!Cache.Loaded)
+                Cache.Update(tpf);
         }
 
         private void ShowStatistics(float tpf)
@@ -888,12 +916,22 @@ namespace Orbit.Core.Client
 
         public void Invoke(Action a)
         {
-            area.Dispatcher.Invoke(a);
+            if (gameWindowState == WindowState.IN_GAME)
+                area.Dispatcher.Invoke(a);
+            else if (gameWindowState == WindowState.LOADING)
+                loadingScreen.Dispatcher.Invoke(a);
+            else
+                throw new Exception("Invalid invoke call");
         }
 
         public void BeginInvoke(Action a)
         {
-            area.Dispatcher.BeginInvoke(a);
+            if (gameWindowState == WindowState.IN_GAME)
+                area.Dispatcher.BeginInvoke(a);
+            else if (gameWindowState == WindowState.LOADING)
+                loadingScreen.Dispatcher.BeginInvoke(a);
+            else
+                throw new Exception("Invalid invoke call");
         }
 
         private void CheckAllPlayersReady()

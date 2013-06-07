@@ -191,6 +191,9 @@ namespace Orbit.Core.Server
                 case PacketType.PLAYER_KICK_REQUEST:
                     ReceivedPlayerKickRequest(msg.ReadInt32());
                     break;
+                case PacketType.PLAYER_LOADING_COMPLETED:
+                    ReceivedPlayerLoadingMsg(msg);
+                    break;
                 default:
                     ForwardMessage(msg);
                     break;
