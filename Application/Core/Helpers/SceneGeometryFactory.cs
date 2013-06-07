@@ -98,8 +98,26 @@ namespace Orbit.Core.Helpers
 
                 g = new DrawingGroup();
                 ImageDrawing img = new ImageDrawing();
-                img.ImageSource = bi;
                 img.Rect = new Rect(new Size(mine.Radius * 2, mine.Radius * 2));
+
+                ColorReplaceEffect effect = new ColorReplaceEffect();
+                effect.ColorToOverride = Colors.White;
+                effect.ColorReplace = mine.Owner.GetPlayerColor();
+
+                RenderTargetBitmap rtb = new RenderTargetBitmap((int)mine.Radius * 2, (int)mine.Radius * 2, 96, 96, PixelFormats.Pbgra32);
+
+                System.Windows.Shapes.Rectangle visual = new System.Windows.Shapes.Rectangle();
+                visual.Fill = new ImageBrush(bi);
+                visual.Effect = effect;
+
+                Size sz = new Size(mine.Radius * 2, mine.Radius * 2);
+                visual.Measure(sz);
+                visual.Arrange(new Rect(sz));
+
+                rtb.Render(visual);
+                img.ImageSource = rtb;
+
+                g = new DrawingGroup();
                 TransformGroup tg = new TransformGroup();
                 tg.Children.Add(new TranslateTransform(mine.Position.X, mine.Position.Y));
                 tg.Children.Add(new RotateTransform(mine.Rotation, mine.Radius, mine.Radius));

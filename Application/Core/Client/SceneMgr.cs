@@ -149,8 +149,7 @@ namespace Orbit.Core.Client
 
         public void InitAutomaticMineLauncher()
         {
-            if(GetCurrentPlayer().IsActivePlayer())
-                StateMgr.AddGameState(new AutomaticMineLauncher(GetCurrentPlayer()));
+            StateMgr.AddGameState(new AutomaticMineLauncher(GetCurrentPlayer()));
         }
 
         private Player CreatePlayer()

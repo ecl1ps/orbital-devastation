@@ -364,6 +364,9 @@
     <Compile Include="Gui\ColorPickerUC.xaml.cs">
       <DependentUpon>ColorPickerUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\CooldownVisualiser.xaml.cs">
+      <DependentUpon>CooldownVisualiser.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\Elements\ImageToggleButton.cs" />
     <Compile Include="Gui\GameOptions.xaml.cs">
       <DependentUpon>GameOptions.xaml</DependentUpon>
@@ -393,6 +396,9 @@
     </Compile>
     <Compile Include="Gui\LobbyUC.xaml.cs">
       <DependentUpon>LobbyUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\MineLaunchArea.xaml.cs">
+      <DependentUpon>MineLaunchArea.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\MouseOptions.xaml.cs">
       <DependentUpon>MouseOptions.xaml</DependentUpon>
@@ -520,6 +526,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Gui\CooldownVisualiser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Gui\GameOptions.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -557,6 +567,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\LobbyUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\MineLaunchArea.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

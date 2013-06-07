@@ -353,7 +353,6 @@ namespace Orbit.Core.Client
             if (p.IsActivePlayer())
             {
                 p.CreateWeapons();
-                InitAutomaticMineLauncher();
 
                 // zobrazi aktualni integrity bazi
                 p.SetBaseIntegrity(p.GetBaseIntegrity());
@@ -385,6 +384,7 @@ namespace Orbit.Core.Client
                 {
                     inputMgr = new PlayerInputMgr(p, this, actionBarMgr);
                     actionBarMgr.CreateActionBarItems(p.GetActions<IPlayerAction>(), false);
+                    InitAutomaticMineLauncher();
                 }
                 else
                 {
