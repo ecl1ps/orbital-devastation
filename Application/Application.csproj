@@ -152,11 +152,15 @@
     <Compile Include="Core\AI\MediocreBot.cs" />
     <Compile Include="Core\AI\SimpleBot.cs" />
     <Compile Include="Core\Client\GameStates\AlertMessageManager.cs" />
+    <Compile Include="Core\Client\GameStates\AutomaticMineLauncher.cs" />
     <Compile Include="Core\Client\GameStates\FloatingTextManager.cs" />
     <Compile Include="Core\Client\GameStates\LevelEnvironment.cs" />
     <Compile Include="Core\Client\GameStates\DelayedActionInvoker.cs" />
     <Compile Include="Core\Client\GameStates\ScreenShakingManager.cs" />
     <Compile Include="Core\Client\GameStates\SpectatorActionsManager.cs" />
+    <Compile Include="Core\Client\Interfaces\IKeyPressListener.cs" />
+    <Compile Include="Core\Client\Interfaces\IMouseClickListener.cs" />
+    <Compile Include="Core\Client\Interfaces\IMouseMoveListener.cs" />
     <Compile Include="Core\Client\Interfaces\Invokers.cs" />
     <Compile Include="Core\Client\Shaders\AlphaMaskEffect.cs" />
     <Compile Include="Core\CommandExecutor.cs" />
@@ -361,6 +365,7 @@
     <Compile Include="Core\Weapons\ProximityCannonIII.cs" />
     <Compile Include="Core\Weapons\TargetingMineLauncher.cs" />
     <Compile Include="Core\Weapons\ProximityCannonII.cs" />
+    <Compile Include="Core\Weapons\IWeaponClickListener.cs" />
     <Compile Include="Gui\ActionBar.xaml.cs">
       <DependentUpon>ActionBar.xaml</DependentUpon>
     </Compile>
@@ -386,6 +391,9 @@
     </Compile>
     <Compile Include="Gui\DownloadUC.xaml.cs">
       <DependentUpon>DownloadUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\CooldownVisualiser.xaml.cs">
+      <DependentUpon>CooldownVisualiser.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\ReconnectUC.xaml.cs">
       <DependentUpon>ReconnectUC.xaml</DependentUpon>
@@ -419,6 +427,9 @@
     </Compile>
     <Compile Include="Gui\LobbyUC.xaml.cs">
       <DependentUpon>LobbyUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\MineLaunchArea.xaml.cs">
+      <DependentUpon>MineLaunchArea.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\MouseOptions.xaml.cs">
       <DependentUpon>MouseOptions.xaml</DependentUpon>
@@ -458,6 +469,9 @@
     </Compile>
     <Compile Include="Gui\TournamentFinderUC.xaml.cs">
       <DependentUpon>TournamentFinderUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\ArrowCast.xaml.cs">
+      <DependentUpon>ArrowCast.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\Visuals\GameVisualArea.cs" />
     <Compile Include="Gui\Visuals\Particles.cs" />
@@ -547,6 +561,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Gui\CooldownVisualiser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Gui\ReconnectUC.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -588,6 +606,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\LobbyUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\MineLaunchArea.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -651,6 +673,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Gui\ArrowCast.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="resources\styles\Button.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -700,8 +726,14 @@
     <Resource Include="resources\images\rock\rock_unstable_2_burn.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="resources\images\projectiles\mine.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="resources\images\rock\rock_unstable_3_burn.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\images\background\arrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="resources\images\rock\rock_unstable_4_burn.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

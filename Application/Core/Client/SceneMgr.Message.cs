@@ -305,6 +305,7 @@ namespace Orbit.Core.Client
             Player rightPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.RIGHT);
 
             InitStaticMouse();
+            //InitAutomaticMineLauncher();
             AlertMessageMgr.InitElement();
             App.Instance.SetGameStarted(true);
 
@@ -409,6 +410,7 @@ namespace Orbit.Core.Client
                 {
                     inputMgr = new PlayerInputMgr(p, this, actionBarMgr);
                     actionBarMgr.CreateActionBarItems(p.GetActions<IPlayerAction>(), false);
+                    InitAutomaticMineLauncher();
                 }
                 else
                 {

@@ -30,6 +30,9 @@ namespace Orbit.Core.Weapons
         protected Hook hook;
         protected ISpecialAction next;
 
+        private List<IWeaponClickListener> listeners = new List<IWeaponClickListener>();
+
+
         public HookLauncher(SceneMgr mgr, Player owner)
         {
             SceneMgr = mgr;
@@ -40,11 +43,12 @@ namespace Orbit.Core.Weapons
             ReloadTime = 0;
         }
 
-        public ISceneObject Shoot(Point point)
+        public ISceneObject Shoot(Point point, bool noControl = false)
         {
-            if (IsReady()) {
+            if (IsReady() || noControl) {
                 ISceneObject obj = SpawnHook(point);
-                ReloadTime = Owner.Data.HookCooldown;
+                if(!noControl)
+                    ReloadTime = Owner.Data.HookCooldown;
                 
                 Owner.Statistics.HookFired++;
 
@@ -102,8 +106,14 @@ namespace Orbit.Core.Weapons
         }
 
 
-        public void ProccessClickEvent(Point point, MouseButton button, MouseButtonState state)
+        public virtual void ProccessClickEvent(Point point, MouseButton button, MouseButtonState state)
         {
+            foreach (IWeaponClickListener listener in listeners)
+            {
+                if (listener.ProccessClickEvent(point, button, state))
+                    return;
+            }
+
             if (state == MouseButtonState.Pressed)
                 Shoot(point);
         }
@@ -112,6 +122,17 @@ namespace Orbit.Core.Weapons
         {
             if (ReloadTime > 0)
                 ReloadTime -= tpf;
+        }
+
+        public IWeaponClickListener AddClickListener(IWeaponClickListener listener)
+        {
+            listeners.Add(listener);
+            return listener;
+        }
+
+        public void RemoveClickListener(IWeaponClickListener listener)
+        {
+            listeners.Remove(listener);
         }
     }
 }

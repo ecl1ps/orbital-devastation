@@ -69,6 +69,10 @@ namespace Orbit.Core.Client
         private float totalTime;
         private bool stopUpdating = false;
 
+        private List<IMouseClickListener> clickListeners;
+        private List<IMouseMoveListener> moveListeners;
+        private List<IKeyPressListener> keyListeners;
+
         public SceneMgr()
         {
             StatsMgr = new StatsMgr(this);
@@ -96,6 +100,10 @@ namespace Orbit.Core.Client
             statisticsTimer = 0;
             totalTime = 0;
             StateMgr = new GameStateManager();
+
+            clickListeners = new List<IMouseClickListener>();
+            moveListeners = new List<IMouseMoveListener>();
+            keyListeners = new List<IKeyPressListener>();
 
             currentPlayer = CreatePlayer();
             currentPlayer.Data.PlayerColor = Player.GetChosenColor();
@@ -137,6 +145,11 @@ namespace Orbit.Core.Client
             StaticMouse.Init(this);
             StaticMouse.Enable(true);
             StateMgr.AddGameState(StaticMouse.Instance);
+        }
+
+        public void InitAutomaticMineLauncher()
+        {
+            StateMgr.AddGameState(new AutomaticMineLauncher(GetCurrentPlayer()));
         }
 
         private Player CreatePlayer()
@@ -191,6 +204,9 @@ namespace Orbit.Core.Client
             }
 
             CleanObjects();
+            keyListeners.Clear();
+            moveListeners.Clear();
+            clickListeners.Clear();
         }
 
         private void CleanObjects() 
@@ -378,11 +394,27 @@ namespace Orbit.Core.Client
         /* konec manipulace s objekty                                           */
         /************************************************************************/
 
+        public void AddMoveListener(IMouseMoveListener listener)
+        {
+            moveListeners.Add(listener);
+        }
+
+        public void AddKeyListener(IKeyPressListener listener)
+        {
+            keyListeners.Add(listener);
+        }
+
+        public void AddMouseListener(IMouseClickListener listener)
+        {
+            clickListeners.Add(listener);
+        }
+
         /// <summary>
         /// deprecated,
         /// pokud mozno pouzijte GameVisualArea pripadne primo metody Attach...ToScene() a Remove...FromScene()
         /// </summary>
         /// <returns></returns>
+        /// 
         public Canvas GetCanvas()
         {
             return area.Parent as Canvas;
@@ -569,8 +601,8 @@ namespace Orbit.Core.Client
 
         public void OnCanvasMouseMove(Point point)
         {
-            if (currentPlayer.Shooting)
-                currentPlayer.TargetPoint = (StaticMouse.Instance != null && StaticMouse.ALLOWED) ? StaticMouse.GetPosition() : point;
+            point = (StaticMouse.Instance != null && StaticMouse.ALLOWED) ? StaticMouse.GetPosition() : point;
+            moveListeners.ForEach(l => l.OnMouseMove(point));
         }
 
         public void OnCanvasClick(Point point, MouseButtonEventArgs e)
@@ -589,7 +621,7 @@ namespace Orbit.Core.Client
             }
 
             if (IsPointInViewPort(point))
-                inputMgr.OnCanvasClick(point, e);
+                clickListeners.ForEach(l => l.OnCanvasClick(point, e));
             else
                 inputMgr.OnActionBarClick(point, e);
         }
@@ -1009,6 +1041,7 @@ namespace Orbit.Core.Client
             }
 
             inputMgr.OnKeyEvent(e);
+            keyListeners.ForEach(l => l.OnKeyEvent(e));
         }
 
         private List<PlayerOverviewData> GetPlayerOverviewData()

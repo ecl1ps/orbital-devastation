@@ -44,7 +44,11 @@ namespace Orbit.Core.Weapons
 
         void ProccessClickEvent(Point point, MouseButton button, MouseButtonState buttonState);
 
-        ISceneObject Shoot(Point point);
+        IWeaponClickListener AddClickListener(IWeaponClickListener listener);
+
+        void RemoveClickListener(IWeaponClickListener listener);
+
+        ISceneObject Shoot(Point point, bool noControl = false);
 
         bool IsReady();
 

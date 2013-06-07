@@ -4,15 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using System.Windows;
+using Orbit.Core.Client.Interfaces;
 
 namespace Orbit.Core.Players.Input
 {
-    public interface IInputMgr
+    public interface IInputMgr : IKeyPressListener, IMouseClickListener
     {
-        void OnCanvasClick(Point point, MouseButtonEventArgs e);
-
         void OnActionBarClick(Point point, MouseButtonEventArgs e);
-
-        void OnKeyEvent(KeyEventArgs e);
     }
 }
