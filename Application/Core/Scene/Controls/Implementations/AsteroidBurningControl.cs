@@ -93,27 +93,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
                     break;
                 case 2:
                     {
-                        ParticleEmmitor smokeEmmitor1 = ParticleEmmitorFactory.CreateBasicFire(me.SceneMgr, Color.FromArgb(40, 10, 10, 10));
-                        smokeEmmitor1.Amount = 40;
-                        smokeEmmitor1.MinLife = 1f;
-                        smokeEmmitor1.MaxLife = 1.5f;
-                        smokeEmmitor1.MinSize = asteroid.Radius / 20.0f;
-                        smokeEmmitor1.MaxSize = asteroid.Radius / 30.0f;
-                        smokeEmmitor1.SpawnRadius = asteroid.Radius / 4.0f;
-                        smokeEmmitor1.Infinite = true;
-
-                        ParticleEmmitor smokeEmmitor2 = ParticleEmmitorFactory.CreateBasicFire(me.SceneMgr, Color.FromArgb(40, 10, 10, 10));
-                        smokeEmmitor2.Amount = 40;
-                        smokeEmmitor2.MinLife = 1f;
-                        smokeEmmitor2.MaxLife = 1.5f;
-                        smokeEmmitor2.MinSize = asteroid.Radius / 20.0f;
-                        smokeEmmitor2.MaxSize = asteroid.Radius / 30.0f;
-                        smokeEmmitor2.SpawnRadius = asteroid.Radius / 4.0f;
-                        smokeEmmitor2.Infinite = true;
-
-                        meNode.AddEmmitor(smokeEmmitor1, new Vector(asteroid.Radius * -0.7, asteroid.Radius * 0.5), false);
-                        meNode.AddEmmitor(smokeEmmitor2, new Vector(asteroid.Radius * -0.7, asteroid.Radius * -0.5), false);
-
                         asteroid.AddControl(new ShakingControl(1, true, 0.05f));
                     }
                     break;
