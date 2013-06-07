@@ -22,7 +22,7 @@
             <Image Source="pack://application:,,,/resources/images/mouse/targeting_icon3.png" Width="9" />
         </elems:ImageToggleButton>
         <Label Content="{lex:Loc ui_mouse_sensitivity}" Margin="12,118,154,200" />
-        <TextBlock Name="SensitivityLabel" TextAlignment="Right" VerticalAlignment="Bottom" Text="1" Margin="216,0,0,164" Width="28" Height="14" />
+        <TextBlock Name="SensitivityLabel" TextAlignment="Right" VerticalAlignment="Bottom" Text="1" Margin="209,0,0,164" Width="35" Height="14" />
         <Slider Name="SensitivitySlider" Maximum="100" Margin="135,143,7,183" ValueChanged="SensitivityChange" />
         <CheckBox Name="mouseEnabled" Unchecked="mouseEnabled_Unchecked" Checked="mouseEnabled_Checked" IsThreeState="False" Margin="226,32,108,303"  />
         <Label Content="{lex:Loc ui_mouse_active}" Margin="12,24,126,298" />
