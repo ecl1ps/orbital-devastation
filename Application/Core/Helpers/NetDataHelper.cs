@@ -798,7 +798,7 @@ namespace Orbit.Core.Helpers
             else
             {
                 msg.Write(0);
-                Logger.Error("Sending unspported action (" + action.Name + ")!");
+                Logger.Error("Sending unsupported action (" + action.Name + ")!");
             }
         }
         
@@ -879,7 +879,7 @@ namespace Orbit.Core.Helpers
             else
             {
                 msg.Write(0);
-                Logger.Error("Sending unspported factory (" + f.GetType().Name + ")!");
+                Logger.Error("Sending unsupported factory (" + f.GetType().Name + ")!");
             }
 
             f.WriteObject(msg);
@@ -898,7 +898,7 @@ namespace Orbit.Core.Helpers
             else if (hash == typeof(BaseParticleFactory).GUID.GetHashCode())
                 f = new BaseParticleFactory();
             else
-                Logger.Error("Rading unspported factory!");
+                Logger.Error("Reading unsupported factory! Hash " + hash);
 
             f.ReadObject(msg);
             return f;
