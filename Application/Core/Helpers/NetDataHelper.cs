@@ -798,7 +798,7 @@ namespace Orbit.Core.Helpers
             else
             {
                 msg.Write(0);
-                Logger.Error("Sending unspported action (" + action.Name + ")!");
+                Logger.Error("Sending unsupported action (" + action.Name + ")!");
             }
         }
         
@@ -868,19 +868,22 @@ namespace Orbit.Core.Helpers
 
         public static void WriteParticleFactory(this NetOutgoingMessage msg, IParticleFactory f)
         {
+            int hash = 0;
             if (f is ParticleSphereFactory)
-                msg.Write(typeof(ParticleSphereFactory).GUID.GetHashCode());
+                hash = typeof(ParticleSphereFactory).GUID.GetHashCode();
             else if (f is ParticleImageFactory)
-                msg.Write(typeof(ParticleImageFactory).GUID.GetHashCode());
+                hash = typeof(ParticleImageFactory).GUID.GetHashCode();
             else if (f is ParticleSmokeFactory)
-                msg.Write(typeof(ParticleSmokeFactory).GUID.GetHashCode());
+                hash = typeof(ParticleSmokeFactory).GUID.GetHashCode();
             else if (f is BaseParticleFactory)
-                msg.Write(typeof(BaseParticleFactory).GUID.GetHashCode());
+                hash = typeof(BaseParticleFactory).GUID.GetHashCode();
             else
             {
-                msg.Write(0);
-                Logger.Error("Sending unspported factory (" + f.GetType().Name + ")!");
+                Logger.Error("Sending unsupported factory (" + f.GetType().Name + ")!");
             }
+
+            Logger.Warn("Sending particle factory (" + f.GetType().Name + ") hash " + hash);
+            msg.Write(hash);
 
             f.WriteObject(msg);
         }
@@ -898,7 +901,9 @@ namespace Orbit.Core.Helpers
             else if (hash == typeof(BaseParticleFactory).GUID.GetHashCode())
                 f = new BaseParticleFactory();
             else
-                Logger.Error("Rading unspported factory!");
+                Logger.Error("Reading unsupported factory! Hash " + hash);
+
+            Logger.Warn("Reading particle factory (" + f.GetType().Name + ") hash " + hash);
 
             f.ReadObject(msg);
             return f;

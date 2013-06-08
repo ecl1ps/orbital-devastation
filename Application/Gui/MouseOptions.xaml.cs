@@ -95,16 +95,19 @@ namespace Orbit.Gui
                 MouseIcon3.IsChecked = false;
         }
 
+        [System.Reflection.ObfuscationAttribute(Feature = "renaming")]
         private void MouseIcon1_Click(object sender, RoutedEventArgs e)
         {
             ProccesCursorIconChange(e, new Uri("pack://application:,,,/resources/images/mouse/targeting_icon2.png"));
         }
 
+        [System.Reflection.ObfuscationAttribute(Feature = "renaming")]
         private void MouseIcon2_Click(object sender, RoutedEventArgs e)
         {
             ProccesCursorIconChange(e, new Uri("pack://application:,,,/resources/images/mouse/targeting_icon.png"));
         }
 
+        [System.Reflection.ObfuscationAttribute(Feature = "renaming")]
         private void MouseIcon3_Click(object sender, RoutedEventArgs e)
         {
             ProccesCursorIconChange(e, new Uri("pack://application:,,,/resources/images/mouse/targeting_icon3.png"));
@@ -121,6 +124,7 @@ namespace Orbit.Gui
             GameProperties.Props.SetAndSave(PropertyKey.STATIC_MOUSE_CURSOR, uri.ToString());
         }
 
+        [System.Reflection.ObfuscationAttribute(Feature = "renaming")]
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
             App.WindowInstance.ShowOptionsMenu();
