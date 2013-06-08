@@ -135,9 +135,7 @@ namespace Orbit.Core.Client
         private void ProcessIncomingDataMessage(NetIncomingMessage msg)
         {
             PacketType type = (PacketType)msg.ReadInt32();
-#if VERBOSE
             Logger.Debug("Client " + GetCurrentPlayer().GetId() + ": received msg " + type.ToString());
-#endif
             switch (type)
             {
                 case PacketType.ALL_PLAYER_DATA:
