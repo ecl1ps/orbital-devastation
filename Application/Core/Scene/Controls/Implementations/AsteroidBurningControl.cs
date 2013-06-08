@@ -219,7 +219,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             grp.Add(fireEmmitor);
             grp.Add(fireEmmitor2);
 
-            node.AddEmmitorGroup(grp, new Vector());
+            node.AddEmmitorGroup(grp, new Vector(), false);
 
             NewtonianMovementControl nmc = new NewtonianMovementControl();
             nmc.Speed = (asteroid.GetControlOfType<IMovementControl>().RealSpeed / tpf) * 0.75f;
