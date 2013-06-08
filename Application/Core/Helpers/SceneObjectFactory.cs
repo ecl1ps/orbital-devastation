@@ -61,7 +61,7 @@ namespace Orbit.Core.Helpers
             mine.Radius = 2;
             mine.Direction = dir;
             mine.Color = Colors.BlueViolet;
-            mine.SetGeometry(SceneGeometryFactory.CreateSolidColorEllipseGeometry(mine));
+            mine.SetGeometry(SceneGeometryFactory.CreateMineImage(mine));
                 
             SphereCollisionShape cs = new SphereCollisionShape();
             cs.Center = mine.Center;
