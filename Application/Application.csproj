@@ -20,7 +20,8 @@
     <XnaProfile>HiDef</XnaProfile>
     <XnaCrossPlatformGroupID>249b2486-1adf-43d5-acdf-d55eac5b2215</XnaCrossPlatformGroupID>
     <XnaOutputType>Game</XnaOutputType>
-    <Thumbnail>resources\images\rock\rock_normal_1.png</Thumbnail>
+    <Thumbnail>
+    </Thumbnail>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
