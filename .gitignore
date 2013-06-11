@@ -18,3 +18,6 @@ MasterServer/obj/
 Lidgren.Network/Documentation/
 Lidgren.Network/bin/
 Lidgren.Network/obj/
+Content/obj/
+Content/bin/
+Application/Application.csproj.Debug.cachefile
