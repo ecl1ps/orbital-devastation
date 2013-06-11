@@ -3,7 +3,6 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-            xmlns:canvas="clr-namespace:Orbit.Core.Client"
             xmlns:controls="clr-namespace:Orbit.Gui"
             xmlns:lex="http://wpflocalizeextension.codeplex.com"
             lex:ResxLocalizationProvider.DefaultAssembly="OrbitalDevastation"  
@@ -37,7 +36,7 @@
                                 ScaleY="{Binding ElementName=mainWindow, Path=ScaleValueY}" />
                 </Grid.LayoutTransform>
                 <Grid Name="mainGrid" >
-                    <canvas:SceneMgr></canvas:SceneMgr>
+                    <controls:MainUC />
                 </Grid>
                 <Grid Name="menuGrid" VerticalAlignment="Center" HorizontalAlignment="Center" >
                 </Grid>

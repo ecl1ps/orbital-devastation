@@ -179,11 +179,7 @@ namespace Orbit
 
         public void CreateGameGui(bool setGameArea = true)
         {
-            SceneMgr mgr = new SceneMgr();
-            AddWindow(mgr);
-            //mgr.Run();
-
-            /*GameUC gameW = new GameUC();
+            GameUC gameW = new GameUC();
             AddWindow(gameW);
             sceneMgr.GameWindowState = Orbit.Core.WindowState.IN_GAME;
             if (setGameArea)
@@ -193,7 +189,7 @@ namespace Orbit
                 {
                     sceneMgr.SetGameVisualArea(gva);
                 }));
-            }*/
+            }
         }
 
         public void StartTournamentFinder(string address = SharedDef.MASTER_SERVER_ADDRESS)
