@@ -119,14 +119,14 @@ namespace Orbit
 
         public void StartSoloGame(TournamentSettings s)
         {
-            if (!StartLocalServer(Gametype.SOLO_GAME))
+            /*if (!StartLocalServer(Gametype.SOLO_GAME))
                 return;
 
             sceneMgr.SetRemoteServerAddress(System.Net.IPAddress.Loopback.ToString());
 
             StartGame(Gametype.SOLO_GAME);
 
-            SendTournamentSettings(s);
+            SendTournamentSettings(s);*/
         }
 
         private void SendTournamentSettings(TournamentSettings s)
@@ -179,7 +179,11 @@ namespace Orbit
 
         public void CreateGameGui(bool setGameArea = true)
         {
-            GameUC gameW = new GameUC();
+            SceneMgr mgr = new SceneMgr();
+            AddWindow(mgr);
+            //mgr.Run();
+
+            /*GameUC gameW = new GameUC();
             AddWindow(gameW);
             sceneMgr.GameWindowState = Orbit.Core.WindowState.IN_GAME;
             if (setGameArea)
@@ -189,7 +193,7 @@ namespace Orbit
                 {
                     sceneMgr.SetGameVisualArea(gva);
                 }));
-            }
+            }*/
         }
 
         public void StartTournamentFinder(string address = SharedDef.MASTER_SERVER_ADDRESS)
@@ -374,7 +378,7 @@ namespace Orbit
             mainWindow.mainGrid.Children.Clear();
         }
 
-        public void AddWindow(UserControl window)
+        public void AddWindow(FrameworkElement window)
         {
             ClearMenus();
             ClearWindows();

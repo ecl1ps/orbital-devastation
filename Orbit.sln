@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidgren.Network", "Lidgren.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Content", "Content\Content.contentproj", "{A161D1C5-FEF3-45C6-8D2C-D42657BD8F13}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arcane.Xna.Presentation", "Arcana\Arcane.Xna.Presentation.csproj", "{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Orbit.vsmdi
@@ -173,6 +175,31 @@ Global
 		{A161D1C5-FEF3-45C6-8D2C-D42657BD8F13}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{A161D1C5-FEF3-45C6-8D2C-D42657BD8F13}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{A161D1C5-FEF3-45C6-8D2C-D42657BD8F13}.Release|x86.ActiveCfg = Debug|Any CPU
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Debug Auto Tournament|Any CPU.ActiveCfg = Debug|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Debug Auto Tournament|Mixed Platforms.ActiveCfg = Debug|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Debug Auto Tournament|Mixed Platforms.Build.0 = Debug|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Debug Auto Tournament|x86.ActiveCfg = Debug|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Debug Auto Tournament|x86.Build.0 = Debug|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Debug verbose|Any CPU.ActiveCfg = Debug|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Debug verbose|Mixed Platforms.ActiveCfg = Debug|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Debug verbose|Mixed Platforms.Build.0 = Debug|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Debug verbose|x86.ActiveCfg = Debug|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Debug verbose|x86.Build.0 = Debug|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Debug|x86.ActiveCfg = Debug|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Debug|x86.Build.0 = Debug|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Release server|Any CPU.ActiveCfg = Release|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Release server|Mixed Platforms.ActiveCfg = Release|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Release server|Mixed Platforms.Build.0 = Release|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Release server|x86.ActiveCfg = Release|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Release server|x86.Build.0 = Release|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Release|Any CPU.ActiveCfg = Release|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Release|Mixed Platforms.Build.0 = Release|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Release|x86.ActiveCfg = Release|x86
+		{DDE6BC56-1CE4-4F1B-9BEA-4B3AE1A1C48B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

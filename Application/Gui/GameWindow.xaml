@@ -3,6 +3,7 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+            xmlns:canvas="clr-namespace:Orbit.Core.Client"
             xmlns:controls="clr-namespace:Orbit.Gui"
             xmlns:lex="http://wpflocalizeextension.codeplex.com"
             lex:ResxLocalizationProvider.DefaultAssembly="OrbitalDevastation"  
@@ -10,7 +11,7 @@
             lex:LocalizeDictionary.DesignCulture="cs"     
             lex:LocalizeDictionary.IncludeInvariantCulture="False"
             Closing="OnClose" Name="mainWindow" AllowsTransparency="True"
-            WindowStyle="None" Title="Orbital Devastation" WindowStartupLocation="CenterScreen" KeyDown="OnKeyDown" Icon="/OrbitalDevastation;component/resources/images/rock/rock_normal_6.png"
+            WindowStyle="None" Title="Orbital Devastation" WindowStartupLocation="CenterScreen" KeyDown="OnKeyDown"
             Width="1000" Height="710" KeyUp="OnKeyUp" Deactivated="mainWindow_Deactivated" Activated="mainWindow_Activated" ResizeMode="CanResizeWithGrip" SnapsToDevicePixels="True">
 
     <Window.Resources>
@@ -36,7 +37,7 @@
                                 ScaleY="{Binding ElementName=mainWindow, Path=ScaleValueY}" />
                 </Grid.LayoutTransform>
                 <Grid Name="mainGrid" >
-                    <controls:MainUC />
+                    <canvas:SceneMgr></canvas:SceneMgr>
                 </Grid>
                 <Grid Name="menuGrid" VerticalAlignment="Center" HorizontalAlignment="Center" >
                 </Grid>

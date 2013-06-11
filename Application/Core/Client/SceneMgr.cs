@@ -26,11 +26,118 @@ using Orbit.Gui.ActionControllers;
 using Orbit.Core.Scene.Particles.Implementations;
 using System.Globalization;
 using Orbit.Core.Client.Interfaces;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace Orbit.Core.Client
 {
-    public partial class SceneMgr : IUpdatable, Invoker
+    public partial class SceneMgr : Arcane.Xna.Presentation.Game, IUpdatable, Invoker
     {
+
+        Arcane.Xna.Presentation.GraphicsDeviceManager graphics;
+        SpriteBatch spriteBatch;
+        SpriteBatch overlayBatch;
+ 
+        private Texture2D texture;
+        private Rectangle textureRectangle;
+ 
+        private Texture2D burnTexture;
+ 
+        private float rotation = 0;
+ 
+        public SceneMgr()
+        {
+            if (!(System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)))
+            {
+                graphics = new Arcane.Xna.Presentation.GraphicsDeviceManager(this);
+                Content.RootDirectory = "Content";
+
+                synchronizedQueue = new ConcurrentQueue<Action>();
+            }
+        }
+ 
+        /// <summary>
+        /// Allows the game to perform any initialization it needs to before starting to run.
+        /// This is where it can query for any required services and load any non-graphic
+        /// related content.  Calling base.Initialize will enumerate through any components
+        /// and initialize them as well.
+        /// </summary>
+        protected override void Initialize()
+        {
+            // TODO: Add your initialization logic here
+ 
+            base.Initialize();
+            this.IsMouseVisible = true;
+        }
+ 
+        /// <summary>
+        /// LoadContent will be called once per game and is the place to load
+        /// all of your content.
+        /// </summary>
+        protected override void LoadContent()
+        {
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            overlayBatch = new SpriteBatch(GraphicsDevice);
+            texture = Content.Load<Texture2D>("images/rock/rock_gold_1");
+            burnTexture = Content.Load<Texture2D>("images/rock/rock_gold_1_burn");
+            textureRectangle = new Rectangle(50, 50, 50, 50);
+ 
+            // TODO: use this.Content to load your game content here
+        }
+ 
+        /// <summary>
+        /// UnloadContent will be called once per game and is the place to unload
+        /// all content.
+        /// </summary>
+        protected override void UnloadContent()
+        {
+            // TODO: Unload any non ContentManager content here
+        }
+ 
+        /// <summary>
+        /// Allows the game to run logic such as updating the world,
+        /// checking for collisions, gathering input, and playing audio.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected override void Update(GameTime gameTime)
+        {
+            // Allows the game to exit
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                this.Exit();
+ 
+            // TODO: Add your update logic here
+             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
+ 
+            rotation += elapsed;
+            float circle = MathHelper.Pi * 2;
+            rotation = rotation % circle;
+            if(textureRectangle.X < GraphicsDevice.Viewport.Width)
+                textureRectangle.X += 1;
+ 
+ 
+            base.Update(gameTime);
+        }
+ 
+        /// <summary>
+        /// This is called when the game should draw itself.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.CornflowerBlue);
+ 
+            // TODO: Add your drawing code here
+ 
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.NonPremultiplied);
+            spriteBatch.Draw(texture, textureRectangle, null, Microsoft.Xna.Framework.Color.White, rotation, new Vector2(50, 50), SpriteEffects.None, 0);
+            spriteBatch.Draw(burnTexture, textureRectangle, null, new Microsoft.Xna.Framework.Color(1, 1, 1, 0.8f), rotation, new Vector2(50, 50), SpriteEffects.None, 1);
+            spriteBatch.End();
+ 
+            base.Draw(gameTime);
+        }
+
         private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public Gametype GameType { get; set; }
@@ -73,18 +180,18 @@ namespace Orbit.Core.Client
         private List<IMouseMoveListener> moveListeners;
         private List<IKeyPressListener> keyListeners;
 
-        public SceneMgr()
+        /*public SceneMgr()
         {
             StatsMgr = new StatsMgr(this);
             isGameInitialized = false;
             shouldQuit = false;
             synchronizedQueue = new ConcurrentQueue<Action>();
             GameWindowState = WindowState.IN_MAIN_MENU;
-        }
+        }*/
 
         public void Init(Gametype gameType)
         {
-            GameType = gameType;
+            /*GameType = gameType;
             stopUpdating = false;
             gameEnded = false;
             isGameInitialized = false;
@@ -122,7 +229,7 @@ namespace Orbit.Core.Client
                 SetMainInfoText(String.Empty);
 
             InitNetwork();
-            ConnectToServer();
+            ConnectToServer();*/
         }
 
         private void AttachStateManagers()
@@ -425,7 +532,7 @@ namespace Orbit.Core.Client
             return area;
         }
 
-        public void Run()
+        /*public void Run()
         {
             Stopwatch sw = new Stopwatch();
             float tpf = 0;
@@ -458,7 +565,7 @@ namespace Orbit.Core.Client
             sw.Stop();
 
             CleanUp();
-        }
+        }*/
 
         private void RequestStop()
         {
@@ -599,13 +706,13 @@ namespace Orbit.Core.Client
             return randomGenerator;
         }
 
-        public void OnCanvasMouseMove(Point point)
+        public void OnCanvasMouseMove(System.Windows.Point point)
         {
             point = (StaticMouse.Instance != null && StaticMouse.ALLOWED) ? StaticMouse.GetPosition() : point;
             moveListeners.ForEach(l => l.OnMouseMove(point));
         }
 
-        public void OnCanvasClick(Point point, MouseButtonEventArgs e)
+        public void OnCanvasClick(System.Windows.Point point, MouseButtonEventArgs e)
         {
             if (userActionsDisabled || !isGameInitialized)
                 return;
@@ -626,7 +733,7 @@ namespace Orbit.Core.Client
                 inputMgr.OnActionBarClick(point, e);
         }
 
-        private void ProcessStaticMouseActionBarClick(Point point)
+        private void ProcessStaticMouseActionBarClick(System.Windows.Point point)
         {
             Invoke(new Action(() =>
             {
@@ -634,7 +741,7 @@ namespace Orbit.Core.Client
             }));
         }
 
-        public static bool IsPointInViewPort(Point point)
+        public static bool IsPointInViewPort(System.Windows.Point point)
         {
             if (point.X > SharedDef.VIEW_PORT_SIZE.Width || point.X < 0)
                 return false;
@@ -1061,7 +1168,7 @@ namespace Orbit.Core.Client
 
         public void PlayerColorChanged()
         {
-            Color newColor = Player.GetChosenColor();
+            System.Windows.Media.Color newColor = Player.GetChosenColor();
             if (players == null || players.Exists(p => p.GetPlayerColor() == newColor))
                 return;
 
