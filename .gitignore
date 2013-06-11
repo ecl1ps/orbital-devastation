@@ -21,3 +21,5 @@ Lidgren.Network/obj/
 Content/obj/
 Content/bin/
 Application/Application.csproj.Debug.cachefile
+Arcana/bin/
+Arcana/obj/
