@@ -149,11 +149,11 @@ namespace Arcane.Xna.Presentation
             {
                 GeneralTransform gt = this.game.TransformToVisual(this.TopLevelWindow);
 
-                this.Width = this._frontWindow.Width = this.game.ActualWidth;
+                this.Width = this._frontWindow.Width = this.game.ActualWidth - 2;
                 this.Height = this._frontWindow.Height = this.game.ActualHeight;
 
-                this.Left = this._frontWindow.Left = this.TopLevelWindow.Left + gt.Transform(new Point(0, 0)).X+ 9;
-                this.Top = this._frontWindow.Top = this.TopLevelWindow.Top + gt.Transform(new Point(0, 0)).Y +29;
+                this.Left = this._frontWindow.Left = this.TopLevelWindow.Left + gt.Transform(new Point(0, 0)).X;
+                this.Top = this._frontWindow.Top = this.TopLevelWindow.Top + gt.Transform(new Point(0, 0)).Y;
             }
         }
 
