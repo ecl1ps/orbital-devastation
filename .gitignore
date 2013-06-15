@@ -1,23 +1,10 @@
-Application/obj/
-Application/bin/
 Data/
 *.suo
 *.orig
 Build/
 
-SATTest/bin/*
-SATTest/obj/*
-Application/resources/images/icons/arrow-red.png
-Application/resources/images/icons/broken_asteroid.xcf
-Application/resources/images/icons/flame.png
 TestResults/*
-Tests/bin/*
-Tests/obj/*
-MasterServer/bin/
-MasterServer/obj/
+*/bin/*
+*/obj/*
 Lidgren.Network/Documentation/
-Lidgren.Network/bin/
-Lidgren.Network/obj/
-Content/obj/
-Content/bin/
 Application/Application.csproj.Debug.cachefile
