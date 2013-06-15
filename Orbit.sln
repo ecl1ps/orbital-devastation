@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidgren.Network", "Lidgren.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Content", "Content\Content.contentproj", "{A161D1C5-FEF3-45C6-8D2C-D42657BD8F13}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XNAControl", "XNAControl\XNAControl.csproj", "{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Orbit.vsmdi
@@ -173,6 +175,31 @@ Global
 		{A161D1C5-FEF3-45C6-8D2C-D42657BD8F13}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{A161D1C5-FEF3-45C6-8D2C-D42657BD8F13}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{A161D1C5-FEF3-45C6-8D2C-D42657BD8F13}.Release|x86.ActiveCfg = Debug|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Debug Auto Tournament|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Debug Auto Tournament|Any CPU.Build.0 = Debug|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Debug Auto Tournament|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Debug Auto Tournament|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Debug Auto Tournament|x86.ActiveCfg = Debug|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Debug verbose|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Debug verbose|Any CPU.Build.0 = Debug|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Debug verbose|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Debug verbose|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Debug verbose|x86.ActiveCfg = Debug|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Release server|Any CPU.ActiveCfg = Release|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Release server|Any CPU.Build.0 = Release|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Release server|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Release server|Mixed Platforms.Build.0 = Release|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Release server|x86.ActiveCfg = Release|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A5B96ADF-5BA1-4746-8D22-D86577C5CF41}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
