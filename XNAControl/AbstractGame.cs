@@ -49,35 +49,16 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using XNAControl;
 
-namespace XNAControlGame
+namespace XNAControl
 {
     /// <summary>
-    /// This is the main type for your game
+    /// This is the main game class
     /// </summary>
-    public class Game1 : XNAControl.XNAControlGame
+    public abstract class AbstractGame : XNAControlGame
     {
-        SpriteBatch m_spriteBatch;
-        SpriteFont m_spriteFont;
-        Model m_modelTeapot;
-        Matrix m_view;
-        Matrix m_projection;
-        TimeSpan m_duration;
-        TimeSpan m_limit = TimeSpan.FromSeconds(5);
-        double m_passedTime;
-        int m_counter;
-        int m_prevCounter;
-               
-        public bool Animation
+        public AbstractGame(IntPtr handle, int width, int height) : base(handle, width, height, "Content")
         {
-            get;
-            set;
-        }
-
-        public Game1(IntPtr handle) : base(handle, "Content")
-        {
-            Animation = true;
         }
 
         /// <summary>
@@ -88,9 +69,6 @@ namespace XNAControlGame
         /// </summary>
         protected override void Initialize()
         {
-            m_view = Matrix.CreateLookAt(new Vector3(0, 2, 8), new Vector3(0, 1, 0), Vector3.UnitY);
-            m_projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45f), 4f / 3f, 0.1f, 100f);
-                        
             base.Initialize();
         }
 
@@ -100,12 +78,15 @@ namespace XNAControlGame
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            m_spriteBatch = new SpriteBatch(GraphicsDevice);
+            base.LoadContent();
+        }
 
-            m_spriteFont = Content.Load<SpriteFont>("DebugFont");
-
-            m_modelTeapot = Content.Load<Model>("teapot");
+        /// <summary>
+        /// Called when graphics resources need to be unloaded. Override this method to unload any game-specific graphics resources. 
+        /// </summary>
+        protected override void UnloadContent()
+        {
+            base.UnloadContent();
         }
         
         /// <summary>
@@ -124,60 +105,7 @@ namespace XNAControlGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-            
-            foreach (ModelMesh mesh in m_modelTeapot.Meshes)
-            {
-                // This is where the mesh orientation is set, as well 
-                // as our camera and projection.
-                foreach (BasicEffect effect in mesh.Effects)
-                {
-                    effect.EnableDefaultLighting();
-                    effect.World = Animation ? CreateRotationMatrix(gameTime.ElapsedGameTime) : Matrix.Identity;
-                    effect.View = m_view;
-                    effect.Projection = m_projection;
-
-                    effect.CurrentTechnique.Passes[0].Apply();
-                }
-
-
-                mesh.Draw();
-            }
-
-            DrawFPS(gameTime.ElapsedGameTime.TotalMilliseconds);
-
             base.Draw(gameTime);
-        }
-
-        Matrix CreateRotationMatrix(TimeSpan timeSpan)
-        {
-            m_duration += timeSpan;
-
-            if (m_duration > m_limit)
-                m_duration = TimeSpan.Zero;
-
-            float amount = (float)(m_duration.TotalMilliseconds / m_limit.TotalMilliseconds);
-            
-            return Matrix.CreateRotationX(MathHelper.Lerp(0f, 2f * (float)Math.PI, amount)) *
-                   Matrix.CreateRotationY(MathHelper.Lerp(0f, 2f * (float)Math.PI, amount)) *
-                   Matrix.CreateRotationZ(MathHelper.Lerp(0f, 2f * (float)Math.PI, amount));
-        }
-
-        void DrawFPS(double elapsedTime)
-        {
-            m_passedTime += elapsedTime;
-            if (m_passedTime >= 1000)
-            {
-                m_passedTime = 0;
-                m_prevCounter = m_counter;
-                m_counter = 1;
-            }
-            else if (elapsedTime != 0)
-                m_counter++;
-
-            m_spriteBatch.Begin();
-            m_spriteBatch.DrawString(m_spriteFont, m_prevCounter.ToString() + " FPS", new Vector2(10,5), Color.White);
-            m_spriteBatch.End();
         }
     }
 }

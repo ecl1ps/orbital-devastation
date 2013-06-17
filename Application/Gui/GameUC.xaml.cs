@@ -22,11 +22,11 @@ namespace Orbit.Gui
     /// </summary>
     public partial class GameUC : UserControl
     {
-        public GameUC()
+        public GameUC(UserControl gameControl)
         {
             InitializeComponent();
-            gameArea.Width = SharedDef.VIEW_PORT_SIZE.Width;
-            gameArea.Height = SharedDef.VIEW_PORT_SIZE.Height;
+            //Dispatcher.Invoke(new Action(() => mainCanvas.Children.Add(gameControl)));
+            mainCanvas.Children.Add(gameControl);
         }
 
         private void OnCanvasMouseClick(object sender, MouseButtonEventArgs e)

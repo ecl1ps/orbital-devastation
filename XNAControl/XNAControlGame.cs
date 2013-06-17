@@ -59,20 +59,15 @@ namespace XNAControl
 {
     public class XNAControlGame : Game
     {
-        GraphicsDeviceManager m_graphics;
+        private GraphicsDeviceManager m_graphics;
         private System.Windows.Threading.DispatcherTimer timer;
-            
-        int widthOver2;
-        int heightOver2;
-
-        bool m_bLoaded;
-
-        IntPtr m_windowHandle;
-
-        bool m_bDeviceResetting;
+        private int widthOver2;
+        private int heightOver2;
+        private bool m_bLoaded;
+        private IntPtr m_windowHandle;
+        private bool m_bDeviceResetting;
 
         public int ResolutionWidth { get; set; }
-
         public int ResolutionHeight { get; set; }
 
         public GraphicsDeviceManager GraphicsDeviceManager
@@ -80,7 +75,7 @@ namespace XNAControl
             get { return m_graphics; }
         }
 
-        public XNAControlGame(IntPtr windowHandle, string contentRoot)
+        public XNAControlGame(IntPtr windowHandle, int width, int height, string contentRoot)
             : base()
         {
             m_windowHandle = windowHandle;
@@ -93,7 +88,7 @@ namespace XNAControl
             m_graphics.PreparingDeviceSettings += new EventHandler<PreparingDeviceSettingsEventArgs>(PreparingDeviceSettings);
 
             // Now set the resolution and create the graphics device manually
-            ChangeGraphics(1366, 680);
+            ChangeGraphics(width, height);
 
             Content.RootDirectory = contentRoot;
 

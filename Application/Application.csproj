@@ -77,9 +77,7 @@
   <PropertyGroup>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>
-  <PropertyGroup>
-    <NoWin32Manifest>true</NoWin32Manifest>
-  </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug verbose|x86'">
     <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
@@ -115,6 +113,10 @@
     <XnaCompressContent>false</XnaCompressContent>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>GlobalizationRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
@@ -919,6 +921,10 @@
     <ProjectReference Include="..\Lidgren.Network\Lidgren.Network.csproj">
       <Project>{49ba1c69-6104-41ac-a5d8-b54fa9f696e8}</Project>
       <Name>Lidgren.Network</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XNAControl\XNAControl.csproj">
+      <Project>{a5b96adf-5ba1-4746-8d22-d86577c5cf41}</Project>
+      <Name>XNAControl</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

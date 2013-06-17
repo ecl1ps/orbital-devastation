@@ -26,11 +26,69 @@ using Orbit.Gui.ActionControllers;
 using Orbit.Core.Scene.Particles.Implementations;
 using System.Globalization;
 using Orbit.Core.Client.Interfaces;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Client
 {
-    public partial class SceneMgr : IUpdatable, Invoker
+    public partial class SceneMgr : XNAControl.AbstractGame, IUpdatable, Invoker
     {
+        public SceneMgr(IntPtr handle) : base(handle, (int)SharedDef.VIEW_PORT_SIZE.Width, (int)SharedDef.VIEW_PORT_SIZE.Height)
+        {
+            StatsMgr = new StatsMgr(this);
+            isGameInitialized = false;
+            shouldQuit = false;
+            synchronizedQueue = new ConcurrentQueue<Action>();
+            GameWindowState = WindowState.IN_MAIN_MENU;
+        }
+
+        /// <summary>
+        /// Allows the game to perform any initialization it needs to before starting to run.
+        /// This is where it can query for any required services and load any non-graphic
+        /// related content.  Calling base.Initialize will enumerate through any components
+        /// and initialize them as well.
+        /// </summary>
+        protected override void Initialize()
+        {
+            base.Initialize();
+        }
+
+        /// <summary>
+        /// LoadContent will be called once per game and is the place to load
+        /// all of your content.
+        /// </summary>
+        protected override void LoadContent()
+        {
+            base.LoadContent();
+        }
+
+        /// <summary>
+        /// Called when graphics resources need to be unloaded. Override this method to unload any game-specific graphics resources. 
+        /// </summary>
+        protected override void UnloadContent()
+        {
+            base.UnloadContent();
+        }
+        
+        /// <summary>
+        /// Allows the game to run logic such as updating the world,
+        /// checking for collisions, gathering input, and playing audio.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+        }
+
+        /// <summary>
+        /// This is called when the game should draw itself.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.CornflowerBlue);
+            base.Draw(gameTime);
+        }
+
         private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public Gametype GameType { get; set; }
@@ -73,14 +131,14 @@ namespace Orbit.Core.Client
         private List<IMouseMoveListener> moveListeners;
         private List<IKeyPressListener> keyListeners;
 
-        public SceneMgr()
+        /*public SceneMgr()
         {
             StatsMgr = new StatsMgr(this);
             isGameInitialized = false;
             shouldQuit = false;
             synchronizedQueue = new ConcurrentQueue<Action>();
             GameWindowState = WindowState.IN_MAIN_MENU;
-        }
+        }*/
 
         public void Init(Gametype gameType)
         {
@@ -105,7 +163,7 @@ namespace Orbit.Core.Client
             moveListeners = new List<IMouseMoveListener>();
             keyListeners = new List<IKeyPressListener>();
 
-            currentPlayer = CreatePlayer();
+            /*currentPlayer = CreatePlayer();
             currentPlayer.Data.PlayerColor = Player.GetChosenColor();
             players.Add(currentPlayer);
             AttachStateManagers();
@@ -122,7 +180,7 @@ namespace Orbit.Core.Client
                 SetMainInfoText(String.Empty);
 
             InitNetwork();
-            ConnectToServer();
+            ConnectToServer();*/
         }
 
         private void AttachStateManagers()
@@ -425,7 +483,7 @@ namespace Orbit.Core.Client
             return area;
         }
 
-        public void Run()
+        /*public void Run()
         {
             Stopwatch sw = new Stopwatch();
             float tpf = 0;
@@ -458,7 +516,7 @@ namespace Orbit.Core.Client
             sw.Stop();
 
             CleanUp();
-        }
+        }*/
 
         private void RequestStop()
         {
@@ -599,13 +657,13 @@ namespace Orbit.Core.Client
             return randomGenerator;
         }
 
-        public void OnCanvasMouseMove(Point point)
+        public void OnCanvasMouseMove(System.Windows.Point point)
         {
             point = (StaticMouse.Instance != null && StaticMouse.ALLOWED) ? StaticMouse.GetPosition() : point;
             moveListeners.ForEach(l => l.OnMouseMove(point));
         }
 
-        public void OnCanvasClick(Point point, MouseButtonEventArgs e)
+        public void OnCanvasClick(System.Windows.Point point, MouseButtonEventArgs e)
         {
             if (userActionsDisabled || !isGameInitialized)
                 return;
@@ -626,7 +684,7 @@ namespace Orbit.Core.Client
                 inputMgr.OnActionBarClick(point, e);
         }
 
-        private void ProcessStaticMouseActionBarClick(Point point)
+        private void ProcessStaticMouseActionBarClick(System.Windows.Point point)
         {
             Invoke(new Action(() =>
             {
@@ -634,7 +692,7 @@ namespace Orbit.Core.Client
             }));
         }
 
-        public static bool IsPointInViewPort(Point point)
+        public static bool IsPointInViewPort(System.Windows.Point point)
         {
             if (point.X > SharedDef.VIEW_PORT_SIZE.Width || point.X < 0)
                 return false;
@@ -1061,7 +1119,7 @@ namespace Orbit.Core.Client
 
         public void PlayerColorChanged()
         {
-            Color newColor = Player.GetChosenColor();
+            System.Windows.Media.Color newColor = Player.GetChosenColor();
             if (players == null || players.Exists(p => p.GetPlayerColor() == newColor))
                 return;
 

@@ -34,6 +34,7 @@ namespace Orbit
 
         private SceneMgr sceneMgr;
         private MasterServerMgr masterServer;
+        private XNAControl.XNAControl gameControl;
         private static GameWindow mainWindow;
 
         public string PlayerName { get; set; }
@@ -106,7 +107,16 @@ namespace Orbit
             if (!Boolean.TryParse(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_ENABLED), out StaticMouse.ALLOWED))
                 StaticMouse.ALLOWED = false;
 
-            sceneMgr = new SceneMgr();
+            gameControl = new XNAControl.XNAControl();
+            gameControl.Width = SharedDef.VIEW_PORT_SIZE.Width;
+            gameControl.Height = SharedDef.VIEW_PORT_SIZE.Height;
+            AddWindow(gameControl);
+            //mainWindow.contentGrid.Children.Add(gameControl);
+            //mainWindow.contentGrid.Children.Remove(gameControl);
+            //gameControl.Visibility = Visibility.Collapsed;
+
+            sceneMgr = new SceneMgr(gameControl.Handle);
+
             SoundManager.Instance.StartPlayingInfinite(SharedDef.MUSIC_BACKGROUND_CALM);
 
             CommandExecutor.Instance.ExecuteCommands();
@@ -119,14 +129,14 @@ namespace Orbit
 
         public void StartSoloGame(TournamentSettings s)
         {
-            if (!StartLocalServer(Gametype.SOLO_GAME))
+            /*if (!StartLocalServer(Gametype.SOLO_GAME))
                 return;
 
             sceneMgr.SetRemoteServerAddress(System.Net.IPAddress.Loopback.ToString());
 
             StartGame(Gametype.SOLO_GAME);
 
-            SendTournamentSettings(s);
+            SendTournamentSettings(s);*/
         }
 
         private void SendTournamentSettings(TournamentSettings s)
@@ -179,9 +189,9 @@ namespace Orbit
 
         public void CreateGameGui(bool setGameArea = true)
         {
-            GameUC gameW = new GameUC();
+            GameUC gameW = new GameUC(gameControl);
             AddWindow(gameW);
-            sceneMgr.GameWindowState = Orbit.Core.WindowState.IN_GAME;
+            /*sceneMgr.GameWindowState = Orbit.Core.WindowState.IN_GAME;
             if (setGameArea)
             {
                 GameVisualArea gva = GetGameArea();
@@ -189,7 +199,7 @@ namespace Orbit
                 {
                     sceneMgr.SetGameVisualArea(gva);
                 }));
-            }
+            }*/
         }
 
         public void StartTournamentFinder(string address = SharedDef.MASTER_SERVER_ADDRESS)
