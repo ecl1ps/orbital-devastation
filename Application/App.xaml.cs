@@ -110,10 +110,6 @@ namespace Orbit
             gameControl = new XNAControl.XNAControl();
             gameControl.Width = SharedDef.VIEW_PORT_SIZE.Width;
             gameControl.Height = SharedDef.VIEW_PORT_SIZE.Height;
-            AddWindow(gameControl);
-            //mainWindow.contentGrid.Children.Add(gameControl);
-            //mainWindow.contentGrid.Children.Remove(gameControl);
-            //gameControl.Visibility = Visibility.Collapsed;
 
             sceneMgr = new SceneMgr(gameControl.Handle);
 

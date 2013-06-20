@@ -9,7 +9,7 @@
             lex:ResxLocalizationProvider.DefaultDictionary="Strings"   
             lex:LocalizeDictionary.DesignCulture="cs"     
             lex:LocalizeDictionary.IncludeInvariantCulture="False"
-            Closing="OnClose" Name="mainWindow" AllowsTransparency="True"
+            Closing="OnClose" Name="mainWindow"
             WindowStyle="None" Title="Orbital Devastation" WindowStartupLocation="CenterScreen" KeyDown="OnKeyDown"
             Width="1000" Height="710" KeyUp="OnKeyUp" Deactivated="mainWindow_Deactivated" Activated="mainWindow_Activated" ResizeMode="CanResizeWithGrip" SnapsToDevicePixels="True">
 
