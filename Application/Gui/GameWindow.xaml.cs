@@ -15,6 +15,7 @@ using Orbit.Core.Client;
 using Orbit.Core.Client.GameStates;
 using System.Windows.Interop;
 using System.Runtime.InteropServices;
+using System.Drawing;
 
 namespace Orbit.Gui
 {
@@ -179,10 +180,12 @@ namespace Orbit.Gui
                     else if ((uc = LogicalTreeHelper.FindLogicalNode(menuGrid, "escMenu") as UIElement) != null)
                     {
                         ClearMenus();
+                        ActivateGameHost();
                         if (GameRunning)
                             StaticMouse.Enable(true);
                     } 
                     else if (menuGrid.Children.Count == 0) {
+                        DeactivateGameHost();
                         AddMenu(new EscMenu());
                         if (GameRunning)
                             StaticMouse.Enable(false);
@@ -264,6 +267,43 @@ namespace Orbit.Gui
         private void dragbar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
+        }
+
+        private void DeactivateGameHost()
+        {
+            XNAControl.XNAUserControl gameControl = LogicalTreeHelper.FindLogicalNode(mainGrid, "gameControl") as XNAControl.XNAUserControl;
+            if (gameControl == null)
+                return;
+
+            System.Windows.Controls.Image screenshot = LogicalTreeHelper.FindLogicalNode(mainGrid, "screenshotImage") as System.Windows.Controls.Image;
+            if (screenshot == null)
+                return;
+
+            screenshot.Source = GetScreen(gameControl.GameControl);
+            gameControl.Visibility = Visibility.Collapsed;
+        }
+
+        public void ActivateGameHost()
+        {
+            UserControl gameControl = LogicalTreeHelper.FindLogicalNode(mainGrid, "gameControl") as UserControl;
+            if (gameControl != null)
+                gameControl.Visibility = Visibility.Visible;
+        }
+
+        private BitmapSource GetScreen(System.Windows.Forms.Control uc)
+        {
+            System.Drawing.Rectangle srcRect = uc.ClientRectangle;
+            Bitmap bm = new Bitmap(srcRect.Width, srcRect.Height);
+            System.Drawing.Point ucPt = uc.PointToScreen(new System.Drawing.Point(srcRect.X, srcRect.Y));
+            Graphics g = Graphics.FromImage(bm);
+            g.CopyFromScreen(ucPt, System.Drawing.Point.Empty, new System.Drawing.Size(srcRect.Width, srcRect.Height));
+
+            BitmapSource src = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bm.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+            src.Freeze();
+            bm.Dispose();
+            bm = null;
+
+            return src;
         }
     }
 }

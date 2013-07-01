@@ -56,12 +56,12 @@
     <Compile Include="AbstractGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XNAControlGame.cs" />
-    <Page Include="XNAControl.xaml">
+    <Page Include="XNAUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="XNAControl.xaml.cs">
-      <DependentUpon>XNAControl.xaml</DependentUpon>
+    <Compile Include="XNAUserControl.xaml.cs">
+      <DependentUpon>XNAUserControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

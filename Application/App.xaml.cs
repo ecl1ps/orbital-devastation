@@ -34,7 +34,6 @@ namespace Orbit
 
         private SceneMgr sceneMgr;
         private MasterServerMgr masterServer;
-        private XNAControl.XNAControl gameControl;
         private static GameWindow mainWindow;
 
         public string PlayerName { get; set; }
@@ -53,6 +52,7 @@ namespace Orbit
                 return Application.Current.MainWindow as GameWindow;
             }
         }
+        public XNAControl.XNAUserControl GameControl { get; set; }
 
         [STAThread]
         public static void Main(string[] args)
@@ -107,11 +107,11 @@ namespace Orbit
             if (!Boolean.TryParse(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_ENABLED), out StaticMouse.ALLOWED))
                 StaticMouse.ALLOWED = false;
 
-            gameControl = new XNAControl.XNAControl();
-            gameControl.Width = SharedDef.VIEW_PORT_SIZE.Width;
-            gameControl.Height = SharedDef.VIEW_PORT_SIZE.Height;
+            GameControl = new XNAControl.XNAUserControl();
+            GameControl.Width = SharedDef.VIEW_PORT_SIZE.Width;
+            GameControl.Height = SharedDef.VIEW_PORT_SIZE.Height;
 
-            sceneMgr = new SceneMgr(gameControl.Handle);
+            sceneMgr = new SceneMgr(GameControl.Handle);
 
             SoundManager.Instance.StartPlayingInfinite(SharedDef.MUSIC_BACKGROUND_CALM);
 
@@ -185,7 +185,7 @@ namespace Orbit
 
         public void CreateGameGui(bool setGameArea = true)
         {
-            GameUC gameW = new GameUC(gameControl);
+            GameUC gameW = new GameUC(GameControl);
             AddWindow(gameW);
             /*sceneMgr.GameWindowState = Orbit.Core.WindowState.IN_GAME;
             if (setGameArea)
@@ -204,7 +204,7 @@ namespace Orbit
         }
 
         /************************************************************************/
-        /* ostatni pripojujici se hraci                                                                     */
+        /* ostatni pripojujici se hraci
         /************************************************************************/
         public void StartTournamentGame(string address, int serverId)
         {
@@ -214,7 +214,7 @@ namespace Orbit
         }
 
         /************************************************************************/
-        /* leader                                                                     */
+        /* leader
         /************************************************************************/
         public void StartTournamentLobby(string address)
         {

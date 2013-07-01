@@ -55,14 +55,19 @@ using System.Windows.Shapes;
 
 namespace XNAControl
 {
-    public partial class XNAControl : UserControl
+    public partial class XNAUserControl : UserControl
     {
         public IntPtr Handle
         {
-            get { return GamePanel.Handle; }
+            get { return gamePanel.Handle; }
         }
 
-        public XNAControl()
+        public System.Windows.Forms.Control GameControl
+        {
+            get { return gamePanel; }
+        }
+
+        public XNAUserControl()
         {
             InitializeComponent();
         }

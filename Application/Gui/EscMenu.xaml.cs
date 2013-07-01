@@ -67,6 +67,7 @@ namespace Orbit.Gui
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
             App.Instance.ClearMenus();
+            App.WindowInstance.ActivateGameHost();
             if (App.WindowInstance.GameRunning)
                 StaticMouse.Enable(true);
         }
