@@ -10,6 +10,7 @@ using Orbit.Core.Helpers;
 using Orbit.Core.SpecialActions;
 using Orbit.Core.SpecialActions.Gamer;
 using Orbit.Core.Scene.Controls.Implementations;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Weapons
 {
@@ -36,7 +37,7 @@ namespace Orbit.Core.Weapons
             return next;
         }
 
-        protected override Hook CreateHook(Point point)
+        protected override Hook CreateHook(Vector2 point)
         {
             if (lastHook != null)
                 lastHook.GetControlOfType<HighlightingControl>().Enabled = false;

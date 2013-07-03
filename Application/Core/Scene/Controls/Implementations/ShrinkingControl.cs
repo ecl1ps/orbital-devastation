@@ -5,6 +5,7 @@ using System.Text;
 using Orbit.Core.Scene.Entities;
 using System.Reflection;
 using System.Windows;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -47,7 +48,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             int newRadius = (int)FastMath.LinearInterpolate(finalRadius, startingRadius, currentTime / overTime);
 
             // posunuti pozice, aby stary a novy stred zustaly vizualne na stejnem miste - smrstovani probiha ze vsech stran do stredu
-            me.Position = new Vector(me.Position.X + sphere.Radius - newRadius, me.Position.Y + sphere.Radius - newRadius);
+            me.Position = new Vector2(me.Position.X + sphere.Radius - newRadius, me.Position.Y + sphere.Radius - newRadius);
 
             sphere.Radius = newRadius;
         }

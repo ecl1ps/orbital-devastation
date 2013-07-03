@@ -37,9 +37,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 elapsedTime = Time;
         }
 
-        private void SetObjectAlpha(double alpha)
+        private void SetObjectAlpha(float alpha)
         {
-            me.SceneMgr.Invoke(new Action(() => me.GetGeometry().Opacity = alpha));
+            me.Opacity = alpha;
         }
     }
 }

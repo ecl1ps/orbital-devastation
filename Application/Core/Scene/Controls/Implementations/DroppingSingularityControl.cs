@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Collections.Generic;
 using Lidgren.Network;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using System.Windows.Threading;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.Entities.Implementations;
@@ -41,8 +41,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         protected override void UpdateControl(float tpf)
         {
-            AdjustColorsDueToDistance();
-
             // vybuch, kdyz se mina dostane moc daleko
             if (!hitSomething && GetDistToExplosionPct() <= 0)
                 StartDetonation();
@@ -110,12 +108,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
             if (control != null)
             {
-                Vector newDir = other.Center - me.Position;
+                Vector2 newDir = other.Center - me.Position;
                 newDir.Normalize();
                 newDir *= Strength;
                 newDir = newDir + ((other as IMovable).Direction * control.Speed);
 
-                speed = (float)newDir.Length;
+                speed = (float)newDir.Length();
                 control.Speed = speed;
                 newDir.Normalize();
                 (other as IMovable).Direction = newDir;
@@ -147,22 +145,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (c != null)
                 c.Speed = c.Speed / 4;
 
-            meMine.GetGeometry().Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
-            {
-                meMine.FillBrush = new RadialGradientBrush(Colors.Black, Color.FromRgb(0x66, 0x00, 0x80));
-            }));
-        }
+            //TODO start detonation
 
-        private void AdjustColorsDueToDistance()
-        {
-            int r = (int)(255 * GetDistFromStartPct());
-            byte red = (byte)(r > 254 ? 254 : r);
-            meMine.Color = Color.FromRgb(red, 0x00, red);
-
-            meMine.GetGeometry().Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
-            {
-                meMine.BorderBrush = new SolidColorBrush(meMine.Color);
-            }));
         }
 
         protected float GetDistFromStartPct()

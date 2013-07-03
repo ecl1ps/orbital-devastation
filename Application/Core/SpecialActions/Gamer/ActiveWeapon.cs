@@ -6,7 +6,7 @@ using Orbit.Core.Weapons;
 using Orbit.Core.Client;
 using Orbit.Core.Players;
 using Orbit.Gui;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.SpecialActions.Gamer
 {
@@ -17,7 +17,7 @@ namespace Orbit.Core.SpecialActions.Gamer
         public ActiveWeapon() : base(null, null)
         {
             Cost = 0;
-            BackgroundColor = Colors.PaleTurquoise;
+            BackgroundColor = Color.PaleTurquoise;
         }
 
         public ActiveWeapon(IActivableWeapon weapon)
@@ -28,7 +28,7 @@ namespace Orbit.Core.SpecialActions.Gamer
             Name = weapon.Data.Name;
             Cost = 0;
             Cooldown = weapon.Data.Cooldown;
-            BackgroundColor = Colors.PaleTurquoise;
+            BackgroundColor = Color.PaleTurquoise;
         }
 
         public override void StartAction()

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,6 @@ namespace Orbit.Core.Weapons
         /// <summary>
         ///  V případě že funkce vrátí TRUE přestane weapon vyhodnocovat event
         /// </summary>
-        bool ProccessClickEvent(Point point, MouseButton button, MouseButtonState buttonState);
+        bool ProccessClickEvent(Vector2 point, MouseButton button, MouseButtonState buttonState);
     }
 }

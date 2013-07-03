@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Orbit.Core.Players;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using Orbit.Core.Scene;
 using Lidgren.Network;
 using Orbit.Core;
@@ -112,7 +112,7 @@ namespace Orbit.Core.Server
             Player friend = players.Find(other => other.GetId() == p.Data.FriendlyPlayerId);
             p.Data.SpecialColor = friend != null ? friend.Data.PlayerColor : p.Data.PlayerColor;
 
-            p.Data.MiningModuleStartPos = new Vector(
+            p.Data.MiningModuleStartPos = new Vector2(
                 serverMgr.GetRandomGenerator().Next(0, (int)SharedDef.VIEW_PORT_SIZE.Width - 30),
                 serverMgr.GetRandomGenerator().Next((int)SharedDef.LOWER_ORBIT_AREA.Top + 60, (int)PlayerBaseLocation.GetBaseLocation(PlayerPosition.LEFT).Top - 100));
         }

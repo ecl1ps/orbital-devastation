@@ -1,4 +1,5 @@
-﻿using Orbit.Core.Client.Interfaces;
+﻿using Microsoft.Xna.Framework;
+using Orbit.Core.Client.Interfaces;
 using Orbit.Core.Players;
 using Orbit.Core.Weapons;
 using Orbit.Gui;
@@ -26,16 +27,12 @@ namespace Orbit.Core.Client.GameStates
 
         public float InnerCD;
 
-        private ArrowCast castArea;
-        private MineLaunchArea launchArea;
-        private CooldownVisualiser cooldownVisualiser;
-
         private bool targeting;
         private bool shooting;
         private int steps;
-        private Point point;
-        private Point origin;
-        private Point nextTarget;
+        private Vector2 point;
+        private Vector2 origin;
+        private Vector2 nextTarget;
         private int mine;
         private float shootingCd;
 
@@ -46,7 +43,6 @@ namespace Orbit.Core.Client.GameStates
             Enable = true;
 
             Init();
-            InitUiElements();
         }
 
         private void Init()
@@ -63,9 +59,9 @@ namespace Orbit.Core.Client.GameStates
             weapon.AddClickListener(this);
             owner.SceneMgr.AddMoveListener(this);
 
-            nextTarget = new Point();
+            nextTarget = new Vector2();
             nextTarget.Y = 1;
-            nextTarget.X = FastMath.LinearInterpolate(minWidth, maxWidth, rand.NextDouble());
+            nextTarget.X = (float) FastMath.LinearInterpolate(minWidth, maxWidth, rand.NextDouble());
 
             if (owner.GetPosition() == PlayerPosition.RIGHT)
             {
@@ -77,30 +73,6 @@ namespace Orbit.Core.Client.GameStates
                 minWidth = SharedDef.VIEW_PORT_SIZE.Width - (SharedDef.VIEW_PORT_SIZE.Width * SharedDef.MINE_ACTIVE_RADIUS);
                 maxWidth = SharedDef.VIEW_PORT_SIZE.Width;
             }
-        }
-
-        private void InitUiElements()
-        {
-            owner.SceneMgr.BeginInvoke(new Action(() => {
-                castArea = new ArrowCast();
-                castArea.Visibility = Visibility.Hidden;
-                owner.SceneMgr.GetCanvas().Children.Add(castArea);
-                castArea.StartAnimation();
-
-                launchArea = new MineLaunchArea();
-                launchArea.LoadColor(owner.GetPlayerColor());
-                launchArea.SetPosition(nextTarget);
-                owner.SceneMgr.GetCanvas().Children.Add(launchArea);
-
-                cooldownVisualiser = new CooldownVisualiser();
-                if(owner.GetPosition() == PlayerPosition.LEFT)
-                    Canvas.SetLeft(cooldownVisualiser, 20);
-                else if (owner.GetPosition() == PlayerPosition.RIGHT)
-                    Canvas.SetRight(cooldownVisualiser, 70);
-
-                Canvas.SetBottom(cooldownVisualiser, 150);
-                owner.SceneMgr.GetCanvas().Children.Add(cooldownVisualiser);
-            }));
         }
 
         public void Update(float tpf)
@@ -125,14 +97,9 @@ namespace Orbit.Core.Client.GameStates
             {
                 InnerCD -= tpf;
                 weapon.ReloadTime = weapon.Owner.Data.MineCooldown;
-                owner.SceneMgr.BeginInvoke(new Action(() => cooldownVisualiser.SetPercentage(1 - (InnerCD / SharedDef.MINE_VOLLEY_CD))));
                 if (InnerCD <= 0)
                 {
-                    owner.SceneMgr.BeginInvoke(new Action(() =>
-                    {
-                        launchArea.SetPosition(nextTarget);
-                        launchArea.Visibility = Visibility.Visible;
-                    }));
+                    //TODO add launch area
                 }
 
                 return;
@@ -145,16 +112,12 @@ namespace Orbit.Core.Client.GameStates
             {
                 weapon.Shoot(nextTarget);
 
-                nextTarget.X = FastMath.LinearInterpolate(minWidth, maxWidth, rand.NextDouble());
-                owner.SceneMgr.BeginInvoke(new Action(() => launchArea.SetPosition(nextTarget)));
+                nextTarget.X = (float) FastMath.LinearInterpolate(minWidth, maxWidth, rand.NextDouble());
             }
             else
             {
                 float percentage = 1 - (weapon.ReloadTime / weapon.Owner.Data.MineCooldown);
-                owner.SceneMgr.BeginInvoke(new Action(() => launchArea.SetPercentage(percentage)));
             }
-
-            owner.SceneMgr.BeginInvoke(new Action(() => cooldownVisualiser.Update(tpf)));
         }
 
         public void proccesShooting(float tpf)
@@ -164,15 +127,6 @@ namespace Orbit.Core.Client.GameStates
 
             if (steps <= 0)
             {
-                owner.SceneMgr.BeginInvoke(new Action(() =>
-                {
-                    castArea.Visibility = Visibility.Hidden;
-                    castArea.EndAnimation();
-
-                    cooldownVisualiser.Grow = 0;
-                    cooldownVisualiser.SetPercentage(1);
-                }));
-
                 shooting = false;
                 return;
             }
@@ -194,7 +148,7 @@ namespace Orbit.Core.Client.GameStates
         }
 
 
-        public bool ProccessClickEvent(Point point, MouseButton button, MouseButtonState buttonState)
+        public bool ProccessClickEvent(Vector2 point, MouseButton button, MouseButtonState buttonState)
         {
             if (buttonState == MouseButtonState.Pressed && !targeting)
                 PrepareToFire(point);
@@ -205,20 +159,15 @@ namespace Orbit.Core.Client.GameStates
             return true;
         }
 
-        private void PrepareToFire(Point point)
+        private void PrepareToFire(Vector2 point)
         {
             if (InnerCD > 0)
                 return;
 
             targeting = true;
-            owner.SceneMgr.BeginInvoke(new Action(() => {
-                castArea.Visibility = Visibility.Visible;
-                Canvas.SetLeft(castArea, point.X - 115);
-                Canvas.SetTop(castArea, 25);
-            }));
         }
 
-        private void Fire(Point point)
+        private void Fire(Vector2 point)
         {
             if (!targeting)
                 return;
@@ -233,12 +182,6 @@ namespace Orbit.Core.Client.GameStates
             mine = 0;
             shootingCd = 0;
             InnerCD = SharedDef.MINE_VOLLEY_CD;
-
-            owner.SceneMgr.BeginInvoke(new Action(() => {
-                launchArea.Visibility = Visibility.Hidden;
-                cooldownVisualiser.Grow = 0;
-                cooldownVisualiser.SetPercentage(1);
-            }));
         }
 
         private int getStepsByWeaponLvl()
@@ -253,16 +196,8 @@ namespace Orbit.Core.Client.GameStates
             return 0;
         }
 
-        public void OnMouseMove(Point point)
+        public void OnMouseMove(Vector2 point)
         {
-            if (targeting)
-            {
-                owner.SceneMgr.BeginInvoke(new Action(() =>
-                {
-                    Canvas.SetLeft(castArea, point.X - 115);
-                    Canvas.SetTop(castArea, 25);
-                }));
-            }
         }
     }
 }

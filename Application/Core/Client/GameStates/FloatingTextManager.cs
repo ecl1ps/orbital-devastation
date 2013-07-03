@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using Lidgren.Network;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.CollisionShapes;
@@ -59,13 +59,16 @@ namespace Orbit.Core.Client.GameStates
 
         private void GrowFloatingText(FloatingText ft)
         {
+            /*
+             *TODO predelat render 
             double newScale = GetNewFontScale(ft.TotalTime - ft.RemainingTime, ft.TotalTime * 0.3f, ft.FontSize);
             mgr.BeginInvoke(new Action(() =>
             {
                 (ft.GUIObject.Transform as TransformGroup).Children.Clear();
                 (ft.GUIObject.Transform as TransformGroup).Children.Add(new ScaleTransform(newScale, newScale));
-                (ft.GUIObject.Transform as TransformGroup).Children.Add(new TranslateTransform(ft.Position.X - ft.CS.Size.Width * newScale / 2, ft.Position.Y - ft.CS.Size.Height * newScale / 2));
+                (ft.GUIObject.Transform as TransformGroup).Children.Add(new TranslateTransform(ft.Position.X - ft.CS.Rectangle.Width * newScale / 2, ft.Position.Y - ft.CS.Rectangle.Height * newScale / 2));
             }));
+             */
         }
 
         private double GetNewFontScale(float timeLeft, float timeTotal, float finalSize)
@@ -76,10 +79,6 @@ namespace Orbit.Core.Client.GameStates
         private void FadeFloatingText(FloatingText ft)
         {
             float newOpacity = GetNewOpacity(ft.RemainingTime, ft.TotalTime * 0.4f);
-            mgr.BeginInvoke(new Action(() =>
-            {
-                ft.GUIObject.Opacity = newOpacity;
-            }));
         }
 
         private float GetNewOpacity(float remaining, float full)
@@ -89,6 +88,7 @@ namespace Orbit.Core.Client.GameStates
 
         private void CreateFloatingText(FloatingText ft)
         {
+            /*
             DrawingGroup gr = null;
             mgr.Invoke(new Action(() =>
             {
@@ -98,20 +98,20 @@ namespace Orbit.Core.Client.GameStates
                     new Typeface("arial"), ft.FontSize, Brushes.Black);
                 finalTxt.SetFontWeight(FontWeights.Bold);
 
-                ft.CS.Size = new Size(finalTxt.Width, finalTxt.Height * 0.8); // nepotrebujeme cely radek i s volnym mistem nahore a dole
+                ft.CS.Rectangle = new Rectangle(finalTxt.Width, finalTxt.Height * 0.8); // nepotrebujeme cely radek i s volnym mistem nahore a dole
 
-                gr.Children.Add(new GeometryDrawing(GetColorForType(ft.Type), null, finalTxt.BuildGeometry(new Point())));
+                gr.Children.Add(new GeometryDrawing(GetColorForType(ft.Type), null, finalTxt.BuildGeometry(new Vector2())));
                 gr.Transform = new TransformGroup();
                 double scale = 10 / ft.FontSize;
                 (gr.Transform as TransformGroup).Children.Add(new ScaleTransform(scale, scale));
-                (gr.Transform as TransformGroup).Children.Add(new TranslateTransform(ft.Position.X - ft.CS.Size.Width * scale / 2, ft.Position.Y - ft.CS.Size.Height * scale / 2));
+                (gr.Transform as TransformGroup).Children.Add(new TranslateTransform(ft.Position.X - ft.CS.Rectangle.Width * scale / 2, ft.Position.Y - ft.CS.Rectangle.Height * scale / 2));
                 mgr.GetGameVisualArea().Add(gr, DrawingCategory.TEXTS);
             }));
 
-            ft.GUIObject = gr;
-            ft.FinalPosition = new Vector(ft.Position.X - ft.CS.Size.Width / 2, ft.Position.Y - ft.CS.Size.Height / 2);
+            */
+            ft.FinalPosition = new Vector2(ft.Position.X - ft.CS.Rectangle.Width / 2, ft.Position.Y - ft.CS.Rectangle.Height / 2);
             ft.CS.Position = ft.FinalPosition;
-            ft.CollisionArea = new Rect(ft.CS.Position.ToPoint(), ft.CS.Size);
+            ft.CollisionArea = new Rectangle((int)ft.CS.Position.X, (int)ft.CS.Position.Y, ft.CS.Rectangle.Height, ft.CS.Rectangle.Width);
             
             if (CollisionShapeVisualization)
                 ShowCA(ft);
@@ -157,16 +157,18 @@ namespace Orbit.Core.Client.GameStates
                 }
             }
 
-            currentFt.Position = currentFt.CS.Position + new Vector(currentFt.CS.Size.Width / 2, currentFt.CS.Size.Height / 2);
+            currentFt.Position = currentFt.CS.Position + new Vector2(currentFt.CS.Rectangle.Width / 2, currentFt.CS.Rectangle.Height / 2);
 
+            /*
             mgr.Invoke(new Action(() =>
             {
                 double scale = 10 / currentFt.FontSize;
                 (currentFt.GUIObject.Transform as TransformGroup).Children.Clear();
                 (currentFt.GUIObject.Transform as TransformGroup).Children.Add(new ScaleTransform(scale, scale));
                 (currentFt.GUIObject.Transform as TransformGroup).Children.Add(
-                    new TranslateTransform(currentFt.Position.X - currentFt.CS.Size.Width * scale / 2, currentFt.Position.Y - currentFt.CS.Size.Height * scale / 2));
+                    new TranslateTransform(currentFt.Position.X - currentFt.CS.Rectangle.Width * scale / 2, currentFt.Position.Y - currentFt.CS.Rectangle.Height * scale / 2));
             }));
+             */ 
         }
 
         /// <summary>
@@ -177,26 +179,26 @@ namespace Orbit.Core.Client.GameStates
         private void UpdateCollisionArea(FloatingText ft, SquareCollisionShape cs)
         {
             // leva
-            double x1 = ft.CollisionArea.Left;
+            int x1 = ft.CollisionArea.Left;
             if (cs.Position.X < ft.CollisionArea.Left)
-                x1 = cs.Position.X - 1;
+                x1 = (int) cs.Position.X - 1;
 
             // prava
-            double x2 = ft.CollisionArea.Right;
-            if (cs.Position.X + cs.Size.Width > ft.CollisionArea.Right)
-                x2 = cs.Position.X + cs.Size.Width + 1;
+            int x2 = ft.CollisionArea.Right;
+            if (cs.Position.X + cs.Rectangle.Width > ft.CollisionArea.Right)
+                x2 = (int) (cs.Position.X + cs.Rectangle.Width + 1);
 
             // horni
-            double y1 = ft.CollisionArea.Top;
+            int y1 = ft.CollisionArea.Top;
             if (cs.Position.Y < ft.CollisionArea.Top)
-                y1 = cs.Position.Y - 1;
+                y1 = (int) cs.Position.Y - 1;
 
             // dolni
-            double y2 = ft.CollisionArea.Bottom;
-            if (cs.Position.Y + cs.Size.Height > ft.CollisionArea.Bottom)
-                y2 = cs.Position.Y + cs.Size.Height + 1;
+            int y2 = ft.CollisionArea.Bottom;
+            if (cs.Position.Y + cs.Rectangle.Height > ft.CollisionArea.Bottom)
+                y2 = (int) (cs.Position.Y + cs.Rectangle.Height + 1);
 
-            ft.CollisionArea = new Rect(x1, y1, x2 - x1, y2 - y1);
+            ft.CollisionArea = new Rectangle(x1, y1, x2 - x1, y2 - y1);
             
             if (CollisionShapeVisualization)
                 ShowCA(ft);
@@ -204,14 +206,7 @@ namespace Orbit.Core.Client.GameStates
 
         private void ShowCA(FloatingText ft)
         {
-            mgr.Invoke(new Action(() =>
-            {
-                RectangleGeometry geom = new RectangleGeometry(ft.CollisionArea);
-                System.Windows.Shapes.Path path = new System.Windows.Shapes.Path();
-                path.Data = geom;
-                path.Stroke = Brushes.Black;
-                mgr.GetCanvas().Children.Add(path);
-            }));
+            //TODO predelat rendering
         }
 
         /// <summary>
@@ -224,71 +219,70 @@ namespace Orbit.Core.Client.GameStates
 
             if (!ft.LastCollisionMovedUp)
                 // posunuti nahoru
-                ft.CS.Position = new Vector(ft.CS.Position.X, ft.CollisionArea.Top - ft.CS.Size.Height - 2);
+                ft.CS.Position = new Vector2(ft.CS.Position.X, ft.CollisionArea.Top - ft.CS.Rectangle.Height - 2);
             else
                 // posunuti dolu
-                ft.CS.Position = new Vector(ft.CS.Position.X, ft.CollisionArea.Bottom + 2);
+                ft.CS.Position = new Vector2(ft.CS.Position.X, ft.CollisionArea.Bottom + 2);
 
             ft.LastCollisionMovedUp = !ft.LastCollisionMovedUp;
         }
 
         private void RemoveFloatingText(FloatingText ft)
         {
-            mgr.RemoveGraphicalObjectFromScene(ft.GUIObject, Gui.Visuals.DrawingCategory.TEXTS);
+            //mgr.RemoveGraphicalObjectFromScene(ft.GUIObject, Gui.Visuals.DrawingCategory.TEXTS);
             floatingTexts.Remove(ft);
         }
 
-        public void AddFloatingText(int value, Vector position, float time, FloatingTextType type, float fontSize = SIZE_SMALL, bool disableRandomPos = false, bool send = false)
+        public void AddFloatingText(int value, Vector2 position, float time, FloatingTextType type, float fontSize = SIZE_SMALL, bool disableRandomPos = false, bool send = false)
         {
             AddFloatingText(value.ToString(Strings.Culture), position, time, type, fontSize, disableRandomPos, send);
         }
 
-        public void AddFloatingText(string text, Vector position, float time, FloatingTextType type, float fontSize = SIZE_SMALL, bool disableRandomPos = false, bool send = false)
+        public void AddFloatingText(string text, Vector2 position, float time, FloatingTextType type, float fontSize = SIZE_SMALL, bool disableRandomPos = false, bool send = false)
         {
             if (!disableRandomPos)
-                position = new Vector(position.X + mgr.GetRandomGenerator().Next(-5, 5), position.Y + mgr.GetRandomGenerator().Next(-5, 5));
+                position = new Vector2(position.X + mgr.GetRandomGenerator().Next(-5, 5), position.Y + mgr.GetRandomGenerator().Next(-5, 5));
             newFloatingTexts.Add(new FloatingText(text, position, time, type, fontSize, send));
         }
 
-        private Brush GetColorForType(FloatingTextType type)
+        private Color GetColorForType(FloatingTextType type)
         {
             switch (type)
             {
                 case FloatingTextType.SCORE:
-                    return Brushes.RoyalBlue;
+                    return Color.RoyalBlue;
                 case FloatingTextType.BONUS_SCORE:
-                    return Brushes.Goldenrod;
+                    return Color.Goldenrod;
                 case FloatingTextType.DAMAGE:
-                    return Brushes.Red;
+                    return Color.Red;
                 case FloatingTextType.CHAT:
-                    return Brushes.Blue;
+                    return Color.Blue;
                 case FloatingTextType.HEAL:
-                    return Brushes.Green;
+                    return Color.Green;
                 case FloatingTextType.SYSTEM:
-                    return Brushes.DarkMagenta;
+                    return Color.DarkMagenta;
                 case FloatingTextType.GOLD:
-                    return Brushes.Goldenrod;
+                    return Color.Goldenrod;
                 default:
-                    return Brushes.Black;
+                    return Color.Black;
             }
         }
 
         private class FloatingText
         {
             public string Text { get; set; }
-            public Vector Position { get; set; }
+            public Vector2 Position { get; set; }
             public float TotalTime { get; set; }
             public float RemainingTime { get; set; }
             public FloatingTextType Type { get; set; }
             public float FontSize { get; set; }
-            public DrawingGroup GUIObject { get; set; }
             public bool Send { get; set; }
             public SquareCollisionShape CS { get; set; }
             public bool LastCollisionMovedUp { get; set; }
-            public Vector FinalPosition { get; set; }
-            public Rect CollisionArea { get; set; }
+            public Vector2 FinalPosition { get; set; }
+            public Rectangle CollisionArea { get; set; }
 
-            public FloatingText(string text, Vector position, float time, FloatingTextType type, float fontSize, bool send)
+            public FloatingText(string text, Vector2 position, float time, FloatingTextType type, float fontSize, bool send)
             {
                 Text = text;
                 Position = position;
@@ -299,7 +293,7 @@ namespace Orbit.Core.Client.GameStates
                 Send = send;
                 CS = new SquareCollisionShape();
                 LastCollisionMovedUp = false;
-                CollisionArea = new Rect();
+                CollisionArea = new Rectangle();
             }
         }
     }

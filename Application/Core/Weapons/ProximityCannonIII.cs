@@ -12,6 +12,7 @@ using Orbit.Core.Scene.Entities;
 using Orbit.Core.SpecialActions;
 using Orbit.Core.SpecialActions.Gamer;
 using Orbit.Core.Scene.Controls.Implementations;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Weapons
 {
@@ -38,7 +39,7 @@ namespace Orbit.Core.Weapons
             return next;
         }
 
-        protected override ISceneObject SpawnBullet(Point point)
+        protected override ISceneObject SpawnBullet(Vector2 point)
         {
             if (lastBullet != null)
                 lastBullet.GetControlOfType<HighlightingControl>().Enabled = false;

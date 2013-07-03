@@ -7,9 +7,8 @@ using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Weapons;
 using Lidgren.Network;
 using Orbit.Core.Players;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using Orbit.Core.AI;
-using Orbit.Core.Server.Level.Test;
 
 namespace Orbit.Core.Server.Level
 {
@@ -55,9 +54,6 @@ namespace Orbit.Core.Server.Level
                 case GameLevel.TEST_STATIC_OBJ:
                     newLvl = new LevelTestStaticObjects(mgr);
                     break;
-                case GameLevel.TEST_PARTICLES:
-                    newLvl = new LevelTestParticles(mgr);
-                    break;
                 case GameLevel.TEST_BURNING_ASTEROIDS:
                     newLvl = new LevelTestBurningAsteroids(mgr);
                     break;
@@ -95,13 +91,13 @@ namespace Orbit.Core.Server.Level
             if (players.Exists(p => p.Data.Name.Equals(name)))
             {
                 Random rand = new Random(Environment.TickCount);
-                bot.Data.PlayerColor = Color.FromRgb((byte)rand.Next(255), (byte)rand.Next(255), (byte)rand.Next(255));
+                bot.Data.PlayerColor = new Color((float)rand.NextDouble(), (float)rand.NextDouble(), (float)rand.NextDouble());
                 bot.Data.Name = name + " " + bot.GetId();
             }
             else
             {
                 Color botColor = players[0].Data.PlayerColor;
-                bot.Data.PlayerColor = Color.FromRgb((byte)(0xFF - botColor.R), (byte)(0xFF - botColor.G), (byte)(0xFF - botColor.B));
+                bot.Data.PlayerColor = new Color((1 - botColor.R), (1 - botColor.G), (1 - botColor.B));
                 bot.Data.Name = name;
             }
             bot.Data.HashId = bot.Data.Name;

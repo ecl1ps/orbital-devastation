@@ -5,13 +5,14 @@ using System.Text;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Controls.Health;
 using Orbit.Core.Scene.Entities;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Scene.Controls.Health.Implementations
 {
     public class HpBarControl : Control
     {
-        public IHpBar Bar { get; set;}
-        private IHpControl obj;
+        public Arc HpBar { get; set; }
+        private IHpControl control; 
 
         public override bool Enabled
         {
@@ -23,35 +24,35 @@ namespace Orbit.Core.Scene.Controls.Health.Implementations
             {
                 base.Enabled = value;
                 if (me != null)
-                    Bar.Visible = value;
+                    HpBar.Visible = value;
             }
         }
 
-        public HpBarControl(IHpBar bar)
+        public HpBarControl(Arc bar)
         {
-            this.Bar = bar;
+            HpBar = bar;
         }
 
         protected override void InitControl(Entities.ISceneObject me)
         {
-            this.obj = me.GetControlOfType<IHpControl>();
-            if (this.obj == null)
-                throw new Exception("HpBarControl must be attached to object containing HpControl");
+            control = me.GetControlOfType<IHpControl>();
+            if (control == null)
+                throw new Exception("HpBarControl must be attached to object containing IHpControl");
         }
 
         protected override void UpdateControl(float tpf)
         {
-            float p = obj.Hp / (float) obj.MaxHp;
+            float p = control.Hp / (float) control.MaxHp;
 
             if (p > 1)
                 p = 1;
             else if (p < 0)
                 p = 0;
 
-            Bar.Percentage = p;
+            HpBar.EndingAngle = MathHelper.TwoPi * p;
 
             if (me.Dead)
-                Bar.DoRemoveMe();
+                HpBar.DoRemoveMe();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Orbit.Core.Scene.Controls.Collisions.Implementations
         protected override void InitControl(ISceneObject me)
         {
             if (!(me.CollisionShape is PointCollisionShape))
-                throw new Exception("Collision shape must be Point");
+                throw new Exception("Collision shape must be Vector2");
 
             cs = me.CollisionShape as PointCollisionShape;
         }

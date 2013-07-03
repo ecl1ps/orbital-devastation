@@ -5,7 +5,6 @@ using System.Text;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Entities;
 using System.Windows;
-using Orbit.Core.Scene.Entities.Implementations.HeavyWeight;
 using Orbit.Core.Helpers;
 using Lidgren.Network;
 
@@ -60,7 +59,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             me.GetControlOfType<HighlightingControl>().Enabled = false;
 
             List<ISceneObject> nearbyObjects = me.FindNearbyObjects<ISceneObject>(hook.Owner.Data.HookActivePullReachDistance);
-            IOrderedEnumerable<ISceneObject> ordered = nearbyObjects.OrderBy(o => (me.Center - o.Center).Length);
+            IOrderedEnumerable<ISceneObject> ordered = nearbyObjects.OrderBy(o => (me.Center - o.Center).Length());
 
             List<ISceneObject> pulledObjects = new List<ISceneObject>();
 
@@ -99,17 +98,18 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         public void ShowForceFieldEffect()
         {
+            /*
             ForcePullField f = new ForcePullField(me.SceneMgr, IdMgr.GetNewId(hook.Owner.GetId()));
             f.Radius = (int)hook.Owner.Data.HookActivePullReachDistance;
-            f.Position = new Vector(me.Center.X - f.Radius, me.Center.Y - f.Radius);
+            f.Position = new Vector2(me.Center.X - f.Radius, me.Center.Y - f.Radius);
             f.HeavyWeightGeometry = HeavyweightGeometryFactory.CreateForceField(f);
 
             f.AddControl(new CenterCloneControl(me));
             float life = 0.3f; // seconds
             f.AddControl(new LimitedLifeControl(life));
             f.AddControl(new ShrinkingControl(0, life));
-
-            me.SceneMgr.DelayedAttachToScene(f);
+            
+            me.SceneMgr.DelayedAttachToScene(f);*/
         }
 
         public void StartPullingObject(ISceneObject o)

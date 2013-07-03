@@ -5,11 +5,12 @@ using System.Text;
 using System.Windows.Input;
 using System.Windows;
 using Orbit.Core.Client.Interfaces;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Players.Input
 {
     public interface IInputMgr : IKeyPressListener, IMouseClickListener
     {
-        void OnActionBarClick(Point point, MouseButtonEventArgs e);
+        void OnActionBarClick(Vector2 point, MouseButtonEventArgs e);
     }
 }

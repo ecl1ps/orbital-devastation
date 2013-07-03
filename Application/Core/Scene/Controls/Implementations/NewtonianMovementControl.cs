@@ -1,6 +1,7 @@
 using System;
 using System.Windows;
 using Orbit.Core.Scene.Entities;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -21,9 +22,9 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private float verticalSpeed;
         public float VerticalSpeed { get { return verticalSpeed; } }
         public float TimeAlive { get; set; }
-        private Vector move;
-        public Vector RealDirection { get { return move.NormalizeV(); } }
-        public float RealSpeed { get { return (float) move.Length; } }
+        private Vector2 move;
+        public Vector2 RealDirection { get { return move.NormalizeV(); } }
+        public float RealSpeed { get { return (float) move.Length(); } }
 
         protected override void InitControl(ISceneObject obj)
         {
@@ -45,13 +46,13 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         protected override void UpdateControl(float tpf)
         {
-            if (meMovable == null || double.IsNaN(meMovable.Direction.Length))
+            if (meMovable == null || double.IsNaN(meMovable.Direction.Length()))
                 return;
 
-            Vector dirToSurf = new Vector(0, -1);
-            double vSpeed = me.SceneMgr.LevelEnv.CurrentGravity - me.SceneMgr.LevelEnv.CurrentGravity *
+            Vector2 dirToSurf = new Vector2(0, -1);
+            float vSpeed = (float) (me.SceneMgr.LevelEnv.CurrentGravity - me.SceneMgr.LevelEnv.CurrentGravity *
                             (1 + Math.Pow((HorizontalSpeed - SharedDef.FIRST_COSMICAL_SPEED) / SharedDef.FIRST_COSMICAL_SPEED, 2))
-                            * 1 / (GetRealativeAltitude() / me.SceneMgr.LevelEnv.StableOrbitRelative);
+                            * 1 / (GetRealativeAltitude() / me.SceneMgr.LevelEnv.StableOrbitRelative));
 
             move = (meMovable.Direction * Speed * tpf) +
                 (dirToSurf * vSpeed * 2 * TimeAlive * tpf);

@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Diagnostics;
 using System.Threading;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using System.Windows.Threading;
 using System.Collections.Concurrent;
 using Lidgren.Network;
@@ -264,17 +264,8 @@ namespace Orbit.Core.Client
                 case PacketType.SPECTATOR_ACTION_START:
                     ReceivedSpectatorActionStarted(msg);
                     break;
-                case PacketType.SHOW_ALLERT_MESSAGE:
-                    AlertMessageMgr.ReceiveShowMessage(msg);
-                    break;
                 case PacketType.SCHEDULE_SPECTATOR_ACTION:
                     ReceivedActionScheduleMsg(msg);
-                    break;
-                case PacketType.PARTICLE_EMMITOR_CREATE:
-                    ReceivedEmmitorSpawn(msg);
-                    break;
-                case PacketType.PARTICLE_EMMITOR_START:
-                    ReceivedEmmitorSpawn(msg);
                     break;
                 case PacketType.SHAKING_START:
                     ReceivedShakingStart(msg);

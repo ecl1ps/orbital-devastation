@@ -10,6 +10,7 @@ using Orbit.Core.Client.GameStates;
 using Orbit.Core.Players;
 using Lidgren.Network;
 using Orbit.Core.Helpers;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -17,8 +18,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
     {
         public int Speed { get; set; }
         public int Lenght { get; set; }
-        public Vector Origin { get; set; }
-        public Vector HitVector { get; set; } //neposilano
+        public Vector2 Origin { get; set; }
+        public Vector2 HitVector { get; set; } //neposilano
         public bool Returning { get; set; } // neposilano
 
         protected List<ICatchable> caughtObjects;
@@ -81,7 +82,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             if (!hook.Owner.IsCurrentPlayerOrBot())
                 return;
 
-            HitVector = (hook.Position - caught.Position) * 0.9;
+            HitVector = (hook.Position - caught.Position) * 0.9f;
 
             CatchObject(caught, HitVector);
 
@@ -103,7 +104,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         /// <summary>
         /// tato metoda je volana kud po kolizi, pokud je vlastnikem soucasny hrac nebo zpravou, pokud neni
         /// </summary>
-        public void CatchObject(ICatchable caught, Vector hitVector)
+        public void CatchObject(ICatchable caught, Vector2 hitVector)
         {
             if (caught is IDestroyable)
                 (caught as IDestroyable).TakeDamage(0, hook);
@@ -150,7 +151,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 {
                     caught.Enabled = true;
                     if (caught is IMovable)
-                        (caught as IMovable).Direction = new Vector(0, 1);
+                        (caught as IMovable).Direction = new Vector2(0, 1);
                 }
             }
 
@@ -198,7 +199,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         private void MoveBackwards(float tpf)
         {
             // jinak se obcas neco bugne a on leti do nekonecna
-            Vector dirToBase = Origin + new Vector(-hook.Radius, -hook.Radius) - hook.Position;
+            Vector2 dirToBase = Origin + new Vector2(-hook.Radius, -hook.Radius) - hook.Position;
             dirToBase.Normalize();
             hook.Position += (dirToBase * Speed * tpf);
         }
@@ -221,7 +222,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         private double GetDistanceFromOrigin()
         {
-            return (Origin - hook.Position).Length;
+            return (Origin - hook.Position).Length();
         }
 
         private double GetDistanceFromOriginPct()

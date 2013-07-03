@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Orbit.Core.Client;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Players.Input
 {
@@ -40,11 +41,11 @@ namespace Orbit.Core.Players.Input
 
         }
 
-        public virtual void OnCanvasClick(System.Windows.Point point, MouseButtonEventArgs e)
+        public virtual void OnCanvasClick(Vector2 point, MouseButtonEventArgs e)
         {
         }
 
-        public virtual void OnActionBarClick(System.Windows.Point point, MouseButtonEventArgs e)
+        public virtual void OnActionBarClick(Vector2 point, MouseButtonEventArgs e)
         {
         }
     }

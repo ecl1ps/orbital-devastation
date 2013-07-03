@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -17,6 +17,7 @@ using Orbit.Gui.ActionControllers;
 using Orbit.Core.Client;
 using ShaderEffectLibrary;
 using System.Windows.Media.Effects;
+using Orbit.Core;
 
 namespace Orbit.Gui
 {
@@ -103,7 +104,7 @@ namespace Orbit.Gui
         {
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                TextBackground.Background = new SolidColorBrush(c);
+                TextBackground.Background = new System.Windows.Media.SolidColorBrush(c.ToWindowsColor());
             }));
         }
 
@@ -142,25 +143,6 @@ namespace Orbit.Gui
             }));
         }
 
-        public void OnClick(Point point)
-        {
-            if (!active)
-                return;
-
-            Point p = PointFromScreen(point);
-            double maxX = this.ActualWidth;
-            double maxY = this.ActualHeight;
-
-            if (p.X < this.ActualWidth && p.X > 0)
-                if (p.Y < this.ActualHeight && p.Y > 0)
-                {
-                    controller.Enqueue(new Action(() =>
-                    {
-                        controller.ActionClicked(this);
-                    }));
-                }
-        }
-
         /// <summary>
         /// thread safe
         /// </summary>
@@ -187,7 +169,6 @@ namespace Orbit.Gui
                 {
                     active = false;
                     MonochromeEffect eff = new MonochromeEffect();
-                    eff.FilterColor = Color.FromArgb(0x00, 0x40, 0x40, 0x40);
                     /*EmbossedEffect eff = new EmbossedEffect();
                     eff.Amount = 10;
                     eff.Width = 0.001;*/

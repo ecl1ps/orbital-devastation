@@ -42,7 +42,7 @@ namespace Lidgren.Network
 		private int m_sign; // -1 means -ve; +1 means +ve; 0 means 0;
 		private int[] m_magnitude; // array of ints with [0] being the most significant
 		private int m_numBits = -1; // cache BitCount() value
-		private int m_numBitLength = -1; // cache calcBitLength() value
+		private int m_numBitLength = -1; // cache calcBitLength value
 		private long m_quote = -1L; // -m^(-1) mod b, b = 2^32 (see Montgomery mult.)
 
 		private static int GetByteLength(

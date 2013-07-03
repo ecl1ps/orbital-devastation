@@ -5,7 +5,7 @@ using System.Text;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Helpers;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using System.Windows.Controls;
 using System.Windows;
 
@@ -67,6 +67,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                     border.A = 0x0;
                     center.A = 0xAA;
 
+                    /* TODO dodelat
                     if (IsCircle)
                         highlighter.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(
                             me.SceneMgr, (highlighter as Sphere).Radius, Colors.Transparent, Colors.Transparent, (me as Sphere).Color, me.Position, 1));
@@ -74,6 +75,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                         highlighter.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(
                             me.SceneMgr, (highlighter as Sphere).Radius, border, center, Colors.Transparent, me.Position, 1));
 
+                     */ 
                     highlighter.AddControl(new CenterCloneControl(me));
 
                     highlighter.Visible = false;

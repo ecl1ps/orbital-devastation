@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 
 namespace Orbit.Core
 {
@@ -52,19 +54,19 @@ namespace Orbit.Core
         /// </summary>
         /// <param name="randomGenerator"></param>
         /// <returns></returns>
-        public static double GetRandomRotation(Random randomGenerator)
+        public static float GetRandomRotation(Random randomGenerator)
         {
-            return randomGenerator.NextDouble() * Math.PI * 2;
+            return (float) randomGenerator.NextDouble() * MathHelper.PiOver2;
         }
 
-        public static double DegToRad(double degrees)
+        public static float DegToRad(float degrees)
         {
-            return degrees * Math.PI / 180;
+            return MathHelper.ToRadians(degrees);
         }
 
-        public static double RadToDeg(double radians)
+        public static float RadToDeg(float radians)
         {
-            return radians * 180 / Math.PI;
+            return MathHelper.ToDegrees(radians);
         }
     }
 }

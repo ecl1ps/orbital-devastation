@@ -6,11 +6,10 @@ using Orbit.Core.SpecialActions.Spectator;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Controls.Implementations;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.Controls;
 using System.Windows.Media.Effects;
-using Orbit.Core.Scene.Entities.HeavyWeight;
 using Lidgren.Network;
 using Orbit.Core.Players;
 
@@ -114,9 +113,7 @@ namespace Orbit.Core.Client.GameStates
                 return;
 
             Line line = new Line(action.action.Owner.SceneMgr, IdMgr.GetNewId(action.action.Owner.GetId()), action.action.Owner.Device.Position, target.Position, color, 1);
-            HeavyweightLine strong = new HeavyweightLine(action.action.SceneMgr, IdMgr.GetNewId(action.action.Owner.GetId()), action.action.Owner.Device.Position, target.Position, color, 2);
-
-            //OrbitEllipse s = SceneObjectFactory.CreateOrbitEllipse(Owner.SceneMgr, Owner.Device.Position, 3, 3, color);
+            Line strong = new Line(action.action.SceneMgr, IdMgr.GetNewId(action.action.Owner.GetId()), action.action.Owner.Device.Position, target.Position, color, 2);
 
             StretchingLineControl c = new StretchingLineControl();
             TimeStretchingControl tc = new TimeStretchingControl();

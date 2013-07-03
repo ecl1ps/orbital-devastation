@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ShaderEffectLibrary;
 using System.Windows;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -11,7 +12,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
     {
         public float Speed { get; set; }
         public float Radius { get; set; }
-        public Vector Position { get; set; }
+        public Vector2 Position { get; set; }
 
         private float progress = 0;
         private PinchEffect effect;

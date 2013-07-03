@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Diagnostics;
 using System.Threading;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using System.Windows.Threading;
 using System.Collections.Concurrent;
 using Lidgren.Network;
@@ -23,7 +23,6 @@ using Orbit.Core.Scene.Controls.Collisions;
 using Orbit.Gui.Visuals;
 using Orbit.Core.Helpers;
 using Orbit.Gui.ActionControllers;
-using Orbit.Core.Scene.Particles.Implementations;
 using System.Globalization;
 using Orbit.Core.Client.Interfaces;
 
@@ -38,7 +37,6 @@ namespace Orbit.Core.Client
         public StatsMgr StatsMgr { get; set; }
         public GameStateManager StateMgr { get; set; }
         public LevelEnvironment LevelEnv { get; set; }
-        public AlertMessageManager AlertMessageMgr { get; set; }
         public SpectatorActionsManager SpectatorActionMgr { get; set; }
         public ScreenShakingManager ScreenShakingMgr { get; set; }
         public bool UserActionsDisabled { get { return userActionsDisabled; } }
@@ -47,7 +45,6 @@ namespace Orbit.Core.Client
 
         private volatile WindowState gameWindowState;
 
-        private ParticleArea particleArea;
         private GameVisualArea area;
         private bool isGameInitialized;
         private bool userActionsDisabled;
@@ -132,8 +129,6 @@ namespace Orbit.Core.Client
             StateMgr.AddGameState(FloatingTextMgr);
             LevelEnv = new LevelEnvironment();
             StateMgr.AddGameState(LevelEnv);
-            AlertMessageMgr = new AlertMessageManager(this, 0.5f);
-            StateMgr.AddGameState(AlertMessageMgr);
             SpectatorActionMgr = new SpectatorActionsManager();
             StateMgr.AddGameState(SpectatorActionMgr);
             ScreenShakingMgr = new ScreenShakingManager(this);
@@ -222,11 +217,6 @@ namespace Orbit.Core.Client
             objectsToRemove.Clear();
             objects.Clear();
             objectsToAdd.Clear();
-
-            if (particleArea != null)
-                particleArea.ClearAll();
-
-            particleArea = null;
         }
 
         /************************************************************************/
@@ -259,34 +249,7 @@ namespace Orbit.Core.Client
                 }
             }
 
-            if (obj.GetGeometry() == null && !(obj is IEmpty))
-            {
-                Logger.Warn("Trying to add geometry object to scene, but it is null -> skipped!");
-                return;
-            }
-
             objects.Add(obj);
-
-            BeginInvoke(new Action(() =>
-            {
-                if (obj is IHeavyWeightSceneObject)
-                    GetCanvas().Children.Add((obj as IHeavyWeightSceneObject).HeavyWeightGeometry);
-                else if (obj is ParticleEmmitor)
-                    (obj as ParticleEmmitor).Init(GetParticleArea());
-                else if (!(obj is IEmpty))
-                    area.Add(obj.GetGeometry(), obj.Category);
-            }));
-        }
-
-        public ParticleArea GetParticleArea()
-        {
-            if (particleArea == null)
-            {
-                ParticleArea.FrameTimer.Dispatcher.Invoke(new Action(() => {
-                    particleArea = LogicalTreeHelper.FindLogicalNode(GetCanvas(), "particleArea") as ParticleArea;
-                }));
-            }
-            return particleArea;
         }
 
         /// <summary>
@@ -294,54 +257,8 @@ namespace Orbit.Core.Client
         /// </summary>
         public void DelayedAttachToScene(ISceneObject obj)
         {
-            if (obj is ParticleEmmitor)
-            {
-                GetParticleArea().AddEmmitor(obj as ParticleEmmitor);
-            }
-            else
-            {
                 objectsToAdd.Add(obj);
                 obj.OnAttach();
-            }
-        }
-
-        /// <summary>
-        /// prida GUI objekt do sceny - nikoliv SceneObject
-        /// </summary>
-        public void AttachGraphicalObjectToScene(Drawing obj, DrawingCategory category = DrawingCategory.BACKGROUND)
-        {
-            BeginInvoke(new Action(() =>
-            {
-                area.Add(obj, category);
-            }));
-        }
-
-        /// <summary>
-        /// odstrani jen GUI element
-        /// </summary>
-        public void RemoveGraphicalObjectFromScene(Drawing obj, DrawingCategory category = DrawingCategory.BACKGROUND)
-        {
-            BeginInvoke(new Action(() =>
-            {
-                area.Remove(obj, category);
-            }));
-        }
-
-        public void AttachHeavyweightObjectToScene(UIElement obj)
-        {
-            BeginInvoke(new Action(() =>
-            {
-                obj.IsHitTestVisible = false;
-                (area.Parent as Canvas).Children.Add(obj);
-            }));
-        }
-
-        public void RemoveHeavyweightObjectFromScene(UIElement obj)
-        {
-            BeginInvoke(new Action(() =>
-            {
-                (area.Parent as Canvas).Children.Remove(obj);
-            }));
         }
 
         /// <summary>
@@ -349,18 +266,9 @@ namespace Orbit.Core.Client
         /// </summary>
         public void RemoveFromSceneDelayed(ISceneObject obj)
         {
-            if (obj is ParticleEmmitor)
-            {
-                obj.Dead = true;
-                obj.OnRemove();
-                GetParticleArea().RemoveEmmitor(obj as ParticleEmmitor);
-            }
-            else
-            {
-                obj.Dead = true;
-                obj.OnRemove();
-                objectsToRemove.Add(obj);
-            }
+            obj.Dead = true;
+            obj.OnRemove();
+            objectsToRemove.Add(obj);
         }
 
         /// <summary>
@@ -369,13 +277,6 @@ namespace Orbit.Core.Client
         private void DirectRemoveFromScene(ISceneObject obj)
         {
             objects.Remove(obj);
-            BeginInvoke(new Action(() =>
-            {
-                if (obj is IHeavyWeightSceneObject)
-                    GetCanvas().Children.Remove((obj as IHeavyWeightSceneObject).HeavyWeightGeometry);
-                else if (obj.GetGeometry() != null)
-                    area.Remove(obj.GetGeometry(), obj.Category);
-            }));
         }
 
         private void RemoveObjectsMarkedForRemoval()
@@ -523,7 +424,7 @@ namespace Orbit.Core.Client
             Invoke(new Action(() =>
             {
                 for (int i = 0; i < objects.Count; ++i)
-                    objects[i].UpdateGeometric();
+                    objects[i].UpdateGeometric(spriteBatch);
             }));
         }
 
@@ -599,42 +500,11 @@ namespace Orbit.Core.Client
             return randomGenerator;
         }
 
-        public void OnCanvasMouseMove(Point point)
+        private void ProcessStaticMouseActionBarClick(Vector2 point)
         {
-            point = (StaticMouse.Instance != null && StaticMouse.ALLOWED) ? StaticMouse.GetPosition() : point;
-            moveListeners.ForEach(l => l.OnMouseMove(point));
         }
 
-        public void OnCanvasClick(Point point, MouseButtonEventArgs e)
-        {
-            if (userActionsDisabled || !isGameInitialized)
-                return;
-
-            if (StaticMouse.Instance != null && StaticMouse.ALLOWED)
-                point = StaticMouse.GetPosition();
-
-            if (e.ChangedButton == MouseButton.Left && e.ButtonState == MouseButtonState.Pressed &&
-                !IsPointInViewPort(point) && StaticMouse.Instance != null && StaticMouse.ALLOWED)
-            {
-                ProcessStaticMouseActionBarClick(point);
-                return;
-            }
-
-            if (IsPointInViewPort(point))
-                clickListeners.ForEach(l => l.OnCanvasClick(point, e));
-            else
-                inputMgr.OnActionBarClick(point, e);
-        }
-
-        private void ProcessStaticMouseActionBarClick(Point point)
-        {
-            Invoke(new Action(() =>
-            {
-                actionBarMgr.ActionBar.OnClick(area.PointToScreen(point));
-            }));
-        }
-
-        public static bool IsPointInViewPort(Point point)
+        public static bool IsPointInViewPort(Vector2 point)
         {
             if (point.X > SharedDef.VIEW_PORT_SIZE.Width || point.X < 0)
                 return false;
@@ -710,23 +580,10 @@ namespace Orbit.Core.Client
             StaticMouse.Enable(false);
             stopUpdating = true;
 
-            Invoke(new Action(() => 
-            {
-                // vytvorime okno se statistikami za posledni hru
-                EndGameStats s = GuiObjectFactory.CreateAndAddPlayerStatsUc(this, currentPlayer, currentPlayer.IsActivePlayer(), new Vector((SharedDef.VIEW_PORT_SIZE.Width - 800) / 2, (SharedDef.VIEW_PORT_SIZE.Height - 500) / 2));
-                // a vytvorime akci, ktera se zavola pri zavreni statistik
-                s.CloseAction = new Action(() => 
-                {
-                    // zavreni vyvola bud uzivatel (vlakno gui) nebo GameState (vlakno sceny), proto je potreba synchronizovat
-                    Enqueue(new Action(() => 
-                    {
-                        if (endType != GameEnd.TOURNAMENT_FINISHED)
-                            CloseGameWindowAndCleanup(endType);
-                        else
-                            TournamentFinished();
-                    }));
-                });
-            }));
+            if (endType != GameEnd.TOURNAMENT_FINISHED)
+                CloseGameWindowAndCleanup(endType);
+            else
+                TournamentFinished();
         }
 
         public void CloseGameWindowAndCleanup(GameEnd endType, bool forceQuit = false)
@@ -747,12 +604,6 @@ namespace Orbit.Core.Client
                 TournamentGameEnded();
             else if (endType != GameEnd.TOURNAMENT_FINISHED)
                 NormalGameEnded();
-
-            if (particleArea != null)
-                particleArea.ClearAll();
-
-            particleArea = null;
-            
         }
 
         public void PlayerQuitGame()
@@ -802,14 +653,6 @@ namespace Orbit.Core.Client
             {
                 hs = currentPlayer.Data.MatchPoints;
                 GameProperties.Props.SetAndSave(key, hs);
-                CreateTextMessage(String.Format(Strings.Culture, Strings.game_new_highscore, hs));
-            }
-            else
-            {
-                if (GetCurrentPlayer() == winner)
-                    CreateTextMessage(Strings.game_won);
-                else
-                    CreateTextMessage(Strings.game_lost);
             }
         }
 
@@ -885,7 +728,6 @@ namespace Orbit.Core.Client
             else
                 msg = Strings.game_end;
 
-            CreateTextMessage(msg);
         }
 
         private void PlayerLeft(Player leaver)
@@ -895,8 +737,6 @@ namespace Orbit.Core.Client
 
             if (GameWindowState == WindowState.IN_LOBBY)
                 ShowChatMessage(String.Format(Strings.Culture, Strings.game_left, leaver.Data.Name));
-            else
-                CreateTextMessage(String.Format(Strings.Culture, Strings.game_left, leaver.Data.Name));
         }
 
         public void Invoke(Action a)
@@ -1014,7 +854,7 @@ namespace Orbit.Core.Client
         {
             List<LobbyPlayerData> data = new List<LobbyPlayerData>();
             players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score, p.GetId() == GetCurrentPlayer().GetId(), 
-                p.Data.LobbyLeader, p.Data.LobbyReady, p.Data.PlayedMatches, p.Data.WonMatches, p.Data.PlayerColor)));
+                p.Data.LobbyLeader, p.Data.LobbyReady, p.Data.PlayedMatches, p.Data.WonMatches, p.Data.PlayerColor.ToWindowsColor())));
             return data;
         }
 
@@ -1061,7 +901,8 @@ namespace Orbit.Core.Client
 
         public void PlayerColorChanged()
         {
-            Color newColor = Player.GetChosenColor();
+            /* TODO doresit
+            System.Windows.Media.Color newColor = Player.GetChosenColor();
             if (players == null || players.Exists(p => p.GetPlayerColor() == newColor))
                 return;
 
@@ -1072,6 +913,7 @@ namespace Orbit.Core.Client
                 SendPlayerColorChanged();
                 UpdateLobbyPlayers();
             }
+             */
         }
 
         public void ShowPlayerOverview()
@@ -1084,15 +926,10 @@ namespace Orbit.Core.Client
             }));
         }
 
-        public void CreateTextMessage(string message)
-        {
-            AlertMessageMgr.Show(message, AlertMessageManager.TIME_INFINITE);
-        }
-
-        public List<ISceneObject> GetSceneObjectsInDist<T>(Vector position, double radius)
+        public List<ISceneObject> GetSceneObjectsInDist<T>(Vector2 position, double radius)
         {
             List<ISceneObject> found = new List<ISceneObject>();
-            objects.ForEach(o => { if (o is T && (o.Center - position).Length <= radius) found.Add(o); });
+            objects.ForEach(o => { if (o is T && (o.Center - position).Length() <= radius) found.Add(o); });
             return found;
         }
     }

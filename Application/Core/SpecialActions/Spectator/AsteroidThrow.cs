@@ -10,7 +10,7 @@ using Orbit.Core.Scene.Entities.Implementations;
 using Lidgren.Network;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.Controls;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
@@ -28,7 +28,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             //nastavime parametry
             this.Cooldown = 4; //sec
             this.CastingTime = 0.5f; //sec;
-            this.CastingColor = Colors.Orange;
+            this.CastingColor = Color.Orange;
             this.Range = new Range(5);
             this.exactBonus = 1.5f;
         }
@@ -37,7 +37,7 @@ namespace Orbit.Core.SpecialActions.Spectator
         {
             int count = 0;
 
-            Vector v;
+            Vector2 v;
             float speed = exact ? SharedDef.SPECTATOR_ASTEROID_THROW_SPEED * exactBonus : SharedDef.SPECTATOR_ASTEROID_THROW_SPEED;
             foreach (Asteroid ast in afflicted)
             {

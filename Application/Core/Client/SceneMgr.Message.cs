@@ -11,7 +11,7 @@ using Orbit.Core.Scene.Entities.Implementations;
 using System.Windows.Controls;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Controls.Implementations;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using Orbit.Core.Weapons;
 using Orbit.Core.Players.Input;
 using Orbit.Core.Scene.Controls;
@@ -23,8 +23,6 @@ using Orbit.Gui.ActionControllers;
 using Orbit.Core.SpecialActions.Spectator;
 using Orbit.Core.SpecialActions;
 using Orbit.Core.SpecialActions.Gamer;
-using Orbit.Core.Scene.Entities.Implementations.HeavyWeight;
-using Orbit.Core.Scene.Particles.Implementations;
 
 namespace Orbit.Core.Client
 {
@@ -143,29 +141,6 @@ namespace Orbit.Core.Client
             ScreenShakingMgr.Start(msg.ReadFloat());
         }
 
-        private void ReceivedEmmitorStart(NetIncomingMessage msg)
-        {
-            long id = msg.ReadInt64();
-            ParticleEmmitor e = GetParticleArea().GetEmmitor(id);
-            if (e == null) {
-                Logger.Error("Emmitor with id " + id + " was scheduled to start but was not found");
-                return;
-            }
-
-            e.ReadObject(msg);
-            e.Start();
-
-            GetParticleArea().BeginInvoke(new Action(() => DelayedAttachToScene(e)));
-        }
-
-        private void ReceivedEmmitorSpawn(NetIncomingMessage msg)
-        {
-            ParticleEmmitor e = new ParticleEmmitor(this, 0);
-            e.ReadObject(msg);
-
-            GetParticleArea().BeginInvoke(new Action(() => DelayedAttachToScene(e)));
-        }
-
         private void ReceivedActionScheduleMsg(NetIncomingMessage msg)
         {
             Player owner = GetPlayer(msg.ReadInt32());
@@ -193,7 +168,7 @@ namespace Orbit.Core.Client
                         CreateAndAddBot(plr);
                     else
                         FloatingTextMgr.AddFloatingText(String.Format(Strings.Culture, Strings.game_joined, plr.Data.Name),
-                            new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
+                            new Vector2(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
                             FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
                 }
                 else
@@ -244,7 +219,7 @@ namespace Orbit.Core.Client
                 if (GameType == Gametype.TOURNAMENT_GAME && !disconnected.IsActivePlayer())
                 {
                     FloatingTextMgr.AddFloatingText(String.Format(Strings.Culture, Strings.game_other_left, disconnected.Data.Name),
-                        new Vector(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
+                        new Vector2(SharedDef.VIEW_PORT_SIZE.Width / 2, SharedDef.VIEW_PORT_SIZE.Height / 2 - 50),
                         FloatingTextManager.TIME_LENGTH_5, FloatingTextType.SYSTEM, FloatingTextManager.SIZE_MEDIUM, true);
                 }
 
@@ -306,7 +281,6 @@ namespace Orbit.Core.Client
 
             InitStaticMouse();
             //InitAutomaticMineLauncher();
-            AlertMessageMgr.InitElement();
             App.Instance.SetGameStarted(true);
 
             foreach (Player p in players)
@@ -381,12 +355,6 @@ namespace Orbit.Core.Client
 
                 p.Baze = SceneObjectFactory.CreateBase(this, p);
 
-                BaseIntegrityBar ellipse = SceneObjectFactory.CreateBaseIntegrityBar(this, p);
-
-                HpBarControl control = new HpBarControl(ellipse);
-                p.Baze.AddControl(control);
-
-                DelayedAttachToScene(ellipse);
                 DelayedAttachToScene(p.Baze);
             }
             else
@@ -501,8 +469,8 @@ namespace Orbit.Core.Client
         {
             long hookId = msg.ReadInt64();
             long asteroidId = msg.ReadInt64();
-            Vector position = msg.ReadVector();
-            Vector hitVector = msg.ReadVector();
+            Vector2 position = msg.ReadVector();
+            Vector2 hitVector = msg.ReadVector();
             Hook hook = null;
             ICatchable g = null;
 
@@ -530,8 +498,8 @@ namespace Orbit.Core.Client
         {
             long mineId = msg.ReadInt64();
             long id = msg.ReadInt64();
-            Vector pos = msg.ReadVector();
-            Vector dir = msg.ReadVector();
+            Vector2 pos = msg.ReadVector();
+            Vector2 dir = msg.ReadVector();
             float speed = msg.ReadFloat();
             foreach (ISceneObject obj in objects)
             {
@@ -592,9 +560,8 @@ namespace Orbit.Core.Client
             Hook h = msg.ReadObjectHook(this);
             h.ReadObject(msg);
             h.Owner = GetOpponentPlayer();
-            h.SetGeometry(SceneGeometryFactory.CreateHookHead(h));
+            h.Texture = SceneGeometryFactory.Hook;
 
-            h.PrepareLine();
             DelayedAttachToScene(h);
             SyncReceivedObject(h, msg);
         }
@@ -604,7 +571,6 @@ namespace Orbit.Core.Client
             SingularityBouncingBullet s = new SingularityBouncingBullet(this, -1);
             s.ReadObject(msg);
             s.Owner = GetOpponentPlayer();
-            s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
             DelayedAttachToScene(s);
             SyncReceivedObject(s, msg);
         }
@@ -614,7 +580,6 @@ namespace Orbit.Core.Client
             SingularityExplodingBullet s = new SingularityExplodingBullet(this, -1);
             s.ReadObject(msg);
             s.Owner = GetOpponentPlayer();
-            s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
             DelayedAttachToScene(s);
             SyncReceivedObject(s, msg);
         }
@@ -624,7 +589,6 @@ namespace Orbit.Core.Client
             SingularityBullet s = new SingularityBullet(this, -1);
             s.ReadObject(msg);
             s.Owner = GetOpponentPlayer();
-            s.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(s));
             DelayedAttachToScene(s);
             SyncReceivedObject(s, msg);
 
@@ -636,7 +600,6 @@ namespace Orbit.Core.Client
             SingularityMine s = new SingularityMine(this, -1);
             s.ReadObject(msg);
             s.Owner = GetOpponentPlayer();
-            s.SetGeometry(SceneGeometryFactory.CreateSolidColorEllipseGeometry(s));
             DelayedAttachToScene(s);
             SyncReceivedObject(s, msg);
         }
@@ -645,17 +608,17 @@ namespace Orbit.Core.Client
         {
             float speed = msg.ReadFloat();
             int radius = msg.ReadInt32();
-            Vector direction = msg.ReadVector();
-            Vector center = msg.ReadVector();
+            Vector2 direction = msg.ReadVector();
+            Vector2 center = msg.ReadVector();
             int rot = msg.ReadInt32();
             int textureId = msg.ReadInt32();
             int destoryerId = msg.ReadInt32();
 
-            MinorAsteroid a1 = SceneObjectFactory.CreateSmallAsteroid(this, direction, center, rot, textureId, radius, speed, Math.PI / 12);
+            MinorAsteroid a1 = SceneObjectFactory.CreateSmallAsteroid(this, direction, center, rot, textureId, radius, speed, MathHelper.Pi / 12);
             a1.Id = msg.ReadInt64();
             MinorAsteroid a2 = SceneObjectFactory.CreateSmallAsteroid(this, direction, center, rot, textureId, radius, speed, 0);
             a2.Id = msg.ReadInt64();
-            MinorAsteroid a3 = SceneObjectFactory.CreateSmallAsteroid(this, direction, center, rot, textureId, radius, speed, -Math.PI / 12);
+            MinorAsteroid a3 = SceneObjectFactory.CreateSmallAsteroid(this, direction, center, rot, textureId, radius, speed, -MathHelper.Pi / 12);
             a3.Id = msg.ReadInt64();
 
             long parentId = msg.ReadInt64();
@@ -682,7 +645,7 @@ namespace Orbit.Core.Client
         {
             Asteroid s = CreateNewAsteroid((AsteroidType)msg.ReadByte());
             s.ReadObject(msg);
-            s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s));
+            s.Texture = SceneGeometryFactory.GetAsteroidTexture(s);
             DelayedAttachToScene(s);
             SyncReceivedObject(s, msg);
         }
@@ -691,7 +654,8 @@ namespace Orbit.Core.Client
         {
             StatPowerUp p = new StatPowerUp(this, -1);
             p.ReadObject(msg);
-            p.SetGeometry(SceneGeometryFactory.CreatePowerUpImage(p));
+            p.Texture = SceneGeometryFactory.GetPowerupTexture(p);
+
             DelayedAttachToScene(p);
             SyncReceivedObject(p, msg);
         }
@@ -727,7 +691,7 @@ namespace Orbit.Core.Client
                 }
                 Asteroid s = CreateNewAsteroid((AsteroidType)msg.ReadByte());
                 s.ReadObject(msg);
-                s.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(s));
+                s.Texture = SceneGeometryFactory.GetAsteroidTexture(s);
                 DelayedAttachToScene(s);
                 SyncReceivedObject(s, msg);
             }
@@ -801,7 +765,7 @@ namespace Orbit.Core.Client
             Player owner = GetPlayer(msg.ReadInt32());
             HpBarControl control = owner.Device.GetControlOfType<HpBarControl>();
 
-            control.Bar.Color = msg.ReadColor();
+            //control.Bar.Color = msg.ReadColor();
         }
 
         private void ReceivePlayerColorChange(NetIncomingMessage msg)
@@ -858,7 +822,7 @@ namespace Orbit.Core.Client
         {
             int count = msg.ReadInt32();
             Asteroid ast = null;
-            Vector dir;
+            Vector2 dir;
             for (int i = 0; i < count; i++)
             {
                 ast = GetSceneObject(msg.ReadInt64()) as Asteroid;

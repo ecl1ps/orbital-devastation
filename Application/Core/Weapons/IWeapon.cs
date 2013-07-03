@@ -9,6 +9,7 @@ using Orbit.Core.Players;
 using Orbit.Core.Client;
 using System.Windows.Input;
 using Orbit.Core.SpecialActions;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Weapons
 {
@@ -42,13 +43,13 @@ namespace Orbit.Core.Weapons
 
         ISpecialAction NextSpecialAction();
 
-        void ProccessClickEvent(Point point, MouseButton button, MouseButtonState buttonState);
+        void ProccessClickEvent(Vector2 point, MouseButton button, MouseButtonState buttonState);
 
         IWeaponClickListener AddClickListener(IWeaponClickListener listener);
 
         void RemoveClickListener(IWeaponClickListener listener);
 
-        ISceneObject Shoot(Point point, bool noControl = false);
+        ISceneObject Shoot(Vector2 point, bool noControl = false);
 
         bool IsReady();
 

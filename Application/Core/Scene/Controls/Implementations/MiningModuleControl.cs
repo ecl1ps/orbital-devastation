@@ -5,7 +5,7 @@ using System.Text;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Client;
 using Orbit.Core.Helpers;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using Orbit.Core.Scene.Entities.Implementations;
 using System.Windows;
 using Orbit.Core.Scene.Controls.Collisions;
@@ -46,7 +46,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         public List<MiningObject> CurrentlyMining;
         public Player Owner { get; set; }
-        public Vector Position { get { return me.Position; } }
+        public Vector2 Position { get { return me.Position; } }
 
         public override bool Enabled
         {
@@ -132,7 +132,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             stretchingControl.FirstObj = me;
             stretchingControl.SecondObj = obj;
 
-            Line line = new Line(sceneMgr, IdMgr.GetNewId(sceneMgr.GetCurrentPlayer().GetId()), me.Position, obj.Position, Colors.Black, 1);
+            Line line = new Line(sceneMgr, IdMgr.GetNewId(sceneMgr.GetCurrentPlayer().GetId()), me.Position, obj.Position, Color.Black, 1);
             line.AddControl(stretchingControl);
             line.AddControl(new MiningLineControl());
 

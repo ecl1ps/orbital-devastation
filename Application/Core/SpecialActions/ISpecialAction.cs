@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Orbit.Core.Players;
 using Orbit.Core.Client;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using Orbit.Core.Scene.Entities;
 
 namespace Orbit.Core.SpecialActions

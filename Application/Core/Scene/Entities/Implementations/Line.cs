@@ -6,15 +6,16 @@ using System.Windows;
 using Orbit.Core.Client;
 using Orbit.Core.Helpers;
 using Orbit.Core.Players;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
+using C3.XNA;
 
 namespace Orbit.Core.Scene.Entities
 {
     public class Line : SceneObject
     {
-        public Vector Start {get; set; }
-        public Vector End { get; set; }
-        public override Vector Center
+        public Vector2 Start {get; set; }
+        public Vector2 End { get; set; }
+        public override Vector2 Center
         {
             get
             {
@@ -27,27 +28,25 @@ namespace Orbit.Core.Scene.Entities
         {
         }
 
-        public Line(SceneMgr mgr, long id, Vector start, Vector end, Color color, int width)
+        public Line(SceneMgr mgr, long id, Vector2 start, Vector2 end, Color color, int width)
             : base(mgr, id)
         {
             SceneMgr = mgr;
             Start = start;
             End = end;
-
-            geometryElement = SceneGeometryFactory.CreateLineGeometry(SceneMgr, color, width, color, Start, End);
         }
 
-        public override bool IsOnScreen(Size screenSize)
+        public override bool IsOnScreen(Rectangle screenSize)
         {
             // always on screen
             return true;
         }
 
-        public override void UpdateGeometric()
+        public override void UpdateGeometric(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
         {
-            LineGeometry line = (geometryElement.Children[0] as GeometryDrawing).Geometry as LineGeometry;
-            line.StartPoint = Start.ToPoint();
-            line.EndPoint = End.ToPoint();
+            base.UpdateGeometric(spriteBatch);
+            spriteBatch.DrawLine(Start, End, Color);
         }
+
     }
 }

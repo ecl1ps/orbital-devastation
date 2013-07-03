@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Collections.Generic;
 using Lidgren.Network;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using System.Windows.Threading;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.Entities.Implementations;
@@ -77,11 +77,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             hitSomething = true;
             me.GetControlOfType<LinearMovementControl>().Enabled = false;
 
-            me.GetGeometry().Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
-            {
-                (me.GetGeometry().Children[0] as GeometryDrawing).Brush = new RadialGradientBrush(meBullet.Color, Colors.Black);
-                (me.GetGeometry().Children[0] as GeometryDrawing).Pen = new Pen(Brushes.Black, 2);
-            }));
+            //TODO Explosion
         }
 
         public override void DoCollideWith(ISceneObject other, float tpf)
@@ -114,12 +110,12 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
                 if (control != null)
                 {
-                    Vector newDir = (other as Sphere).Center - me.Position;
+                    Vector2 newDir = (other as Sphere).Center - me.Position;
                     newDir.Normalize();
                     newDir *= Strength;
                     newDir = newDir + ((other as IMovable).Direction * control.Speed);
 
-                    speed = (float)newDir.Length;
+                    speed = (float)newDir.Length();
                     control.Speed = speed;
                     newDir.Normalize();
                     (other as IMovable).Direction = newDir;

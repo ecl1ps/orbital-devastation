@@ -9,6 +9,7 @@ using Lidgren.Network;
 using Orbit.Core.Scene.CollisionShapes;
 using Orbit.Core.Scene.Controls.Collisions.Implementations;
 using System.Windows;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -67,7 +68,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             Asteroid ast = new Asteroid(me.SceneMgr, IdMgr.GetNewId(me.SceneMgr.GetCurrentPlayer().GetId()));
             ast.Gold = 0;
             ast.Radius = 20;
-            ast.Position = new Vector(me.Position.X - ast.Radius, me.Position.Y - ast.Radius);
+            ast.Position = new Vector2(me.Position.X - ast.Radius, me.Position.Y - ast.Radius);
             ast.Direction = (me as IMovable).Direction;
 
             ast.AsteroidType = AsteroidType.NORMAL;
@@ -78,7 +79,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             cs.Radius = ast.Radius;
             ast.CollisionShape = cs;
 
-            ast.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(ast));
+            ast.Texture = SceneGeometryFactory.GetAsteroidTexture(ast);
 
             me.SceneMgr.DelayedAttachToScene(ast);
 

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Diagnostics;
+using System.Windows.Media;
 
 namespace Orbit.Core.Client.Shaders
 {

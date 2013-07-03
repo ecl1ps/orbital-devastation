@@ -15,6 +15,7 @@ using System.Windows.Input;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.SpecialActions;
 using Orbit.Core.SpecialActions.Gamer;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Weapons
 {
@@ -50,7 +51,7 @@ namespace Orbit.Core.Weapons
             return next;
         }
 
-        public ISceneObject Shoot(Point point, bool noControl = false)
+        public ISceneObject Shoot(Vector2 point, bool noControl = false)
         {
             if (IsReady() || noControl)
             {
@@ -65,7 +66,7 @@ namespace Orbit.Core.Weapons
             return null;
         }
 
-        protected virtual ISceneObject SpawnBullet(Point point)
+        protected virtual ISceneObject SpawnBullet(Vector2 point)
         {
             if (point.Y > Owner.GetBaseLocation().Y)
                 point.Y = Owner.GetBaseLocation().Y;
@@ -97,7 +98,7 @@ namespace Orbit.Core.Weapons
         }
 
 
-        public virtual void ProccessClickEvent(Point point, MouseButton button, MouseButtonState buttonState)
+        public virtual void ProccessClickEvent(Vector2 point, MouseButton button, MouseButtonState buttonState)
         {
             foreach (IWeaponClickListener listener in listeners)
             {

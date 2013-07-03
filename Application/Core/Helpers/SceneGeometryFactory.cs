@@ -103,6 +103,48 @@ namespace Orbit.Core.Helpers
 
             Mine = content.Load<Texture2D>("images/projectiles/mine");
             Hook = content.Load<Texture2D>("images/projectiles/hook");
+
+            MiningModule = content.Load<Texture2D>("images/mining-module/module");
+
+            Base_100 = content.Load<Texture2D>("base_bw_shaded");
+            Base_75 = content.Load<Texture2D>("base_bw_shaded");
+            Base_50 = content.Load<Texture2D>("base_bw_shaded");
+            Base_25 = content.Load<Texture2D>("base_bw_shaded");
+            Base_background = content.Load<Texture2D>("base_background_city");
+        }
+
+        public static Texture2D GetAsteroidTexture(Asteroid a)
+        {
+            if (a.AsteroidType == AsteroidType.UNSTABLE)
+                return Asteroids["Asteroid_unstable_" + a.TextureId];
+            else if (a.AsteroidType == AsteroidType.GOLDEN)
+                return Asteroids["Asteroid_gold_" + a.TextureId];
+            else
+                return Asteroids["Asteroid_" + a.TextureId];
+        }
+
+        public static Texture2D GetAsteroidOverlayTexture(Asteroid a)
+        {
+            if (a.AsteroidType == AsteroidType.UNSTABLE)
+                return Asteroids["Asteroid_unstable_" + a.TextureId + "_burn"];
+            else if (a.AsteroidType == AsteroidType.GOLDEN)
+                return Asteroids["Asteroid_gold_" + a.TextureId + "_burn"];
+            else
+                return Asteroids["Asteroid_" + a.TextureId + "_burn"];
+        }
+
+        public static Texture2D GetPowerupTexture(StatPowerUp powerup)
+        {
+
+            if (powerup.PowerUpType == DeviceType.MINE)
+                return BoxBlue_1;
+            else if (powerup.PowerUpType == DeviceType.CANNON)
+                return BoxBrown;
+            else if (powerup.PowerUpType == DeviceType.HOOK)
+                return BoxBrown;
+            else
+                return BoxGreen;
+
         }
     }
 }

@@ -12,6 +12,7 @@ using Orbit.Core.Client;
 using Orbit.Core.Helpers;
 using Orbit.Core.SpecialActions;
 using Orbit.Core.SpecialActions.Gamer;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Weapons
 {
@@ -49,7 +50,7 @@ namespace Orbit.Core.Weapons
             return next;
         }
 
-        protected override Hook CreateHook(Point point)
+        protected override Hook CreateHook(Vector2 point)
         {
             Hook hook = SceneObjectFactory.CreateHook(SceneMgr, point, Owner);
             hooks.Add(new HookData(hook, Owner.Data.HookCooldown));

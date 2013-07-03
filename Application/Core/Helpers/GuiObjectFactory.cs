@@ -32,18 +32,6 @@ namespace Orbit.Core.Helpers
             return wnd;
         }
 
-        public static AlertBox CreateAndAddAlertBox(SceneMgr mgr, Vector position)
-        {
-            AlertBox box = new AlertBox();
-                
-            mgr.GetCanvas().Children.Add(box);
-            Canvas.SetLeft(box, position.X);
-            Canvas.SetTop(box, position.Y);
-            Canvas.SetZIndex(box, 100);
-
-            return box;
-        }
-
         public static StatisticsTabbedPanel CreateStatisticsTabbedPanel(SceneMgr mgr)
         {
             StatisticsTabbedPanel panel = new StatisticsTabbedPanel();

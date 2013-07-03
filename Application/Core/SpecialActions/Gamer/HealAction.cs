@@ -5,7 +5,7 @@ using System.Text;
 using Orbit.Core.Utils;
 using Orbit.Core.Client;
 using Orbit.Core.Players;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.SpecialActions.Gamer
 {
@@ -18,7 +18,7 @@ namespace Orbit.Core.SpecialActions.Gamer
         {
             Name = "Repair base";
             ImageSource = "pack://application:,,,/resources/images/icons/heal-icon.png";
-            BackgroundColor = Color.FromRgb(0xED, 0xFC, 0xE5);
+            BackgroundColor = new Color(0.85f, 1, 0.8f);
             Cooldown = 1; //sekunda
         }
 
@@ -28,7 +28,7 @@ namespace Orbit.Core.SpecialActions.Gamer
             Name = "Repair base";
             Cost = healingKit.Cost;
             ImageSource = "pack://application:,,,/resources/images/icons/heal-icon.png";
-            BackgroundColor = Color.FromRgb(0xED, 0xFC, 0xE5);
+            BackgroundColor = new Color(0.85f, 1, 0.8f);
             Cooldown = 1; //sekunda
         }
 

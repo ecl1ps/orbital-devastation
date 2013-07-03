@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using Orbit.Core.Players;
 using System.Windows.Input;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using System.Globalization;
+using System.Windows.Media;
 
 namespace Orbit.Core
 {

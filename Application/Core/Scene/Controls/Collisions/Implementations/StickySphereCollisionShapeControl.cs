@@ -25,9 +25,9 @@ namespace Orbit.Core.Scene.Controls.Collisions.Implementations
             if (typeof(Sphere).IsAssignableFrom(me.GetType()))
                 cs.Radius = (me as Sphere).Radius;
             else if (typeof(Square).IsAssignableFrom(me.GetType()))
-                cs.Radius = (int)Math.Sqrt(Math.Pow((double)(me as Square).Size.Width, 2) + Math.Pow((double)(me as Square).Size.Height, 2)) / 2;
+                cs.Radius = (int)Math.Sqrt(Math.Pow((double)(me as Square).Rectangle.Width, 2) + Math.Pow((double)(me as Square).Rectangle.Height, 2)) / 2;
             else if (typeof(Line).IsAssignableFrom(me.GetType()))
-                cs.Radius = (int)((me as Line).Start - (me as Line).End).Length;
+                cs.Radius = (int)((me as Line).Start - (me as Line).End).Length();
         }
     }
 }

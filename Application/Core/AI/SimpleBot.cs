@@ -8,6 +8,7 @@ using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Weapons;
 using System.Windows;
 using Orbit.Core.Players;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.AI
 {
@@ -52,16 +53,16 @@ namespace Orbit.Core.AI
 
         private void MineDrop()
         {
-            Rect opponentLoc = PlayerBaseLocation.GetBaseLocation(me.GetPosition() == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT);
+            Rectangle opponentLoc = PlayerBaseLocation.GetBaseLocation(me.GetPosition() == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT);
             double xMin = opponentLoc.X;
             double xMax = opponentLoc.X + opponentLoc.Width;
-            me.Mine.Shoot(new Point(sceneMgr.GetRandomGenerator().Next((int)xMin, (int)xMax), 1));
+            me.Mine.Shoot(new Vector2(sceneMgr.GetRandomGenerator().Next((int)xMin, (int)xMax), 1));
  
         }
 
         private void CannonShoot()
         {
-            me.Canoon.Shoot(new Point(sceneMgr.GetRandomGenerator().Next(0, (int)SharedDef.VIEW_PORT_SIZE.Width), 0));
+            me.Canoon.Shoot(new Vector2(sceneMgr.GetRandomGenerator().Next(0, (int)SharedDef.VIEW_PORT_SIZE.Width), 0));
         }
     }
 }

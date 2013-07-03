@@ -7,7 +7,7 @@ using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Client.GameStates;
 using Lidgren.Network;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.SpecialActions.Spectator
 {
@@ -25,7 +25,7 @@ namespace Orbit.Core.SpecialActions.Spectator
             //nastavime parametry
             this.Cooldown = 3; //sekundy
             this.CastingTime = 0.5f;
-            this.CastingColor = Colors.Green;
+            this.CastingColor = Color.Green;
             this.Range = new Range(4);
             this.exactBonus = 1.2f;
         }

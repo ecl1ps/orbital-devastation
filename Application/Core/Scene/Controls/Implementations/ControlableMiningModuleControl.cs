@@ -7,6 +7,7 @@ using Orbit.Core.Scene.Entities;
 using System.Windows;
 using Orbit.Core.Players;
 using Orbit.Core.Scene.Controls.Health.Implementations;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -28,7 +29,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             HpBarControl c = me.GetControlOfType<HpBarControl>();
             if (c != null)
             {
-                rightBottomOffset = (c.Bar as MiningModuleIntegrityBar).Radius * 2;
+                rightBottomOffset = (int) c.HpBar.Radius * 2;
 
                 leftTopOffset = rightBottomOffset / 2 - (me as MiningModule).Radius;
 
@@ -44,8 +45,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
         {
             TryInitOffsets();
 
-            Vector botVector = new Vector(0, SharedDef.SPECTATOR_MODULE_SPEED * tpf);
-            Vector rightVector = new Vector(SharedDef.SPECTATOR_MODULE_SPEED * tpf, 0);
+            Vector2 botVector = new Vector2(0, SharedDef.SPECTATOR_MODULE_SPEED * tpf);
+            Vector2 rightVector = new Vector2(SharedDef.SPECTATOR_MODULE_SPEED * tpf, 0);
 
             if (IsMovingTop && (me.Position.Y - botVector.Y - leftTopOffset) > 0)
                 me.Position -= botVector;

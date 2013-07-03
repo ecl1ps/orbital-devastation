@@ -4,19 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using Orbit.Core.Scene.Entities;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
     public class PositionCloneControl : Control
     {
-        public Vector Offset { get; set; }
+        public Vector2 Offset { get; set; }
 
         private ISceneObject toFollow;
         private bool delayed;
 
         public PositionCloneControl(ISceneObject toFollow, bool delayed = false)
         {
-            Offset = new Vector(0, 0);
+            Offset = new Vector2(0, 0);
             this.toFollow = toFollow;
             this.delayed = delayed;
         }

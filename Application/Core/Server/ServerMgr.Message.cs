@@ -6,7 +6,7 @@ using Lidgren.Network;
 using Orbit.Core.Players;
 using Orbit.Core.Helpers;
 using Orbit.Core.Server.Match;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Server
 {
