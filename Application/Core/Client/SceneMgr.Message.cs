@@ -695,6 +695,7 @@ namespace Orbit.Core.Client
                 DelayedAttachToScene(s);
                 SyncReceivedObject(s, msg);
             }
+
             isGameInitialized = true;
         }
 

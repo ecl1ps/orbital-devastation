@@ -158,17 +158,18 @@ namespace Orbit
         {
             SoundManager.Instance.StopAllSounds();
             SoundManager.Instance.StartPlayingInfinite(SharedDef.MUSIC_BACKGROUND_ACTION);
-
-            StartGameThread();
+            
+            //StartGameThread();
 
             if (type != Gametype.MULTIPLAYER_GAME)
                 mainWindow.GameRunning = true;
 
-            sceneMgr.Enqueue(new Action(() =>
+            sceneMgr.BeginInvoke(new Action(() =>
             {
                 sceneMgr.RemoteServerId = serverId;
                 sceneMgr.Init(type);
             }));
+             
         }
 
         public void StartQuickGame(string address = SharedDef.MASTER_SERVER_ADDRESS)

@@ -25,11 +25,17 @@ using Orbit.Core.Helpers;
 using Orbit.Gui.ActionControllers;
 using System.Globalization;
 using Orbit.Core.Client.Interfaces;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Orbit.Core.Client
 {
-    public partial class SceneMgr : IUpdatable, Invoker
+    public partial class SceneMgr : Arcane.Xna.Presentation.Game, IUpdatable, Invoker
     {
+        Arcane.Xna.Presentation.GraphicsDeviceManager graphics;
+        private SpriteBatch background;
+        private SpriteBatch spriteBatch;
+
         private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public Gametype GameType { get; set; }
@@ -72,11 +78,96 @@ namespace Orbit.Core.Client
 
         public SceneMgr()
         {
+            if (!(System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)))
+            {
+                graphics = new Arcane.Xna.Presentation.GraphicsDeviceManager(this);
+                Content.RootDirectory = "Content";
+
+                synchronizedQueue = new ConcurrentQueue<Action>();
+            }
+
             StatsMgr = new StatsMgr(this);
             isGameInitialized = false;
             shouldQuit = false;
             synchronizedQueue = new ConcurrentQueue<Action>();
             GameWindowState = WindowState.IN_MAIN_MENU;
+        }
+ 
+        /// <summary>
+        /// Allows the game to perform any initialization it needs to before starting to run.
+        /// This is where it can query for any required services and load any non-graphic
+        /// related content.  Calling base.Initialize will enumerate through any components
+        /// and initialize them as well.
+        /// </summary>
+        protected override void Initialize()
+        {
+            base.Initialize();
+            this.IsMouseVisible = true;
+            background = new SpriteBatch(GraphicsDevice);
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+        }
+ 
+        /// <summary>
+        /// LoadContent will be called once per game and is the place to load
+        /// all of your content.
+        /// </summary>
+        protected override void LoadContent()
+        {
+            // Create a new SpriteBatch, which can be used to draw textures.
+            SceneGeometryFactory.Load(Content);
+ 
+            // TODO: use this.Content to load your game content here
+        }
+ 
+        /// <summary>
+        /// UnloadContent will be called once per game and is the place to unload
+        /// all content.
+        /// </summary>
+        protected override void UnloadContent()
+        {
+            CleanUp();
+        }
+ 
+        /// <summary>
+        /// Allows the game to run logic such as updating the world,
+        /// checking for collisions, gathering input, and playing audio.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected override void Update(GameTime gameTime)
+        {
+            float tpf = gameTime.ElapsedGameTime.Milliseconds / 1000;
+
+            ProcessMessages();
+
+            ProcessActionQueue();
+
+            if (tpf >= 0.001 && isGameInitialized)
+                Update(tpf);
+
+            base.Update(gameTime);
+        }
+ 
+        /// <summary>
+        /// This is called when the game should draw itself.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Red);
+
+            background.Begin(SpriteSortMode.Texture, BlendState.Opaque);
+            background.Draw(SceneGeometryFactory.Background, SharedDef.CANVAS_SIZE, Color.White);
+            background.End();
+
+            Console.WriteLine(IsGameInitalized);
+            if (IsGameInitalized)
+            {
+                spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.NonPremultiplied);
+                UpdateGeomtricState();
+                spriteBatch.End();
+            }
+
+            base.Draw(gameTime);
         }
 
         public void Init(Gametype gameType)
@@ -115,8 +206,6 @@ namespace Orbit.Core.Client
 
             if (gameType == Gametype.MULTIPLAYER_GAME)
                 SetMainInfoText(Strings.networking_waiting);
-            else if (area != null)
-                SetMainInfoText(String.Empty);
 
             InitNetwork();
             ConnectToServer();
@@ -206,14 +295,6 @@ namespace Orbit.Core.Client
 
         private void CleanObjects() 
         {
-            if (area != null)
-            {
-                Invoke(new Action(() =>
-                {
-                    area.Clear();
-                }));
-            }
-
             objectsToRemove.Clear();
             objects.Clear();
             objectsToAdd.Clear();
@@ -326,41 +407,6 @@ namespace Orbit.Core.Client
             return area;
         }
 
-        public void Run()
-        {
-            Stopwatch sw = new Stopwatch();
-            float tpf = 0;
-            sw.Start();
-
-            long elapsedMs = 0;
-            while (!shouldQuit)
-            {
-                tpf = sw.ElapsedMilliseconds / 1000.0f;
-                
-                sw.Restart();
-
-                ProcessMessages();
-
-                ProcessActionQueue();
-
-                if (Application.Current == null)
-                    continue;
-
-                if (tpf >= 0.001 && isGameInitialized)
-                    Update(tpf);
-
-                elapsedMs = sw.ElapsedMilliseconds;
-                if (elapsedMs < SharedDef.MINIMUM_UPDATE_TIME)
-                {
-                    Thread.Sleep((int)(SharedDef.MINIMUM_UPDATE_TIME - elapsedMs));
-                }
-            }
-
-            sw.Stop();
-
-            CleanUp();
-        }
-
         private void RequestStop()
         {
             shouldQuit = true;
@@ -392,10 +438,6 @@ namespace Orbit.Core.Client
 
                 CheckCollisions(tpf);
                 RemoveObjectsMarkedForRemoval();
-
-                UpdateGeomtricState();
-
-                area.RunRender();
             }
         }
 
@@ -741,12 +783,12 @@ namespace Orbit.Core.Client
 
         public void Invoke(Action a)
         {
-            area.Dispatcher.Invoke(a);
+            Dispatcher.Invoke(a);
         }
 
         public void BeginInvoke(Action a)
         {
-            area.Dispatcher.BeginInvoke(a);
+            Dispatcher.BeginInvoke(a);
         }
 
         private void CheckAllPlayersReady()
@@ -934,3 +976,4 @@ namespace Orbit.Core.Client
         }
     }
 }
+
