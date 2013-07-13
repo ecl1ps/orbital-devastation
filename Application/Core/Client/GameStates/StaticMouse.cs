@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Windows.Media.Imaging;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using Orbit.Gui.Visuals;
 using System.Globalization;
 
@@ -20,9 +20,9 @@ namespace Orbit.Core.Client.GameStates
         public static bool ALLOWED = true;
         public static float SENSITIVITY = 1;
 
-        private Point position;
-        private Point center;
-        private Point nativePosition;
+        private Vector2 position;
+        private Vector2 center;
+        private Vector2 nativePosition;
 
         private FrameworkElement cursor;
         private bool enabled;
@@ -45,6 +45,7 @@ namespace Orbit.Core.Client.GameStates
 
         public void InitCursorImage(Uri url)
         {
+            /*
             Image img = null;
             sceneMgr.Invoke(new Action(() =>
             {
@@ -55,11 +56,12 @@ namespace Orbit.Core.Client.GameStates
 
                 img = new Image();
                 img.RenderTransform = new ScaleTransform(0.5, 0.5);
-                img.RenderTransformOrigin = new Point(0.5, 0.5);
+                img.RenderTransformOrigin = new Vector2(0.5, 0.5);
                 img.Source = image;
             }));
 
             cursor = img;
+            */ 
         }
 
         public static void Enable(bool enable)
@@ -68,14 +70,14 @@ namespace Orbit.Core.Client.GameStates
                 instance.EnableMouse(enable);
         }
 
-        public static Point GetPosition()
+        public static Vector2 GetPosition()
         {
             if (instance != null && instance.enabled)
                 return instance.position;
             else if (instance != null && !instance.enabled)
                 return instance.nativePosition;
             else
-                return new Point(Cursor.Position.X, Cursor.Position.Y);
+                return new Vector2(Cursor.Position.X, Cursor.Position.Y);
         }
 
         private void EnableMouse(bool enable)
@@ -106,22 +108,23 @@ namespace Orbit.Core.Client.GameStates
 
         private void AttachCustomCursor()
         {
+            /*
             sceneMgr.AttachHeavyweightObjectToScene(cursor);
             sceneMgr.Invoke(new Action(() =>
             {
                 Canvas.SetZIndex(cursor, 500);
                 Cursor.Hide();
-                Point p = sceneMgr.GetCanvas().PointFromScreen(new Point(Cursor.Position.X, Cursor.Position.Y));
-                PositionCursor(new System.Drawing.Point((int)p.X, (int)p.Y));
+                Vector2 p = sceneMgr.GetCanvas().PointFromScreen(new Vector2(Cursor.Position.X, Cursor.Position.Y));
+                PositionCursor(new System.Drawing.Vector2((int)p.X, (int)p.Y));
             }));
-            
+             */ 
         }
 
-        private void PositionCursor(System.Drawing.Point point)
+        private void PositionCursor(Vector2 point)
         {
             sceneMgr.Invoke(new Action(() =>
             {
-                position = new Point(point.X, point.Y);
+                position = new Vector2(point.X, point.Y);
                 Canvas.SetLeft(cursor, point.X);
                 Canvas.SetTop(cursor, point.Y);
             }));
@@ -131,7 +134,6 @@ namespace Orbit.Core.Client.GameStates
         {
             sceneMgr.Invoke(new Action(() =>
             {
-                sceneMgr.RemoveHeavyweightObjectFromScene(cursor);
                 PositionNativeCursor();
                 Cursor.Show();
             }));
@@ -139,14 +141,16 @@ namespace Orbit.Core.Client.GameStates
 
         private void PositionNativeCursor()
         {
+            /*
             sceneMgr.Invoke(new Action(() =>
             {
                 if (sceneMgr.GetCanvas().IsVisible)
                 {
-                    Point p = sceneMgr.GetCanvas().PointToScreen(position);
-                    Cursor.Position = new System.Drawing.Point((int)p.X, (int)p.Y);
+                    Vector2 p = sceneMgr.GetCanvas().PointToScreen(position);
+                    Cursor.Position = new System.Drawing.Vector2((int)p.X, (int)p.Y);
                 }
             }));
+             */ 
         }
 
         public void Update(float tpf)
@@ -186,31 +190,35 @@ namespace Orbit.Core.Client.GameStates
 
         private void ComputeNativePosition()
         {
+            /*
             sceneMgr.Invoke(new Action(() =>
             {
                 if (sceneMgr.GetCanvas().IsVisible)
-                    nativePosition = sceneMgr.GetCanvas().PointFromScreen(new Point(Cursor.Position.X, Cursor.Position.Y));
+                    nativePosition = sceneMgr.GetCanvas().PointFromScreen(new Vector2(Cursor.Position.X, Cursor.Position.Y));
                 else
-                    nativePosition = new Point(Cursor.Position.X, Cursor.Position.Y);
+                    nativePosition = new Vector2(Cursor.Position.X, Cursor.Position.Y);
             }));
+             */ 
         }
 
         private void CenterNativeCursor()
         {
+            /*
             sceneMgr.Invoke(new Action(() =>
             {
                 if (sceneMgr.GetCanvas().IsVisible)
                 {
-                    Point p = sceneMgr.GetCanvas().PointToScreen(new Point(SharedDef.CANVAS_SIZE.Width / 2, SharedDef.CANVAS_SIZE.Height / 2));
-                    Cursor.Position = new System.Drawing.Point((int)p.X, (int)p.Y);
-                    center = new Point(Cursor.Position.X, Cursor.Position.Y);
+                    Vector2 p = sceneMgr.GetCanvas().PointToScreen(new Vector2(SharedDef.CANVAS_SIZE.Width / 2, SharedDef.CANVAS_SIZE.Height / 2));
+                    Cursor.Position = new System.Drawing.Vector2((int)p.X, (int)p.Y);
+                    center = new Vector2(Cursor.Position.X, Cursor.Position.Y);
                     if (position == null)
                         position = center;
                 }
             }));
+             */ 
         }
 
-        private void UpdateCustomCursor(Point p)
+        private void UpdateCustomCursor(Vector2 p)
         {
             Canvas.SetLeft(cursor, p.X - (cursor.ActualWidth / 2));
             Canvas.SetTop(cursor, p.Y - (cursor.ActualHeight / 2));

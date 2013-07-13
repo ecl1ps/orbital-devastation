@@ -1,6 +1,7 @@
 using System;
 using System.Windows;
 using Orbit.Core.Scene.Entities;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -12,7 +13,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         public float Speed { get; set; }
         public float RealSpeed { get { return Speed; } }
-        public Vector RealDirection { get { return meMovable.Direction; } }
+        public Vector2 RealDirection { get { return meMovable.Direction; } }
 
         protected override void InitControl(ISceneObject obj)
         {

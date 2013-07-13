@@ -5,8 +5,7 @@ using System.Text;
 using System.Windows.Input;
 using System.Windows;
 using Orbit.Core.Client;
-using Orbit.Core.Scene.Particles.Implementations;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Players.Input
 {
@@ -24,7 +23,7 @@ namespace Orbit.Core.Players.Input
             base.OnKeyEvent(e);
         }
 
-        public override void OnCanvasClick(Point point, MouseButtonEventArgs e)
+        public override void OnCanvasClick(Vector2 point, MouseButtonEventArgs e)
         {
             if (sceneMgr.UserActionsDisabled)
                 return;

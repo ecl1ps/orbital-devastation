@@ -5,13 +5,14 @@ using System.Text;
 using Orbit.Core.Scene.Entities;
 using System.Windows;
 using Orbit.Core.Helpers;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Scene.CollisionShapes
 {
-    public class SphereCollisionShape : ICollisionShape, ISpheric
+    public class SphereCollisionShape : ICollisionShape
     {
-        public Vector Center { get; set; }
-        public int Radius { get; set; }
+        public Vector2 Center { get; set; }
+        public float Radius { get; set; }
 
         public bool CollideWith(ICollisionShape other)
         {
@@ -24,7 +25,7 @@ namespace Orbit.Core.Scene.CollisionShapes
 
             if (other is SquareCollisionShape)
                 return CollisionHelper.IntersectsCircleAndSquare(Center, Radius, 
-                    (other as SquareCollisionShape).Position, (other as SquareCollisionShape).Size);
+                    (other as SquareCollisionShape).Position, (other as SquareCollisionShape).Rectangle);
 
             if (other is LineCollisionShape)
                 return CollisionHelper.IntersectCircleAndLine((other as LineCollisionShape).Start, (other as LineCollisionShape).End, 

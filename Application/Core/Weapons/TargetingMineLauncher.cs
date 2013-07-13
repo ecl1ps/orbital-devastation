@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using Orbit.Core.Client;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Helpers;
@@ -21,10 +21,9 @@ namespace Orbit.Core.Weapons
 {
     public class TargetingMineLauncher : MineLauncher
     {
-        protected Point startPoint;
-        protected Point endPoint;
+        protected Vector2 startPoint;
+        protected Vector2 endPoint;
         protected bool targeting = false;
-        private DrawingGroup lineGeom = null;
 
         public TargetingMineLauncher(SceneMgr mgr, Player player) : base(mgr, player)
         {
@@ -41,47 +40,26 @@ namespace Orbit.Core.Weapons
             return next;
         }
 
-        public override void ProccessClickEvent(Point point, MouseButton button, MouseButtonState state)
+        public override void ProccessClickEvent(Vector2 point, MouseButton button, MouseButtonState state)
         {
             if (state == MouseButtonState.Pressed && IsReady())
             {
                 targeting = true;
-                startPoint = new Point(point.X, 0);
+                startPoint = new Vector2(point.X, 0);
                 endPoint = point;
-                PrepareLine();
             }
             else if (state == MouseButtonState.Released && targeting)
             {
                 targeting = false;
                 endPoint = point;
-                RemoveLine();
                 Shoot(startPoint);
             }
         }
 
-        private void RemoveLine()
-        {
-            DrawingGroup tempLine = lineGeom;
-            SceneMgr.Invoke(new Action(() =>
-            {
-                SceneMgr.RemoveGraphicalObjectFromScene(tempLine, DrawingCategory.PROJECTILE_BACKGROUND);
-            }));
-            lineGeom = null;
-        }
-
-        private void PrepareLine()
-        {
-            if (lineGeom != null)
-                RemoveLine();
-
-            lineGeom = SceneGeometryFactory.CreateLineGeometry(SceneMgr, Colors.Crimson, 1, Colors.Red, startPoint.ToVector(), endPoint.ToVector());
-            SceneMgr.AttachGraphicalObjectToScene(lineGeom, DrawingCategory.PROJECTILE_BACKGROUND);
-        }
-
-        protected override ISceneObject SpawnMine(Point point)
+        protected override ISceneObject SpawnMine(Vector2 point)
         {
             SingularityMine mine = SceneObjectFactory.CreateDroppingSingularityMine(SceneMgr, point, Owner);
-            Vector dir = new Vector(endPoint.X - startPoint.X, endPoint.Y - startPoint.Y);
+            Vector2 dir = new Vector2(endPoint.X - startPoint.X, endPoint.Y - startPoint.Y);
             dir.Normalize();
             mine.Direction = dir;
 
@@ -114,22 +92,15 @@ namespace Orbit.Core.Weapons
         {
             SceneMgr.Invoke(new Action(() => 
             {
-                Vector v = new Vector(endPoint.X - startPoint.X, endPoint.Y - startPoint.Y);
-                if (v.Length != 0)
+                Vector2 v = new Vector2(endPoint.X - startPoint.X, endPoint.Y - startPoint.Y);
+                if (v.Length() != 0)
                     v.Normalize();
 
                 //FIXME chtelo by to vypocitat kolizi
                 v *= 1000;
                 v.X += startPoint.X;
                 v.Y += startPoint.Y;
-                ((lineGeom.Children[0] as GeometryDrawing).Geometry as LineGeometry).EndPoint = v.ToPoint();
             }));
-        }
-
-        public void DisposeLine()
-        {
-            if (lineGeom != null)
-                RemoveLine();
         }
     }
 }

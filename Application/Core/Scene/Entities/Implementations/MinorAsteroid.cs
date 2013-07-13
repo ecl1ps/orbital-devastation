@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using System.Windows;
 using System.Windows.Threading;
 using Lidgren.Network;

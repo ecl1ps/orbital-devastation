@@ -1,6 +1,6 @@
 ﻿using System;
 using Orbit.Core.Scene.Entities;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using System.Diagnostics;
 using Orbit.Core.Scene;
 using Orbit.Core.Weapons;
@@ -68,7 +68,7 @@ namespace Orbit.Core.Players
         public bool StartReady { get; set; }
         public bool Active { get; set; }
         public PlayerPosition PlayerPosition { get; set; }
-        public Vector MiningModuleStartPos { get; set; }
+        public Vector2 MiningModuleStartPos { get; set; }
         public int FriendlyPlayerId { get; set; }
 
         public PlayerData()
@@ -219,18 +219,18 @@ namespace Orbit.Core.Players
 
     public class PlayerBaseLocation
     {
-        private static Rect BASE_LEFT = new Rect(SharedDef.VIEW_PORT_SIZE.Width * 0.12, SharedDef.VIEW_PORT_SIZE.Height * 0.9,
-                                                 SharedDef.VIEW_PORT_SIZE.Width * 0.26, SharedDef.VIEW_PORT_SIZE.Height * 0.1);
+        private static Rectangle BASE_LEFT = new Rectangle((int) (SharedDef.VIEW_PORT_SIZE.Width * 0.12), (int) (SharedDef.VIEW_PORT_SIZE.Height * 0.9),
+                                                 (int) (SharedDef.VIEW_PORT_SIZE.Width * 0.26), (int) (SharedDef.VIEW_PORT_SIZE.Height * 0.1));
 
-        private static Rect BASE_RIGHT = new Rect(SharedDef.VIEW_PORT_SIZE.Width * 0.62, SharedDef.VIEW_PORT_SIZE.Height * 0.9,
-                                                  SharedDef.VIEW_PORT_SIZE.Width * 0.26, SharedDef.VIEW_PORT_SIZE.Height * 0.1);
+        private static Rectangle BASE_RIGHT = new Rectangle((int) (SharedDef.VIEW_PORT_SIZE.Width * 0.62), (int) (SharedDef.VIEW_PORT_SIZE.Height * 0.9),
+                                                  (int) (SharedDef.VIEW_PORT_SIZE.Width * 0.26), (int) (SharedDef.VIEW_PORT_SIZE.Height * 0.1));
 
-        public static Rect GetBaseLocation(Player p)
+        public static Rectangle GetBaseLocation(Player p)
         {
             return GetBaseLocation(p.Data.PlayerPosition);
         }
 
-        public static Rect GetBaseLocation(PlayerPosition pos)
+        public static Rectangle GetBaseLocation(PlayerPosition pos)
         {
             return pos == PlayerPosition.LEFT ? BASE_LEFT : BASE_RIGHT;
         }

@@ -1,5 +1,5 @@
 using System;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using System.Windows;
 using System.Windows.Threading;
 using Lidgren.Network;
@@ -11,7 +11,7 @@ using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.CollisionShapes;
 using Orbit.Core.Scene.Controls.Collisions.Implementations;
 using Orbit.Gui.Visuals;
-using Orbit.Core.Scene.Particles.Implementations;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -23,48 +23,27 @@ namespace Orbit.Core.Scene.Entities.Implementations
         SPAWNED
     }
 
-    public class Asteroid : Sphere, ISendable, IContainsGold, IDestroyable, ICatchable
+    public class Asteroid : TexturedSphere, ISendable, IContainsGold, IDestroyable, ICatchable
     {
         public bool IsHeadingRight { get; set; }
         public int TextureId { get; set; }
         public int Gold { get; set; }
         public AsteroidType AsteroidType { get; set; }
-
-        private AsteroidOverlay overlay;
-        private ParticleNode effects;
+        public float OverlayOpacity { get; set; }
 
         public Asteroid(SceneMgr mgr, long id)
             : base(mgr, id)
         {
             Category = DrawingCategory.ASTEROIDS;
-        }
-
-        protected override void UpdateGeometricState()
-        {
-            (geometryElement.Children[0] as ImageDrawing).Rect = new Rect(0, 0, Radius * 2, Radius * 2);
+            OverlayOpacity = 0.0f;
         }
 
         public override void OnRemove()
         {
-            if (overlay != null)
-                overlay.DoRemoveMe();
-
-            if (effects != null)
-                effects.DoRemoveMe();
-
             NetOutgoingMessage msg = SceneMgr.CreateNetMessage();
             msg.Write((int)PacketType.ASTEROID_DESTROYED);
             msg.Write(Id);
             SceneMgr.SendMessage(msg);
-        }
-
-        public override void OnAttach()
-        {
-            overlay = SceneObjectFactory.CreateAsteroidOverlay(SceneMgr, this);
-            SceneMgr.DelayedAttachToScene(overlay);
-
-            effects = SceneObjectFactory.CreateAsteroidEffects(SceneMgr, this);
-            SceneMgr.DelayedAttachToScene(effects);
         }
 
         public void WriteObject(NetOutgoingMessage msg)
@@ -97,7 +76,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 SceneMgr.FloatingTextMgr.AddFloatingText(damage, Center, FloatingTextManager.TIME_LENGTH_1, FloatingTextType.DAMAGE);
 
             Radius -= damage;
-            Position = new Vector(Position.X + damage / 2, Position.Y + damage / 2);
+            Position = new Vector2(Position.X + damage / 2, Position.Y + damage / 2);
             if (Radius < SharedDef.ASTEROID_THRESHOLD_RADIUS)
             {
                 Radius = 0;
@@ -108,6 +87,13 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public virtual float GetHp()
         {
             return Radius;
+        }
+
+        public override void UpdateGeometric(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
+        {
+            base.UpdateGeometric(spriteBatch);
+
+            spriteBatch.Draw(SceneGeometryFactory.GetAsteroidOverlayTexture(this), Rectangle, null, new Color(Color.R, Color.G, Color.B, Opacity), Rotation, new Vector2(0, 0), SpriteEffects.None, 0);
         }
     }
 

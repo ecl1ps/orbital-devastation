@@ -8,6 +8,7 @@ using Lidgren.Network;
 using Orbit.Core.Players;
 using System.Windows;
 using Orbit.Core.Scene.CollisionShapes;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Server.Level
 {
@@ -60,9 +61,9 @@ namespace Orbit.Core.Server.Level
         {
             Asteroid s = ServerSceneObjectFactory.CreateNewRandomAsteroid(mgr, true);
 
-            s.Position = new Vector(mgr.GetRandomGenerator().Next((int)(SharedDef.VIEW_PORT_SIZE.Width - s.Radius * 2)), -s.Radius * 4);
+            s.Position = new Vector2(mgr.GetRandomGenerator().Next((int)(SharedDef.VIEW_PORT_SIZE.Width - s.Radius * 2)), -s.Radius * 4);
             (s.CollisionShape as SphereCollisionShape).Center = s.Center;
-            s.Direction = new Vector(0, 1).Rotate(mgr.GetRandomGenerator().Next(60) - 30, false); // -30° - +30°
+            s.Direction = new Vector2(0, 1).Rotate(mgr.GetRandomGenerator().Next(60) - 30, false); // -30° - +30°
 
             return s;
         }

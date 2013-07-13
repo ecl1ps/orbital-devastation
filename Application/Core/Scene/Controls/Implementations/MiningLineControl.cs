@@ -6,16 +6,16 @@ using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Entities.Implementations;
 using System.Windows;
 using Orbit.Core.Helpers;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
     public class MiningEllipse
     {
-        public OrbitEllipse Obj { get; set; }
+        public Sphere Obj { get; set; }
         public float RunningTime { get; set; }
 
-        public MiningEllipse(OrbitEllipse ellipse)
+        public MiningEllipse(Sphere ellipse)
         {
             Obj = ellipse;
             RunningTime = 0;
@@ -38,7 +38,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         private void SpawnNewEllipse()
         {
-            OrbitEllipse ellipse = SceneObjectFactory.CreateOrbitEllipse(me.SceneMgr, line.End, 2.5f, 2.5f, Colors.Black);
+            Sphere ellipse = SceneObjectFactory.CreateOrbitEllipse(me.SceneMgr, me.Position, 3, Color.Black);
 
             MiningEllipseControl control = new MiningEllipseControl();
             control.LineToFollow = line;

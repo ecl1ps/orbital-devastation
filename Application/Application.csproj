@@ -119,6 +119,10 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="C3.XNA.Primitives2D, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\C3.XNA.Primitives2D.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
       <Private>False</Private>
     </Reference>
@@ -190,7 +194,6 @@
     <Compile Include="Core\AI\HookerBot.cs" />
     <Compile Include="Core\AI\MediocreBot.cs" />
     <Compile Include="Core\AI\SimpleBot.cs" />
-    <Compile Include="Core\Client\GameStates\AlertMessageManager.cs" />
     <Compile Include="Core\Client\GameStates\AutomaticMineLauncher.cs" />
     <Compile Include="Core\Client\GameStates\FloatingTextManager.cs" />
     <Compile Include="Core\Client\GameStates\LevelEnvironment.cs" />
@@ -203,8 +206,6 @@
     <Compile Include="Core\Client\Interfaces\Invokers.cs" />
     <Compile Include="Core\Client\Shaders\AlphaMaskEffect.cs" />
     <Compile Include="Core\CommandExecutor.cs" />
-    <Compile Include="Core\Helpers\ParticleEmmitorFactory.cs" />
-    <Compile Include="Core\Helpers\ParticleGeometryFactory.cs" />
     <Compile Include="Core\Players\StatisticsManager.cs" />
     <Compile Include="Core\Client\SceneMgr.Message.cs" />
     <Compile Include="Core\Client\Shaders\AlphaChannelEffect.cs" />
@@ -219,7 +220,6 @@
     <Compile Include="Core\ExtensionMethods.cs" />
     <Compile Include="Core\FastMath.cs" />
     <Compile Include="Core\Helpers\GuiObjectFactory.cs" />
-    <Compile Include="Core\Helpers\HeavyweightGeometryFactory.cs" />
     <Compile Include="Core\Helpers\NetDataHelper.cs" />
     <Compile Include="Core\IUpdatable.cs" />
     <Compile Include="Core\ObfuscationSymbols.cs" />
@@ -243,13 +243,11 @@
     <Compile Include="Core\Scene\Controls\Health\Implementations\DestroyHpControl.cs" />
     <Compile Include="Core\Scene\Controls\Health\Implementations\BaseHealthControl.cs" />
     <Compile Include="Core\Scene\Controls\IDamageControl.cs" />
-    <Compile Include="Core\Scene\Controls\Implementations\AsteroidFreezeControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ControlableMiningModuleControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\AsteroidBurningControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ShakingControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DirectionCloneControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DirectionDrivenRotationControl.cs" />
-    <Compile Include="Core\Scene\Controls\Implementations\EmmitorDirectionCloneControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\OverlayControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\RadiusCloneControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\RotationCloneControl.cs" />
@@ -265,7 +263,6 @@
     <Compile Include="Core\Scene\Controls\Implementations\MinorAsteroidCollisionReactionControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\PinchEffectControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\PowerlessSingularityControl.cs" />
-    <Compile Include="Core\Scene\Controls\Implementations\RippleEffectControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\SingularityBulletCollisionReactionControl.cs" />
     <Compile Include="Core\Scene\Controls\Collisions\ICollisionShapeUpdater.cs" />
     <Compile Include="Core\Scene\Controls\Collisions\Implementations\StickySphereCollisionShapeControl.cs" />
@@ -286,49 +283,37 @@
     <Compile Include="Core\Scene\Controls\Implementations\RespawningObjectControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LimitedReverseDamageControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\SpectatorActionIndicatorControl.cs" />
-    <Compile Include="Core\Scene\Controls\Implementations\StaticFieldControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\StatPowerUpCollisionReactionControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\StretchingLineControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\TemporaryControlDisableControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\TimeStretchingControl.cs" />
-    <Compile Include="Core\Scene\Controls\Unused\VectorLineObjectMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\DroppingSingularityControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\ExplodingSingularityBulletControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\HookControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\NewtonianMovementControl.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\LinearRotationControl.cs" />
     <Compile Include="Core\Scene\Entities\IEmpty.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\Arc.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\Sphere.cs" />
+    <Compile Include="Core\Scene\Entities\Implementations\Square.cs" />
+    <Compile Include="Core\Scene\Entities\ISpheric.cs" />
     <Compile Include="Core\Scene\Entities\ITransparent.cs" />
-    <Compile Include="Core\Scene\Entities\HeavyWeight\HeavyweightSphere.cs" />
-    <Compile Include="Core\Scene\Entities\HeavyWeight\ForcePullField.cs" />
-    <Compile Include="Core\Scene\Entities\HeavyWeight\HeavyweightLine.cs" />
     <Compile Include="Core\Scene\Entities\ICatchable.cs" />
     <Compile Include="Core\Scene\Entities\IControledDevice.cs" />
     <Compile Include="Core\Scene\Controls\Health\IHpControl.cs" />
-    <Compile Include="Core\Scene\Entities\IHeavyWeightSceneObject.cs" />
     <Compile Include="Core\Scene\Entities\IHpBar.cs" />
     <Compile Include="Core\Scene\Controls\Implementations\AlphaChangingControl.cs" />
-    <Compile Include="Core\Scene\Entities\Implementations\AsteroidOverlay.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\HighlightingSphere.cs" />
-    <Compile Include="Core\Scene\Entities\Implementations\IceShard.cs" />
-    <Compile Include="Core\Scene\Entities\Implementations\IceSquare.cs" />
-    <Compile Include="Core\Scene\Entities\Implementations\OrbitEllipse.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\MiningModule.cs" />
-    <Compile Include="Core\Scene\Entities\Implementations\BaseIntegrityBar.cs" />
-    <Compile Include="Core\Scene\Entities\Implementations\SimpleSquare.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\SingularityBouncingBullet.cs" />
-    <Compile Include="Core\Scene\Entities\Implementations\SimpleSphere.cs" />
-    <Compile Include="Core\Scene\Entities\ISpheric.cs" />
-    <Compile Include="Core\Scene\Particles\Implementations\ParticleNode.cs" />
-    <Compile Include="Core\Scene\Entities\Unused\Circle.cs" />
+    <Compile Include="Core\Scene\Entities\TexturedSceneObject.cs" />
+    <Compile Include="Core\Scene\Entities\TexturedSphere.cs" />
+    <Compile Include="Core\Scene\Entities\TexturedSquare.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\PowerHook.cs" />
     <Compile Include="Core\Scene\CollisionShapes\SphereCollisionShape.cs" />
-    <Compile Include="Core\Scene\Entities\HeavyWeight\SphereField.cs" />
-    <Compile Include="Core\Scene\Entities\Implementations\MiningModuleIntegrityBar.cs" />
     <Compile Include="Core\Scene\Controls\Collisions\Implementations\StickyPointCollisionShapeControl.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Line.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\StatPowerUp.cs" />
-    <Compile Include="Core\Scene\Entities\Unused\VectorLine.cs" />
     <Compile Include="Core\Scene\Entities\IProjectile.cs" />
     <Compile Include="Core\Scene\Entities\IDestroyable.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\MinorAsteroid.cs" />
@@ -336,29 +321,17 @@
     <Compile Include="Core\Scene\Entities\Implementations\UnstableAsteroid.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\Hook.cs" />
     <Compile Include="Core\Scene\Entities\IContainsGold.cs" />
-    <Compile Include="Core\Scene\Entities\Square.cs" />
-    <Compile Include="Core\Scene\Entities\Sphere.cs" />
     <Compile Include="Core\Scene\Entities\Implementations\SingularityBullet.cs" />
     <Compile Include="Core\Scene\Entities\ISendable.cs" />
     <Compile Include="Core\Client\SceneMgr.Net.cs" />
-    <Compile Include="Core\Scene\Entities\IRotable.cs" />
     <Compile Include="Core\Helpers\SceneGeometryFactory.cs" />
     <Compile Include="Core\Helpers\SceneObjectFactory.cs" />
     <Compile Include="Core\IGameState.cs" />
-    <Compile Include="Core\Scene\Particles\AbstractParticleFactory.cs" />
-    <Compile Include="Core\Scene\Particles\Implementations\BaseParticleFactory.cs" />
-    <Compile Include="Core\Scene\Particles\Implementations\EmmitorGroup.cs" />
-    <Compile Include="Core\Scene\Particles\Implementations\ParticleEmmitor.cs" />
-    <Compile Include="Core\Scene\Particles\Implementations\ParticleImageFactory.cs" />
-    <Compile Include="Core\Scene\Particles\Implementations\ParticleSphereFactory.cs" />
-    <Compile Include="Core\Scene\Particles\Implementations\SmokeParticleFactory.cs" />
-    <Compile Include="Core\Scene\Particles\IParticleFactory.cs" />
     <Compile Include="Core\Server\Level\AbstractGameLevel.cs" />
     <Compile Include="Core\Server\Level\LevelInfo.cs" />
     <Compile Include="Core\Server\Level\Production\LevelSurvival.cs" />
     <Compile Include="Core\Server\Level\Production\LevelBasic.cs" />
     <Compile Include="Core\Server\Level\Test\LevelTestBurningAsteroids.cs" />
-    <Compile Include="Core\Server\Level\Test\LevelTestParticles.cs" />
     <Compile Include="Core\Server\MasterServerMgr.cs" />
     <Compile Include="Core\Server\Match\AbstractTournamentMultiplayerMatchManager.cs" />
     <Compile Include="Core\Server\Match\MatchManagerInfo.cs" />
@@ -382,7 +355,6 @@
     <Compile Include="Core\SpecialActions\Gamer\IPlayerAction.cs" />
     <Compile Include="Core\SpecialActions\Spectator\AsteroidDamage.cs" />
     <Compile Include="Core\SpecialActions\Spectator\AsteroidGrowth.cs" />
-    <Compile Include="Core\SpecialActions\Spectator\AsteroidSlow.cs" />
     <Compile Include="Core\SpecialActions\Spectator\AsteroidThrow.cs" />
     <Compile Include="Core\SpecialActions\SpecialAction.cs" />
     <Compile Include="Core\SpecialActions\ISpecialAction.cs" />
@@ -390,7 +362,6 @@
     <Compile Include="Core\SpecialActions\Spectator\Range.cs" />
     <Compile Include="Core\SpecialActions\Spectator\SpectatorAction.cs" />
     <Compile Include="Core\Server\TournamentSettings.cs" />
-    <Compile Include="Core\SpecialActions\Spectator\StaticField.cs" />
     <Compile Include="Core\Utils\HealingKit.cs" />
     <Compile Include="Core\Utils\IHealingKit.cs" />
     <Compile Include="Core\Weapons\AsteroidMineLauncher.cs" />
@@ -416,9 +387,6 @@
     <Compile Include="Gui\ActionControllers\SpectatorActionController.cs" />
     <Compile Include="Gui\ActionControllers\SpectatorStatisticController.cs" />
     <Compile Include="Gui\ActionControllers\StatisticController.cs" />
-    <Compile Include="Gui\AlertBox.xaml.cs">
-      <DependentUpon>AlertBox.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Gui\BotSelection.xaml.cs">
       <DependentUpon>BotSelection.xaml</DependentUpon>
     </Compile>
@@ -430,9 +398,6 @@
     </Compile>
     <Compile Include="Gui\DownloadUC.xaml.cs">
       <DependentUpon>DownloadUC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\CooldownVisualiser.xaml.cs">
-      <DependentUpon>CooldownVisualiser.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\ReconnectUC.xaml.cs">
       <DependentUpon>ReconnectUC.xaml</DependentUpon>
@@ -467,17 +432,11 @@
     <Compile Include="Gui\LobbyUC.xaml.cs">
       <DependentUpon>LobbyUC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Gui\MineLaunchArea.xaml.cs">
-      <DependentUpon>MineLaunchArea.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Gui\MouseOptions.xaml.cs">
       <DependentUpon>MouseOptions.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\OptionsUC.xaml.cs">
       <DependentUpon>OptionsUC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\ParticleArea.xaml.cs">
-      <DependentUpon>ParticleArea.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\PlayerOverview.xaml.cs">
       <DependentUpon>PlayerOverview.xaml</DependentUpon>
@@ -509,11 +468,7 @@
     <Compile Include="Gui\TournamentFinderUC.xaml.cs">
       <DependentUpon>TournamentFinderUC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Gui\ArrowCast.xaml.cs">
-      <DependentUpon>ArrowCast.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Gui\Visuals\GameVisualArea.cs" />
-    <Compile Include="Gui\Visuals\Particles.cs" />
     <Compile Include="Gui\Visuals\VisualRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Scene\Controls\Control.cs" />
@@ -580,10 +535,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Gui\AlertBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Gui\BotSelection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -599,10 +550,6 @@
     <Page Include="Gui\DownloadUC.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Gui\CooldownVisualiser.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\ReconnectUC.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -648,10 +595,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Gui\MineLaunchArea.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Gui\MouseOptions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -665,10 +608,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\ActionUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\ParticleArea.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -709,10 +648,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\TournamentFinderUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\ArrowCast.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

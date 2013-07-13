@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Orbit.Core.Scene.Entities;
 using System.Windows;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -35,8 +36,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         private void UpdateMinePosition(float travellingTime)
         {
-            Vector travellingDirection = LineToFollow.Start - LineToFollow.End;
-            double travellingLenght = travellingDirection.Length;
+            Vector2 travellingDirection = LineToFollow.Start - LineToFollow.End;
+            float travellingLenght = travellingDirection.Length();
             travellingDirection = travellingDirection.NormalizeV();
             float timeProgress = time / travellingTime;
 

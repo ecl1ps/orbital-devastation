@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Players;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using System.Windows;
 using System.Windows.Threading;
 using Orbit.Core.Scene.Controls;
@@ -53,10 +53,10 @@ namespace Orbit.Core.Server
             }
 
             s.IsHeadingRight = headingRight;
-            s.Direction = headingRight ? new Vector(1, 0) : new Vector(-1, 0);
+            s.Direction = headingRight ? new Vector2(1, 0) : new Vector2(-1, 0);
 
             s.Position = GetRandomPositionInOrbitArea(randomGenerator, s.Radius);
-            s.Color = Color.FromRgb((byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255), (byte)randomGenerator.Next(40, 255));
+            s.Color = new Color(randomGenerator.Next(40, 255) / 255, randomGenerator.Next(40, 255) / 255, randomGenerator.Next(40, 255) / 255);
             s.Rotation = mgr.GetRandomGenerator().Next(360);
 
             SphereCollisionShape cs = new SphereCollisionShape();
@@ -69,13 +69,13 @@ namespace Orbit.Core.Server
             return s;
         }
 
-        public static Vector GetRandomPositionInOrbitArea(Random randomGenerator, int objectRadius)
+        public static Vector2 GetRandomPositionInOrbitArea(Random randomGenerator, int objectRadius)
         {
-            return new Vector(randomGenerator.Next((int)(SharedDef.ORBIT_AREA.X + objectRadius), (int)(SharedDef.ORBIT_AREA.Width - objectRadius)),
+            return new Vector2(randomGenerator.Next((int)(SharedDef.ORBIT_AREA.X + objectRadius), (int)(SharedDef.ORBIT_AREA.Width - objectRadius)),
                 randomGenerator.Next((int)(SharedDef.ORBIT_AREA.Y + objectRadius), (int)(SharedDef.ORBIT_AREA.Height - objectRadius)));
         }
 
-        public static Asteroid CreateCustomAsteroid(ServerMgr mgr, int rad, Vector pos, Vector dir, AsteroidType type)
+        public static Asteroid CreateCustomAsteroid(ServerMgr mgr, int rad, Vector2 pos, Vector2 dir, AsteroidType type)
         {
             Random randomGenerator = mgr.GetRandomGenerator();
 
@@ -112,9 +112,9 @@ namespace Orbit.Core.Server
             return s;
         }
 
-        private static Vector GetPositionOnEdgeOfOrbitArea(Random rand, bool onLeftSide, int objectRadius)
+        private static Vector2 GetPositionOnEdgeOfOrbitArea(Random rand, bool onLeftSide, int objectRadius)
         {
-            return new Vector(onLeftSide ? (int)(SharedDef.ORBIT_AREA.Left - 4 * objectRadius) : (int)(SharedDef.ORBIT_AREA.Right + 2 * objectRadius),
+            return new Vector2(onLeftSide ? (int)(SharedDef.ORBIT_AREA.Left - 4 * objectRadius) : (int)(SharedDef.ORBIT_AREA.Right + 2 * objectRadius),
                 rand.Next((int)(SharedDef.ORBIT_AREA.Top), (int)(SharedDef.ORBIT_AREA.Bottom)));
         }
 
@@ -138,17 +138,17 @@ namespace Orbit.Core.Server
             Random randomGenerator = mgr.GetRandomGenerator();
 
             StatPowerUp s = new StatPowerUp(null, IdMgr.GetNewId(0));
-            s.Size = new Size(20, 20);
+            s.Rectangle = new Rectangle(0, 0, 20, 20);
             bool headingRight = randomGenerator.Next(10) > 5 ? true : false;
-            s.Position = GetPositionOnEdgeOfLowerOrbitArea(randomGenerator, headingRight, (int)s.Size.Width / 2);
-            s.Direction = headingRight ? new Vector(1, 0) : new Vector(-1, 0);
+            s.Position = GetPositionOnEdgeOfLowerOrbitArea(randomGenerator, headingRight, (int)s.Rectangle.Width / 2);
+            s.Direction = headingRight ? new Vector2(1, 0) : new Vector2(-1, 0);
             s.Rotation = mgr.GetRandomGenerator().Next(360);
 
             s.PowerUpType = type;
 
             SquareCollisionShape cs = new SquareCollisionShape();
             cs.Position = s.Position;
-            cs.Size = s.Size;
+            cs.Rectangle = s.Rectangle;
             cs.Rotation = s.Rotation;
             s.CollisionShape = cs;
 
@@ -166,9 +166,9 @@ namespace Orbit.Core.Server
             return s;
         }
 
-        private static Vector GetPositionOnEdgeOfLowerOrbitArea(Random rand, bool onLeftSide, int objectRadius)
+        private static Vector2 GetPositionOnEdgeOfLowerOrbitArea(Random rand, bool onLeftSide, int objectRadius)
         {
-            return new Vector(onLeftSide ? (int)(SharedDef.LOWER_ORBIT_AREA.Left - 4 * objectRadius) : (int)(SharedDef.LOWER_ORBIT_AREA.Right + 2 * objectRadius),
+            return new Vector2(onLeftSide ? (int)(SharedDef.LOWER_ORBIT_AREA.Left - 4 * objectRadius) : (int)(SharedDef.LOWER_ORBIT_AREA.Right + 2 * objectRadius),
                 rand.Next((int)(SharedDef.LOWER_ORBIT_AREA.Top), (int)(SharedDef.LOWER_ORBIT_AREA.Bottom)));
         }
     }

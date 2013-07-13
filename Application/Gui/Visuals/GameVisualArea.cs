@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using System.Windows.Threading;
+using System.Windows.Media;
 
 namespace Orbit.Gui.Visuals
 {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using Orbit.Core.Scene.Entities;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -13,8 +14,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         public float Speed { get; set; }
         public float RealSpeed { get { return Speed; } }
-        private Vector move;
-        public Vector RealDirection { get { return move; } }
+        private Vector2 move;
+        public Vector2 RealDirection { get { return move; } }
 
         public FollowingControl(ISceneObject toFollow)
         {
@@ -28,11 +29,11 @@ namespace Orbit.Core.Scene.Controls.Implementations
         protected override void UpdateControl(float tpf)
         {
             move = toFollow.Center - me.Center;
-            double distToTarget = move.Length;
+            float distToTarget = move.Length();
             move.Normalize();
 
-            Vector newMovemenet = move * Speed * tpf;
-            me.Position += newMovemenet.Length < distToTarget ? newMovemenet : move * distToTarget;
+            Vector2 newMovemenet = move * Speed * tpf;
+            me.Position += newMovemenet.Length() < distToTarget ? newMovemenet : move * distToTarget;
         }
     }
 }

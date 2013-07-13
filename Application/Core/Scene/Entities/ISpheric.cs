@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Orbit.Core.Scene.Entities
 {
-    public interface ISpheric
+    interface ISpheric : ISceneObject
     {
         int Radius { get; set; }
     }

@@ -7,7 +7,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -15,6 +14,7 @@ using System.IO;
 using Orbit.Core.Players;
 using Orbit.Core.Client;
 using Orbit.Core;
+using System.Windows.Media;
 
 namespace Orbit.Gui
 {
@@ -27,7 +27,7 @@ namespace Orbit.Gui
         {
             InitializeComponent();
             tbPlayerName.Text = App.Instance.PlayerName;
-            colorPickerField.Background = new SolidColorBrush(Player.GetChosenColor());
+            colorPickerField.Background = new SolidColorBrush(Player.GetChosenColor().ToWindowsColor());
         }
 
         private void btnSaveName_Click(object sender, RoutedEventArgs e)

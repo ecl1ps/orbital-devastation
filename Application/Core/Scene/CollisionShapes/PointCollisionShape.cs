@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using Orbit.Core.Helpers;
 using System.Windows;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Scene.CollisionShapes
 {
     public class PointCollisionShape : ICollisionShape
     {
-        public Vector Center { get; set; }
+        public Vector2 Center { get; set; }
 
         public bool CollideWith(ICollisionShape other)
         {
@@ -17,7 +18,7 @@ namespace Orbit.Core.Scene.CollisionShapes
                 return CollisionHelper.IntersectsPointAndPoint(Center, ((PointCollisionShape)other).Center);
 
             if (other is SquareCollisionShape)
-                return CollisionHelper.IntersectsPointAndSquare(Center, ((SquareCollisionShape)other).Position, ((SquareCollisionShape)other).Size);
+                return CollisionHelper.IntersectsPointAndSquare(Center, ((SquareCollisionShape)other).Position, ((SquareCollisionShape)other).Rectangle);
 
             if (other is SphereCollisionShape)
                 return CollisionHelper.IntersectsCircleAndPoint(Center, ((SphereCollisionShape)other).Center, ((SphereCollisionShape)other).Radius);

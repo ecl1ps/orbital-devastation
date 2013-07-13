@@ -10,6 +10,7 @@ using Orbit.Core.Scene.CollisionShapes;
 using Orbit.Core.Scene.Controls.Collisions.Implementations;
 using Lidgren.Network;
 using Orbit.Core.AI;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -26,7 +27,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         {
             List<ISceneObject> nearbyObjects = me.FindNearbyObjects<Asteroid>(200);
             nearbyObjects.Remove(collidedWith);
-            IOrderedEnumerable<ISceneObject> ordered = nearbyObjects.OrderBy(o => (me.Center - o.Center).Length);
+            IOrderedEnumerable<ISceneObject> ordered = nearbyObjects.OrderBy(o => (me.Center - o.Center).Length());
 
             SpawnNewBullet(ordered.FirstOrDefault(), collidedWith);
         }
@@ -35,7 +36,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
         {
             SingularityExplodingBullet bullet = new SingularityExplodingBullet(me.SceneMgr, IdMgr.GetNewId(me.SceneMgr.GetCurrentPlayer().GetId()));
 
-            Vector targettedPosition = AIUtils.ComputeDestinationPositionToHitTarget(target, meBullet.Owner.Data.BulletSpeed, me.Center, me.SceneMgr.GetRandomGenerator());
+            Vector2 targettedPosition = AIUtils.ComputeDestinationPositionToHitTarget(target, meBullet.Owner.Data.BulletSpeed, me.Center, me.SceneMgr.GetRandomGenerator());
             SceneObjectFactory.InitSingularityBullet(bullet, me.SceneMgr, targettedPosition, me.Position, meBullet.Owner);
 
             PointCollisionShape cs = new PointCollisionShape();
@@ -64,7 +65,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
             me.GetControlOfType<HighlightingControl>().Enabled = false;
 
             List<ISceneObject> nearbyObjects = me.FindNearbyObjects<Asteroid>(300);
-            IEnumerable<ISceneObject> picked = nearbyObjects.OrderBy(o => (me.Center - o.Center).Length).Take(SharedDef.BULLET_ACTIVE_SHRAPNEL_COUNT);
+            IEnumerable<ISceneObject> picked = nearbyObjects.OrderBy(o => (me.Center - o.Center).Length()).Take(SharedDef.BULLET_ACTIVE_SHRAPNEL_COUNT);
 
             foreach (ISceneObject o in picked)
                 SpawnNewBullet(o);

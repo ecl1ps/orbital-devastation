@@ -13,6 +13,7 @@ using Orbit.Core.Helpers;
 using Lidgren.Network;
 using Orbit.Core.SpecialActions;
 using Orbit.Core.SpecialActions.Gamer;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Weapons
 {
@@ -33,7 +34,7 @@ namespace Orbit.Core.Weapons
             return next;
         }
 
-        protected override ISceneObject SpawnBullet(Point point)
+        protected override ISceneObject SpawnBullet(Vector2 point)
         {
             if (point.Y > Owner.GetBaseLocation().Y)
                 point.Y = Owner.GetBaseLocation().Y;

@@ -8,13 +8,13 @@ using Orbit.Core.Weapons;
 using Lidgren.Network;
 using Orbit.Core.Scene.Controls;
 using Orbit.Core.Helpers;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using Orbit.Core.Scene.CollisionShapes;
 using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    public class StatPowerUp : Square, IMovable, ISendable, ICatchable
+    public class StatPowerUp : TexturedSquare, IMovable, ISendable, ICatchable
     {
         public DeviceType PowerUpType { get; set; }
 
@@ -37,7 +37,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
             SquareCollisionShape cs = new SquareCollisionShape();
             cs.Position = Position;
-            cs.Size = Size;
+            cs.Rectangle = Rectangle;
             cs.Rotation = Rotation;
             CollisionShape = cs;
 

@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -26,19 +26,6 @@ namespace Orbit.Gui
             InitializeComponent();
         }
 
-        public void OnClick(Point point)
-        {
-            this.Dispatcher.Invoke(new Action(() =>
-            {
-                foreach (UIElement elem in ActionPanel.Children)
-                {
-                    if (elem is ActionUC)
-                        (elem as ActionUC).OnClick(point);
-                }
-            }));
-          
-        }
-        
         public UIElementCollection getChildrens()
         {
             return ActionPanel.Children;

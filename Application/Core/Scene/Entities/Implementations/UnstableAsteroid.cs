@@ -12,6 +12,7 @@ using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Players;
 using Lidgren.Network;
 using Orbit.Core.Client.GameStates;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -36,9 +37,9 @@ namespace Orbit.Core.Scene.Entities.Implementations
             int textureId = SceneMgr.GetRandomGenerator().Next(1, 18);
             float speed = GetControlOfType<NewtonianMovementControl>().Speed / 2;
 
-            MinorAsteroid a1 = SceneObjectFactory.CreateSmallAsteroid(SceneMgr, Direction, Center, rotation, textureId, radius, speed, Math.PI / 12);
+            MinorAsteroid a1 = SceneObjectFactory.CreateSmallAsteroid(SceneMgr, Direction, Center, rotation, textureId, radius, speed, MathHelper.Pi / 12);
             MinorAsteroid a2 = SceneObjectFactory.CreateSmallAsteroid(SceneMgr, Direction, Center, rotation, textureId, radius, speed, 0);
-            MinorAsteroid a3 = SceneObjectFactory.CreateSmallAsteroid(SceneMgr, Direction, Center, rotation, textureId, radius, speed, -Math.PI / 12);
+            MinorAsteroid a3 = SceneObjectFactory.CreateSmallAsteroid(SceneMgr, Direction, Center, rotation, textureId, radius, speed, -MathHelper.Pi / 12);
 
             a1.Parent = this;
             a2.Parent = this;

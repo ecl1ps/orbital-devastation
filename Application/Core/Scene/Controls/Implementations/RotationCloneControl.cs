@@ -9,27 +9,21 @@ namespace Orbit.Core.Scene.Controls.Implementations
 {
     public class RotationCloneControl : Control
     {
-        private IRotable cloned;
+        private ISceneObject cloned;
 
         public RotationCloneControl(ISceneObject cloned)
         {
-            if (!(cloned is IRotable))
-                throw new ArgumentException("RotationCloneControl must clone an IRotable object");
-
-            this.cloned = cloned as IRotable;
+            this.cloned = cloned;
         }
 
         protected override void InitControl(ISceneObject me)
         {
-            if (!(me is IRotable))
-                throw new ArgumentException("RotationCloneControl must by attached to an IRotable object");
-
-            (me as IRotable).Rotation = cloned.Rotation;
+            me.Rotation = cloned.Rotation;
         }
 
         protected override void UpdateControl(float tpf)
         {
-            (me as IRotable).Rotation = cloned.Rotation;
+            me.Rotation = cloned.Rotation;
         }
     }
 }

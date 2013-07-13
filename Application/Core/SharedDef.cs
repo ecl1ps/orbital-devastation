@@ -3,6 +3,7 @@ using System.Windows;
 using Orbit.Core.Server;
 using Orbit.Core.Players;
 using Orbit.Core.Server.Level;
+using Microsoft.Xna.Framework;
 namespace Orbit.Core
 {
     class SharedDef
@@ -134,24 +135,24 @@ namespace Orbit.Core
         public const int SPECTATOR_DAMAGE                   = 6;
         public const int SPECTATOR_GROWTH                   = 6;
 
-        public static readonly Vector DEFAULT_VECTOR        = new Vector(1, 0);
+        public static readonly Vector2 DEFAULT_VECTOR        = new Vector2(1, 0);
 
         /// <summary>
         /// velikost canvasu je zaroven velikost celeho okna
         /// </summary>
-        public static readonly Size CANVAS_SIZE             = new Size(1000, 700);
+        public static readonly Rectangle CANVAS_SIZE             = new Rectangle(0, 0, 1000, 700);
 
         /// <summary>
         /// view port je oblast, kde se odehrava cela hra - mimo ni by se nemelo nic dit (mimo je pak action bar)
         /// </summary>
-        public static readonly Size VIEW_PORT_SIZE          = new Size(CANVAS_SIZE.Width, CANVAS_SIZE.Height - 60); // 60 JSOU BARY DOLE
+        public static readonly Rectangle VIEW_PORT_SIZE          = new Rectangle(0, 0, CANVAS_SIZE.Width, CANVAS_SIZE.Height - 60); // 60 JSOU BARY DOLE
 
         /// <summary>
         /// orbit area je horni oblast obrazovky - pas kde se pohybuji asteroidy
         /// </summary>
-        public static readonly Rect ORBIT_AREA              = new Rect(0, 0, CANVAS_SIZE.Width, 200);
+        public static readonly Rectangle ORBIT_AREA              = new Rectangle(0, 0, CANVAS_SIZE.Width, 200);
 
-        public static readonly Rect LOWER_ORBIT_AREA        = new Rect(0, 240, CANVAS_SIZE.Width, 80);
+        public static readonly Rectangle LOWER_ORBIT_AREA        = new Rectangle(0, 240, CANVAS_SIZE.Width, 80);
 
         public const string CONFIG_FILE                     = "data";
         public const GameLevel STARTING_LEVEL               = GameLevel.BASIC_MAP;

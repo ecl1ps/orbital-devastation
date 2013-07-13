@@ -5,7 +5,7 @@ using System.Text;
 using Orbit.Core.Players;
 using Orbit.Core.Client;
 using Lidgren.Network;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Helpers;
 

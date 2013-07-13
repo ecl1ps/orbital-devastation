@@ -1,6 +1,6 @@
 ﻿using System;
 using Orbit.Core.Scene.Entities;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using System.Diagnostics;
 using Lidgren.Network;
 using Orbit.Core.Weapons;
@@ -76,7 +76,7 @@ namespace Orbit.Core.Players
         }
 
         public bool Shooting { get; set; }
-        public Point TargetPoint { get; set; }
+        public Vector2 TargetPoint { get; set; }
 
         public IHealingKit HealingKit { get; set; }
 
@@ -183,7 +183,7 @@ namespace Orbit.Core.Players
 
             if (showHeal)
             {
-                Vector textPos = new Vector(GetBaseLocation().X + (GetBaseLocation().Width / 2), GetBaseLocation().Y - 20);
+                Vector2 textPos = new Vector2(GetBaseLocation().X + (GetBaseLocation().Width / 2), GetBaseLocation().Y - 20);
                 SceneMgr.FloatingTextMgr.AddFloatingText(String.Format(Strings.Culture, Strings.char_plus_and_val, diff), textPos, FloatingTextManager.TIME_LENGTH_3,
                     FloatingTextType.HEAL, FloatingTextManager.SIZE_BIGGER, true);
             }
@@ -210,24 +210,11 @@ namespace Orbit.Core.Players
             String name = Strings.game_player_nobody;
             if (p != null)
                 name = p.Data.Name;
-
-            SceneMgr.AlertMessageMgr.Show(String.Format(Strings.Culture, Strings.game_protecting, name), 3);
         }
 
         public void Update(float tpf)
         {
             Statistics.Update(tpf);
-            if (!informedProtecting)
-            {
-                informedProtecting = true;
-                if (IsActivePlayer())
-                {
-                    SceneMgr.AlertMessageMgr.Show(GetPosition() == PlayerPosition.LEFT ? Strings.game_protect_base_left : Strings.game_protect_base_right, 
-                        AlertMessageManager.TIME_NORMAL);
-                }
-                else
-                    ShowProtecting();
-            }
 
             Player p = null;
             if (IsActivePlayer())
@@ -240,7 +227,7 @@ namespace Orbit.Core.Players
                 if (!informedLowHealth && HasLowHp(p))
                 {
                     informedLowHealth = true;
-                    SceneMgr.AlertMessageMgr.Show(IsActivePlayer() ? Strings.game_warning_integrity : Strings.game_warning_integrity_ally, AlertMessageManager.TIME_NORMAL);
+                    //SceneMgr.AlertMessageMgr.Show(IsActivePlayer() ? Strings.game_warning_integrity : Strings.game_warning_integrity_ally, AlertMessageManager.TIME_NORMAL);
                     SoundManager.Instance.StartPlayingOnce(SharedDef.MUSIC_ALERT);
                 }
 
@@ -298,7 +285,7 @@ namespace Orbit.Core.Players
             return sb.ToString();
         }
 
-        public Rect GetBaseLocation()
+        public Rectangle GetBaseLocation()
         {
             return PlayerBaseLocation.GetBaseLocation(Data.PlayerPosition);
         }
@@ -406,22 +393,20 @@ namespace Orbit.Core.Players
             actions.Add(new AsteroidThrow(SceneMgr, this));
             actions.Add(new AsteroidDamage(SceneMgr, this));
             actions.Add(new AsteroidGrowth(SceneMgr, this));
-            actions.Add(new AsteroidSlow(SceneMgr, this));
-            actions.Add(new StaticField(SceneMgr, this));
 
             return actions;
         }
 
-        public static Color GetChosenColor()
+        public static Microsoft.Xna.Framework.Color GetChosenColor()
         {
             string col = GameProperties.Props.Get(PropertyKey.CHOSEN_COLOR);
             try
             {
-                return (Color)ColorConverter.ConvertFromString(col);
+                return ((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(col)).ToXnaColor();
             }
             catch (Exception) {}
 
-            return Colors.Pink;
+            return Microsoft.Xna.Framework.Color.Pink;
         }
     }
 

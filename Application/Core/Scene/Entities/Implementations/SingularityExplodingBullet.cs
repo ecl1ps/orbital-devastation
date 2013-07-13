@@ -10,7 +10,7 @@ using Orbit.Core;
 using Orbit.Core.Client;
 using Orbit.Core.Helpers;
 using System.Windows.Threading;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using Orbit.Core.Scene.Controls.Implementations;
 using System.Windows;
 using Orbit.Core.Scene.CollisionShapes;
@@ -26,25 +26,18 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
         }
 
-        protected override void UpdateGeometricState()
-        {
-            EllipseGeometry elipse = (geometryElement.Children[0] as GeometryDrawing).Geometry as EllipseGeometry;
-            elipse.RadiusX = Radius;
-            elipse.RadiusY = Radius;
-        }
-
         public void SpawnSmallBullets()
         {
-            CreateSmallBullet(Math.PI / 12);
+            CreateSmallBullet(MathHelper.Pi / 12);
             CreateSmallBullet(0);
-            CreateSmallBullet(-Math.PI / 12);
+            CreateSmallBullet(-MathHelper.Pi / 12);
         }
 
-        private void CreateSmallBullet(double rotation)
+        private void CreateSmallBullet(float rotation)
         {
             SingularityBullet smallBullet = new SingularityBullet(SceneMgr, IdMgr.GetNewId(SceneMgr.GetCurrentPlayer().GetId()));
             smallBullet.Owner = Owner;
-            Vector dir = Direction;
+            Vector2 dir = Direction;
             dir.Normalize();
             smallBullet.Direction = dir.Rotate(rotation);
             smallBullet.Position = Center;
@@ -56,8 +49,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
             smallBullet.CollisionShape = cs;
 
             smallBullet.Color = Color;
-
-            smallBullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(smallBullet));
 
             LinearMovementControl nmc = new LinearMovementControl();
             nmc.Speed = GetControlOfType<LinearMovementControl>().Speed;

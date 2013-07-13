@@ -4,459 +4,151 @@ using System.Linq;
 using System.Text;
 using Orbit.Core.Scene.Entities;
 using System.Windows;
-using System.Windows.Media;
 using ShaderEffectLibrary;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Weapons;
 using Orbit.Core.Client.Shaders;
 using Orbit.Core.Client;
-using System.Windows.Media.Imaging;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 namespace Orbit.Core.Helpers
 {
     public class SceneGeometryFactory
     {
-        public static DrawingGroup CreateConstantColorEllipseGeometry(Sphere s)
+        public static Dictionary<string, Texture2D> Asteroids { get; set; }
+        
+        public static Texture2D Base_100 { get; set; }
+        public static Texture2D Base_75 { get; set; }
+        public static Texture2D Base_50 { get; set; }
+        public static Texture2D Base_25 { get; set; }
+        public static Texture2D Base_background { get; set; }
+
+        public static Texture2D BoxBlue_1 { get; set; }
+        public static Texture2D BoxBlue_2 { get; set; }
+        public static Texture2D BoxBrown { get; set; }
+        public static Texture2D BoxGreen { get; set; }
+        public static Texture2D BoxPurple { get; set; }
+
+        public static Texture2D Mine { get; set; }
+        public static Texture2D Hook { get; set; }
+
+        public static Texture2D MiningModule { get; set; }
+
+        public static Texture2D Background { get; set; }
+
+        public static void Load(ContentManager content)
         {
-            DrawingGroup d = null;
-            s.SceneMgr.Invoke(new Action(() =>
-            {
-                EllipseGeometry geom = new EllipseGeometry(new Point(s.Radius, s.Radius), s.Radius, s.Radius);
-                d = new DrawingGroup();
-                d.Children.Add(new GeometryDrawing(new SolidColorBrush(s.Color), new Pen(Brushes.Black, 1), geom));
+            Asteroids = new Dictionary<string, Texture2D>();
+            Asteroids["Asteroid_gold_1"] = content.Load<Texture2D>("images/rock/rock_gold_1");
+            Asteroids["Asteroid_gold_1_burn"] = content.Load<Texture2D>("images/rock/rock_gold_1_burn");
+            Asteroids["Asteroid_gold_2"] = content.Load<Texture2D>("images/rock/rock_gold_2");
+            Asteroids["Asteroid_gold_2_burn"] = content.Load<Texture2D>("images/rock/rock_gold_2_burn");
+            Asteroids["Asteroid_gold_3"] = content.Load<Texture2D>("images/rock/rock_gold_3");
+            Asteroids["Asteroid_gold_3_burn"] = content.Load<Texture2D>("images/rock/rock_gold_3_burn");
+            Asteroids["Asteroid_gold_4"] = content.Load<Texture2D>("images/rock/rock_gold_4");
+            Asteroids["Asteroid_gold_4_burn"] = content.Load<Texture2D>("images/rock/rock_gold_4_burn");
+            Asteroids["Asteroid_gold_5"] = content.Load<Texture2D>("images/rock/rock_gold_5");
+            Asteroids["Asteroid_gold_5_burn"] = content.Load<Texture2D>("images/rock/rock_gold_5_burn");
 
-                TransformGroup tg = new TransformGroup();
-                tg.Children.Add(new TranslateTransform(s.Position.X, s.Position.Y));
-                d.Transform = tg;
-            }));
+            Asteroids["Asteroid_unstable_1"] = content.Load<Texture2D>("images/rock/rock_unstable_1");
+            Asteroids["Asteroid_unstable_1_burn"] = content.Load<Texture2D>("images/rock/rock_unstable_1_burn");
+            Asteroids["Asteroid_unstable_2"] = content.Load<Texture2D>("images/rock/rock_unstable_2");
+            Asteroids["Asteroid_unstable_2_burn"] = content.Load<Texture2D>("images/rock/rock_unstable_2_burn");
+            Asteroids["Asteroid_unstable_3"] = content.Load<Texture2D>("images/rock/rock_unstable_3");
+            Asteroids["Asteroid_unstable_3_burn"] = content.Load<Texture2D>("images/rock/rock_unstable_3_burn");
+            Asteroids["Asteroid_unstable_4"] = content.Load<Texture2D>("images/rock/rock_unstable_4");
+            Asteroids["Asteroid_unstable_4_burn"] = content.Load<Texture2D>("images/rock/rock_unstable_4_burn");
+            Asteroids["Asteroid_unstable_5"] = content.Load<Texture2D>("images/rock/rock_unstable_5");
+            Asteroids["Asteroid_unstable_5_burn"] = content.Load<Texture2D>("images/rock/rock_unstable_5_burn");
 
-            return d;
+            Asteroids["Asteroid_1"] = content.Load<Texture2D>("images/rock/rock_normal_1");
+            Asteroids["Asteroid_1_burn"] = content.Load<Texture2D>("images/rock/rock_normal_1_burn");
+            Asteroids["Asteroid_2"] = content.Load<Texture2D>("images/rock/rock_normal_2");
+            Asteroids["Asteroid_2_burn"] = content.Load<Texture2D>("images/rock/rock_normal_2_burn");
+            Asteroids["Asteroid_3"] = content.Load<Texture2D>("images/rock/rock_normal_3");
+            Asteroids["Asteroid_3_burn"] = content.Load<Texture2D>("images/rock/rock_normal_3_burn");
+            Asteroids["Asteroid_4"] = content.Load<Texture2D>("images/rock/rock_normal_4");
+            Asteroids["Asteroid_4_burn"] = content.Load<Texture2D>("images/rock/rock_normal_4_burn");
+            Asteroids["Asteroid_5"] = content.Load<Texture2D>("images/rock/rock_normal_5");
+            Asteroids["Asteroid_5_burn"] = content.Load<Texture2D>("images/rock/rock_normal_5_burn");
+            Asteroids["Asteroid_6"] = content.Load<Texture2D>("images/rock/rock_normal_6");
+            Asteroids["Asteroid_6_burn"] = content.Load<Texture2D>("images/rock/rock_normal_6_burn");
+            Asteroids["Asteroid_7"] = content.Load<Texture2D>("images/rock/rock_normal_7");
+            Asteroids["Asteroid_7_burn"] = content.Load<Texture2D>("images/rock/rock_normal_7_burn");
+            Asteroids["Asteroid_8"] = content.Load<Texture2D>("images/rock/rock_normal_8");
+            Asteroids["Asteroid_8_burn"] = content.Load<Texture2D>("images/rock/rock_normal_8_burn");
+            Asteroids["Asteroid_9"] = content.Load<Texture2D>("images/rock/rock_normal_9");
+            Asteroids["Asteroid_9_burn"] = content.Load<Texture2D>("images/rock/rock_normal_9_burn");
+            Asteroids["Asteroid_10"] = content.Load<Texture2D>("images/rock/rock_normal_10");
+            Asteroids["Asteroid_10_burn"] = content.Load<Texture2D>("images/rock/rock_normal_10_burn");
+            Asteroids["Asteroid_11"] = content.Load<Texture2D>("images/rock/rock_normal_11");
+            Asteroids["Asteroid_11_burn"] = content.Load<Texture2D>("images/rock/rock_normal_11_burn");
+            Asteroids["Asteroid_12"] = content.Load<Texture2D>("images/rock/rock_normal_12");
+            Asteroids["Asteroid_12_burn"] = content.Load<Texture2D>("images/rock/rock_normal_12_burn");
+            Asteroids["Asteroid_13"] = content.Load<Texture2D>("images/rock/rock_normal_13");
+            Asteroids["Asteroid_13_burn"] = content.Load<Texture2D>("images/rock/rock_normal_13_burn");
+            Asteroids["Asteroid_14"] = content.Load<Texture2D>("images/rock/rock_normal_14");
+            Asteroids["Asteroid_14_burn"] = content.Load<Texture2D>("images/rock/rock_normal_14_burn");
+            Asteroids["Asteroid_15"] = content.Load<Texture2D>("images/rock/rock_normal_15");
+            Asteroids["Asteroid_15_burn"] = content.Load<Texture2D>("images/rock/rock_normal_15_burn");
+            Asteroids["Asteroid_16"] = content.Load<Texture2D>("images/rock/rock_normal_16");
+            Asteroids["Asteroid_16_burn"] = content.Load<Texture2D>("images/rock/rock_normal_16_burn");
+            Asteroids["Asteroid_17"] = content.Load<Texture2D>("images/rock/rock_normal_17");
+            Asteroids["Asteroid_17_burn"] = content.Load<Texture2D>("images/rock/rock_normal_17_burn");
+
+            BoxBlue_1 = content.Load<Texture2D>("images/box/box_blue1");
+            BoxBlue_2 = content.Load<Texture2D>("images/box/box_blue2");
+            BoxBrown = content.Load<Texture2D>("images/box/box_brown");
+            BoxGreen = content.Load<Texture2D>("images/box/box_green");
+            BoxPurple = content.Load<Texture2D>("images/box/box_purple");
+
+            Mine = content.Load<Texture2D>("images/projectiles/mine");
+            Hook = content.Load<Texture2D>("images/projectiles/hook");
+
+            MiningModule = content.Load<Texture2D>("images/mining-module/module");
+
+            Base_100 = content.Load<Texture2D>("images/base/base_bw_shaded");
+            Base_75 = content.Load<Texture2D>("images/base/base_bw_shaded_75");
+            Base_50 = content.Load<Texture2D>("images/base/base_bw_shaded_50");
+            Base_25 = content.Load<Texture2D>("images/base/base_bw_shaded_25");
+            Base_background = content.Load<Texture2D>("images/base/base_background_city");
+
+            Background = content.Load<Texture2D>("images/background/pozadi");
         }
 
-        public static DrawingGroup CreateRadialGradientEllipseGeometry(SceneMgr mgr, int radius, Color start, Color end, Color stroke, Vector position, double strokeThickness)
+        public static Texture2D GetAsteroidTexture(Asteroid a)
         {
-            DrawingGroup d = null;
-            mgr.Invoke(new Action(() =>
-            {
-                EllipseGeometry geom = new EllipseGeometry(new Point(radius, radius), radius, radius);
-                d = new DrawingGroup();
-                d.Children.Add(new GeometryDrawing(new RadialGradientBrush(end, start), new Pen(new SolidColorBrush(stroke), strokeThickness), geom));
-
-                TransformGroup tg = new TransformGroup();
-                tg.Children.Add(new TranslateTransform(position.X, position.Y));
-                d.Transform = tg;
-            }));
-
-            return d;
+            if (a.AsteroidType == AsteroidType.UNSTABLE)
+                return Asteroids["Asteroid_unstable_" + a.TextureId];
+            else if (a.AsteroidType == AsteroidType.GOLDEN)
+                return Asteroids["Asteroid_gold_" + a.TextureId];
+            else
+                return Asteroids["Asteroid_" + a.TextureId];
         }
 
-        public static DrawingGroup CreateAsteroidImage(Asteroid a, bool burning = false)
+        public static Texture2D GetAsteroidOverlayTexture(Asteroid a)
         {
-            DrawingGroup g = null;
-            a.SceneMgr.Invoke(new Action(() =>
-            {
-                BitmapImage bi = new BitmapImage();
-                bi.BeginInit();
-
-                if (a.AsteroidType == AsteroidType.GOLDEN)
-                    bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/rock_gold_" +
-                        a.TextureId + (burning ? "_burn" : "") + ".png");
-                else if(a.AsteroidType == AsteroidType.UNSTABLE)
-                    bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/rock_unstable_" +
-                        a.TextureId + (burning ? "_burn" : "") + ".png");
-                else
-                    bi.UriSource = new Uri("pack://application:,,,/resources/images/rock/rock_normal_" +
-                        a.TextureId + (burning ? "_burn" : "") + ".png");
-                bi.DecodePixelWidth = a.Radius * 4;
-                bi.EndInit();
-
-                g = new DrawingGroup();
-                ImageDrawing img = new ImageDrawing();
-                img.ImageSource = bi;
-                img.Rect = new Rect(new Size(a.Radius * 2, a.Radius * 2));
-                TransformGroup tg = new TransformGroup();
-                tg.Children.Add(new TranslateTransform(a.Position.X, a.Position.Y));
-                tg.Children.Add(new RotateTransform(a.Rotation, a.Radius, a.Radius));
-                g.Transform = tg;
-                g.Children.Add(img);
-            }));
-
-            return g;
+            if (a.AsteroidType == AsteroidType.UNSTABLE)
+                return Asteroids["Asteroid_unstable_" + a.TextureId + "_burn"];
+            else if (a.AsteroidType == AsteroidType.GOLDEN)
+                return Asteroids["Asteroid_gold_" + a.TextureId + "_burn"];
+            else
+                return Asteroids["Asteroid_" + a.TextureId + "_burn"];
         }
 
-        public static DrawingGroup CreateMineImage(SingularityMine mine)
+        public static Texture2D GetPowerupTexture(StatPowerUp powerup)
         {
-            DrawingGroup g = null;
-            mine.SceneMgr.Invoke(new Action(() =>
-            {
-                BitmapImage bi = new BitmapImage();
-                bi.BeginInit();
 
-                bi.UriSource = new Uri("pack://application:,,,/resources/images/projectiles/mine.png");
-                bi.DecodePixelWidth = mine.Radius * 4;
-                bi.EndInit();
+            if (powerup.PowerUpType == DeviceType.MINE)
+                return BoxBlue_1;
+            else if (powerup.PowerUpType == DeviceType.CANNON)
+                return BoxBrown;
+            else if (powerup.PowerUpType == DeviceType.HOOK)
+                return BoxBrown;
+            else
+                return BoxGreen;
 
-                g = new DrawingGroup();
-                ImageDrawing img = new ImageDrawing();
-                img.Rect = new Rect(new Size(mine.Radius * 2, mine.Radius * 2));
-
-                ColorReplaceEffect effect = new ColorReplaceEffect();
-                effect.ColorToOverride = Colors.White;
-                effect.ColorReplace = mine.Owner.GetPlayerColor();
-
-                RenderTargetBitmap rtb = new RenderTargetBitmap((int)mine.Radius * 2, (int)mine.Radius * 2, 96, 96, PixelFormats.Pbgra32);
-
-                System.Windows.Shapes.Rectangle visual = new System.Windows.Shapes.Rectangle();
-                visual.Fill = new ImageBrush(bi);
-                visual.Effect = effect;
-
-                Size sz = new Size(mine.Radius * 2, mine.Radius * 2);
-                visual.Measure(sz);
-                visual.Arrange(new Rect(sz));
-
-                rtb.Render(visual);
-                img.ImageSource = rtb;
-
-                g = new DrawingGroup();
-                TransformGroup tg = new TransformGroup();
-                tg.Children.Add(new TranslateTransform(mine.Position.X, mine.Position.Y));
-                tg.Children.Add(new RotateTransform(mine.Rotation, mine.Radius, mine.Radius));
-                g.Transform = tg;
-                g.Children.Add(img);
-            }));
-
-            return g;
-        }
-
-        public static DrawingGroup CreateSolidColorEllipseGeometry(SingularityMine mine)
-        {
-            DrawingGroup d = null;
-            mine.SceneMgr.Invoke(new Action(() =>
-            {
-                EllipseGeometry geom = new EllipseGeometry(new Point(mine.Radius, mine.Radius), mine.Radius, mine.Radius);
-                d = new DrawingGroup();
-                d.Children.Add(new GeometryDrawing(mine.FillBrush, new Pen(mine.BorderBrush, 1), geom));
-
-                TransformGroup tg = new TransformGroup();
-                tg.Children.Add(new TranslateTransform(mine.Position.X, mine.Position.Y));
-                d.Transform = tg;
-
-                /*
-                RippleEffect eff = new RippleEffect();
-                eff.Amplitude = 0.2;
-                eff.Frequency = 60;
-                path.Effect = eff;
-                */
-            }));
-
-            return d;
-        }
-
-        public static DrawingGroup CreateBaseImage(Base baze, String url, bool withShader = true)
-        {
-            DrawingGroup g = null;
-            baze.SceneMgr.Invoke(new Action(() =>
-            {
-                BitmapImage bi = new BitmapImage();
-                bi.BeginInit();
-                bi.UriSource = new Uri(url);
-                bi.EndInit();
-
-                g = new DrawingGroup();
-                ImageDrawing img = new ImageDrawing();
-                img.Rect = new Rect(baze.Size);
-
-                if (withShader)
-                {
-                    ColorReplaceEffect effect = new ColorReplaceEffect();
-                    effect.ColorToOverride = Colors.White;
-                    effect.ColorReplace = baze.Owner.GetPlayerColor();
-
-                    RenderTargetBitmap rtb = new RenderTargetBitmap((int)baze.Size.Width * 2, (int)baze.Size.Height * 2, 96, 96, PixelFormats.Pbgra32);
-
-                    System.Windows.Shapes.Rectangle visual = new System.Windows.Shapes.Rectangle();
-                    visual.Fill = new ImageBrush(bi);
-                    visual.Effect = effect;
-
-                    Size sz = new Size(baze.Size.Width * 2, baze.Size.Height * 2);
-                    visual.Measure(sz);
-                    visual.Arrange(new Rect(sz));
-                    
-                    rtb.Render(visual);
-                    img.ImageSource = rtb;
-                }
-                else
-                    img.ImageSource = bi;
-
-                TransformGroup tg = new TransformGroup();
-                tg.Children.Add(new TranslateTransform(baze.Position.X, baze.Position.Y));
-                g.Transform = tg;
-                g.Children.Add(img);
-            }));
-
-            return g;
-        }
-
-        public static DrawingGroup CreateHookHead(Hook hook)
-        {
-            DrawingGroup g = null;
-            hook.SceneMgr.Invoke(new Action(() =>
-            {
-                BitmapImage bi = new BitmapImage();
-                bi.BeginInit();
-                bi.UriSource = new Uri("pack://application:,,,/resources/images/hook/hook_head.png");
-                bi.DecodePixelWidth = hook.Radius * 4;
-                bi.EndInit();
-
-                g = new DrawingGroup();
-                ImageDrawing img = new ImageDrawing();
-                img.ImageSource = bi;
-                img.Rect = new Rect(new Size(hook.Radius * 2, hook.Radius * 2));
-                TransformGroup tg = new TransformGroup();
-                tg.Children.Add(new TranslateTransform(hook.Position.X, hook.Position.Y));
-                tg.Children.Add(new RotateTransform(hook.Rotation, hook.Radius, hook.Radius));
-                g.Transform = tg;
-                g.Children.Add(img);
-            }));
-
-            return g;
-        }
-
-        public static DrawingGroup CreateLineGeometry(SceneMgr mgr, Color border, double borderThickness, Color fill, Vector positionFrom, Vector positionTo)
-        {
-            DrawingGroup d = null;
-            mgr.Invoke(new Action(() =>
-            {
-                LineGeometry g = new LineGeometry(positionFrom.ToPoint(), positionTo.ToPoint());
-                d = new DrawingGroup();
-                d.Children.Add(new GeometryDrawing(new SolidColorBrush(fill), new Pen(new SolidColorBrush(border), borderThickness), g));
-            }));
-
-            return d;
-        }
-
-        public static DrawingGroup CreatePowerUpImage(StatPowerUp p)
-        {
-            DrawingGroup g = null;
-            p.SceneMgr.Invoke(new Action(() =>
-            {
-                BitmapImage bi = new BitmapImage();
-                bi.BeginInit();
-                if (p.PowerUpType == DeviceType.MINE)
-                    bi.UriSource = new Uri("pack://application:,,,/resources/images/box/box_blue1.png");
-                else if (p.PowerUpType == DeviceType.CANNON)
-                    bi.UriSource = new Uri("pack://application:,,,/resources/images/box/box_brown.png");
-                else if (p.PowerUpType == DeviceType.HOOK)
-                    bi.UriSource = new Uri("pack://application:,,,/resources/images/box/box_purple.png");
-                else
-                    bi.UriSource = new Uri("pack://application:,,,/resources/images/box/box_green.png");
-
-                bi.DecodePixelWidth = (int)p.Size.Width * 2;
-                bi.DecodePixelHeight = (int)p.Size.Height * 2;
-                bi.EndInit();
-
-                g = new DrawingGroup();
-                ImageDrawing img = new ImageDrawing();
-                img.ImageSource = bi;
-                img.Rect = new Rect(p.Size);
-                TransformGroup tg = new TransformGroup();
-                tg.Children.Add(new TranslateTransform(p.Position.X, p.Position.Y));
-                tg.Children.Add(new RotateTransform(p.Rotation, p.Size.Width / 2, p.Size.Height / 2));
-                g.Transform = tg;
-                g.Children.Add(img);
-            }));
-
-            return g;
-        }
-
-        public static DrawingGroup CreateConstantColorRectangleGeometry(Square s)
-        {
-            DrawingGroup d = null;
-            s.SceneMgr.Invoke(new Action(() =>
-            {
-                RectangleGeometry geom = new RectangleGeometry(new Rect(s.Size));
-                d = new DrawingGroup();
-                d.Children.Add(new GeometryDrawing(null, new Pen(Brushes.Black, 2), geom));
-
-                TransformGroup tg = new TransformGroup();
-                tg.Children.Add(new TranslateTransform(s.Position.X, s.Position.Y));
-                d.Transform = tg;
-            }));
-
-            return d;
-        }
-
-        public static DrawingGroup CreateConstantColorEllipseGeometry(OrbitEllipse e)
-        {
-            DrawingGroup d = null;
-            e.SceneMgr.Invoke(new Action(() =>
-            {
-                EllipseGeometry geom = new EllipseGeometry(new Point(e.RadiusX, e.RadiusY), e.RadiusX, e.RadiusY);
-                d = new DrawingGroup();
-                d.Children.Add(new GeometryDrawing(new SolidColorBrush(e.Color), null, geom));
-
-                TransformGroup tg = new TransformGroup();
-                tg.Children.Add(new TranslateTransform(e.Position.X, e.Position.Y));
-                d.Transform = tg;
-            }));
-
-            return d;
-        }
-
-        public static DrawingGroup CreateArcSegments(MiningModuleIntegrityBar arc)
-        {
-            DrawingGroup d = null;
-            arc.SceneMgr.Invoke(new Action(() =>
-            {
-                d = new DrawingGroup();
-                d.Children.Add(new GeometryDrawing(Brushes.Transparent, new Pen(new SolidColorBrush(arc.Color), 2), CreateArc(arc)));
-
-                TransformGroup tg = new TransformGroup();
-                tg.Children.Add(new TranslateTransform(arc.Position.X, arc.Position.Y));
-                d.Transform = tg;
-            }));
-
-            return d;
-        }
-
-        public static DrawingGroup CreateArcSegments(BaseIntegrityBar arc)
-        {
-            DrawingGroup d = null;
-            arc.SceneMgr.Invoke(new Action(() =>
-            {
-                d = new DrawingGroup();
-                d.Children.Add(new GeometryDrawing(new SolidColorBrush(arc.Color), new Pen(Brushes.Black, 1), CreateArc(arc)));
-
-                TransformGroup tg = new TransformGroup();
-                tg.Children.Add(new TranslateTransform(arc.Position.X, arc.Position.Y));
-                d.Transform = tg;
-            }));
-
-            return d;
-        }
-
-        private static PathGeometry CreateArc(BaseIntegrityBar e)
-        {
-            ArcSegment arc = new ArcSegment();
-
-            PathFigure figure = new PathFigure();
-            figure.StartPoint = e.StartPoint;
-
-            arc = new ArcSegment();
-            arc.SweepDirection = SweepDirection.Clockwise;
-            arc.IsLargeArc = true;
-            arc.Size = new Size(e.Width, e.Height);
-            arc.Point = e.ComputeEllipsePoint(0);
-
-            e.SetArc(arc);
-
-            figure.Segments.Add(arc);
-
-            PathGeometry geom = new PathGeometry();
-            geom.Figures.Add(figure);
-
-            return geom;
-        }
-
-        private static PathGeometry CreateArc(MiningModuleIntegrityBar a)
-        {
-            ArcSegment arc = new ArcSegment();
-            Point point = new Point(a.Radius, 0);
-            a.CenterOfArc = new Point(0, 0);
-
-            PathFigure figure = new PathFigure();
-            figure.StartPoint = point;
-
-            arc = new ArcSegment();
-            arc.SweepDirection = SweepDirection.Clockwise;
-            arc.IsLargeArc = true;
-            arc.Size = new Size(a.Radius, a.Radius);
-            arc.Point = a.ComputePointOnCircle(Math.PI * 2);
-
-            a.SetArc(arc);
-
-            figure.Segments.Add(arc);
-
-            PathGeometry geom = new PathGeometry();
-            geom.Figures.Add(figure);
-            geom.Transform = new TranslateTransform(a.Radius, a.Radius);
-
-            return geom;
-        }
-
-        public static DrawingGroup CrateMiningModule(MiningModule m)
-        {
-            DrawingGroup g = null;
-            m.SceneMgr.Invoke(new Action(() =>
-            {
-                BitmapImage bi = new BitmapImage();
-                bi.BeginInit();
-                bi.UriSource = new Uri("pack://application:,,,/resources/images/mining-module/module.png");
-                bi.DecodePixelWidth = m.Radius * 4;
-                bi.EndInit();
-
-                g = new DrawingGroup();
-                ImageDrawing img = new ImageDrawing();
-                img.ImageSource = bi;
-                img.Rect = new Rect(new Size(m.Radius * 2, m.Radius * 2));
-                TransformGroup tg = new TransformGroup();
-                tg.Children.Add(new TranslateTransform(m.Position.X, m.Position.Y));
-                tg.Children.Add(new RotateTransform(m.Rotation, m.Radius, m.Radius));
-                g.Transform = tg;
-                g.Children.Add(img);
-            }));
-
-            return g;
-        }
-
-        public static DrawingGroup CreateIceCube(IceSquare s)
-        {
-            DrawingGroup g = null;
-            s.SceneMgr.Invoke(new Action(() =>
-            {
-                BitmapImage bi = new BitmapImage();
-                bi.BeginInit();
-                bi.UriSource = new Uri("pack://application:,,,/resources/images/actions/ice-cube.png");
-                bi.DecodePixelWidth = (int)s.Size.Width * 2;
-                bi.DecodePixelHeight = (int)s.Size.Height * 2;
-                bi.EndInit();
-
-                g = new DrawingGroup();
-                ImageDrawing img = new ImageDrawing();
-                img.ImageSource = bi;
-                img.Rect = new Rect(s.Size);
-                TransformGroup tg = new TransformGroup();
-                tg.Children.Add(new TranslateTransform(s.Position.X, s.Position.Y));
-                g.Transform = tg;
-                g.Children.Add(img);
-            }));
-
-            return g;
-        }
-
-        public static DrawingGroup CreateIceShard(IceShard s)
-        {
-            DrawingGroup g = null;
-            s.SceneMgr.Invoke(new Action(() =>
-            {
-                BitmapImage bi = new BitmapImage();
-                bi.BeginInit();
-                bi.UriSource = new Uri("pack://application:,,,/resources/images/ice-shards/broken_ice_" + s.TextureId + ".png");
-                bi.DecodePixelWidth = (int)s.Size.Width * 2;
-                bi.DecodePixelHeight = (int)s.Size.Height * 2;
-                bi.EndInit();
-
-                g = new DrawingGroup();
-                ImageDrawing img = new ImageDrawing();
-                img.ImageSource = bi;
-                img.Rect = new Rect(s.Size);
-                TransformGroup tg = new TransformGroup();
-                tg.Children.Add(new TranslateTransform(s.Position.X, s.Position.Y));
-                g.Transform = tg;
-                g.Children.Add(img);
-            }));
-
-            return g;
         }
     }
 }

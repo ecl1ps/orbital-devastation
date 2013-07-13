@@ -7,7 +7,7 @@ using Orbit.Core.Client;
 using Orbit.Core.Players;
 using Orbit.Gui;
 using Orbit.Gui.ActionControllers;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using Lidgren.Network;
 using Orbit.Core.Client.GameStates;
 
@@ -21,7 +21,7 @@ namespace Orbit.Core.SpecialActions.Gamer
             : base(null, null)
         {
             ImageSource = "pack://application:,,,/resources/images/icons/upgrade.png";
-            BackgroundColor = Colors.AntiqueWhite;
+            BackgroundColor = Color.AntiqueWhite;
             Cooldown = 0;
         }
 
@@ -39,7 +39,7 @@ namespace Orbit.Core.SpecialActions.Gamer
             LoadWeapon(weapon);
 
             ImageSource = "pack://application:,,,/resources/images/icons/upgrade.png";
-            BackgroundColor = Colors.AntiqueWhite;
+            BackgroundColor = Color.AntiqueWhite;
             Cooldown = 0;
         }
 
@@ -103,7 +103,6 @@ namespace Orbit.Core.SpecialActions.Gamer
 
             SendPlayerBoughtUpgrade();
 
-            SceneMgr.AlertMessageMgr.Show(String.Format(Strings.Culture, Strings.game_wepon_bought, Name), AlertMessageManager.TIME_NORMAL);
             LoadWeapon((currentWeapon.NextSpecialAction() as WeaponUpgrade).GetWeapon());
         }
 

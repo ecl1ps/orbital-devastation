@@ -129,12 +129,14 @@ namespace Orbit.Core.Server.Match
 
         protected void SendTextMessage(Player p, String text, ServerMgr server)
         {
+            /*
+             * TODO predelat
             NetOutgoingMessage msg = server.CreateNetMessage();
             msg.Write((int)PacketType.SHOW_ALLERT_MESSAGE);
             msg.Write(text);
-            msg.Write(AlertMessageManager.TIME_INFINITE);
 
             server.SendMessage(msg, p);
+             */ 
         }
 
         protected void SendPlayerScore(Player p, ServerMgr server)

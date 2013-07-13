@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Orbit.Core.Client;
 using Orbit.Core.Scene.Controls.Implementations;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using System.Windows.Controls;
 using Lidgren.Network;
 using Orbit.Core.Players;
@@ -14,7 +14,7 @@ using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    public class MiningModule : Sphere, IDestroyable
+    public class MiningModule : TexturedSphere, IDestroyable
     {
         public Player Owner { get; set; }
 
@@ -25,7 +25,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             Category = DrawingCategory.PLAYER_OBJECTS;
         }
 
-        public override bool IsOnScreen(Size screenSize)
+        public override bool IsOnScreen(Rectangle screenSize)
         {
             //i dont want to be destroyed when moving off screen
             return true;

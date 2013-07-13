@@ -12,8 +12,7 @@ using Orbit.Core.SpecialActions.Spectator;
 using Orbit.Gui.InteractivePanel;
 using Orbit.Gui;
 using System.Globalization;
-using Orbit.Core.Scene.Particles.Implementations;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Players.Input

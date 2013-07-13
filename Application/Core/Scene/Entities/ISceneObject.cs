@@ -4,8 +4,9 @@ using Orbit.Core.Scene.Controls;
 using System.Collections.Generic;
 using Orbit.Core.Client;
 using Orbit.Core.Scene.CollisionShapes;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using Orbit.Gui.Visuals;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -13,13 +14,21 @@ namespace Orbit.Core.Scene.Entities
     {
         long Id { get; set; }
 
-        Vector Position { get; set; }
+        Vector2 Position { get; set; }
 
-        Vector Center { get; }
+        Vector2 Center { get; }
+
+        Vector2 Direction { get; set; }
 
         bool Dead { get; set; }
 
         SceneMgr SceneMgr { get; set; }
+
+        Color Color { get; set; }
+
+        float Rotation { get; set; }
+
+        float Opacity { get; set; }
 
         ICollisionShape CollisionShape { get; set; }
         
@@ -45,13 +54,9 @@ namespace Orbit.Core.Scene.Entities
 
         void ToggleControls(bool p, Control except = null);
 
-        bool IsOnScreen(Size screenSize);
+        bool IsOnScreen(Rectangle screenSize);
 
-        void UpdateGeometric();
-
-        DrawingGroup GetGeometry();
-
-        void SetGeometry(DrawingGroup geometryElement);
+        void UpdateGeometric(SpriteBatch spriteBatch);
 
         /// helpers
 

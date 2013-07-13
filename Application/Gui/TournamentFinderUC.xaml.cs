@@ -9,7 +9,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using Lidgren.Network;
@@ -21,6 +20,7 @@ using Orbit.Core.Server.Match;
 using Orbit.Core.Helpers;
 using System.Net;
 using System.Collections.ObjectModel;
+using System.Windows.Media;
 
 namespace Orbit.Gui
 {

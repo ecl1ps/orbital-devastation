@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,6 @@ namespace Orbit.Core.Client.Interfaces
 {
     public interface IMouseClickListener
     {
-        void OnCanvasClick(Point point, MouseButtonEventArgs e);
+        void OnCanvasClick(Vector2 point, MouseButtonEventArgs e);
     }
 }

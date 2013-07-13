@@ -7,7 +7,7 @@ using Orbit.Core.Players;
 using Orbit.Core.Scene.Controls;
 using System.Windows;
 using Lidgren.Network;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using Orbit.Core.Client;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.Entities.Implementations;
@@ -15,7 +15,7 @@ using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Controls.Collisions.Implementations;
 using Orbit.Core.Scene.CollisionShapes;
-using Orbit.Gui.Visuals;
+using C3.XNA;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -25,11 +25,11 @@ namespace Orbit.Core.Scene.Entities.Implementations
         HOOK_POWER
     }
 
-    public class Hook : Sphere, ISendable, IProjectile
+    public class Hook : TexturedSphere, ISendable, IProjectile
     {
         public Player Owner { get; set; } // neposilano
         public HookType HookType { get; set; }
-        public Vector RopeContactPoint
+        public Vector2 RopeContactPoint
         {
             get
             {
@@ -37,30 +37,18 @@ namespace Orbit.Core.Scene.Entities.Implementations
             }
         }
 
-        private DrawingGroup lineGeom;
-
         public Hook(SceneMgr mgr, long id)
             : base(mgr, id)
         {
             HookType = HookType.HOOK_NORMAL;
-            Category = DrawingCategory.PROJECTILES;
         }
 
-        public void PrepareLine()
+        public override void UpdateGeometric(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
         {
+            base.UpdateGeometric(spriteBatch);
+
             HookControl control = GetControlOfType<HookControl>();
-            lineGeom = SceneGeometryFactory.CreateLineGeometry(SceneMgr, Colors.LightSteelBlue, 2, Colors.Black, control.Origin, control.Origin);
-            SceneMgr.AttachGraphicalObjectToScene(lineGeom, DrawingCategory.PROJECTILE_BACKGROUND);
-        }
-
-        protected override void UpdateGeometricState()
-        {
-            ((lineGeom.Children[0] as GeometryDrawing).Geometry as LineGeometry).EndPoint = RopeContactPoint.ToPoint();
-        }
-
-        public override void OnRemove()
-        {
-            SceneMgr.RemoveGraphicalObjectFromScene(lineGeom, DrawingCategory.PROJECTILE_BACKGROUND);
+            spriteBatch.DrawLine(control.Origin, Position, Color.LightSteelBlue, 2);
         }
 
         public void WriteObject(NetOutgoingMessage msg)
@@ -84,7 +72,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
                 AddControl(c);
         }
 
-        public override bool IsOnScreen(Size screenSize)
+        public override bool IsOnScreen(Rectangle screenSize)
         {
             return true;
         }

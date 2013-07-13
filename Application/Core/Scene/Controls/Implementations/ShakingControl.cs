@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using Orbit.Core.Scene.Entities;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -11,7 +12,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
     {
         private bool perpendicular;
         private IMovementControl control;
-        private Vector dir;
+        private Vector2 dir;
         private float strength;
         private float speed;
 
@@ -36,7 +37,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                     dir = (me as IMovable).Direction;
             }
             else
-                dir = new Vector(0, 1);
+                dir = new Vector2(0, 1);
             
             events.AddEvent(1, new Event(speed, EventType.REPEATABLE, new Action(() => DoShake())));
         }

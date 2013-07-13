@@ -6,50 +6,29 @@ using Orbit.Core.Client;
 using Orbit.Core.Scene.CollisionShapes;
 using System.Collections;
 using System.Linq;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using MB.Tools;
 using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities
 {
-    public abstract class SceneObject : ISceneObject, IRotable, IMovable
+    public abstract class SceneObject : ISceneObject, IMovable
     {
         protected List<IControl> controls;
 
-        protected DrawingGroup geometryElement;
 
         public long Id { get; set; }
         public ICollisionShape CollisionShape { get; set; }
-        public virtual Vector Position { get; set; }
-        public Vector Direction { get; set; }
+        public Color Color { get; set; }
         public float Rotation { get; set; }
+        public float Opacity { get; set; }
+        public virtual Vector2 Position { get; set; }
+        public Vector2 Direction { get; set; }
         public DrawingCategory Category { get; set; }
-        public abstract Vector Center { get; }
+        public virtual Vector2 Center { get { return Position; } }
         public bool Dead { get; set; }
         public SceneMgr SceneMgr { get; set; }
-        protected bool visible;
-        public virtual bool Visible
-        {
-            get 
-            { 
-                return visible; 
-            } 
-            set 
-            {
-                if (geometryElement == null)
-                    return;
-
-                if (value != visible)
-                {
-                    SceneMgr.BeginInvoke(new Action(() =>
-                    {
-                        MetaPropertyExtender.SetMetaProperty(geometryElement, "IsVisible", value);
-                    }));
-                }
-
-                visible = value;
-            } 
-        }
+        public bool Visible { get; set; }
         protected bool enabled = true;
         public virtual bool Enabled {
             get
@@ -70,7 +49,7 @@ namespace Orbit.Core.Scene.Entities
             Dead = false;
             SceneMgr = mgr;
             Id = id;
-            visible = true;
+            Visible = true;
             Category = DrawingCategory.BACKGROUND;
         }
 
@@ -158,22 +137,7 @@ namespace Orbit.Core.Scene.Entities
             return false;
         }
 
-        public abstract bool IsOnScreen(Size screenSize);
-
-        public abstract void UpdateGeometric();
-
-        public DrawingGroup GetGeometry()
-        {
-            return geometryElement;
-        }
-
-        public virtual void SetGeometry(DrawingGroup geometryElement)
-        {
-            this.geometryElement = geometryElement;
-            // zajisti, ze se spravne nastavi meta property
-            visible = false;
-            Visible = true;
-        }
+        public abstract bool IsOnScreen(Rectangle screenSize);
 
         public virtual void DoRemove(ISceneObject obj)
         {
@@ -206,6 +170,12 @@ namespace Orbit.Core.Scene.Entities
                 if (except == null || except != c)
                     c.Enabled = enable;
             }
+        }
+
+        public virtual void UpdateGeometric(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
+        {
+            if (!Visible)
+                return;
         }
 
         /// hooks

@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using Orbit.Core.Scene.Entities;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
     public class MovementDirectionControl : Control
     {
         private bool initiated = false;
-        private Vector lastPosition;
+        private Vector2 lastPosition;
         private IMovable obj;
 
         protected override void InitControl(ISceneObject me)

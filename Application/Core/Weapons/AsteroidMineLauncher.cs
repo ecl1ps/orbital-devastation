@@ -12,6 +12,7 @@ using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.SpecialActions;
 using Orbit.Core.SpecialActions.Gamer;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Weapons
 {
@@ -37,10 +38,10 @@ namespace Orbit.Core.Weapons
             return next;
         }
 
-        protected override ISceneObject SpawnMine(Point point)
+        protected override ISceneObject SpawnMine(Vector2 point)
         {
             SingularityMine mine = SceneObjectFactory.CreateAsteroidDroppingSingularityMine(SceneMgr, point, Owner);
-            Vector dir = new Vector(endPoint.X - startPoint.X, endPoint.Y - startPoint.Y);
+            Vector2 dir = new Vector2(endPoint.X - startPoint.X, endPoint.Y - startPoint.Y);
             dir.Normalize();
             mine.Direction = dir;
 
@@ -77,12 +78,6 @@ namespace Orbit.Core.Weapons
         public void StartActivableAction()
         {
             lastMine.GetControlOfType<AsteroidDroppingSingularityControl>().SpawnAsteroid();
-        }
-
-        public override void TriggerUpgrade(IWeapon old)
-        {
-            base.TriggerUpgrade(old);
-            (old as TargetingMineLauncher).DisposeLine();
         }
     }
 }

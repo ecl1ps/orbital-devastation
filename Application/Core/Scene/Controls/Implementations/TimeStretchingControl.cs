@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Orbit.Core.Scene.Entities;
 using System.Windows;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -26,8 +27,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         protected override void UpdateLine()
         {
-            Vector travellingDirection = SecondObj.Center - FirstObj.Center;
-            double travellingLenght = travellingDirection.Length;
+            Vector2 travellingDirection = SecondObj.Center - FirstObj.Center;
+            float travellingLenght = travellingDirection.Length();
             travellingDirection = travellingDirection.NormalizeV();
             float timeProgress = timeLeft / Time;
 

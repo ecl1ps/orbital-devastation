@@ -9,7 +9,7 @@ using Orbit.Core.Weapons;
 using System.Windows;
 using Orbit.Core.Players;
 using Orbit.Core.Helpers;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Scene.Controls;
 using Orbit.Core.SpecialActions.Gamer;
@@ -29,14 +29,14 @@ namespace Orbit.Core.AI
         private List<HookTarget> hookslaunched;
         
         private Player me;
-        private Vector baseLauncherPosition;
+        private Vector2 baseLauncherPosition;
 
         public MedicoreBot(SceneMgr mgr, List<ISceneObject> objects, Player bot)
         {
             sceneMgr = mgr;
             this.objects = objects;
             me = bot;
-            baseLauncherPosition = new Vector(me.GetBaseLocation().X + me.GetBaseLocation().Width / 2, me.GetBaseLocation().Y - 5);
+            baseLauncherPosition = new Vector2(me.GetBaseLocation().X + me.GetBaseLocation().Width / 2, me.GetBaseLocation().Y - 5);
 
 
             me.Data.MineCooldown = me.Data.MineCooldown * 2f;
@@ -109,10 +109,10 @@ namespace Orbit.Core.AI
             if (target == null)
                 return;
 
-            Vector contactPoint1 = AIUtils.ComputeDestinationPositionToHitTarget(target, me.Data.HookSpeed, baseLauncherPosition, me.SceneMgr.GetRandomGenerator());
+            Vector2 contactPoint1 = AIUtils.ComputeDestinationPositionToHitTarget(target, me.Data.HookSpeed, baseLauncherPosition, me.SceneMgr.GetRandomGenerator());
 
             // nestrili, pokud tam nedosahne
-            if ((baseLauncherPosition - contactPoint1).Length > me.Data.HookLenght - 10)
+            if ((baseLauncherPosition - contactPoint1).Length() > me.Data.HookLenght - 10)
             {
               //  targets.Remove(nearest);
                 return;
@@ -152,7 +152,7 @@ namespace Orbit.Core.AI
                   
 
 
-                  objDistantSqr = (obj.Position - baseLauncherPosition).LengthSquared;
+                  objDistantSqr = (obj.Position - baseLauncherPosition).LengthSquared();
                  
                     if (objDistantSqr < nearestDistSqr)
                   {
@@ -191,7 +191,7 @@ namespace Orbit.Core.AI
 
                 if (asteroid.Enabled && !asteroid.Dead)
                 {
-                    if (((asteroid.Position - baseLauncherPosition).LengthSquared > (asteroid.Position + asteroid.Direction - baseLauncherPosition).LengthSquared) && asteroid.Direction.Y > 0)
+                    if (((asteroid.Position - baseLauncherPosition).LengthSquared() > (asteroid.Position + asteroid.Direction - baseLauncherPosition).LengthSquared()) && asteroid.Direction.Y > 0)
                     //if (((asteroid.Position - baseLauncherPosition).LengthSquared > (asteroid.Position + asteroid.Direction - baseLauncherPosition).LengthSquared) && asteroid.Direction.Y > 0)
                     {
                         Target newTarget = new Target();
@@ -199,38 +199,38 @@ namespace Orbit.Core.AI
 
                         newTarget.Asteroid = asteroid;
 
-                        if ((asteroid.Position - baseLauncherPosition).Length < 400)
+                        if ((asteroid.Position - baseLauncherPosition).Length() < 400)
                         {
 
                             priority++;
                             newTarget.Status = asteroid.AsteroidType == AsteroidType.GOLDEN ? TargetStatus.HOOKONLY : TargetStatus.AVAILABLE;
 
 
-                            if ((asteroid.Position - baseLauncherPosition).Length < 350)
+                            if ((asteroid.Position - baseLauncherPosition).Length() < 350)
                             {
                                 priority++;
                                 priority += (int)(asteroid.GetHp() / 10 - 1);
 
-                                if ((asteroid.Position - baseLauncherPosition).Length < 300)
+                                if ((asteroid.Position - baseLauncherPosition).Length() < 300)
                                 {
                                     priority++;
                                     priority += (int)(asteroid.GetHp() / 10 - 1);
                                     priority += asteroid.AsteroidType == AsteroidType.UNSTABLE ? 2 : 0;
 
-                                    if ((asteroid.Position - baseLauncherPosition).Length < 200)
+                                    if ((asteroid.Position - baseLauncherPosition).Length() < 200)
                                     {
                                         priority++;
                                         priority += (int)(asteroid.GetHp() / 10 - 1);
                                         priority += asteroid.AsteroidType == AsteroidType.UNSTABLE ? 1 : 0;
 
-                                        if ((asteroid.Position - baseLauncherPosition).Length < 100)
+                                        if ((asteroid.Position - baseLauncherPosition).Length() < 100)
                                         {
                                             priority++;
                                             priority += (int)(asteroid.GetHp() / 10 - 1);
                                             priority -= asteroid.AsteroidType == AsteroidType.UNSTABLE ? 4 : 0;
 
 
-                                            if ((asteroid.Position - baseLauncherPosition).Length < 50)
+                                            if ((asteroid.Position - baseLauncherPosition).Length() < 50)
                                             {
                                                 priority++;
                                                 priority += (int)(asteroid.GetHp() / 10 - 1);
@@ -305,10 +305,10 @@ namespace Orbit.Core.AI
 
         private void MineDrop()
         {
-            Rect opponentLoc = PlayerBaseLocation.GetBaseLocation(me.GetPosition() == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT);
+            Rectangle opponentLoc = PlayerBaseLocation.GetBaseLocation(me.GetPosition() == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT);
             double xMin = opponentLoc.X;
             double xMax = opponentLoc.X + opponentLoc.Width;
-            me.Mine.Shoot(new Point(sceneMgr.GetRandomGenerator().Next((int)xMin, (int)xMax), 1));
+            me.Mine.Shoot(new Vector2(sceneMgr.GetRandomGenerator().Next((int)xMin, (int)xMax), 1));
 
         }
 
@@ -326,10 +326,10 @@ namespace Orbit.Core.AI
                 return;
             
 
-            Vector contactPoint1 = AIUtils.ComputeDestinationPositionToHitTarget(nearest, me.Data.BulletSpeed, baseLauncherPosition, me.SceneMgr.GetRandomGenerator());
+            Vector2 contactPoint1 = AIUtils.ComputeDestinationPositionToHitTarget(nearest, me.Data.BulletSpeed, baseLauncherPosition, me.SceneMgr.GetRandomGenerator());
 
             // nestrili, pokud tam nedosahne
-            if ((baseLauncherPosition - contactPoint1).Length > me.Data.HookLenght)
+            if ((baseLauncherPosition - contactPoint1).Length() > me.Data.HookLenght)
                 return;
 
             // nestrili pod bazi

@@ -5,6 +5,7 @@ using System.Text;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.CollisionShapes;
 using System.Windows;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Scene.Controls.Collisions.Implementations
 {
@@ -22,22 +23,22 @@ namespace Orbit.Core.Scene.Controls.Collisions.Implementations
 
         protected override void UpdateControl(float tpf)
         {
-            cs.Rotation = (me is IRotable) ? (me as IRotable).Rotation : 0;
+            cs.Rotation = me.Rotation;
 
             if (typeof(Sphere).IsAssignableFrom(me.GetType()))
             {
-                cs.Size = new Size((me as Sphere).Radius * 2, (me as Sphere).Radius * 2);
+                cs.Rectangle = new Rectangle(0, 0, (me as ISpheric).Radius * 2, (me as ISpheric).Radius * 2);
                 //TODO: check
                 cs.Position = me.Position;
             }
             else if (typeof(Square).IsAssignableFrom(me.GetType()))
             {
-                cs.Size = (me as Square).Size;
+                cs.Rectangle = (me as Square).Rectangle;
                 cs.Position = me.Position;
             }
             else if (typeof(Line).IsAssignableFrom(me.GetType()))
             {
-                //cs.Size = ;
+                //cs.Rectangle = ;
                 //TODO:
                 cs.Position = me.Position;
             }

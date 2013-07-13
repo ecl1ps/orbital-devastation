@@ -3,26 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using Orbit.Core.Client;
 
 namespace Orbit.Core.Helpers
 {
     class CollisionHelper
     {
-        private static Vector tempVector = new Vector();
+        private static Vector2 tempVector = new Vector2();
 
-        public static bool IntersectsCircleAndPoint(Vector point, Vector center, int radius)
+        public static bool IntersectsCircleAndPoint(Vector2 point, Vector2 center, float radius)
         {
-            return (point - center).Length <= radius;
+            return (point - center).Length() <= radius;
         }
 
-        public static bool IntersectsCircleAndCircle(Vector center1, int radius1, Vector center2, int radius2)
+        public static bool IntersectsCircleAndCircle(Vector2 center1, float radius1, Vector2 center2, float radius2)
         {
-            return (center1 - center2).Length <= radius1 + radius2;
+            return (center1 - center2).Length() <= radius1 + radius2;
         }
 
-        public static bool IntersectsCircleAndSquare(Vector circleCenter, int circleRadius, Vector rectPosition, Size rectSize)
+        public static bool IntersectsCircleAndSquare(Vector2 circleCenter, float circleRadius, Vector2 rectPosition, Rectangle rectSize)
         {
 
             tempVector.X = Math.Abs(circleCenter.X - rectPosition.X - rectSize.Width / 2);
@@ -46,7 +46,7 @@ namespace Orbit.Core.Helpers
             return cornerDistanceSquared <= Math.Pow(circleRadius, 2);
         }
 
-        public static bool IntersectsSquareAndSquare(Vector[] vertices1, Vector[] vertices2)
+        public static bool IntersectsSquareAndSquare(Vector2[] vertices1, Vector2[] vertices2)
         {
             // SAT collision detection
             // http://stackoverflow.com/questions/115426/algorithm-to-detect-intersection-of-two-rectangles
@@ -66,11 +66,11 @@ namespace Orbit.Core.Helpers
         /// <summary>
         /// vraci true pokud se neprotinaji (je mezi nimi mezera) a false, pokud se to nevi
         /// </summary>
-        private static bool CheckPolygonAndPolygonForSAT(Vector[] verts1, Vector[] verts2)
+        private static bool CheckPolygonAndPolygonForSAT(Vector2[] verts1, Vector2[] verts2)
         {
-            Vector offsetVect = new Vector(verts1[0].X - verts2[0].X, verts1[0].Y - verts2[0].Y);
+            Vector2 offsetVect = new Vector2(verts1[0].X - verts2[0].X, verts1[0].Y - verts2[0].Y);
             SATCheckInfo res1, res2;
-            Vector normal;
+            Vector2 normal;
             double dist1, dist2;
 
             // vezmu kazdou stranu prvniho polygonu a udelam k nemu normalu
@@ -98,26 +98,26 @@ namespace Orbit.Core.Helpers
         /// <summary>
         /// vraci normalu strany polygonu
         /// </summary>
-		private static Vector GetAxisNormal(Vector[] verts1, int index)
+		private static Vector2 GetAxisNormal(Vector2[] verts1, int index)
         {
-			Vector pt1 = verts1[index];
-			Vector pt2 = (index >= verts1.Length - 1) ? verts1[0] : verts1[index + 1];
-			return new Vector(-(pt2.Y - pt1.Y), pt2.X - pt1.X);
+			Vector2 pt1 = verts1[index];
+			Vector2 pt2 = (index >= verts1.Length - 1) ? verts1[0] : verts1[index + 1];
+			return new Vector2(-(pt2.Y - pt1.Y), pt2.X - pt1.X);
 		}
 
         /// <summary>
         /// vraci vzdalenosti bodu promitnutych na normalu
         /// </summary>
-        private static SATCheckInfo CheckDistancesForSAT(Vector normal, Vector[] verts)
+        private static SATCheckInfo CheckDistancesForSAT(Vector2 normal, Vector2[] verts)
         {
-            double dot;
+            float dot;
             SATCheckInfo result = new SATCheckInfo();
-            result.min = Vector.Multiply(normal, verts[0]);
+            result.min = Vector2.Dot(normal, verts[0]);
             result.max = result.min;
 
             for (int i = 1; i < verts.Length; ++i)
             {
-                dot = Vector.Multiply(normal, verts[i]);
+                dot = Vector2.Dot(normal, verts[i]);
                 if (dot < result.min)
                     result.min = dot;
                 if (dot > result.max)
@@ -133,7 +133,7 @@ namespace Orbit.Core.Helpers
             public double max;
         }   
 
-        public static bool IntersectsPointAndSquare(Vector point, Vector squarePos, Size squareSize)
+        public static bool IntersectsPointAndSquare(Vector2 point, Vector2 squarePos, Rectangle squareSize)
         {
             if (point.X >= squarePos.X && point.X <= squarePos.X + squareSize.Width &&
                 point.Y >= squarePos.Y && point.Y <= squarePos.Y + squareSize.Height)
@@ -142,51 +142,51 @@ namespace Orbit.Core.Helpers
             return false;
         }
 
-        public static bool IntersectsPointAndPoint(Vector point1, Vector point2)
+        public static bool IntersectsPointAndPoint(Vector2 point1, Vector2 point2)
         {
-            return ((int)point1.X) == ((int)point2.X) && ((int)point1.Y) == ((int)point2.Y);
+            return ((float)point1.X) == ((float)point2.X) && ((float)point1.Y) == ((float)point2.Y);
         }
 
-        public static bool IntersectsPointAndLine(Vector p1, Vector p2, Vector point)
+        public static bool IntersectsPointAndLine(Vector2 p1, Vector2 p2, Vector2 point)
         {
             return PointToLineDistance(p1, p2, point) == 0;
         }
 
-        public static bool IntersectCircleAndLine(Vector p1, Vector p2, Vector center, double radius)
+        public static bool IntersectCircleAndLine(Vector2 p1, Vector2 p2, Vector2 center, double radius)
         {
             return PointToLineDistance(p1, p2, center) < radius;
         }
 
-        public static bool IntersectLineAndLine(Vector a1, Vector a2, Vector b1, Vector b2)
+        public static bool IntersectLineAndLine(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2)
         {
-            Vector n = new Vector(-(a2.Y - a1.Y), a2.X - a1.X);
+            Vector2 n = new Vector2(-(a2.Y - a1.Y), a2.X - a1.X);
             
-            double dot = n * (b1 - b2);
+            float dot = Vector2.Dot(n, (b1 - b2));
             
             //rovnobezky
             if (dot == 0)
                 return false;
 
-            double lenght = ((a1 - b1) * n) / dot;
+            float lenght = Vector2.Dot((a1 - b1), n) / dot;
 
             return lenght > 0 && lenght < 1;
         }
 
-        public static double PointToLineDistance(Vector l1, Vector l2, Vector p)
+        public static double PointToLineDistance(Vector2 l1, Vector2 l2, Vector2 p)
         {
-            Vector closest = ClosestPointOnSegment(l1, l2, p);
-            return (p - closest).Length;
+            Vector2 closest = ClosestPointOnSegment(l1, l2, p);
+            return (p - closest).Length();
         }
 
-        public static Vector ClosestPointOnSegment(Vector A, Vector B, Vector P)
+        public static Vector2 ClosestPointOnSegment(Vector2 A, Vector2 B, Vector2 P)
         {
-            Vector D = B-A;
-            double numer = (P-A) * D;
+            Vector2 D = B-A;
+            float numer = Vector2.Dot((P-A), D);
 
             if (numer <= 0.0f)
                 return A;
             
-            double denom = D * D;
+            float denom = Vector2.Dot(D, D);
             
             if (numer >= denom)
                 return B;
@@ -194,11 +194,11 @@ namespace Orbit.Core.Helpers
             return A + (numer/denom) * D;
         }
 
-        public static bool IntersectLineAndSquare(Vector l1, Vector l2, Vector sCenter, Size sSize)
+        public static bool IntersectLineAndSquare(Vector2 l1, Vector2 l2, Vector2 sCenter, Rectangle sSize)
         {
-            Vector p2 = new Vector(sCenter.X + sSize.Width, sCenter.Y);
-            Vector p3 = new Vector(sCenter.X, sCenter.Y + sSize.Height);
-            Vector p4 = new Vector(sCenter.X + sSize.Width, sCenter.Y + sSize.Width);
+            Vector2 p2 = new Vector2(sCenter.X + sSize.Width, sCenter.Y);
+            Vector2 p3 = new Vector2(sCenter.X, sCenter.Y + sSize.Height);
+            Vector2 p4 = new Vector2(sCenter.X + sSize.Width, sCenter.Y + sSize.Width);
 
             if (IntersectLineAndLine(l1, l2, sCenter, p2))
                 return true;

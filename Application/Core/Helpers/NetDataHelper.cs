@@ -5,7 +5,7 @@ using System.Text;
 using Lidgren.Network;
 using Orbit.Core.Scene.Entities;
 using System.Windows;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using Orbit.Core.Players;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Controls.Implementations;
@@ -23,8 +23,6 @@ using Orbit.Core.SpecialActions;
 using Orbit.Core.SpecialActions.Gamer;
 using Orbit.Core.SpecialActions.Spectator;
 using Orbit.Core.Utils;
-using Orbit.Core.Scene.Particles;
-using Orbit.Core.Scene.Particles.Implementations;
 
 namespace Orbit.Core.Helpers
 {
@@ -34,21 +32,21 @@ namespace Orbit.Core.Helpers
 
         // objects
 
-        public static void WriteObjectSceneObject(this NetOutgoingMessage msg, SceneObject s)
+        public static void WriteObjectSceneObject(this NetOutgoingMessage msg, ISceneObject s)
         {
             msg.Write(s.Id);
             msg.Write(s.Dead);
             msg.Write(s.Position);
         }
 
-        public static void ReadObjectSceneObject(this NetIncomingMessage msg, SceneObject s)
+        public static void ReadObjectSceneObject(this NetIncomingMessage msg, ISceneObject s)
         {
             s.Id = msg.ReadInt64();
             s.Dead = msg.ReadBoolean();
             s.Position = msg.ReadVector();
         }
 
-        public static void WriteObjectSphere(this NetOutgoingMessage msg, Sphere s)
+        public static void WriteObjectSphere(this NetOutgoingMessage msg, ISpheric s)
         {
             msg.WriteObjectSceneObject(s);
 
@@ -57,7 +55,7 @@ namespace Orbit.Core.Helpers
             msg.Write(s.Color);
         }
 
-        public static void ReadObjectSphere(this NetIncomingMessage msg, Sphere s)
+        public static void ReadObjectSphere(this NetIncomingMessage msg, ISpheric s)
         {
             msg.ReadObjectSceneObject(s);
 
@@ -161,15 +159,15 @@ namespace Orbit.Core.Helpers
         {
             msg.WriteObjectSceneObject(s);
 
-            msg.Write(s.Size.Width);
-            msg.Write(s.Size.Height);
+            msg.Write(s.Rectangle.Width);
+            msg.Write(s.Rectangle.Height);
         }
 
         public static void ReadObjectSquare(this NetIncomingMessage msg, Square s)
         {
             msg.ReadObjectSceneObject(s);
 
-            s.Size = new Size(msg.ReadDouble(), msg.ReadDouble());
+            s.Rectangle = msg.ReadRectangle();
         }
 
         public static void WriteObjectLine(this NetOutgoingMessage msg, Line l)
@@ -190,7 +188,7 @@ namespace Orbit.Core.Helpers
 
         public static void WriteObjectStatPowerUp(this NetOutgoingMessage msg, StatPowerUp s)
         {
-            msg.WriteObjectSquare(s);
+            msg.WriteTexturedSquare(s);
 
             msg.Write(s.Direction);
             msg.Write(s.Rotation);
@@ -199,11 +197,33 @@ namespace Orbit.Core.Helpers
 
         public static void ReadObjectStatPowerUp(this NetIncomingMessage msg, StatPowerUp s)
         {
-            msg.ReadObjectSquare(s);
+            msg.ReadTexturedSquare(s);
 
             s.Direction = msg.ReadVector();
             s.Rotation = msg.ReadFloat();
             s.PowerUpType = (DeviceType)msg.ReadByte();
+        }
+
+        public static void WriteTexturedSquare(this NetOutgoingMessage msg, TexturedSquare s)
+        {
+            msg.WriteObjectSceneObject(s);
+
+            msg.WriteRectangle(s.Rectangle);
+        }
+
+        public static void ReadTexturedSquare(this NetIncomingMessage msg, TexturedSquare s)
+        {
+            msg.ReadObjectSceneObject(s);
+
+            s.Rectangle = msg.ReadRectangle();
+        }
+
+        public static void WriteRectangle(this NetOutgoingMessage msg, Rectangle r)
+        {
+            msg.Write(r.X);
+            msg.Write(r.Y);
+            msg.Write(r.Width);
+            msg.Write(r.Height);
         }
 
         public static void WriteControls(this NetOutgoingMessage msg, IList<IControl> controls)
@@ -654,7 +674,7 @@ namespace Orbit.Core.Helpers
             msg.Write((byte)b.BasePosition);
             msg.Write(b.Color);
             msg.Write(b.Integrity);
-            msg.Write(b.Size);
+            msg.Write(b.Rectangle);
         }
 
         public static void ReadObjectBase(this NetIncomingMessage msg, Base b)
@@ -664,56 +684,47 @@ namespace Orbit.Core.Helpers
             b.BasePosition = (PlayerPosition)msg.ReadByte();
             b.Color = msg.ReadColor();
             b.Integrity = msg.ReadInt32();
-            b.Size = msg.ReadSize();
+            b.Rectangle = msg.ReadRectangle();
         }
 
         // basic types
 
-        public static void Write(this NetOutgoingMessage msg, Vector v)
-        {
-            msg.Write(v.X);
-            msg.Write(v.Y);
-        }
-
-        public static Vector ReadVector(this NetIncomingMessage msg)
-        {
-            return new Vector(msg.ReadDouble(), msg.ReadDouble());
-        }
-
         public static void Write(this NetOutgoingMessage msg, Color c)
         {
-            msg.Write(c.A);
             msg.Write(c.R);
             msg.Write(c.G);
             msg.Write(c.B);
+            msg.Write(c.A);
         }
 
         public static Color ReadColor(this NetIncomingMessage msg)
         {
-            return Color.FromArgb(msg.ReadByte(), msg.ReadByte(), msg.ReadByte(), msg.ReadByte());
+            return new Color(msg.ReadByte(), msg.ReadByte(), msg.ReadByte());
         }
 
-        public static void Write(this NetOutgoingMessage msg, Size s)
+        public static void Write(this NetOutgoingMessage msg, Rectangle rect)
         {
-            msg.Write(s.Width);
-            msg.Write(s.Height);
+            msg.Write(rect.X);
+            msg.Write(rect.Y);
+            msg.Write(rect.Width);
+            msg.Write(rect.Height);
         }
 
-        public static Size ReadSize(this NetIncomingMessage msg)
+        public static Rectangle ReadRectangle(this NetIncomingMessage msg)
         {
-            return new Size(msg.ReadDouble(), msg.ReadDouble());
+            return new Rectangle(msg.ReadInt32(), msg.ReadInt32(), msg.ReadInt32(), msg.ReadInt32());
         }
 
-        public static void Write(this NetOutgoingMessage msg, Point p)
-        {
-            msg.Write(p.X);
-            msg.Write(p.Y);
+        public static void Write(this NetOutgoingMessage msg, Vector2 v) {
+            msg.Write(v.X);
+            msg.Write(v.Y);
         }
 
-        public static Point ReadPoint(this NetIncomingMessage msg)
+        public static Vector2 ReadVector(this NetIncomingMessage msg)
         {
-            return new Point(msg.ReadDouble(), msg.ReadDouble());
+            return new Vector2(msg.ReadFloat(), msg.ReadFloat());
         }
+
 
         // other
 
@@ -780,19 +791,9 @@ namespace Orbit.Core.Helpers
                 msg.Write(typeof(AsteroidGrowth).GUID.GetHashCode());
                 action.WriteObject(msg);
             }
-            else if (action is AsteroidSlow)
-            {
-                msg.Write(typeof(AsteroidSlow).GUID.GetHashCode());
-                action.WriteObject(msg);
-            }
             else if (action is AsteroidThrow)
             {
                 msg.Write(typeof(AsteroidThrow).GUID.GetHashCode());
-                action.WriteObject(msg);
-            }
-            else if (action is StaticField)
-            {
-                msg.Write(typeof(StaticField).GUID.GetHashCode());
                 action.WriteObject(msg);
             }
             else
@@ -817,12 +818,8 @@ namespace Orbit.Core.Helpers
                 action = new AsteroidDamage(mgr, owner);
             else if (hash == typeof(AsteroidGrowth).GUID.GetHashCode())
                 action = new AsteroidGrowth(mgr, owner);
-            else if (hash == typeof(AsteroidSlow).GUID.GetHashCode())
-                action = new AsteroidSlow(mgr, owner);
             else if (hash == typeof(AsteroidThrow).GUID.GetHashCode())
                 action = new AsteroidThrow(mgr, owner);
-            else if (hash == typeof(StaticField).GUID.GetHashCode())
-                action = new StaticField(mgr, owner);
 
             if (action != null)
                 action.ReadObject(msg);
@@ -864,49 +861,6 @@ namespace Orbit.Core.Helpers
             }
 
             return temp;
-        }
-
-        public static void WriteParticleFactory(this NetOutgoingMessage msg, IParticleFactory f)
-        {
-            int hash = 0;
-            if (f is ParticleSphereFactory)
-                hash = typeof(ParticleSphereFactory).GUID.GetHashCode();
-            else if (f is ParticleImageFactory)
-                hash = typeof(ParticleImageFactory).GUID.GetHashCode();
-            else if (f is ParticleSmokeFactory)
-                hash = typeof(ParticleSmokeFactory).GUID.GetHashCode();
-            else if (f is BaseParticleFactory)
-                hash = typeof(BaseParticleFactory).GUID.GetHashCode();
-            else
-            {
-                Logger.Error("Sending unsupported factory (" + f.GetType().Name + ")!");
-            }
-
-            Logger.Warn("Sending particle factory (" + f.GetType().Name + ") hash " + hash);
-            msg.Write(hash);
-
-            f.WriteObject(msg);
-        }
-
-        public static IParticleFactory ReadParticleFactory(this NetIncomingMessage msg)
-        {
-            IParticleFactory f = null;
-            int hash = msg.ReadInt32();
-            if (hash == typeof(ParticleSphereFactory).GUID.GetHashCode())
-                f = new ParticleSphereFactory();
-            else if (hash == typeof(ParticleImageFactory).GUID.GetHashCode())
-                f = new ParticleImageFactory();
-            else if (hash == typeof(ParticleSmokeFactory).GUID.GetHashCode())
-                f = new ParticleSmokeFactory();
-            else if (hash == typeof(BaseParticleFactory).GUID.GetHashCode())
-                f = new BaseParticleFactory();
-            else
-                Logger.Error("Reading unsupported factory! Hash " + hash);
-
-            Logger.Warn("Reading particle factory (" + f.GetType().Name + ") hash " + hash);
-
-            f.ReadObject(msg);
-            return f;
         }
     }
 }

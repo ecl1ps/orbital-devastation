@@ -1,5 +1,4 @@
-﻿using Orbit.Core.Server.Level.Test;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,8 +37,6 @@ namespace Orbit.Core.Server.Level
                     return LevelTestPoweUp.Info;
                 case GameLevel.TEST_STATIC_OBJ:
                     return LevelTestStaticObjects.Info;
-                case GameLevel.TEST_PARTICLES:
-                    return LevelTestParticles.Info;
                 case GameLevel.TEST_BURNING_ASTEROIDS:
                     return LevelTestBurningAsteroids.Info;
                 default:

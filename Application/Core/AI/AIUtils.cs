@@ -7,6 +7,7 @@ using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Controls;
 using Orbit.Core.Scene.Entities.Implementations;
 using Orbit.Core.Scene.Controls.Implementations;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.AI
 {
@@ -49,27 +50,27 @@ namespace Orbit.Core.AI
 
 
 
-        public static Vector ComputeDestinationPositionToHitTarget(ISceneObject targetObject, double sourceSpeed, Vector sourceCenter, Random randomGenerator)
+        public static Vector2 ComputeDestinationPositionToHitTarget(ISceneObject targetObject, float sourceSpeed, Vector2 sourceCenter, Random randomGenerator)
         {
-            Vector randomResultDirection = new Vector(1, 0).Rotate(FastMath.GetRandomRotation(randomGenerator));
+            Vector2 randomResultDirection = new Vector2(1, 0).Rotate(FastMath.GetRandomRotation(randomGenerator));
 
             if (targetObject == null)
                 return randomResultDirection;
 
             // rychlost bulletu
-            double v1 = sourceSpeed;
+            float v1 = sourceSpeed;
             // rychlost objektu
             IMovementControl mc = targetObject.GetControlOfType<IMovementControl>();
-            double v2 = mc == null ? 0 : mc.Speed;
+            float v2 = mc == null ? 0 : mc.Speed;
             // vektor od objektu k launcheru hooku
-            Vector cVec = sourceCenter - targetObject.Center;
+            Vector2 cVec = sourceCenter - targetObject.Center;
             // vektor smeru objektu
-            Vector dVec = (targetObject as IMovable).Direction;
+            Vector2 dVec = (targetObject as IMovable).Direction;
 
             // vzdalenost mezi nabojem a objektem
-            double c = cVec.Length;
+            float c = cVec.Length();
             // cosinus uhlu, ktery sviraji vektory pohybu objektu a smeru k launcheru
-            double cosAlpha = (cVec.X * dVec.X + cVec.Y * dVec.Y) / (cVec.Length * dVec.Length);
+            float cosAlpha = (cVec.X * dVec.X + cVec.Y * dVec.Y) / (cVec.Length() * dVec.Length());
 
             // diskriminant pro kvadratickou rovnici cosinovy vety
             double D = Math.Pow(2 * c * cosAlpha, 2) - 4 * c * c * (1 - Math.Pow(v1 / v2, 2));
@@ -81,7 +82,7 @@ namespace Orbit.Core.AI
 
             // kvadraticka rovnice cosinovy vety
             // odectenim D ziskame bod pred telesem, prictenim bychom ziskali bod za telesem (ve smeru jeho pohybu)
-            double x1 = (2 * c * cosAlpha - sqrtD) / (2 - 2 * Math.Pow(v1 / v2, 2));
+            float x1 = (float) ((2 * c * cosAlpha - sqrtD) / (2 - 2 * Math.Pow(v1 / v2, 2)));
 
             dVec.Normalize();
 

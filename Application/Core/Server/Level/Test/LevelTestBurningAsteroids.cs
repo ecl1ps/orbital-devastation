@@ -10,6 +10,7 @@ using Orbit.Core.Weapons;
 using Lidgren.Network;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Scene.Controls;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Server.Level
 {
@@ -36,27 +37,27 @@ namespace Orbit.Core.Server.Level
             switch (step)
             {
                 case 1:
-                    a = ServerSceneObjectFactory.CreateCustomAsteroid(mgr, radius, new Vector(500, 200), new Vector(0, 1), AsteroidType.NORMAL);
+                    a = ServerSceneObjectFactory.CreateCustomAsteroid(mgr, radius, new Vector2(500, 200), new Vector2(0, 1), AsteroidType.NORMAL);
                     a.GetControlOfType<IMovementControl>().Speed = 100;
                     break;
                 case 2:
-                    a = ServerSceneObjectFactory.CreateCustomAsteroid(mgr, radius, new Vector(500, 200), new Vector(1, 1).NormalizeV(), AsteroidType.NORMAL);
+                    a = ServerSceneObjectFactory.CreateCustomAsteroid(mgr, radius, new Vector2(500, 200), new Vector2(1, 1).NormalizeV(), AsteroidType.NORMAL);
                     a.GetControlOfType<IMovementControl>().Speed = 100;
                     break;
                 case 3:
-                    a = ServerSceneObjectFactory.CreateCustomAsteroid(mgr, radius, new Vector(500, 300), new Vector(1, 0), AsteroidType.NORMAL);
+                    a = ServerSceneObjectFactory.CreateCustomAsteroid(mgr, radius, new Vector2(500, 300), new Vector2(1, 0), AsteroidType.NORMAL);
                     a.GetControlOfType<IMovementControl>().Speed = 100;
                     break;
                 case 4:
-                    a = ServerSceneObjectFactory.CreateCustomAsteroid(mgr, radius / 2, new Vector(500, 300), new Vector(-1, 0), AsteroidType.NORMAL);
+                    a = ServerSceneObjectFactory.CreateCustomAsteroid(mgr, radius / 2, new Vector2(500, 300), new Vector2(-1, 0), AsteroidType.NORMAL);
                     a.GetControlOfType<IMovementControl>().Speed = 100;
                     break;
                 case 5:
-                    a = ServerSceneObjectFactory.CreateCustomAsteroid(mgr, radius, new Vector(550, 400), new Vector(0, -1), AsteroidType.NORMAL);
+                    a = ServerSceneObjectFactory.CreateCustomAsteroid(mgr, radius, new Vector2(550, 400), new Vector2(0, -1), AsteroidType.NORMAL);
                     a.GetControlOfType<IMovementControl>().Speed = 60;
                     break;
                 case 6:
-                    a = ServerSceneObjectFactory.CreateCustomAsteroid(mgr, radius, new Vector(500, 400), new Vector(1, -1).NormalizeV(), AsteroidType.NORMAL);
+                    a = ServerSceneObjectFactory.CreateCustomAsteroid(mgr, radius, new Vector2(500, 400), new Vector2(1, -1).NormalizeV(), AsteroidType.NORMAL);
                     a.GetControlOfType<IMovementControl>().Speed = 40;
                     break;
                 default:

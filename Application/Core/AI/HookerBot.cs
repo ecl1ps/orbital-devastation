@@ -9,7 +9,7 @@ using Orbit.Core.Weapons;
 using System.Windows;
 using Orbit.Core.Players;
 using Orbit.Core.Helpers;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Scene.Controls;
 
@@ -25,14 +25,14 @@ namespace Orbit.Core.AI
         private SceneMgr sceneMgr;
         private List<ISceneObject> objects;
         private Player me;
-        private Vector baseLauncherPosition;
+        private Vector2 baseLauncherPosition;
 
         public HookerBot(SceneMgr mgr, List<ISceneObject> objects, Player bot)
         {
             sceneMgr = mgr;
             this.objects = objects;
             me = bot;
-            baseLauncherPosition = new Vector(me.GetBaseLocation().X + me.GetBaseLocation().Width / 2, me.GetBaseLocation().Y - 5);
+            baseLauncherPosition = new Vector2(me.GetBaseLocation().X + me.GetBaseLocation().Width / 2, me.GetBaseLocation().Y - 5);
 
             me.Data.MineCooldown = me.Data.MineCooldown * 2f;
             me.Data.BulletCooldown = me.Data.BulletCooldown * 2f;
@@ -58,10 +58,10 @@ namespace Orbit.Core.AI
             if (nearest == null)
                 return;
 
-            Vector contactPoint1 = AIUtils.ComputeDestinationPositionToHitTarget(nearest, me.Data.HookSpeed, baseLauncherPosition, me.SceneMgr.GetRandomGenerator());
+            Vector2 contactPoint1 = AIUtils.ComputeDestinationPositionToHitTarget(nearest, me.Data.HookSpeed, baseLauncherPosition, me.SceneMgr.GetRandomGenerator());
 
             // nestrili, pokud tam nedosahne
-            if ((baseLauncherPosition - contactPoint1).Length > me.Data.HookLenght)
+            if ((baseLauncherPosition - contactPoint1).Length() > me.Data.HookLenght)
                 return;
 
             // nestrili pod bazi
@@ -76,15 +76,15 @@ namespace Orbit.Core.AI
         private Asteroid GetNearestAsteroid()
         {
             ISceneObject nearest = null;
-            double nearestDistSqr = 10000000;
-            double objDistantSqr = 10000000;
+            float nearestDistSqr = 10000000;
+            float objDistantSqr = 10000000;
 
             foreach (ISceneObject obj in objects)
             {
                 if (!(obj is Asteroid))
                     continue;
 
-                objDistantSqr = (obj.Position - baseLauncherPosition).LengthSquared;
+                objDistantSqr = (obj.Position - baseLauncherPosition).LengthSquared();
                 if (objDistantSqr < nearestDistSqr)
                 {
                     nearestDistSqr = objDistantSqr;
@@ -107,16 +107,16 @@ namespace Orbit.Core.AI
 
         private void MineDrop()
         {
-            Rect opponentLoc = PlayerBaseLocation.GetBaseLocation(me.GetPosition() == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT);
+            Rectangle opponentLoc = PlayerBaseLocation.GetBaseLocation(me.GetPosition() == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT);
             double xMin = opponentLoc.X;
             double xMax = opponentLoc.X + opponentLoc.Width;
-            me.Mine.Shoot(new Point(sceneMgr.GetRandomGenerator().Next((int)xMin, (int)xMax), 1));
+            me.Mine.Shoot(new Vector2(sceneMgr.GetRandomGenerator().Next((int)xMin, (int)xMax), 1));
  
         }
 
         private void CannonShoot()
         {
-            me.Canoon.Shoot(new Point(sceneMgr.GetRandomGenerator().Next(0, (int)SharedDef.VIEW_PORT_SIZE.Width), 0));
+            me.Canoon.Shoot(new Vector2(sceneMgr.GetRandomGenerator().Next(0, (int)SharedDef.VIEW_PORT_SIZE.Width), 0));
         }
     }
 }

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using Orbit.Core.Scene.Entities;
+using Microsoft.Xna.Framework;
+using Orbit.Core;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -13,13 +15,13 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         protected override void InitControl(ISceneObject me)
         {
-            if (!(me is IRotable) || !(me is IMovable))
-                throw new ArgumentException("DirectionDrivenRotationControl must by attached to an IRotable and an IMovable object");
+            if (!(me is IMovable))
+                throw new ArgumentException("DirectionDrivenRotationControl must by attached to an IMovable object");
         }
 
         protected override void UpdateControl(float tpf)
         {
-            (me as IRotable).Rotation = (float)FastMath.DegToRad(Vector.AngleBetween(SharedDef.DEFAULT_VECTOR, (me as IMovable).Direction));
+            me.Rotation = (float) FastMath.DegToRad(SharedDef.DEFAULT_VECTOR.AngleBetween((me as IMovable).Direction));
 
             //Logger.Debug("Rotation: " + (me as IRotable).Rotation + " vec(" + (me as IMovable).Direction.ToString() + ")");
         }

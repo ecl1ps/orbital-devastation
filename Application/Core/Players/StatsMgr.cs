@@ -8,6 +8,7 @@ using Lidgren.Network;
 using System.Windows;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Entities;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Players
 { 
@@ -51,7 +52,7 @@ namespace Orbit.Core.Players
 
             Tuple<float, float> valAndPct = GenerateAndAddStatToPlayer(pickedStat, plr.Data);
 
-            Vector textPos = new Vector(plr.GetBaseLocation().X + (plr.GetBaseLocation().Width / 2), plr.GetBaseLocation().Y - 40);
+            Vector2 textPos = new Vector2(plr.GetBaseLocation().X + (plr.GetBaseLocation().Width / 2), plr.GetBaseLocation().Y - 40);
             sceneMgr.FloatingTextMgr.AddFloatingText(String.Format(Strings.Culture, Strings.ft_powerup, 
                 pickedStat.text, (valAndPct.Item2 > 0 ? Strings.char_plus : string.Empty), valAndPct.Item2.ToString("0.0", Strings.Culture)), 
                 textPos, FloatingTextManager.TIME_LENGTH_3, FloatingTextType.SYSTEM, 14, true, true);

@@ -14,6 +14,7 @@ using Orbit.Core.Helpers;
 using System.Windows.Input;
 using Orbit.Core.SpecialActions;
 using Orbit.Core.SpecialActions.Gamer;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Weapons
 {
@@ -43,7 +44,7 @@ namespace Orbit.Core.Weapons
             ReloadTime = 0;
         }
 
-        public ISceneObject Shoot(Point point, bool noControl = false)
+        public ISceneObject Shoot(Vector2 point, bool noControl = false)
         {
             if (IsReady() || noControl) {
                 ISceneObject obj = SpawnHook(point);
@@ -66,7 +67,7 @@ namespace Orbit.Core.Weapons
             return next;
         }
 
-        protected virtual ISceneObject SpawnHook(Point point)
+        protected virtual ISceneObject SpawnHook(Vector2 point)
         {
             if (point.Y > Owner.GetBaseLocation().Y - 5)
                 point.Y = Owner.GetBaseLocation().Y - 5;
@@ -82,7 +83,7 @@ namespace Orbit.Core.Weapons
                 return hook;
         }
 
-        protected virtual Hook CreateHook(Point point)
+        protected virtual Hook CreateHook(Vector2 point)
         {
             return SceneObjectFactory.CreateHook(SceneMgr, point, Owner);
         }
@@ -106,7 +107,7 @@ namespace Orbit.Core.Weapons
         }
 
 
-        public virtual void ProccessClickEvent(Point point, MouseButton button, MouseButtonState state)
+        public virtual void ProccessClickEvent(Vector2 point, MouseButton button, MouseButtonState state)
         {
             foreach (IWeaponClickListener listener in listeners)
             {

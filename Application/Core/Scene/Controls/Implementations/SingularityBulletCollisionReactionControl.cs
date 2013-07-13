@@ -9,8 +9,8 @@ using Orbit.Core.Players;
 using Orbit.Core.Client.GameStates;
 using System.Windows;
 using Lidgren.Network;
-using Orbit.Core.Scene.Particles.Implementations;
 using Orbit.Core.Helpers;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -102,7 +102,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
                 if (asteroid is UnstableAsteroid)
                 {
-                    Rect opponentLoc = PlayerBaseLocation.GetBaseLocation(bullet.Owner.GetPosition() == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT);
+                    Rectangle opponentLoc = PlayerBaseLocation.GetBaseLocation(bullet.Owner.GetPosition() == PlayerPosition.RIGHT ? PlayerPosition.LEFT : PlayerPosition.RIGHT);
                     double xMin = opponentLoc.X;
                     double xMax = opponentLoc.X + opponentLoc.Width;
 
@@ -125,9 +125,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
             msg.Write(asteroid.Id);
             msg.Write(bullet.Damage);
             bullet.SceneMgr.SendMessage(msg);
-
-            EmmitorGroup g = ParticleEmmitorFactory.CreateBulletImplosionEmmitor(bullet.SceneMgr, bullet.Center, bullet.Color);
-            g.Attach(bullet.SceneMgr, false);
         }
     }
 }

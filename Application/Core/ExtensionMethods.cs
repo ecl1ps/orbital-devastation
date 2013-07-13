@@ -4,74 +4,92 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Threading;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core
 {
     public static class ExtensionMethods
     {
 
-        public static Point ToPoint(this Vector vec)
+        public static Vector2 ToPoint(this Vector2 vec)
         {
-            return new Point(vec.X, vec.Y);
+            return new Vector2(vec.X, vec.Y);
         }
 
-        public static double Distance(this Point p1, Point p2)
+        public static double Distance(this Vector2 p1, Vector2 p2)
         {
             double d = Math.Pow(p1.X - p2.X, 2) + Math.Pow(p2.Y - p2.Y, 2);
             return Math.Sqrt(d);
         }
 
-        public static float GetHorizontalLenght(this Vector vec)
+        public static float GetHorizontalLenght(this Vector2 vec)
         {
-            return (float)new Vector(vec.X, 0).Length;
+            return (float)new Vector2(vec.X, 0).Length();
         }
 
-        public static Vector Clone(this Vector vec)
+        public static Vector2 Clone(this Vector2 vec)
         {
-            return new Vector(vec.X, vec.Y);
+            return new Vector2(vec.X, vec.Y);
         }
 
-        public static Vector ToVector(this Point p)
+        public static Vector2 ToVector(this Vector2 p)
         {
-            return new Vector(p.X, p.Y);
+            return new Vector2(p.X, p.Y);
         }
 
-        public static Vector NormalizeV(this Vector v)
+        public static Vector2 NormalizeV(this Vector2 v)
         {
-            return new Vector(v.X / v.Length, v.Y / v.Length);
+            return new Vector2(v.X / v.Length(), v.Y / v.Length());
         }
 
-        public static Vector Rotate(this Vector vec, double angle, Vector rotationOrigin, bool inRadians = true)
+        public static Vector2 Rotate(this Vector2 vec, float angle, Vector2 rotationOrigin, bool inRadians = true)
         {
             if (!inRadians)
-                angle = Math.PI * angle / 180;
+                angle = (float) (Math.PI * angle / 180);
 
             return rotationOrigin + Rotate(vec - rotationOrigin, angle);
         }
 
-        public static Vector Rotate(this Vector vec, double angle, bool inRadians = true)
+        public static Vector2 Rotate(this Vector2 vec, float angle, bool inRadians = true)
         {
-            return Rotate(vec, new Vector(0, 0), angle, inRadians);
+            return Rotate(vec, new Vector2(0, 0), angle, inRadians);
         }
 
-        public static Vector Rotate(this Vector vec, Vector center, double angle, bool inRadians = true)
+        public static Vector2 Rotate(this Vector2 vec, Vector2 center, float angle, bool inRadians = true)
         {
             if (!inRadians)
                 angle = FastMath.DegToRad(angle);
 
-            double x = vec.X - center.X;
-            double y = vec.Y - center.Y;
+            float x = vec.X - center.X;
+            float y = vec.Y - center.Y;
 
-            x = ((vec.X * Math.Cos(angle)) - (vec.Y * Math.Sin(angle)));
-            y = ((vec.X * Math.Sin(angle)) + (vec.Y * Math.Cos(angle)));
+            x = (float) ((vec.X * Math.Cos(angle)) - (vec.Y * Math.Sin(angle)));
+            y = (float) ((vec.X * Math.Sin(angle)) + (vec.Y * Math.Cos(angle)));
 
-            return new Vector(x + center.X, y + center.Y);
+            return new Vector2(x + center.X, y + center.Y);
         }
 
-        public static Vector Normal(this Vector v)
+        public static Vector2 Normal(this Vector2 v)
         {
-            return new Vector(-v.Y, v.X);
+            return new Vector2(-v.Y, v.X);
+        }
+
+        public static float AngleBetween(this Vector2 v1, Vector2 v2)
+        {
+            v1.Normalize();
+            v2.Normalize();
+            double Angle = (float)Math.Acos(Vector2.Dot(v1, v2));
+            return (float)Angle;
+        }
+
+        public static System.Windows.Media.Color ToWindowsColor(this Color c)
+        {
+            return System.Windows.Media.Color.FromArgb((byte)(c.A * 255), (byte)(c.R * 255), (byte)(c.G * 255), (byte)(c.B * 255));
+        }
+
+        public static Color ToXnaColor(this System.Windows.Media.Color c)
+        {
+            return new Color(c.A, c.R, c.G, c.B);
         }
     }
 }

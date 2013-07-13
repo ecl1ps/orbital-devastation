@@ -6,6 +6,7 @@ using Orbit.Core.Scene.Entities;
 using System.Windows;
 using Lidgren.Network;
 using Orbit.Core.Helpers;
+using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Scene.Controls.Implementations
 {
@@ -101,8 +102,8 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         protected override void UpdateControl(float tpf)
         {
-            Vector botVector = new Vector(0, SharedDef.SPECTATOR_MODULE_SPEED * tpf);
-            Vector rightVector = new Vector(SharedDef.SPECTATOR_MODULE_SPEED * tpf, 0);
+            Vector2 botVector = new Vector2(0, SharedDef.SPECTATOR_MODULE_SPEED * tpf);
+            Vector2 rightVector = new Vector2(SharedDef.SPECTATOR_MODULE_SPEED * tpf, 0);
 
             if (IsMovingTop && (me.Position.Y - botVector.Y) > 0)
                 me.Position -= botVector;

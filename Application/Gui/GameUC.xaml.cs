@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -27,40 +27,6 @@ namespace Orbit.Gui
             InitializeComponent();
             //Dispatcher.Invoke(new Action(() => mainCanvas.Children.Add(gameControl)));
             mainCanvas.Children.Add(gameControl);
-        }
-
-        private void OnCanvasMouseClick(object sender, MouseButtonEventArgs e)
-        {
-            Point p = e.GetPosition(mainCanvas);
-
-            App.Instance.GetSceneMgr().Enqueue(new Action(() =>
-            {
-                App.Instance.GetSceneMgr().OnCanvasClick(p, e);
-            }));
-        }
-
-        [System.Reflection.ObfuscationAttribute(Feature = "renaming")]
-        private void OnActionBarClick(object sender, MouseButtonEventArgs e)
-        {
-            // okno je zavirano a mouse click event je nejak zpozden - zpusobi to jinak crash
-            if ((((ActionBarUC.Parent as Grid).Parent as Canvas).Parent as GameUC).Parent == null)
-                return;
-
-            Point p = e.GetPosition(ActionBarUC);
-
-            (ActionBarUC as ActionBar).OnClick(ActionBarUC.PointToScreen(p));
-        }
-
-        private void OnCanvasMouseMove(object sender, MouseEventArgs e)
-        {
-            if (Application.Current == null)
-                return;
-
-            Point p = e.GetPosition(mainCanvas);
-            App.Instance.GetSceneMgr().Enqueue(new Action(() =>
-            {
-                App.Instance.GetSceneMgr().OnCanvasMouseMove(p);
-            }));
         }
 
         private void settings_MouseDown(object sender, MouseButtonEventArgs e)

@@ -2,7 +2,7 @@ using System;
 using System.Windows;
 using Orbit.Core.Scene.Controls;
 using System.Windows.Threading;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using Lidgren.Network;
 using System.Collections.Generic;
 using Orbit.Core.Players;
@@ -14,30 +14,14 @@ using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
-    public class SingularityMine : Sphere, ISendable, IProjectile
+    public class SingularityMine : TexturedSphere, ISendable, IProjectile
     {
-        public bool IsVisible { get; set; } // neposilan - pouzivano pouze controlem SingularityControl
         public Player Owner { get; set; } // neposilan
-        public Brush BorderBrush { get; set; } // neposilan
-        public Brush FillBrush { get; set; } // neposilan
 
         public SingularityMine(SceneMgr mgr, long id)
             : base(mgr, id)
         {
-            BorderBrush = Brushes.Black;
-            FillBrush = Brushes.Black;
             Category = DrawingCategory.PROJECTILES;
-        }
-
-        protected override void UpdateGeometricState()
-        {
-            /*
-            EllipseGeometry elipse = (geometryElement.Children[0] as GeometryDrawing).Geometry as EllipseGeometry;
-            elipse.RadiusX = Radius;
-            elipse.RadiusY = Radius;
-            (geometryElement.Children[0] as GeometryDrawing).Pen = new Pen(BorderBrush, 1);
-            (geometryElement.Children[0] as GeometryDrawing).Brush = FillBrush;
-             */
         }
 
         public void WriteObject(NetOutgoingMessage msg)

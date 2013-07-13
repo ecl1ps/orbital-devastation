@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Players;
-using System.Windows.Media;
+using Microsoft.Xna.Framework;
 using System.Windows;
 using System.Windows.Threading;
 using Orbit.Core.Scene.Controls;
@@ -16,12 +16,9 @@ using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Scene.CollisionShapes;
 using Orbit.Core.Scene.Controls.Collisions.Implementations;
 using Orbit.Core.Scene.Controls.Health.Implementations;
-using Orbit.Core.Scene.Entities.Implementations.HeavyWeight;
-using Orbit.Core.Scene.Entities.HeavyWeight;
 using Orbit.Core.SpecialActions.Spectator;
 using Orbit.Gui.Visuals;
 using Orbit.Core.SpecialActions;
-using Orbit.Core.Scene.Particles.Implementations;
 
 namespace Orbit.Core.Helpers
 {
@@ -34,34 +31,31 @@ namespace Orbit.Core.Helpers
             baze.Owner = plr;
             baze.BasePosition = plr.Data.PlayerPosition;
             baze.Color = plr.Data.PlayerColor;
-            baze.Position = new Vector(plr.GetBaseLocation().X, plr.GetBaseLocation().Y);
-            baze.Size = new Size(plr.GetBaseLocation().Width, plr.GetBaseLocation().Height);
+            baze.Position = new Vector2(plr.GetBaseLocation().X, plr.GetBaseLocation().Y);
+            baze.Rectangle = new Rectangle(0, 0, plr.GetBaseLocation().Width, plr.GetBaseLocation().Height);
 
             SphereCollisionShape cs = new SphereCollisionShape();
-            cs.Center = new Vector(baze.Center.X, baze.Position.Y + 2.5 * baze.Size.Height);
-            cs.Radius = (int)(baze.Size.Width / 1.6);
+            cs.Center = new Vector2(baze.Center.X, baze.Position.Y + 2.5f * baze.Rectangle.Height);
+            cs.Radius = (int)(baze.Rectangle.Width / 1.6);
             baze.CollisionShape = cs;
 
             BaseHealthControl hc = new BaseHealthControl();
             baze.AddControl(hc);
 
             baze.AddControl(new BaseCollisionControl());
-
-            baze.LoadImages();
-            baze.SetGeometry(baze.Image100);
+            baze.Texture = SceneGeometryFactory.Base_100;
 
             return baze;
         }
 
-        public static SingularityMine CreatePowerlessMine(SceneMgr mgr, Vector pos, Vector dir, Player plr)
+        public static SingularityMine CreatePowerlessMine(SceneMgr mgr, Vector2 pos, Vector2 dir, Player plr)
         {
             SingularityMine mine = new SingularityMine(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             mine.Position = pos;
             mine.Owner = plr;
             mine.Radius = 2;
             mine.Direction = dir;
-            mine.Color = Colors.BlueViolet;
-            mine.SetGeometry(SceneGeometryFactory.CreateMineImage(mine));
+            mine.Texture = SceneGeometryFactory.Mine;
                 
             SphereCollisionShape cs = new SphereCollisionShape();
             cs.Center = mine.Center;
@@ -78,14 +72,13 @@ namespace Orbit.Core.Helpers
             return mine;
         }
 
-        public static SingularityMine CreateDroppingSingularityMine(SceneMgr mgr, Point point, Player plr)
+        public static SingularityMine CreateDroppingSingularityMine(SceneMgr mgr, Vector2 point, Player plr)
         {
             SingularityMine mine = new SingularityMine(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
-            mine.Position = new Vector(point.X, 0);
+            mine.Position = new Vector2(point.X, 0);
             mine.Owner = plr;
             mine.Radius = 12;
-            mine.Direction = new Vector(0, 1);
-            mine.Color = Colors.BlueViolet;
+            mine.Direction = new Vector2(0, 1);
 
             SphereCollisionShape cs = new SphereCollisionShape();
             cs.Center = mine.Center;
@@ -107,19 +100,18 @@ namespace Orbit.Core.Helpers
 
             mine.AddControl(new StickySphereCollisionShapeControl());
 
-            mine.SetGeometry(SceneGeometryFactory.CreateMineImage(mine));
+            mine.Texture = SceneGeometryFactory.Mine;
 
             return mine;
         }
 
-        public static SingularityMine CreateAsteroidDroppingSingularityMine(SceneMgr mgr, Point point, Player plr)
+        public static SingularityMine CreateAsteroidDroppingSingularityMine(SceneMgr mgr, Vector2 point, Player plr)
         {
             SingularityMine mine = new SingularityMine(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
-            mine.Position = new Vector(point.X, 0);
+            mine.Position = new Vector2(point.X, 0);
             mine.Owner = plr;
             mine.Radius = 12;
-            mine.Direction = new Vector(0, 1);
-            mine.Color = Colors.BlueViolet;
+            mine.Direction = new Vector2(0, 1);
 
             SphereCollisionShape cs = new SphereCollisionShape();
             cs.Center = mine.Center;
@@ -141,15 +133,15 @@ namespace Orbit.Core.Helpers
 
             mine.AddControl(new StickySphereCollisionShapeControl());
 
-            mine.SetGeometry(SceneGeometryFactory.CreateMineImage(mine));
+            mine.Texture = SceneGeometryFactory.Mine;
 
             return mine;
         }
 
-        public static SingularityBullet CreateSingularityBullet(SceneMgr mgr, Point point, Player plr)
+        public static SingularityBullet CreateSingularityBullet(SceneMgr mgr, Vector2 point, Player plr)
         {
-            Vector position = new Vector(plr.GetBaseLocation().X + plr.GetBaseLocation().Width / 2, plr.GetBaseLocation().Y);
-            Vector direction = point.ToVector() - position;
+            Vector2 position = new Vector2(plr.GetBaseLocation().X + plr.GetBaseLocation().Width / 2, plr.GetBaseLocation().Y);
+            Vector2 direction = point.ToVector() - position;
             direction.Normalize();
 
             SingularityBullet bullet = new SingularityBullet(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
@@ -171,15 +163,13 @@ namespace Orbit.Core.Helpers
             bullet.AddControl(new SingularityBulletCollisionReactionControl());
             bullet.AddControl(new StickyPointCollisionShapeControl());
 
-            bullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(bullet));
-
             return bullet;
         }
 
-        public static Hook CreateHook(SceneMgr mgr, Point point, Player player)
+        public static Hook CreateHook(SceneMgr mgr, Vector2 point, Player player)
         {
-            Vector position = new Vector(player.GetBaseLocation().X + player.GetBaseLocation().Width / 2, player.GetBaseLocation().Y - 5);
-            Vector direction = point.ToVector() - position;
+            Vector2 position = new Vector2(player.GetBaseLocation().X + player.GetBaseLocation().Width / 2, player.GetBaseLocation().Y - 5);
+            Vector2 direction = point.ToVector() - position;
             direction.Normalize();
 
             Hook hook = new Hook(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
@@ -188,11 +178,11 @@ namespace Orbit.Core.Helpers
             position.X -= hook.Radius;
             position.Y -= hook.Radius;
             hook.Position = position;
-            hook.Rotation = (float)Vector.AngleBetween(new Vector(0, -1), direction);
+            hook.Rotation = new Vector2(0, -1).AngleBetween(direction);
             hook.Direction = direction;
             hook.Color = player.GetPlayerColor();
 
-            hook.SetGeometry(SceneGeometryFactory.CreateHookHead(hook));
+            hook.Texture = SceneGeometryFactory.Hook;
 
             SphereCollisionShape cs = new SphereCollisionShape();
             cs.Radius = hook.Radius / 2;
@@ -200,22 +190,20 @@ namespace Orbit.Core.Helpers
             hook.CollisionShape = cs;
 
             HookControl hookControl = new HookControl();
-            hookControl.Origin = new Vector(hook.Center.X, hook.Center.Y);
+            hookControl.Origin = new Vector2(hook.Center.X, hook.Center.Y);
             hookControl.Speed = player.Data.HookSpeed;
             hookControl.Lenght = player.Data.HookLenght;
 
             hook.AddControl(hookControl);
             hook.AddControl(new StickySphereCollisionShapeControl());
 
-            hook.PrepareLine();
-            
             return hook;
         }
 
-        public static PowerHook CreatePowerHook(SceneMgr mgr, Point point, Player player)
+        public static PowerHook CreatePowerHook(SceneMgr mgr, Vector2 point, Player player)
         {
-            Vector position = new Vector(player.GetBaseLocation().X + player.GetBaseLocation().Width / 2, player.GetBaseLocation().Y - 5);
-            Vector direction = point.ToVector() - position;
+            Vector2 position = new Vector2(player.GetBaseLocation().X + player.GetBaseLocation().Width / 2, player.GetBaseLocation().Y - 5);
+            Vector2 direction = point.ToVector() - position;
             direction.Normalize();
 
             PowerHook hook = new PowerHook(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
@@ -224,11 +212,11 @@ namespace Orbit.Core.Helpers
             position.X -= hook.Radius;
             position.Y -= hook.Radius;
             hook.Position = position;
-            hook.Rotation = (float)Vector.AngleBetween(new Vector(0, -1), direction);
+            hook.Rotation = new Vector2(0, -1).AngleBetween(direction);
             hook.Direction = direction;
-            hook.Color = Colors.RoyalBlue;
+            hook.Color = Color.RoyalBlue;
 
-            hook.SetGeometry(SceneGeometryFactory.CreateHookHead(hook));
+            hook.Texture = SceneGeometryFactory.Hook;
 
             SphereCollisionShape cs = new SphereCollisionShape();
             cs.Radius = hook.Radius / 2;
@@ -236,19 +224,17 @@ namespace Orbit.Core.Helpers
             hook.CollisionShape = cs;
 
             PowerHookControl hookControl = new PowerHookControl();
-            hookControl.Origin = new Vector(hook.Center.X, hook.Center.Y);
+            hookControl.Origin = new Vector2(hook.Center.X, hook.Center.Y);
             hookControl.Speed = player.Data.HookSpeed;
             hookControl.Lenght = player.Data.HookLenght;
 
             hook.AddControl(hookControl);
             hook.AddControl(new StickySphereCollisionShapeControl());
 
-            hook.PrepareLine();
-
             return hook;
         }
 
-        public static MinorAsteroid CreateSmallAsteroid(SceneMgr mgr, Vector direction, Vector center, int rot, int textureId, int radius,float speed, double rotation)
+        public static MinorAsteroid CreateSmallAsteroid(SceneMgr mgr, Vector2 direction, Vector2 center, int rot, int textureId, int radius,float speed, float rotation)
         {
             MinorAsteroid asteroid = new MinorAsteroid(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             asteroid.AsteroidType = AsteroidType.SPAWNED;
@@ -259,7 +245,7 @@ namespace Orbit.Core.Helpers
             asteroid.Gold = radius * 2;
             asteroid.TextureId = textureId;
             asteroid.Enabled = true;
-            asteroid.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(asteroid));
+            asteroid.Texture = SceneGeometryFactory.GetAsteroidTexture(asteroid);
 
             SphereCollisionShape cs = new SphereCollisionShape();
             cs.Center = asteroid.Center;
@@ -280,7 +266,7 @@ namespace Orbit.Core.Helpers
             return asteroid;
         }
 
-        /*public static VectorLine CreateVectorLine(SceneMgr mgr, Vector origin, Vector vector, Color color, ISceneObject parent = null)
+        /*public static VectorLine CreateVectorLine(SceneMgr mgr, Vector2 origin, Vector2 vector, Color color, ISceneObject parent = null)
         {
             VectorLine l = new VectorLine(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             l.Position = origin;
@@ -299,7 +285,7 @@ namespace Orbit.Core.Helpers
             return l;
         }*/
 
-        /*public static Circle CreateCircle(SceneMgr mgr, Vector point, Color color)
+        /*public static Circle CreateCircle(SceneMgr mgr, Vector2 point, Color color)
         {
             Circle c = new Circle(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             c.Position = point;
@@ -316,16 +302,16 @@ namespace Orbit.Core.Helpers
             return c;
         }*/
 
-        public static SingularityExplodingBullet CreateSingularityExploadingBullet(SceneMgr mgr, Vector point, Player plr)
+        public static SingularityExplodingBullet CreateSingularityExploadingBullet(SceneMgr mgr, Vector2 point, Player plr)
         {
-            Vector position = new Vector(plr.GetBaseLocation().X + plr.GetBaseLocation().Width / 2, plr.GetBaseLocation().Y);
+            Vector2 position = new Vector2(plr.GetBaseLocation().X + plr.GetBaseLocation().Width / 2, plr.GetBaseLocation().Y);
 
             return CreateSingularityExploadingBullet(mgr, point, position, plr);
         }
 
-        public static SingularityExplodingBullet CreateSingularityExploadingBullet(SceneMgr mgr, Vector point, Vector position, Player plr)
+        public static SingularityExplodingBullet CreateSingularityExploadingBullet(SceneMgr mgr, Vector2 point, Vector2 position, Player plr)
         {
-            Vector direction = point - position;
+            Vector2 direction = point - position;
             direction.Normalize();
 
             SingularityExplodingBullet bullet = new SingularityExplodingBullet(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
@@ -345,9 +331,9 @@ namespace Orbit.Core.Helpers
             return bullet;
         }
 
-        public static void InitSingularityBullet(SingularityBullet bullet, SceneMgr mgr, Vector point, Vector position, Player plr)
+        public static void InitSingularityBullet(SingularityBullet bullet, SceneMgr mgr, Vector2 point, Vector2 position, Player plr)
         {
-            Vector direction = point - position;
+            Vector2 direction = point - position;
             direction.Normalize();
 
             bullet.Position = position;
@@ -361,14 +347,12 @@ namespace Orbit.Core.Helpers
             LinearMovementControl lmc = new LinearMovementControl();
             lmc.Speed = plr.Data.BulletSpeed;
             bullet.AddControl(lmc);
-
-            bullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(bullet));
         }
 
-        public static SingularityBouncingBullet CreateSingularityBouncingBullet(SceneMgr mgr, Point point, Player plr)
+        public static SingularityBouncingBullet CreateSingularityBouncingBullet(SceneMgr mgr, Vector2 point, Player plr)
         {
-            Vector position = new Vector(plr.GetBaseLocation().X + plr.GetBaseLocation().Width / 2, plr.GetBaseLocation().Y);
-            Vector direction = point.ToVector() - position;
+            Vector2 position = new Vector2(plr.GetBaseLocation().X + plr.GetBaseLocation().Width / 2, plr.GetBaseLocation().Y);
+            Vector2 direction = point.ToVector() - position;
             direction.Normalize();
 
             SingularityBouncingBullet bullet = new SingularityBouncingBullet(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
@@ -395,17 +379,14 @@ namespace Orbit.Core.Helpers
 
             bullet.AddControl(new StickyPointCollisionShapeControl());
 
-            bullet.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(bullet));
-
             return bullet;
         }
 
-        public static MiningModule CreateMiningModule(SceneMgr mgr, Vector position, Player owner)
+        public static MiningModule CreateMiningModule(SceneMgr mgr, Vector2 position, Player owner)
         {
             MiningModule module = new MiningModule(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()), owner);
             module.Position = position;
             module.Radius = 10;
-            module.Color = Colors.Crimson;
 
 
             ModuleDamageControl mc = new ModuleDamageControl();
@@ -433,32 +414,14 @@ namespace Orbit.Core.Helpers
             module.AddControl(new RespawningObjectControl());
             module.AddControl(new StickySphereCollisionShapeControl());
 
-            module.SetGeometry(SceneGeometryFactory.CrateMiningModule(module));
+            module.Texture = SceneGeometryFactory.MiningModule;
 
             return module;
         }
 
-        public static BaseIntegrityBar CreateBaseIntegrityBar(SceneMgr mgr, Player owner)
+        public static Arc CreateMiningModuleIntegrityBar(SceneMgr mgr, MiningModule module, Player owner)
         {
-            BaseIntegrityBar arc = new BaseIntegrityBar(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
-            Color c = owner.GetPlayerColor();
-            c.A = 0x55;
-            arc.Color = c;
-            arc.FullAngle = (float) Math.PI;
-            arc.Width = (float)owner.Baze.Size.Width / 2 + 2;
-            arc.Height = (float)owner.Baze.Size.Height + 3; //hack kvuli neeliptickym rozmerum baze
-
-            arc.Position = owner.Baze.Position + (new Vector(owner.Baze.Size.Width / 2, owner.Baze.Size.Height));
-            arc.StartPoint = new Point(0, owner.Baze.Size.Height + 3);
-
-            arc.SetGeometry(SceneGeometryFactory.CreateArcSegments(arc));
-
-            return arc;
-        }
-
-        public static MiningModuleIntegrityBar CreateMiningModuleIntegrityBar(SceneMgr mgr, MiningModule module, Player owner)
-        {
-            MiningModuleIntegrityBar arc = new MiningModuleIntegrityBar(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
+            Arc arc = new Arc(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
             arc.Color = owner.Data.SpecialColor;
             arc.Radius = module.Radius + 5;
 
@@ -468,55 +431,15 @@ namespace Orbit.Core.Helpers
             HpBarControl hControl = new HpBarControl(arc);
             module.AddControl(hControl);
 
-            arc.SetGeometry(SceneGeometryFactory.CreateArcSegments(arc));
-
             return arc;
         }
 
-        public static OrbitEllipse CreateOrbitEllipse(SceneMgr mgr, Vector position, float radiusX, float radiusY, Color color)
+        public static Sphere CreateOrbitEllipse(SceneMgr mgr, Vector2 position, int radius, Color color)
         {
-            OrbitEllipse ellipse = new OrbitEllipse(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()), radiusX, radiusY);
-            ellipse.Position = position;
-            ellipse.Color = color;
-            ellipse.SetGeometry(SceneGeometryFactory.CreateConstantColorEllipseGeometry(ellipse));
-
-            return ellipse;
-        }
-
-        public static SphereField CreateSphereField(SceneMgr mgr, Vector position, int radius, Color color) 
-        {
-            SphereField f = new SphereField(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
-            f.Radius = radius;
-            f.Color = color;
-            f.Position = position;
-            f.HeavyWeightGeometry = HeavyweightGeometryFactory.CreateConstantColorEllipseGeometry(f);
-
-            SphereCollisionShape shape = new SphereCollisionShape();
-            shape.Radius = radius;
-            shape.Center = f.Center;
-            f.CollisionShape = shape;
-
-            return f;
-        }
-
-        public static IceSquare CreateIceSquare(SceneMgr mgr, Vector position, Size size)
-        {
-            IceSquare s = new IceSquare(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
-            s.Size = size;
+            Sphere s = new Sphere(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
+            s.Color = color;
             s.Position = position;
-            s.Category = DrawingCategory.BACKGROUND;
-            s.SetGeometry(SceneGeometryFactory.CreateIceCube(s));
-
-            return s;
-        }
-
-        public static IceShard CreateIceShard(SceneMgr mgr, Vector position, Size size, int texture)
-        {
-            IceShard s = new IceShard(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
-            s.Size = size;
-            s.Position = position;
-            s.TextureId = texture;
-            s.SetGeometry(SceneGeometryFactory.CreateIceShard(s));
+            s.Radius = radius;
 
             return s;
         }
@@ -527,14 +450,14 @@ namespace Orbit.Core.Helpers
             for (int i = 0; i < actions.Count; ++i)
             {
                 ISpectatorAction a = (ISpectatorAction)actions[i];
-                double rotation = ((2 * Math.PI / actions.Count) * i) + Math.PI / (actions.Count * 2) + Math.PI;
+                float rotation = ((2 * MathHelper.Pi / actions.Count) * i) + MathHelper.Pi / (actions.Count * 2) + MathHelper.Pi;
 
                 SpectatorActionIndicatorControl saic = new SpectatorActionIndicatorControl();
                 saic.Action = a;
-                saic.Indicator = SceneObjectFactory.SpectatorActionReadinessIndicator(a, p.Device, rotation, Colors.Transparent, a.CastingColor, Colors.Transparent);
+                saic.Indicator = SceneObjectFactory.SpectatorActionReadinessIndicator(a, p.Device, rotation);
                 Color strokeColor = a.CastingColor;
                 strokeColor.A = 0x60;
-                saic.ExactIndicator = SceneObjectFactory.SpectatorActionReadinessIndicator(a, p.Device, rotation, Colors.Transparent, Colors.Transparent, strokeColor);
+                saic.ExactIndicator = SceneObjectFactory.SpectatorActionReadinessIndicator(a, p.Device, rotation);
 
                 p.SceneMgr.DelayedAttachToScene(saic.Indicator);
                 p.SceneMgr.DelayedAttachToScene(saic.ExactIndicator);
@@ -543,49 +466,20 @@ namespace Orbit.Core.Helpers
             }
         }
 
-        public static ISceneObject SpectatorActionReadinessIndicator(ISpectatorAction a, MiningModule parent, double rotation, Color begin, Color end, Color stroke)
+        public static ISceneObject SpectatorActionReadinessIndicator(ISpectatorAction a, MiningModule parent, float rotation)
         {
-            SimpleSphere s = new SimpleSphere(a.SceneMgr, IdMgr.GetNewId(a.SceneMgr.GetCurrentPlayer().GetId()));
+            Sphere s = new Sphere(a.SceneMgr, IdMgr.GetNewId(a.SceneMgr.GetCurrentPlayer().GetId()));
             s.Color = a.CastingColor;
             s.Radius = 6;
             s.Category = DrawingCategory.PLAYER_OBJECTS;
 
-            Vector offset = new Vector(parent.Radius + 15, 0).Rotate(rotation);
-            s.SetGeometry(SceneGeometryFactory.CreateRadialGradientEllipseGeometry(a.SceneMgr, s.Radius, begin, end, stroke, parent.Center + offset, 1));
+            Vector2 offset = new Vector2(parent.Radius + 15, 0).Rotate(rotation);
 
             CenterCloneControl ccc = new CenterCloneControl(parent);
             ccc.Offset = offset;
             s.AddControl(ccc);
 
             return s;
-        }
-
-        public static AsteroidOverlay CreateAsteroidOverlay(SceneMgr mgr, Asteroid parent)
-        {
-            AsteroidOverlay ao = new AsteroidOverlay(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
-            ao.Radius = parent.Radius;
-            ao.Position = parent.Position;
-            ao.Rotation = parent.Rotation;
-
-            ao.AddControl(new PositionCloneControl(parent, true));
-            ao.AddControl(new RotationCloneControl(parent));
-            ao.AddControl(new RadiusCloneControl(parent));
-
-            ao.AddControl(new OverlayControl(parent));
-
-            ao.SetGeometry(SceneGeometryFactory.CreateAsteroidImage(parent, true));
-
-            return ao;
-        }
-
-        public static ParticleNode CreateAsteroidEffects(SceneMgr mgr, Asteroid asteroid)
-        {
-            ParticleNode effects = new ParticleNode(mgr, IdMgr.GetNewId(mgr.GetCurrentPlayer().GetId()));
-            effects.AddControl(new CenterCloneControl(asteroid));
-            effects.AddControl(new DirectionCloneControl(asteroid));
-            effects.AddControl(new DirectionDrivenRotationControl());
-            effects.AddControl(new AsteroidBurningControl(asteroid));
-            return effects;
         }
     }
 }
