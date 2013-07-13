@@ -25,7 +25,6 @@ using Orbit.Core.Helpers;
 using Orbit.Gui.ActionControllers;
 using System.Globalization;
 using Orbit.Core.Client.Interfaces;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -33,96 +32,9 @@ namespace Orbit.Core.Client
 {
     public partial class SceneMgr : XNAControl.AbstractGame, IUpdatable, Invoker
     {
-    	Arcane.Xna.Presentation.GraphicsDeviceManager graphics;
         private SpriteBatch background;
         private SpriteBatch spriteBatch;
     
-        public SceneMgr(IntPtr handle) : base(handle, (int)SharedDef.VIEW_PORT_SIZE.Width, (int)SharedDef.VIEW_PORT_SIZE.Height)
-        {
-            StatsMgr = new StatsMgr(this);
-            isGameInitialized = false;
-            shouldQuit = false;
-            synchronizedQueue = new ConcurrentQueue<Action>();
-            GameWindowState = WindowState.IN_MAIN_MENU;
-        }
-
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
-        protected override void Initialize()
-        {
-            base.Initialize();
-            this.IsMouseVisible = true;
-            background = new SpriteBatch(GraphicsDevice);
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
-        }
-
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
-        protected override void LoadContent()
-        {
-            base.LoadContent();
-            SceneGeometryFactory.Load(Content);
-        }
-
-        /// <summary>
-        /// Called when graphics resources need to be unloaded. Override this method to unload any game-specific graphics resources. 
-        /// </summary>
-        protected override void UnloadContent()
-        {
-            base.UnloadContent();
-            CleanUp();
-        }
-        
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-            float tpf = gameTime.ElapsedGameTime.Milliseconds / 1000;
-
-            ProcessMessages();
-
-            ProcessActionQueue();
-
-            if (tpf >= 0.001 && isGameInitialized)
-                Update(tpf);
-
-        }
-
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Red);
-
-            background.Begin(SpriteSortMode.Texture, BlendState.Opaque);
-            background.Draw(SceneGeometryFactory.Background, SharedDef.CANVAS_SIZE, Color.White);
-            background.End();
-
-            Console.WriteLine(IsGameInitalized);
-            if (IsGameInitalized)
-            {
-                spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.NonPremultiplied);
-                UpdateGeomtricState();
-                spriteBatch.End();
-            }
-
-            base.Draw(gameTime);
-
-        }
-
         private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public Gametype GameType { get; set; }
@@ -163,22 +75,15 @@ namespace Orbit.Core.Client
         private List<IMouseMoveListener> moveListeners;
         private List<IKeyPressListener> keyListeners;
 
-        /*public SceneMgr()
+        public SceneMgr(IntPtr handle)
+            : base(handle, (int)SharedDef.VIEW_PORT_SIZE.Width, (int)SharedDef.VIEW_PORT_SIZE.Height)
         {
-            if (!(System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)))
-            {
-                graphics = new Arcane.Xna.Presentation.GraphicsDeviceManager(this);
-                Content.RootDirectory = "Content";
-
-                synchronizedQueue = new ConcurrentQueue<Action>();
-            }
-
             StatsMgr = new StatsMgr(this);
             isGameInitialized = false;
             shouldQuit = false;
             synchronizedQueue = new ConcurrentQueue<Action>();
             GameWindowState = WindowState.IN_MAIN_MENU;
-        }*/
+        }
  
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -870,12 +775,12 @@ namespace Orbit.Core.Client
 
         public void Invoke(Action a)
         {
-            Dispatcher.Invoke(a);
+            Dispatcher.CurrentDispatcher.Invoke(a);
         }
 
         public void BeginInvoke(Action a)
         {
-            Dispatcher.BeginInvoke(a);
+            Dispatcher.CurrentDispatcher.BeginInvoke(a);
         }
 
         private void CheckAllPlayersReady()
