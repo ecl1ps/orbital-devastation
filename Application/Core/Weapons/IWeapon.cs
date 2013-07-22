@@ -10,6 +10,7 @@ using Orbit.Core.Client;
 using System.Windows.Input;
 using Orbit.Core.SpecialActions;
 using Microsoft.Xna.Framework;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.Weapons
 {
@@ -43,7 +44,7 @@ namespace Orbit.Core.Weapons
 
         ISpecialAction NextSpecialAction();
 
-        void ProccessClickEvent(Vector2 point, MouseButton button, MouseButtonState buttonState);
+        void ProccessClickEvent(Vector2 point, MouseButtons button, bool down);
 
         IWeaponClickListener AddClickListener(IWeaponClickListener listener);
 

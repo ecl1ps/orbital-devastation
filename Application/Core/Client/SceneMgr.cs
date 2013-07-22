@@ -12,7 +12,6 @@ using Microsoft.Xna.Framework;
 using System.Windows.Threading;
 using System.Collections.Concurrent;
 using Lidgren.Network;
-using System.Windows.Input;
 using Orbit.Gui;
 using Orbit.Core.Utils;
 using Orbit.Core.Weapons;
@@ -27,6 +26,7 @@ using System.Globalization;
 using Orbit.Core.Client.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Orbit.Core.Scene.Entities.Implementations;
 
 namespace Orbit.Core.Client
 {
@@ -34,6 +34,7 @@ namespace Orbit.Core.Client
     {
         private SpriteBatch background;
         private SpriteBatch spriteBatch;
+        private int frames;
     
         private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -44,13 +45,14 @@ namespace Orbit.Core.Client
         public LevelEnvironment LevelEnv { get; set; }
         public SpectatorActionsManager SpectatorActionMgr { get; set; }
         public ScreenShakingManager ScreenShakingMgr { get; set; }
+        public InputManager InputMgr { get; set; }
+        public AbstractInputMgr PlayerInputManager { get; set; }
         public bool UserActionsDisabled { get { return userActionsDisabled; } }
         public bool IsGameInitalized { get { return isGameInitialized; } }
         public WindowState GameWindowState { get { return gameWindowState; } set { gameWindowState = value; } }
 
         private volatile WindowState gameWindowState;
 
-        private GameVisualArea area;
         private bool isGameInitialized;
         private bool userActionsDisabled;
         private volatile bool shouldQuit;
@@ -65,15 +67,10 @@ namespace Orbit.Core.Client
         private bool gameEnded;
         private float statisticsTimer;
         private ActionBarMgr actionBarMgr;
-        private IInputMgr inputMgr;
         private bool playerQuit;
         private TournamentSettings lastTournamentSettings;
         private float totalTime;
         private bool stopUpdating = false;
-
-        private List<IMouseClickListener> clickListeners;
-        private List<IMouseMoveListener> moveListeners;
-        private List<IKeyPressListener> keyListeners;
 
         public SceneMgr(IntPtr handle)
             : base(handle, (int)SharedDef.VIEW_PORT_SIZE.Width, (int)SharedDef.VIEW_PORT_SIZE.Height)
@@ -83,6 +80,7 @@ namespace Orbit.Core.Client
             shouldQuit = false;
             synchronizedQueue = new ConcurrentQueue<Action>();
             GameWindowState = WindowState.IN_MAIN_MENU;
+            Mouse.WindowHandle = handle;
         }
  
         /// <summary>
@@ -97,6 +95,7 @@ namespace Orbit.Core.Client
             this.IsMouseVisible = true;
             background = new SpriteBatch(GraphicsDevice);
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            InputMgr = new InputManager();
         }
  
         /// <summary>
@@ -127,14 +126,21 @@ namespace Orbit.Core.Client
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            float tpf = gameTime.ElapsedGameTime.Milliseconds / 1000;
+            float tpf = (float) gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
 
             ProcessMessages();
 
             ProcessActionQueue();
 
+            InputMgr.Update(tpf);
+
             if (tpf >= 0.001 && isGameInitialized)
+            {
+                AddObjectsReadyToAdd();
+                RemoveObjectsMarkedForRemoval();
+
                 Update(tpf);
+            }
 
             base.Update(gameTime);
         }
@@ -151,10 +157,10 @@ namespace Orbit.Core.Client
             background.Draw(SceneGeometryFactory.Background, SharedDef.CANVAS_SIZE, Color.White);
             background.End();
 
-            Console.WriteLine(IsGameInitalized);
             if (IsGameInitalized)
             {
-                spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.NonPremultiplied);
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
+
                 UpdateGeomtricState();
                 spriteBatch.End();
             }
@@ -181,11 +187,7 @@ namespace Orbit.Core.Client
             totalTime = 0;
             StateMgr = new GameStateManager();
 
-            clickListeners = new List<IMouseClickListener>();
-            moveListeners = new List<IMouseMoveListener>();
-            keyListeners = new List<IKeyPressListener>();
-
-            /*currentPlayer = CreatePlayer();
+            currentPlayer = CreatePlayer();
             currentPlayer.Data.PlayerColor = Player.GetChosenColor();
             players.Add(currentPlayer);
             AttachStateManagers();
@@ -200,7 +202,7 @@ namespace Orbit.Core.Client
                 SetMainInfoText(Strings.networking_waiting);
 
             InitNetwork();
-            ConnectToServer();*/
+            ConnectToServer();
         }
 
         private void AttachStateManagers()
@@ -237,22 +239,26 @@ namespace Orbit.Core.Client
 
         private void SetMainInfoText(String t)
         {
+            /* TODO přehodit přes text managera
             Invoke(new Action(() =>
             {
                 Label lblw = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblWaiting");
                 if (lblw != null && area.Parent != null)
                     lblw.Content = t;
             }));
+             */
         }
 
         public void ShowStatusText(int index, string text)
         {
+            /* TODO poresit jinak
             Invoke(new Action(() =>
             {
                 Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "statusText" + index);
                 if (lbl != null && area.Parent != null)
                     lbl.Content = text;
             }));
+             */ 
         }
 
         public void CloseGame()
@@ -280,9 +286,7 @@ namespace Orbit.Core.Client
             }
 
             CleanObjects();
-            keyListeners.Clear();
-            moveListeners.Clear();
-            clickListeners.Clear();
+            InputMgr.Clear();
         }
 
         private void CleanObjects() 
@@ -368,37 +372,6 @@ namespace Orbit.Core.Client
         /* konec manipulace s objekty                                           */
         /************************************************************************/
 
-        public void AddMoveListener(IMouseMoveListener listener)
-        {
-            moveListeners.Add(listener);
-        }
-
-        public void AddKeyListener(IKeyPressListener listener)
-        {
-            keyListeners.Add(listener);
-        }
-
-        public void AddMouseListener(IMouseClickListener listener)
-        {
-            clickListeners.Add(listener);
-        }
-
-        /// <summary>
-        /// deprecated,
-        /// pokud mozno pouzijte GameVisualArea pripadne primo metody Attach...ToScene() a Remove...FromScene()
-        /// </summary>
-        /// <returns></returns>
-        /// 
-        public Canvas GetCanvas()
-        {
-            return area.Parent as Canvas;
-        }
-
-        public GameVisualArea GetGameVisualArea()
-        {
-            return area;
-        }
-
         private void RequestStop()
         {
             shouldQuit = true;
@@ -455,11 +428,8 @@ namespace Orbit.Core.Client
 
         private void UpdateGeomtricState()
         {
-            Invoke(new Action(() =>
-            {
-                for (int i = 0; i < objects.Count; ++i)
-                    objects[i].UpdateGeometric(spriteBatch);
-            }));
+            for (int i = 0; i < objects.Count; ++i)
+                objects[i].UpdateGeometric(spriteBatch);
         }
 
         public void UpdateSceneObjects(float tpf)
@@ -522,11 +492,6 @@ namespace Orbit.Core.Client
         public List<Player> GetPlayers()
         {
             return players;
-        }
-
-        public void SetGameVisualArea(GameVisualArea gva)
-        {
-            area = gva;
         }
 
         public Random GetRandomGenerator()
@@ -753,7 +718,7 @@ namespace Orbit.Core.Client
 
         private void Disconnected()
         {
-            if (area == null || stopUpdating)
+            if (stopUpdating)
                 return;
 
             string msg;
@@ -897,6 +862,7 @@ namespace Orbit.Core.Client
             return players.Find(p => p.IsActivePlayer() && p.GetId() != firstPlayerId);
         }
 
+        /* TODO predelat
         public void OnKeyEvent(KeyEventArgs e)
         {
             if (!isGameInitialized || inputMgr == null)
@@ -917,6 +883,7 @@ namespace Orbit.Core.Client
             inputMgr.OnKeyEvent(e);
             keyListeners.ForEach(l => l.OnKeyEvent(e));
         }
+         */
 
         private List<PlayerOverviewData> GetPlayerOverviewData()
         {

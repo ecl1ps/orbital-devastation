@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.Players.Input
 {
-    public interface IInputMgr : IKeyPressListener, IMouseClickListener
+    public interface IInputMgr : IKeyPressListener, IMouseClickListener, IMouseMoveListener
     {
         void OnActionBarClick(Vector2 point, MouseButtonEventArgs e);
     }

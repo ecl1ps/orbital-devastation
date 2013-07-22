@@ -12,7 +12,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         protected override void UpdateControl(float tpf)
         {
-            me.Rotation += RotationSpeed * tpf * 100;
+            me.Rotation += RotationSpeed * tpf;
             /*SceneMgr.GetInstance().ShowStatusText(2, "ROT: " + meRotable.Rotation);
             SceneMgr.GetInstance().ShowStatusText(3, "ROT SP: " + RotationSpeed);
             SceneMgr.GetInstance().ShowStatusText(4, "ROT INC: " + (RotationSpeed * tpf * 100));*/

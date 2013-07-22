@@ -40,7 +40,7 @@ namespace Orbit.Core.Client.GameStates
             sceneMgr = mgr;
             SENSITIVITY = float.Parse(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_SENSITIVITY), CultureInfo.InvariantCulture);
             InitCursorImage(new Uri(GameProperties.Props.Get(PropertyKey.STATIC_MOUSE_CURSOR)));
-            this.canvas = mgr.GetCanvas();
+            //this.canvas = mgr.GetCanvas();
         }
 
         public void InitCursorImage(Uri url)
@@ -85,7 +85,7 @@ namespace Orbit.Core.Client.GameStates
             if (!ALLOWED)
                 return;
 
-            if (sceneMgr == null || sceneMgr.GetCanvas() == null || !sceneMgr.GetCanvas().IsVisible)
+            if (sceneMgr == null)
             {
                 enabled = false;
                 return;
@@ -160,9 +160,6 @@ namespace Orbit.Core.Client.GameStates
                 ComputeNativePosition();
                 return;
             }
-
-            if (!sceneMgr.GetCanvas().IsVisible)
-                return;
 
             sceneMgr.Invoke(new Action(() =>
             {

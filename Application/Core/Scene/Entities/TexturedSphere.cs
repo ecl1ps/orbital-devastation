@@ -1,4 +1,7 @@
-﻿using Orbit.Core.Client;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Orbit.Core.Client;
+using Orbit.Core.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +16,12 @@ namespace Orbit.Core.Scene.Entities
         public TexturedSphere(SceneMgr mgr, long id)
             : base(mgr, id)
         {
+        }
+
+        public override void Update(float tpf)
+        {
+            base.Update(tpf);
+            scale = Radius / (float) Texture.Width;
         }
 
         public override bool IsOnScreen(Microsoft.Xna.Framework.Rectangle rectangle)

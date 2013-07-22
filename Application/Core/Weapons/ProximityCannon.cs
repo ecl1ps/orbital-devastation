@@ -98,15 +98,15 @@ namespace Orbit.Core.Weapons
         }
 
 
-        public virtual void ProccessClickEvent(Vector2 point, MouseButton button, MouseButtonState buttonState)
+        public virtual void ProccessClickEvent(Vector2 point, MouseButtons button, bool down)
         {
             foreach (IWeaponClickListener listener in listeners)
             {
-                if (listener.ProccessClickEvent(point, button, buttonState))
+                if (listener.ProccessClickEvent(point, button, down))
                     return;
             }
 
-            shooting = buttonState == MouseButtonState.Pressed;
+            shooting = down;
         }
 
         public void Update(float tpf)

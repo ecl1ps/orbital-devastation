@@ -11,11 +11,6 @@ namespace Orbit.Core
     public static class ExtensionMethods
     {
 
-        public static Vector2 ToPoint(this Vector2 vec)
-        {
-            return new Vector2(vec.X, vec.Y);
-        }
-
         public static double Distance(this Vector2 p1, Vector2 p2)
         {
             double d = Math.Pow(p1.X - p2.X, 2) + Math.Pow(p2.Y - p2.Y, 2);
@@ -90,6 +85,16 @@ namespace Orbit.Core
         public static Color ToXnaColor(this System.Windows.Media.Color c)
         {
             return new Color(c.A, c.R, c.G, c.B);
+        }
+
+        public static Microsoft.Xna.Framework.Point ToPoint(this Vector2 v)
+        {
+            return new Microsoft.Xna.Framework.Point((int) v.X, (int) v.Y);
+        }
+
+        public static Vector2 ToVector(this Microsoft.Xna.Framework.Point p)
+        {
+            return new Vector2(p.X, p.Y);
         }
     }
 }

@@ -15,6 +15,7 @@ using System.Windows.Input;
 using Orbit.Core.SpecialActions;
 using Orbit.Core.SpecialActions.Gamer;
 using Microsoft.Xna.Framework;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.Weapons
 {
@@ -51,6 +52,8 @@ namespace Orbit.Core.Weapons
 
         public ISceneObject Shoot(Vector2 point, bool noControl = false)
         {
+            return null;
+
             if (IsReady() || noControl)
             {
                 ISceneObject obj = SpawnMine(point);
@@ -93,15 +96,15 @@ namespace Orbit.Core.Weapons
         }
 
 
-        public virtual void ProccessClickEvent(Vector2 point, MouseButton button, MouseButtonState state)
+        public virtual void ProccessClickEvent(Vector2 point, MouseButtons button, bool down)
         {
             foreach (IWeaponClickListener listener in listeners)
             {
-                if (listener.ProccessClickEvent(point, button, state))
+                if (listener.ProccessClickEvent(point, button, down))
                     return;
             }
 
-            if (state == MouseButtonState.Pressed)
+            if (down)
                 Shoot(point);
         }
 

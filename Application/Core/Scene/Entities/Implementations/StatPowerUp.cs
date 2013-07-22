@@ -22,6 +22,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             : base(mgr, id) 
         {
             Category = DrawingCategory.LOOTABLES;
+            scale = 0.4f;
         }
 
         public void WriteObject(NetOutgoingMessage msg)

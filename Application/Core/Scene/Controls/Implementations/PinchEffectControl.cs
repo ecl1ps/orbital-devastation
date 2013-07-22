@@ -27,7 +27,7 @@ namespace Orbit.Core.Scene.Controls.Implementations
                 effect.CenterX = Position.X / SharedDef.VIEW_PORT_SIZE.Width;
                 effect.CenterY = Position.Y / SharedDef.VIEW_PORT_SIZE.Height;
 
-                me.SceneMgr.GetCanvas().Effect = effect;
+                //me.SceneMgr.GetCanvas().Effect = effect;
             }));
 
             
@@ -53,10 +53,6 @@ namespace Orbit.Core.Scene.Controls.Implementations
 
         public override void OnRemove()
         {
-            me.SceneMgr.Invoke(new Action(() =>
-            {
-                me.SceneMgr.GetCanvas().Effect = null;
-            }));
         }
     }
 }

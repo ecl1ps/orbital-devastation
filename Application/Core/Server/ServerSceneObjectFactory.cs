@@ -56,8 +56,7 @@ namespace Orbit.Core.Server
             s.Direction = headingRight ? new Vector2(1, 0) : new Vector2(-1, 0);
 
             s.Position = GetRandomPositionInOrbitArea(randomGenerator, s.Radius);
-            s.Color = new Color(randomGenerator.Next(40, 255) / 255, randomGenerator.Next(40, 255) / 255, randomGenerator.Next(40, 255) / 255);
-            s.Rotation = mgr.GetRandomGenerator().Next(360);
+            s.Rotation = (float) mgr.GetRandomGenerator().NextDouble() * MathHelper.TwoPi;
 
             SphereCollisionShape cs = new SphereCollisionShape();
             cs.Center = s.Center;
@@ -125,7 +124,7 @@ namespace Orbit.Core.Server
             s.AddControl(nmc);
 
             LinearRotationControl lrc = new LinearRotationControl();
-            lrc.RotationSpeed = mgr.GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_ROTATION_SPEED, SharedDef.MAX_ASTEROID_ROTATION_SPEED) / 10.0f;
+            lrc.RotationSpeed = MathHelper.Lerp(SharedDef.MIN_ASTEROID_ROTATION_SPEED, SharedDef.MAX_ASTEROID_ROTATION_SPEED, (float) mgr.GetRandomGenerator().NextDouble());
             s.AddControl(lrc);
 
             s.AddControl(new StickySphereCollisionShapeControl());
@@ -157,7 +156,7 @@ namespace Orbit.Core.Server
             s.AddControl(nmc);
 
             LinearRotationControl lrc = new LinearRotationControl();
-            lrc.RotationSpeed = mgr.GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_ROTATION_SPEED, SharedDef.MAX_ASTEROID_ROTATION_SPEED) / 10.0f;
+            lrc.RotationSpeed = MathHelper.Lerp(SharedDef.MIN_ASTEROID_ROTATION_SPEED, SharedDef.MAX_ASTEROID_ROTATION_SPEED, (float)mgr.GetRandomGenerator().NextDouble());
             s.AddControl(lrc);
 
             s.AddControl(new StickySquareCollisionShapeControl());

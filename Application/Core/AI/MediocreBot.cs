@@ -125,9 +125,9 @@ namespace Orbit.Core.AI
             }
 
             // nestrili, pokud to je mimo scenu
-            if (SceneMgr.IsPointInViewPort(contactPoint1.ToPoint()))
+            if (SceneMgr.IsPointInViewPort(contactPoint1))
             {
-               ISceneObject pr= me.Hook.Shoot(contactPoint1.ToPoint());
+               ISceneObject pr= me.Hook.Shoot(contactPoint1);
              
                 hookslaunched.Add(new HookTarget(pr.GetControlOfType<HookControl>(),target.Id));
                 
@@ -337,10 +337,10 @@ namespace Orbit.Core.AI
                 return;
 
             // nestrili, pokud to je mimo scenu
-            if (SceneMgr.IsPointInViewPort(contactPoint1.ToPoint()))
-                me.Hook.Shoot(contactPoint1.ToPoint());
+            if (SceneMgr.IsPointInViewPort(contactPoint1))
+                me.Hook.Shoot(contactPoint1);
 
-            me.Canoon.Shoot(contactPoint1.ToPoint());
+            me.Canoon.Shoot(contactPoint1);
             //targets.Remove(nearest);
         }
     }

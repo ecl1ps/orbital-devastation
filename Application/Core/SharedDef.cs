@@ -41,8 +41,8 @@ namespace Orbit.Core
         public const float SPECTATOR_SCORE_BONUS            = 0.5f;
 
         // Scene
-        public const int MIN_ASTEROID_RADIUS                = 10;
-        public const int MAX_ASTEROID_RADIUS                = 30;
+        public const int MIN_ASTEROID_RADIUS                = 30;
+        public const int MAX_ASTEROID_RADIUS                = 50;
 
         public const int MIN_ASTEROID_SPEED                 = 70;
         public const int MAX_ASTEROID_SPEED                 = 150;
@@ -55,8 +55,8 @@ namespace Orbit.Core
 
         public const int FIRST_COSMICAL_SPEED               = 120;
 
-        public const int MIN_ASTEROID_ROTATION_SPEED        = -10;
-        public const int MAX_ASTEROID_ROTATION_SPEED        =  10;
+        public const float MIN_ASTEROID_ROTATION_SPEED      = -MathHelper.Pi;
+        public const float MAX_ASTEROID_ROTATION_SPEED      =  MathHelper.Pi;
 
         public const int ASTEROID_COUNT                     = 25;
         public const float NEW_ASTEROID_TIMER               = 30; // seconds

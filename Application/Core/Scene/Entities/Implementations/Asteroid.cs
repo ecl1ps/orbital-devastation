@@ -93,7 +93,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
         {
             base.UpdateGeometric(spriteBatch);
 
-            spriteBatch.Draw(SceneGeometryFactory.GetAsteroidOverlayTexture(this), Rectangle, null, new Color(Color.R, Color.G, Color.B, Opacity), Rotation, new Vector2(0, 0), SpriteEffects.None, 0);
+            spriteBatch.Draw(SceneGeometryFactory.GetAsteroidOverlayTexture(this), Rectangle, null, new Color(Color.R, Color.G, Color.B, OverlayOpacity), Rotation, new Vector2(0, 0), SpriteEffects.None, 0);
         }
     }
 

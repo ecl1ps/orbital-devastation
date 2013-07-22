@@ -699,7 +699,7 @@ namespace Orbit.Core.Helpers
 
         public static Color ReadColor(this NetIncomingMessage msg)
         {
-            return new Color(msg.ReadByte(), msg.ReadByte(), msg.ReadByte());
+            return new Color(msg.ReadByte(), msg.ReadByte(), msg.ReadByte(), msg.ReadByte());
         }
 
         public static void Write(this NetOutgoingMessage msg, Rectangle rect)

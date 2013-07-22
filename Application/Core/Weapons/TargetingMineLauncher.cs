@@ -40,15 +40,15 @@ namespace Orbit.Core.Weapons
             return next;
         }
 
-        public override void ProccessClickEvent(Vector2 point, MouseButton button, MouseButtonState state)
+        public override void ProccessClickEvent(Vector2 point, MouseButtons button, bool down)
         {
-            if (state == MouseButtonState.Pressed && IsReady())
+            if (down && IsReady())
             {
                 targeting = true;
                 startPoint = new Vector2(point.X, 0);
                 endPoint = point;
             }
-            else if (state == MouseButtonState.Released && targeting)
+            else if (!down && targeting)
             {
                 targeting = false;
                 endPoint = point;

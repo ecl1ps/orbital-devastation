@@ -165,16 +165,23 @@ namespace Orbit.Core.Server
             if (!matchManager.HasRightNumberOfPlayersForStart())
                 return false;
 
+            Console.WriteLine("Match has right number of players");
             // zabrani pripojeni spectatora do quick game
             if (IsRunning && serverMgr.GameType != Gametype.TOURNAMENT_GAME && !p.IsActivePlayer() && !SharedDef.ALLOW_SPECTATORS_IN_DUO_MATCH)
                 return false;
 
+            Console.WriteLine("I am not spectator trying to connect to quick game");
             // do tournamentu se nemuzou pridat dalsi hraci, kteri nebyli v lobby pri startu
             if (serverMgr.GameType == Gametype.TOURNAMENT_GAME && !tournamentPlayerIds.Contains(p.Data.HashId))
                 return false;
 
+            Console.WriteLine("I was in loby or maybe i am not playing tournament game");
             p.Data.StartReady = true;
 
+            Console.WriteLine("active player: " + p.IsActivePlayer());
+            Console.WriteLine("running: " + IsRunning);
+            Console.WriteLine("players filter count: " + players.Count(plr => plr.IsActivePlayer() && plr.Data.StartReady));
+            Console.WriteLine("players normal count: " + players.Count);
             if ((p.IsActivePlayer() && !IsRunning && players.Count(plr => plr.IsActivePlayer() && plr.Data.StartReady) == 2)
                 || (!IsRunning && serverMgr.GameType == Gametype.TOURNAMENT_GAME))
             {
@@ -186,12 +193,14 @@ namespace Orbit.Core.Server
                 }
 
                 SendMatchData();
+                Console.WriteLine("sending match data");
 
                 NetOutgoingMessage startMsg = serverMgr.CreateNetMessage();
                 startMsg.Write((int)PacketType.START_GAME_RESPONSE);
                 serverMgr.BroadcastMessage(startMsg);
 
                 gameLevel.OnStart();
+                Console.WriteLine("messages sended sucessfully");
 
                 IsRunning = true;
                 serverMgr.TournamentSettings.PlayedMatches++;

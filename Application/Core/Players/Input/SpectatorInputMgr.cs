@@ -25,6 +25,8 @@ namespace Orbit.Core.Players.Input
 
         public SpectatorInputMgr(Player p, SceneMgr sceneMgr, ISceneObject obj, ActionBarMgr actionMgr) : base(actionMgr, sceneMgr)
         {
+
+
             IControledDevice d = obj.GetControlOfType<IControledDevice>();
             MiningModuleControl mc = obj.GetControlOfType<MiningModuleControl>();
 
@@ -38,11 +40,12 @@ namespace Orbit.Core.Players.Input
             miningControl = mc;
         }
 
-        public override void OnKeyEvent(KeyEventArgs e)
+        public override void OnKeyEvent(Microsoft.Xna.Framework.Input.Keys key, bool down)
         {
             if (sceneMgr.UserActionsDisabled)
                 return;
 
+            /*
             base.OnKeyEvent(e);
             bool down = e.IsDown;
             if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_MOVE_TOP), CultureInfo.InvariantCulture))
@@ -55,6 +58,7 @@ namespace Orbit.Core.Players.Input
                 device.IsMovingRight = down;
             else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_SHOW_PROTECTING), CultureInfo.InvariantCulture) && down)
                 plr.ShowProtecting();
+             */ 
         }
     }
 }

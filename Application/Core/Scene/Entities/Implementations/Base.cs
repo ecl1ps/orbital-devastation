@@ -76,9 +76,8 @@ namespace Orbit.Core.Scene.Entities.Implementations
 
         public override void UpdateGeometric(SpriteBatch spriteBatch)
         {
-            base.UpdateGeometric(spriteBatch);
-
             spriteBatch.Draw(SceneGeometryFactory.Base_background, Rectangle, Color.White);
+            spriteBatch.Draw(Texture, Rectangle, Color);
         }
     }
 

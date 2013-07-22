@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows.Input;
 using Orbit.Core.Client;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace Orbit.Core.Players.Input
 {
@@ -19,15 +20,28 @@ namespace Orbit.Core.Players.Input
             this.actionBarMgr = actionBarMgr;
             this.sceneMgr = sceneMgr;
 
-            sceneMgr.AddMouseListener(this);
-            sceneMgr.AddKeyListener(this);
+            sceneMgr.InputMgr.AddClickListener(this);
+            sceneMgr.InputMgr.AddMoveListener(this);
+            sceneMgr.InputMgr.AddKeyListener(Keys.D1, this);
+            sceneMgr.InputMgr.AddKeyListener(Keys.D2, this);
+            sceneMgr.InputMgr.AddKeyListener(Keys.D3, this);
+            sceneMgr.InputMgr.AddKeyListener(Keys.D4, this);
+            sceneMgr.InputMgr.AddKeyListener(Keys.D5, this);
         }
 
-        public virtual void OnKeyEvent(System.Windows.Input.KeyEventArgs e)
+        public virtual void OnCanvasClick(Client.GameStates.MouseButtons button, Vector2 point, bool down)
         {
-            if (!e.IsDown || sceneMgr.UserActionsDisabled)
+        }
+
+        public virtual void OnKeyEvent(Microsoft.Xna.Framework.Input.Keys key, bool down)
+        {
+            if (!down || sceneMgr.UserActionsDisabled)
                 return;
 
+            Console.WriteLine(key.ToString());
+
+
+            /*
             if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_1), CultureInfo.InvariantCulture))
                 actionBarMgr.Click(0);
             else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_2), CultureInfo.InvariantCulture))
@@ -38,14 +52,14 @@ namespace Orbit.Core.Players.Input
                 actionBarMgr.Click(3);
             else if (e.Key == (Key)int.Parse(GameProperties.Props.Get(PropertyKey.PLAYER_ACTION_5), CultureInfo.InvariantCulture))
                 actionBarMgr.Click(4);
-
+             */ 
         }
 
-        public virtual void OnCanvasClick(Vector2 point, MouseButtonEventArgs e)
+        public void OnActionBarClick(Vector2 point, MouseButtonEventArgs e)
         {
         }
 
-        public virtual void OnActionBarClick(Vector2 point, MouseButtonEventArgs e)
+        public virtual void OnMouseMove(Client.GameStates.MouseMoveEvent e)
         {
         }
     }

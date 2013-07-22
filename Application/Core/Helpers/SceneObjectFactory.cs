@@ -257,7 +257,7 @@ namespace Orbit.Core.Helpers
             asteroid.AddControl(nmc);
 
             LinearRotationControl lrc = new LinearRotationControl();
-            lrc.RotationSpeed = mgr.GetRandomGenerator().Next(SharedDef.MIN_ASTEROID_ROTATION_SPEED, SharedDef.MAX_ASTEROID_ROTATION_SPEED) / 10.0f;
+            lrc.RotationSpeed = MathHelper.Lerp(SharedDef.MIN_ASTEROID_ROTATION_SPEED, SharedDef.MAX_ASTEROID_ROTATION_SPEED, (float)mgr.GetRandomGenerator().NextDouble());
             asteroid.AddControl(lrc);
 
             asteroid.AddControl(new MinorAsteroidCollisionReactionControl());

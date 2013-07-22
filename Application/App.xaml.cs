@@ -125,14 +125,13 @@ namespace Orbit
 
         public void StartSoloGame(TournamentSettings s)
         {
-            /*if (!StartLocalServer(Gametype.SOLO_GAME))
+            if (!StartLocalServer(Gametype.SOLO_GAME))
                 return;
 
             sceneMgr.SetRemoteServerAddress(System.Net.IPAddress.Loopback.ToString());
 
             StartGame(Gametype.SOLO_GAME);
 
-            SendTournamentSettings(s);*/
         }
 
         private void SendTournamentSettings(TournamentSettings s)
@@ -188,8 +187,8 @@ namespace Orbit
         {
             GameUC gameW = new GameUC(gameControl);
             AddWindow(gameW);
-            /*sceneMgr.GameWindowState = Orbit.Core.WindowState.IN_GAME;
-            if (setGameArea)
+            sceneMgr.GameWindowState = Orbit.Core.WindowState.IN_GAME;
+            /*if (setGameArea)
             {
                 GameVisualArea gva = GetGameArea();
                 sceneMgr.Enqueue(new Action(() =>
@@ -350,10 +349,6 @@ namespace Orbit
 
         public void OnKeyEvent(System.Windows.Input.KeyEventArgs e)
         {
-            sceneMgr.Enqueue(new Action(() =>
-            {
-                sceneMgr.OnKeyEvent(e);
-            }));
         }
 
         public void ShowGameOverview(List<PlayerOverviewData> data)

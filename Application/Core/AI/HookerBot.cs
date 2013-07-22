@@ -69,8 +69,8 @@ namespace Orbit.Core.AI
                 return;
 
             // nestrili, pokud to je mimo scenu
-            if (SceneMgr.IsPointInViewPort(contactPoint1.ToPoint()))
-                me.Hook.Shoot(contactPoint1.ToPoint());
+            if (SceneMgr.IsPointInViewPort(contactPoint1))
+                me.Hook.Shoot(contactPoint1);
         }
 
         private Asteroid GetNearestAsteroid()

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Orbit.Core.Client.GameStates;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Orbit.Core.Client.Interfaces
 {
     public interface IMouseMoveListener
     {
-        void OnMouseMove(Vector2 point);
+        void OnMouseMove(MouseMoveEvent e);
     }
 }

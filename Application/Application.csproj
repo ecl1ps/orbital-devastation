@@ -196,6 +196,7 @@
     <Compile Include="Core\AI\SimpleBot.cs" />
     <Compile Include="Core\Client\GameStates\AutomaticMineLauncher.cs" />
     <Compile Include="Core\Client\GameStates\FloatingTextManager.cs" />
+    <Compile Include="Core\Client\GameStates\InputManager.cs" />
     <Compile Include="Core\Client\GameStates\LevelEnvironment.cs" />
     <Compile Include="Core\Client\GameStates\DelayedActionInvoker.cs" />
     <Compile Include="Core\Client\GameStates\ScreenShakingManager.cs" />

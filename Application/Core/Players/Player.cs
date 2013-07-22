@@ -178,9 +178,6 @@ namespace Orbit.Core.Players
             if (Baze != null)
                 Baze.OnIntegrityChange();
 
-            if (SceneMgr.GetCanvas() == null)
-                return;
-
             if (showHeal)
             {
                 Vector2 textPos = new Vector2(GetBaseLocation().X + (GetBaseLocation().Width / 2), GetBaseLocation().Y - 20);

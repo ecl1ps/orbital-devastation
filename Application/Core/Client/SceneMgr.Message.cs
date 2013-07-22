@@ -258,9 +258,10 @@ namespace Orbit.Core.Client
             {
                 App.Instance.CreateGameGui(false);
                 App.Instance.SetGameStarted(true);
-                SetGameVisualArea(App.Instance.GetGameArea());
+                //SetGameVisualArea(App.Instance.GetGameArea());
             }));
 
+            /* TODO poresit jinak
             BeginInvoke(new Action(() =>
             {
                 Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblEndGame");
@@ -272,6 +273,7 @@ namespace Orbit.Core.Client
                     lblw.Content = "";
 
             }));
+             */ 
         }
 
         private void ReceivedStartGameResponseMsg(NetIncomingMessage msg)
@@ -296,16 +298,20 @@ namespace Orbit.Core.Client
             {
                 if (leftPlr != null)
                 {
-                    Label lbl3 = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblNameLeft");
+                    /*TODO přehodit na show message 
+                     * Label lbl3 = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblNameLeft");
                     if (lbl3 != null)
                         lbl3.Content = leftPlr.Data.Name;
+                     */ 
                 }
 
                 if (rightPlr != null)
                 {
+                    /*TODO přehodit na show message
                     Label lbl4 = (Label)LogicalTreeHelper.FindLogicalNode(area.Parent, "lblNameRight");
                     if (lbl4 != null)
                         lbl4.Content = rightPlr.Data.Name;
+                     */ 
                 }
             }));
 
@@ -376,7 +382,7 @@ namespace Orbit.Core.Client
 
                 if (p.IsActivePlayer())
                 {
-                    inputMgr = new PlayerInputMgr(p, this, actionBarMgr);
+                    PlayerInputManager = new PlayerInputMgr(p, this, actionBarMgr);
                     actionBarMgr.CreateActionBarItems(p.GetActions<IPlayerAction>(), false);
                     InitAutomaticMineLauncher();
                 }
@@ -389,7 +395,7 @@ namespace Orbit.Core.Client
                     mc.Owner = p;
                     p.Device.AddControl(mc);
 
-                    inputMgr = new SpectatorInputMgr(p, this, p.Device, actionBarMgr);
+                    PlayerInputManager = new SpectatorInputMgr(p, this, p.Device, actionBarMgr);
                     actionBarMgr.CreateActionBarItems(p.GetActions<ISpectatorAction>(), true);
                     SceneObjectFactory.CreateSpectatorActionReadinessIndicators(p);
                 }

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Input;
 using System.Windows;
 using Orbit.Core.Client;
 using Microsoft.Xna.Framework;
+using Orbit.Core.Client.GameStates;
 
 namespace Orbit.Core.Players.Input
 {
@@ -18,23 +18,18 @@ namespace Orbit.Core.Players.Input
             plr = p;
         }
 
-        public override void OnKeyEvent(KeyEventArgs e)
-        {
-            base.OnKeyEvent(e);
-        }
-
-        public override void OnCanvasClick(Vector2 point, MouseButtonEventArgs e)
+        public override void OnCanvasClick(Client.GameStates.MouseButtons button, Vector2 point, bool down)
         {
             if (sceneMgr.UserActionsDisabled)
                 return;
 
-            base.OnCanvasClick(point, e);
-            if (e.ChangedButton == MouseButton.Left)
-                plr.Mine.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
-            else if (e.ChangedButton == MouseButton.Middle)
-                plr.Hook.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
-            else if (e.ChangedButton == MouseButton.Right)
-                plr.Canoon.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
+            base.OnCanvasClick(button, point, down);
+            if (button == MouseButtons.Left)
+                plr.Mine.ProccessClickEvent(point, button, down);
+            else if (button == MouseButtons.Middle)
+                plr.Hook.ProccessClickEvent(point, button, down);
+            else if (button == MouseButtons.Right)
+                plr.Canoon.ProccessClickEvent(point, button, down);
         }
     }
 }

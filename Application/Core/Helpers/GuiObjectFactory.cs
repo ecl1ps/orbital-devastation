@@ -47,7 +47,7 @@ namespace Orbit.Core.Helpers
         {
             EndGameStats stats = CreatePlayerStatsUC(mgr, owner, isPlayer, true);
 
-            mgr.GetCanvas().Children.Add(stats);
+            //mgr.GetCanvas().Children.Add(stats);
             Canvas.SetLeft(stats, position.X);
             Canvas.SetTop(stats, position.Y);
             Canvas.SetZIndex(stats, 200);

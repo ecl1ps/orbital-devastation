@@ -80,8 +80,9 @@ namespace Orbit.Core.Client.GameStates
         private void Animate()
         {
             SceneMgr.BeginInvoke(new Action(() => {
-                SceneMgr.GetCanvas().Margin = new Thickness(current, 0, 0, 0);
-                SceneMgr.GetGameVisualArea().Margin = new Thickness(current, 0, 0, 0);
+                //TODO dodelat 
+                //SceneMgr.GetCanvas().Margin = new Thickness(current, 0, 0, 0);
+                //SceneMgr.GetGameVisualArea().Margin = new Thickness(current, 0, 0, 0);
             }));
         }
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Orbit.Core.Client.GameStates;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,6 @@ namespace Orbit.Core.Client.Interfaces
 {
     public interface IMouseClickListener
     {
-        void OnCanvasClick(Vector2 point, MouseButtonEventArgs e);
+        void OnCanvasClick(MouseButtons button, Vector2 point, bool down);
     }
 }

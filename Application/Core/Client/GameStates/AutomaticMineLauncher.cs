@@ -57,7 +57,7 @@ namespace Orbit.Core.Client.GameStates
             this.shootingCd = 0;
 
             weapon.AddClickListener(this);
-            owner.SceneMgr.AddMoveListener(this);
+            owner.SceneMgr.InputMgr.AddMoveListener(this);
 
             nextTarget = new Vector2();
             nextTarget.Y = 1;
@@ -148,12 +148,12 @@ namespace Orbit.Core.Client.GameStates
         }
 
 
-        public bool ProccessClickEvent(Vector2 point, MouseButton button, MouseButtonState buttonState)
+        public bool ProccessClickEvent(Vector2 point, MouseButtons button, bool down)
         {
-            if (buttonState == MouseButtonState.Pressed && !targeting)
+            if (down && !targeting)
                 PrepareToFire(point);
 
-            if (buttonState == MouseButtonState.Released && !shooting)
+            if (!down && !shooting)
                 Fire(point);
 
             return true;
@@ -196,7 +196,7 @@ namespace Orbit.Core.Client.GameStates
             return 0;
         }
 
-        public void OnMouseMove(Vector2 point)
+        public void OnMouseMove(MouseMoveEvent e)
         {
         }
     }

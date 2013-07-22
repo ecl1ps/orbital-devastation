@@ -102,6 +102,7 @@ namespace Orbit.Core.Server
 
         private void ReceivedStartGameRequestMsg(NetIncomingMessage msg)
         {
+            Console.WriteLine("received start game request");
             if (gameSession == null)
             {
                 gameSession = new GameManager(this, players);
@@ -114,6 +115,7 @@ namespace Orbit.Core.Server
             gameSession.CreateNewMatch();
             isInitialized = true;
 
+            Console.WriteLine("requesting start match");
             if (gameSession.RequestStartMatch(GetPlayer(msg.SenderConnection.RemoteUniqueIdentifier)))
                 players.ForEach(p => p.Statistics.Reset());
         }
