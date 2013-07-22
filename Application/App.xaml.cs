@@ -132,6 +132,8 @@ namespace Orbit
 
             StartGame(Gametype.SOLO_GAME);
 
+            System.Threading.Thread.Sleep(500);
+            SendTournamentSettings(s);
         }
 
         private void SendTournamentSettings(TournamentSettings s)
