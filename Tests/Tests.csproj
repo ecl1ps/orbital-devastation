@@ -51,9 +51,6 @@
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="ShaderEffectLibrary">
-      <HintPath>..\Application\lib\ShaderEffectLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -65,9 +62,6 @@
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="TransitionEffects">
-      <HintPath>..\Application\lib\TransitionEffects.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -80,13 +74,13 @@
     <Compile Include="WinsThenScoreMatchManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Application\Application.csproj">
-      <Project>{18778980-1C5A-45D5-B230-92309497A3C9}</Project>
-      <Name>Application</Name>
-    </ProjectReference>
+    <Folder Include="Test References\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Test References\" />
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{975ca08b-4f61-41f3-a83e-ce6575bccf6f}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

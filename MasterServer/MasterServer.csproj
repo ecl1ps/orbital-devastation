@@ -42,9 +42,8 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Application\lib\log4net.dll</HintPath>
+    <Reference Include="log4net">
+      <HintPath>..\Common\lib\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -85,9 +84,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Application\Application.csproj">
-      <Project>{18778980-1c5a-45d5-b230-92309497a3c9}</Project>
-      <Name>Application</Name>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{975ca08b-4f61-41f3-a83e-ce6575bccf6f}</Project>
+      <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
