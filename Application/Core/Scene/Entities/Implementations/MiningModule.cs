@@ -10,7 +10,6 @@ using Lidgren.Network;
 using Orbit.Core.Players;
 using Orbit.Core.Scene.Controls;
 using System.Windows;
-using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -22,7 +21,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
             : base(mgr, id)
         {
             this.Owner = owner;
-            Category = DrawingCategory.PLAYER_OBJECTS;
         }
 
         public override bool IsOnScreen(Rectangle screenSize)

@@ -5,8 +5,6 @@ using System.Text;
 using Orbit.Core.Weapons;
 using Orbit.Core.Client;
 using Orbit.Core.Players;
-using Orbit.Gui;
-using Orbit.Gui.ActionControllers;
 using Microsoft.Xna.Framework;
 using Lidgren.Network;
 using Orbit.Core.Client.GameStates;

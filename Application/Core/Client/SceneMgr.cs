@@ -12,16 +12,13 @@ using Microsoft.Xna.Framework;
 using System.Windows.Threading;
 using System.Collections.Concurrent;
 using Lidgren.Network;
-using Orbit.Gui;
 using Orbit.Core.Utils;
 using Orbit.Core.Weapons;
 using System.Windows.Media.Imaging;
 using Orbit.Core.Players.Input;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Controls.Collisions;
-using Orbit.Gui.Visuals;
 using Orbit.Core.Helpers;
-using Orbit.Gui.ActionControllers;
 using System.Globalization;
 using Orbit.Core.Client.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
@@ -30,7 +27,7 @@ using Orbit.Core.Scene.Entities.Implementations;
 
 namespace Orbit.Core.Client
 {
-    public partial class SceneMgr : XNAControl.AbstractGame, IUpdatable, Invoker
+    public partial class SceneMgr : Game, IUpdatable, Invoker
     {
         private SpriteBatch background;
         private SpriteBatch spriteBatch;
@@ -72,15 +69,14 @@ namespace Orbit.Core.Client
         private float totalTime;
         private bool stopUpdating = false;
 
-        public SceneMgr(IntPtr handle)
-            : base(handle, (int)SharedDef.VIEW_PORT_SIZE.Width, (int)SharedDef.VIEW_PORT_SIZE.Height)
+        public SceneMgr() : base()
         {
             StatsMgr = new StatsMgr(this);
             isGameInitialized = false;
             shouldQuit = false;
             synchronizedQueue = new ConcurrentQueue<Action>();
             GameWindowState = WindowState.IN_MAIN_MENU;
-            Mouse.WindowHandle = handle;
+            //Mouse.WindowHandle = handle;
         }
  
         /// <summary>
@@ -192,12 +188,6 @@ namespace Orbit.Core.Client
             players.Add(currentPlayer);
             AttachStateManagers();
 
-            Application.Current.Dispatcher.Invoke(new Action(() =>
-            {
-                currentPlayer.Data.Name = App.Instance.PlayerName;
-                currentPlayer.Data.HashId = App.Instance.PlayerHashId;
-            }));
-
             if (gameType == Gametype.MULTIPLAYER_GAME)
                 SetMainInfoText(Strings.networking_waiting);
 
@@ -218,12 +208,6 @@ namespace Orbit.Core.Client
             StateMgr.AddGameState(ScreenShakingMgr);
         }
 
-        public void InitStaticMouse()
-        {
-            StaticMouse.Init(this);
-            StaticMouse.Enable(true);
-            StateMgr.AddGameState(StaticMouse.Instance);
-        }
 
         public void InitAutomaticMineLauncher()
         {
@@ -525,9 +509,6 @@ namespace Orbit.Core.Client
             if (gameEnded && endType != GameEnd.TOURNAMENT_FINISHED)
                 return;
 
-            if (Application.Current != null)
-                Application.Current.Dispatcher.Invoke(new Action(() => App.Instance.SetGameStarted(false)));
-
             userActionsDisabled = true;
             gameEnded = true;
 
@@ -576,7 +557,6 @@ namespace Orbit.Core.Client
         private void ShowEndGameStats(GameEnd endType)
         {
             //zrusime static mouse a zabranime dalsimu update - hrac pozna ze je konec
-            StaticMouse.Enable(false);
             stopUpdating = true;
 
             if (endType != GameEnd.TOURNAMENT_FINISHED)
@@ -660,16 +640,9 @@ namespace Orbit.Core.Client
             if (Application.Current == null)
                 return;
 
-            StaticMouse.Enable(false);
-
-            List<LobbyPlayerData> data = CreateLobbyPlayerData();
+            //List<LobbyPlayerData> data = CreateLobbyPlayerData();
 
             RequestStop();
-
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                App.Instance.CreateScoreboardGui(data);
-            }));
         }
 
         private void TournamentGameEnded()
@@ -689,14 +662,6 @@ namespace Orbit.Core.Client
             AttachStateManagers();
             stopUpdating = false;
 
-            Application.Current.Dispatcher.Invoke(new Action(() =>
-            {
-                App.Instance.CreateLobbyGui(currentPlayer.Data.LobbyLeader);
-                LobbyUC lobby = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
-                if (lobby != null)
-                    lobby.UpdateTournamentSettings(lastTournamentSettings);
-            }));
-
             SendChatMessage(String.Format(Strings.Culture, Strings.lobby_joined, GetCurrentPlayer().Data.Name), true);
             SendPlayerDataRequestMessage();
             
@@ -710,10 +675,6 @@ namespace Orbit.Core.Client
         private void NormalGameEnded()
         {
             RequestStop();
-            Application.Current.Dispatcher.Invoke(new Action(() =>
-            {
-                App.Instance.GameEnded();
-            }));
         }
 
         private void Disconnected()
@@ -762,14 +723,6 @@ namespace Orbit.Core.Client
                         ready = false;
                         break;
                     }
-
-            if (Application.Current != null)
-                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    LobbyUC wnd = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
-                    if (wnd != null)
-                        wnd.AllReady(ready);
-                }));
         }
 
         public void ShowChatMessage(string message)
@@ -833,6 +786,7 @@ namespace Orbit.Core.Client
 
         private void UpdateLobbyPlayers()
         {
+            /*TODO predelat
             if (Application.Current == null)
                 return;
 
@@ -846,16 +800,16 @@ namespace Orbit.Core.Client
                     lobby.UpdateShownPlayers(data);
                     lobby.SetIsLeader(currentPlayer.Data.LobbyLeader);
                 }
-            }));
+            }));*/
         }
-
+        /* TODO predelat
         private List<LobbyPlayerData> CreateLobbyPlayerData()
         {
             List<LobbyPlayerData> data = new List<LobbyPlayerData>();
             players.ForEach(p => data.Add(new LobbyPlayerData(p.Data.Id, p.Data.Name, p.Data.Score, p.GetId() == GetCurrentPlayer().GetId(), 
                 p.Data.LobbyLeader, p.Data.LobbyReady, p.Data.PlayedMatches, p.Data.WonMatches, p.Data.PlayerColor.ToWindowsColor())));
             return data;
-        }
+        }*/
 
         public Player GetOtherActivePlayer(int firstPlayerId)
         {
@@ -885,6 +839,7 @@ namespace Orbit.Core.Client
         }
          */
 
+        /* TODO dodelat
         private List<PlayerOverviewData> GetPlayerOverviewData()
         {
             List<PlayerOverviewData> data = new List<PlayerOverviewData>(players.Count);
@@ -898,7 +853,7 @@ namespace Orbit.Core.Client
                         UpgradeLevel.LEVEL_NONE, UpgradeLevel.LEVEL_NONE, UpgradeLevel.LEVEL_NONE));
             }
             return data;
-        }
+        }*/
 
         public void PlayerColorChanged()
         {
@@ -919,12 +874,6 @@ namespace Orbit.Core.Client
 
         public void ShowPlayerOverview()
         {
-            List<PlayerOverviewData> data = GetPlayerOverviewData();
-
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                App.Instance.ShowGameOverview(data);
-            }));
         }
 
         public List<ISceneObject> GetSceneObjectsInDist<T>(Vector2 position, double radius)

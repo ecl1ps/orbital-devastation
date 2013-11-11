@@ -140,11 +140,11 @@ namespace Orbit.Core.Helpers
         public static Texture2D GetPowerupTexture(StatPowerUp powerup)
         {
 
-            if (powerup.PowerUpType == DeviceType.MINE)
+            if (powerup.PowerUpType == Orbit.Core.Weapons.DeviceType.MINE)
                 return BoxBlue_1;
-            else if (powerup.PowerUpType == DeviceType.CANNON)
+            else if (powerup.PowerUpType == Orbit.Core.Weapons.DeviceType.CANNON)
                 return BoxBrown;
-            else if (powerup.PowerUpType == DeviceType.HOOK)
+            else if (powerup.PowerUpType == Orbit.Core.Weapons.DeviceType.HOOK)
                 return BoxBrown;
             else
                 return BoxGreen;

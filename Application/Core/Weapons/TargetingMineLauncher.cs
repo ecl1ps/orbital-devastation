@@ -15,7 +15,6 @@ using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.SpecialActions;
 using Orbit.Core.SpecialActions.Gamer;
-using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Weapons
 {
@@ -83,7 +82,6 @@ namespace Orbit.Core.Weapons
 
             if (targeting)
             {
-                endPoint = StaticMouse.GetPosition();
                 MoveLine();
             }
         }

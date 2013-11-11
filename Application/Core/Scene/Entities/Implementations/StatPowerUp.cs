@@ -10,7 +10,6 @@ using Orbit.Core.Scene.Controls;
 using Orbit.Core.Helpers;
 using Microsoft.Xna.Framework;
 using Orbit.Core.Scene.CollisionShapes;
-using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -21,7 +20,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public StatPowerUp(SceneMgr mgr, long id) 
             : base(mgr, id) 
         {
-            Category = DrawingCategory.LOOTABLES;
             scale = 0.4f;
         }
 

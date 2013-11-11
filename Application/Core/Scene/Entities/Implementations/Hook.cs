@@ -15,7 +15,6 @@ using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Controls.Collisions.Implementations;
 using Orbit.Core.Scene.CollisionShapes;
-using C3.XNA;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -48,7 +47,7 @@ namespace Orbit.Core.Scene.Entities.Implementations
             base.UpdateGeometric(spriteBatch);
 
             HookControl control = GetControlOfType<HookControl>();
-            spriteBatch.DrawLine(control.Origin, Position, Color.LightSteelBlue, 2);
+            //spriteBatch.DrawLine(control.Origin, Position, Color.LightSteelBlue, 2);
         }
 
         public void WriteObject(NetOutgoingMessage msg)

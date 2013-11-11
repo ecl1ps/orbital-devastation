@@ -7,7 +7,6 @@ using Orbit.Core.Client;
 using Orbit.Core.Helpers;
 using Orbit.Core.Players;
 using Microsoft.Xna.Framework;
-using C3.XNA;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -45,7 +44,7 @@ namespace Orbit.Core.Scene.Entities
         public override void UpdateGeometric(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
         {
             base.UpdateGeometric(spriteBatch);
-            spriteBatch.DrawLine(Start, End, Color);
+            //spriteBatch.DrawLine(Start, End, Color);
         }
 
     }

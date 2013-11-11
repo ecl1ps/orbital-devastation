@@ -10,7 +10,6 @@ using Orbit.Core.Helpers;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.CollisionShapes;
 using Orbit.Core.Scene.Controls.Collisions.Implementations;
-using Orbit.Gui.Visuals;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Orbit.Core.Scene.Entities.Implementations
@@ -34,7 +33,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public Asteroid(SceneMgr mgr, long id)
             : base(mgr, id)
         {
-            Category = DrawingCategory.ASTEROIDS;
             OverlayOpacity = 0.0f;
         }
 

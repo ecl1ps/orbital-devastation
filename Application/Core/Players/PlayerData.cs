@@ -6,7 +6,6 @@ using Orbit.Core.Scene;
 using Orbit.Core.Weapons;
 using System.Windows;
 using Orbit.Core.Utils;
-using Orbit.Gui;
 using Orbit.Core.Helpers;
 using Lidgren.Network;
 

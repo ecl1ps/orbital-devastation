@@ -9,7 +9,6 @@ using Lidgren.Network;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.CollisionShapes;
 using System.Globalization;
-using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Client.GameStates
 {

@@ -8,7 +8,6 @@ using System.Collections;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using MB.Tools;
-using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -24,7 +23,6 @@ namespace Orbit.Core.Scene.Entities
         public float Opacity { get; set; }
         public virtual Vector2 Position { get; set; }
         public Vector2 Direction { get; set; }
-        public DrawingCategory Category { get; set; }
         public virtual Vector2 Center { get { return Position; } }
         public bool Dead { get; set; }
         public SceneMgr SceneMgr { get; set; }
@@ -50,7 +48,6 @@ namespace Orbit.Core.Scene.Entities
             SceneMgr = mgr;
             Id = id;
             Visible = true;
-            Category = DrawingCategory.BACKGROUND;
         }
 
         public virtual void Update(float tpf)

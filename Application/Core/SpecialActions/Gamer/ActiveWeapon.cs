@@ -5,7 +5,6 @@ using System.Text;
 using Orbit.Core.Weapons;
 using Orbit.Core.Client;
 using Orbit.Core.Players;
-using Orbit.Gui;
 using Microsoft.Xna.Framework;
 
 namespace Orbit.Core.SpecialActions.Gamer

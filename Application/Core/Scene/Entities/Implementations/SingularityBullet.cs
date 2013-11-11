@@ -12,7 +12,6 @@ using Orbit.Core.Helpers;
 using System.Windows;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.CollisionShapes;
-using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {

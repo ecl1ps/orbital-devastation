@@ -2,7 +2,6 @@
 using Orbit.Core.Client.Interfaces;
 using Orbit.Core.Players;
 using Orbit.Core.Weapons;
-using Orbit.Gui;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -9,8 +9,6 @@ using Orbit.Core.SpecialActions;
 using Orbit.Core.Scene.Entities;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.SpecialActions.Spectator;
-using Orbit.Gui.InteractivePanel;
-using Orbit.Gui;
 using System.Globalization;
 using Microsoft.Xna.Framework;
 using Orbit.Core.Helpers;

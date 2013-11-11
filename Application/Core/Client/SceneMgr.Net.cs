@@ -19,7 +19,6 @@ using Orbit.Core.AI;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Controls.Health.Implementations;
 using Orbit.Core.Scene.Controls.Health;
-using Orbit.Gui;
 
 namespace Orbit.Core.Client
 {
@@ -100,8 +99,10 @@ namespace Orbit.Core.Client
                                 string reason = msg.ReadString();
                                 if (reason == "kicked") // musi byt delayed - az v dalsim updatu - jinak zavreni oken premaze i info okno
                                 {
+                                    /* TODO
                                     Enqueue(new Action(() => Application.Current.Dispatcher.Invoke(
                                         new Action(() => App.Instance.AddMenu(new InfoUC(Strings.ui_warning_kicked))))));
+                                      */ 
                                 }
                                 else if (reason == "version mismatch")
                                     break;

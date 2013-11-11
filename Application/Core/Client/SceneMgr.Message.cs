@@ -18,8 +18,6 @@ using Orbit.Core.Scene.Controls;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.Controls.Health.Implementations;
 using Orbit.Core.Scene.Controls.Health;
-using Orbit.Gui;
-using Orbit.Gui.ActionControllers;
 using Orbit.Core.SpecialActions.Spectator;
 using Orbit.Core.SpecialActions;
 using Orbit.Core.SpecialActions.Gamer;
@@ -44,6 +42,7 @@ namespace Orbit.Core.Client
 
         public static void ReceivedVersionMismatchMsg(NetIncomingMessage msg)
         {
+            /* TODO
             string serverVersion = msg.ReadString();
             if (serverVersion.CompareTo(SharedDef.VERSION) > 0)
             {
@@ -61,6 +60,7 @@ namespace Orbit.Core.Client
                     App.Instance.AddMenu(new InfoUC(String.Format(Strings.ui_higher_version, SharedDef.VERSION, serverVersion)));
                 }));
             }
+             */ 
         }
 
         private void ClientConnectionConnected(NetIncomingMessage msg)
@@ -68,6 +68,7 @@ namespace Orbit.Core.Client
             currentPlayer.Data.Id = msg.SenderConnection.RemoteHailMessage.ReadInt32();
             // pokud uz takove jmeno na serveru existuje, tak obdrzime nove
             currentPlayer.Data.Name = msg.SenderConnection.RemoteHailMessage.ReadString();
+            /* TODO
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 App.Instance.PlayerName = currentPlayer.Data.Name;
@@ -86,7 +87,7 @@ namespace Orbit.Core.Client
                     SendChatMessage(String.Format(Strings.Culture, Strings.lobby_joined, GetCurrentPlayer().Data.Name), true);
                 }
             }
-
+            */
             while (pendingMessages.Count != 0)
                 SendMessage(pendingMessages.Dequeue());
 
@@ -256,8 +257,9 @@ namespace Orbit.Core.Client
         {
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
+                /* TODO
                 App.Instance.CreateGameGui(false);
-                App.Instance.SetGameStarted(true);
+                App.Instance.SetGameStarted(true); */
                 //SetGameVisualArea(App.Instance.GetGameArea());
             }));
 
@@ -281,9 +283,8 @@ namespace Orbit.Core.Client
             Player leftPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.LEFT);
             Player rightPlr = players.Find(p => p.IsActivePlayer() && p.GetPosition() == PlayerPosition.RIGHT);
 
-            InitStaticMouse();
+            //TODO InitStaticMouse();
             //InitAutomaticMineLauncher();
-            App.Instance.SetGameStarted(true);
 
             foreach (Player p in players)
             {
@@ -322,10 +323,6 @@ namespace Orbit.Core.Client
 
             SetMainInfoText("");
             userActionsDisabled = false;
-
-            Application.Current.Dispatcher.BeginInvoke(new Action(() => {
-                App.Instance.FocusWindow();
-            }));
         }
 
         private void ReceivedPlayerReconnectedMsg(NetIncomingMessage msg)
@@ -377,13 +374,13 @@ namespace Orbit.Core.Client
 
             if (p.IsCurrentPlayer())
             {
-                actionBarMgr = new ActionBarMgr(this);
+                //TODO actionBarMgr = new ActionBarMgr(this);
                 StateMgr.AddGameState(actionBarMgr);
 
                 if (p.IsActivePlayer())
                 {
                     PlayerInputManager = new PlayerInputMgr(p, this, actionBarMgr);
-                    actionBarMgr.CreateActionBarItems(p.GetActions<IPlayerAction>(), false);
+                    //TODO actionBarMgr.CreateActionBarItems(p.GetActions<IPlayerAction>(), false);
                     InitAutomaticMineLauncher();
                 }
                 else
@@ -396,7 +393,7 @@ namespace Orbit.Core.Client
                     p.Device.AddControl(mc);
 
                     PlayerInputManager = new SpectatorInputMgr(p, this, p.Device, actionBarMgr);
-                    actionBarMgr.CreateActionBarItems(p.GetActions<ISpectatorAction>(), true);
+                    //TODO actionBarMgr.CreateActionBarItems(p.GetActions<ISpectatorAction>(), true);
                     SceneObjectFactory.CreateSpectatorActionReadinessIndicators(p);
                 }
             }
@@ -850,6 +847,7 @@ namespace Orbit.Core.Client
             players.ForEach(p => { if (!p.Data.LobbyLeader) p.Data.LobbyReady = false; });
             lastTournamentSettings = msg.ReadTournamentSettings();
 
+            /* TODO predelat
             List<LobbyPlayerData> data = CreateLobbyPlayerData();
 
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
@@ -861,6 +859,7 @@ namespace Orbit.Core.Client
                     lobby.UpdateShownPlayers(data);
                 }
             }));
+             */
         }
 
         private void ReceivedSpectatorActionStarted(NetIncomingMessage msg)
@@ -949,12 +948,15 @@ namespace Orbit.Core.Client
             if (currentPlayer != null && currentPlayer.Data.LobbyReady)
                 return;
 
+            /*TODO dodelat
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 LobbyUC lobby = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, "lobbyWindow") as LobbyUC;
                 if (lobby != null)
                     lobby.ReadyCheckRequested();
             }));
+                 */ 
+
         }
     }
 }

@@ -72,7 +72,8 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Orbit.App</StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
@@ -119,37 +120,6 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="C3.XNA.Primitives2D, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\C3.XNA.Primitives2D.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework.GamerServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Xact, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Video, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Avatar, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Net, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Storage, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <Private>False</Private>
-    </Reference>
     <Reference Include="irrKlang.NET4">
       <HintPath>lib\irrKlang.NET4.dll</HintPath>
     </Reference>
@@ -158,6 +128,10 @@
     </Reference>
     <Reference Include="MB.Tools">
       <HintPath>lib\MB.Tools.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="Petzold.Media3D">
       <HintPath>lib\Petzold.Media3D.dll</HintPath>
@@ -186,9 +160,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Core\AI\AIUtils.cs" />
     <Compile Include="Core\AI\BotNameAccessor.cs" />
     <Compile Include="Core\AI\HookerBot.cs" />
@@ -207,6 +178,7 @@
     <Compile Include="Core\Client\Interfaces\Invokers.cs" />
     <Compile Include="Core\Client\Shaders\AlphaMaskEffect.cs" />
     <Compile Include="Core\CommandExecutor.cs" />
+    <Compile Include="Core\Helpers\SimpleShapes.cs" />
     <Compile Include="Core\Players\StatisticsManager.cs" />
     <Compile Include="Core\Client\SceneMgr.Message.cs" />
     <Compile Include="Core\Client\Shaders\AlphaChannelEffect.cs" />
@@ -214,7 +186,6 @@
     <Compile Include="Core\Client\Shaders\CustomColorEffect.cs" />
     <Compile Include="Core\Client\Sounds\FileSound.cs" />
     <Compile Include="Core\Client\Sounds\SoundManager.cs" />
-    <Compile Include="Core\Client\GameStates\StaticMouse.cs" />
     <Compile Include="Core\GameProperties.cs" />
     <Compile Include="Core\GameStateManager.cs" />
     <Compile Include="Core\Helpers\CollisionHelper.cs" />
@@ -377,100 +348,6 @@
     <Compile Include="Core\Weapons\TargetingMineLauncher.cs" />
     <Compile Include="Core\Weapons\ProximityCannonII.cs" />
     <Compile Include="Core\Weapons\IWeaponClickListener.cs" />
-    <Compile Include="Gui\ActionBar.xaml.cs">
-      <DependentUpon>ActionBar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\ActionControllers\ActionController.cs" />
-    <Compile Include="Gui\ActionControllers\ActionControllerImpl.cs" />
-    <Compile Include="Gui\ActionControllers\InstaPlayerStatisticsController.cs" />
-    <Compile Include="Gui\ActionControllers\InstaSpectatorStatisticsController.cs" />
-    <Compile Include="Gui\ActionControllers\PlayerStatisticsController.cs" />
-    <Compile Include="Gui\ActionControllers\SpectatorActionController.cs" />
-    <Compile Include="Gui\ActionControllers\SpectatorStatisticController.cs" />
-    <Compile Include="Gui\ActionControllers\StatisticController.cs" />
-    <Compile Include="Gui\BotSelection.xaml.cs">
-      <DependentUpon>BotSelection.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\ColorItem.xaml.cs">
-      <DependentUpon>ColorItem.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\ColorPickerUC.xaml.cs">
-      <DependentUpon>ColorPickerUC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\DownloadUC.xaml.cs">
-      <DependentUpon>DownloadUC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\ReconnectUC.xaml.cs">
-      <DependentUpon>ReconnectUC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\Elements\ImageToggleButton.cs" />
-    <Compile Include="Gui\GameOptions.xaml.cs">
-      <DependentUpon>GameOptions.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\EndGameStats.xaml.cs">
-      <DependentUpon>EndGameStats.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\EscMenu.xaml.cs">
-      <DependentUpon>EscMenu.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\GameOverviewUC.xaml.cs">
-      <DependentUpon>GameOverviewUC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\GameUC.xaml.cs">
-      <DependentUpon>GameUC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\InfoUC.xaml.cs">
-      <DependentUpon>InfoUC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\InteractivePanel\IActionOverview.cs" />
-    <Compile Include="Gui\InteractivePanel\IInteractivePanel.cs" />
-    <Compile Include="Gui\KeyBindingsOptions.xaml.cs">
-      <DependentUpon>KeyBindingsOptions.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\LobbyPlayer.xaml.cs">
-      <DependentUpon>LobbyPlayer.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\LobbyUC.xaml.cs">
-      <DependentUpon>LobbyUC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\MouseOptions.xaml.cs">
-      <DependentUpon>MouseOptions.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\OptionsUC.xaml.cs">
-      <DependentUpon>OptionsUC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\PlayerOverview.xaml.cs">
-      <DependentUpon>PlayerOverview.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\PlayerSettings.xaml.cs">
-      <DependentUpon>PlayerSettings.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\PlayerStatsUC.xaml.cs">
-      <DependentUpon>PlayerStatsUC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\ReadyCheckUC.xaml.cs">
-      <DependentUpon>ReadyCheckUC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\ScoreboardUC.xaml.cs">
-      <DependentUpon>ScoreboardUC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\SoundOptions.xaml.cs">
-      <DependentUpon>SoundOptions.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\SpectatorStatsUC.xaml.cs">
-      <DependentUpon>SpectatorStatsUC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\StatisticsTabbedPanel.xaml.cs">
-      <DependentUpon>StatisticsTabbedPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\StatisticsUC.xaml.cs">
-      <DependentUpon>StatisticsUC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\TournamentFinderUC.xaml.cs">
-      <DependentUpon>TournamentFinderUC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\Visuals\GameVisualArea.cs" />
-    <Compile Include="Gui\Visuals\VisualRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Scene\Controls\Control.cs" />
     <Compile Include="Core\Scene\Controls\IControl.cs" />
@@ -484,20 +361,11 @@
     <Compile Include="Core\IdMgr.cs" />
     <Compile Include="Core\Client\SceneMgr.cs" />
     <Compile Include="Core\SharedDef.cs" />
-    <Compile Include="Gui\GameWindow.xaml.cs">
-      <DependentUpon>GameWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Core\Players\ActionBarMgr.cs" />
-    <Compile Include="Gui\MainUC.xaml.cs">
-      <DependentUpon>MainUC.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Core\Server\GameManager.cs" />
     <Compile Include="Core\Server\ServerSceneObjectFactory.cs" />
     <Compile Include="Core\Server\ServerMgr.cs" />
     <Compile Include="Core\Server\ServerMgr.Net.cs" />
-    <Compile Include="Gui\ActionUC.xaml.cs">
-      <DependentUpon>ActionUC.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Core\Client\Shaders\ColorReplaceEffect.cs" />
     <Compile Include="Strings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -528,130 +396,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Gui\ActionBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\BotSelection.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\ColorItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\ColorPickerUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\DownloadUC.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Gui\ReconnectUC.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Gui\GameOptions.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Gui\EndGameStats.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\EscMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\GameOverviewUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\GameUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\GameWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Gui\InfoUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\KeyBindingsOptions.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\LobbyPlayer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\LobbyUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\MouseOptions.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\OptionsUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\MainUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\ActionUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\PlayerOverview.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\PlayerSettings.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\PlayerStatsUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\ReadyCheckUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\ScoreboardUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\SoundOptions.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\SpectatorStatsUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\StatisticsTabbedPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\StatisticsUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\TournamentFinderUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="resources\styles\Button.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -857,10 +601,6 @@
     <ProjectReference Include="..\Lidgren.Network\Lidgren.Network.csproj">
       <Project>{49ba1c69-6104-41ac-a5d8-b54fa9f696e8}</Project>
       <Name>Lidgren.Network</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\XNAControl\XNAControl.csproj">
-      <Project>{a5b96adf-5ba1-4746-8d22-d86577c5cf41}</Project>
-      <Name>XNAControl</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

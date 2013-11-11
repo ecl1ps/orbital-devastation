@@ -10,7 +10,6 @@ using System.Windows.Media.Imaging;
 using Orbit.Core.Helpers;
 using Orbit.Core.Client.GameStates;
 using Orbit.Core.Scene.CollisionShapes;
-using Orbit.Gui.Visuals;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Orbit.Core.Scene.Entities.Implementations

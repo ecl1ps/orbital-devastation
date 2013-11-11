@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using C3.XNA;
 using Orbit.Core.Client;
+using Orbit.Core.Helpers;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {

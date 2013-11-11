@@ -10,7 +10,6 @@ using Orbit.Core.Client;
 using Orbit.Core.Scene.Controls.Implementations;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.CollisionShapes;
-using Orbit.Gui.Visuals;
 
 namespace Orbit.Core.Scene.Entities.Implementations
 {
@@ -21,7 +20,6 @@ namespace Orbit.Core.Scene.Entities.Implementations
         public SingularityMine(SceneMgr mgr, long id)
             : base(mgr, id)
         {
-            Category = DrawingCategory.PROJECTILES;
         }
 
         public void WriteObject(NetOutgoingMessage msg)

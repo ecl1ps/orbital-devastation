@@ -9,7 +9,6 @@ using System.Windows.Controls;
 using Orbit.Core.Client;
 using Orbit.Core.Helpers;
 using Orbit.Core.Scene.Entities.Implementations;
-using C3.XNA;
 
 namespace Orbit.Core.Scene.Entities
 {
@@ -45,7 +44,7 @@ namespace Orbit.Core.Scene.Entities
         {
             base.UpdateGeometric(spriteBatch);
 
-            spriteBatch.DrawRectangle(Rectangle, Color);
+            //spriteBatch.DrawRectangle(Rectangle, Color);
         }
     }
 }
