@@ -743,7 +743,7 @@ namespace Orbit.Core.Client
                     p.Mine = (p.Mine.NextSpecialAction() as WeaponUpgrade).GetWeapon();
                     break;
                 case DeviceType.CANNON:
-                    p.Canoon = (p.Canoon.NextSpecialAction() as WeaponUpgrade).GetWeapon();
+                    p.Cannon = (p.Cannon.NextSpecialAction() as WeaponUpgrade).GetWeapon();
                     break;
                 case DeviceType.HOOK:
                     p.Hook = (p.Hook.NextSpecialAction() as WeaponUpgrade).GetWeapon();

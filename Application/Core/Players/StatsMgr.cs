@@ -222,7 +222,7 @@ namespace Orbit.Core.Players
                 case DeviceType.MINE:
                     return plr.Mine.UpgradeLevel;
                 case DeviceType.CANNON:
-                    return plr.Canoon.UpgradeLevel;
+                    return plr.Cannon.UpgradeLevel;
                 case DeviceType.HOOK:
                     return plr.Hook.UpgradeLevel;
                 case DeviceType.HEALING_KIT:

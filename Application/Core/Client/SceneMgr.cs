@@ -1052,7 +1052,7 @@ namespace Orbit.Core.Client
             {
                 if (p.IsActivePlayer())
                     data.Add(new PlayerOverviewData(p.Data.Name, p.Data.MatchPoints, p.Data.Gold, p.Data.Active, p.Data.PlayedMatches, p.Data.WonMatches,
-                        p.Mine.UpgradeLevel, p.Canoon.UpgradeLevel, p.Hook.UpgradeLevel));
+                        p.Mine.UpgradeLevel, p.Cannon.UpgradeLevel, p.Hook.UpgradeLevel));
                 else
                     data.Add(new PlayerOverviewData(p.Data.Name, p.Data.MatchPoints, p.Data.Gold, p.Data.Active, p.Data.PlayedMatches, p.Data.WonMatches,
                         UpgradeLevel.LEVEL_NONE, UpgradeLevel.LEVEL_NONE, UpgradeLevel.LEVEL_NONE));

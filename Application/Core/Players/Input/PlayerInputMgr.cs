@@ -31,11 +31,11 @@ namespace Orbit.Core.Players.Input
 
             base.OnCanvasClick(point, e);
             if (e.ChangedButton == MouseButton.Left)
-                plr.Mine.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
+                plr.Cannon.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
             else if (e.ChangedButton == MouseButton.Middle)
-                plr.Hook.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
+                plr.Mine.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
             else if (e.ChangedButton == MouseButton.Right)
-                plr.Canoon.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
+                plr.Hook.ProccessClickEvent(point, e.ChangedButton, e.ButtonState);
         }
     }
 }

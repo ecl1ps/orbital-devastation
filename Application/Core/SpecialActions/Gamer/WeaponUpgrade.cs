@@ -88,7 +88,7 @@ namespace Orbit.Core.SpecialActions.Gamer
             switch (currentWeapon.DeviceType)
             {
                 case DeviceType.CANNON:
-                    Owner.Canoon = (currentWeapon.NextSpecialAction() as WeaponUpgrade).GetWeapon();
+                    Owner.Cannon = (currentWeapon.NextSpecialAction() as WeaponUpgrade).GetWeapon();
                     break;
                 case DeviceType.HOOK:
                     Owner.Hook = (currentWeapon.NextSpecialAction() as WeaponUpgrade).GetWeapon();

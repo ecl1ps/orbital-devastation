@@ -67,7 +67,7 @@ namespace Orbit.Core.AI
             
            
 
-            if (me.Canoon.IsReady())
+            if (me.Cannon.IsReady())
                 CannonShoot();
           
             if (me.Mine.IsReady())
@@ -289,11 +289,11 @@ namespace Orbit.Core.AI
 
             }
 
-            if (me.Canoon.UpgradeLevel != UpgradeLevel.LEVEL2 && me.Data.Gold >= me.HealingKit.Cost + me.Canoon.NextSpecialAction().Cost)
+            if (me.Cannon.UpgradeLevel != UpgradeLevel.LEVEL2 && me.Data.Gold >= me.HealingKit.Cost + me.Cannon.NextSpecialAction().Cost)
             {
-                me.Data.Gold -= (int)me.Canoon.NextSpecialAction().Cost;
+                me.Data.Gold -= (int)me.Cannon.NextSpecialAction().Cost;
 
-                me.Canoon = (me.Canoon.NextSpecialAction() as WeaponUpgrade).GetWeapon();
+                me.Cannon = (me.Cannon.NextSpecialAction() as WeaponUpgrade).GetWeapon();
 
             }
 
@@ -340,7 +340,7 @@ namespace Orbit.Core.AI
             if (SceneMgr.IsPointInViewPort(contactPoint1.ToPoint()))
                 me.Hook.Shoot(contactPoint1.ToPoint());
 
-            me.Canoon.Shoot(contactPoint1.ToPoint());
+            me.Cannon.Shoot(contactPoint1.ToPoint());
             //targets.Remove(nearest);
         }
     }

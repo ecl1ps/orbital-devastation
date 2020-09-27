@@ -62,7 +62,7 @@ namespace Orbit.Core.Players
             }
         }
         private IWeapon canoon;
-        public IWeapon Canoon {
+        public IWeapon Cannon {
             get
             {
                 return canoon;
@@ -141,7 +141,7 @@ namespace Orbit.Core.Players
         {
             Hook = new HookLauncher(SceneMgr, this);
             Mine = new MineLauncher(SceneMgr, this);
-            Canoon = new ProximityCannon(SceneMgr, this);
+            Cannon = new ProximityCannon(SceneMgr, this);
             HealingKit = new HealingKit(SceneMgr, this);
         }
 
@@ -376,7 +376,7 @@ namespace Orbit.Core.Players
             Baze = null;
             Device = null;
             Hook = null;
-            Canoon = null;
+            Cannon = null;
             Mine = null;
         }
 
@@ -392,9 +392,9 @@ namespace Orbit.Core.Players
         {
             actions = new List<ISpecialAction>();
             actions.Add(new HealAction(HealingKit, SceneMgr, this));
+            actions.Add(new WeaponUpgrade(Cannon));
             actions.Add(new WeaponUpgrade(Hook));
             actions.Add(new WeaponUpgrade(Mine));
-            actions.Add(new WeaponUpgrade(Canoon));
 
             return actions;
         }

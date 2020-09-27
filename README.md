@@ -7,12 +7,12 @@ Objective is simple - defend your base from falling meteorites and manipulate or
 
 ### Arsenal at your disposal includes:
 * Base's shields repair [key 1]
-* Double hook launcher [middle mouse button]
-  * Defensive action. Can grab meteorites near your base and neutralize them. It will also harvest caught meteorites for resources.
-* Targeted mine [left mouse button]
-  * Offensive action. Drops mines in planet's orbit. Mines explode upon contact with asteroids and sends them flying toward the planet's surface.
-* Proximity cannon [right mouse button]
+* Proximity cannon [left mouse button]
   * Defensive action. Cannon placed in your base can shoot and destroy falling meteorites.
+* Double hook launcher [right mouse button]
+  * Defensive action. Can grab meteorites near your base and neutralize them. It will also harvest caught meteorites for resources.
+* Targeted mine [middle mouse button]
+  * Offensive action. Drops mines in planet's orbit. Mines explode upon contact with asteroids and sends them flying toward the planet's surface.
 
 ### Reources
 Resources are limited but can be mined from meteorites. Golden meteorites are much more richer on resources. 

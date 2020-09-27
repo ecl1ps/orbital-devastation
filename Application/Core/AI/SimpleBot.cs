@@ -31,7 +31,7 @@ namespace Orbit.Core.AI
 
         public void Update(float tpf)
         {
-            if (me.Canoon.IsReady())
+            if (me.Cannon.IsReady())
                 CannonShoot();
 
             if (me.Mine.IsReady())
@@ -61,7 +61,7 @@ namespace Orbit.Core.AI
 
         private void CannonShoot()
         {
-            me.Canoon.Shoot(new Point(sceneMgr.GetRandomGenerator().Next(0, (int)SharedDef.VIEW_PORT_SIZE.Width), 0));
+            me.Cannon.Shoot(new Point(sceneMgr.GetRandomGenerator().Next(0, (int)SharedDef.VIEW_PORT_SIZE.Width), 0));
         }
     }
 }
