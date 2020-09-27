@@ -18,22 +18,22 @@ namespace Orbit.Core.Players
         private SceneMgr sceneMgr;
         private static Dictionary<PlayerStats, Stat> allStats = new Dictionary<PlayerStats, Stat>()
         {
-            { PlayerStats.MINE_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_COOLDOWN, Strings.powerup_mine_cooldown, -0.1f, -0.3f)},
-            { PlayerStats.MINE_1_FALLING_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_FALLING_SPEED, Strings.powerup_mine_falling_speed, +10f, +30f)},
-            { PlayerStats.MINE_1_GROWTH_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_GROWTH_SPEED, Strings.powerup_mine_growth_speed, +0.1f, +0.3f)},
-            { PlayerStats.MINE_1_STRENGTH, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_STRENGTH, Strings.powerup_mine_power, +10f, +30f)},
+            { PlayerStats.MINE_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_COOLDOWN, Strings.powerup_mine_cooldown, -0.2f, -0.45f)},
+            { PlayerStats.MINE_1_FALLING_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_FALLING_SPEED, Strings.powerup_mine_falling_speed, +20f, +45f)},
+            { PlayerStats.MINE_1_GROWTH_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_GROWTH_SPEED, Strings.powerup_mine_growth_speed, +0.2f, +0.45f)},
+            { PlayerStats.MINE_1_STRENGTH, new Stat(UpgradeLevel.LEVEL1, PlayerStats.MINE_1_STRENGTH, Strings.powerup_mine_power, +20f, +45f)},
 
-            { PlayerStats.CANNON_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.CANNON_1_COOLDOWN, Strings.powerup_cannon_cooldown, -0.03f, -0.07f)},
-            { PlayerStats.CANNON_1_DAMAGE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.CANNON_1_DAMAGE, Strings.powerup_cannon_damage, +1f, +2f)},
-            { PlayerStats.CANNON_1_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.CANNON_1_SPEED, Strings.powerup_cannon_bullet_speed, +30f, +100f)},
+            { PlayerStats.CANNON_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.CANNON_1_COOLDOWN, Strings.powerup_cannon_cooldown, -0.06f, -0.1f)},
+            { PlayerStats.CANNON_1_DAMAGE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.CANNON_1_DAMAGE, Strings.powerup_cannon_damage, +2f, +3f)},
+            { PlayerStats.CANNON_1_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.CANNON_1_SPEED, Strings.powerup_cannon_bullet_speed, +60f, +150f)},
 
-            { PlayerStats.HOOK_1_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_SPEED, Strings.powerup_hook_speed, +20f, +40f)},
-            { PlayerStats.HOOK_1_LENGTH, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_LENGTH, Strings.powerup_hook_length, +40f, +80f)},
-            { PlayerStats.HOOK_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_COOLDOWN, Strings.powerup_hook_cooldown, -0.1f, -0.3f)},
+            { PlayerStats.HOOK_1_SPEED, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_SPEED, Strings.powerup_hook_speed, +30f, +60f)},
+            { PlayerStats.HOOK_1_LENGTH, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_LENGTH, Strings.powerup_hook_length, +60f, +120f)},
+            { PlayerStats.HOOK_1_COOLDOWN, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HOOK_1_COOLDOWN, Strings.powerup_hook_cooldown, -0.2f, -0.45f)},
 
-            { PlayerStats.HEALING_KIT_1_REPAIR_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_REPAIR_BASE, Strings.powerup_base_repair, +10f, +15f)},
-            { PlayerStats.HEALING_KIT_1_FORTIFY_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_FORTIFY_BASE, Strings.powerup_base_fortify, +10f, +15f)},
-            { PlayerStats.HEALING_KIT_1_BONUS_HEAL, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_BONUS_HEAL, Strings.powerup_heal_bonus, +1, +5)}
+            { PlayerStats.HEALING_KIT_1_REPAIR_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_REPAIR_BASE, Strings.powerup_base_repair, +15f, +25f)},
+            { PlayerStats.HEALING_KIT_1_FORTIFY_BASE, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_FORTIFY_BASE, Strings.powerup_base_fortify, +15f, +25f)},
+            { PlayerStats.HEALING_KIT_1_BONUS_HEAL, new Stat(UpgradeLevel.LEVEL1, PlayerStats.HEALING_KIT_1_BONUS_HEAL, Strings.powerup_heal_bonus, +2, +7)}
         };
     
         public StatsMgr(SceneMgr mgr)
