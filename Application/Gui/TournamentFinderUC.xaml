@@ -75,7 +75,7 @@
                 <TextBlock Text="Create tournament" FontSize="18" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="6,22,6,0" VerticalAlignment="Top" Height="23" />
 
                 <Label Content="Name:" Grid.Column="0"  Margin="0,96,0,0" Grid.ColumnSpan="2" Width="105" Height="22" />
-                <TextBox Grid.Column="1" Margin="5,94,0,0" Name="tbName" AcceptsTab="True" MaxLength="20" HorizontalAlignment="Left" Width="216" />
+                <TextBox Grid.Column="1" Margin="5,94,0,0" Name="tbName" AcceptsTab="True" MaxLength="20" HorizontalAlignment="Left" Width="216" TextChanged="TbName_TextChanged" />
 
                 <Label Content="{lex:Loc ui_tournament_type}" Grid.Column="0"  Margin="0,130,0,0" Grid.ColumnSpan="2" Width="105" Height="22" />
                 <ComboBox Height="23" Grid.Column="1" Margin="5,130,0,0" Name="cbType" Width="216" HorizontalAlignment="Left" />

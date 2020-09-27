@@ -134,7 +134,7 @@ namespace Orbit.Gui
                 case OnlineStatus.ONLINE:
                     lblServerStatus.Content = "Online";
                     lblServerStatus.Foreground = Brushes.Green;
-                    btnCreateTournament.IsEnabled = true;
+                    btnCreateTournament.IsEnabled = !string.IsNullOrEmpty(tbName.Text);
                     break;
                 case OnlineStatus.OFFLINE: // unused atm
                     lblServerStatus.Content = "Offline";
@@ -452,6 +452,11 @@ namespace Orbit.Gui
         private void lvTournaments_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             btnJoinTournament.IsEnabled = lvTournaments.SelectedItem != null;
+        }
+
+        private void TbName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            btnCreateTournament.IsEnabled = !string.IsNullOrEmpty(tbName.Text) && lblServerStatus.Content == "Online";
         }
     }
 
