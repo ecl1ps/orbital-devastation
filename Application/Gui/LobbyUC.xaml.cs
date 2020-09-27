@@ -40,12 +40,12 @@ namespace Orbit.Gui
 
             SetIsLeader(asLeader);
             
-#if !DEBUG
+//#if !DEBUG
             lblBots.Visibility = Visibility.Hidden;
             lblBotLevel.Visibility = Visibility.Hidden;
             lblBot.Visibility = Visibility.Hidden;
             lblBotCount.Visibility = Visibility.Hidden;
-#endif
+//#endif
         }
 
         public void SetIsLeader(bool asLeader)
@@ -224,10 +224,10 @@ namespace Orbit.Gui
             round = s.PlayedMatches;
             UpdateMatchCount(s.RoundCount);
 
-#if DEBUG
+//#if DEBUG
             lblBotLevel.Content = BotNameAccessor.GetBotName(s.BotType);
             lblBots.Content = s.BotCount.ToString(Strings.Culture);
-#endif
+//#endif
             // TODO: mozna se pozdeji pridaji boti i pro normalni hrace - potom se zde musi zobrazit, kdyz prijde zprava
         }
 

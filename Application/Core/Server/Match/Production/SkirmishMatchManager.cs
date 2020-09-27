@@ -11,7 +11,7 @@ namespace Orbit.Core.Server.Match
     /// </summary>
     public class SkirmishMatchManager : AbstractTournamentMatchManager
     {
-        public static MatchManagerInfo Info = new MatchManagerInfo(true, Strings.mm_type_one_player);
+        public static MatchManagerInfo Info = new MatchManagerInfo(true, Strings.mm_type_one_player, 1);
 
         public SkirmishMatchManager(List<Player> players, Random randGen, int rounds)
             : base(players, randGen, rounds)

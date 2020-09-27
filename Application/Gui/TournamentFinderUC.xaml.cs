@@ -289,12 +289,12 @@ namespace Orbit.Gui
             foreach (MatchManagerType t in Enum.GetValues(typeof(MatchManagerType)))
             {
                 MatchManagerInfo i = MatchManagerInfoAccessor.GetInfo(t);
-#if DEBUG   // v debugu pridat vsechny managery
+//#if DEBUG   // v debugu pridat vsechny managery
                 data.Add(new ComboData { Id = t, Name = i.Text });
-#else
+/*#else
                 if (!i.IsDebug)
                     data.Add(new ComboData { Id = t, Name = i.Text });
-#endif
+#endif*/
             }
 
             cbType.ItemsSource = data;
@@ -306,12 +306,12 @@ namespace Orbit.Gui
             foreach (GameLevel l in Enum.GetValues(typeof(GameLevel)))
             {
                 LevelInfo i = LevelInfoAccessor.GetInfo(l);
-#if DEBUG   // v debugu pridat vsechny mapy
+//#if DEBUG   // v debugu pridat vsechny mapy
                 data.Add(new ComboData { Id = l, Name = i.Text });
-#else
+/*#else
                 if (!i.IsDebug)
                     data.Add(new ComboData { Id = l, Name = i.Text });
-#endif
+#endif*/
             }
 
             cbMap.ItemsSource = data;
@@ -321,7 +321,9 @@ namespace Orbit.Gui
 
 #if DEBUG
             tbName.Text = "Test";
+#endif
 
+//#if DEBUG
             // pridani dostupnych botu pro testovani
             data = new List<ComboData>();
             data.Add(new ComboData { Id = BotType.LEVEL1, Name = BotNameAccessor.GetBotName(BotType.LEVEL1) });
@@ -332,12 +334,12 @@ namespace Orbit.Gui
             cbBot.DisplayMemberPath = "Name";
             cbBot.SelectedValuePath = "Id";
             cbBot.SelectedValue = BotType.LEVEL1;
-#else
+/*#else
             tbBotCount.Visibility = Visibility.Hidden;
             cbBot.Visibility = Visibility.Hidden;
             lblBot.Visibility = Visibility.Hidden;
             lblBotCount.Visibility = Visibility.Hidden;
-#endif
+#endif*/
         }
 
         [System.Reflection.ObfuscationAttribute(Feature = "properties renaming")]
@@ -369,10 +371,10 @@ namespace Orbit.Gui
                 tbRounds.Text = 1.ToString(Strings.Culture);
             }
 
-#if !DEBUG
+/*#if !DEBUG
             s.BotCount = 0;
             s.BotType = SharedDef.DEFAULT_BOT;
-#else
+#else*/
             try
             {
                 s.BotCount = int.Parse(tbBotCount.Text, CultureInfo.InvariantCulture);
@@ -383,7 +385,7 @@ namespace Orbit.Gui
             }
 
             s.BotType = (BotType)cbBot.SelectedValue;
-#endif
+//#endif
 
             App.Instance.StartTournamentLobby(serverAddress);
 

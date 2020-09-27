@@ -11,7 +11,7 @@ namespace Orbit.Core.Server.Match
     /// </summary>
     public class LeaderSpectatorMatchManager : ITournamentMatchManager
     {
-        public static MatchManagerInfo Info = new MatchManagerInfo(true, Strings.mm_type_leader_as_spectator);
+        public static MatchManagerInfo Info = new MatchManagerInfo(true, Strings.mm_type_leader_as_spectator, 1);
 
         private List<Player> players;
 

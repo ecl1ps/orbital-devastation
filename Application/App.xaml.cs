@@ -87,11 +87,7 @@ namespace Orbit
 
         protected override void OnStartup(StartupEventArgs e)
         {
-#if DEBUG
             log4net.Config.XmlConfigurator.Configure(Assembly.GetExecutingAssembly().GetManifestResourceStream("Orbit.logger.config"));
-#else
-            log4net.Config.XmlConfigurator.Configure(Assembly.GetExecutingAssembly().GetManifestResourceStream("Orbit.logger.config"));
-#endif
 
             if (!File.Exists(SharedDef.CONFIG_FILE))
                 GameProperties.Props.Save();

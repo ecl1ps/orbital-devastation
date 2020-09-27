@@ -26,6 +26,7 @@ using Orbit.Gui.ActionControllers;
 using Orbit.Core.Scene.Particles.Implementations;
 using System.Globalization;
 using Orbit.Core.Client.Interfaces;
+using Orbit.Core.Server.Match;
 
 namespace Orbit.Core.Client
 {
@@ -913,7 +914,7 @@ namespace Orbit.Core.Client
         {
 
             bool ready = true;
-            if (players.Count < 2)
+            if (players.Count < MatchManagerInfoAccessor.GetInfo(lastTournamentSettings.MMType).MinPlayerCount)
                 ready = false;
 
             if (ready)
