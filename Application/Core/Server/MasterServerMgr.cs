@@ -8,6 +8,7 @@ using Orbit.Core.Server.Level;
 using Orbit.Core.Server.Match;
 using Orbit.Core.Helpers;
 using System.Net;
+using System.Globalization;
 
 namespace Orbit.Core.Server
 {
@@ -27,6 +28,11 @@ namespace Orbit.Core.Server
 
         public delegate void GameStarted(bool tournament);
         public GameStarted GameStartedCallback { get; set; }
+
+        public static void SetCulture(CultureInfo locale)
+        {
+            Strings.Culture = locale;
+        }
 
         public delegate void GameEnded(bool tournament);
         public GameEnded GameEndedCallback { get; set; }

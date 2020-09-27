@@ -8,9 +8,7 @@ namespace Orbit.Core
     class SharedDef
     {
                                                             // 0.8 alfa, 0.9 beta, 1.0 RC
-                                                            // major change .01 - .99
-                                                            // minor change .001 - .999
-        public const string VERSION                         = "0.8.01.004";
+        public const string VERSION                         = "0.8.02";
 
         public const string DOWNLOAD_LINK                   = "http://77.236.211.123/testbuilds/OrbitalDevastation.exe";
 

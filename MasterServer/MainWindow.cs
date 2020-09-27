@@ -77,7 +77,7 @@ namespace MasterServer
             server.PlayerDisconnectedCallback = PlayerDisconnected;
             server.GameStartedCallback = GameStarted;
             server.GameEndedCallback = GameEnded;
-            lblStartTime.Text = DateTime.Now.ToString();
+            lblStartTime.Text = DateTime.Now.ToString("u");
         }
 
         private void PlayerConnected()

@@ -59,7 +59,7 @@
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(75, 23);
             this.btnExit.TabIndex = 0;
-            this.btnExit.Text = "Ukončit";
+            this.btnExit.Text = "Exit";
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
@@ -70,7 +70,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(123, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Právě připojených hráčů";
+            this.label1.Text = "Currently connected players";
             // 
             // lblConnectedPlayersCount
             // 
@@ -90,7 +90,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(139, 13);
             this.label3.TabIndex = 3;
-            this.label3.Text = "Celkový počet běžících her";
+            this.label3.Text = "Currently running games";
             // 
             // lblRunningGamesTotal
             // 
@@ -127,7 +127,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(141, 13);
             this.label4.TabIndex = 6;
-            this.label4.Text = "Počet běžících rychlých her";
+            this.label4.Text = "Currently running quick games";
             // 
             // lblRunningTournamentsCount
             // 
@@ -146,7 +146,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(116, 13);
             this.label6.TabIndex = 8;
-            this.label6.Text = "Počet běžících turnajů";
+            this.label6.Text = "Currently running tournaments";
             // 
             // lblStartTime
             // 
@@ -164,7 +164,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(92, 13);
             this.label5.TabIndex = 10;
-            this.label5.Text = "Čas startu serveru";
+            this.label5.Text = "Server start time";
             // 
             // lblTotalTournaments
             // 
@@ -183,7 +183,7 @@
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(129, 13);
             this.label7.TabIndex = 18;
-            this.label7.Text = "Počet odehraných turnajů";
+            this.label7.Text = "Finished tournaments";
             // 
             // lblTotalQuickGames
             // 
@@ -202,7 +202,7 @@
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(154, 13);
             this.label9.TabIndex = 16;
-            this.label9.Text = "Počet odehraných rychlých her";
+            this.label9.Text = "Finished quick games";
             // 
             // lblTotalGames
             // 
@@ -221,7 +221,7 @@
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(152, 13);
             this.label11.TabIndex = 14;
-            this.label11.Text = "Celkový počet odehraných her";
+            this.label11.Text = "Finished games";
             // 
             // lblTotalPlayers
             // 
@@ -240,7 +240,7 @@
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(105, 13);
             this.label13.TabIndex = 12;
-            this.label13.Text = "Celkový počet hráčů";
+            this.label13.Text = "Total players";
             // 
             // MainWindow
             // 

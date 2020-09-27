@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -23,6 +25,10 @@ namespace MasterServer
             MainWindow wind = null;
             try
             {
+                var locale = CultureInfo.GetCultureInfo("en");
+                Orbit.Core.Server.MasterServerMgr.SetCulture(locale);
+                Thread.CurrentThread.CurrentCulture = locale;
+
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 wind = new MainWindow();
