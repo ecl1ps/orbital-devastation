@@ -18,7 +18,7 @@ Objective is simple - defend your base from falling meteorites and manipulate or
 
 ![Game versus bot](./Docs/gameplay_vs_bot2.png)
 
-### Reources
+### Resources
 Resources are limited but can be mined from meteorites. Golden meteorites are much more richer on resources. 
 
 ### Upgrades
