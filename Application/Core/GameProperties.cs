@@ -37,7 +37,7 @@ namespace Orbit.Core
             defaults.Add(PropertyKey.MUSIC_ENABLED, true.ToString(Strings.Culture));
             defaults.Add(PropertyKey.MUSIC_VOLUME, 0.1.ToString(CultureInfo.InvariantCulture));
             defaults.Add(PropertyKey.SOUNDS_VOLUME, 0.05.ToString(CultureInfo.InvariantCulture));
-            defaults.Add(PropertyKey.USED_SERVERS, "");
+            defaults.Add(PropertyKey.SERVER_ADDRESS, SharedDef.DEFAULT_MASTER_SERVER_ADDRESS);
             defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO1, 0.ToString(CultureInfo.InvariantCulture));
             defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO2, 0.ToString(CultureInfo.InvariantCulture));
             defaults.Add(PropertyKey.PLAYER_HIGHSCORE_SOLO3, 0.ToString(CultureInfo.InvariantCulture));
@@ -77,7 +77,7 @@ namespace Orbit.Core
         MUSIC_VOLUME,
         SOUNDS_VOLUME,
 
-        USED_SERVERS,
+        SERVER_ADDRESS,
 
         PLAYER_HIGHSCORE_SOLO1,
         PLAYER_HIGHSCORE_SOLO2,

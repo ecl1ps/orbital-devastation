@@ -171,9 +171,9 @@ namespace Orbit
             }));
         }
 
-        public void StartQuickGame(string address = SharedDef.MASTER_SERVER_ADDRESS)
+        public void StartQuickGame(string address = null)
         {
-            sceneMgr.SetRemoteServerAddress(address);
+            sceneMgr.SetRemoteServerAddress(address ?? GameProperties.Props.Get(PropertyKey.SERVER_ADDRESS, SharedDef.DEFAULT_MASTER_SERVER_ADDRESS));
             StartGame(Gametype.MULTIPLAYER_GAME);
         }
 
@@ -192,7 +192,7 @@ namespace Orbit
             }
         }
 
-        public void StartTournamentFinder(string address = SharedDef.MASTER_SERVER_ADDRESS)
+        public void StartTournamentFinder(string address = null)
         {
             AddWindow(new TournamentFinderUC(address));
         }

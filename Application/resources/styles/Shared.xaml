@@ -19,8 +19,8 @@
     Righteous
     Audiowide
     -->
-    
-    <FontFamily x:Key="mainFont">/resources/fonts/#Arkitech Medium</FontFamily>
+
+    <FontFamily x:Key="mainFont">/resources/fonts/#Arkitech Round</FontFamily>
     <!--FontFamily x:Key="mainFont">#Bauhaus 93</FontFamily-->
     
 </ResourceDictionary>
