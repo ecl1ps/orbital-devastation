@@ -31,14 +31,14 @@ namespace Orbit.Core.Server
         public delegate void GameEnded(bool tournament);
         public GameEnded GameEndedCallback { get; set; }
 
-        public MasterServerMgr()
+        public MasterServerMgr(int port = SharedDef.MASTER_SERVER_PORT)
         {
             connections = new Dictionary<NetConnection, ServerMgr>();
 
             NetPeerConfiguration conf = new NetPeerConfiguration("Orbit");
             conf.EnableMessageType(NetIncomingMessageType.UnconnectedData);
             conf.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
-            conf.Port = SharedDef.MASTER_SERVER_PORT;
+            conf.Port = port;
 
 #if DEBUG
             /*conf.SimulatedMinimumLatency = 0.2f; // 100ms

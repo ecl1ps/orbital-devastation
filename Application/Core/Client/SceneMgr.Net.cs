@@ -26,6 +26,7 @@ namespace Orbit.Core.Client
     public partial class SceneMgr
     {
         private NetClient client;
+        private int serverPort;
         private string serverAddress;
         private NetConnection serverConnection;
         private Queue<NetOutgoingMessage> pendingMessages;
@@ -346,8 +347,9 @@ namespace Orbit.Core.Client
             o.Update(msg.SenderConnection.AverageRoundtripTime / 2);
         }
 
-        public void SetRemoteServerAddress(string serverAddress)
+        public void SetRemoteServerAddress(string serverAddress, int port = SharedDef.MASTER_SERVER_PORT)
         {
+            this.serverPort = port;
             this.serverAddress = serverAddress;
         }
 

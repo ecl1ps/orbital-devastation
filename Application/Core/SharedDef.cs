@@ -19,6 +19,7 @@ namespace Orbit.Core
 
         public const string DEFAULT_MASTER_SERVER_ADDRESS   = "127.0.0.1";
         public const int MASTER_SERVER_PORT                 = 40;
+        public const int LOCAL_SERVER_PORT                  = 41;
 
         public const int TOURNAMENT_LIST_REQUEST_INTERVAL   = 5000; //ms
 

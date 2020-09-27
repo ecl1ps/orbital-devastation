@@ -115,10 +115,10 @@ namespace Orbit
 
         public void StartSoloGame(TournamentSettings s)
         {
-            if (!StartLocalServer(Gametype.SOLO_GAME))
+            if (!StartLocalServer(SharedDef.LOCAL_SERVER_PORT))
                 return;
 
-            sceneMgr.SetRemoteServerAddress(System.Net.IPAddress.Loopback.ToString());
+            sceneMgr.SetRemoteServerAddress(System.Net.IPAddress.Loopback.ToString(), SharedDef.LOCAL_SERVER_PORT);
 
             StartGame(Gametype.SOLO_GAME);
 
@@ -133,12 +133,12 @@ namespace Orbit
             }));
         }
 
-        private bool StartLocalServer(Gametype type)
+        private bool StartLocalServer(int port)
         {
             try
             {
                 if (masterServer == null)
-                    masterServer = new MasterServerMgr();
+                    masterServer = new MasterServerMgr(port);
             }
             catch (SocketException)
             {

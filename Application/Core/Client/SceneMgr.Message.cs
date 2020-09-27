@@ -41,7 +41,7 @@ namespace Orbit.Core.Client
             msg.Write(GetCurrentPlayer().Data.HashId);
             msg.Write(GetCurrentPlayer().Data.PlayerColor);
 
-            serverConnection = client.Connect(serverAddress, SharedDef.MASTER_SERVER_PORT, msg);
+            serverConnection = client.Connect(serverAddress, serverPort, msg);
         }
 
         public static void ReceivedVersionMismatchMsg(NetIncomingMessage msg)
